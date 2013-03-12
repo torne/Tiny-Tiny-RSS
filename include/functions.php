@@ -1895,7 +1895,8 @@
 				"feed_reverse" => __("Reverse headlines"),
 				"feed_debug_update" => __("Debug feed update"),
 				"catchup_all" => __("Mark all feeds as read"),
-				"cat_toggle_collapse" => __("Un/collapse current category")),
+				"cat_toggle_collapse" => __("Un/collapse current category"),
+				"toggle_combined_mode" => __("Toggle combined mode")),
 			__("Go to") => array(
 				"goto_all" => __("All articles"),
 				"goto_fresh" => __("Fresh"),
@@ -1955,6 +1956,7 @@
 				"f q" => "feed_catchup",
 				"f x" => "feed_reverse",
 				"f D" => "feed_debug_update",
+				"f C" => "toggle_combined_mode",
 				"Q" => "catchup_all",
 				"x" => "cat_toggle_collapse",
 //			"goto" => array(

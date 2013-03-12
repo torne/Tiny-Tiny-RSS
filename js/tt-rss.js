@@ -776,6 +776,19 @@ function hotkey_handler(e) {
 		case "help_dialog":
 			helpDialog("main");
 			return false;
+		case "toggle_combined_mode":
+			notify_progress("Loading, please wait...");
+
+			var value = isCdmMode() ? "false" : "true";
+			var query = "?op=rpc&method=setpref&key=COMBINED_DISPLAY_MODE&value=" + value;
+
+			new Ajax.Request("backend.php",	{
+				parameters: query,
+				onComplete: function(transport) {
+					window.location.reload();
+				} });
+
+			return false;
 		default:
 			console.log("unhandled action: " + hotkey_action + "; hotkey: " + hotkey);
 		}
