@@ -544,12 +544,11 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= $labels_str;
 
-					if (!get_pref($this->link, 'VFEED_GROUP_BY_FEED') &&
-						defined('_SHOW_FEED_TITLE_IN_VFEEDS')) {
+					if (!get_pref($this->link, 'VFEED_GROUP_BY_FEED')) {
 						if (@$line["feed_title"]) {
 							$reply['content'] .= "<span class=\"hlFeed\">
-								(<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
-								$line["feed_title"]."</a>)
+								<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
+								$line["feed_title"]."</a>
 							</span>";
 						}
 					}
