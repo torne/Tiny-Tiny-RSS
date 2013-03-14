@@ -5,6 +5,13 @@
 		exit;
 	}
 
+	// we need a separate check here because functions.php might get parsed
+	// incorrectly before 5.3 because of :: syntax.
+	if (version_compare("5.3.0", phpversion()) == 1) {
+		print "<b>Fatal Error</b>: PHP version 5.3.0 or newer required.\n";
+		exit;
+	}
+
 	set_include_path(dirname(__FILE__) ."/include" . PATH_SEPARATOR .
 		get_include_path());
 
