@@ -1,9 +1,13 @@
 <?php
 
 require_once "config.php";
-require_once "classloader.php";
 
-$db_class = 'db_'.lcfirst(DB_TYPE);
+$db_class = 'Db_'.ucfirst(DB_TYPE);
+$db_class_file = 'classes/' . str_replace('_', '/', $db_class) . '.php';
+
+require_once "classes/Db/Interface.php";
+require_once "classes/Db/Abstract.php";
+require_once $db_class_file;
 
 $db = $db_class::instance(); //  call_user_func(array($db_class, 'instance'));
 
