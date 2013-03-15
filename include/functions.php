@@ -2552,7 +2552,8 @@
 		$res = trim($str); if (!$res) return '';
 
 		$config = array('safe' => 1, 'deny_attribute' => 'style, width, height, class, id', 'comment' => 1, 'cdata' => 1, 'balance' => 0);
-		$res = htmLawed($res, $config);
+		$spec = 'img=width,height';
+		$res = htmLawed($res, $config, $spec);
 
 		if (get_pref($link, "STRIP_IMAGES", $owner)) {
 			$res = preg_replace('/<img[^>]+>/is', '', $res);
