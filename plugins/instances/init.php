@@ -395,4 +395,3 @@ class Instances extends Plugin implements IHandler {
 
 }
 ?>
-
