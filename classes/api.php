@@ -309,7 +309,7 @@ class API extends Handler {
 					"published" => sql_bool_to_bool($line["published"]),
 					"comments" => $line["comments"],
 					"author" => $line["author"],
-					"updated" => strtotime($line["updated"]),
+					"updated" => (int) strtotime($line["updated"]),
 					"content" => $line["cached_content"] != "" ? $line["cached_content"] : $line["content"],
 					"feed_id" => $line["feed_id"],
 					"attachments" => $attachments
@@ -563,7 +563,7 @@ class API extends Handler {
 							"unread" => (int)$unread,
 							"has_icon" => $has_icon,
 							"cat_id" => (int)$line["cat_id"],
-							"last_updated" => strtotime($line["last_updated"]),
+							"last_updated" => (int) strtotime($line["last_updated"]),
 							"order_id" => (int) $line["order_id"],
 						);
 
@@ -604,7 +604,7 @@ class API extends Handler {
 						"unread" => sql_bool_to_bool($line["unread"]),
 						"marked" => sql_bool_to_bool($line["marked"]),
 						"published" => sql_bool_to_bool($line["published"]),
-						"updated" => strtotime($line["updated"]),
+						"updated" => (int) strtotime($line["updated"]),
 						"is_updated" => $is_updated,
 						"title" => $line["title"],
 						"link" => $line["link"],
