@@ -6,17 +6,14 @@
 	$pluginhost = false;
 
 	function __autoload($class) {
-		$class_file1 = str_replace("_", "/", basename($class));   // PSR-0
-		$class_file2 = str_replace("_", "/", strtolower(basename($class)));
+		$class_file = str_replace("_", "/", strtolower(basename($class)));
 
-		$file1 = dirname(__FILE__)."/../classes/$class_file1.php";
-		$file2 = dirname(__FILE__)."/../classes/$class_file2.php";
+		$file = dirname(__FILE__)."/../classes/$class_file.php";
 
-		if (file_exists($file1)) {
-			require $file1;
-		} elseif (file_exists($file2)) {
-			require $file2;
+		if (file_exists($file)) {
+			require $file;
 		}
+
 	}
 
 	mb_internal_encoding("UTF-8");
@@ -202,6 +199,8 @@
 					ttrss_entries.date_updated < NOW() - INTERVAL '$purge_interval days'");
 			}
 
+			$rows = pg_affected_rows($result);
+
 		} else {
 
 /*			$result = db_query($link, "DELETE FROM ttrss_user_entries WHERE
@@ -217,8 +216,9 @@
 				$query_limit
 				ttrss_entries.date_updated < DATE_SUB(NOW(), INTERVAL $purge_interval DAY)");
 
+			$rows = mysql_affected_rows($link);
+
 		}
-		$rows = db_affected_rows($link, $result);
 
 		ccache_update($link, $feed_id, $owner_uid);
 
@@ -952,7 +952,7 @@
 	}
 
 	function sql_random_function() {
-        if (DB_TYPE == "mysql") {
+		if (DB_TYPE == "mysql") {
 			return "RAND()";
 		} else {
 			return "RANDOM()";
@@ -3208,13 +3208,24 @@
 	}
 
 	function init_connection($link) {
-		global $db;
-		if ($db) {
-			$db->init();
+		if ($link) {
+
+			if (DB_TYPE == "pgsql") {
+				pg_query($link, "set client_encoding = 'UTF-8'");
+				pg_set_client_encoding("UNICODE");
+				pg_query($link, "set datestyle = 'ISO, european'");
+				pg_query($link, "set TIME ZONE 0");
+			} else {
+				db_query($link, "SET time_zone = '+0:0'");
+
+				if (defined('MYSQL_CHARSET') && MYSQL_CHARSET) {
+					db_query($link, "SET NAMES " . MYSQL_CHARSET);
+				}
+			}
 
 			global $pluginhost;
 
-			$pluginhost = new PluginHost($db->getLink());
+			$pluginhost = new PluginHost($link);
 			$pluginhost->load(PLUGINS, $pluginhost::KIND_ALL);
 
 			return true;
