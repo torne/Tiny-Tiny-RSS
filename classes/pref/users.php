@@ -169,7 +169,7 @@ class Pref_Users extends Handler_Protected {
 			print "<br/>";
 
 			print __('Change password to') .
-				" <input size=\"20\" onkeypress=\"return filterCR(event, userEditSave)\"
+				" <input type=\"password\" size=\"20\" onkeypress=\"return filterCR(event, userEditSave)\"
 				name=\"password\">";
 
 			print "</div>";
