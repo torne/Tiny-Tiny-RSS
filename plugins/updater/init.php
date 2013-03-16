@@ -302,6 +302,7 @@ class Updater extends Plugin {
 
 			print "</div>"; #pane
 		}
+	}
 
 	function updateSelf() {
 		print "<form style='display : block' name='self_update_form' id='self_update_form'>";
@@ -331,7 +332,5 @@ class Updater extends Plugin {
 		}
 	}
 
-
-	}
 }
 ?>
