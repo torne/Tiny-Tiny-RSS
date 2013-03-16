@@ -44,7 +44,7 @@ class Af_PennyArcade extends Plugin {
 					}
 
 					if ($basenode) {
-						$article["content"] = $doc->saveXML($basenode, LIBXML_NOEMPTYTAG);
+						$article["content"] = $doc->saveXML($basenode);
 						$article["plugin_data"] = "pennyarcade,$owner_uid:" . $article["plugin_data"];
 					}
 				}

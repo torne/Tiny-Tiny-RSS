@@ -44,7 +44,7 @@ class Af_Explosm extends Plugin {
 					}
 
 					if ($basenode) {
-						$article["content"] = $doc->saveXML($basenode, LIBXML_NOEMPTYTAG);
+						$article["content"] = $doc->saveXML($basenode);
 						$article["plugin_data"] = "explosm,$owner_uid:" . $article["plugin_data"];
 					}
 				}

@@ -2575,7 +2575,6 @@
 		$xpath = new DOMXPath($doc);
 
 		$entries = $xpath->query('(//a[@href]|//img[@src])');
-		$br_inserted = 0;
 
 		foreach ($entries as $entry) {
 
@@ -2594,22 +2593,11 @@
 			if (strtolower($entry->nodeName) == "a") {
 				$entry->setAttribute("target", "_blank");
 			}
-
-			if (strtolower($entry->nodeName) == "img" && !$br_inserted) {
-				$br = $doc->createElement("br");
-
-				if ($entry->parentNode->nextSibling) {
-					$entry->parentNode->insertBefore($br, $entry->nextSibling);
-					$br_inserted = 1;
-				}
-
-			}
 		}
 
 		$node = $doc->getElementsByTagName('body')->item(0);
 
-		// http://tt-rss.org/redmine/issues/357
-		return $doc->saveXML($node, LIBXML_NOEMPTYTAG);
+		return $doc->saveXML($node);
 	}
 
 	function check_for_update($link) {
@@ -3774,7 +3762,7 @@
 
 		// http://tt-rss.org/forum/viewtopic.php?f=1&t=970
 		if ($node)
-			return $doc->saveXML($node, LIBXML_NOEMPTYTAG);
+			return $doc->saveXML($node);
 		else
 			return $html;
 	}

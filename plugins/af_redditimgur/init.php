@@ -113,7 +113,7 @@ class Af_RedditImgur extends Plugin {
 					$node = $doc->getElementsByTagName('body')->item(0);
 
 					if ($node && $found) {
-						$article["content"] = $doc->saveXML($node, LIBXML_NOEMPTYTAG);
+						$article["content"] = $doc->saveXML($node);
 						if (!$force) $article["plugin_data"] = "redditimgur,$owner_uid:" . $article["plugin_data"];
 					}
 				}

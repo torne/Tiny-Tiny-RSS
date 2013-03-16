@@ -1082,7 +1082,7 @@
 
 		$node = $doc->getElementsByTagName('body')->item(0);
 
-		return $doc->saveXML($node, LIBXML_NOEMPTYTAG);
+		return $doc->saveXML($node);
 	}
 
 	function expire_lock_files($debug) {
@@ -1280,7 +1280,7 @@
 			$node = $doc->getElementsByTagName('body')->item(0);
 
 			if ($node) {
-				$content = $doc->saveXML($node, LIBXML_NOEMPTYTAG);
+				$content = $doc->saveXML($node);
 
 				return $content;
 			}
