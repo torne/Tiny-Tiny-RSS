@@ -7,7 +7,7 @@
 
 	// we need a separate check here because functions.php might get parsed
 	// incorrectly before 5.3 because of :: syntax.
-	if (!(version_compare(PHP_VERSION, '5.3.0', '>='))) {
+	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 		print "<b>Fatal Error</b>: PHP version 5.3.0 or newer required.\n";
 		exit;
 	}
