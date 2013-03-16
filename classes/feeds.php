@@ -165,15 +165,14 @@ class Feeds extends Handler_Protected {
 			// Update the feed if required with some basic flood control
 
 			$result = db_query($this->link,
-				"SELECT cache_images,cache_content,".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
+				"SELECT cache_images,".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 					FROM ttrss_feeds WHERE id = '$feed'");
 
 				if (db_num_rows($result) != 0) {
 					$last_updated = strtotime(db_fetch_result($result, 0, "last_updated"));
 					$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
-					$cache_content = sql_bool_to_bool(db_fetch_result($result, 0, "cache_content"));
 
-					if (!$cache_images && !$cache_content && time() - $last_updated > 120 || isset($_REQUEST['DevForceUpdate'])) {
+					if (!$cache_images && time() - $last_updated > 120 || isset($_REQUEST['DevForceUpdate'])) {
 						include "rssfuncs.php";
 						update_rss_feed($this->link, $feed, true, true);
 					} else {
@@ -224,7 +223,6 @@ class Feeds extends Handler_Protected {
 		$feed_title = $qfh_ret[1];
 		$feed_site_url = $qfh_ret[2];
 		$last_error = $qfh_ret[3];
-		$cache_content = true;
 
 		$vgroup_last_feed = $vgr_last_feed;
 
@@ -617,10 +615,6 @@ class Feeds extends Handler_Protected {
 					}
 
 					$feed_site_url = $line["site_url"];
-
-					if ($cache_content && $line["cached_content"] != "") {
-						$line["content_preview"] =& $line["cached_content"];
-					}
 
 					$reply['content'] .= "<span id=\"CWRAP-$id\">";
 					$reply['content'] .= $line["content"];

@@ -856,8 +856,6 @@ class Pref_Feeds extends Handler_Protected {
 			db_escape_string($_POST["include_in_digest"]));
 		$cache_images = checkbox_to_sql_bool(
 			db_escape_string($_POST["cache_images"]));
-		$cache_content = checkbox_to_sql_bool(
-			db_escape_string($_POST["cache_content"]));
 
 		$always_display_enclosures = checkbox_to_sql_bool(
 			db_escape_string($_POST["always_display_enclosures"]));
@@ -889,7 +887,6 @@ class Pref_Feeds extends Handler_Protected {
 				auth_pass = '$auth_pass',
 				private = $private,
 				cache_images = $cache_images,
-				cache_content = $cache_content,
 				include_in_digest = $include_in_digest,
 				always_display_enclosures = $always_display_enclosures,
 				mark_unread_on_update = $mark_unread_on_update
@@ -953,10 +950,6 @@ class Pref_Feeds extends Handler_Protected {
 
 					case "cache_images":
 						$qpart = "cache_images = $cache_images";
-						break;
-
-					case "cache_content":
-						$qpart = "cache_content = $cache_content";
 						break;
 
 					case "cat_id":

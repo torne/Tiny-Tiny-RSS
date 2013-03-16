@@ -3034,10 +3034,6 @@
 				}
 			}
 
-			if ($cache_content && $line["cached_content"] != "") {
-				$line["content"] =& $line["cached_content"];
-			}
-
 			$rv['content'] .= $line["content"];
 
 			$rv['content'] .= format_article_enclosures($link, $id,

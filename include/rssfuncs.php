@@ -1268,27 +1268,6 @@
 		}
 	}
 
-	function cache_content($link, $url, $login, $pass) {
-
-		$content = fetch_file_contents($url, $login, $pass);
-
-		if ($content) {
-			$doc = new DOMDocument();
-			@$doc->loadHTML($content);
-			$xpath = new DOMXPath($doc);
-
-			$node = $doc->getElementsByTagName('body')->item(0);
-
-			if ($node) {
-				$content = $doc->saveXML($node);
-
-				return $content;
-			}
-		}
-
-		return "";
-	}
-
 	function make_guid_from_title($title) {
 		return preg_replace("/[ \"\',.:;]/", "-",
 			mb_strtolower(strip_tags($title), 'utf-8'));
