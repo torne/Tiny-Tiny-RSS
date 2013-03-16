@@ -27,7 +27,7 @@
 		print '<?xml version="1.0" encoding="utf-8"?>';
 		print "<feed xmlns=\"http://www.w3.org/2005/Atom\">
 			<id>".htmlspecialchars(SELF_URL_PATH . "/register.php")."</id>
-			<title>Tiny Tiny RSS registration slots</title>
+			<title><?php echo PAGE_TITLE ?> registration slots</title>
 			<link rel=\"self\" href=\"".htmlspecialchars(SELF_URL_PATH . "/register.php?format=feed")."\"/>
 			<link rel=\"alternate\" href=\"".htmlspecialchars(SELF_URL_PATH)."\"/>";
 

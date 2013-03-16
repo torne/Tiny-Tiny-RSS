@@ -19,7 +19,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Tiny Tiny RSS</title>
+<title><?php echo PAGE_TITLE ?></title>
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
 <link rel="apple-touch-icon" href="../lib/iui/iui-logo-touch-icon.png" />
 <meta name="apple-touch-fullscreen" content="YES" />

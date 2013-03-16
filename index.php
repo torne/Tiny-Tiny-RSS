@@ -55,7 +55,7 @@
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-	<title>Tiny Tiny RSS</title>
+    <title><?php echo PAGE_TITLE ?></title>
 	<link rel="stylesheet" type="text/css" href="lib/dijit/themes/claro/claro.css"/>
 	<link rel="stylesheet" type="text/css" href="tt-rss.css?<?php echo $dt_add ?>"/>
 	<link rel="stylesheet" type="text/css" href="cdm.css?<?php echo $dt_add ?>"/>
