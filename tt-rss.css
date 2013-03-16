@@ -559,11 +559,6 @@ span.hlLabelRef {
 	white-space: nowrap;
 }
 
-td.hlSelectRow, td.hlUpdPic {
-	width : 25px;
-	text-align : center;
-}
-
 div.postHeader div.postDate {
 	text-align : right;
 	color : gray;
@@ -588,17 +583,11 @@ div.postHeader div {
 	display : none;
 }
 
-td.hlMarkedPic, td.hlSelectRow, td.hlUpdated, td.hlFeed {
-	height : 1em;
-}
-
-td.hlFeed {
-	text-align : right;
-}
-
 span.hlFeed, span.hlFeed a {
-	font-size : 12px;
+	font-size : 10px;
 	color : gray;
+	font-style : italic;
+	font-weight : normal;
 }
 
 span.hlFeed a:hover {
@@ -1017,9 +1006,9 @@ span.hlUpdated {
 	display : table-cell;
 	width : 100%;
 	vertical-align : middle;
-	padding-top : 4px;
-	padding-bottom : 4px;
 	text-align : right;
+	font-size : 10px;
+	font-weight : normal;
 }
 
 div.hlLeft {

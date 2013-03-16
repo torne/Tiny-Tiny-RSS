@@ -441,19 +441,18 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= $labels_str;
 
-					if (!get_pref($this->link, 'VFEED_GROUP_BY_FEED') &&
-						defined('_SHOW_FEED_TITLE_IN_VFEEDS')) {
-						if (@$line["feed_title"]) {
-							$reply['content'] .= "<span class=\"hlFeed\">
-								(<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
-								$line["feed_title"]."</a>)
-							</span>";
-						}
-					}
-
 					$reply['content'] .= "</div>";
 
-					$reply['content'] .= "<span class=\"hlUpdated\">$updated_fmt</span>";
+					$reply['content'] .= "<span class=\"hlUpdated\">";
+
+					if (@$line["feed_title"]) {
+							$reply['content'] .= "<span class=\"hlFeed\">
+								<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
+								$line["feed_title"]."</a><br/>
+							</span>";
+						}
+
+					$reply['content'] .= "$updated_fmt</span>";
 					$reply['content'] .= "<div class=\"hlRight\">";
 
 					$reply['content'] .= $score_pic;
@@ -561,8 +560,9 @@ class Feeds extends Handler_Protected {
 						}
 					}
 
-					$reply['content'] .= "<div style=\"vertical-align : middle\">";
 					$reply['content'] .= "<span class='updated'>$updated_fmt</span>";
+
+					$reply['content'] .= "<div style=\"vertical-align : middle\">";
 					$reply['content'] .= "$score_pic";
 
 					if (!get_pref($this->link, "VFEED_GROUP_BY_FEED") && $line["feed_title"]) {
