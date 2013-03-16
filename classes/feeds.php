@@ -542,15 +542,6 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= $labels_str;
 
-					if (!get_pref($this->link, 'VFEED_GROUP_BY_FEED')) {
-						if (@$line["feed_title"]) {
-							$reply['content'] .= "<span class=\"hlFeed\">
-								<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
-								$line["feed_title"]."</a>
-							</span>";
-						}
-					}
-
 					if (!$expand_cdm)
 						$content_hidden = "style=\"display : none\"";
 					else
@@ -560,6 +551,15 @@ class Feeds extends Handler_Protected {
 						id=\"CEXC-$id\" class=\"cdmExcerpt\"> - $content_preview</span>";
 
 					$reply['content'] .= "</span>";
+
+					if (!get_pref($this->link, 'VFEED_GROUP_BY_FEED')) {
+						if (@$line["feed_title"]) {
+							$reply['content'] .= "<div class=\"hlFeed\">
+								<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
+								$line["feed_title"]."</a>
+							</div>";
+						}
+					}
 
 					$reply['content'] .= "<div style=\"vertical-align : middle\">";
 					$reply['content'] .= "<span class='updated'>$updated_fmt</span>";
