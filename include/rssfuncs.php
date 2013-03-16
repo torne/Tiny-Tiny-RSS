@@ -569,7 +569,6 @@
 
 				$entry_tags = $article["tags"];
 				$entry_guid = db_escape_string($entry_guid);
-				$entry_content = db_escape_string($article["content"], false);
 				$entry_title = db_escape_string($article["title"]);
 				$entry_author = db_escape_string($article["author"]);
 				$entry_link = db_escape_string($article["link"]);
@@ -581,6 +580,8 @@
 
 				if ($cache_images && is_writable(CACHE_DIR . '/images'))
 					$entry_content = cache_images($entry_content, $site_url, $debug_enabled);
+
+				$entry_content = db_escape_string($article["content"], false);
 
 				$content_hash = "SHA1:" . sha1($entry_content);
 
