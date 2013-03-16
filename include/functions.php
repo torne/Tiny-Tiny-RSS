@@ -2614,7 +2614,8 @@
 
 	function check_for_update($link) {
 		if (CHECK_FOR_NEW_VERSION && $_SESSION['access_level'] >= 10) {
-			$version_url = "http://tt-rss.org/version.php?ver=" . VERSION;
+			$version_url = "http://tt-rss.org/version.php?ver=" . VERSION .
+				"&iid=" . sha1(SELF_URL_PATH);
 
 			$version_data = @fetch_file_contents($version_url);
 
