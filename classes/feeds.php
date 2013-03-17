@@ -446,10 +446,10 @@ class Feeds extends Handler_Protected {
 					$reply['content'] .= "<span class=\"hlUpdated\">";
 
 					if (@$line["feed_title"]) {
-							$reply['content'] .= "<span class=\"hlFeed\">
+							$reply['content'] .= "<div class=\"hlFeed\">
 								<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
-								$line["feed_title"]."</a><br/>
-							</span>";
+								$line["feed_title"]."</a>
+							</div>";
 						}
 
 					$reply['content'] .= "$updated_fmt</span>";
