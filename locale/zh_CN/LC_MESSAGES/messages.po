@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-17 14:24+0400\n"
+"POT-Creation-Date: 2013-03-17 19:37+0400\n"
 "PO-Revision-Date: 2012-02-14 08:32+0000\n"
 "Last-Translator: Sai <lazycai.ffsky@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/tt-rss/"
@@ -343,7 +343,7 @@ msgstr "更新列表"
 
 #: index.php:196 index.php:211 include/localized_schema.php:10
 #: classes/feeds.php:111 classes/feeds.php:127 js/FeedTree.js:128
-#: js/FeedTree.js:156
+#: js/FeedTree.js:156 plugins/digest/digest.js:630
 msgid "Mark as read"
 msgstr "标记为已读"
 
@@ -866,7 +866,7 @@ msgstr ""
 #: classes/dlg.php:623 classes/dlg.php:724 classes/pref/users.php:106
 #: classes/pref/filters.php:101 classes/pref/feeds.php:1638
 #: classes/pref/feeds.php:1709 plugins/share/share.php:61
-#: plugins/updater/updater.php:301
+#: plugins/updater/updater.php:301 plugins/updater/init.php:323
 msgid "Close this window"
 msgstr "关闭本窗口"
 
@@ -905,11 +905,11 @@ msgstr "%d 个存档的文章"
 msgid "No feeds found."
 msgstr "未找到信息源。"
 
-#: include/functions.php:5261
+#: include/functions.php:5261 plugins/import_export/init.php:221
 msgid "Could not import: incorrect schema version."
 msgstr ""
 
-#: include/functions.php:5266
+#: include/functions.php:5266 plugins/import_export/init.php:226
 msgid "Could not import: unrecognized document format."
 msgstr ""
 
@@ -918,7 +918,7 @@ msgstr ""
 msgid "Finished: %d articles processed, %d imported, %d feeds created."
 msgstr ""
 
-#: include/functions.php:5431
+#: include/functions.php:5431 plugins/import_export/init.php:391
 msgid "Could not load XML document."
 msgstr ""
 
@@ -947,7 +947,8 @@ msgid "Set starred"
 msgstr "加星标"
 
 #: include/localized_schema.php:12 js/viewfeed.js:501 js/viewfeed.js:490
-#: js/viewfeed.js:496 js/viewfeed.js:478
+#: js/viewfeed.js:496 js/viewfeed.js:478 plugins/digest/digest.js:264
+#: plugins/digest/digest.js:736
 msgid "Publish article"
 msgstr "发布文章"
 
@@ -1204,7 +1205,7 @@ msgstr "标题"
 
 #: classes/handler/public.php:430 classes/dlg.php:667
 #: classes/pref/feeds.php:509 classes/pref/feeds.php:762
-#: plugins/instances/instances.php:100
+#: plugins/instances/instances.php:100 plugins/instances/init.php:215
 msgid "URL:"
 msgstr "URL："
 
@@ -1285,12 +1286,12 @@ msgstr "订阅选中的信息源"
 msgid "Edit subscription options"
 msgstr "编辑订阅选项"
 
-#: classes/auth/internal.php:45
+#: classes/auth/internal.php:45 plugins/auth_internal/init.php:62
 #, fuzzy
 msgid "Please enter your one time password:"
 msgstr "请填写类别名称："
 
-#: classes/auth/internal.php:168
+#: classes/auth/internal.php:168 plugins/auth_internal/init.php:185
 msgid "Password has been changed."
 msgstr "密码更改成功。"
 
@@ -1474,6 +1475,7 @@ msgstr "本文的标签，请用逗号分开："
 #: classes/pref/labels.php:79 classes/pref/filters.php:339
 #: classes/pref/feeds.php:728 classes/pref/feeds.php:877
 #: plugins/note/note.php:47 plugins/instances/instances.php:133
+#: plugins/nsfw/init.php:86 plugins/owncloud/init.php:62
 msgid "Save"
 msgstr "保存"
 
@@ -1544,24 +1546,27 @@ msgstr ""
 "class=\"visibleLink\" href=\"%s\">本文件</a>。"
 
 #: classes/dlg.php:661 plugins/instances/instances.php:92
+#: plugins/instances/init.php:207
 msgid "Instance"
 msgstr "实例"
 
 #: classes/dlg.php:670 plugins/instances/instances.php:103
-#: plugins/instances/instances.php:200
+#: plugins/instances/instances.php:200 plugins/instances/init.php:218
 msgid "Instance URL"
 msgstr "实例 URL："
 
 #: classes/dlg.php:680 plugins/instances/instances.php:114
+#: plugins/instances/init.php:229
 msgid "Access key:"
 msgstr "访问密钥："
 
 #: classes/dlg.php:683 plugins/instances/instances.php:117
-#: plugins/instances/instances.php:201
+#: plugins/instances/instances.php:201 plugins/instances/init.php:232
 msgid "Access key"
 msgstr "访问密钥"
 
 #: classes/dlg.php:687 plugins/instances/instances.php:121
+#: plugins/instances/init.php:236
 msgid "Use one access key for both linked instances."
 msgstr "为两个相联的实例使用一个访问密钥。"
 
@@ -1731,6 +1736,7 @@ msgid "Error while parsing document."
 msgstr "解析文档时发生错误。"
 
 #: classes/pref/users.php:6 plugins/instances/instances.php:42
+#: plugins/instances/init.php:157
 msgid "Your access level is insufficient to open this tab."
 msgstr "您的访问级别不够，无法打开这个舌签。"
 
@@ -1922,6 +1928,7 @@ msgid "on field"
 msgstr "on field"
 
 #: classes/pref/filters.php:775 js/PrefFilterTree.js:29
+#: plugins/digest/digest.js:241
 msgid "in"
 msgstr "在"
 
@@ -1931,7 +1938,7 @@ msgid "Save rule"
 msgstr "保存"
 
 #: classes/pref/filters.php:788 js/functions.js:1067 js/functions.js:1063
-#: js/functions.js:1071
+#: js/functions.js:1071 js/functions.js:1073
 msgid "Add rule"
 msgstr ""
 
@@ -1949,7 +1956,7 @@ msgid "Save action"
 msgstr "版面动作"
 
 #: classes/pref/filters.php:855 js/functions.js:1093 js/functions.js:1089
-#: js/functions.js:1097
+#: js/functions.js:1097 js/functions.js:1099
 #, fuzzy
 msgid "Add action"
 msgstr "信息源动作"
@@ -2308,12 +2315,12 @@ msgstr ""
 msgid "Display published OPML URL"
 msgstr "公开的 OPML URL"
 
-#: classes/pref/feeds.php:1420
+#: classes/pref/feeds.php:1420 plugins/import_export/init.php:66
 #, fuzzy
 msgid "Article archive"
 msgstr "文章发布时间"
 
-#: classes/pref/feeds.php:1422
+#: classes/pref/feeds.php:1422 plugins/import_export/init.php:68
 msgid ""
 "You can export and import your Starred and Archived articles for safekeeping "
 "or when migrating between tt-rss instances."
@@ -2345,7 +2352,7 @@ msgstr "点击此处将本站注册为信息源阅读器。"
 msgid "Bookmarklets"
 msgstr ""
 
-#: classes/pref/feeds.php:1466
+#: classes/pref/feeds.php:1466 plugins/bookmarklets/init.php:24
 msgid ""
 "Drag the link below to your browser toolbar, open the feed you're interested "
 "in in your browser and click on the link to subscribe to it."
@@ -2362,7 +2369,7 @@ msgstr "在 Tiny Tiny RSS 中订阅 %s ？"
 msgid "Subscribe in Tiny Tiny RSS"
 msgstr "在 Tiny Tiny RSS 中订阅"
 
-#: classes/pref/feeds.php:1476
+#: classes/pref/feeds.php:1476 plugins/bookmarklets/init.php:34
 msgid "Use this bookmarklet to publish arbitrary pages using Tiny Tiny RSS"
 msgstr ""
 
@@ -2447,11 +2454,12 @@ msgstr ""
 msgid "Pinterest"
 msgstr ""
 
-#: plugins/mail/mail.php:66 plugins/mail/mail.php:72
+#: plugins/mail/mail.php:66 plugins/mail/mail.php:72 plugins/mail/init.php:72
+#: plugins/mail/init.php:78
 msgid "[Forwarded]"
 msgstr "[已转发]"
 
-#: plugins/mail/mail.php:66
+#: plugins/mail/mail.php:66 plugins/mail/init.php:72
 msgid "Multiple articles"
 msgstr "多个文章"
 
@@ -2471,19 +2479,19 @@ msgstr "主题："
 msgid "Send e-mail"
 msgstr "发送邮件"
 
-#: plugins/note/note.php:22
+#: plugins/note/note.php:22 plugins/note/note.js:11
 msgid "Edit article note"
 msgstr "编辑文章注记"
 
-#: plugins/example/example.php:29
+#: plugins/example/example.php:29 plugins/example/init.php:38
 msgid "Example Pane"
 msgstr ""
 
-#: plugins/example/example.php:53
+#: plugins/example/example.php:53 plugins/example/init.php:69
 msgid "Sample value"
 msgstr ""
 
-#: plugins/example/example.php:59
+#: plugins/example/example.php:59 plugins/example/init.php:75
 #, fuzzy
 msgid "Set value"
 msgstr "加星标"
@@ -2501,7 +2509,7 @@ msgstr "链接"
 msgid "Link instance"
 msgstr "链接实例"
 
-#: plugins/instances/instances.php:192
+#: plugins/instances/instances.php:192 plugins/instances/init.php:307
 msgid ""
 "You can connect other instances of Tiny Tiny RSS to this one to share "
 "Popular feeds. Link to this instance of Tiny Tiny RSS by using this URL:"
@@ -2525,7 +2533,7 @@ msgstr "保存的信息源"
 msgid "Share by URL"
 msgstr "通过 URL 分享"
 
-#: plugins/share/share.php:43
+#: plugins/share/share.php:43 plugins/share/init.php:49
 msgid "You can share this article by the following unique URL:"
 msgstr "您可以通过以下唯一 URL 分享本文："
 
@@ -2540,27 +2548,28 @@ msgid "Share on Google+"
 msgstr "在 Twitter 上分享"
 
 #: plugins/updater/updater.php:267 plugins/updater/updater.php:279
+#: plugins/updater/updater.js:10
 #, fuzzy
 msgid "Update Tiny Tiny RSS"
 msgstr "返回 Tiny Tiny RSS"
 
-#: plugins/updater/updater.php:282
+#: plugins/updater/updater.php:282 plugins/updater/init.php:303
 #, fuzzy
 msgid "Your Tiny Tiny RSS installation is up to date."
 msgstr "Tiny Tiny RSS 数据库是最新版。"
 
-#: plugins/updater/updater.php:291
+#: plugins/updater/updater.php:291 plugins/updater/init.php:313
 msgid ""
 "Do not close this dialog until updating is finished. Backup your tt-rss "
 "directory before continuing."
 msgstr ""
 
-#: plugins/updater/updater.php:294
+#: plugins/updater/updater.php:294 plugins/updater/init.php:316
 #, fuzzy
 msgid "Ready to update."
 msgstr "上次更新："
 
-#: plugins/updater/updater.php:299
+#: plugins/updater/updater.php:299 plugins/updater/init.php:321
 #, fuzzy
 msgid "Start update"
 msgstr "上次更新："
@@ -2571,6 +2580,7 @@ msgstr "本信息源中的最新文章（点击显示）"
 
 #: js/feedlist.js:490 js/feedlist.js:505 js/feedlist.js:489 js/feedlist.js:504
 #: js/feedlist.js:469 js/feedlist.js:484 js/feedlist.js:420 js/feedlist.js:435
+#: plugins/digest/digest.js:25
 msgid "Mark all articles in %s as read?"
 msgstr "将 %s 中的全部文章标记为已读？"
 
@@ -2636,20 +2646,24 @@ msgid "You are already subscribed to this feed."
 msgstr "您已经订阅过这个信息源啦。"
 
 #: js/functions.js:1067 js/functions.js:1063 js/functions.js:1071
+#: js/functions.js:1073
 #, fuzzy
 msgid "Edit rule"
 msgstr "编辑过滤器"
 
 #: js/functions.js:1093 js/functions.js:1089 js/functions.js:1097
+#: js/functions.js:1099
 #, fuzzy
 msgid "Edit action"
 msgstr "信息源动作"
 
 #: js/functions.js:1130 js/functions.js:1126 js/functions.js:1134
+#: js/functions.js:1136
 msgid "Create Filter"
 msgstr "创建过滤器"
 
 #: js/functions.js:1234 js/functions.js:1230 js/functions.js:1238
+#: js/functions.js:1240
 msgid ""
 "Reset subscription? Tiny Tiny RSS will try to subscribe to the notification "
 "hub again on next feed update."
@@ -2657,29 +2671,33 @@ msgstr ""
 "重置订阅？ Tiny Tiny RSS 将会在下次信息源更新的时候尝试再次订阅信息提醒中心。"
 
 #: js/functions.js:1255 js/tt-rss.js:421 js/functions.js:1251 js/tt-rss.js:381
-#: js/functions.js:1259 js/tt-rss.js:367
+#: js/functions.js:1259 js/tt-rss.js:367 js/functions.js:1261
 msgid "Unsubscribe from %s?"
 msgstr "从 %s 取消订阅？"
 
 #: js/functions.js:1362 js/functions.js:1358 js/functions.js:1368
+#: js/functions.js:1370
 msgid "Please enter category title:"
 msgstr "请填写类别名称："
 
 #: js/functions.js:1393 js/functions.js:1389 js/functions.js:1399
+#: js/functions.js:1401
 msgid "Generate new syndication address for this feed?"
 msgstr "为本信息源生成新的群地址？"
 
 #: js/functions.js:1584 js/tt-rss.js:400 js/tt-rss.js:903 js/functions.js:1580
 #: js/tt-rss.js:782 js/tt-rss.js:362 js/tt-rss.js:717 js/functions.js:1590
-#: js/tt-rss.js:348 js/tt-rss.js:709
+#: js/tt-rss.js:348 js/tt-rss.js:709 js/functions.js:1592
 msgid "You can't edit this kind of feed."
 msgstr "您无法编辑这种类型的信息源。"
 
 #: js/functions.js:1599 js/functions.js:1595 js/functions.js:1605
+#: js/functions.js:1607
 msgid "Edit Feed"
 msgstr "编辑信息源"
 
 #: js/functions.js:1637 js/functions.js:1633 js/functions.js:1643
+#: js/functions.js:1645
 msgid "More Feeds"
 msgstr "更多信息源"
 
@@ -2688,22 +2706,24 @@ msgstr "更多信息源"
 #: js/prefs.js:1471 js/functions.js:1694 js/functions.js:1804 js/prefs.js:397
 #: js/prefs.js:427 js/prefs.js:459 js/prefs.js:642 js/prefs.js:662
 #: js/prefs.js:1213 js/prefs.js:1358 js/functions.js:1704 js/functions.js:1814
-#: js/prefs.js:1203 js/prefs.js:1348
+#: js/prefs.js:1203 js/prefs.js:1348 js/functions.js:1706 js/functions.js:1816
 msgid "No feeds are selected."
 msgstr "没有选择任何信息源。"
 
 #: js/functions.js:1740 js/functions.js:1736 js/functions.js:1746
+#: js/functions.js:1748
 msgid ""
 "Remove selected feeds from the archive? Feeds with stored articles will not "
 "be removed."
 msgstr "将选中的信息源从存档中移除？包含已保存文章的信息源不会被移除。"
 
 #: js/functions.js:1779 js/functions.js:1775 js/functions.js:1785
+#: js/functions.js:1787
 msgid "Feeds with update errors"
 msgstr "更新错误的信息源"
 
 #: js/functions.js:1790 js/prefs.js:1308 js/functions.js:1786 js/prefs.js:1195
-#: js/functions.js:1796 js/prefs.js:1185
+#: js/functions.js:1796 js/prefs.js:1185 js/functions.js:1798
 msgid "Remove selected feeds?"
 msgstr "移除选中的信息源？"
 
@@ -2821,7 +2841,7 @@ msgstr "OPML 导入"
 msgid "Please choose an OPML file first."
 msgstr "请先选择一个 OPML 文件。"
 
-#: js/prefs.js:854
+#: js/prefs.js:854 plugins/import_export/import_export.js:112
 msgid "Please choose the file first."
 msgstr ""
 
@@ -2907,17 +2927,17 @@ msgid ""
 "This will clear your stored authentication information for Twitter. Continue?"
 msgstr "这将会清空所有保存过的 Twitter 认证信息。是否继续？"
 
-#: js/prefs.js:1911
+#: js/prefs.js:1911 plugins/import_export/import_export.js:13
 msgid "Export Data"
 msgstr ""
 
-#: js/prefs.js:1938
+#: js/prefs.js:1938 plugins/import_export/import_export.js:40
 msgid ""
 "Finished, exported %d articles. You can download the data <a "
 "class='visibleLink' href='%u'>here</a>."
 msgstr ""
 
-#: js/prefs.js:1991
+#: js/prefs.js:1991 plugins/import_export/import_export.js:93
 msgid "Data Import"
 msgstr ""
 
@@ -2956,14 +2976,17 @@ msgid "Cancel search"
 msgstr "取消"
 
 #: js/viewfeed.js:456 js/viewfeed.js:445 js/viewfeed.js:451 js/viewfeed.js:435
+#: plugins/digest/digest.js:257 plugins/digest/digest.js:696
 msgid "Unstar article"
 msgstr "取消星标"
 
 #: js/viewfeed.js:461 js/viewfeed.js:450 js/viewfeed.js:456 js/viewfeed.js:440
+#: plugins/digest/digest.js:259 plugins/digest/digest.js:700
 msgid "Star article"
 msgstr "加星标"
 
 #: js/viewfeed.js:496 js/viewfeed.js:485 js/viewfeed.js:491 js/viewfeed.js:473
+#: plugins/digest/digest.js:262 plugins/digest/digest.js:731
 msgid "Unpublish article"
 msgstr "取消发布文章"
 
@@ -2977,7 +3000,7 @@ msgstr "取消发布文章"
 #: js/viewfeed.js:1000 js/viewfeed.js:1050 js/viewfeed.js:2018
 #: js/viewfeed.js:674 js/viewfeed.js:702 js/viewfeed.js:729 js/viewfeed.js:791
 #: js/viewfeed.js:823 js/viewfeed.js:960 js/viewfeed.js:1003
-#: js/viewfeed.js:1053 js/viewfeed.js:1927
+#: js/viewfeed.js:1053 js/viewfeed.js:1927 plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "没有选中任何文章。"
 
@@ -3079,6 +3102,7 @@ msgid "Please enter new score for this article:"
 msgstr "请填写类别名称："
 
 #: js/functions.js:1887 js/functions.js:1891 js/functions.js:1897
+#: js/functions.js:1899
 msgid "Help"
 msgstr ""
 
@@ -3091,6 +3115,93 @@ msgstr ""
 msgid "Please enable mail plugin first."
 msgstr "请先选几个信息源吧。"
 
+#: plugins/digest/digest_body.php:39
+msgid "Your browser doesn't support Javascript, which is required"
+msgstr ""
+
+#: plugins/nsfw/init.php:32 plugins/nsfw/init.php:43
+msgid "Not work safe (click to toggle)"
+msgstr ""
+
+#: plugins/nsfw/init.php:53
+msgid "NSFW Plugin"
+msgstr ""
+
+#: plugins/nsfw/init.php:80
+msgid "Tags to consider NSFW (comma-separated)"
+msgstr ""
+
+#: plugins/nsfw/init.php:101
+#, fuzzy
+msgid "Configuration saved."
+msgstr "设置已保存。"
+
+#: plugins/owncloud/init.php:35
+msgid "Owncloud"
+msgstr ""
+
+#: plugins/owncloud/init.php:59
+msgid "Owncloud url"
+msgstr ""
+
+#: plugins/digest/digest.js:71
+msgid "Mark %d displayed articles as read?"
+msgstr "将显示的 %d 篇文章标记为已读？"
+
+#: plugins/digest/digest.js:289
+msgid "Error: unable to load article."
+msgstr "错误：无法加载文章。"
+
+#: plugins/digest/digest.js:447
+msgid "Click to expand article."
+msgstr "点击以展开文章。"
+
+#: plugins/digest/digest.js:518
+msgid "%d more..."
+msgstr "下面的 %d 篇……"
+
+#: plugins/digest/digest.js:525
+msgid "No unread feeds."
+msgstr "没有未读的信息源。"
+
+#: plugins/digest/digest.js:632
+msgid "Load more..."
+msgstr "加载更多……"
+
+#: plugins/mail/mail.js:21
+msgid "Forward article by email"
+msgstr "用邮件转发文章"
+
+#: plugins/instances/instances.js:10
+msgid "Link Instance"
+msgstr "链接实例"
+
+#: plugins/instances/instances.js:73
+msgid "Edit Instance"
+msgstr "编辑实例"
+
+#: plugins/instances/instances.js:122
+msgid "Remove selected instances?"
+msgstr "移除选中的实例？"
+
+#: plugins/instances/instances.js:139 plugins/instances/instances.js:151
+msgid "No instances are selected."
+msgstr "未选中任何实例。"
+
+#: plugins/instances/instances.js:156
+msgid "Please select only one instance."
+msgstr "请仅选择一个实例。"
+
+#: plugins/share/share.js:10
+msgid "Share article by URL"
+msgstr "通过 URL 分享文章"
+
+#: plugins/updater/updater.js:58
+msgid ""
+"Live updating is considered experimental. Backup your tt-rss directory "
+"before continuing. Please type 'yes' to continue."
+msgstr ""
+
 #~ msgid "Magpie"
 #~ msgstr "Magpie"
 
@@ -3099,45 +3210,6 @@ msgstr "请先选几个信息源吧。"
 
 #~ msgid "using"
 #~ msgstr "使用"
-
-#~ msgid "Mark %d displayed articles as read?"
-#~ msgstr "将显示的 %d 篇文章标记为已读？"
-
-#~ msgid "Error: unable to load article."
-#~ msgstr "错误：无法加载文章。"
-
-#~ msgid "Click to expand article."
-#~ msgstr "点击以展开文章。"
-
-#~ msgid "%d more..."
-#~ msgstr "下面的 %d 篇……"
-
-#~ msgid "No unread feeds."
-#~ msgstr "没有未读的信息源。"
-
-#~ msgid "Load more..."
-#~ msgstr "加载更多……"
-
-#~ msgid "Forward article by email"
-#~ msgstr "用邮件转发文章"
-
-#~ msgid "Link Instance"
-#~ msgstr "链接实例"
-
-#~ msgid "Edit Instance"
-#~ msgstr "编辑实例"
-
-#~ msgid "Remove selected instances?"
-#~ msgstr "移除选中的实例？"
-
-#~ msgid "No instances are selected."
-#~ msgstr "未选中任何实例。"
-
-#~ msgid "Please select only one instance."
-#~ msgstr "请仅选择一个实例。"
-
-#~ msgid "Share article by URL"
-#~ msgstr "通过 URL 分享文章"
 
 #~ msgid "match on"
 #~ msgstr "匹配"

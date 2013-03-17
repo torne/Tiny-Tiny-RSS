@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-17 14:24+0400\n"
+"POT-Creation-Date: 2013-03-17 19:37+0400\n"
 "PO-Revision-Date: 2009-05-29 14:38+0300\n"
 "Last-Translator: Max Kamashev <max.kamashev@floscoeli.com>\n"
 "Language-Team: Русский <ru@li.org>\n"
@@ -355,7 +355,7 @@ msgstr "Обновить"
 
 #: index.php:196 index.php:211 include/localized_schema.php:10
 #: classes/feeds.php:111 classes/feeds.php:127 js/FeedTree.js:128
-#: js/FeedTree.js:156
+#: js/FeedTree.js:156 plugins/digest/digest.js:630
 msgid "Mark as read"
 msgstr "Как прочитанные"
 
@@ -886,7 +886,7 @@ msgstr ""
 #: classes/dlg.php:623 classes/dlg.php:724 classes/pref/users.php:106
 #: classes/pref/filters.php:101 classes/pref/feeds.php:1638
 #: classes/pref/feeds.php:1709 plugins/share/share.php:61
-#: plugins/updater/updater.php:301
+#: plugins/updater/updater.php:301 plugins/updater/init.php:323
 msgid "Close this window"
 msgstr "Закрыть это окно"
 
@@ -926,11 +926,11 @@ msgstr "Отмеченные"
 msgid "No feeds found."
 msgstr "Каналы не найдены."
 
-#: include/functions.php:5261
+#: include/functions.php:5261 plugins/import_export/init.php:221
 msgid "Could not import: incorrect schema version."
 msgstr "Не могу импортировать данные: некорректная версия схемы."
 
-#: include/functions.php:5266
+#: include/functions.php:5266 plugins/import_export/init.php:226
 msgid "Could not import: unrecognized document format."
 msgstr "Не могу импортировать данные: неизвестынй формат данных."
 
@@ -939,7 +939,7 @@ msgstr "Не могу импортировать данные: неизвест�
 msgid "Finished: %d articles processed, %d imported, %d feeds created."
 msgstr ""
 
-#: include/functions.php:5431
+#: include/functions.php:5431 plugins/import_export/init.php:391
 msgid "Could not load XML document."
 msgstr "Не могу загрузить XML документ."
 
@@ -968,7 +968,8 @@ msgid "Set starred"
 msgstr "Отметить"
 
 #: include/localized_schema.php:12 js/viewfeed.js:501 js/viewfeed.js:490
-#: js/viewfeed.js:496 js/viewfeed.js:478
+#: js/viewfeed.js:496 js/viewfeed.js:478 plugins/digest/digest.js:264
+#: plugins/digest/digest.js:736
 msgid "Publish article"
 msgstr "Опубликовать"
 
@@ -1237,7 +1238,7 @@ msgstr "Заголовок:"
 
 #: classes/handler/public.php:430 classes/dlg.php:667
 #: classes/pref/feeds.php:509 classes/pref/feeds.php:762
-#: plugins/instances/instances.php:100
+#: plugins/instances/instances.php:100 plugins/instances/init.php:215
 msgid "URL:"
 msgstr "URL:"
 
@@ -1319,12 +1320,12 @@ msgstr "Отписаться от выбранных каналов?"
 msgid "Edit subscription options"
 msgstr "Редактировать опции  подписки"
 
-#: classes/auth/internal.php:45
+#: classes/auth/internal.php:45 plugins/auth_internal/init.php:62
 #, fuzzy
 msgid "Please enter your one time password:"
 msgstr "Пожалуйста, укажите заметку для статьи:"
 
-#: classes/auth/internal.php:168
+#: classes/auth/internal.php:168 plugins/auth_internal/init.php:185
 msgid "Password has been changed."
 msgstr "Пароль был изменен."
 
@@ -1517,6 +1518,7 @@ msgstr "Теги для этой статьи (разделенные запят
 #: classes/pref/labels.php:79 classes/pref/filters.php:339
 #: classes/pref/feeds.php:728 classes/pref/feeds.php:877
 #: plugins/note/note.php:47 plugins/instances/instances.php:133
+#: plugins/nsfw/init.php:86 plugins/owncloud/init.php:62
 msgid "Save"
 msgstr "Сохранить"
 
@@ -1587,26 +1589,29 @@ msgid ""
 msgstr ""
 
 #: classes/dlg.php:661 plugins/instances/instances.php:92
+#: plugins/instances/init.php:207
 msgid "Instance"
 msgstr "Инсталляция"
 
 #: classes/dlg.php:670 plugins/instances/instances.php:103
-#: plugins/instances/instances.php:200
+#: plugins/instances/instances.php:200 plugins/instances/init.php:218
 msgid "Instance URL"
 msgstr "URL инсталляции"
 
 #: classes/dlg.php:680 plugins/instances/instances.php:114
+#: plugins/instances/init.php:229
 #, fuzzy
 msgid "Access key:"
 msgstr "Уровень доступа:"
 
 #: classes/dlg.php:683 plugins/instances/instances.php:117
-#: plugins/instances/instances.php:201
+#: plugins/instances/instances.php:201 plugins/instances/init.php:232
 #, fuzzy
 msgid "Access key"
 msgstr "Уровень доступа:"
 
 #: classes/dlg.php:687 plugins/instances/instances.php:121
+#: plugins/instances/init.php:236
 msgid "Use one access key for both linked instances."
 msgstr "Используйте один ключ доступа для обоих инсталляций"
 
@@ -1778,6 +1783,7 @@ msgid "Error while parsing document."
 msgstr "Ошибка при разборе документа."
 
 #: classes/pref/users.php:6 plugins/instances/instances.php:42
+#: plugins/instances/init.php:157
 msgid "Your access level is insufficient to open this tab."
 msgstr "Вашего уровня доступа недостаточно для открытия этой вкладки."
 
@@ -1971,6 +1977,7 @@ msgid "on field"
 msgstr "по полю:"
 
 #: classes/pref/filters.php:775 js/PrefFilterTree.js:29
+#: plugins/digest/digest.js:241
 msgid "in"
 msgstr "в"
 
@@ -1980,7 +1987,7 @@ msgid "Save rule"
 msgstr "Сохранить"
 
 #: classes/pref/filters.php:788 js/functions.js:1067 js/functions.js:1063
-#: js/functions.js:1071
+#: js/functions.js:1071 js/functions.js:1073
 #, fuzzy
 msgid "Add rule"
 msgstr "Добавить метку..."
@@ -1999,7 +2006,7 @@ msgid "Save action"
 msgstr "Действия над каналами"
 
 #: classes/pref/filters.php:855 js/functions.js:1093 js/functions.js:1089
-#: js/functions.js:1097
+#: js/functions.js:1097 js/functions.js:1099
 #, fuzzy
 msgid "Add action"
 msgstr "Действия над каналом"
@@ -2362,11 +2369,11 @@ msgstr ""
 msgid "Display published OPML URL"
 msgstr "Публичная ссылка на OPML"
 
-#: classes/pref/feeds.php:1420
+#: classes/pref/feeds.php:1420 plugins/import_export/init.php:66
 msgid "Article archive"
 msgstr "Архив статей"
 
-#: classes/pref/feeds.php:1422
+#: classes/pref/feeds.php:1422 plugins/import_export/init.php:68
 msgid ""
 "You can export and import your Starred and Archived articles for safekeeping "
 "or when migrating between tt-rss instances."
@@ -2402,7 +2409,7 @@ msgstr "Щёлкните здесь для регистрации сайта в 
 msgid "Bookmarklets"
 msgstr ""
 
-#: classes/pref/feeds.php:1466
+#: classes/pref/feeds.php:1466 plugins/bookmarklets/init.php:24
 msgid ""
 "Drag the link below to your browser toolbar, open the feed you're interested "
 "in in your browser and click on the link to subscribe to it."
@@ -2418,7 +2425,7 @@ msgstr "Вернуться к Tiny Tiny RSS"
 msgid "Subscribe in Tiny Tiny RSS"
 msgstr "Вернуться к Tiny Tiny RSS"
 
-#: classes/pref/feeds.php:1476
+#: classes/pref/feeds.php:1476 plugins/bookmarklets/init.php:34
 msgid "Use this bookmarklet to publish arbitrary pages using Tiny Tiny RSS"
 msgstr ""
 
@@ -2508,11 +2515,12 @@ msgstr ""
 msgid "Pinterest"
 msgstr ""
 
-#: plugins/mail/mail.php:66 plugins/mail/mail.php:72
+#: plugins/mail/mail.php:66 plugins/mail/mail.php:72 plugins/mail/init.php:72
+#: plugins/mail/init.php:78
 msgid "[Forwarded]"
 msgstr ""
 
-#: plugins/mail/mail.php:66
+#: plugins/mail/mail.php:66 plugins/mail/init.php:72
 msgid "Multiple articles"
 msgstr "Все статьи"
 
@@ -2532,20 +2540,20 @@ msgstr "Заголовок:"
 msgid "Send e-mail"
 msgstr "Отправить письмо"
 
-#: plugins/note/note.php:22
+#: plugins/note/note.php:22 plugins/note/note.js:11
 msgid "Edit article note"
 msgstr "Редактировать заметку"
 
-#: plugins/example/example.php:29
+#: plugins/example/example.php:29 plugins/example/init.php:38
 #, fuzzy
 msgid "Example Pane"
 msgstr "Примеры"
 
-#: plugins/example/example.php:53
+#: plugins/example/example.php:53 plugins/example/init.php:69
 msgid "Sample value"
 msgstr ""
 
-#: plugins/example/example.php:59
+#: plugins/example/example.php:59 plugins/example/init.php:75
 #, fuzzy
 msgid "Set value"
 msgstr "Отметить"
@@ -2564,7 +2572,7 @@ msgstr "Связанные"
 msgid "Link instance"
 msgstr "Редактировать теги"
 
-#: plugins/instances/instances.php:192
+#: plugins/instances/instances.php:192 plugins/instances/init.php:307
 msgid ""
 "You can connect other instances of Tiny Tiny RSS to this one to share "
 "Popular feeds. Link to this instance of Tiny Tiny RSS by using this URL:"
@@ -2588,7 +2596,7 @@ msgstr "Больше каналов"
 msgid "Share by URL"
 msgstr "Расшарить статью по ссылке"
 
-#: plugins/share/share.php:43
+#: plugins/share/share.php:43 plugins/share/init.php:49
 msgid "You can share this article by the following unique URL:"
 msgstr ""
 
@@ -2603,27 +2611,28 @@ msgid "Share on Google+"
 msgstr "Заголовок"
 
 #: plugins/updater/updater.php:267 plugins/updater/updater.php:279
+#: plugins/updater/updater.js:10
 #, fuzzy
 msgid "Update Tiny Tiny RSS"
 msgstr "Вернуться к Tiny Tiny RSS"
 
-#: plugins/updater/updater.php:282
+#: plugins/updater/updater.php:282 plugins/updater/init.php:303
 #, fuzzy
 msgid "Your Tiny Tiny RSS installation is up to date."
 msgstr "Tiny Tiny RSS база данных обновлена."
 
-#: plugins/updater/updater.php:291
+#: plugins/updater/updater.php:291 plugins/updater/init.php:313
 msgid ""
 "Do not close this dialog until updating is finished. Backup your tt-rss "
 "directory before continuing."
 msgstr ""
 
-#: plugins/updater/updater.php:294
+#: plugins/updater/updater.php:294 plugins/updater/init.php:316
 #, fuzzy
 msgid "Ready to update."
 msgstr "Последнее обновление:"
 
-#: plugins/updater/updater.php:299
+#: plugins/updater/updater.php:299 plugins/updater/init.php:321
 #, fuzzy
 msgid "Start update"
 msgstr "Последнее обновление:"
@@ -2634,6 +2643,7 @@ msgstr ""
 
 #: js/feedlist.js:490 js/feedlist.js:505 js/feedlist.js:489 js/feedlist.js:504
 #: js/feedlist.js:469 js/feedlist.js:484 js/feedlist.js:420 js/feedlist.js:435
+#: plugins/digest/digest.js:25
 msgid "Mark all articles in %s as read?"
 msgstr "Отметить все статьи в %s как прочитанные?"
 
@@ -2703,51 +2713,59 @@ msgid "You are already subscribed to this feed."
 msgstr "Нельзя отписаться от категории."
 
 #: js/functions.js:1067 js/functions.js:1063 js/functions.js:1071
+#: js/functions.js:1073
 #, fuzzy
 msgid "Edit rule"
 msgstr "Фильтры"
 
 #: js/functions.js:1093 js/functions.js:1089 js/functions.js:1097
+#: js/functions.js:1099
 #, fuzzy
 msgid "Edit action"
 msgstr "Действия над каналом"
 
 #: js/functions.js:1130 js/functions.js:1126 js/functions.js:1134
+#: js/functions.js:1136
 msgid "Create Filter"
 msgstr "Создать фильтр"
 
 #: js/functions.js:1234 js/functions.js:1230 js/functions.js:1238
+#: js/functions.js:1240
 msgid ""
 "Reset subscription? Tiny Tiny RSS will try to subscribe to the notification "
 "hub again on next feed update."
 msgstr ""
 
 #: js/functions.js:1255 js/tt-rss.js:421 js/functions.js:1251 js/tt-rss.js:381
-#: js/functions.js:1259 js/tt-rss.js:367
+#: js/functions.js:1259 js/tt-rss.js:367 js/functions.js:1261
 msgid "Unsubscribe from %s?"
 msgstr "Отписаться от %s?"
 
 #: js/functions.js:1362 js/functions.js:1358 js/functions.js:1368
+#: js/functions.js:1370
 #, fuzzy
 msgid "Please enter category title:"
 msgstr "Пожалуйста, укажите заметку для статьи:"
 
 #: js/functions.js:1393 js/functions.js:1389 js/functions.js:1399
+#: js/functions.js:1401
 msgid "Generate new syndication address for this feed?"
 msgstr ""
 
 #: js/functions.js:1584 js/tt-rss.js:400 js/tt-rss.js:903 js/functions.js:1580
 #: js/tt-rss.js:782 js/tt-rss.js:362 js/tt-rss.js:717 js/functions.js:1590
-#: js/tt-rss.js:348 js/tt-rss.js:709
+#: js/tt-rss.js:348 js/tt-rss.js:709 js/functions.js:1592
 msgid "You can't edit this kind of feed."
 msgstr "Вы не можете редактировать этот канал."
 
 #: js/functions.js:1599 js/functions.js:1595 js/functions.js:1605
+#: js/functions.js:1607
 #, fuzzy
 msgid "Edit Feed"
 msgstr "Редактировать канал"
 
 #: js/functions.js:1637 js/functions.js:1633 js/functions.js:1643
+#: js/functions.js:1645
 #, fuzzy
 msgid "More Feeds"
 msgstr "Больше каналов"
@@ -2757,23 +2775,25 @@ msgstr "Больше каналов"
 #: js/prefs.js:1471 js/functions.js:1694 js/functions.js:1804 js/prefs.js:397
 #: js/prefs.js:427 js/prefs.js:459 js/prefs.js:642 js/prefs.js:662
 #: js/prefs.js:1213 js/prefs.js:1358 js/functions.js:1704 js/functions.js:1814
-#: js/prefs.js:1203 js/prefs.js:1348
+#: js/prefs.js:1203 js/prefs.js:1348 js/functions.js:1706 js/functions.js:1816
 msgid "No feeds are selected."
 msgstr "Нет выбранных каналов."
 
 #: js/functions.js:1740 js/functions.js:1736 js/functions.js:1746
+#: js/functions.js:1748
 msgid ""
 "Remove selected feeds from the archive? Feeds with stored articles will not "
 "be removed."
 msgstr ""
 
 #: js/functions.js:1779 js/functions.js:1775 js/functions.js:1785
+#: js/functions.js:1787
 #, fuzzy
 msgid "Feeds with update errors"
 msgstr "Ошибки обновления"
 
 #: js/functions.js:1790 js/prefs.js:1308 js/functions.js:1786 js/prefs.js:1195
-#: js/functions.js:1796 js/prefs.js:1185
+#: js/functions.js:1796 js/prefs.js:1185 js/functions.js:1798
 #, fuzzy
 msgid "Remove selected feeds?"
 msgstr "Удалить выбранные фильтры?"
@@ -2895,7 +2915,7 @@ msgstr "Импорт OPML"
 msgid "Please choose an OPML file first."
 msgstr "Пожалуйста выберите файл OPML."
 
-#: js/prefs.js:854
+#: js/prefs.js:854 plugins/import_export/import_export.js:112
 msgid "Please choose the file first."
 msgstr "Пожалуйста выберите файл."
 
@@ -2983,17 +3003,17 @@ msgid ""
 "This will clear your stored authentication information for Twitter. Continue?"
 msgstr ""
 
-#: js/prefs.js:1911
+#: js/prefs.js:1911 plugins/import_export/import_export.js:13
 msgid "Export Data"
 msgstr "Экспортировать данные"
 
-#: js/prefs.js:1938
+#: js/prefs.js:1938 plugins/import_export/import_export.js:40
 msgid ""
 "Finished, exported %d articles. You can download the data <a "
 "class='visibleLink' href='%u'>here</a>."
 msgstr ""
 
-#: js/prefs.js:1991
+#: js/prefs.js:1991 plugins/import_export/import_export.js:93
 msgid "Data Import"
 msgstr "Импортировать данные"
 
@@ -3034,14 +3054,17 @@ msgid "Cancel search"
 msgstr "Отмена"
 
 #: js/viewfeed.js:456 js/viewfeed.js:445 js/viewfeed.js:451 js/viewfeed.js:435
+#: plugins/digest/digest.js:257 plugins/digest/digest.js:696
 msgid "Unstar article"
 msgstr "Не отмеченные"
 
 #: js/viewfeed.js:461 js/viewfeed.js:450 js/viewfeed.js:456 js/viewfeed.js:440
+#: plugins/digest/digest.js:259 plugins/digest/digest.js:700
 msgid "Star article"
 msgstr "Отмеченные"
 
 #: js/viewfeed.js:496 js/viewfeed.js:485 js/viewfeed.js:491 js/viewfeed.js:473
+#: plugins/digest/digest.js:262 plugins/digest/digest.js:731
 msgid "Unpublish article"
 msgstr "Не публиковать"
 
@@ -3055,7 +3078,7 @@ msgstr "Не публиковать"
 #: js/viewfeed.js:1000 js/viewfeed.js:1050 js/viewfeed.js:2018
 #: js/viewfeed.js:674 js/viewfeed.js:702 js/viewfeed.js:729 js/viewfeed.js:791
 #: js/viewfeed.js:823 js/viewfeed.js:960 js/viewfeed.js:1003
-#: js/viewfeed.js:1053 js/viewfeed.js:1927
+#: js/viewfeed.js:1053 js/viewfeed.js:1927 plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "Нет выбранных статей."
 
@@ -3158,6 +3181,7 @@ msgid "Please enter new score for this article:"
 msgstr "Пожалуйста, укажите заметку для статьи:"
 
 #: js/functions.js:1887 js/functions.js:1891 js/functions.js:1897
+#: js/functions.js:1899
 msgid "Help"
 msgstr "Помощь"
 
@@ -3170,6 +3194,105 @@ msgstr ""
 msgid "Please enable mail plugin first."
 msgstr "Пожалуйста выберите какой-нибудь канал."
 
+#: plugins/digest/digest_body.php:39
+msgid "Your browser doesn't support Javascript, which is required"
+msgstr ""
+
+#: plugins/nsfw/init.php:32 plugins/nsfw/init.php:43
+msgid "Not work safe (click to toggle)"
+msgstr ""
+
+#: plugins/nsfw/init.php:53
+msgid "NSFW Plugin"
+msgstr ""
+
+#: plugins/nsfw/init.php:80
+msgid "Tags to consider NSFW (comma-separated)"
+msgstr ""
+
+#: plugins/nsfw/init.php:101
+#, fuzzy
+msgid "Configuration saved."
+msgstr "Конфигурация сохранена."
+
+#: plugins/owncloud/init.php:35
+msgid "Owncloud"
+msgstr ""
+
+#: plugins/owncloud/init.php:59
+msgid "Owncloud url"
+msgstr ""
+
+#: plugins/digest/digest.js:71
+#, fuzzy
+msgid "Mark %d displayed articles as read?"
+msgstr "Отметить %d статью(ей) как прочитанные?"
+
+#: plugins/digest/digest.js:289
+#, fuzzy
+msgid "Error: unable to load article."
+msgstr "Ошибка: пожалуйста загрузите OPML файл."
+
+#: plugins/digest/digest.js:447
+#, fuzzy
+msgid "Click to expand article."
+msgstr "Щёлкните чтобы развернуть статью"
+
+#: plugins/digest/digest.js:518
+#, fuzzy
+msgid "%d more..."
+msgstr "Идет загрузка помощи..."
+
+#: plugins/digest/digest.js:525
+#, fuzzy
+msgid "No unread feeds."
+msgstr "&nbsp;&nbsp;Показать/скрыть прочитанные"
+
+#: plugins/digest/digest.js:632
+#, fuzzy
+msgid "Load more..."
+msgstr "Идет загрузка помощи..."
+
+#: plugins/mail/mail.js:21
+#, fuzzy
+msgid "Forward article by email"
+msgstr "Отмеченные"
+
+#: plugins/instances/instances.js:10
+#, fuzzy
+msgid "Link Instance"
+msgstr "Редактировать теги"
+
+#: plugins/instances/instances.js:73
+#, fuzzy
+msgid "Edit Instance"
+msgstr "Редактировать теги"
+
+#: plugins/instances/instances.js:122
+#, fuzzy
+msgid "Remove selected instances?"
+msgstr "Удалить выбранные фильтры?"
+
+#: plugins/instances/instances.js:139 plugins/instances/instances.js:151
+#, fuzzy
+msgid "No instances are selected."
+msgstr "Нет выбранных фильтров."
+
+#: plugins/instances/instances.js:156
+#, fuzzy
+msgid "Please select only one instance."
+msgstr "Пожалуйста выберите только один фильтр."
+
+#: plugins/share/share.js:10
+msgid "Share article by URL"
+msgstr "Расшарить статью по ссылке"
+
+#: plugins/updater/updater.js:58
+msgid ""
+"Live updating is considered experimental. Backup your tt-rss directory "
+"before continuing. Please type 'yes' to continue."
+msgstr ""
+
 #~ msgid "Magpie"
 #~ msgstr "Magpie"
 
@@ -3178,57 +3301,6 @@ msgstr "Пожалуйста выберите какой-нибудь канал
 
 #~ msgid "using"
 #~ msgstr "использование"
-
-#, fuzzy
-#~ msgid "Mark %d displayed articles as read?"
-#~ msgstr "Отметить %d статью(ей) как прочитанные?"
-
-#, fuzzy
-#~ msgid "Error: unable to load article."
-#~ msgstr "Ошибка: пожалуйста загрузите OPML файл."
-
-#, fuzzy
-#~ msgid "Click to expand article."
-#~ msgstr "Щёлкните чтобы развернуть статью"
-
-#, fuzzy
-#~ msgid "%d more..."
-#~ msgstr "Идет загрузка помощи..."
-
-#, fuzzy
-#~ msgid "No unread feeds."
-#~ msgstr "&nbsp;&nbsp;Показать/скрыть прочитанные"
-
-#, fuzzy
-#~ msgid "Load more..."
-#~ msgstr "Идет загрузка помощи..."
-
-#, fuzzy
-#~ msgid "Forward article by email"
-#~ msgstr "Отмеченные"
-
-#, fuzzy
-#~ msgid "Link Instance"
-#~ msgstr "Редактировать теги"
-
-#, fuzzy
-#~ msgid "Edit Instance"
-#~ msgstr "Редактировать теги"
-
-#, fuzzy
-#~ msgid "Remove selected instances?"
-#~ msgstr "Удалить выбранные фильтры?"
-
-#, fuzzy
-#~ msgid "No instances are selected."
-#~ msgstr "Нет выбранных фильтров."
-
-#, fuzzy
-#~ msgid "Please select only one instance."
-#~ msgstr "Пожалуйста выберите только один фильтр."
-
-#~ msgid "Share article by URL"
-#~ msgstr "Расшарить статью по ссылке"
 
 #, fuzzy
 #~ msgid "match on"

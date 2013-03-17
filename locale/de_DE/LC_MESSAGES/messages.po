@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-17 14:24+0400\n"
+"POT-Creation-Date: 2013-03-17 19:37+0400\n"
 "PO-Revision-Date: 2013-03-21 18:57+0100\n"
 "Last-Translator: Walter Weiss <walter_white@fastmail.fm>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/tt-rss/language/"
@@ -362,7 +362,7 @@ msgstr "Aktualisieren"
 
 #: index.php:196 index.php:211 include/localized_schema.php:10
 #: classes/feeds.php:111 classes/feeds.php:127 js/FeedTree.js:128
-#: js/FeedTree.js:156
+#: js/FeedTree.js:156 plugins/digest/digest.js:630
 msgid "Mark as read"
 msgstr "Als gelesen markieren"
 
@@ -898,7 +898,7 @@ msgstr "Ähnlich"
 #: classes/dlg.php:623 classes/dlg.php:724 classes/pref/users.php:106
 #: classes/pref/filters.php:101 classes/pref/feeds.php:1638
 #: classes/pref/feeds.php:1709 plugins/share/share.php:61
-#: plugins/updater/updater.php:301
+#: plugins/updater/updater.php:301 plugins/updater/init.php:323
 msgid "Close this window"
 msgstr "Fenster schließen"
 
@@ -936,11 +936,11 @@ msgstr "%d archivierte Artikel"
 msgid "No feeds found."
 msgstr "Keine Feeds gefunden."
 
-#: include/functions.php:5261
+#: include/functions.php:5261 plugins/import_export/init.php:221
 msgid "Could not import: incorrect schema version."
 msgstr "Import fehlgeschlagen: Falsche Schemaversion"
 
-#: include/functions.php:5266
+#: include/functions.php:5266 plugins/import_export/init.php:226
 msgid "Could not import: unrecognized document format."
 msgstr "Import fehlgeschlagen: Unbekanntes Format"
 
@@ -949,7 +949,7 @@ msgstr "Import fehlgeschlagen: Unbekanntes Format"
 msgid "Finished: %d articles processed, %d imported, %d feeds created."
 msgstr "Fertig: %d Artikel bearbeitet, %d importiert, %d Feeds erstellt."
 
-#: include/functions.php:5431
+#: include/functions.php:5431 plugins/import_export/init.php:391
 msgid "Could not load XML document."
 msgstr "Konnte XML-Datei nicht laden."
 
@@ -978,7 +978,8 @@ msgid "Set starred"
 msgstr "Markierung setzen"
 
 #: include/localized_schema.php:12 js/viewfeed.js:501 js/viewfeed.js:490
-#: js/viewfeed.js:496 js/viewfeed.js:478
+#: js/viewfeed.js:496 js/viewfeed.js:478 plugins/digest/digest.js:264
+#: plugins/digest/digest.js:736
 msgid "Publish article"
 msgstr "Artikel veröffentlichen"
 
@@ -1246,7 +1247,7 @@ msgstr "Titel:"
 
 #: classes/handler/public.php:430 classes/dlg.php:667
 #: classes/pref/feeds.php:509 classes/pref/feeds.php:762
-#: plugins/instances/instances.php:100
+#: plugins/instances/instances.php:100 plugins/instances/init.php:215
 msgid "URL:"
 msgstr "URL:"
 
@@ -1325,11 +1326,11 @@ msgstr "Ausgewählte Feeds abonnieren"
 msgid "Edit subscription options"
 msgstr "Abonnementoptionen bearbeiten"
 
-#: classes/auth/internal.php:45
+#: classes/auth/internal.php:45 plugins/auth_internal/init.php:62
 msgid "Please enter your one time password:"
 msgstr "Bitte geben Sie Einmalpasswort ein:"
 
-#: classes/auth/internal.php:168
+#: classes/auth/internal.php:168 plugins/auth_internal/init.php:185
 msgid "Password has been changed."
 msgstr "Passwort wurde geändert."
 
@@ -1518,6 +1519,7 @@ msgstr "Tags für diesen Artikel (kommagetrennt)"
 #: classes/pref/labels.php:79 classes/pref/filters.php:339
 #: classes/pref/feeds.php:728 classes/pref/feeds.php:877
 #: plugins/note/note.php:47 plugins/instances/instances.php:133
+#: plugins/nsfw/init.php:86 plugins/owncloud/init.php:62
 msgid "Save"
 msgstr "Speichern"
 
@@ -1589,24 +1591,27 @@ msgstr ""
 "werden."
 
 #: classes/dlg.php:661 plugins/instances/instances.php:92
+#: plugins/instances/init.php:207
 msgid "Instance"
 msgstr "Instanz"
 
 #: classes/dlg.php:670 plugins/instances/instances.php:103
-#: plugins/instances/instances.php:200
+#: plugins/instances/instances.php:200 plugins/instances/init.php:218
 msgid "Instance URL"
 msgstr "Instanz-URL"
 
 #: classes/dlg.php:680 plugins/instances/instances.php:114
+#: plugins/instances/init.php:229
 msgid "Access key:"
 msgstr "Zugriffsberechtigung:"
 
 #: classes/dlg.php:683 plugins/instances/instances.php:117
-#: plugins/instances/instances.php:201
+#: plugins/instances/instances.php:201 plugins/instances/init.php:232
 msgid "Access key"
 msgstr "Zugriffsberechtigung"
 
 #: classes/dlg.php:687 plugins/instances/instances.php:121
+#: plugins/instances/init.php:236
 msgid "Use one access key for both linked instances."
 msgstr ""
 "Benutzen Sie den selben Zugriffschlüssel für beide verbundenen Instanzen."
@@ -1777,6 +1782,7 @@ msgid "Error while parsing document."
 msgstr "Fehler beim Parsen des Dokuments."
 
 #: classes/pref/users.php:6 plugins/instances/instances.php:42
+#: plugins/instances/init.php:157
 msgid "Your access level is insufficient to open this tab."
 msgstr ""
 "Sie haben nicht die benötigten Rechte um diese Registerkarte zu öffnen."
@@ -1968,6 +1974,7 @@ msgid "on field"
 msgstr "in Feld"
 
 #: classes/pref/filters.php:775 js/PrefFilterTree.js:29
+#: plugins/digest/digest.js:241
 msgid "in"
 msgstr "in"
 
@@ -1976,7 +1983,7 @@ msgid "Save rule"
 msgstr "Regel speichern"
 
 #: classes/pref/filters.php:788 js/functions.js:1067 js/functions.js:1063
-#: js/functions.js:1071
+#: js/functions.js:1071 js/functions.js:1073
 msgid "Add rule"
 msgstr "Regel hinzufügen"
 
@@ -1993,7 +2000,7 @@ msgid "Save action"
 msgstr "Aktion speichern"
 
 #: classes/pref/filters.php:855 js/functions.js:1093 js/functions.js:1089
-#: js/functions.js:1097
+#: js/functions.js:1097 js/functions.js:1099
 msgid "Add action"
 msgstr "Aktion hinzufügen"
 
@@ -2349,11 +2356,11 @@ msgstr ""
 msgid "Display published OPML URL"
 msgstr "Zeige öffentliche OPML-URL"
 
-#: classes/pref/feeds.php:1420
+#: classes/pref/feeds.php:1420 plugins/import_export/init.php:66
 msgid "Article archive"
 msgstr "Artikelarchiv"
 
-#: classes/pref/feeds.php:1422
+#: classes/pref/feeds.php:1422 plugins/import_export/init.php:68
 msgid ""
 "You can export and import your Starred and Archived articles for safekeeping "
 "or when migrating between tt-rss instances."
@@ -2387,7 +2394,7 @@ msgstr "Diese Website als Feedreader registrieren."
 msgid "Bookmarklets"
 msgstr ""
 
-#: classes/pref/feeds.php:1466
+#: classes/pref/feeds.php:1466 plugins/bookmarklets/init.php:24
 msgid ""
 "Drag the link below to your browser toolbar, open the feed you're interested "
 "in in your browser and click on the link to subscribe to it."
@@ -2405,7 +2412,7 @@ msgstr "%s in Tiny Tiny RSS abonnieren?"
 msgid "Subscribe in Tiny Tiny RSS"
 msgstr "Abonnieren in Tiny Tiny RSS"
 
-#: classes/pref/feeds.php:1476
+#: classes/pref/feeds.php:1476 plugins/bookmarklets/init.php:34
 msgid "Use this bookmarklet to publish arbitrary pages using Tiny Tiny RSS"
 msgstr ""
 
@@ -2491,11 +2498,12 @@ msgstr "Reguläre Version"
 msgid "Pinterest"
 msgstr ""
 
-#: plugins/mail/mail.php:66 plugins/mail/mail.php:72
+#: plugins/mail/mail.php:66 plugins/mail/mail.php:72 plugins/mail/init.php:72
+#: plugins/mail/init.php:78
 msgid "[Forwarded]"
 msgstr "[Weitergeleitet]"
 
-#: plugins/mail/mail.php:66
+#: plugins/mail/mail.php:66 plugins/mail/init.php:72
 msgid "Multiple articles"
 msgstr "Mehrere Artikel"
 
@@ -2515,19 +2523,19 @@ msgstr "Betreff:"
 msgid "Send e-mail"
 msgstr "E-Mail versenden"
 
-#: plugins/note/note.php:22
+#: plugins/note/note.php:22 plugins/note/note.js:11
 msgid "Edit article note"
 msgstr "Artikelnotizen bearbeiten"
 
-#: plugins/example/example.php:29
+#: plugins/example/example.php:29 plugins/example/init.php:38
 msgid "Example Pane"
 msgstr ""
 
-#: plugins/example/example.php:53
+#: plugins/example/example.php:53 plugins/example/init.php:69
 msgid "Sample value"
 msgstr "Beispielwert"
 
-#: plugins/example/example.php:59
+#: plugins/example/example.php:59 plugins/example/init.php:75
 msgid "Set value"
 msgstr "Wert setzen"
 
@@ -2543,7 +2551,7 @@ msgstr "Link"
 msgid "Link instance"
 msgstr "Instanz verbinden"
 
-#: plugins/instances/instances.php:192
+#: plugins/instances/instances.php:192 plugins/instances/init.php:307
 msgid ""
 "You can connect other instances of Tiny Tiny RSS to this one to share "
 "Popular feeds. Link to this instance of Tiny Tiny RSS by using this URL:"
@@ -2568,7 +2576,7 @@ msgstr "Gespeicherte Feeds"
 msgid "Share by URL"
 msgstr "Per URL teilen"
 
-#: plugins/share/share.php:43
+#: plugins/share/share.php:43 plugins/share/init.php:49
 msgid "You can share this article by the following unique URL:"
 msgstr "Sie können diesen Artikel über folgende URL teilen:"
 
@@ -2582,24 +2590,25 @@ msgid "Share on Google+"
 msgstr "Auf Google+ teilen"
 
 #: plugins/updater/updater.php:267 plugins/updater/updater.php:279
+#: plugins/updater/updater.js:10
 msgid "Update Tiny Tiny RSS"
 msgstr "Tiny Tiny RSS updaten"
 
-#: plugins/updater/updater.php:282
+#: plugins/updater/updater.php:282 plugins/updater/init.php:303
 msgid "Your Tiny Tiny RSS installation is up to date."
 msgstr "Tiny Tiny RSS ist auf dem neuesten Stand."
 
-#: plugins/updater/updater.php:291
+#: plugins/updater/updater.php:291 plugins/updater/init.php:313
 msgid ""
 "Do not close this dialog until updating is finished. Backup your tt-rss "
 "directory before continuing."
 msgstr ""
 
-#: plugins/updater/updater.php:294
+#: plugins/updater/updater.php:294 plugins/updater/init.php:316
 msgid "Ready to update."
 msgstr "Bereit zum Updaten."
 
-#: plugins/updater/updater.php:299
+#: plugins/updater/updater.php:299 plugins/updater/init.php:321
 msgid "Start update"
 msgstr "Starte Iüdate"
 
@@ -2609,6 +2618,7 @@ msgstr "Neue Artikel verfügbar (klicken zum anzeigen)"
 
 #: js/feedlist.js:490 js/feedlist.js:505 js/feedlist.js:489 js/feedlist.js:504
 #: js/feedlist.js:469 js/feedlist.js:484 js/feedlist.js:420 js/feedlist.js:435
+#: plugins/digest/digest.js:25
 msgid "Mark all articles in %s as read?"
 msgstr "Alle Artikel in %s als gelesen markieren?"
 
@@ -2674,18 +2684,22 @@ msgid "You are already subscribed to this feed."
 msgstr "Sie haben diesen Feed bereits abonniert."
 
 #: js/functions.js:1067 js/functions.js:1063 js/functions.js:1071
+#: js/functions.js:1073
 msgid "Edit rule"
 msgstr "Filter bearbeiten"
 
 #: js/functions.js:1093 js/functions.js:1089 js/functions.js:1097
+#: js/functions.js:1099
 msgid "Edit action"
 msgstr "Aktion bearbeiten"
 
 #: js/functions.js:1130 js/functions.js:1126 js/functions.js:1134
+#: js/functions.js:1136
 msgid "Create Filter"
 msgstr "Filter erstellen"
 
 #: js/functions.js:1234 js/functions.js:1230 js/functions.js:1238
+#: js/functions.js:1240
 msgid ""
 "Reset subscription? Tiny Tiny RSS will try to subscribe to the notification "
 "hub again on next feed update."
@@ -2694,29 +2708,33 @@ msgstr ""
 "Feed-Aktualisierung erneut beim Benachrichtigungs-Hub anzumelden."
 
 #: js/functions.js:1255 js/tt-rss.js:421 js/functions.js:1251 js/tt-rss.js:381
-#: js/functions.js:1259 js/tt-rss.js:367
+#: js/functions.js:1259 js/tt-rss.js:367 js/functions.js:1261
 msgid "Unsubscribe from %s?"
 msgstr "%s abbestellen?"
 
 #: js/functions.js:1362 js/functions.js:1358 js/functions.js:1368
+#: js/functions.js:1370
 msgid "Please enter category title:"
 msgstr "Bitte geben Sie den Kategorietitel ein:"
 
 #: js/functions.js:1393 js/functions.js:1389 js/functions.js:1399
+#: js/functions.js:1401
 msgid "Generate new syndication address for this feed?"
 msgstr "Neue Veröffentlichungsadresse für diesen Feed erzeugen?"
 
 #: js/functions.js:1584 js/tt-rss.js:400 js/tt-rss.js:903 js/functions.js:1580
 #: js/tt-rss.js:782 js/tt-rss.js:362 js/tt-rss.js:717 js/functions.js:1590
-#: js/tt-rss.js:348 js/tt-rss.js:709
+#: js/tt-rss.js:348 js/tt-rss.js:709 js/functions.js:1592
 msgid "You can't edit this kind of feed."
 msgstr "Sie können diese Art von Feed nicht bearbeiten."
 
 #: js/functions.js:1599 js/functions.js:1595 js/functions.js:1605
+#: js/functions.js:1607
 msgid "Edit Feed"
 msgstr "Feed bearbeiten"
 
 #: js/functions.js:1637 js/functions.js:1633 js/functions.js:1643
+#: js/functions.js:1645
 msgid "More Feeds"
 msgstr "Weitere Feeds"
 
@@ -2725,11 +2743,12 @@ msgstr "Weitere Feeds"
 #: js/prefs.js:1471 js/functions.js:1694 js/functions.js:1804 js/prefs.js:397
 #: js/prefs.js:427 js/prefs.js:459 js/prefs.js:642 js/prefs.js:662
 #: js/prefs.js:1213 js/prefs.js:1358 js/functions.js:1704 js/functions.js:1814
-#: js/prefs.js:1203 js/prefs.js:1348
+#: js/prefs.js:1203 js/prefs.js:1348 js/functions.js:1706 js/functions.js:1816
 msgid "No feeds are selected."
 msgstr "Keine Feeds ausgewählt."
 
 #: js/functions.js:1740 js/functions.js:1736 js/functions.js:1746
+#: js/functions.js:1748
 msgid ""
 "Remove selected feeds from the archive? Feeds with stored articles will not "
 "be removed."
@@ -2738,11 +2757,12 @@ msgstr ""
 "Artikeln werden nicht gelöscht"
 
 #: js/functions.js:1779 js/functions.js:1775 js/functions.js:1785
+#: js/functions.js:1787
 msgid "Feeds with update errors"
 msgstr "Feeds mit Aktualisierungsfehlern"
 
 #: js/functions.js:1790 js/prefs.js:1308 js/functions.js:1786 js/prefs.js:1195
-#: js/functions.js:1796 js/prefs.js:1185
+#: js/functions.js:1796 js/prefs.js:1185 js/functions.js:1798
 msgid "Remove selected feeds?"
 msgstr "Ausgewählte Feeds entfernen?"
 
@@ -2858,7 +2878,7 @@ msgstr "OPML Import"
 msgid "Please choose an OPML file first."
 msgstr "Bitte zuerst eine OPML-Datei auswählen."
 
-#: js/prefs.js:854
+#: js/prefs.js:854 plugins/import_export/import_export.js:112
 msgid "Please choose the file first."
 msgstr "Bitte zuerst die Datei auswählen."
 
@@ -2948,11 +2968,11 @@ msgstr ""
 "Dies wird Ihre gespeicherten Authentifizierungsinformationen für Twitter "
 "löschen. Fortfahren?"
 
-#: js/prefs.js:1911
+#: js/prefs.js:1911 plugins/import_export/import_export.js:13
 msgid "Export Data"
 msgstr "Daten exportieren"
 
-#: js/prefs.js:1938
+#: js/prefs.js:1938 plugins/import_export/import_export.js:40
 msgid ""
 "Finished, exported %d articles. You can download the data <a "
 "class='visibleLink' href='%u'>here</a>."
@@ -2960,7 +2980,7 @@ msgstr ""
 "Fertig, %d Artikel exportiert. <a class='visibleLink' href='%u'>Hier</a> "
 "herunterladen."
 
-#: js/prefs.js:1991
+#: js/prefs.js:1991 plugins/import_export/import_export.js:93
 msgid "Data Import"
 msgstr "Daten importieren"
 
@@ -2998,14 +3018,17 @@ msgid "Cancel search"
 msgstr "Suche abbrechen"
 
 #: js/viewfeed.js:456 js/viewfeed.js:445 js/viewfeed.js:451 js/viewfeed.js:435
+#: plugins/digest/digest.js:257 plugins/digest/digest.js:696
 msgid "Unstar article"
 msgstr "Artikelbewertung zurücknehmen"
 
 #: js/viewfeed.js:461 js/viewfeed.js:450 js/viewfeed.js:456 js/viewfeed.js:440
+#: plugins/digest/digest.js:259 plugins/digest/digest.js:700
 msgid "Star article"
 msgstr "Artikel bewerten"
 
 #: js/viewfeed.js:496 js/viewfeed.js:485 js/viewfeed.js:491 js/viewfeed.js:473
+#: plugins/digest/digest.js:262 plugins/digest/digest.js:731
 msgid "Unpublish article"
 msgstr "Artikelveröffentlichung widerrufen"
 
@@ -3019,7 +3042,7 @@ msgstr "Artikelveröffentlichung widerrufen"
 #: js/viewfeed.js:1000 js/viewfeed.js:1050 js/viewfeed.js:2018
 #: js/viewfeed.js:674 js/viewfeed.js:702 js/viewfeed.js:729 js/viewfeed.js:791
 #: js/viewfeed.js:823 js/viewfeed.js:960 js/viewfeed.js:1003
-#: js/viewfeed.js:1053 js/viewfeed.js:1927
+#: js/viewfeed.js:1053 js/viewfeed.js:1927 plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "Keine Artikel ausgewählt."
 
@@ -3119,6 +3142,7 @@ msgid "Please enter new score for this article:"
 msgstr "Bitte geben Sie eine Bewertung für diesen Artikel ab:"
 
 #: js/functions.js:1887 js/functions.js:1891 js/functions.js:1897
+#: js/functions.js:1899
 msgid "Help"
 msgstr "Hilfe"
 
@@ -3129,6 +3153,93 @@ msgstr ""
 #: js/tt-rss.js:741 js/tt-rss.js:676 js/tt-rss.js:668
 msgid "Please enable mail plugin first."
 msgstr "Bitte erst das Mail-Plugin aktivieren."
+
+#: plugins/digest/digest_body.php:39
+msgid "Your browser doesn't support Javascript, which is required"
+msgstr ""
+
+#: plugins/nsfw/init.php:32 plugins/nsfw/init.php:43
+msgid "Not work safe (click to toggle)"
+msgstr ""
+
+#: plugins/nsfw/init.php:53
+msgid "NSFW Plugin"
+msgstr ""
+
+#: plugins/nsfw/init.php:80
+msgid "Tags to consider NSFW (comma-separated)"
+msgstr "Liste von NSFW-Tags (kommagetrennt)"
+
+#: plugins/nsfw/init.php:101
+msgid "Configuration saved."
+msgstr "Die Einstellungen wurden gespeichert."
+
+#: plugins/owncloud/init.php:35
+msgid "Owncloud"
+msgstr ""
+
+#: plugins/owncloud/init.php:59
+msgid "Owncloud url"
+msgstr ""
+
+#: plugins/digest/digest.js:71
+msgid "Mark %d displayed articles as read?"
+msgstr "%d Artikel als gelesen markieren?"
+
+#: plugins/digest/digest.js:289
+msgid "Error: unable to load article."
+msgstr "Fehler: bitte eine OPML Datei hochladen."
+
+#: plugins/digest/digest.js:447
+msgid "Click to expand article."
+msgstr "Klicken um den Artikel aufzuklappen"
+
+#: plugins/digest/digest.js:518
+#, fuzzy
+msgid "%d more..."
+msgstr "Gehe zu..."
+
+#: plugins/digest/digest.js:525
+msgid "No unread feeds."
+msgstr "Gelesene ein-/ausblenden"
+
+#: plugins/digest/digest.js:632
+msgid "Load more..."
+msgstr "Gehe zu..."
+
+#: plugins/mail/mail.js:21
+msgid "Forward article by email"
+msgstr "Artikel via E-Mail weiterleiten"
+
+#: plugins/instances/instances.js:10
+msgid "Link Instance"
+msgstr "Instanz verbinden"
+
+#: plugins/instances/instances.js:73
+msgid "Edit Instance"
+msgstr "Instanz bearbeiten"
+
+#: plugins/instances/instances.js:122
+msgid "Remove selected instances?"
+msgstr "Ausgewählte Instanzen entfernen?"
+
+#: plugins/instances/instances.js:139 plugins/instances/instances.js:151
+msgid "No instances are selected."
+msgstr "Keine Instanzen ausgewählt."
+
+#: plugins/instances/instances.js:156
+msgid "Please select only one instance."
+msgstr "Bitte nur eine Instanz auswählen."
+
+#: plugins/share/share.js:10
+msgid "Share article by URL"
+msgstr "Artikel über URL teilen"
+
+#: plugins/updater/updater.js:58
+msgid ""
+"Live updating is considered experimental. Backup your tt-rss directory "
+"before continuing. Please type 'yes' to continue."
+msgstr ""
 
 #~ msgid "Communication problem with server."
 #~ msgstr "Kommunikationsfehler mit Server"
@@ -3221,12 +3332,6 @@ msgstr "Bitte erst das Mail-Plugin aktivieren."
 #~ msgid "Enable selected plugins"
 #~ msgstr "Ausgewählte Plugins aktivieren"
 
-#~ msgid "Tags to consider NSFW (comma-separated)"
-#~ msgstr "Liste von NSFW-Tags (kommagetrennt)"
-
-#~ msgid "Configuration saved."
-#~ msgstr "Die Einstellungen wurden gespeichert."
-
 #~ msgid "Share on Twitter"
 #~ msgstr "Auf Twitter teilen"
 
@@ -3238,42 +3343,6 @@ msgstr "Bitte erst das Mail-Plugin aktivieren."
 
 #~ msgid "using"
 #~ msgstr "verwende"
-
-#~ msgid "Mark %d displayed articles as read?"
-#~ msgstr "%d Artikel als gelesen markieren?"
-
-#~ msgid "Error: unable to load article."
-#~ msgstr "Fehler: bitte eine OPML Datei hochladen."
-
-#~ msgid "Click to expand article."
-#~ msgstr "Klicken um den Artikel aufzuklappen"
-
-#~ msgid "No unread feeds."
-#~ msgstr "Gelesene ein-/ausblenden"
-
-#~ msgid "Load more..."
-#~ msgstr "Gehe zu..."
-
-#~ msgid "Forward article by email"
-#~ msgstr "Artikel via E-Mail weiterleiten"
-
-#~ msgid "Link Instance"
-#~ msgstr "Instanz verbinden"
-
-#~ msgid "Edit Instance"
-#~ msgstr "Instanz bearbeiten"
-
-#~ msgid "Remove selected instances?"
-#~ msgstr "Ausgewählte Instanzen entfernen?"
-
-#~ msgid "No instances are selected."
-#~ msgstr "Keine Instanzen ausgewählt."
-
-#~ msgid "Please select only one instance."
-#~ msgstr "Bitte nur eine Instanz auswählen."
-
-#~ msgid "Share article by URL"
-#~ msgstr "Artikel über URL teilen"
 
 #~ msgid "OAuth will be used automatically for Twitter feeds."
 #~ msgstr "OAuth wird automatisch für Twitter Feeds verwendet"
