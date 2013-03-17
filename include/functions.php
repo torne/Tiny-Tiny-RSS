@@ -2595,9 +2595,10 @@
 			}
 		}
 
-		$node = $doc->getElementsByTagName('body')->item(0);
+		//$node = $doc->getElementsByTagName('body')->item(0);
 
-		$res = $doc->saveXML($node, LIBXML_NOEMPTYTAG);
+		$doc->removeChild($doc->firstChild); //remove doctype
+		$res = $doc->saveHTML();
 
 		$config = array('safe' => 1, 'deny_attribute' => 'style, width, height, class, id', 'comment' => 1, 'cdata' => 1, 'balance' => 0);
 		$spec = 'img=width,height';
