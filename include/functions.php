@@ -852,7 +852,7 @@
 	}
 
 	function sql_bool_to_bool($s) {
-		if ($s == "t" || $s == "1" || $s == "true") {
+		if ($s == "t" || $s == "1" || strtolower($s) == "true") {
 			return true;
 		} else {
 			return false;

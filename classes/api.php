@@ -109,10 +109,10 @@ class API extends Handler {
 
 	function getFeeds() {
 		$cat_id = db_escape_string($_REQUEST["cat_id"]);
-		$unread_only = (bool)db_escape_string($_REQUEST["unread_only"]);
+		$unread_only = sql_bool_to_bool($_REQUEST["unread_only"]);
 		$limit = (int) db_escape_string($_REQUEST["limit"]);
 		$offset = (int) db_escape_string($_REQUEST["offset"]);
-		$include_nested = (bool)db_escape_string($_REQUEST["include_nested"]);
+		$include_nested = sql_bool_to_bool($_REQUEST["include_nested"]);
 
 		$feeds = $this->api_get_feeds($this->link, $cat_id, $unread_only, $limit, $offset, $include_nested);
 
@@ -120,8 +120,8 @@ class API extends Handler {
 	}
 
 	function getCategories() {
-		$unread_only = (bool)db_escape_string($_REQUEST["unread_only"]);
-		$enable_nested = (bool)db_escape_string($_REQUEST["enable_nested"]);
+		$unread_only = sql_bool_to_bool($_REQUEST["unread_only"]);
+		$enable_nested = sql_bool_to_bool($_REQUEST["enable_nested"]);
 
 		// TODO do not return empty categories, return Uncategorized and standard virtual cats
 
@@ -180,14 +180,14 @@ class API extends Handler {
 
 			$offset = (int)db_escape_string($_REQUEST["skip"]);
 			$filter = db_escape_string($_REQUEST["filter"]);
-			$is_cat = (bool)db_escape_string($_REQUEST["is_cat"]);
-			$show_excerpt = (bool)db_escape_string($_REQUEST["show_excerpt"]);
-			$show_content = (bool)db_escape_string($_REQUEST["show_content"]);
+			$is_cat = sql_bool_to_bool($_REQUEST["is_cat"]);
+			$show_excerpt = sql_bool_to_bool($_REQUEST["show_excerpt"]);
+			$show_content = sql_bool_to_bool($_REQUEST["show_content"]);
 			/* all_articles, unread, adaptive, marked, updated */
 			$view_mode = db_escape_string($_REQUEST["view_mode"]);
-			$include_attachments = (bool)db_escape_string($_REQUEST["include_attachments"]);
+			$include_attachments = sql_bool_to_bool($_REQUEST["include_attachments"]);
 			$since_id = (int)db_escape_string($_REQUEST["since_id"]);
-			$include_nested = (bool)db_escape_string($_REQUEST["include_nested"]);
+			$include_nested = sql_bool_to_bool($_REQUEST["include_nested"]);
 			$sanitize_content = true;
 
 			/* do not rely on params below */
