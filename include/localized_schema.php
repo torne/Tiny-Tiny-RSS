@@ -1,4 +1,4 @@
-<?php # This file has been generated at:  Sun Feb 17 13:58:53 MSK 2013
+<?php # This file has been generated at:  Sun Mar 17 14:24:43 MSK 2013
 
 __("Title");
 __("Title or Content");
@@ -54,7 +54,7 @@ __('Automatically expand articles in combined mode');
 __('Purge unread articles');
 __('Show special feeds when hiding read feeds');
 __('Group headlines in virtual feeds');
-__('Do not show images in articles');
+__('Hide images in articles');
 __('Enable external API');
 __('User timezone');
 __('Customize stylesheet');
