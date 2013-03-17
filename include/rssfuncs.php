@@ -766,12 +766,17 @@
 							}
 						}
 
+						$last_marked = ($marked == 'true') ? 'NOW()' : 'NULL';
+						$last_published = ($published == 'true') ? 'NOW()' : 'NULL';
+
 						$result = db_query($link,
 							"INSERT INTO ttrss_user_entries
 								(ref_id, owner_uid, feed_id, unread, last_read, marked,
-									published, score, tag_cache, label_cache, uuid)
+								published, score, tag_cache, label_cache, uuid,
+								last_marked, last_published)
 							VALUES ('$ref_id', '$owner_uid', '$feed', $unread,
-								$last_read_qpart, $marked, $published, '$score', '', '', '')");
+								$last_read_qpart, $marked, $published, '$score', '', '',
+								'', $last_marked, $last_published)");
 
 						if (PUBSUBHUBBUB_HUB && $published == 'true') {
 							$rss_link = get_self_url_prefix() .

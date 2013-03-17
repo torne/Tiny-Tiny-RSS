@@ -140,7 +140,8 @@ class RPC extends Handler_Protected {
 			$mark = "false";
 		}
 
-		$result = db_query($this->link, "UPDATE ttrss_user_entries SET marked = $mark
+		$result = db_query($this->link, "UPDATE ttrss_user_entries SET marked = $mark,
+					last_marked = NOW()
 					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
 		print json_encode(array("message" => "UPDATE_COUNTERS"));
@@ -219,7 +220,7 @@ class RPC extends Handler_Protected {
 		}
 
 		$result = db_query($this->link, "UPDATE ttrss_user_entries SET
-			published = $pub, last_read = NOW()
+			published = $pub, last_published = NOW()
 			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
 		$pubsub_result = false;
@@ -779,15 +780,15 @@ class RPC extends Handler_Protected {
 
 		if ($cmode == 0) {
 			db_query($link, "UPDATE ttrss_user_entries SET
-			marked = false,last_read = NOW()
+			marked = false, last_marked = NOW()
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
 		} else if ($cmode == 1) {
 			db_query($link, "UPDATE ttrss_user_entries SET
-			marked = true
+			marked = true, last_marked = NOW()
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
 		} else {
 			db_query($link, "UPDATE ttrss_user_entries SET
-			marked = NOT marked,last_read = NOW()
+			marked = NOT marked,last_marked = NOW()
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
 		}
 	}
@@ -804,15 +805,15 @@ class RPC extends Handler_Protected {
 
 		if ($cmode == 0) {
 			db_query($link, "UPDATE ttrss_user_entries SET
-			published = false,last_read = NOW()
+			published = false,last_published = NOW()
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
 		} else if ($cmode == 1) {
 			db_query($link, "UPDATE ttrss_user_entries SET
-			published = true,last_read = NOW()
+			published = true,last_published = NOW()
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
 		} else {
 			db_query($link, "UPDATE ttrss_user_entries SET
-			published = NOT published,last_read = NOW()
+			published = NOT published,last_published = NOW()
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
 		}
 

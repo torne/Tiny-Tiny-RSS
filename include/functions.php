@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 104);
+	define('SCHEMA_VERSION', 105);
 
 	$fetch_last_error = false;
 	$pluginhost = false;
@@ -2310,6 +2310,8 @@
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 				$allow_archived = true;
 
+				if (!$override_order) $override_order = "last_marked DESC, updated DESC";
+
 			} else if ($feed == -2) { // published virtual feed OR labels category
 
 				if (!$cat_view) {
@@ -2317,7 +2319,7 @@
 					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 					$allow_archived = true;
 
-					if (!$override_order) $override_order = "last_read DESC, updated DESC";
+					if (!$override_order) $override_order = "last_published DESC, updated DESC";
 				} else {
 					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 
@@ -2450,6 +2452,7 @@
 						comments,
 						int_id,
 						unread,feed_id,marked,published,link,last_read,orig_feed_id,
+						last_marked, last_published,
 						".SUBSTRING_FOR_DATE."(last_read,1,19) as last_read_noms,
 						$vfeed_query_part
 						$content_query_part
@@ -2492,6 +2495,7 @@
 								"label_cache," .
 								"link," .
 								"last_read," .
+								"last_marked, last_published, " .
 								SUBSTRING_FOR_DATE . "(last_read,1,19) as last_read_noms," .
 								$since_id_part .
 								$vfeed_query_part .

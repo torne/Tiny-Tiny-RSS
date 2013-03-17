@@ -179,6 +179,8 @@ create table ttrss_user_entries (
 	last_read datetime,
 	score int not null default 0,
 	note longtext,
+	last_marked datetime,
+	last_published datetime,
 	unread bool not null default 1,
 	index (ref_id),
 	foreign key (ref_id) references ttrss_entries(id) ON DELETE CASCADE,
@@ -310,7 +312,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (104);
+insert into ttrss_version values (105);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,

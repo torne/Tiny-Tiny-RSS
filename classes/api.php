@@ -219,12 +219,15 @@ class API extends Handler {
 		switch ($field_raw) {
 			case 0:
 				$field = "marked";
+				$additional_fields = ",last_marked = NOW()";
 				break;
 			case 1:
 				$field = "published";
+				$additional_fields = ",last_published = NOW()";
 				break;
 			case 2:
 				$field = "unread";
+				$additional_fields = ",last_read = NOW()";
 				break;
 			case 3:
 				$field = "note";
@@ -248,14 +251,7 @@ class API extends Handler {
 
 			$article_ids = join(", ", $article_ids);
 
-			if ($field == "unread") {
-				$result = db_query($this->link, "UPDATE ttrss_user_entries SET $field = $set_to,
-					last_read = NOW()
-					WHERE ref_id IN ($article_ids) AND owner_uid = " . $_SESSION["uid"]);
-			} else {
-				$result = db_query($this->link, "UPDATE ttrss_user_entries SET $field = $set_to
-					WHERE ref_id IN ($article_ids) AND owner_uid = " . $_SESSION["uid"]);
-			}
+			$result = db_query($this->link, "UPDATE ttrss_user_entries SET $field = $set_to $additional_fields WHERE ref_id IN ($article_ids) AND owner_uid = " . $_SESSION["uid"]);
 
 			$num_updated = db_affected_rows($this->link, $result);
 
@@ -265,6 +261,17 @@ class API extends Handler {
 
 				while ($line = db_fetch_assoc($result)) {
 					ccache_update($this->link, $line["feed_id"], $_SESSION["uid"]);
+				}
+			}
+
+			if ($num_updated > 0 && $field == "published") {
+				if (PUBSUBHUBBUB_HUB) {
+					$rss_link = get_self_url_prefix() .
+						"/public.php?op=rss&id=-2&key=" .
+						get_feed_access_key($this->link, -2, false);
+
+					$p = new Publisher(PUBSUBHUBBUB_HUB);
+					$pubsub_result = $p->publish_update($rss_link);
 				}
 			}
 
