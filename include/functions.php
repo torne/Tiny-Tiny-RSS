@@ -2555,10 +2555,6 @@
 
 		$res = trim($str); if (!$res) return '';
 
-		$config = array('safe' => 1, 'deny_attribute' => 'style, width, height, class, id', 'comment' => 1, 'cdata' => 1, 'balance' => 0);
-		$spec = 'img=width,height';
-		$res = htmLawed($res, $config, $spec);
-
 		if (get_pref($link, "STRIP_IMAGES", $owner)) {
 			$res = preg_replace('/<img[^>]+>/is', '', $res);
 		}
@@ -2601,7 +2597,13 @@
 
 		$node = $doc->getElementsByTagName('body')->item(0);
 
-		return $doc->saveXML($node);
+		$res = $doc->saveXML($node, LIBXML_NOEMPTYTAG);
+
+		$config = array('safe' => 1, 'deny_attribute' => 'style, width, height, class, id', 'comment' => 1, 'cdata' => 1, 'balance' => 0);
+		$spec = 'img=width,height';
+		$res = htmLawed($res, $config, $spec);
+
+		return $res;
 	}
 
 	function check_for_update($link) {
