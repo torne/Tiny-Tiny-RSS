@@ -388,6 +388,8 @@ class Feeds extends Handler_Protected {
 					$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"images/pub_set.svg\" alt=\"\">";
 				}
 
+				$entry_site_url = $line["site_url"];
+
 				if (!get_pref($this->link, 'COMBINED_DISPLAY_MODE')) {
 
 					if (get_pref($this->link, 'VFEED_GROUP_BY_FEED')) {
@@ -474,7 +476,7 @@ class Feeds extends Handler_Protected {
 					unset($line["tag_cache"]);
 
 					$line["content"] = sanitize($this->link, $line["content_preview"],
-							false, false, $feed_site_url);
+							false, false, $entry_site_url);
 
 					foreach ($pluginhost->get_hooks($pluginhost::HOOK_RENDER_ARTICLE_CDM) as $p) {
 						$line = $p->hook_render_article_cdm($line);
@@ -613,8 +615,6 @@ class Feeds extends Handler_Protected {
 							$reply['content'] .= "</div>";
 						}
 					}
-
-					$feed_site_url = $line["site_url"];
 
 					$reply['content'] .= "<span id=\"CWRAP-$id\">";
 					$reply['content'] .= $line["content"];
