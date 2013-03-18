@@ -62,8 +62,15 @@
 
 	<?php print_user_stylesheet($link) ?>
 
-	<script type="text/javascript">
-	</script>
+	<style type="text/css">
+	<?php
+		foreach ($pluginhost->get_plugins() as $n => $p) {
+			if (method_exists($p, "get_css")) {
+				echo $p->get_css();
+			}
+		}
+	?>
+	</style>
 
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
 
