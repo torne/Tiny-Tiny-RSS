@@ -556,7 +556,7 @@ function hotkey_handler(e) {
 		if (keycode == 16) return; // ignore lone shift
 		if (keycode == 17) return; // ignore lone ctrl
 
-		if (!shift_key) keychar = keychar.toLowerCase();
+		keychar = keychar.toLowerCase();
 
 		var hotkeys = getInitParam("hotkeys");
 
@@ -577,7 +577,11 @@ function hotkey_handler(e) {
 		Element.hide(cmdline);
 
 		var hotkey = keychar.search(/[a-zA-Z0-9]/) != -1 ? keychar : "(" + keycode + ")";
+
+		// ensure ^*char notation
+		if (shift_key) hotkey = "*" + hotkey;
 		if (ctrl_key) hotkey = "^" + hotkey;
+
 		hotkey = hotkey_prefix ? hotkey_prefix + " " + hotkey : hotkey;
 		hotkey_prefix = false;
 
