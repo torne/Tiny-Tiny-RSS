@@ -539,7 +539,7 @@ class Feeds extends Handler_Protected {
 						target=\"_blank\" href=\"".
 						htmlspecialchars($line["link"])."\">".
 						$line["title"] .
-						" <span class=\"titleAuthor\">$entry_author</span></a>";
+						" <span class=\"author\">$entry_author</span></a>";
 
 					$reply['content'] .= $labels_str;
 
