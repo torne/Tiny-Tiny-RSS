@@ -79,7 +79,6 @@ class Updater extends Plugin {
 					$stop = true; break;
 				}
 
-
 				array_push($log, "Checking for latest version...");
 
 				$version_info = json_decode(fetch_file_contents("http://tt-rss.org/version.php"),
@@ -91,7 +90,7 @@ class Updater extends Plugin {
 				}
 
 				$target_version = $version_info["version"];
-				$target_dir = "$parent_dir/tt-rss-$target_version";
+				$target_dir = "$parent_dir/Tiny-Tiny-RSS-$target_version";
 
 				array_push($log, "Target version: $target_version");
 				$params["target_version"] = $target_version;
@@ -110,7 +109,7 @@ class Updater extends Plugin {
 			case 1:
 				$target_version = $params["target_version"];
 
-				array_push($log, "Downloading checksums...");
+/*				array_push($log, "Downloading checksums...");
 				$md5sum_data = fetch_file_contents("http://tt-rss.org/download/md5sum.txt");
 
 				if (!$md5sum_data) {
@@ -134,16 +133,18 @@ class Updater extends Plugin {
 					$stop = true; break;
 				}
 
-				$params["target_md5sum"] = $target_md5sum;
+				$params["target_md5sum"] = $target_md5sum; */
+
+				array_push($log, "Proceeding to download...");
 
 				break;
 			case 2:
 				$target_version = $params["target_version"];
-				$target_md5sum = $params["target_md5sum"];
+				// $target_md5sum = $params["target_md5sum"];
 
 				array_push($log, "Downloading distribution tarball...");
 
-				$tarball_url = "http://tt-rss.org/download/tt-rss-$target_version.tar.gz";
+				$tarball_url = "https://github.com/gothfox/Tiny-Tiny-RSS/archive/$target_version.tar.gz";
 				$data = fetch_file_contents($tarball_url);
 
 				if (!$data) {
@@ -151,14 +152,14 @@ class Updater extends Plugin {
 					$stop = true; break;
 				}
 
-				array_push($log, "Verifying tarball checksum...");
+				/* array_push($log, "Verifying tarball checksum...");
 
 				$test_md5sum = md5($data);
 
 				if ($test_md5sum != $target_md5sum) {
 					array_push($log, "Downloaded checksum doesn't match (got $test_md5sum, expected $target_md5sum).");
 					$stop = true; break;
-				}
+				} */
 
 				$tmp_file = tempnam(sys_get_temp_dir(), 'tt-rss');
 				array_push($log, "Saving download to $tmp_file");
@@ -180,14 +181,6 @@ class Updater extends Plugin {
 					$stop = true; break;
 				}
 
-				$old_dir = tmpdirname($parent_dir, "tt-rss-old");
-
-				array_push($log, "Renaming tt-rss directory to ".basename($old_dir));
-				if (!rename($work_dir, $old_dir)) {
-					array_push($log, "Unable to rename tt-rss directory.");
-					$stop = true; break;
-				}
-
 				array_push($log, "Extracting tarball...");
 				system("tar zxf $tmp_file", $system_rc);
 
@@ -196,7 +189,20 @@ class Updater extends Plugin {
 					$stop = true; break;
 				}
 
-				$target_dir = "$parent_dir/tt-rss-$target_version";
+				$target_dir = "$parent_dir/Tiny-Tiny-RSS-$target_version";
+
+				if (!is_dir($target_dir)) {
+					array_push($log, "Target directory ($target_dir) not found.");
+					$stop = true; break;
+				}
+
+				$old_dir = tmpdirname($parent_dir, "tt-rss-old");
+
+				array_push($log, "Renaming tt-rss directory to ".basename($old_dir));
+				if (!rename($work_dir, $old_dir)) {
+					array_push($log, "Unable to rename tt-rss directory.");
+					$stop = true; break;
+				}
 
 				array_push($log, "Renaming target directory...");
 				if (!rename($target_dir, $work_dir)) {
