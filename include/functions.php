@@ -51,6 +51,7 @@
 					"hu_HU" => "Magyar (Hungarian)",
 					"it_IT" => "Italiano",
 					"ja_JP" => "日本語 (Japanese)",
+					"lv_LV" => "Latviešu",
 					"nb_NO" => "Norwegian bokmål",
 					"pl_PL" => "Polski",
 					"ru_RU" => "Русский",
