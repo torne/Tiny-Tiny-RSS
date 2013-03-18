@@ -573,6 +573,8 @@
 				$entry_author = db_escape_string($article["author"]);
 				$entry_link = db_escape_string($article["link"]);
 				$entry_plugin_data = db_escape_string($article["plugin_data"]);
+				$entry_content = $article["content"]; // escaped below
+
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: plugin data: $entry_plugin_data");
@@ -581,7 +583,7 @@
 				if ($cache_images && is_writable(CACHE_DIR . '/images'))
 					$entry_content = cache_images($entry_content, $site_url, $debug_enabled);
 
-				$entry_content = db_escape_string($article["content"], false);
+				$entry_content = db_escape_string($entry_content, false);
 
 				$content_hash = "SHA1:" . sha1($entry_content);
 
