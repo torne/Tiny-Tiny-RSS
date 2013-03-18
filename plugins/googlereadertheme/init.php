@@ -14,8 +14,10 @@ class GoogleReaderTheme extends Plugin {
 		$this->link = $host->get_link();
 		$this->host = $host;
 
-		// force-enable combined mode
-		set_pref($this->link, "COMBINED_DISPLAY_MODE", true);
+		if ($_SESSION["uid"]) {
+			// force-enable combined mode
+			set_pref($this->link, "COMBINED_DISPLAY_MODE", true, $_SESSION["uid"]);
+		}
 	}
 
 	function get_css() {
