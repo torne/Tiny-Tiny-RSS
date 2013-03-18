@@ -212,6 +212,11 @@ function notify_real(msg, no_hide, n_type) {
 
 //	msg = "<img src='images/live_com_loading.gif'> " + msg;
 
+	if (no_hide) {
+		msg += " (<a href='#' onclick=\"notify('')\">X</a>)";
+	}
+
+
 	nb.innerHTML = msg;
 
 	if (!no_hide) {
