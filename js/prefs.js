@@ -547,7 +547,7 @@ function resetSelectedUserPass() {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) {
-					notify_info(transport.responseText);
+					notify_info(transport.responseText, true);
 				} });
 
 		}
