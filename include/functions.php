@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 104);
+	define('SCHEMA_VERSION', 105);
 
 	$fetch_last_error = false;
 	$pluginhost = false;
@@ -852,7 +852,7 @@
 	}
 
 	function sql_bool_to_bool($s) {
-		if ($s == "t" || $s == "1" || $s == "true") {
+		if ($s == "t" || $s == "1" || strtolower($s) == "true") {
 			return true;
 		} else {
 			return false;
@@ -2310,6 +2310,8 @@
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 				$allow_archived = true;
 
+				if (!$override_order) $override_order = "last_marked DESC, updated DESC";
+
 			} else if ($feed == -2) { // published virtual feed OR labels category
 
 				if (!$cat_view) {
@@ -2317,7 +2319,7 @@
 					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 					$allow_archived = true;
 
-					if (!$override_order) $override_order = "last_read DESC, updated DESC";
+					if (!$override_order) $override_order = "last_published DESC, updated DESC";
 				} else {
 					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 
@@ -2450,6 +2452,7 @@
 						comments,
 						int_id,
 						unread,feed_id,marked,published,link,last_read,orig_feed_id,
+						last_marked, last_published,
 						".SUBSTRING_FOR_DATE."(last_read,1,19) as last_read_noms,
 						$vfeed_query_part
 						$content_query_part
@@ -2492,6 +2495,7 @@
 								"label_cache," .
 								"link," .
 								"last_read," .
+								"last_marked, last_published, " .
 								SUBSTRING_FOR_DATE . "(last_read,1,19) as last_read_noms," .
 								$since_id_part .
 								$vfeed_query_part .
@@ -2551,10 +2555,6 @@
 
 		$res = trim($str); if (!$res) return '';
 
-		$config = array('safe' => 1, 'deny_attribute' => 'style, width, height, class, id', 'comment' => 1, 'cdata' => 1, 'balance' => 0);
-		$spec = 'img=width,height';
-		$res = htmLawed($res, $config, $spec);
-
 		if (get_pref($link, "STRIP_IMAGES", $owner)) {
 			$res = preg_replace('/<img[^>]+>/is', '', $res);
 		}
@@ -2595,9 +2595,16 @@
 			}
 		}
 
-		$node = $doc->getElementsByTagName('body')->item(0);
+		//$node = $doc->getElementsByTagName('body')->item(0);
 
-		return $doc->saveXML($node);
+		$doc->removeChild($doc->firstChild); //remove doctype
+		$res = $doc->saveHTML();
+
+		$config = array('safe' => 1, 'deny_attribute' => 'style, width, height, class, id', 'comment' => 1, 'cdata' => 1, 'balance' => 0);
+		$spec = 'img=width,height';
+		$res = htmLawed($res, $config, $spec);
+
+		return $res;
 	}
 
 	function check_for_update($link) {
@@ -3898,6 +3905,34 @@
 
 	function implements_interface($class, $interface) {
 		return in_array($interface, class_implements($class));
+	}
+
+	function get_minified_js($files) {
+		require_once 'lib/jshrink/Minifier.php';
+
+		$rv = '';
+
+		foreach ($files as $js) {
+			if (!isset($_GET['debug'])) {
+				$cached_file = CACHE_DIR . "/js/$js.js";
+
+				if (file_exists($cached_file) &&
+						is_readable($cached_file) &&
+						filemtime($cached_file) >= filemtime("js/$js.js")) {
+
+					$rv .= file_get_contents($cached_file);
+
+				} else {
+					$minified = JShrink\Minifier::minify(file_get_contents("js/$js.js"));
+					file_put_contents($cached_file, $minified);
+					$rv .= $minified;
+				}
+			} else {
+				$rv .= file_get_contents("js/$js.js");
+			}
+		}
+
+		return $rv;
 	}
 
 ?>

@@ -964,6 +964,8 @@ function createNewRuleElement(parentNode, replaceNode) {
 	try {
 		var form = document.forms["filter_new_rule_form"];
 
+		form.reg_exp.value = form.reg_exp.value.replace(/(<([^>]+)>)/ig,"");
+
 		var query = "backend.php?op=pref-filters&method=printrulename&rule="+
 			param_escape(dojo.formToJson(form));
 

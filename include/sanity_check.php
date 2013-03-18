@@ -36,6 +36,10 @@
 				array_push($errors, "Data export cache is not writable (chmod -R 777 ".CACHE_DIR."/export)");
 			}
 
+			if (!is_writable(CACHE_DIR . "/js")) {
+				array_push($errors, "Javascript cache is not writable (chmod -R 777 ".CACHE_DIR."/js)");
+			}
+
 			if (GENERATED_CONFIG_CHECK != EXPECTED_CONFIG_VERSION) {
 				array_push($errors,
 					"Configuration option checker sanity_config.php is outdated, please recreate it using ./utils/regen_config_checks.sh");
@@ -115,6 +119,10 @@
 
 			if (!function_exists("ctype_lower")) {
 				array_push($errors, "PHP support for ctype functions are required by HTMLPurifier.");
+			}
+
+			if (!function_exists("iconv")) {
+				array_push($errors, "PHP support for iconv is required to handle multiple charsets.");
 			}
 
 			if (ini_get("safe_mode")) {

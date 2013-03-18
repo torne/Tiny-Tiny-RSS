@@ -372,7 +372,7 @@ class Pref_Filters extends Handler_Protected {
 			WHERE id = ".(int)$rule["filter_type"]);
 		$match_on = db_fetch_result($result, 0, "description");
 
-		return T_sprintf("%s on %s in %s", $rule["reg_exp"], $match_on, $feed);
+		return T_sprintf("%s on %s in %s", strip_tags($rule["reg_exp"]), $match_on, $feed);
 	}
 
 	function printRuleName() {
