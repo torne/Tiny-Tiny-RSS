@@ -3907,4 +3907,32 @@
 		return in_array($interface, class_implements($class));
 	}
 
+	function get_minified_js($files) {
+		require_once 'lib/jshrink/Minifier.php';
+
+		$rv = '';
+
+		foreach ($files as $js) {
+			if (!isset($_GET['debug'])) {
+				$cached_file = CACHE_DIR . "/js/$js.js";
+
+				if (file_exists($cached_file) &&
+						is_readable($cached_file) &&
+						filemtime($cached_file) >= filemtime("js/$js.js")) {
+
+					$rv .= file_get_contents($cached_file);
+
+				} else {
+					$minified = JShrink\Minifier::minify(file_get_contents("js/$js.js"));
+					file_put_contents($cached_file, $minified);
+					$rv .= $minified;
+				}
+			} else {
+				$rv .= file_get_contents("js/$js.js");
+			}
+		}
+
+		return $rv;
+	}
+
 ?>

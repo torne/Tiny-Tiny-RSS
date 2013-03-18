@@ -95,13 +95,9 @@
 			}
 		}
 
-		foreach (array("tt-rss", "functions", "feedlist", "viewfeed", "FeedTree") as $js) {
-			if (!isset($_GET['debug'])) {
-				echo JShrink\Minifier::minify(file_get_contents("js/$js.js"));
-			} else {
-				echo file_get_contents("js/$js.js");
-			}
-		}
+		print get_minified_js(array("tt-rss",
+			"functions", "feedlist", "viewfeed", "FeedTree"));
+
 	?>
 	</script>
 
