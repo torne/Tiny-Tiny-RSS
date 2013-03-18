@@ -2597,25 +2597,12 @@
 
 		//$node = $doc->getElementsByTagName('body')->item(0);
 
+		$doc->removeChild($doc->firstChild); //remove doctype
+		$res = $doc->saveHTML();
 
-		$beforehooks = $res;
-
-		global $pluginhost;
-		if ($pluginhost) {
-			foreach ($pluginhost->get_hooks($pluginhost::HOOK_SANITIZE) as $p) {
-				$res = $p->hook_sanitize($res);
-			}
-		}
-
-		// nothing changed, use standard filters
-		if ($beforehooks == $res) {
-			$doc->removeChild($doc->firstChild); //remove doctype
-			$res = $doc->saveHTML();
-
-			$config = array('safe' => 1, 'deny_attribute' => 'style, width, height, class, id', 'comment' => 1, 'cdata' => 1, 'balance' => 0);
-			$spec = 'img=width,height';
-			$res = htmLawed($res, $config, $spec);
-		}
+		$config = array('safe' => 1, 'deny_attribute' => 'style, width, height, class, id', 'comment' => 1, 'cdata' => 1, 'balance' => 0);
+		$spec = 'img=width,height';
+		$res = htmLawed($res, $config, $spec);
 
 		return $res;
 	}
