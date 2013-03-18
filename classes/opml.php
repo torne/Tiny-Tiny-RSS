@@ -462,7 +462,8 @@ class Opml extends Handler_Protected {
 #		if ($debug) $doc = DOMDocument::load("/tmp/test.opml");
 
 		if (is_file($_FILES['opml_file']['tmp_name'])) {
-			$doc = DOMDocument::load($_FILES['opml_file']['tmp_name']);
+			$doc = new DOMDocument();
+			$doc->load($_FILES['opml_file']['tmp_name']);
 		} else if (!$doc) {
 			print_error(__('Error: please upload OPML file.'));
 			return;
