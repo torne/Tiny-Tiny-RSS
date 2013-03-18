@@ -44,19 +44,19 @@
 
 	<script type="text/javascript">
 	<?php
-		require 'lib/jsmin.php';
+		require 'lib/jshrink/Minifier.php';
 
 		global $pluginhost;
 
 		foreach ($pluginhost->get_plugins() as $n => $p) {
 			if (method_exists($p, "get_prefs_js")) {
-				echo JSMin::minify($p->get_prefs_js());
+				echo JShrink\Minifier::minify($p->get_prefs_js());
 			}
 		}
 
 		foreach (array("functions", "deprecated", "prefs") as $js) {
 			if (!isset($_GET['debug'])) {
-				echo JSMin::minify(file_get_contents("js/$js.js"));
+				echo JShrink\Minifier::minify(file_get_contents("js/$js.js"));
 			} else {
 				echo file_get_contents("js/$js.js");
 			}
