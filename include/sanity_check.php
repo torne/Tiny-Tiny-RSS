@@ -125,9 +125,9 @@
 				array_push($errors, "PHP support for iconv is required to handle multiple charsets.");
 			}
 
-			if (ini_get("safe_mode")) {
+			/* if (ini_get("safe_mode")) {
 				array_push($errors, "PHP safe mode setting is not supported.");
-			}
+			} */
 
 			if ((PUBSUBHUBBUB_HUB || PUBSUBHUBBUB_ENABLED) && !function_exists("curl_init")) {
 				array_push($errors, "PHP support for CURL is required for PubSubHubbub.");
