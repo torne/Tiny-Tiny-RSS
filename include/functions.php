@@ -110,7 +110,6 @@
 	ini_set('user_agent', SELF_USER_AGENT);
 
 	require_once 'lib/pubsubhubbub/publisher.php';
-	require_once 'lib/htmLawed.php';
 
 	$tz_offset = -1;
 	$utc_tz = new DateTimeZone('UTC');
