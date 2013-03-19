@@ -3,7 +3,7 @@ TEMPLATE=messages.pot
 
 ./utils/update-schema-translations.sh
 
-xgettext -kT_js_decl -kT_sprintf -kT_ngettext:1,2 -k__ -L PHP -o $TEMPLATE *.php help/*.php mobile/*.php include/*.php `find classes -iname '*.php'` `find plugins -iname '*.php'`
+xgettext -kT_js_decl -kT_sprintf -kT_ngettext:1,2 -k__ -L PHP -o $TEMPLATE *.php mobile/*.php include/*.php `find classes -iname '*.php'` `find plugins -iname '*.php'`
 
 xgettext --from-code utf-8 -k__ -L Java -j -o $TEMPLATE js/*.js `find plugins -iname '*.js'`
 
