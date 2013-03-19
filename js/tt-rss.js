@@ -670,6 +670,8 @@ function hotkey_handler(e) {
 		case "email_article":
 			if (typeof emailArticle != "undefined") {
 				emailArticle();
+			} else if (typeof mailtoArticle != "undefined") {
+				mailtoArticle();
 			} else {
 				alert(__("Please enable mail plugin first."));
 			}

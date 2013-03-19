@@ -126,6 +126,11 @@ class Feeds extends Handler_Protected {
 				"</option>";
 		}
 
+		if ($pluginhost->get_plugin("mailto")) {
+			$reply .= "<option value=\"mailtoArticle(false)\">".__('Forward by email').
+				"</option>";
+		}
+
 		$reply .= "<option value=\"0\" disabled=\"1\">".__('Feed:')."</option>";
 
 		$reply .= "<option value=\"catchupPage()\">".__('Mark as read')."</option>";
