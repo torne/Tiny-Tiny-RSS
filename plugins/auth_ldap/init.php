@@ -21,7 +21,7 @@
  */
 
 /**
- *	Notes
+ *	Notes -
  *	LDAP search does not support follow ldap referals. Referals are disabled to 
  *	allow proper login.  This is particular to Active Directory.  
  * 
