@@ -44,6 +44,7 @@
 		$tr = array(
 					"auto"  => "Detect automatically",
 					"ca_CA" => "Català",
+					"cs_CZ" => "Česky",
 					"en_US" => "English",
 					"es_ES" => "Español",
 					"de_DE" => "Deutsch",
