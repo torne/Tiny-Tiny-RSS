@@ -2615,6 +2615,14 @@
 			$entry->setAttribute('sandbox', true);
 		}
 
+		global $pluginhost;
+
+		if (isset($pluginhost)) {
+			foreach ($pluginhost->get_hooks($pluginhost::HOOK_SANITIZE) as $plugin) {
+				$doc = $plugin->hook_sanitize($doc, $site_url);
+			}
+		}
+
 		$doc->removeChild($doc->firstChild); //remove doctype
 		$doc = strip_harmful_tags($doc);
 		$res = $doc->saveHTML();
