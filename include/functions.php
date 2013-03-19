@@ -2626,7 +2626,9 @@
 
 		$allowed_elements = array('p', 'br', 'div', 'table', 'tr', 'td', 'th',
 			'ul', 'ol', 'li', 'blockquote', 'span', 'html', 'body', 'a', 'img',
-			'iframe', 'video', 'audio', 'source');
+			'video', 'audio', 'source', 'object', 'embed');
+
+		if ($_SESSION['hasSandbox']) array_push($allowed_elements, 'iframe');
 
 		$disallowed_attributes = array('id', 'style', 'class');
 

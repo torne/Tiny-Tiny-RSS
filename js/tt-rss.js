@@ -244,9 +244,11 @@ function init() {
 		loading_set_progress(20);
 
 		var hasAudio = !!((myAudioTag = document.createElement('audio')).canPlayType);
+		var hasSandbox = "sandbox" in document.createElement("iframe");
 
 		new Ajax.Request("backend.php",	{
-			parameters: {op: "rpc", method: "sanityCheck", hasAudio: hasAudio},
+			parameters: {op: "rpc", method: "sanityCheck", hasAudio: hasAudio,
+				hasSandbox: hasSandbox},
 			onComplete: function(transport) {
 					backend_sanity_check_callback(transport);
 				} });
