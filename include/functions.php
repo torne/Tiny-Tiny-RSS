@@ -461,6 +461,8 @@
 			 else
 			 	$sel = "";
 
+			$v = trim($v);
+
 			print "<option value=\"$v\" $sel>$v</option>";
 		}
 		print "</select>";
@@ -473,6 +475,8 @@
 				$sel = 'selected="selected"';
 			 else
 			 	$sel = "";
+
+			$v = trim($v);
 
 			print "<option $sel value=\"$v\">".$values[$v]."</option>";
 		}
@@ -3908,7 +3912,7 @@
 	function implements_interface($class, $interface) {
 		return in_array($interface, class_implements($class));
 	}
-	
+
 	function geturl($url){
 
 		(function_exists('curl_init')) ? '' : die('cURL Must be installed for geturl function to work. Ask your host to enable it or uncomment extension=php_curl.dll in php.ini');
