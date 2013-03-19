@@ -59,10 +59,9 @@ class Mail extends Plugin {
 
 		$tpl->readTemplateFromFile("templates/email_article_template.txt");
 
-		$tpl->setVariable('USER_NAME', $_SESSION["name"]);
-		$tpl->setVariable('USER_EMAIL', $user_email);
-		$tpl->setVariable('TTRSS_HOST', $_SERVER["HTTP_HOST"]);
-
+		$tpl->setVariable('USER_NAME', $_SESSION["name"], true);
+		$tpl->setVariable('USER_EMAIL', $user_email, true);
+		$tpl->setVariable('TTRSS_HOST', $_SERVER["HTTP_HOST"], true);
 
 		$result = db_query($this->link, "SELECT link, content, title
 			FROM ttrss_user_entries, ttrss_entries WHERE id = ref_id AND

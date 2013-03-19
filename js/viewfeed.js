@@ -560,11 +560,11 @@ function moveToPost(mode, noscroll) {
 					var ctr = $("headlines-frame");
 
 					if (!noscroll && article && article.offsetTop < ctr.scrollTop) {
-						scrollArticle(-ctr.offsetHeight/2);
+						scrollArticle(-ctr.offsetHeight/3);
 					} else if (!noscroll && prev_article &&
 							prev_article.offsetTop < ctr.scrollTop) {
 						cdmExpandArticle(prev_id);
-						scrollArticle(-ctr.offsetHeight/2);
+						scrollArticle(-ctr.offsetHeight/3);
 					} else if (prev_id) {
 						cdmExpandArticle(prev_id);
 						cdmScrollToArticleId(prev_id, noscroll);

@@ -51,6 +51,7 @@
 					"hu_HU" => "Magyar (Hungarian)",
 					"it_IT" => "Italiano",
 					"ja_JP" => "日本語 (Japanese)",
+					"lv_LV" => "Latviešu",
 					"nb_NO" => "Norwegian bokmål",
 					"pl_PL" => "Polski",
 					"ru_RU" => "Русский",
@@ -109,7 +110,6 @@
 	ini_set('user_agent', SELF_USER_AGENT);
 
 	require_once 'lib/pubsubhubbub/publisher.php';
-	require_once 'lib/htmLawed.php';
 
 	$tz_offset = -1;
 	$utc_tz = new DateTimeZone('UTC');
@@ -286,11 +286,12 @@
 		global $fetch_last_error;
 
 		if (function_exists('curl_init') && !ini_get("open_basedir")) {
-			$ch = curl_init($url);
+			//$ch = curl_init($url);
+			$ch = curl_init(geturl($url));
 
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout ? $timeout : 15);
 			curl_setopt($ch, CURLOPT_TIMEOUT, $timeout ? $timeout : 45);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			//curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 			curl_setopt($ch, CURLOPT_MAXREDIRS, 20);
 			curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -349,6 +350,9 @@
 			}
 
 			$data = @file_get_contents($url);
+
+			$gzdecoded = gzdecode($data);
+			if ($gzdecoded) $data = $gzdecoded;
 
 			if (!$data && function_exists('error_get_last')) {
 				$error = error_get_last();
@@ -459,6 +463,8 @@
 			 else
 			 	$sel = "";
 
+			$v = trim($v);
+
 			print "<option value=\"$v\" $sel>$v</option>";
 		}
 		print "</select>";
@@ -471,6 +477,8 @@
 				$sel = 'selected="selected"';
 			 else
 			 	$sel = "";
+
+			$v = trim($v);
 
 			print "<option $sel value=\"$v\">".$values[$v]."</option>";
 		}
@@ -1928,23 +1936,25 @@
 				"(191)|/" => "search_dialog",
 //			"article" => array(
 				"s" => "toggle_mark",
-				"S" => "toggle_publ",
+				"*s" => "toggle_publ",
 				"u" => "toggle_unread",
-				"T" => "edit_tags",
-				"D" => "dismiss_selected",
-				"X" => "dismiss_read",
+				"*t" => "edit_tags",
+				"*d" => "dismiss_selected",
+				"*x" => "dismiss_read",
 				"o" => "open_in_new_window",
 				"c p" => "catchup_below",
 				"c n" => "catchup_above",
-				"N" => "article_scroll_down",
-				"P" => "article_scroll_up",
-				"a W" => "toggle_widescreen",
+				"*n" => "article_scroll_down",
+				"*p" => "article_scroll_up",
+				"*(38)|Shift+up" => "article_scroll_up",
+				"*(40)|Shift+down" => "article_scroll_down",
+				"a *w" => "toggle_widescreen",
 				"e" => "email_article",
 				"a q" => "close_article",
 //			"article_selection" => array(
 				"a a" => "select_all",
 				"a u" => "select_unread",
-				"a U" => "select_marked",
+				"a *u" => "select_marked",
 				"a p" => "select_published",
 				"a i" => "select_invert",
 				"a n" => "select_none",
@@ -1955,9 +1965,9 @@
 				"f e" => "feed_edit",
 				"f q" => "feed_catchup",
 				"f x" => "feed_reverse",
-				"f D" => "feed_debug_update",
-				"f C" => "toggle_combined_mode",
-				"Q" => "catchup_all",
+				"f *d" => "feed_debug_update",
+				"f *c" => "toggle_combined_mode",
+				"*q" => "catchup_all",
 				"x" => "cat_toggle_collapse",
 //			"goto" => array(
 				"g a" => "goto_all",
@@ -1965,7 +1975,7 @@
 				"g s" => "goto_marked",
 				"g p" => "goto_published",
 				"g t" => "goto_tagcloud",
-				"g P" => "goto_prefs",
+				"g *p" => "goto_prefs",
 //			"other" => array(
 				"(9)|Tab" => "select_article_cursor", // tab
 				"c l" => "create_label",
@@ -2584,10 +2594,17 @@
 					$entry->setAttribute('href',
 						rewrite_relative_url($site_url, $entry->getAttribute('href')));
 
-				if ($entry->hasAttribute('src'))
-					if (preg_match('/^image.php\?i=[a-z0-9]+$/', $entry->getAttribute('src')) == 0)
-						$entry->setAttribute('src',
-							rewrite_relative_url($site_url, $entry->getAttribute('src')));
+				if ($entry->hasAttribute('src')) {
+					$src = rewrite_relative_url($site_url, $entry->getAttribute('src'));
+
+					$cached_filename = CACHE_DIR . '/images/' . sha1($src) . '.png';
+
+					if (file_exists($cached_filename)) {
+						$src = SELF_URL_PATH . '/image.php?hash=' . sha1($src);
+					}
+
+					$entry->setAttribute('src', $src);
+				}
 			}
 
 			if (strtolower($entry->nodeName) == "a") {
@@ -2595,16 +2612,62 @@
 			}
 		}
 
-		//$node = $doc->getElementsByTagName('body')->item(0);
+		$entries = $xpath->query('//iframe');
+		foreach ($entries as $entry) {
+			$entry->setAttribute('sandbox', true);
+		}
+
+		global $pluginhost;
+
+		if (isset($pluginhost)) {
+			foreach ($pluginhost->get_hooks($pluginhost::HOOK_SANITIZE) as $plugin) {
+				$doc = $plugin->hook_sanitize($doc, $site_url);
+			}
+		}
 
 		$doc->removeChild($doc->firstChild); //remove doctype
+		$doc = strip_harmful_tags($doc);
 		$res = $doc->saveHTML();
-
-		$config = array('safe' => 1, 'deny_attribute' => 'style, width, height, class, id', 'comment' => 1, 'cdata' => 1, 'balance' => 0);
-		$spec = 'img=width,height';
-		$res = htmLawed($res, $config, $spec);
-
 		return $res;
+	}
+
+	function strip_harmful_tags($doc) {
+		$entries = $doc->getElementsByTagName("*");
+
+		$allowed_elements = array('a', 'address', 'audio', 'article',
+			'b', 'big', 'blockquote', 'body', 'br', 'cite',
+			'code', 'dd', 'del', 'details', 'div', 'dl',
+			'dt', 'em', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+			'header', 'html', 'i', 'img', 'ins', 'kbd',
+			'li', 'nav', 'ol', 'p', 'pre', 'q', 's','small',
+			'source', 'span', 'strike', 'strong', 'sub', 'summary',
+			'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead',
+			'tr', 'track', 'tt', 'u', 'ul', 'var', 'wbr', 'video' );
+
+		if ($_SESSION['hasSandbox']) array_push($allowed_elements, 'iframe');
+
+		$disallowed_attributes = array('id', 'style', 'class');
+
+		foreach ($entries as $entry) {
+			if (!in_array($entry->nodeName, $allowed_elements)) {
+				$entry->parentNode->removeChild($entry);
+			}
+
+			if ($entry->hasAttributes()) {
+				foreach (iterator_to_array($entry->attributes) as $attr) {
+
+					if (strpos($attr->nodeName, 'on') === 0) {
+						$entry->removeAttributeNode($attr);
+					}
+
+					if (in_array($attr->nodeName, $disallowed_attributes)) {
+						$entry->removeAttributeNode($attr);
+					}
+				}
+			}
+		}
+
+		return $doc;
 	}
 
 	function check_for_update($link) {
@@ -3905,6 +3968,55 @@
 
 	function implements_interface($class, $interface) {
 		return in_array($interface, class_implements($class));
+	}
+
+	function geturl($url){
+
+		(function_exists('curl_init')) ? '' : die('cURL Must be installed for geturl function to work. Ask your host to enable it or uncomment extension=php_curl.dll in php.ini');
+
+		$curl = curl_init();
+		$header[0] = "Accept: text/xml,application/xml,application/xhtml+xml,";
+		$header[0] .= "text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
+		$header[] = "Cache-Control: max-age=0";
+		$header[] = "Connection: keep-alive";
+		$header[] = "Keep-Alive: 300";
+		$header[] = "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7";
+		$header[] = "Accept-Language: en-us,en;q=0.5";
+		$header[] = "Pragma: ";
+
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0 Firefox/5.0');
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+		curl_setopt($curl, CURLOPT_HEADER, true);
+		curl_setopt($curl, CURLOPT_REFERER, $url);
+		curl_setopt($curl, CURLOPT_ENCODING, 'gzip,deflate');
+		curl_setopt($curl, CURLOPT_AUTOREFERER, true);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		//curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); //CURLOPT_FOLLOWLOCATION Disabled...
+		curl_setopt($curl, CURLOPT_TIMEOUT, 60);
+
+		$html = curl_exec($curl);
+
+		$status = curl_getinfo($curl);
+		curl_close($curl);
+
+		if($status['http_code']!=200){
+			if($status['http_code'] == 301 || $status['http_code'] == 302) {
+				list($header) = explode("\r\n\r\n", $html, 2);
+				$matches = array();
+				preg_match("/(Location:|URI:)[^(\n)]*/", $header, $matches);
+				$url = trim(str_replace($matches[1],"",$matches[0]));
+				$url_parsed = parse_url($url);
+				return (isset($url_parsed))? geturl($url, $referer):'';
+			}
+			$oline='';
+			foreach($status as $key=>$eline){$oline.='['.$key.']'.$eline.' ';}
+			$line =$oline." \r\n ".$url."\r\n-----------------\r\n";
+			$handle = @fopen('./curl.error.log', 'a');
+			fwrite($handle, $line);
+			return FALSE;
+		}
+		return $url;
 	}
 
 	function get_minified_js($files) {

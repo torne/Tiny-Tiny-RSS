@@ -248,9 +248,11 @@ function init() {
 		loading_set_progress(20);
 
 		var hasAudio = !!((myAudioTag = document.createElement('audio')).canPlayType);
+		var hasSandbox = "sandbox" in document.createElement("iframe");
 
 		new Ajax.Request("backend.php",	{
-			parameters: {op: "rpc", method: "sanityCheck", hasAudio: hasAudio},
+			parameters: {op: "rpc", method: "sanityCheck", hasAudio: hasAudio,
+				hasSandbox: hasSandbox},
 			onComplete: function(transport) {
 					backend_sanity_check_callback(transport);
 				} });
@@ -560,7 +562,7 @@ function hotkey_handler(e) {
 		if (keycode == 16) return; // ignore lone shift
 		if (keycode == 17) return; // ignore lone ctrl
 
-		if (!shift_key) keychar = keychar.toLowerCase();
+		keychar = keychar.toLowerCase();
 
 		var hotkeys = getInitParam("hotkeys");
 
@@ -581,7 +583,11 @@ function hotkey_handler(e) {
 		Element.hide(cmdline);
 
 		var hotkey = keychar.search(/[a-zA-Z0-9]/) != -1 ? keychar : "(" + keycode + ")";
+
+		// ensure ^*char notation
+		if (shift_key) hotkey = "*" + hotkey;
 		if (ctrl_key) hotkey = "^" + hotkey;
+
 		hotkey = hotkey_prefix ? hotkey_prefix + " " + hotkey : hotkey;
 		hotkey_prefix = false;
 
@@ -657,10 +663,14 @@ function hotkey_handler(e) {
 			catchupRelativeToArticle(0);
 			return false;
 		case "article_scroll_down":
-			scrollArticle(50);
+			var ctr = $("content_insert") ? $("content_insert") : $("headlines-frame");
+
+			scrollArticle(ctr.offsetHeight/3);
 			return false;
 		case "article_scroll_up":
-			scrollArticle(-50);
+			var ctr = $("content_insert") ? $("content_insert") : $("headlines-frame");
+
+			scrollArticle(-ctr.offsetHeight/3);
 			return false;
 		case "close_article":
 			closeArticlePanel();
@@ -668,6 +678,8 @@ function hotkey_handler(e) {
 		case "email_article":
 			if (typeof emailArticle != "undefined") {
 				emailArticle();
+			} else if (typeof mailtoArticle != "undefined") {
+				mailtoArticle();
 			} else {
 				alert(__("Please enable mail plugin first."));
 			}
@@ -892,8 +904,6 @@ function handle_rpc_json(transport, scheduled_call) {
 
 			if (runtime_info)
 				parse_runtime_info(runtime_info);
-
-			hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 
 			Element.hide(dijit.byId("net-alert").domNode);
 

@@ -21,6 +21,7 @@ class PluginHost {
 	const HOOK_RENDER_ARTICLE = 10;
 	const HOOK_RENDER_ARTICLE_CDM = 11;
 	const HOOK_FEED_FETCHED = 12;
+	const HOOK_SANITIZE = 13;
 
 	const KIND_ALL = 1;
 	const KIND_SYSTEM = 2;

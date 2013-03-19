@@ -45,6 +45,28 @@ class Backend extends Handler {
 							$sequence = substr($sequence,
 								strpos($sequence, "|")+1,
 								strlen($sequence));
+						} else {
+							$keys = explode(" ", $sequence);
+
+							for ($i = 0; $i < count($keys); $i++) {
+								if (strlen($keys[$i]) > 1) {
+									$tmp = '';
+									foreach (str_split($keys[$i]) as $c) {
+										switch ($c) {
+										case '*':
+											$tmp .= __('Shift') . '+';
+											break;
+										case '^':
+											$tmp .= __('Ctrl') . '+';
+											break;
+										default:
+											$tmp .= $c;
+										}
+									}
+									$keys[$i] = $tmp;
+								}
+							}
+							$sequence = join(" ", $keys);
 						}
 
 						print "<li>";

@@ -162,6 +162,13 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 			tnode._menu = menu;
 		}
 
+		if (id.match("CAT:")) {
+			loading = dojo.doc.createElement('img');
+			loading.className = 'loadingNode';
+			dojo.place(loading, tnode.labelNode, 'after');
+			tnode.loadingNode = loading;
+		}
+
 		if (id.match("CAT:") && bare_id == -1) {
 			var menu = new dijit.Menu();
 			menu.row_id = bare_id;
@@ -243,8 +250,15 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 
 		if (treeNode) {
 			treeNode = treeNode[0];
-			treeNode.expandoNode.src = src;
-			return true;
+			if (is_cat) {
+				if (treeNode.loadingNode) {
+					treeNode.loadingNode.src = src;
+					return true;
+				}
+			} else {
+				treeNode.expandoNode.src = src;
+				return true;
+			}
 		}
 
 		return false;
@@ -309,7 +323,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 				var node = tree._itemNodesMap[id];
 
 				if (node) {
-					if (hide && unread == 0 && (bare_id > 0 || !show_special)) {
+					if (hide && unread == 0 && (bare_id > 0 || bare_id < -10 || !show_special)) {
 						Effect.Fade(node[0].rowNode, {duration : 0.3,
 							queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
 					} else {

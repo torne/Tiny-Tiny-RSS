@@ -126,6 +126,11 @@ class Feeds extends Handler_Protected {
 				"</option>";
 		}
 
+		if ($pluginhost->get_plugin("mailto")) {
+			$reply .= "<option value=\"mailtoArticle(false)\">".__('Forward by email').
+				"</option>";
+		}
+
 		$reply .= "<option value=\"0\" disabled=\"1\">".__('Feed:')."</option>";
 
 		$reply .= "<option value=\"catchupPage()\">".__('Mark as read')."</option>";
@@ -400,11 +405,11 @@ class Feeds extends Handler_Protected {
 
 							$cur_feed_title = htmlspecialchars($cur_feed_title);
 
-							$vf_catchup_link = "(<a onclick='catchupFeedInGroup($feed_id);' href='#'>".__('mark as read')."</a>)";
+							$vf_catchup_link = "(<a class='catchup' onclick='catchupFeedInGroup($feed_id);' href='#'>".__('Mark as read')."</a>)";
 
 							$reply['content'] .= "<div class='cdmFeedTitle'>".
 								"<div style=\"float : right\">$feed_icon_img</div>".
-								"<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
+								"<a class='title' href=\"#\" onclick=\"viewfeed($feed_id)\">".
 								$line["feed_title"]."</a> $vf_catchup_link</div>";
 
 						}
@@ -490,7 +495,7 @@ class Feeds extends Handler_Protected {
 
 							$cur_feed_title = htmlspecialchars($cur_feed_title);
 
-							$vf_catchup_link = "(<a onclick='javascript:catchupFeedInGroup($feed_id);' href='#'>".__('mark as read')."</a>)";
+							$vf_catchup_link = "(<a class='catchup' onclick='javascript:catchupFeedInGroup($feed_id);' href='#'>".__('mark as read')."</a>)";
 
 							$has_feed_icon = feed_has_icon($feed_id);
 
@@ -502,7 +507,7 @@ class Feeds extends Handler_Protected {
 
 							$reply['content'] .= "<div class='cdmFeedTitle'>".
 								"<div style=\"float : right\">$feed_icon_img</div>".
-								"<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
+								"<a href=\"#\" class='title' onclick=\"viewfeed($feed_id)\">".
 								$line["feed_title"]."</a> $vf_catchup_link</div>";
 						}
 					}
@@ -539,7 +544,7 @@ class Feeds extends Handler_Protected {
 						target=\"_blank\" href=\"".
 						htmlspecialchars($line["link"])."\">".
 						$line["title"] .
-						" $entry_author</a>";
+						" <span class=\"author\">$entry_author</span></a>";
 
 					$reply['content'] .= $labels_str;
 
