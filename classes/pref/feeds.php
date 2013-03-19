@@ -613,6 +613,18 @@ class Pref_Feeds extends Handler_Protected {
 			name=\"always_display_enclosures\"
 			$checked>&nbsp;<label for=\"always_display_enclosures\">".__('Always display image attachments')."</label>";
 
+		$hide_images = sql_bool_to_bool(db_fetch_result($result, 0, "hide_images"));
+
+		if ($hide_images) {
+			$checked = "checked=\"1\"";
+		} else {
+			$checked = "";
+		}
+
+		print "<hr/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" id=\"hide_images\"
+		name=\"hide_images\"
+			$checked>&nbsp;<label for=\"hide_images\">".
+		__('Do not embed images')."</label>";
 
 		$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
 
@@ -804,6 +816,14 @@ class Pref_Feeds extends Handler_Protected {
 
 		print "&nbsp;"; $this->batch_edit_cbox("always_display_enclosures", "always_display_enclosures_l");
 
+		print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"hide_images\"
+			name=\"hide_images\"
+			dojoType=\"dijit.form.CheckBox\">&nbsp;<label class='insensitive' id=\"hide_images_l\"
+			for=\"hide_images\">".
+		__('Do not embed images')."</label>";
+
+		print "&nbsp;"; $this->batch_edit_cbox("hide_images", "hide_images_l");
+
 		print "<br/><input disabled=\"1\" type=\"checkbox\" id=\"cache_images\"
 			name=\"cache_images\"
 			dojoType=\"dijit.form.CheckBox\">&nbsp;<label class='insensitive' id=\"cache_images_l\"
@@ -856,7 +876,8 @@ class Pref_Feeds extends Handler_Protected {
 			db_escape_string($_POST["include_in_digest"]));
 		$cache_images = checkbox_to_sql_bool(
 			db_escape_string($_POST["cache_images"]));
-
+		$hide_images = checkbox_to_sql_bool(
+			db_escape_string($_POST["hide_images"]));
 		$always_display_enclosures = checkbox_to_sql_bool(
 			db_escape_string($_POST["always_display_enclosures"]));
 
@@ -887,6 +908,7 @@ class Pref_Feeds extends Handler_Protected {
 				auth_pass = '$auth_pass',
 				private = $private,
 				cache_images = $cache_images,
+				hide_images = $hide_images,
 				include_in_digest = $include_in_digest,
 				always_display_enclosures = $always_display_enclosures,
 				mark_unread_on_update = $mark_unread_on_update
@@ -950,6 +972,10 @@ class Pref_Feeds extends Handler_Protected {
 
 					case "cache_images":
 						$qpart = "cache_images = $cache_images";
+						break;
+
+					case "hide_images":
+						$qpart = "hide_images = $hide_images";
 						break;
 
 					case "cat_id":
