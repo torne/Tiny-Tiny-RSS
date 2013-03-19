@@ -178,11 +178,11 @@ a:hover {
 	cursor : pointer;
 }
 
-.Selected, .Selected td {
+.Selected, .Selected {
 	background-color : #fff7d5 ! important;
 }
 
-.even.Unread.Selected, .even.Unread.Selected td {
+.even.Unread.Selected {
 	background : #fff7d5 ! important;
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
@@ -190,7 +190,7 @@ a:hover {
 	border-color : #e7d796;
 }
 
-.odd.Unread.Selected, .odd.Unread.Selected td {
+.odd.Unread.Selected {
 	background : #fff7d5 ! important;
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
@@ -198,7 +198,7 @@ a:hover {
 	border-color : #e7d796;
 }
 
-.even.Selected, .even.Selected td {
+.even.Selected {
 	background : #fff7d5 ! important;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -206,7 +206,7 @@ a:hover {
 	border-collapse : collapse;
 }
 
-.odd.Selected, .odd.Selected td {
+.odd.Selected {
 	background : #fff7d5 ! important;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -214,7 +214,7 @@ a:hover {
 	border-collapse : collapse;
 }
 
-.even.Grayed, .even.Grayed td {
+.even.Grayed {
 	background : #f0f0f0;
 	color : #909090;
 	border-width : 0px 0px 1px 0px;
@@ -227,7 +227,7 @@ a:hover {
 	color : #909090;
 }
 
-.even, .even td {
+.even {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #c0c0c0;
@@ -235,14 +235,14 @@ a:hover {
 	border-collapse : collapse;
 }
 
-.odd, .odd td {
+.odd {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #c0c0c0;
 	border-collapse : collapse;
 }
 
-.even.Unread, .even.Unread td {
+.even.Unread {
 	background : #f0f0f0;
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
@@ -251,7 +251,7 @@ a:hover {
 	border-collapse : collapse;
 }
 
-.odd.Unread, .odd.Unread td {
+.odd.Unread {
 	font-weight : bold;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -263,14 +263,6 @@ a:hover {
 }
 
 /* preferences */
-
-/* table.prefPrefsList tr:hover td.prefValue {
-	color : #88b0f0;
-}
-
-table.prefPrefsList tr:hover td.prefValue input {
-	color : #88b0f0;
-} */
 
 table.prefPrefsList h3 {
 	margin-top : 0.5em;
@@ -290,80 +282,6 @@ tr.title td a {
 
 tr.title td a:hover {
 	color : black;
-}
-
-table.prefFeedList td.feedEditCat {
-	font-weight : bold;
-	border-width : 0px 0px 1px 0px;
-	border-style : solid;
-	border-color : #88b0f0;
-	padding-top : 0.5em;
-}
-
-table.prefFilterList td.filterEditCat {
-	font-weight : bold;
-	border-width : 0px 0px 1px 0px;
-	border-style : solid;
-	border-color : #88b0f0;
-	padding-top : 0.5em;
-}
-
-/* oh for the love of... */
-
-table.prefFilterList tr.even,
-table.prefFilterList tr.odd,
-table.prefFilterList tr.evenSelected,
-table.prefFilterList tr.oddSelected,
-table.prefLabelList tr.even,
-table.prefLabelList tr.odd,
-table.prefLabelList tr.evenSelected,
-table.prefLabelList tr.oddSelected,
-table.prefUserList tr.even,
-table.prefUserList tr.odd,
-table.prefUserList tr.evenSelected,
-table.prefUserList tr.oddSelected,
-table.prefFeedList tr.even,
-table.prefFeedList tr.odd,
-table.prefFeedList tr.evenSelected,
-table.prefFeedList tr.oddSelected,
-table.prefInstanceList tr.even,
-table.prefInstanceList tr.odd,
-table.prefInstanceList tr.evenSelected,
-table.prefInstanceList tr.oddSelected
-{	
-	cursor : pointer;
-}
-
-table.prefFilterList tr.even:hover td, 
-table.prefFilterList tr.odd:hover td,
-table.prefFilterList tr.evenSelected:hover td, 
-table.prefFilterList tr.oddSelected:hover td 
-table.prefLabelList tr.even:hover td, 
-table.prefLabelList tr.odd:hover td,
-table.prefLabelList tr.evenSelected:hover td, 
-table.prefLabelList tr.oddSelected:hover td,
-table.prefUserList tr.even:hover td, 
-table.prefUserList tr.odd:hover td,
-table.prefUserList tr.evenSelected:hover td, 
-table.prefUserList tr.oddSelected:hover td,
-table.prefFeedList tr.even:hover td, 
-table.prefFeedList tr.odd:hover td,
-table.prefFeedList tr.evenSelected:hover td, 
-table.prefFeedList tr.oddSelected:hover td,
-table.prefInstanceList tr.even:hover td, 
-table.prefInstanceList tr.odd:hover td,
-table.prefInstanceList tr.evenSelected:hover td, 
-table.prefInstanceList tr.oddSelected:hover td
-{
-	color : #88b0f0;
-}
-
-table.prefFeedList td.feedIcon {
-	text-align : center;
-}
-
-table.prefFeedList td.feedSelect {
-	text-align : center;
 }
 
 div.prefFeedCatHolder, div.prefFeedOPMLHolder, div.inactiveFeedHolder, div.filterTestHolder {
@@ -458,7 +376,7 @@ ul.nomarks {
 	padding : 10px; 
 }
 
-div.prefHelp, td.prefHelp {
+div.prefHelp {
 	color : gray;
 	padding : 5px;
 }
@@ -481,16 +399,6 @@ span.feed_error {
 
 .small {
 	font-size : 11px;
-}
-
-table.innerFeedTable td {
-	margin : 0px;
-	padding : 0px;
-}
-
-td.selectPrompt {
-	font-size : 12px;
-	color : gray;
 }
 
 div#headlines-toolbar {
@@ -771,11 +679,6 @@ div.return a:hover {
 	color : black;
 }
 
-#header .logo {
-	float : right;
-	margin-left : 10px;
-}
-
 #header a {
 	color : #4684ff;	
 }
@@ -787,11 +690,6 @@ div.return a:hover {
 #header img {
 	vertical-align : middle;
 	cursor : pointer;
-}
-
-a.helpLinkPic img {
-	border-width : 0px;
-	vertical-align : middle;
 }
 
 div.autocomplete {
@@ -820,10 +718,6 @@ div.autocomplete ul li {
 	padding : 2px;
 	height : 32px;
 	cursor : pointer;
-}
-
-#feedOpToolbar {
-	float : right;
 }
 
 #header a.feedback {
