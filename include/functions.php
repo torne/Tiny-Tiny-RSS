@@ -1946,6 +1946,8 @@
 				"c n" => "catchup_above",
 				"*n" => "article_scroll_down",
 				"*p" => "article_scroll_up",
+				"*(38)|Shift+up" => "article_scroll_up",
+				"*(40)|Shift+down" => "article_scroll_down",
 				"a *w" => "toggle_widescreen",
 				"e" => "email_article",
 				"a q" => "close_article",

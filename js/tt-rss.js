@@ -659,10 +659,14 @@ function hotkey_handler(e) {
 			catchupRelativeToArticle(0);
 			return false;
 		case "article_scroll_down":
-			scrollArticle(50);
+			var ctr = $("content_insert") ? $("content_insert") : $("headlines-frame");
+
+			scrollArticle(ctr.offsetHeight/3);
 			return false;
 		case "article_scroll_up":
-			scrollArticle(-50);
+			var ctr = $("content_insert") ? $("content_insert") : $("headlines-frame");
+
+			scrollArticle(-ctr.offsetHeight/3);
 			return false;
 		case "close_article":
 			closeArticlePanel();
