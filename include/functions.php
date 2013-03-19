@@ -2611,16 +2611,46 @@
 			}
 		}
 
-		//$node = $doc->getElementsByTagName('body')->item(0);
+		$entries = $xpath->query('//iframe');
+		foreach ($entries as $entry) {
+			$entry->setAttribute('sandbox', true);
+		}
 
 		$doc->removeChild($doc->firstChild); //remove doctype
+		$doc = strip_harmful_tags($doc);
 		$res = $doc->saveHTML();
-
-		$config = array('safe' => 1, 'deny_attribute' => 'style, width, height, class, id', 'comment' => 1, 'cdata' => 1, 'balance' => 0);
-		$spec = 'img=width,height';
-		$res = htmLawed($res, $config, $spec);
-
 		return $res;
+	}
+
+	function strip_harmful_tags($doc) {
+		$entries = $doc->getElementsByTagName("*");
+
+		$allowed_elements = array('p', 'br', 'div', 'table', 'tr', 'td', 'th',
+			'ul', 'ol', 'li', 'blockquote', 'span', 'html', 'body', 'a', 'img',
+			'iframe', 'video', 'audio', 'source');
+
+		$disallowed_attributes = array('id', 'style', 'class');
+
+		foreach ($entries as $entry) {
+			if (!in_array($entry->nodeName, $allowed_elements)) {
+				$entry->parentNode->removeChild($entry);
+			}
+
+			if ($entry->hasAttributes()) {
+				foreach (iterator_to_array($entry->attributes) as $attr) {
+
+					if (strpos($attr->nodeName, 'on') === 0) {
+						$entry->removeAttributeNode($attr);
+					}
+
+					if (in_array($attr->nodeName, $disallowed_attributes)) {
+						$entry->removeAttributeNode($attr);
+					}
+				}
+			}
+		}
+
+		return $doc;
 	}
 
 	function check_for_update($link) {
