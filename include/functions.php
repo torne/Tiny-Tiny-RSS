@@ -2628,7 +2628,7 @@
 			'b', 'big', 'blockquote', 'body', 'br', 'cite',
 			'code', 'dd', 'del', 'details', 'div', 'dl',
 			'dt', 'em', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-			'header', 'html', 'i', 'iframe', 'img', 'ins', 'kbd',
+			'header', 'html', 'i', 'img', 'ins', 'kbd',
 			'li', 'nav', 'ol', 'p', 'pre', 'q', 's','small',
 			'source', 'span', 'strike', 'strong', 'sub', 'summary',
 			'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead',
