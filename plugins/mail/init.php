@@ -6,7 +6,7 @@ class Mail extends Plugin {
 
 	function about() {
 		return array(1.0,
-			"Share article via email (deprecated)",
+			"Share article via email",
 			"fox");
 	}
 
