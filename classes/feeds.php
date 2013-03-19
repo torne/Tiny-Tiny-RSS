@@ -481,7 +481,7 @@ class Feeds extends Handler_Protected {
 					unset($line["tag_cache"]);
 
 					$line["content"] = sanitize($this->link, $line["content_preview"],
-							false, false, $entry_site_url);
+							sql_bool_to_bool($line['hide_images']), false, $entry_site_url);
 
 					foreach ($pluginhost->get_hooks($pluginhost::HOOK_RENDER_ARTICLE_CDM) as $p) {
 						$line = $p->hook_render_article_cdm($line);

@@ -42,6 +42,12 @@ class Pref_Prefs extends Handler_Protected {
 
 		$_SESSION["prefs_cache"] = false;
 
+		$boolean_prefs = explode(",", $_POST["boolean_prefs"]);
+
+		foreach ($boolean_prefs as $pref) {
+			if (!isset($_POST[$pref])) $_POST[$pref] = 'false';
+		}
+
 		foreach (array_keys($_POST) as $pref_name) {
 
 			$pref_name = db_escape_string($pref_name);
@@ -429,6 +435,8 @@ class Pref_Prefs extends Handler_Protected {
 
 		$active_section = "";
 
+		$listed_boolean_prefs = array();
+
 		while ($line = db_fetch_assoc($result)) {
 
 			if (in_array($line["pref_name"], $prefs_blacklist)) {
@@ -463,7 +471,10 @@ class Pref_Prefs extends Handler_Protected {
 			$def_value = $line["def_value"];
 			$help_text = $line["help_text"];
 
-			print "<td width=\"40%\" class=\"prefName\" id=\"$pref_name\">" . __($line["short_desc"]);
+			print "<td width=\"40%\" class=\"prefName\" id=\"$pref_name\">";
+			print "<label for='CB_$pref_name'>";
+			print __($line["short_desc"]);
+			print "</label>";
 
 			if ($help_text) print "<div class=\"prefHelp\">".__($help_text)."</div>";
 
@@ -497,21 +508,19 @@ class Pref_Prefs extends Handler_Protected {
 
 			} else if ($type_name == "bool") {
 
-				if ($value == "true") {
-					$value = __("Yes");
-				} else {
-					$value = __("No");
-				}
+				array_push($listed_boolean_prefs, $pref_name);
+
+				$checked = ($value == "true") ? "checked=\"checked\"" : "";
 
 				if ($pref_name == "PURGE_UNREAD_ARTICLES" && FORCE_ARTICLE_PURGE != 0) {
 					$disabled = "disabled=\"1\"";
-					$value = __("Yes");
+					$checked = "checked=\"checked\"";
 				} else {
 					$disabled = "";
 				}
 
-				print_radio($pref_name, $value, __("Yes"), array(__("Yes"), __("No")),
-					$disabled);
+				print "<input type='checkbox' name='$pref_name' $checked $disabled
+					dojoType='dijit.form.CheckBox' id='CB_$pref_name' value='1'>";
 
 			} else if (array_search($pref_name, array('FRESH_ARTICLE_MAX_AGE', 'DEFAULT_ARTICLE_LIMIT',
 					'PURGE_OLD_DAYS', 'LONG_DATE_FORMAT', 'SHORT_DATE_FORMAT')) !== false) {
@@ -567,6 +576,10 @@ class Pref_Prefs extends Handler_Protected {
 		}
 
 		print "</table>";
+
+		$listed_boolean_prefs = htmlspecialchars(join(",", $listed_boolean_prefs));
+
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"boolean_prefs\" value=\"$listed_boolean_prefs\">";
 
 		global $pluginhost;
 		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB_SECTION,

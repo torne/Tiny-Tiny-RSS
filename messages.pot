@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-19 10:14+0400\n"
+"POT-Creation-Date: 2013-03-19 22:42+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -242,7 +242,7 @@ msgstr ""
 
 #: index.php:117 index.php:147 index.php:252 prefs.php:79
 #: classes/backend.php:5 classes/pref/labels.php:296
-#: classes/pref/filters.php:609 classes/pref/feeds.php:1270
+#: classes/pref/filters.php:609 classes/pref/feeds.php:1296
 #: plugins/digest/digest_body.php:45 js/viewfeed.js:1174
 msgid "Loading, please wait..."
 msgstr ""
@@ -271,11 +271,11 @@ msgstr ""
 msgid "All Articles"
 msgstr ""
 
-#: index.php:169 include/functions.php:1912 classes/feeds.php:106
+#: index.php:169 include/functions.php:1911 classes/feeds.php:106
 msgid "Starred"
 msgstr ""
 
-#: index.php:170 include/functions.php:1913 classes/feeds.php:107
+#: index.php:170 include/functions.php:1912 classes/feeds.php:107
 msgid "Published"
 msgstr ""
 
@@ -311,13 +311,14 @@ msgstr ""
 msgid "Score"
 msgstr ""
 
-#: index.php:187 classes/pref/feeds.php:535 classes/pref/feeds.php:746
+#: index.php:187 classes/pref/feeds.php:535 classes/pref/feeds.php:758
 msgid "Update"
 msgstr ""
 
-#: index.php:191 index.php:221 include/functions.php:1903
-#: include/localized_schema.php:10 classes/feeds.php:111 classes/feeds.php:131
-#: js/FeedTree.js:128 js/FeedTree.js:156 plugins/digest/digest.js:630
+#: index.php:191 index.php:221 include/functions.php:1902
+#: include/localized_schema.php:10 classes/feeds.php:111 classes/feeds.php:136
+#: classes/feeds.php:408 js/FeedTree.js:128 js/FeedTree.js:156
+#: plugins/digest/digest.js:630
 msgid "Mark as read"
 msgstr ""
 
@@ -349,7 +350,7 @@ msgstr ""
 msgid "Rescore feed"
 msgstr ""
 
-#: index.php:219 classes/pref/feeds.php:672 classes/pref/feeds.php:1243
+#: index.php:219 classes/pref/feeds.php:684 classes/pref/feeds.php:1269
 #: js/PrefFeedTree.js:73
 msgid "Unsubscribe"
 msgstr ""
@@ -374,7 +375,7 @@ msgstr ""
 msgid "Show tag cloud..."
 msgstr ""
 
-#: index.php:229 include/functions.php:1890
+#: index.php:229 include/functions.php:1889
 msgid "Toggle widescreen mode"
 msgstr ""
 
@@ -399,7 +400,7 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-#: prefs.php:28 prefs.php:99 include/functions.php:1915
+#: prefs.php:28 prefs.php:99 include/functions.php:1914
 #: classes/pref/prefs.php:371
 msgid "Preferences"
 msgstr ""
@@ -412,8 +413,8 @@ msgstr ""
 msgid "Exit preferences"
 msgstr ""
 
-#: prefs.php:102 classes/pref/feeds.php:100 classes/pref/feeds.php:1148
-#: classes/pref/feeds.php:1211
+#: prefs.php:102 classes/pref/feeds.php:100 classes/pref/feeds.php:1174
+#: classes/pref/feeds.php:1237
 msgid "Feeds"
 msgstr ""
 
@@ -421,8 +422,8 @@ msgstr ""
 msgid "Filters"
 msgstr ""
 
-#: prefs.php:108 mobile/mobile-functions.php:205 include/functions.php:1118
-#: include/functions.php:1739 classes/pref/labels.php:90
+#: prefs.php:108 mobile/mobile-functions.php:205 include/functions.php:1117
+#: include/functions.php:1738 classes/pref/labels.php:90
 msgid "Labels"
 msgstr ""
 
@@ -515,8 +516,8 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: mobile/mobile-functions.php:178 include/functions.php:1116
-#: include/functions.php:1737
+#: mobile/mobile-functions.php:178 include/functions.php:1115
+#: include/functions.php:1736
 msgid "Special"
 msgstr ""
 
@@ -558,9 +559,9 @@ msgstr ""
 msgid "Reverse headline order (oldest first)"
 msgstr ""
 
-#: include/digest.php:131 include/functions.php:1127
-#: include/functions.php:1640 include/functions.php:1725
-#: include/functions.php:1747 classes/opml.php:416 classes/pref/feeds.php:188
+#: include/digest.php:131 include/functions.php:1126
+#: include/functions.php:1639 include/functions.php:1724
+#: include/functions.php:1746 classes/opml.php:416 classes/pref/feeds.php:188
 msgid "Uncategorized"
 msgstr ""
 
@@ -573,288 +574,288 @@ msgstr ""
 msgid "No feeds found."
 msgstr ""
 
-#: include/functions.php:698
+#: include/functions.php:697
 msgid "Session failed to validate (incorrect IP)"
 msgstr ""
 
-#: include/functions.php:1589 classes/dlg.php:371 classes/pref/filters.php:368
+#: include/functions.php:1588 classes/dlg.php:371 classes/pref/filters.php:368
 msgid "All feeds"
 msgstr ""
 
-#: include/functions.php:1790
+#: include/functions.php:1789
 msgid "Starred articles"
 msgstr ""
 
-#: include/functions.php:1792
+#: include/functions.php:1791
 msgid "Published articles"
 msgstr ""
 
-#: include/functions.php:1794
+#: include/functions.php:1793
 msgid "Fresh articles"
 msgstr ""
 
-#: include/functions.php:1796 include/functions.php:1910
+#: include/functions.php:1795 include/functions.php:1909
 msgid "All articles"
 msgstr ""
 
-#: include/functions.php:1798
+#: include/functions.php:1797
 msgid "Archived articles"
 msgstr ""
 
-#: include/functions.php:1800
+#: include/functions.php:1799
 msgid "Recently read"
 msgstr ""
 
-#: include/functions.php:1867
+#: include/functions.php:1866
 msgid "Navigation"
 msgstr ""
 
-#: include/functions.php:1868
+#: include/functions.php:1867
 msgid "Open next feed"
 msgstr ""
 
-#: include/functions.php:1869
+#: include/functions.php:1868
 msgid "Open previous feed"
 msgstr ""
 
-#: include/functions.php:1870
+#: include/functions.php:1869
 msgid "Open next article"
 msgstr ""
 
-#: include/functions.php:1871
+#: include/functions.php:1870
 msgid "Open previous article"
 msgstr ""
 
-#: include/functions.php:1872
+#: include/functions.php:1871
 msgid "Open next article (don't scroll long articles)"
 msgstr ""
 
-#: include/functions.php:1873
+#: include/functions.php:1872
 msgid "Open previous article (don't scroll long articles)"
 msgstr ""
 
-#: include/functions.php:1874
+#: include/functions.php:1873
 msgid "Show search dialog"
 msgstr ""
 
-#: include/functions.php:1875
+#: include/functions.php:1874
 msgid "Article"
 msgstr ""
 
-#: include/functions.php:1876
+#: include/functions.php:1875
 msgid "Toggle starred"
 msgstr ""
 
-#: include/functions.php:1877
+#: include/functions.php:1876
 msgid "Toggle published"
 msgstr ""
 
-#: include/functions.php:1878
+#: include/functions.php:1877
 msgid "Toggle unread"
 msgstr ""
 
-#: include/functions.php:1879
+#: include/functions.php:1878
 msgid "Edit tags"
 msgstr ""
 
-#: include/functions.php:1880
+#: include/functions.php:1879
 msgid "Dismiss selected"
 msgstr ""
 
-#: include/functions.php:1881
+#: include/functions.php:1880
 msgid "Dismiss read"
 msgstr ""
 
-#: include/functions.php:1882
+#: include/functions.php:1881
 msgid "Open in new window"
 msgstr ""
 
-#: include/functions.php:1883 js/viewfeed.js:1758
+#: include/functions.php:1882 js/viewfeed.js:1758
 msgid "Mark below as read"
 msgstr ""
 
-#: include/functions.php:1884 js/viewfeed.js:1752
+#: include/functions.php:1883 js/viewfeed.js:1752
 msgid "Mark above as read"
 msgstr ""
 
-#: include/functions.php:1885
+#: include/functions.php:1884
 msgid "Scroll down"
 msgstr ""
 
-#: include/functions.php:1886
+#: include/functions.php:1885
 msgid "Scroll up"
 msgstr ""
 
-#: include/functions.php:1887
+#: include/functions.php:1886
 msgid "Select article under cursor"
 msgstr ""
 
-#: include/functions.php:1888
+#: include/functions.php:1887
 msgid "Email article"
 msgstr ""
 
-#: include/functions.php:1889 plugins/close_button/init.php:24
+#: include/functions.php:1888 plugins/close_button/init.php:24
 msgid "Close article"
 msgstr ""
 
-#: include/functions.php:1891
+#: include/functions.php:1890
 msgid "Article selection"
 msgstr ""
 
-#: include/functions.php:1892
+#: include/functions.php:1891
 msgid "Select all articles"
 msgstr ""
 
-#: include/functions.php:1893
+#: include/functions.php:1892
 msgid "Select unread"
 msgstr ""
 
-#: include/functions.php:1894
+#: include/functions.php:1893
 msgid "Select starred"
 msgstr ""
 
-#: include/functions.php:1895
+#: include/functions.php:1894
 msgid "Select published"
 msgstr ""
 
-#: include/functions.php:1896
+#: include/functions.php:1895
 msgid "Invert selection"
 msgstr ""
 
-#: include/functions.php:1897
+#: include/functions.php:1896
 msgid "Deselect everything"
 msgstr ""
 
-#: include/functions.php:1898 classes/pref/feeds.php:488
-#: classes/pref/feeds.php:707
+#: include/functions.php:1897 classes/pref/feeds.php:488
+#: classes/pref/feeds.php:719
 msgid "Feed"
 msgstr ""
 
-#: include/functions.php:1899
+#: include/functions.php:1898
 msgid "Refresh current feed"
 msgstr ""
 
-#: include/functions.php:1900
+#: include/functions.php:1899
 msgid "Un/hide read feeds"
 msgstr ""
 
-#: include/functions.php:1901 classes/pref/feeds.php:1214
+#: include/functions.php:1900 classes/pref/feeds.php:1240
 msgid "Subscribe to feed"
 msgstr ""
 
-#: include/functions.php:1902 js/FeedTree.js:135 js/PrefFeedTree.js:67
+#: include/functions.php:1901 js/FeedTree.js:135 js/PrefFeedTree.js:67
 msgid "Edit feed"
 msgstr ""
 
-#: include/functions.php:1904
+#: include/functions.php:1903
 msgid "Reverse headlines"
 msgstr ""
 
-#: include/functions.php:1905
+#: include/functions.php:1904
 msgid "Debug feed update"
 msgstr ""
 
-#: include/functions.php:1906 js/FeedTree.js:170
+#: include/functions.php:1905 js/FeedTree.js:177
 msgid "Mark all feeds as read"
 msgstr ""
 
-#: include/functions.php:1907
+#: include/functions.php:1906
 msgid "Un/collapse current category"
 msgstr ""
 
-#: include/functions.php:1908
+#: include/functions.php:1907
 msgid "Toggle combined mode"
 msgstr ""
 
-#: include/functions.php:1909
+#: include/functions.php:1908
 msgid "Go to"
 msgstr ""
 
-#: include/functions.php:1911
+#: include/functions.php:1910
 msgid "Fresh"
 msgstr ""
 
-#: include/functions.php:1914
+#: include/functions.php:1913
 msgid "Tag cloud"
 msgstr ""
 
-#: include/functions.php:1916
+#: include/functions.php:1915
 msgid "Other"
 msgstr ""
 
-#: include/functions.php:1917 classes/pref/labels.php:281
+#: include/functions.php:1916 classes/pref/labels.php:281
 msgid "Create label"
 msgstr ""
 
-#: include/functions.php:1918 classes/pref/filters.php:587
+#: include/functions.php:1917 classes/pref/filters.php:587
 msgid "Create filter"
 msgstr ""
 
-#: include/functions.php:1919
+#: include/functions.php:1918
 msgid "Un/collapse sidebar"
 msgstr ""
 
-#: include/functions.php:1920
+#: include/functions.php:1919
 msgid "Show help dialog"
 msgstr ""
 
-#: include/functions.php:2400
+#: include/functions.php:2401
 #, php-format
 msgid "Search results: %s"
 msgstr ""
 
-#: include/functions.php:2824 js/viewfeed.js:1845
+#: include/functions.php:2886 js/viewfeed.js:1845
 msgid "Click to play"
 msgstr ""
 
-#: include/functions.php:2825 js/viewfeed.js:1844
+#: include/functions.php:2887 js/viewfeed.js:1844
 msgid "Play"
 msgstr ""
 
-#: include/functions.php:2945
+#: include/functions.php:3007
 msgid " - "
 msgstr ""
 
-#: include/functions.php:2967 include/functions.php:3284 classes/rpc.php:359
+#: include/functions.php:3029 include/functions.php:3346 classes/rpc.php:360
 msgid "no tags"
 msgstr ""
 
-#: include/functions.php:2977 classes/feeds.php:645
+#: include/functions.php:3039 classes/feeds.php:650
 msgid "Edit tags for this article"
 msgstr ""
 
-#: include/functions.php:3006 classes/feeds.php:600
+#: include/functions.php:3068 classes/feeds.php:605
 msgid "Originally from:"
 msgstr ""
 
-#: include/functions.php:3019 classes/feeds.php:613 classes/pref/feeds.php:507
+#: include/functions.php:3081 classes/feeds.php:618 classes/pref/feeds.php:507
 msgid "Feed URL"
 msgstr ""
 
-#: include/functions.php:3048
+#: include/functions.php:3110
 msgid "Related"
 msgstr ""
 
-#: include/functions.php:3075 classes/dlg.php:43 classes/dlg.php:162
+#: include/functions.php:3137 classes/dlg.php:43 classes/dlg.php:162
 #: classes/dlg.php:185 classes/dlg.php:222 classes/dlg.php:508
 #: classes/dlg.php:543 classes/dlg.php:574 classes/dlg.php:608
 #: classes/dlg.php:620 classes/backend.php:105 classes/pref/users.php:106
-#: classes/pref/filters.php:108 classes/pref/feeds.php:1527
-#: classes/pref/feeds.php:1598 plugins/import_export/init.php:407
+#: classes/pref/filters.php:108 classes/pref/feeds.php:1553
+#: classes/pref/feeds.php:1624 plugins/import_export/init.php:407
 #: plugins/import_export/init.php:431 plugins/share/init.php:67
 #: plugins/updater/init.php:329
 msgid "Close this window"
 msgstr ""
 
-#: include/functions.php:3309
+#: include/functions.php:3371
 msgid "(edit note)"
 msgstr ""
 
-#: include/functions.php:3542
+#: include/functions.php:3604
 msgid "unknown type"
 msgstr ""
 
-#: include/functions.php:3592
+#: include/functions.php:3654
 msgid "Attachments"
 msgstr ""
 
@@ -1066,7 +1067,7 @@ msgid "Group headlines in virtual feeds"
 msgstr ""
 
 #: include/localized_schema.php:57
-msgid "Hide images in articles"
+msgid "Do not embed images in articles"
 msgstr ""
 
 #: include/localized_schema.php:58
@@ -1077,7 +1078,7 @@ msgstr ""
 msgid "User timezone"
 msgstr ""
 
-#: include/localized_schema.php:60 js/prefs.js:1733
+#: include/localized_schema.php:60 js/prefs.js:1740
 msgid "Customize stylesheet"
 msgstr ""
 
@@ -1127,7 +1128,7 @@ msgid "Title:"
 msgstr ""
 
 #: classes/handler/public.php:404 classes/dlg.php:667
-#: classes/pref/feeds.php:505 classes/pref/feeds.php:722
+#: classes/pref/feeds.php:505 classes/pref/feeds.php:734
 #: plugins/instances/init.php:215
 msgid "URL:"
 msgstr ""
@@ -1154,8 +1155,8 @@ msgstr ""
 #: classes/dlg.php:751 classes/pref/users.php:194 classes/pref/labels.php:81
 #: classes/pref/filters.php:349 classes/pref/filters.php:729
 #: classes/pref/filters.php:798 classes/pref/filters.php:865
-#: classes/pref/feeds.php:689 classes/pref/feeds.php:829
-#: plugins/mail/init.php:132 plugins/note/init.php:55
+#: classes/pref/feeds.php:701 classes/pref/feeds.php:849
+#: plugins/mail/init.php:131 plugins/note/init.php:55
 #: plugins/instances/init.php:251
 msgid "Cancel"
 msgstr ""
@@ -1214,8 +1215,8 @@ msgstr ""
 #: classes/dlg.php:55 classes/pref/users.php:378 classes/pref/labels.php:272
 #: classes/pref/filters.php:230 classes/pref/filters.php:277
 #: classes/pref/filters.php:578 classes/pref/filters.php:657
-#: classes/pref/filters.php:684 classes/pref/feeds.php:1202
-#: classes/pref/feeds.php:1472 classes/pref/feeds.php:1541
+#: classes/pref/filters.php:684 classes/pref/feeds.php:1228
+#: classes/pref/feeds.php:1498 classes/pref/feeds.php:1567
 #: plugins/instances/init.php:287
 msgid "Select"
 msgstr ""
@@ -1224,8 +1225,8 @@ msgstr ""
 #: classes/pref/labels.php:275 classes/pref/filters.php:233
 #: classes/pref/filters.php:280 classes/pref/filters.php:581
 #: classes/pref/filters.php:660 classes/pref/filters.php:687
-#: classes/pref/feeds.php:1205 classes/pref/feeds.php:1475
-#: classes/pref/feeds.php:1544 plugins/instances/init.php:290
+#: classes/pref/feeds.php:1231 classes/pref/feeds.php:1501
+#: classes/pref/feeds.php:1570 plugins/instances/init.php:290
 msgid "All"
 msgstr ""
 
@@ -1233,8 +1234,8 @@ msgstr ""
 #: classes/pref/labels.php:277 classes/pref/filters.php:235
 #: classes/pref/filters.php:282 classes/pref/filters.php:583
 #: classes/pref/filters.php:662 classes/pref/filters.php:689
-#: classes/pref/feeds.php:1207 classes/pref/feeds.php:1477
-#: classes/pref/feeds.php:1546 plugins/instances/init.php:292
+#: classes/pref/feeds.php:1233 classes/pref/feeds.php:1503
+#: classes/pref/feeds.php:1572 plugins/instances/init.php:292
 msgid "None"
 msgstr ""
 
@@ -1293,7 +1294,7 @@ msgid "Feed or site URL"
 msgstr ""
 
 #: classes/dlg.php:249 classes/dlg.php:715 classes/pref/feeds.php:527
-#: classes/pref/feeds.php:735
+#: classes/pref/feeds.php:747
 msgid "Place in category:"
 msgstr ""
 
@@ -1302,17 +1303,17 @@ msgid "Available feeds"
 msgstr ""
 
 #: classes/dlg.php:269 classes/pref/users.php:155 classes/pref/feeds.php:557
-#: classes/pref/feeds.php:771
+#: classes/pref/feeds.php:783
 msgid "Authentication"
 msgstr ""
 
 #: classes/dlg.php:273 classes/dlg.php:729 classes/pref/users.php:438
-#: classes/pref/feeds.php:563 classes/pref/feeds.php:775
+#: classes/pref/feeds.php:563 classes/pref/feeds.php:787
 msgid "Login"
 msgstr ""
 
 #: classes/dlg.php:276 classes/dlg.php:732 classes/pref/prefs.php:196
-#: classes/pref/feeds.php:569 classes/pref/feeds.php:781
+#: classes/pref/feeds.php:569 classes/pref/feeds.php:793
 msgid "Password"
 msgstr ""
 
@@ -1329,7 +1330,7 @@ msgid "More feeds"
 msgstr ""
 
 #: classes/dlg.php:318 classes/dlg.php:409 classes/pref/users.php:368
-#: classes/pref/filters.php:574 classes/pref/feeds.php:1198 js/tt-rss.js:166
+#: classes/pref/filters.php:574 classes/pref/feeds.php:1224 js/tt-rss.js:166
 msgid "Search"
 msgstr ""
 
@@ -1347,7 +1348,7 @@ msgstr ""
 
 #: classes/dlg.php:349 classes/pref/users.php:394 classes/pref/labels.php:284
 #: classes/pref/filters.php:339 classes/pref/filters.php:596
-#: classes/pref/feeds.php:662 plugins/instances/init.php:297
+#: classes/pref/feeds.php:674 plugins/instances/init.php:297
 msgid "Remove"
 msgstr ""
 
@@ -1369,7 +1370,7 @@ msgstr ""
 
 #: classes/dlg.php:439 classes/dlg.php:650 classes/pref/users.php:192
 #: classes/pref/labels.php:79 classes/pref/filters.php:346
-#: classes/pref/feeds.php:688 classes/pref/feeds.php:826
+#: classes/pref/feeds.php:700 classes/pref/feeds.php:846
 #: plugins/nsfw/init.php:86 plugins/note/init.php:53
 #: plugins/owncloud/init.php:62 plugins/instances/init.php:248
 msgid "Save"
@@ -1403,7 +1404,7 @@ msgstr ""
 msgid "Display entries"
 msgstr ""
 
-#: classes/dlg.php:551 classes/feeds.php:133
+#: classes/dlg.php:551 classes/feeds.php:138
 msgid "View as RSS"
 msgstr ""
 
@@ -1530,54 +1531,55 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: classes/feeds.php:125 plugins/mail/init.php:28
+#: classes/feeds.php:125 classes/feeds.php:130 plugins/mailto/init.php:28
+#: plugins/mail/init.php:28
 msgid "Forward by email"
 msgstr ""
 
-#: classes/feeds.php:129
+#: classes/feeds.php:134
 msgid "Feed:"
 msgstr ""
 
-#: classes/feeds.php:196 classes/feeds.php:790
+#: classes/feeds.php:201 classes/feeds.php:795
 msgid "Feed not found."
 msgstr ""
 
-#: classes/feeds.php:403 classes/feeds.php:493
+#: classes/feeds.php:498
 msgid "mark as read"
 msgstr ""
 
-#: classes/feeds.php:691
+#: classes/feeds.php:696
 msgid "No unread articles found to display."
 msgstr ""
 
-#: classes/feeds.php:694
+#: classes/feeds.php:699
 msgid "No updated articles found to display."
 msgstr ""
 
-#: classes/feeds.php:697
+#: classes/feeds.php:702
 msgid "No starred articles found to display."
 msgstr ""
 
-#: classes/feeds.php:701
+#: classes/feeds.php:706
 msgid ""
 "No articles found to display. You can assign articles to labels manually "
 "(see the Actions menu above) or use a filter."
 msgstr ""
 
-#: classes/feeds.php:703
+#: classes/feeds.php:708
 msgid "No articles found to display."
 msgstr ""
 
-#: classes/feeds.php:718 classes/feeds.php:899
+#: classes/feeds.php:723 classes/feeds.php:904
 #, php-format
 msgid "Feeds last updated at %s"
 msgstr ""
 
-#: classes/feeds.php:728 classes/feeds.php:909
+#: classes/feeds.php:733 classes/feeds.php:914
 msgid "Some feeds have update errors (click for details)"
 msgstr ""
 
-#: classes/feeds.php:889
+#: classes/feeds.php:894
 msgid "No feed selected."
 msgstr ""
 
@@ -1696,7 +1698,7 @@ msgid "Change password to"
 msgstr ""
 
 #: classes/pref/users.php:177 classes/pref/feeds.php:577
-#: classes/pref/feeds.php:787
+#: classes/pref/feeds.php:799
 msgid "Options"
 msgstr ""
 
@@ -1842,7 +1844,7 @@ msgstr ""
 msgid "Combine"
 msgstr ""
 
-#: classes/pref/filters.php:600 classes/pref/feeds.php:1257
+#: classes/pref/filters.php:600 classes/pref/feeds.php:1283
 msgid "Rescore articles"
 msgstr ""
 
@@ -2083,7 +2085,7 @@ msgstr ""
 msgid "Feed Title"
 msgstr ""
 
-#: classes/pref/feeds.php:550 classes/pref/feeds.php:762
+#: classes/pref/feeds.php:550 classes/pref/feeds.php:774
 msgid "Article purging:"
 msgstr ""
 
@@ -2093,207 +2095,211 @@ msgid ""
 "requires authentication, except for Twitter feeds."
 msgstr ""
 
-#: classes/pref/feeds.php:589 classes/pref/feeds.php:791
+#: classes/pref/feeds.php:589 classes/pref/feeds.php:803
 msgid "Hide from Popular feeds"
 msgstr ""
 
-#: classes/pref/feeds.php:601 classes/pref/feeds.php:797
+#: classes/pref/feeds.php:601 classes/pref/feeds.php:809
 msgid "Include in e-mail digest"
 msgstr ""
 
-#: classes/pref/feeds.php:614 classes/pref/feeds.php:803
+#: classes/pref/feeds.php:614 classes/pref/feeds.php:815
 msgid "Always display image attachments"
 msgstr ""
 
-#: classes/pref/feeds.php:628 classes/pref/feeds.php:811
+#: classes/pref/feeds.php:627 classes/pref/feeds.php:823
+msgid "Do not embed images"
+msgstr ""
+
+#: classes/pref/feeds.php:640 classes/pref/feeds.php:831
 msgid "Cache images locally"
 msgstr ""
 
-#: classes/pref/feeds.php:640 classes/pref/feeds.php:817
+#: classes/pref/feeds.php:652 classes/pref/feeds.php:837
 msgid "Mark updated articles as unread"
 msgstr ""
 
-#: classes/pref/feeds.php:646
+#: classes/pref/feeds.php:658
 msgid "Icon"
 msgstr ""
 
-#: classes/pref/feeds.php:660
+#: classes/pref/feeds.php:672
 msgid "Replace"
 msgstr ""
 
-#: classes/pref/feeds.php:679
+#: classes/pref/feeds.php:691
 msgid "Resubscribe to push updates"
 msgstr ""
 
-#: classes/pref/feeds.php:686
+#: classes/pref/feeds.php:698
 msgid "Resets PubSubHubbub subscription status for push-enabled feeds."
 msgstr ""
 
-#: classes/pref/feeds.php:701
+#: classes/pref/feeds.php:713
 msgid "Enable the options you wish to apply using checkboxes on the right:"
 msgstr ""
 
-#: classes/pref/feeds.php:1051 classes/pref/feeds.php:1104
+#: classes/pref/feeds.php:1077 classes/pref/feeds.php:1130
 msgid "All done."
 msgstr ""
 
-#: classes/pref/feeds.php:1159
+#: classes/pref/feeds.php:1185
 msgid "Feeds with errors"
 msgstr ""
 
-#: classes/pref/feeds.php:1179
+#: classes/pref/feeds.php:1205
 msgid "Inactive feeds"
 msgstr ""
 
-#: classes/pref/feeds.php:1216
+#: classes/pref/feeds.php:1242
 msgid "Edit selected feeds"
 msgstr ""
 
-#: classes/pref/feeds.php:1218 classes/pref/feeds.php:1232
+#: classes/pref/feeds.php:1244 classes/pref/feeds.php:1258
 msgid "Reset sort order"
 msgstr ""
 
-#: classes/pref/feeds.php:1220 js/prefs.js:1778
+#: classes/pref/feeds.php:1246 js/prefs.js:1785
 msgid "Batch subscribe"
 msgstr ""
 
-#: classes/pref/feeds.php:1225
+#: classes/pref/feeds.php:1251
 msgid "Categories"
 msgstr ""
 
-#: classes/pref/feeds.php:1228
+#: classes/pref/feeds.php:1254
 msgid "Add category"
 msgstr ""
 
-#: classes/pref/feeds.php:1230
+#: classes/pref/feeds.php:1256
 msgid "(Un)hide empty categories"
 msgstr ""
 
-#: classes/pref/feeds.php:1234
+#: classes/pref/feeds.php:1260
 msgid "Remove selected"
 msgstr ""
 
-#: classes/pref/feeds.php:1248
+#: classes/pref/feeds.php:1274
 msgid "More actions..."
 msgstr ""
 
-#: classes/pref/feeds.php:1252
+#: classes/pref/feeds.php:1278
 msgid "Manual purge"
 msgstr ""
 
-#: classes/pref/feeds.php:1256
+#: classes/pref/feeds.php:1282
 msgid "Clear feed data"
 msgstr ""
 
-#: classes/pref/feeds.php:1307
+#: classes/pref/feeds.php:1333
 msgid "OPML"
 msgstr ""
 
-#: classes/pref/feeds.php:1309
+#: classes/pref/feeds.php:1335
 msgid ""
 "Using OPML you can export and import your feeds, filters, labels and Tiny "
 "Tiny RSS settings."
 msgstr ""
 
-#: classes/pref/feeds.php:1311
+#: classes/pref/feeds.php:1337
 msgid "Only main settings profile can be migrated using OPML."
 msgstr ""
 
-#: classes/pref/feeds.php:1324
+#: classes/pref/feeds.php:1350
 msgid "Import my OPML"
 msgstr ""
 
-#: classes/pref/feeds.php:1328
+#: classes/pref/feeds.php:1354
 msgid "Filename:"
 msgstr ""
 
-#: classes/pref/feeds.php:1330
+#: classes/pref/feeds.php:1356
 msgid "Include settings"
 msgstr ""
 
-#: classes/pref/feeds.php:1334
+#: classes/pref/feeds.php:1360
 msgid "Export OPML"
 msgstr ""
 
-#: classes/pref/feeds.php:1338
+#: classes/pref/feeds.php:1364
 msgid ""
 "Your OPML can be published publicly and can be subscribed by anyone who "
 "knows the URL below."
 msgstr ""
 
-#: classes/pref/feeds.php:1340
+#: classes/pref/feeds.php:1366
 msgid ""
 "Published OPML does not include your Tiny Tiny RSS settings, feeds that "
 "require authentication or feeds hidden from Popular feeds."
 msgstr ""
 
-#: classes/pref/feeds.php:1343
+#: classes/pref/feeds.php:1369
 msgid "Display published OPML URL"
 msgstr ""
 
-#: classes/pref/feeds.php:1353
+#: classes/pref/feeds.php:1379
 msgid "Firefox integration"
 msgstr ""
 
-#: classes/pref/feeds.php:1355
+#: classes/pref/feeds.php:1381
 msgid ""
 "This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the "
 "link below."
 msgstr ""
 
-#: classes/pref/feeds.php:1362
+#: classes/pref/feeds.php:1388
 msgid "Click here to register this site as a feed reader."
 msgstr ""
 
-#: classes/pref/feeds.php:1370
+#: classes/pref/feeds.php:1396
 msgid "Published & shared articles / Generated feeds"
 msgstr ""
 
-#: classes/pref/feeds.php:1372
+#: classes/pref/feeds.php:1398
 msgid "Published articles and generated feeds"
 msgstr ""
 
-#: classes/pref/feeds.php:1374
+#: classes/pref/feeds.php:1400
 msgid ""
 "Published articles are exported as a public RSS feed and can be subscribed "
 "by anyone who knows the URL specified below."
 msgstr ""
 
-#: classes/pref/feeds.php:1380
+#: classes/pref/feeds.php:1406
 msgid "Display URL"
 msgstr ""
 
-#: classes/pref/feeds.php:1383
+#: classes/pref/feeds.php:1409
 msgid "Clear all generated URLs"
 msgstr ""
 
-#: classes/pref/feeds.php:1385
+#: classes/pref/feeds.php:1411
 msgid "Articles shared by URL"
 msgstr ""
 
-#: classes/pref/feeds.php:1387
+#: classes/pref/feeds.php:1413
 msgid "You can disable all articles shared by unique URLs here."
 msgstr ""
 
-#: classes/pref/feeds.php:1390
+#: classes/pref/feeds.php:1416
 msgid "Unshare all articles"
 msgstr ""
 
-#: classes/pref/feeds.php:1468
+#: classes/pref/feeds.php:1494
 msgid ""
 "These feeds have not been updated with new content for 3 months (oldest "
 "first):"
 msgstr ""
 
-#: classes/pref/feeds.php:1505 classes/pref/feeds.php:1574
+#: classes/pref/feeds.php:1531 classes/pref/feeds.php:1600
 msgid "Click to edit feed"
 msgstr ""
 
-#: classes/pref/feeds.php:1523 classes/pref/feeds.php:1594
+#: classes/pref/feeds.php:1549 classes/pref/feeds.php:1620
 msgid "Unsubscribe from selected feeds"
 msgstr ""
 
-#: classes/pref/feeds.php:1534
+#: classes/pref/feeds.php:1560
 msgid "These feeds have not been updated because of errors:"
 msgstr ""
 
@@ -2350,6 +2356,32 @@ msgstr ""
 
 #: plugins/auth_internal/init.php:187
 msgid "Old password is incorrect."
+msgstr ""
+
+#: plugins/mailto/init.php:52 plugins/mailto/init.php:58
+#: plugins/mail/init.php:71 plugins/mail/init.php:77
+msgid "[Forwarded]"
+msgstr ""
+
+#: plugins/mailto/init.php:52 plugins/mail/init.php:71
+msgid "Multiple articles"
+msgstr ""
+
+#: plugins/mailto/init.php:74
+msgid "Clicking the following link to invoke your mail client:"
+msgstr ""
+
+#: plugins/mailto/init.php:78
+msgid "Forward selected article(s) by email."
+msgstr ""
+
+#: plugins/mailto/init.php:81
+msgid ""
+"You should be able to edit the message before sending in your mail client."
+msgstr ""
+
+#: plugins/mailto/init.php:86
+msgid "Close this dialog"
 msgstr ""
 
 #: plugins/bookmarklets/init.php:22
@@ -2425,27 +2457,19 @@ msgid ""
 "\t\t\t\tin PHP.ini (current value = %s)"
 msgstr ""
 
-#: plugins/mail/init.php:72 plugins/mail/init.php:78
-msgid "[Forwarded]"
-msgstr ""
-
-#: plugins/mail/init.php:72
-msgid "Multiple articles"
-msgstr ""
-
-#: plugins/mail/init.php:93
+#: plugins/mail/init.php:92
 msgid "From:"
 msgstr ""
 
-#: plugins/mail/init.php:102
+#: plugins/mail/init.php:101
 msgid "To:"
 msgstr ""
 
-#: plugins/mail/init.php:115
+#: plugins/mail/init.php:114
 msgid "Subject:"
 msgstr ""
 
-#: plugins/mail/init.php:131
+#: plugins/mail/init.php:130
 msgid "Send e-mail"
 msgstr ""
 
@@ -2550,11 +2574,11 @@ msgstr ""
 msgid "Share on Twitter"
 msgstr ""
 
-#: js/feedlist.js:218
+#: js/feedlist.js:215
 msgid "New articles available in this feed (click to show)"
 msgstr ""
 
-#: js/feedlist.js:420 js/feedlist.js:435 plugins/digest/digest.js:25
+#: js/feedlist.js:417 js/feedlist.js:432 plugins/digest/digest.js:25
 msgid "Mark all articles in %s as read?"
 msgstr ""
 
@@ -2634,7 +2658,7 @@ msgid ""
 "hub again on next feed update."
 msgstr ""
 
-#: js/functions.js:1266 js/tt-rss.js:367
+#: js/functions.js:1266 js/tt-rss.js:369
 msgid "Unsubscribe from %s?"
 msgstr ""
 
@@ -2646,7 +2670,7 @@ msgstr ""
 msgid "Generate new syndication address for this feed?"
 msgstr ""
 
-#: js/functions.js:1597 js/tt-rss.js:348 js/tt-rss.js:713
+#: js/functions.js:1597 js/tt-rss.js:350 js/tt-rss.js:721
 msgid "You can't edit this kind of feed."
 msgstr ""
 
@@ -2659,8 +2683,8 @@ msgid "More Feeds"
 msgstr ""
 
 #: js/functions.js:1711 js/functions.js:1821 js/prefs.js:397 js/prefs.js:427
-#: js/prefs.js:459 js/prefs.js:642 js/prefs.js:662 js/prefs.js:1203
-#: js/prefs.js:1348
+#: js/prefs.js:459 js/prefs.js:642 js/prefs.js:662 js/prefs.js:1210
+#: js/prefs.js:1355
 msgid "No feeds are selected."
 msgstr ""
 
@@ -2674,7 +2698,7 @@ msgstr ""
 msgid "Feeds with update errors"
 msgstr ""
 
-#: js/functions.js:1803 js/prefs.js:1185
+#: js/functions.js:1803 js/prefs.js:1192
 msgid "Remove selected feeds?"
 msgstr ""
 
@@ -2714,7 +2738,7 @@ msgstr ""
 msgid "Remove selected labels?"
 msgstr ""
 
-#: js/prefs.js:295 js/prefs.js:1389
+#: js/prefs.js:295 js/prefs.js:1396
 msgid "No labels are selected."
 msgstr ""
 
@@ -2780,98 +2804,98 @@ msgstr ""
 msgid "Save changes to selected feeds?"
 msgstr ""
 
-#: js/prefs.js:790
+#: js/prefs.js:797
 msgid "OPML Import"
 msgstr ""
 
-#: js/prefs.js:817
+#: js/prefs.js:824
 msgid "Please choose an OPML file first."
 msgstr ""
 
-#: js/prefs.js:973
+#: js/prefs.js:980
 msgid "Reset to defaults?"
 msgstr ""
 
-#: js/prefs.js:1092
+#: js/prefs.js:1099
 msgid ""
 "Remove category %s? Any nested feeds would be placed into Uncategorized."
 msgstr ""
 
-#: js/prefs.js:1119
+#: js/prefs.js:1126
 msgid "Remove selected categories?"
 msgstr ""
 
-#: js/prefs.js:1135
+#: js/prefs.js:1142
 msgid "No categories are selected."
 msgstr ""
 
-#: js/prefs.js:1143
+#: js/prefs.js:1150
 msgid "Category title:"
 msgstr ""
 
-#: js/prefs.js:1174
+#: js/prefs.js:1181
 msgid "Feeds without recent updates"
 msgstr ""
 
-#: js/prefs.js:1223
+#: js/prefs.js:1230
 msgid "Replace current OPML publishing address with a new one?"
 msgstr ""
 
-#: js/prefs.js:1332
+#: js/prefs.js:1339
 msgid "Rescore articles in selected feeds?"
 msgstr ""
 
-#: js/prefs.js:1355
+#: js/prefs.js:1362
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr ""
 
-#: js/prefs.js:1375
+#: js/prefs.js:1382
 msgid "Reset selected labels to default colors?"
 msgstr ""
 
-#: js/prefs.js:1412
+#: js/prefs.js:1419
 msgid "Settings Profiles"
 msgstr ""
 
-#: js/prefs.js:1421
+#: js/prefs.js:1428
 msgid ""
 "Remove selected profiles? Active and default profiles will not be removed."
 msgstr ""
 
-#: js/prefs.js:1439
+#: js/prefs.js:1446
 msgid "No profiles are selected."
 msgstr ""
 
-#: js/prefs.js:1447 js/prefs.js:1500
+#: js/prefs.js:1454 js/prefs.js:1507
 msgid "Activate selected profile?"
 msgstr ""
 
-#: js/prefs.js:1463 js/prefs.js:1516
+#: js/prefs.js:1470 js/prefs.js:1523
 msgid "Please choose a profile to activate."
 msgstr ""
 
-#: js/prefs.js:1524
+#: js/prefs.js:1531
 msgid "This will invalidate all previously generated feed URLs. Continue?"
 msgstr ""
 
-#: js/prefs.js:1543
+#: js/prefs.js:1550
 msgid "This will invalidate all previously shared article URLs. Continue?"
 msgstr ""
 
-#: js/prefs.js:1641
+#: js/prefs.js:1648
 msgid "Label Editor"
 msgstr ""
 
-#: js/prefs.js:1704
+#: js/prefs.js:1711
 msgid ""
 "This will clear your stored authentication information for Twitter. Continue?"
 msgstr ""
 
-#: js/prefs.js:1784
+#: js/prefs.js:1791
 msgid "Subscribing to feeds..."
 msgstr ""
 
-#: js/prefs.js:1821
+#: js/prefs.js:1828
 msgid "Clear stored data for this plugin?"
 msgstr ""
 
@@ -2879,27 +2903,27 @@ msgstr ""
 msgid "Mark all articles as read?"
 msgstr ""
 
-#: js/tt-rss.js:356
+#: js/tt-rss.js:358
 msgid "You can't unsubscribe from the category."
 msgstr ""
 
-#: js/tt-rss.js:361 js/tt-rss.js:511
+#: js/tt-rss.js:363 js/tt-rss.js:513
 msgid "Please select some feed first."
 msgstr ""
 
-#: js/tt-rss.js:506
+#: js/tt-rss.js:508
 msgid "You can't rescore this kind of feed."
 msgstr ""
 
-#: js/tt-rss.js:516
+#: js/tt-rss.js:518
 msgid "Rescore articles in %s?"
 msgstr ""
 
-#: js/tt-rss.js:672
+#: js/tt-rss.js:680
 msgid "Please enable mail plugin first."
 msgstr ""
 
-#: js/tt-rss.js:834
+#: js/tt-rss.js:842
 msgid "New version available!"
 msgstr ""
 
@@ -2924,7 +2948,8 @@ msgstr ""
 
 #: js/viewfeed.js:674 js/viewfeed.js:702 js/viewfeed.js:729 js/viewfeed.js:791
 #: js/viewfeed.js:823 js/viewfeed.js:960 js/viewfeed.js:1003
-#: js/viewfeed.js:1053 js/viewfeed.js:1927 plugins/mail/mail.js:7
+#: js/viewfeed.js:1053 js/viewfeed.js:1927 plugins/mailto/init.js:7
+#: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr ""
 
@@ -3016,6 +3041,10 @@ msgstr ""
 msgid "Load more..."
 msgstr ""
 
+#: plugins/mailto/init.js:21 plugins/mail/mail.js:21
+msgid "Forward article by email"
+msgstr ""
+
 #: plugins/import_export/import_export.js:13
 msgid "Export Data"
 msgstr ""
@@ -3032,10 +3061,6 @@ msgstr ""
 
 #: plugins/import_export/import_export.js:112
 msgid "Please choose the file first."
-msgstr ""
-
-#: plugins/mail/mail.js:21
-msgid "Forward article by email"
 msgstr ""
 
 #: plugins/instances/instances.js:10

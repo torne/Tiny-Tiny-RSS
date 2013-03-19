@@ -79,6 +79,7 @@ create table ttrss_feeds (id serial not null primary key,
 	include_in_digest boolean not null default true,
 	rtl_content boolean not null default false,
 	cache_images boolean not null default false,
+	hide_images boolean not null default false,
 	cache_content boolean not null default false,
 	last_viewed timestamp default null,
 	last_update_started timestamp default null,
@@ -260,7 +261,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (105);
+insert into ttrss_version values (106);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -354,7 +355,7 @@ insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) valu
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id,help_text) values('VFEED_GROUP_BY_FEED', 1, 'false', 'Group headlines in virtual feeds',2, 'When this option is enabled, headlines in Special feeds and Labels are grouped by feeds');
 
-insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('STRIP_IMAGES', 1, 'false', 'Hide images in articles', 2);
+insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('STRIP_IMAGES', 1, 'false', 'Do not embed images in articles', 2);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,short_desc,section_id) values('_DEFAULT_VIEW_ORDER_BY', 2, 'default', '', 1);
 

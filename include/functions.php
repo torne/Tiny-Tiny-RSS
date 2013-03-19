@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 105);
+	define('SCHEMA_VERSION', 106);
 
 	$fetch_last_error = false;
 	$pluginhost = false;
@@ -2461,6 +2461,7 @@
 						num_comments,
 						comments,
 						int_id,
+						hide_images,
 						unread,feed_id,marked,published,link,last_read,orig_feed_id,
 						last_marked, last_published,
 						".SUBSTRING_FOR_DATE."(last_read,1,19) as last_read_noms,
@@ -2505,6 +2506,7 @@
 								"label_cache," .
 								"link," .
 								"last_read," .
+								"hide_images," .
 								"last_marked, last_published, " .
 								SUBSTRING_FOR_DATE . "(last_read,1,19) as last_read_noms," .
 								$since_id_part .
@@ -2560,14 +2562,10 @@
 
 	}
 
-	function sanitize($link, $str, $force_strip_tags = false, $owner = false, $site_url = false) {
+	function sanitize($link, $str, $force_remove_images = false, $owner = false, $site_url = false) {
 		if (!$owner) $owner = $_SESSION["uid"];
 
 		$res = trim($str); if (!$res) return '';
-
-		if (get_pref($link, "STRIP_IMAGES", $owner)) {
-			$res = preg_replace('/<img[^>]+>/is', '', $res);
-		}
 
 		if (strpos($res, "href=") === false)
 			$res = rewrite_urls($res);
@@ -2604,6 +2602,23 @@
 					}
 
 					$entry->setAttribute('src', $src);
+				}
+
+				if ($entry->nodeName == 'img') {
+					if (get_pref($link, "STRIP_IMAGES", $owner) || $force_remove_images) {
+
+						$p = $doc->createElement('p');
+
+						$a = $doc->createElement('a');
+						$a->setAttribute('href', $entry->getAttribute('src'));
+
+						$a->appendChild(new DOMText($entry->getAttribute('src')));
+						$a->setAttribute('target', '_blank');
+
+						$p->appendChild($a);
+
+						$entry->parentNode->replaceChild($p, $entry);
+					}
 				}
 			}
 

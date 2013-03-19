@@ -722,6 +722,13 @@ function editSelectedFeeds() {
 								}
 							} catch (e) { }
 
+							try {
+								if (!query.match("&hide_images=") &&
+										this.getChildByName('hide_images').attr('disabled') == false) {
+									query = query + "&hide_images=false";
+								}
+							} catch (e) { }
+
 							if (!query.match("&include_in_digest=") &&
 									this.getChildByName('include_in_digest').attr('disabled') == false) {
 								query = query + "&include_in_digest=false";
