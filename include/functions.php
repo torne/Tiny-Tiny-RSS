@@ -2624,9 +2624,15 @@
 	function strip_harmful_tags($doc) {
 		$entries = $doc->getElementsByTagName("*");
 
-		$allowed_elements = array('p', 'br', 'div', 'table', 'tr', 'td', 'th',
-			'ul', 'ol', 'li', 'blockquote', 'span', 'html', 'body', 'a', 'img',
-			'video', 'audio', 'source', 'object', 'embed');
+		$allowed_elements = array('a', 'address', 'audio',
+			'b', 'big', 'blockquote', 'body', 'br', 'cite',
+			'code', 'dd', 'del', 'details', 'div', 'dl',
+			'dt', 'em', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+			'header', 'html', 'i', 'iframe', 'img', 'ins', 'kbd',
+			'li', 'nav', 'ol', 'p', 'pre', 'q', 's','small',
+			'source', 'span', 'strike', 'strong', 'sub', 'summary',
+			'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead',
+			'tr', 'track', 'tt', 'u', 'ul', 'var', 'wbr', 'video' );
 
 		if ($_SESSION['hasSandbox']) array_push($allowed_elements, 'iframe');
 
