@@ -895,8 +895,6 @@ function handle_rpc_json(transport, scheduled_call) {
 			if (runtime_info)
 				parse_runtime_info(runtime_info);
 
-			hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
-
 			Element.hide(dijit.byId("net-alert").domNode);
 
 		} else {

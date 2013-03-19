@@ -154,7 +154,6 @@ function feedlist_init() {
 	try {
 		console.log("in feedlist init");
 
-		hideOrShowFeeds(getInitParam("hide_read_feeds") == 1);
 		document.onkeydown = hotkey_handler;
 		setTimeout("hotkey_prefix_timeout()", 5*1000);
 
