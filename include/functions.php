@@ -2634,7 +2634,7 @@
 	function strip_harmful_tags($doc) {
 		$entries = $doc->getElementsByTagName("*");
 
-		$allowed_elements = array('a', 'address', 'audio',
+		$allowed_elements = array('a', 'address', 'audio', 'article',
 			'b', 'big', 'blockquote', 'body', 'br', 'cite',
 			'code', 'dd', 'del', 'details', 'div', 'dl',
 			'dt', 'em', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
