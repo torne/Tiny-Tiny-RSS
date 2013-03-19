@@ -2590,10 +2590,17 @@
 					$entry->setAttribute('href',
 						rewrite_relative_url($site_url, $entry->getAttribute('href')));
 
-				if ($entry->hasAttribute('src'))
-					if (preg_match('/^image.php\?i=[a-z0-9]+$/', $entry->getAttribute('src')) == 0)
-						$entry->setAttribute('src',
-							rewrite_relative_url($site_url, $entry->getAttribute('src')));
+				if ($entry->hasAttribute('src')) {
+					$src = rewrite_relative_url($site_url, $entry->getAttribute('src'));
+
+					$cached_filename = CACHE_DIR . '/images/' . sha1($src) . '.png';
+
+					if (file_exists($cached_filename)) {
+						$src = SELF_URL_PATH . '/image.php?hash=' . sha1($src);
+					}
+
+					$entry->setAttribute('src', $src);
+				}
 			}
 
 			if (strtolower($entry->nodeName) == "a") {

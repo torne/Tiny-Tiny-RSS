@@ -581,7 +581,7 @@
 				}
 
 				if ($cache_images && is_writable(CACHE_DIR . '/images'))
-					$entry_content = cache_images($entry_content, $site_url, $debug_enabled);
+					cache_images($entry_content, $site_url, $debug_enabled);
 
 				$entry_content = db_escape_string($entry_content, false);
 
