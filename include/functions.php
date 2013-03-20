@@ -286,8 +286,12 @@
 		global $fetch_last_error;
 
 		if (function_exists('curl_init') && !ini_get("open_basedir")) {
-			//$ch = curl_init($url);
-			$ch = curl_init(geturl($url));
+
+			if (ini_get("safe_mode")) {
+				$ch = curl_init(geturl($url));
+			} else {
+				$ch = curl_init($url);
+			}
 
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout ? $timeout : 15);
 			curl_setopt($ch, CURLOPT_TIMEOUT, $timeout ? $timeout : 45);
