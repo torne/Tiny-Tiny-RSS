@@ -2609,7 +2609,8 @@
 				}
 
 				if ($entry->nodeName == 'img') {
-					if (get_pref($link, "STRIP_IMAGES", $owner) || $force_remove_images) {
+					if (($owner && get_pref($link, "STRIP_IMAGES", $owner)) ||
+							$force_remove_images) {
 
 						$p = $doc->createElement('p');
 
@@ -3633,7 +3634,7 @@
 				array_push($entries, $entry);
 			}
 
-			if (!get_pref($link, "STRIP_IMAGES")) {
+			if ($_SESSION['uid'] && !get_pref($link, "STRIP_IMAGES")) {
 				if ($always_display_enclosures ||
 							!preg_match("/<img/i", $article_content)) {
 

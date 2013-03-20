@@ -1365,13 +1365,21 @@ function cdmExpandArticle(id) {
 		}
 
 		setActiveArticleId(id);
+		cdmScrollToArticleId(id, true);
 
 		elem = $("CICD-" + id);
 
 		var collapse = $$("div#RROW-" + id +
 				" span[class='collapseBtn']")[0];
 
+		var cencw = $("CENCW-" + id);
+
 		if (!Element.visible(elem)) {
+			if (cencw) {
+				cencw.innerHTML = htmlspecialchars_decode(cencw.innerHTML);
+				cencw.setAttribute('id', '');
+			}
+
 			Element.show(elem);
 			Element.hide("CEXC-" + id);
 			Element.show(collapse);

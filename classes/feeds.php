@@ -263,6 +263,8 @@ class Feeds extends Handler_Protected {
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("PS", $timing_info);
 
+			$expand_cdm = get_pref($this->link, 'CDM_EXPANDED');
+
 			while ($line = db_fetch_assoc($result)) {
 				$class = ($lnum % 2) ? "even" : "odd";
 
@@ -512,8 +514,6 @@ class Feeds extends Handler_Protected {
 						}
 					}
 
-					$expand_cdm = get_pref($this->link, 'CDM_EXPANDED');
-
 					$mouseover_attrs = "onmouseover='postMouseIn($id)'
 						onmouseout='postMouseOut($id)'";
 
@@ -627,16 +627,17 @@ class Feeds extends Handler_Protected {
 					}
 
 					$reply['content'] .= "<span id=\"CWRAP-$id\">";
-					$reply['content'] .= $line["content"];
+
+					if (!$expand_cdm) {
+						$reply['content'] .= "<span id=\"CENCW-$id\">";
+						$reply['content'] .= htmlspecialchars($line["content"]);
+						$reply['content'] .= "</span.";
+
+					} else {
+						$reply['content'] .= $line["content"];
+					}
+
 					$reply['content'] .= "</span>";
-
-/*					$tmp_result = db_query($this->link, "SELECT always_display_enclosures FROM
-						ttrss_feeds WHERE id = ".
-						(($line['feed_id'] == null) ? $line['orig_feed_id'] :
-							$line['feed_id'])." AND owner_uid = ".$_SESSION["uid"]);
-
-					$always_display_enclosures = sql_bool_to_bool(db_fetch_result($tmp_result,
-						0, "always_display_enclosures")); */
 
 					$always_display_enclosures = sql_bool_to_bool($line["always_display_enclosures"]);
 
@@ -944,7 +945,6 @@ class Feeds extends Handler_Protected {
 
 		return $reply;
 	}
-
 
 }
 ?>
