@@ -2870,6 +2870,8 @@
 
 		$entry = "";
 
+		$url = htmlspecialchars($url);
+
 		if (strpos($ctype, "audio/") === 0) {
 
 			if ($_SESSION["hasAudio"] && (strpos($ctype, "ogg") !== false ||
@@ -2896,7 +2898,8 @@
 					</object>";
 			}
 
-			if ($entry) $entry .= "&nbsp;" . basename($url);
+			if ($entry) $entry .= "&nbsp; <a target=\"_blank\"
+				href=\"$url\">" . basename($url) . "</a>";
 
 			return $entry;
 
