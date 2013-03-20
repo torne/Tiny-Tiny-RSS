@@ -1365,7 +1365,6 @@ function cdmExpandArticle(id) {
 		}
 
 		setActiveArticleId(id);
-		cdmScrollToArticleId(id, true);
 
 		elem = $("CICD-" + id);
 
@@ -1377,6 +1376,13 @@ function cdmExpandArticle(id) {
 			Element.hide("CEXC-" + id);
 			Element.show(collapse);
 		}
+
+		/* var new_offset = $("RROW-" + id).offsetTop;
+
+		$("headlines-frame").scrollTop += (new_offset-old_offset);
+
+		if ($("RROW-" + id).offsetTop != old_offset)
+			$("headlines-frame").scrollTop = new_offset; */
 
 		toggleUnread(id, 0, true);
 		toggleSelected(id);
