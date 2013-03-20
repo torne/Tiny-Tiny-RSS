@@ -1746,7 +1746,7 @@ function feedBrowser() {
 					} });
 			},
 			removeFromArchive: function() {
-				var selected = this.getSelectedFeeds();
+				var selected = this.getSelectedFeedIds();
 
 				if (selected.length > 0) {
 
