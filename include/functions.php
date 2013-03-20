@@ -2060,7 +2060,7 @@
 		return $data;
 	}
 
-	function search_to_sql($link, $search, $match_on) {
+	function search_to_sql($link, $search) {
 
 		$search_query_part = "";
 
@@ -2107,13 +2107,9 @@
 				//$k = date("Y-m-d", strtotime(substr($k, 1)));
 
 				array_push($query_keywords, "(".SUBSTRING_FOR_DATE."(updated,1,LENGTH('$k')) $not = '$k')");
-			} else if ($match_on == "both") {
+			} else {
 				array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
 						OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
-			} else if ($match_on == "title") {
-				array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%'))");
-			} else if ($match_on == "content") {
-				array_push($query_keywords, "(UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
 			}
 		}
 
@@ -2150,7 +2146,7 @@
 		return $rv;
 	}
 
-	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false) {
+	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false) {
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
@@ -2167,7 +2163,7 @@
 						$search_query_part = "ref_id = -1 AND ";
 
 				} else {
-					$search_query_part = search_to_sql($link, $search, $match_on);
+					$search_query_part = search_to_sql($link, $search);
 					$search_query_part .= " AND ";
 				}
 

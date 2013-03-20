@@ -22,7 +22,7 @@ class Feeds extends Handler_Protected {
 	}
 
 	private function format_headline_subtoolbar($feed_site_url, $feed_title,
-			$feed_id, $is_cat, $search, $match_on,
+			$feed_id, $is_cat, $search,
 			$search_mode, $view_mode, $error) {
 
 		$page_prev_link = "viewFeedGoPage(-1)";
@@ -50,7 +50,7 @@ class Feeds extends Handler_Protected {
 		if ($is_cat) $cat_q = "&is_cat=$is_cat";
 
 		if ($search) {
-			$search_q = "&q=$search&m=$match_on&smode=$search_mode";
+			$search_q = "&q=$search&smode=$search_mode";
 		} else {
 			$search_q = "";
 		}
@@ -209,7 +209,6 @@ class Feeds extends Handler_Protected {
 		}
 
 		@$search_mode = db_escape_string($_REQUEST["search_mode"]);
-		$match_on = "both"; // deprecated, TODO: remove
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H0", $timing_info);
 
@@ -219,7 +218,7 @@ class Feeds extends Handler_Protected {
 		}
 //		error_log("search_mode: " . $search_mode);
 		$qfh_ret = queryFeedHeadlines($this->link, $feed, $limit, $view_mode, $cat_view,
-			$search, $search_mode, $match_on, $override_order, $offset, 0,
+			$search, $search_mode, $override_order, $offset, 0,
 			false, 0, $include_children);
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H1", $timing_info);
@@ -233,7 +232,7 @@ class Feeds extends Handler_Protected {
 
 		$reply['toolbar'] = $this->format_headline_subtoolbar($feed_site_url,
 			$feed_title,
-			$feed, $cat_view, $search, $match_on, $search_mode, $view_mode,
+			$feed, $cat_view, $search, $search_mode, $view_mode,
 			$last_error);
 
 		$headlines_count = db_num_rows($result);

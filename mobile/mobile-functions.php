@@ -341,14 +341,12 @@
 
 		if ($search) {
 			$search_mode = 'this_feed';
-			$match_on = 'both';
 		} else {
 			$search_mode = '';
-			$match_on = '';
 		}
 
 		$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit,
-			$view_mode, $is_cat, $search, $search_mode, $match_on,
+			$view_mode, $is_cat, $search, $search_mode,
 			"score DESC, date_entered ".(mobile_get_pref($link, 'REVERSE_HEADLINES') ? 'ASC' : 'DESC'), $offset);
 
 		$result = $qfh_ret[0];
