@@ -4030,8 +4030,8 @@
 			$oline='';
 			foreach($status as $key=>$eline){$oline.='['.$key.']'.$eline.' ';}
 			$line =$oline." \r\n ".$url."\r\n-----------------\r\n";
-			$handle = @fopen('./curl.error.log', 'a');
-			fwrite($handle, $line);
+#			$handle = @fopen('./curl.error.log', 'a');
+#			fwrite($handle, $line);
 			return FALSE;
 		}
 		return $url;
