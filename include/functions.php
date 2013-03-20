@@ -1889,7 +1889,7 @@
 				"article_scroll_up" => __("Scroll up"),
 				"select_article_cursor" => __("Select article under cursor"),
 				"email_article" => __("Email article"),
-				"close_article" => __("Close article"),
+				"close_article" => __("Close/collapse article"),
 				"toggle_widescreen" => __("Toggle widescreen mode")),
 			__("Article selection") => array(
 				"select_all" => __("Select all articles"),

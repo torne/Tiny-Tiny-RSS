@@ -548,6 +548,10 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= $labels_str;
 
+					$reply['content'] .= "<span class='collapseBtn' style='display : none'>
+						<img src=\"images/collapse.png\" onclick=\"cdmCollapseArticle(event, $id)\"
+						title=\"".__("Collapse article")."\"/></span>";
+
 					if (!$expand_cdm)
 						$content_hidden = "style=\"display : none\"";
 					else
@@ -555,7 +559,6 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= "<span $excerpt_hidden
 						id=\"CEXC-$id\" class=\"cdmExcerpt\"> - $content_preview</span>";
-
 					$reply['content'] .= "</span>";
 
 					if (!get_pref($this->link, 'VFEED_GROUP_BY_FEED')) {

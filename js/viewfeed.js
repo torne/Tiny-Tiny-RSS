@@ -1312,6 +1312,35 @@ function catchupRelativeToArticle(below, id) {
 	}
 }
 
+function cdmCollapseArticle(event, id) {
+	try {
+		var row = $("RROW-" + id);
+		var elem = $("CICD-" + id);
+
+		if (elem && row) {
+			row.removeClassName("Selected");
+
+			var collapse = $$("div#RROW-" + id +
+				" span[class='collapseBtn']")[0];
+
+		  	Element.hide(elem);
+			Element.show("CEXC-" + id);
+			Element.hide(collapse);
+
+			markHeadline(id, false);
+
+			if (id == getActiveArticleId()) {
+				setActiveArticleId(0);
+			}
+
+			if (event) Event.stop(event);
+		}
+
+	} catch (e) {
+		exception_error("cdmCollapseArticle", e);
+	}
+}
+
 function cdmExpandArticle(id) {
 	try {
 
@@ -1327,17 +1356,25 @@ function cdmExpandArticle(id) {
 		var old_offset = $("RROW-" + id).offsetTop;
 
 		if (getActiveArticleId() && elem && !getInitParam("cdm_expanded")) {
+			var collapse = $$("div#RROW-" + getActiveArticleId() +
+				" span[class='collapseBtn']")[0];
+
 		  	Element.hide(elem);
 			Element.show("CEXC-" + getActiveArticleId());
+			Element.hide(collapse);
 		}
 
 		setActiveArticleId(id);
 
 		elem = $("CICD-" + id);
 
+		var collapse = $$("div#RROW-" + id +
+				" span[class='collapseBtn']")[0];
+
 		if (!Element.visible(elem)) {
 			Element.show(elem);
 			Element.hide("CEXC-" + id);
+			Element.show(collapse);
 		}
 
 		/* var new_offset = $("RROW-" + id).offsetTop;
@@ -1514,6 +1551,7 @@ function cdmClicked(event, id) {
 		if (!event.ctrlKey) {
 
 			if (!getInitParam("cdm_expanded")) {
+				if (event) Event.stop(event);
 				return cdmExpandArticle(id);
 			} else {
 
@@ -1609,13 +1647,15 @@ function isCdmMode() {
 	return getInitParam("combined_display_mode");
 }
 
-function markHeadline(id) {
+function markHeadline(id, marked) {
+	if (marked == undefined) marked = true;
+
 	var row = $("RROW-" + id);
 	if (row) {
 		var check = dijit.byId("RCHK-" + id);
 
 		if (check) {
-			check.attr("checked", true);
+			check.attr("checked", marked);
 		}
 
 		row.addClassName("Selected");

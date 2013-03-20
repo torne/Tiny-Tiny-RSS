@@ -669,7 +669,15 @@ function hotkey_handler(e) {
 			scrollArticle(-ctr.offsetHeight/3);
 			return false;
 		case "close_article":
-			closeArticlePanel();
+			if (isCdmMode()) {
+				if (!getInitParam("cdm_expanded")) {
+					cdmCollapseArticle(false, getActiveArticleId());
+				} else {
+					dismissArticle(getActiveArticleId());
+				}
+			} else {
+				closeArticlePanel();
+			}
 			return false;
 		case "email_article":
 			if (typeof emailArticle != "undefined") {
