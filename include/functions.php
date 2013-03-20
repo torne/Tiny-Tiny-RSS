@@ -2634,7 +2634,8 @@
 
 		$entries = $xpath->query('//iframe');
 		foreach ($entries as $entry) {
-			$entry->setAttribute('sandbox', true);
+			$entry->setAttribute('sandbox', 'allow-scripts');
+
 		}
 
 		global $pluginhost;
