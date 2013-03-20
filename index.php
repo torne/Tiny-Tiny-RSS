@@ -185,7 +185,8 @@
 			<option value="score"><?php echo __('Score') ?></option>
 		</select>
 
-		<button dojoType="dijit.form.Button" name="update"
+		<!-- deprecated -->
+		<button dojoType="dijit.form.Button" name="update" style="display : none"
 			onclick="viewCurrentFeed()">
 			<?php echo __('Update') ?></button>
 
