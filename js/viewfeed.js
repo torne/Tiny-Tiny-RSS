@@ -1318,8 +1318,6 @@ function cdmCollapseArticle(event, id) {
 		var elem = $("CICD-" + id);
 
 		if (elem && row) {
-			row.removeClassName("Selected");
-
 			var collapse = $$("div#RROW-" + id +
 				" span[class='collapseBtn']")[0];
 
@@ -1343,6 +1341,8 @@ function cdmCollapseArticle(event, id) {
 
 function cdmExpandArticle(id) {
 	try {
+
+		console.log("cdmExpandArticle " + id);
 
 		hideAuxDlg();
 
@@ -1551,7 +1551,6 @@ function cdmClicked(event, id) {
 		if (!event.ctrlKey) {
 
 			if (!getInitParam("cdm_expanded")) {
-				if (event) Event.stop(event);
 				return cdmExpandArticle(id);
 			} else {
 
@@ -1658,7 +1657,10 @@ function markHeadline(id, marked) {
 			check.attr("checked", marked);
 		}
 
-		row.addClassName("Selected");
+		if (marked)
+			row.addClassName("Selected");
+		else
+			row.removeClassName("Selected");
 	}
 }
 

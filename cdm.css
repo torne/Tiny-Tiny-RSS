@@ -124,23 +124,23 @@ div.cdmHeader span.hlFeed {
 	font-style : italic;
 }
 
-div.cdmHeader {
+div.cdm.expanded .cdmHeader {
 	background : #EEF6FD;
 }
 
-div.Unread div.cdmHeader {
+div.cdm.expanded.Unread div.cdmHeader {
 	background : #DCECFB;
 }
 
-div.Unread.Selected div.cdmHeader, div.Selected div.cdmHeader {
+div.cdm.expanded.Unread.Selected div.cdmHeader, div.cdm.expanded.Selected div.cdmHeader {
 	background : #FFEA9E;
 }
 
-div.cdm.even.Unread, div.cdm.odd.Unread {
+div.cdm.expanded.even.Unread, div.cdm.expanded.odd.Unread {
 	background : white;
 }
 
-div.cdm.even, div.cdm.odd {
+div.cdm.expanded.even, div.cdm.expanded.odd {
 	background : #f9f9f9;
 }
 
