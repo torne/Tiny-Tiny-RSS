@@ -2656,7 +2656,7 @@
 
 		$allowed_elements = array('a', 'address', 'audio', 'article',
 			'b', 'big', 'blockquote', 'body', 'br', 'cite',
-			'code', 'dd', 'del', 'details', 'div', 'dl',
+			'code', 'dd', 'del', 'details', 'div', 'dl', 'font',
 			'dt', 'em', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
 			'header', 'html', 'i', 'img', 'ins', 'kbd',
 			'li', 'nav', 'ol', 'p', 'pre', 'q', 's','small',
