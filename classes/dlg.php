@@ -236,8 +236,7 @@ class Dlg extends Handler_Protected {
 
 		print "<div style='float : right'>
 			<img style='display : none'
-				id='feed_add_spinner' src='".
-				theme_image($this->link, 'images/indicator_white.gif')."'></div>";
+				id='feed_add_spinner' src='images/indicator_white.gif'></div>";
 
 		print "<input style=\"font-size : 16px; width : 20em;\"
 			placeHolder=\"".__("Feed or site URL")."\"
@@ -311,8 +310,7 @@ class Dlg extends Handler_Protected {
 		print "<div dojoType=\"dijit.Toolbar\">
 			<div style='float : right'>
 			<img style='display : none'
-				id='feed_browser_spinner' src='".
-				theme_image($this->link, 'images/indicator_white.gif')."'>
+				id='feed_browser_spinner' src='images/indicator_white.gif'>
 			<input name=\"search\" dojoType=\"dijit.form.TextBox\" size=\"20\" type=\"search\"
 				onchange=\"dijit.byId('feedBrowserDlg').update()\" value=\"$browser_search\">
 			<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('feedBrowserDlg').update()\">".__('Search')."</button>

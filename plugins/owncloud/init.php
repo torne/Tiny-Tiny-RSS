@@ -68,7 +68,7 @@ class OwnCloud extends Plugin {
   }
 
   function hook_article_button($line) {
-    return "<img src=\"".theme_image($this->link, "plugins/owncloud/owncloud.png")."\"
+    return "<img src=\"plugins/owncloud/owncloud.png\"
              style=\"cursor : pointer\" style=\"cursor : pointer\"
              onclick=\"ownArticle(".$line["id"].")\"
              class='tagsPic' title='".__('Bookmark on OwnCloud ')."'>";

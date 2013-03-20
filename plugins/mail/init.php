@@ -22,7 +22,7 @@ class Mail extends Plugin {
 	}
 
 	function hook_article_button($line) {
-		return "<img src=\"".theme_image($link, 'plugins/mail/mail.png')."\"
+		return "<img src=\"plugins/mail/mail.png\"
 					class='tagsPic' style=\"cursor : pointer\"
 					onclick=\"emailArticle(".$line["id"].")\"
 					alt='Zoom' title='".__('Forward by email')."'>";

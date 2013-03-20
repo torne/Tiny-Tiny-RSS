@@ -786,11 +786,6 @@
 		}
 	}
 
-	// Deprecated, TODO: remove
-	function theme_image($link, $filename) {
-		return $filename;
-	}
-
 	function convert_timestamp($timestamp, $source_tz, $dest_tz) {
 
 		try {
@@ -1825,10 +1820,10 @@
 	function make_init_params($link) {
 		$params = array();
 
-		$params["sign_progress"] = theme_image($link, "images/indicator_white.gif");
-		$params["sign_progress_tiny"] = theme_image($link, "images/indicator_tiny.gif");
-		$params["sign_excl"] = theme_image($link, "images/sign_excl.svg");
-		$params["sign_info"] = theme_image($link, "images/sign_info.svg");
+		$params["sign_progress"] = "images/indicator_white.gif";
+		$params["sign_progress_tiny"] = "images/indicator_tiny.gif";
+		$params["sign_excl"] = "images/sign_excl.svg";
+		$params["sign_info"] = "images/sign_info.svg";
 
 		foreach (array("ON_CATCHUP_SHOW_NEXT_FEED", "HIDE_READ_FEEDS",
 			"ENABLE_FEED_CATS", "FEEDS_SORT_BY_UNREAD", "CONFIRM_FEED_CATCHUP",
@@ -2839,19 +2834,19 @@
 	function format_warning($msg, $id = "") {
 		global $link;
 		return "<div class=\"warning\" id=\"$id\">
-			<img src=\"".theme_image($link, "images/sign_excl.svg")."\">$msg</div>";
+			<img src=\"images/sign_excl.svg\">$msg</div>";
 	}
 
 	function format_notice($msg, $id = "") {
 		global $link;
 		return "<div class=\"notice\" id=\"$id\">
-			<img src=\"".theme_image($link, "images/sign_info.svg")."\">$msg</div>";
+			<img src=\"images/sign_info.svg\">$msg</div>";
 	}
 
 	function format_error($msg, $id = "") {
 		global $link;
 		return "<div class=\"error\" id=\"$id\">
-			<img src=\"".theme_image($link, "images/sign_excl.svg")."\">$msg</div>";
+			<img src=\"images/sign_excl.svg\">$msg</div>";
 	}
 
 	function print_notice($msg) {
@@ -3040,7 +3035,7 @@
 			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
 
 			$rv['content'] .= "<div class='postTags' style='float : right'>
-				<img src='".theme_image($link, 'images/tag.png')."'
+				<img src='images/tag.png'
 				class='tagsPic' alt='Tags' title='Tags'>&nbsp;";
 
 			if (!$zoom_mode) {
