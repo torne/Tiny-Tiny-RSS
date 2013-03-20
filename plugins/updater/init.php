@@ -230,6 +230,7 @@ class Updater extends Plugin {
 					CACHE_DIR,
 					CACHE_DIR . "/export",
 					CACHE_DIR . "/images",
+					CACHE_DIR . "/js",
 					CACHE_DIR . "/simplepie",
 					ICONS_DIR,
 					LOCK_DIRECTORY);

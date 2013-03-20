@@ -286,8 +286,12 @@
 		global $fetch_last_error;
 
 		if (function_exists('curl_init') && !ini_get("open_basedir")) {
-			//$ch = curl_init($url);
-			$ch = curl_init(geturl($url));
+
+			if (ini_get("safe_mode")) {
+				$ch = curl_init(geturl($url));
+			} else {
+				$ch = curl_init($url);
+			}
 
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout ? $timeout : 15);
 			curl_setopt($ch, CURLOPT_TIMEOUT, $timeout ? $timeout : 45);
@@ -1885,7 +1889,7 @@
 				"article_scroll_up" => __("Scroll up"),
 				"select_article_cursor" => __("Select article under cursor"),
 				"email_article" => __("Email article"),
-				"close_article" => __("Close article"),
+				"close_article" => __("Close/collapse article"),
 				"toggle_widescreen" => __("Toggle widescreen mode")),
 			__("Article selection") => array(
 				"select_all" => __("Select all articles"),
@@ -2870,6 +2874,8 @@
 
 		$entry = "";
 
+		$url = htmlspecialchars($url);
+
 		if (strpos($ctype, "audio/") === 0) {
 
 			if ($_SESSION["hasAudio"] && (strpos($ctype, "ogg") !== false ||
@@ -2896,7 +2902,8 @@
 					</object>";
 			}
 
-			if ($entry) $entry .= "&nbsp;" . basename($url);
+			if ($entry) $entry .= "&nbsp; <a target=\"_blank\"
+				href=\"$url\">" . basename($url) . "</a>";
 
 			return $entry;
 
@@ -4027,8 +4034,8 @@
 			$oline='';
 			foreach($status as $key=>$eline){$oline.='['.$key.']'.$eline.' ';}
 			$line =$oline." \r\n ".$url."\r\n-----------------\r\n";
-			$handle = @fopen('./curl.error.log', 'a');
-			fwrite($handle, $line);
+#			$handle = @fopen('./curl.error.log', 'a');
+#			fwrite($handle, $line);
 			return FALSE;
 		}
 		return $url;
