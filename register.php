@@ -219,15 +219,15 @@
 	<table>
 	<tr>
 	<td><?php echo __('Desired login:') ?></td><td>
-		<input name="login">
+		<input name="login" required>
 	</td><td>
 		<input type="submit" value="<?php echo __('Check availability') ?>" onclick='return checkUsername()'>
 	</td></tr>
 	<tr><td><?php echo __('Email:') ?></td><td>
-		<input name="email">
+		<input name="email" type="email" required>
 	</td></tr>
 	<tr><td><?php echo __('How much is two plus two:') ?></td><td>
-		<input name="turing_test"></td></tr>
+		<input name="turing_test" required></td></tr>
 	<tr><td colspan="2" align="right">
 	<input type="submit" name="sub_btn" value="<?php echo __('Submit registration') ?>"
 			disabled="disabled" onclick='return validateRegForm()'>

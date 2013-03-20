@@ -29,11 +29,16 @@ class Af_Unburn extends Plugin {
 
 			if (strpos($article["plugin_data"], "unburn,$owner_uid:") === FALSE) {
 
-				$ch = curl_init(geturl($article["link"]));
+				if (ini_get("safe_mode")) {
+					$ch = curl_init(geturl($article["link"]));
+				} else {
+					$ch = curl_init($article["link"]);
+				}
+
 				curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 				curl_setopt($ch, CURLOPT_HEADER, true);
-				//curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, !ini_get("safe_mode"));
 				curl_setopt($ch, CURLOPT_USERAGENT, SELF_USER_AGENT);
 
 				$contents = @curl_exec($ch);
@@ -74,7 +79,7 @@ class Af_Unburn extends Plugin {
 
 		return $article;
 	}
-	
+
 		function geturl($url){
 
 		(function_exists('curl_init')) ? '' : die('cURL Must be installed for geturl function to work. Ask your host to enable it or uncomment extension=php_curl.dll in php.ini');

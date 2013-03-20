@@ -559,16 +559,23 @@ function moveToPost(mode, noscroll) {
 					var prev_article = $("RROW-" + prev_id);
 					var ctr = $("headlines-frame");
 
-					if (!noscroll && article && article.offsetTop < ctr.scrollTop) {
-						scrollArticle(-ctr.offsetHeight/3);
-					} else if (!noscroll && prev_article &&
-							prev_article.offsetTop < ctr.scrollTop) {
+					if (!getInitParam("cdm_expanded")) {
 						cdmExpandArticle(prev_id);
-						scrollArticle(-ctr.offsetHeight/3);
-					} else if (prev_id) {
-						cdmExpandArticle(prev_id);
-						cdmScrollToArticleId(prev_id, noscroll);
+						cdmScrollToArticleId(prev_id, true);
+					} else {
+
+						if (!noscroll && article && article.offsetTop < ctr.scrollTop) {
+							scrollArticle(-ctr.offsetHeight/3);
+						} else if (!noscroll && prev_article &&
+								prev_article.offsetTop < ctr.scrollTop) {
+							cdmExpandArticle(prev_id);
+							scrollArticle(-ctr.offsetHeight/3);
+						} else if (prev_id) {
+							cdmExpandArticle(prev_id);
+							cdmScrollToArticleId(prev_id, noscroll);
+						}
 					}
+
 				} else if (prev_id) {
 					correctHeadlinesOffset(prev_id);
 					view(prev_id, getActiveFeedId());
@@ -1366,12 +1373,23 @@ function cdmExpandArticle(id) {
 
 		setActiveArticleId(id);
 
+		if (!getInitParam("cdm_expanded")) {
+			cdmScrollToArticleId(id, true);
+		}
+
 		elem = $("CICD-" + id);
 
 		var collapse = $$("div#RROW-" + id +
 				" span[class='collapseBtn']")[0];
 
+		var cencw = $("CENCW-" + id);
+
 		if (!Element.visible(elem)) {
+			if (cencw) {
+				cencw.innerHTML = htmlspecialchars_decode(cencw.innerHTML);
+				cencw.setAttribute('id', '');
+			}
+
 			Element.show(elem);
 			Element.hide("CEXC-" + id);
 			Element.show(collapse);

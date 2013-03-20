@@ -7,8 +7,7 @@
 <head>
 	<title>Tiny Tiny RSS</title>
 
-	<link rel="stylesheet" type="text/css" href="lib/dijit/themes/claro/claro.css"/>
-	<link rel="stylesheet" type="text/css" href="plugins/digest/digest.css?<?php echo $dt_add ?>"/>
+	<?php echo stylesheet_tag("plugins/digest/digest.css") ?>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
@@ -16,13 +15,18 @@
 
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
 
-	<script type="text/javascript" src="lib/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
-	<script type="text/javascript" src="lib/prototype.js"></script>
-	<script type="text/javascript" src="lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls"></script>
+	<?php
+	foreach (array("lib/prototype.js",
+				"lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls",
+				"localized_js.php",
+				"js/functions.js",
+				"plugins/digest/digest.js",
+				"errors.php?mode=js") as $jsfile) {
 
-	<script type="text/javascript" charset="utf-8" src="localized_js.php?<?php echo $dt_add ?>"></script>
-	<script type="text/javascript" charset="utf-8" src="errors.php?mode=js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/functions.js?<?php echo $dt_add ?>"></script>
+		echo javascript_tag($jsfile);
+
+	} ?>
+
 	<script type="text/javascript" src="plugins/digest/digest.js"></script>
 
 	<script type="text/javascript">
@@ -31,7 +35,7 @@
 		});
 	</script>
 </head>
-<body id="ttrssDigest" class="claro">
+<body id="ttrssDigest">
 	<div id="overlay" style="display : block">
 		<div id="overlay_inner">
 		<noscript>

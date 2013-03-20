@@ -295,7 +295,7 @@
 
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout ? $timeout : 15);
 			curl_setopt($ch, CURLOPT_TIMEOUT, $timeout ? $timeout : 45);
-			//curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, !ini_get("safe_mode"));
 			curl_setopt($ch, CURLOPT_MAXREDIRS, 20);
 			curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -2609,7 +2609,8 @@
 				}
 
 				if ($entry->nodeName == 'img') {
-					if (get_pref($link, "STRIP_IMAGES", $owner) || $force_remove_images) {
+					if (($owner && get_pref($link, "STRIP_IMAGES", $owner)) ||
+							$force_remove_images) {
 
 						$p = $doc->createElement('p');
 
@@ -3633,7 +3634,7 @@
 				array_push($entries, $entry);
 			}
 
-			if (!get_pref($link, "STRIP_IMAGES")) {
+			if ($_SESSION['uid'] && !get_pref($link, "STRIP_IMAGES")) {
 				if ($always_display_enclosures ||
 							!preg_match("/<img/i", $article_content)) {
 
@@ -4067,6 +4068,27 @@
 		}
 
 		return $rv;
+	}
+
+	function stylesheet_tag($filename) {
+		$timestamp = filemtime($filename);
+
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"$filename?$timestamp\"/>\n";
+	}
+
+	function javascript_tag($filename) {
+		$query = "";
+
+		if (!(strpos($filename, "?") === FALSE)) {
+			$query = substr($filename, strpos($filename, "?")+1);
+			$filename = substr($filename, 0, strpos($filename, "?"));
+		}
+
+		$timestamp = filemtime($filename);
+
+		if ($query) $timestamp .= "&$query";
+
+		echo "<script type=\"text/javascript\" charset=\"utf-8\" src=\"$filename?$timestamp\"></script>\n";
 	}
 
 ?>

@@ -670,8 +670,6 @@ function init_second_stage() {
 
 function init() {
 	try {
-		dojo.require("dijit.Dialog");
-
 		new Ajax.Request("backend.php", {
 			parameters: {op: "rpc", method: "sanityCheck"},
 			onComplete: function(transport) {
