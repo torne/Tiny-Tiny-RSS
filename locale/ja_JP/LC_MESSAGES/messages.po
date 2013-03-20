@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: tt-rss unstable\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-20 15:53+0400\n"
-"PO-Revision-Date: 2009-05-12 03:25+0900\n"
-"Last-Translator: Tadashi Jokagi <elf2000@users.sourceforge.net>\n"
-"Language-Team: Japanese <http://oss.poyo.jp/>\n"
+"PO-Revision-Date: 2013-03-21 06:24+0900\n"
+"Last-Translator: skikuta <kik0220@gmail.com>\n"
+"Language-Team: \n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -106,12 +106,11 @@ msgstr "データベースを更新できません"
 
 #: db-updater.php:88
 msgid "Could not find necessary schema file, need version:"
-msgstr ""
-"必要なスキーマファイルを見つけられませんでした。次のバージョンが必要です:"
+msgstr "必要なスキーマファイルを見つけられませんでした。次のバージョンが必要です:"
 
 #: db-updater.php:89
 msgid ", found: "
-msgstr ""
+msgstr ", 以下が見つかりました: "
 
 #: db-updater.php:92
 msgid "Tiny Tiny RSS database is up to date."
@@ -173,18 +172,20 @@ msgstr ""
 
 #: db-updater.php:168
 msgid "Your database schema is from a newer version of Tiny Tiny RSS."
-msgstr ""
+msgstr "Databaseスキーマは、Tiny Tiny RSSの新しいバージョンからのものです。"
 
 #: db-updater.php:170
 #, php-format
 msgid "Found schema version: <b>%d</b>, required: <b>%d</b>."
-msgstr ""
+msgstr "スキーマバージョンが: <b>%d</b>, でした。 以下が必要です: <b>%d</b>."
 
 #: db-updater.php:172
 msgid ""
 "Schema upgrade impossible. Please update Tiny Tiny RSS files to the newer "
 "version and continue."
 msgstr ""
+"スキーマアップグレードができません。Tiny Tiny RSSを新しいバージョンに更新してから、"
+"続けてください。"
 
 #: errors.php:9
 msgid ""
@@ -199,7 +200,7 @@ msgid ""
 "This program requires cookies to function properly. Your browser doesn't "
 "seem to support them."
 msgstr ""
-"このプログラムは Cookie が正しく機能することを要求します。あなたのブラウザー"
+"このプログラムは Cookie が正しく機能することを要求します。あなたのブラウザ"
 "はそれをサポートしていないように見えます。"
 
 #: errors.php:15
@@ -237,8 +238,7 @@ msgstr ""
 
 #: errors.php:27
 msgid "Denied. Your access level is insufficient to access this page."
-msgstr ""
-"拒否します。このページへのアクセスをするにはアクセスレベルが不足します。"
+msgstr "拒否します。あなたの権限では、このページへのアクセスができません。"
 
 #: errors.php:29
 msgid "Configuration check failed"
@@ -255,9 +255,7 @@ msgstr ""
 
 #: errors.php:36
 msgid "SQL escaping test failed, check your database and PHP configuration"
-msgstr ""
-"SQL のエスケープ処理のテストに失敗しました。データベースの設定と PHP の設定を"
-"確認してください。"
+msgstr "SQLのエスケープ処理のテストに失敗しました。データベースとPHPの設定を確認してください。"
 
 #: index.php:117 index.php:147 index.php:252 prefs.php:79
 #: classes/backend.php:5 classes/pref/labels.php:296
@@ -268,7 +266,7 @@ msgstr "読み込みんでいます。しばらくお待ちください..."
 
 #: index.php:127 index.php:198
 msgid "Communication problem with server."
-msgstr ""
+msgstr "サーバーとの通信に問題が発生しました。"
 
 #: index.php:133 index.php:206
 msgid "New version of Tiny Tiny RSS is available!"
@@ -391,12 +389,12 @@ msgstr "その他の操作:"
 
 #: index.php:225
 msgid "Switch to digest..."
-msgstr ""
+msgstr "ダイジェストに移行..."
 
 #: index.php:227
 #, fuzzy
 msgid "Show tag cloud..."
-msgstr "タグクラウド"
+msgstr "タグクラウドを表示..."
 
 #: index.php:229 include/functions.php:1893
 #, fuzzy
@@ -405,7 +403,7 @@ msgstr "カテゴリーの並び替えモードの切り替え"
 
 #: index.php:231
 msgid "Select by tags..."
-msgstr ""
+msgstr "タグで選択..."
 
 #: index.php:232
 msgid "Create label..."
@@ -470,22 +468,25 @@ msgid ""
 "were not logged in once, are erased automatically 24 hours after temporary "
 "password is sent."
 msgstr ""
+"一時的なパスワードをメールで送りました。"
+"このアカウント（一度だけログイン出来ます。）は"
+"24時間後に削除されます。"
 
 #: register.php:221
 msgid "Desired login:"
-msgstr ""
+msgstr "ご希望のlogin名:"
 
 #: register.php:224
 msgid "Check availability"
-msgstr ""
+msgstr "有効性の確認"
 
 #: register.php:226
 msgid "Email:"
-msgstr "電子メール:"
+msgstr "メールアドレス:"
 
 #: register.php:229
 msgid "How much is two plus two:"
-msgstr ""
+msgstr "2 + 2 = ？"
 
 #: register.php:232
 msgid "Submit registration"
@@ -533,7 +534,7 @@ msgstr "パスワード:"
 
 #: mobile/login_form.php:52
 msgid "Open regular version"
-msgstr ""
+msgstr "PC版を開く"
 
 #: mobile/mobile-functions.php:68 mobile/mobile-functions.php:144
 #: mobile/mobile-functions.php:180 mobile/mobile-functions.php:207
@@ -549,7 +550,7 @@ msgstr "特別"
 
 #: mobile/mobile-functions.php:418
 msgid "Nothing found (click to reload feed)."
-msgstr ""
+msgstr "見つかりません(フィードを再読み込みして下さい)"
 
 #: mobile/prefs.php:24
 #, fuzzy
@@ -636,7 +637,7 @@ msgstr "未読記事"
 
 #: include/functions.php:1803
 msgid "Recently read"
-msgstr ""
+msgstr "最近読んだ"
 
 #: include/functions.php:1870
 msgid "Navigation"
@@ -645,21 +646,21 @@ msgstr "ナビゲーション"
 #: include/functions.php:1871
 #, fuzzy
 msgid "Open next feed"
-msgstr "生成したフィード"
+msgstr "次のフィードを開く"
 
 #: include/functions.php:1872
 msgid "Open previous feed"
-msgstr ""
+msgstr "前のフィードを開く"
 
 #: include/functions.php:1873
 #, fuzzy
 msgid "Open next article"
-msgstr "元の記事内容を表示する"
+msgstr "次の記事を開く"
 
 #: include/functions.php:1874
 #, fuzzy
 msgid "Open previous article"
-msgstr "元の記事内容を表示する"
+msgstr "前の記事を開く"
 
 #: include/functions.php:1875
 msgid "Open next article (don't scroll long articles)"
@@ -2301,7 +2302,7 @@ msgstr "すべて終了しました。"
 #: classes/pref/feeds.php:1185
 #, fuzzy
 msgid "Feeds with errors"
-msgstr "フィードエディター"
+msgstr "フィードにエラー"
 
 #: classes/pref/feeds.php:1205
 #, fuzzy
