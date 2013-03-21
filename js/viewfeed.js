@@ -541,7 +541,7 @@ function moveToPost(mode, noscroll) {
 
 					} else if (next_id) {
 						cdmExpandArticle(next_id);
-						cdmScrollToArticleId(next_id, noscroll);
+						cdmScrollToArticleId(next_id, true);
 					}
 
 				} else if (next_id) {
