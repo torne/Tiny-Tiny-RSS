@@ -51,7 +51,11 @@ function db_escape_string($s, $strip_tags = true, $link = NULL) {
 			return pg_escape_string($s);
 		}
 	} else {
-		return mysql_real_escape_string($s, $link);
+		if ($link) {
+			return mysql_real_escape_string($s, $link);
+		} else {
+			return mysql_real_escape_string($s);
+		}
 	}
 }
 
