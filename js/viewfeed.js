@@ -560,8 +560,13 @@ function moveToPost(mode, noscroll) {
 					var ctr = $("headlines-frame");
 
 					if (!getInitParam("cdm_expanded")) {
-						cdmExpandArticle(prev_id);
-						cdmScrollToArticleId(prev_id, true);
+
+						if (!noscroll && article.offsetTop < ctr.scrollTop) {
+							scrollArticle(-ctr.offsetHeight/3);
+						} else {
+							cdmExpandArticle(prev_id);
+							cdmScrollToArticleId(prev_id, true);
+						}
 					} else {
 
 						if (!noscroll && article && article.offsetTop < ctr.scrollTop) {
