@@ -2501,7 +2501,7 @@
 								"label_cache," .
 								"link," .
 								"last_read," .
-								"hide_images," .
+								"(SELECT hide_images FROM ttrss_feeds WHERE id = feed_id) AS hide_images," .
 								"last_marked, last_published, " .
 								SUBSTRING_FOR_DATE . "(last_read,1,19) as last_read_noms," .
 								$since_id_part .
