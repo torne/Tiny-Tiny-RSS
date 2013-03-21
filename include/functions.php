@@ -75,10 +75,7 @@
 			$lang = _TRANSLATION_OVERRIDE_DEFAULT;
 		}
 
-		/* In login action of mobile version */
-		if ($_POST["language"] && defined('MOBILE_VERSION')) {
-			$lang = $_POST["language"];
-		} else if ($_SESSION["language"] && $_SESSION["language"] != "auto") {
+		if ($_SESSION["language"] && $_SESSION["language"] != "auto") {
 			$lang = $_SESSION["language"];
 		}
 
@@ -89,11 +86,7 @@
 				_setlocale(LC_ALL, $lang);
 			}
 
-			if (defined('MOBILE_VERSION')) {
-				_bindtextdomain("messages", "../locale");
-			} else {
-				_bindtextdomain("messages", "locale");
-			}
+			_bindtextdomain("messages", "locale");
 
 			_textdomain("messages");
 			_bind_textdomain_codeset("messages", "UTF-8");
@@ -753,7 +746,7 @@
 		}
 	}
 
-	function login_sequence($link, $login_form = 0) {
+	function login_sequence($link) {
 		$_SESSION["prefs_cache"] = false;
 
 		if (SINGLE_USER_MODE) {
@@ -769,7 +762,7 @@
 					 authenticate_user($link, null, null, true);
 				}
 
-				if (!$_SESSION["uid"]) render_login_form($link, $login_form);
+				if (!$_SESSION["uid"]) render_login_form($link);
 
 			} else {
 				/* bump login timestamp */
@@ -2816,15 +2809,8 @@
 		return true;
 	}
 
-	function render_login_form($link, $form_id = 0) {
-		switch ($form_id) {
-		case 0:
-			require_once "login_form.php";
-			break;
-		case 1:
-			require_once "mobile/login_form.php";
-			break;
-		}
+	function render_login_form($link) {
+		require_once "login_form.php";
 		exit;
 	}
 
