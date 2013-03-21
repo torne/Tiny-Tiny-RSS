@@ -171,7 +171,7 @@ class PluginHost {
 	}
 
 	function add_command($command, $description, $sender) {
-		$command = "-" . str_replace("-", "_", strtolower($command));
+		$command = str_replace("-", "_", strtolower($command));
 
 		$this->commands[$command] = array("description" => $description,
 			"class" => $sender);
@@ -201,7 +201,7 @@ class PluginHost {
 
 	function run_commands($args) {
 		foreach ($this->get_commands() as $command => $data) {
-			if (in_array($command, $args)) {
+			if (isset($args[$command])) {
 				$command = str_replace("-", "", $command);
 				$data["class"]->$command($args);
 			}
