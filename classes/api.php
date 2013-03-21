@@ -655,6 +655,11 @@ class API extends Handler {
 
 				$headline_row["always_display_attachments"] = sql_bool_to_bool($line["always_display_enclosures"]);
 
+				global $pluginhost;
+				foreach ($pluginhost->get_hooks($pluginhost::HOOK_RENDER_ARTICLE_API) as $p) {
+					$headline_row = $p->hook_render_article_api($headline_row);
+				}
+
 				array_push($headlines, $headline_row);
 			}
 

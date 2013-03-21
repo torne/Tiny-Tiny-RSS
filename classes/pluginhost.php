@@ -22,6 +22,7 @@ class PluginHost {
 	const HOOK_RENDER_ARTICLE_CDM = 11;
 	const HOOK_FEED_FETCHED = 12;
 	const HOOK_SANITIZE = 13;
+	const HOOK_RENDER_ARTICLE_API = 14;
 
 	const KIND_ALL = 1;
 	const KIND_SYSTEM = 2;
@@ -171,7 +172,7 @@ class PluginHost {
 	}
 
 	function add_command($command, $description, $sender) {
-		$command = "-" . str_replace("-", "_", strtolower($command));
+		$command = str_replace("-", "_", strtolower($command));
 
 		$this->commands[$command] = array("description" => $description,
 			"class" => $sender);
@@ -201,7 +202,7 @@ class PluginHost {
 
 	function run_commands($args) {
 		foreach ($this->get_commands() as $command => $data) {
-			if (in_array($command, $args)) {
+			if (isset($args[$command])) {
 				$command = str_replace("-", "", $command);
 				$data["class"]->$command($args);
 			}

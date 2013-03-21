@@ -22,9 +22,27 @@
 
 	init_connection($link);
 
-	$op = $argv;
+	$longopts = array("feeds",
+			"feedbrowser",
+			"daemon",
+			"daemon-loop",
+			"task:",
+			"cleanup-tags",
+			"quiet",
+			"log:",
+			"indexes",
+			"convert-filters",
+			"force-update",
+			"list-plugins",
+			"help");
 
-	if (count($argv) == 0 && !defined('STDIN')) {
+	foreach ($pluginhost->get_commands() as $command => $data) {
+		array_push($longopts, $command);
+	}
+
+	$options = getopt("", $longopts);
+
+	if (count($options) == 0 && !defined('STDIN')) {
 		?> <html>
 		<head>
 		<title>Tiny Tiny RSS data update script.</title>
@@ -43,34 +61,46 @@
 		exit;
 	}
 
-	if (count($argv) == 1 || in_array("-help", $op) ) {
+	if (count($options) == 0 || isset($options["help"]) ) {
 		print "Tiny Tiny RSS data update script.\n\n";
 		print "Options:\n";
-		print "  -feeds              - update feeds\n";
-		print "  -feedbrowser        - update feedbrowser\n";
-		print "  -daemon             - start single-process update daemon\n";
-		print "  -cleanup-tags       - perform tags table maintenance\n";
-		print "  -quiet              - don't show messages\n";
-		print "  -indexes            - recreate missing schema indexes\n";
-		print "  -convert-filters    - convert type1 filters to type2\n";
-		print "  -force-update       - force update of all feeds\n";
-		print "  -list-plugins       - list all available plugins\n";
-		print "  -help               - show this help\n";
+		print "  --feeds              - update feeds\n";
+		print "  --feedbrowser        - update feedbrowser\n";
+		print "  --daemon             - start single-process update daemon\n";
+		print "  --task N             - create lockfile using this task id\n";
+		print "  --cleanup-tags       - perform tags table maintenance\n";
+		print "  --quiet              - don't output messages to stdout\n";
+		print "  --log FILE           - log messages to FILE\n";
+		print "  --indexes            - recreate missing schema indexes\n";
+		print "  --convert-filters    - convert type1 filters to type2\n";
+		print "  --force-update       - force update of all feeds\n";
+		print "  --list-plugins       - list all available plugins\n";
+		print "  --help               - show this help\n";
 		print "Plugin options:\n";
 
 		foreach ($pluginhost->get_commands() as $command => $data) {
-			printf("  %-19s - %s\n", "$command", $data["description"]);
+			printf("  --%-19s - %s\n", "$command", $data["description"]);
 		}
 
 		return;
 	}
 
-	define('QUIET', in_array("-quiet", $op));
+	define('QUIET', isset($options['quiet']));
 
-	if (!in_array("-daemon", $op)) {
+	if (isset($options["log"])) {
+		_debug("Logging to " . $options["log"]);
+		define('LOGFILE', $options["log"]);
+	}
+
+	if (!isset($options["daemon"])) {
 		$lock_filename = "update.lock";
 	} else {
 		$lock_filename = "update_daemon.lock";
+	}
+
+	if (isset($options["task"])) {
+		_debug("Using task id " . $options["task"]);
+		$lock_filename = $lock_filename . "-task_" . $options["task"];
 	}
 
 	$lock_handle = make_lockfile($lock_filename);
@@ -82,7 +112,14 @@
 			"Maybe another update process is already running.\n");
 	}
 
-	if (in_array("-feeds", $op)) {
+	if (isset($options["force-update"])) {
+		_debug("marking all feeds as needing update...");
+
+		db_query($link, "UPDATE ttrss_feeds SET last_update_started = '1970-01-01',
+				last_updated = '1970-01-01'");
+	}
+
+	if (isset($options["feeds"])) {
 		// Update all feeds needing a update.
 		update_daemon_common($link);
 
@@ -100,21 +137,20 @@
 		$pluginhost->run_hooks($pluginhost::HOOK_UPDATE_TASK, "hook_update_task", $op);
 	}
 
-	if (in_array("-feedbrowser", $op)) {
+	if (isset($options["feedbrowser"])) {
 		$count = update_feedbrowser_cache($link);
 		print "Finished, $count feeds processed.\n";
 	}
 
-	if (in_array("-daemon", $op)) {
-		$op = array_diff($op, array("-daemon"));
+	if (isset($options["daemon"])) {
 		while (true) {
-			passthru(PHP_EXECUTABLE . " " . implode(' ', $op) . " -daemon-loop");
+			passthru(PHP_EXECUTABLE . " " . $argv[0] ." --daemon-loop");
 			_debug("Sleeping for " . DAEMON_SLEEP_INTERVAL . " seconds...");
 			sleep(DAEMON_SLEEP_INTERVAL);
 		}
 	}
 
-	if (in_array("-daemon-loop", $op)) {
+	if (isset($options["daemon-loop"])) {
 		if (!make_stampfile('update_daemon.stamp')) {
 			die("error: unable to create stampfile\n");
 		}
@@ -140,12 +176,12 @@
 
 	}
 
-	if (in_array("-cleanup-tags", $op)) {
+	if (isset($options["cleanup-tags"])) {
 		$rc = cleanup_tags($link, 14, 50000);
 		_debug("$rc tags deleted.\n");
 	}
 
-	if (in_array("-indexes", $op)) {
+	if (isset($options["indexes"])) {
 		_debug("PLEASE BACKUP YOUR DATABASE BEFORE PROCEEDING!");
 		_debug("Type 'yes' to continue.");
 
@@ -200,7 +236,7 @@
 		_debug("all done.");
 	}
 
-	if (in_array("-convert-filters", $op)) {
+	if (isset($options["convert-filters"])) {
 		_debug("WARNING: this will remove all existing type2 filters.");
 		_debug("Type 'yes' to continue.");
 
@@ -251,14 +287,7 @@
 
 	}
 
-	if (in_array("-force-update", $op)) {
-		_debug("marking all feeds as needing update...");
-
-		db_query($link, "UPDATE ttrss_feeds SET last_update_started = '1970-01-01',
-				last_updated = '1970-01-01'");
-	}
-
-	if (in_array("-list-plugins", $op)) {
+	if (isset($options["list-plugins"])) {
 		$tmppluginhost = new PluginHost($link);
 		$tmppluginhost->load_all($tmppluginhost::KIND_ALL);
 		$enabled = array_map("trim", explode(",", PLUGINS));
@@ -280,7 +309,7 @@
 
 	}
 
-	$pluginhost->run_commands($op);
+	$pluginhost->run_commands($options);
 
 	db_close($link);
 

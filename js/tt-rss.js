@@ -185,7 +185,7 @@ function updateTitle() {
     }
 
 	if (global_unread > 0) {
-		tmp = tmp + " (" + global_unread + ")";
+		tmp = "(" + global_unread + ") " + tmp;
 	}
 
 	if (window.fluid) {
@@ -448,6 +448,12 @@ function parse_runtime_info(data) {
 				Element.hide(dijit.byId("newVersionIcon").domNode);
 			}
 			return;
+		}
+
+		if (k == "dep_ts" && parseInt(getInitParam("dep_ts")) > 0) {
+			if (parseInt(getInitParam("dep_ts")) < parseInt(v)) {
+				window.location.reload();
+			}
 		}
 
 		if (k == "daemon_is_running" && v != 1) {
@@ -790,6 +796,14 @@ function hotkey_handler(e) {
 		case "collapse_sidebar":
 			collapse_feedlist();
 			return false;
+		case "toggle_embed_original":
+			if (typeof embedOriginalArticle != "undefined") {
+				if (getActiveArticleId())
+					embedOriginalArticle(getActiveArticleId());
+			} else {
+				alert(__("Please enable embed_original plugin first."));
+			}
+			return false;
 		case "toggle_widescreen":
 			if (!isCdmMode()) {
 				_widescreen_mode = !_widescreen_mode;
@@ -932,6 +946,8 @@ function handle_rpc_json(transport, scheduled_call) {
 
 function switchPanelMode(wide) {
 	try {
+		if (isCdmMode()) return;
+
 		article_id = getActiveArticleId();
 
 		if (wide) {

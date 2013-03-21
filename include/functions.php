@@ -44,6 +44,7 @@
 		$tr = array(
 					"auto"  => "Detect automatically",
 					"ca_CA" => "Català",
+					"cs_CZ" => "Česky",
 					"en_US" => "English",
 					"es_ES" => "Español",
 					"de_DE" => "Deutsch",
@@ -122,14 +123,24 @@
 	 * @return void
 	 */
 	function _debug($msg) {
-		if (defined('QUIET') && QUIET) {
-			return;
-		}
 		$ts = strftime("%H:%M:%S", time());
 		if (function_exists('posix_getpid')) {
 			$ts = "$ts/" . posix_getpid();
 		}
-		print "[$ts] $msg\n";
+
+		if (!(defined('QUIET') && QUIET)) {
+			print "[$ts] $msg\n";
+		}
+
+		if (defined('LOGFILE'))  {
+			$fp = fopen(LOGFILE, 'a+');
+
+			if ($fp) {
+				fputs($fp, "[$ts] $msg\n");
+				fclose($fp);
+			}
+		}
+
 	} // function _debug
 
 	/**
@@ -1820,11 +1831,6 @@
 	function make_init_params($link) {
 		$params = array();
 
-		$params["sign_progress"] = "images/indicator_white.gif";
-		$params["sign_progress_tiny"] = "images/indicator_tiny.gif";
-		$params["sign_excl"] = "images/sign_excl.svg";
-		$params["sign_info"] = "images/sign_info.svg";
-
 		foreach (array("ON_CATCHUP_SHOW_NEXT_FEED", "HIDE_READ_FEEDS",
 			"ENABLE_FEED_CATS", "FEEDS_SORT_BY_UNREAD", "CONFIRM_FEED_CATCHUP",
 			"CDM_AUTO_CATCHUP", "FRESH_ARTICLE_MAX_AGE", "DEFAULT_ARTICLE_LIMIT",
@@ -1885,7 +1891,8 @@
 				"select_article_cursor" => __("Select article under cursor"),
 				"email_article" => __("Email article"),
 				"close_article" => __("Close/collapse article"),
-				"toggle_widescreen" => __("Toggle widescreen mode")),
+				"toggle_widescreen" => __("Toggle widescreen mode"),
+				"toggle_embed_original" => __("Toggle embed original")),
 			__("Article selection") => array(
 				"select_all" => __("Select all articles"),
 				"select_unread" => __("Select unread"),
@@ -1948,6 +1955,7 @@
 				"*(38)|Shift+up" => "article_scroll_up",
 				"*(40)|Shift+down" => "article_scroll_down",
 				"a *w" => "toggle_widescreen",
+				"a e" => "toggle_embed_original",
 				"e" => "email_article",
 				"a q" => "close_article",
 //			"article_selection" => array(
@@ -2020,6 +2028,8 @@
 
 		$data['last_article_id'] = getLastArticleId($link);
 		$data['cdm_expanded'] = get_pref($link, 'CDM_EXPANDED');
+
+		$data['dep_ts'] = calculate_dep_timestamp();
 
 		if (file_exists(LOCK_DIRECTORY . "/update_daemon.lock")) {
 
@@ -2501,7 +2511,7 @@
 								"label_cache," .
 								"link," .
 								"last_read," .
-								"hide_images," .
+								"(SELECT hide_images FROM ttrss_feeds WHERE id = feed_id) AS hide_images," .
 								"last_marked, last_published, " .
 								SUBSTRING_FOR_DATE . "(last_read,1,19) as last_read_noms," .
 								$since_id_part .
@@ -2941,6 +2951,7 @@
 		$result = db_query($link, "SELECT id,title,link,content,feed_id,comments,int_id,
 			".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 			(SELECT site_url FROM ttrss_feeds WHERE id = feed_id) as site_url,
+			(SELECT hide_images FROM ttrss_feeds WHERE id = feed_id) as hide_images,
 			num_comments,
 			tag_cache,
 			author,
@@ -3122,7 +3133,7 @@
 			$rv['content'] .= $line["content"];
 
 			$rv['content'] .= format_article_enclosures($link, $id,
-				$always_display_enclosures, $line["content"]);
+				$always_display_enclosures, $line["content"], $line["hide_images"]);
 
 			$rv['content'] .= "</div>";
 
@@ -3585,7 +3596,7 @@
 	}
 
 	function format_article_enclosures($link, $id, $always_display_enclosures,
-					$article_content) {
+					$article_content, $hide_images = false) {
 
 		$result = get_article_enclosures($link, $id);
 		$rv = '';
@@ -3635,10 +3646,16 @@
 						if (preg_match("/image/", $entry["type"]) ||
 								preg_match("/\.(jpg|png|gif|bmp)/i", $entry["filename"])) {
 
-								$rv .= "<p><img
-								alt=\"".htmlspecialchars($entry["filename"])."\"
-								src=\"" .htmlspecialchars($entry["url"]) . "\"/></p>";
+								if (!$hide_images) {
+									$rv .= "<p><img
+									alt=\"".htmlspecialchars($entry["filename"])."\"
+									src=\"" .htmlspecialchars($entry["url"]) . "\"/></p>";
+								} else {
+									$rv .= "<p><a target=\"_blank\"
+									href=\"".htmlspecialchars($entry["url"])."\"
+									>" .htmlspecialchars($entry["url"]) . "</a></p>";
 
+								}
 						}
 					}
 				}
@@ -4081,6 +4098,18 @@
 		if ($query) $timestamp .= "&$query";
 
 		echo "<script type=\"text/javascript\" charset=\"utf-8\" src=\"$filename?$timestamp\"></script>\n";
+	}
+
+	function calculate_dep_timestamp() {
+		$files = array_merge(glob("js/*.js"), glob("*.css"));
+
+		$max_ts = -1;
+
+		foreach ($files as $file) {
+			if (filemtime($file) > $max_ts) $max_ts = filemtime($file);
+		}
+
+		return $max_ts;
 	}
 
 ?>

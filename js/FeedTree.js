@@ -165,6 +165,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		if (id.match("CAT:")) {
 			loading = dojo.doc.createElement('img');
 			loading.className = 'loadingNode';
+			loading.src = 'images/blank_icon.gif';
 			dojo.place(loading, tnode.labelNode, 'after');
 			tnode.loadingNode = loading;
 		}

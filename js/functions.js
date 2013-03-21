@@ -201,13 +201,13 @@ function notify_real(msg, no_hide, n_type) {
 		n.className = "notify";
 	} else if (n_type == 2) {
 		n.className = "notifyProgress";
-		msg = "<img src='"+getInitParam("sign_progress")+"'> " + msg;
+		msg = "<img src='images/indicator_white.gif'> " + msg;
 	} else if (n_type == 3) {
 		n.className = "notifyError";
-		msg = "<img src='"+getInitParam("sign_excl")+"'> " + msg;
+		msg = "<img src='images/sign_excl.svg'> " + msg;
 	} else if (n_type == 4) {
 		n.className = "notifyInfo";
-		msg = "<img src='"+getInitParam("sign_info")+"'> " + msg;
+		msg = "<img src='images/sign_info.svg'> " + msg;
 	}
 
 //	msg = "<img src='images/live_com_loading.gif'> " + msg;
