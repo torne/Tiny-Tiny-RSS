@@ -31,6 +31,7 @@
 	<?php print_user_stylesheet($link) ?>
 
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
+	<link rel="icon" type="image/png" sizes="72x72" href="images/favicon-72px.png" />
 
 	<?php
 	foreach (array("lib/prototype.js",
