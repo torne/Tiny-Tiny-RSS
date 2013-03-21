@@ -446,6 +446,12 @@ function parse_runtime_info(data) {
 			return;
 		}
 
+		if (k == "dep_ts" && parseInt(getInitParam("dep_ts")) > 0) {
+			if (parseInt(getInitParam("dep_ts")) < parseInt(v)) {
+				window.location.reload();
+			}
+		}
+
 		if (k == "daemon_is_running" && v != 1) {
 			notify_error("<span onclick=\"javascript:explainError(1)\">Update daemon is not running.</span>", true);
 			return;

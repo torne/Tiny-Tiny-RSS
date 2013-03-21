@@ -2034,6 +2034,8 @@
 		$data['last_article_id'] = getLastArticleId($link);
 		$data['cdm_expanded'] = get_pref($link, 'CDM_EXPANDED');
 
+		$data['dep_ts'] = calculate_dep_timestamp();
+
 		if (file_exists(LOCK_DIRECTORY . "/update_daemon.lock")) {
 
 			$data['daemon_is_running'] = (int) file_is_locked("update_daemon.lock");
@@ -4101,6 +4103,18 @@
 		if ($query) $timestamp .= "&$query";
 
 		echo "<script type=\"text/javascript\" charset=\"utf-8\" src=\"$filename?$timestamp\"></script>\n";
+	}
+
+	function calculate_dep_timestamp() {
+		$files = array_merge(glob("js/*.js"), glob("*.css"));
+
+		$max_ts = -1;
+
+		foreach ($files as $file) {
+			if (filemtime($file) > $max_ts) $max_ts = filemtime($file);
+		}
+
+		return $max_ts;
 	}
 
 ?>
