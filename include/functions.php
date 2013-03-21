@@ -2952,6 +2952,7 @@
 		$result = db_query($link, "SELECT id,title,link,content,feed_id,comments,int_id,
 			".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 			(SELECT site_url FROM ttrss_feeds WHERE id = feed_id) as site_url,
+			(SELECT hide_images FROM ttrss_feeds WHERE id = feed_id) as hide_images,
 			num_comments,
 			tag_cache,
 			author,
@@ -3133,7 +3134,7 @@
 			$rv['content'] .= $line["content"];
 
 			$rv['content'] .= format_article_enclosures($link, $id,
-				$always_display_enclosures, $line["content"]);
+				$always_display_enclosures, $line["content"], $line["hide_images"]);
 
 			$rv['content'] .= "</div>";
 
@@ -3596,7 +3597,7 @@
 	}
 
 	function format_article_enclosures($link, $id, $always_display_enclosures,
-					$article_content) {
+					$article_content, $hide_images = false) {
 
 		$result = get_article_enclosures($link, $id);
 		$rv = '';
@@ -3646,10 +3647,16 @@
 						if (preg_match("/image/", $entry["type"]) ||
 								preg_match("/\.(jpg|png|gif|bmp)/i", $entry["filename"])) {
 
-								$rv .= "<p><img
-								alt=\"".htmlspecialchars($entry["filename"])."\"
-								src=\"" .htmlspecialchars($entry["url"]) . "\"/></p>";
+								if (!$hide_images) {
+									$rv .= "<p><img
+									alt=\"".htmlspecialchars($entry["filename"])."\"
+									src=\"" .htmlspecialchars($entry["url"]) . "\"/></p>";
+								} else {
+									$rv .= "<p><a target=\"_blank\"
+									href=\"".htmlspecialchars($entry["url"])."\"
+									>" .htmlspecialchars($entry["url"]) . "</a></p>";
 
+								}
 						}
 					}
 				}

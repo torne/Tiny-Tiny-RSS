@@ -637,8 +637,7 @@ class Feeds extends Handler_Protected {
 
 					$always_display_enclosures = sql_bool_to_bool($line["always_display_enclosures"]);
 
-					$reply['content'] .= format_article_enclosures($this->link, $id, $always_display_enclosures,
-						$line["content"]);
+					$reply['content'] .= format_article_enclosures($this->link, $id, $always_display_enclosures, $line["content"], sql_bool_to_bool($line["hide_images"]));
 
 					$reply['content'] .= "</div>";
 
