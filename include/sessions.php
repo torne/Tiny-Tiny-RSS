@@ -96,7 +96,7 @@
 		db_query($session_connection, $query);
 	}
 
-	if (!SINGLE_USER_MODE && DB_TYPE == "pgsql") {
+	if (!SINGLE_USER_MODE /* && DB_TYPE == "pgsql" */) {
 		session_set_save_handler("ttrss_open",
 			"ttrss_close", "ttrss_read", "ttrss_write",
 			"ttrss_destroy", "ttrss_gc");
