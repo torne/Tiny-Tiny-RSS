@@ -43,7 +43,7 @@ function embedOriginalArticle(id) {
 					var iframe = new Element("iframe", {
 						class: "embeddedContent",
 						src: ti.url,
-						sandbox: 'sandbox',
+						sandbox: 'allow-scripts',
 					});
 
 					if (c) {
