@@ -1831,11 +1831,6 @@
 	function make_init_params($link) {
 		$params = array();
 
-		$params["sign_progress"] = "images/indicator_white.gif";
-		$params["sign_progress_tiny"] = "images/indicator_tiny.gif";
-		$params["sign_excl"] = "images/sign_excl.svg";
-		$params["sign_info"] = "images/sign_info.svg";
-
 		foreach (array("ON_CATCHUP_SHOW_NEXT_FEED", "HIDE_READ_FEEDS",
 			"ENABLE_FEED_CATS", "FEEDS_SORT_BY_UNREAD", "CONFIRM_FEED_CATCHUP",
 			"CDM_AUTO_CATCHUP", "FRESH_ARTICLE_MAX_AGE", "DEFAULT_ARTICLE_LIMIT",
