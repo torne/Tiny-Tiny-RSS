@@ -942,6 +942,8 @@ function handle_rpc_json(transport, scheduled_call) {
 
 function switchPanelMode(wide) {
 	try {
+		if (isCdmMode()) return;
+
 		article_id = getActiveArticleId();
 
 		if (wide) {
