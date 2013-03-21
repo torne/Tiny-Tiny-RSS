@@ -450,12 +450,14 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= "<span class=\"hlUpdated\">";
 
-					if (@$line["feed_title"]) {
+					if (!get_pref($this->link, 'VFEED_GROUP_BY_FEED')) {
+						if (@$line["feed_title"]) {
 							$reply['content'] .= "<div class=\"hlFeed\">
 								<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
 								$line["feed_title"]."</a>
 							</div>";
 						}
+					}
 
 					$reply['content'] .= "$updated_fmt</span>";
 					$reply['content'] .= "<div class=\"hlRight\">";
