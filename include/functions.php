@@ -1896,7 +1896,8 @@
 				"select_article_cursor" => __("Select article under cursor"),
 				"email_article" => __("Email article"),
 				"close_article" => __("Close/collapse article"),
-				"toggle_widescreen" => __("Toggle widescreen mode")),
+				"toggle_widescreen" => __("Toggle widescreen mode"),
+				"toggle_embed_original" => __("Toggle embed original")),
 			__("Article selection") => array(
 				"select_all" => __("Select all articles"),
 				"select_unread" => __("Select unread"),
@@ -1959,6 +1960,7 @@
 				"*(38)|Shift+up" => "article_scroll_up",
 				"*(40)|Shift+down" => "article_scroll_down",
 				"a *w" => "toggle_widescreen",
+				"a e" => "toggle_embed_original",
 				"e" => "email_article",
 				"a q" => "close_article",
 //			"article_selection" => array(

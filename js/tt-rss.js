@@ -786,6 +786,14 @@ function hotkey_handler(e) {
 		case "collapse_sidebar":
 			collapse_feedlist();
 			return false;
+		case "toggle_embed_original":
+			if (typeof embedOriginalArticle != "undefined") {
+				if (getActiveArticleId())
+					embedOriginalArticle(getActiveArticleId());
+			} else {
+				alert(__("Please enable embed_original plugin first."));
+			}
+			return false;
 		case "toggle_widescreen":
 			if (!isCdmMode()) {
 				_widescreen_mode = !_widescreen_mode;
