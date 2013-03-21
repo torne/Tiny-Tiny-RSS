@@ -786,11 +786,6 @@
 		}
 	}
 
-	// Deprecated, TODO: remove
-	function theme_image($link, $filename) {
-		return $filename;
-	}
-
 	function convert_timestamp($timestamp, $source_tz, $dest_tz) {
 
 		try {
@@ -1825,10 +1820,10 @@
 	function make_init_params($link) {
 		$params = array();
 
-		$params["sign_progress"] = theme_image($link, "images/indicator_white.gif");
-		$params["sign_progress_tiny"] = theme_image($link, "images/indicator_tiny.gif");
-		$params["sign_excl"] = theme_image($link, "images/sign_excl.svg");
-		$params["sign_info"] = theme_image($link, "images/sign_info.svg");
+		$params["sign_progress"] = "images/indicator_white.gif";
+		$params["sign_progress_tiny"] = "images/indicator_tiny.gif";
+		$params["sign_excl"] = "images/sign_excl.svg";
+		$params["sign_info"] = "images/sign_info.svg";
 
 		foreach (array("ON_CATCHUP_SHOW_NEXT_FEED", "HIDE_READ_FEEDS",
 			"ENABLE_FEED_CATS", "FEEDS_SORT_BY_UNREAD", "CONFIRM_FEED_CATCHUP",
@@ -2065,7 +2060,7 @@
 		return $data;
 	}
 
-	function search_to_sql($link, $search, $match_on) {
+	function search_to_sql($link, $search) {
 
 		$search_query_part = "";
 
@@ -2112,13 +2107,9 @@
 				//$k = date("Y-m-d", strtotime(substr($k, 1)));
 
 				array_push($query_keywords, "(".SUBSTRING_FOR_DATE."(updated,1,LENGTH('$k')) $not = '$k')");
-			} else if ($match_on == "both") {
+			} else {
 				array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
 						OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
-			} else if ($match_on == "title") {
-				array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%'))");
-			} else if ($match_on == "content") {
-				array_push($query_keywords, "(UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
 			}
 		}
 
@@ -2155,7 +2146,7 @@
 		return $rv;
 	}
 
-	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $match_on, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false) {
+	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false) {
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
@@ -2172,7 +2163,7 @@
 						$search_query_part = "ref_id = -1 AND ";
 
 				} else {
-					$search_query_part = search_to_sql($link, $search, $match_on);
+					$search_query_part = search_to_sql($link, $search);
 					$search_query_part .= " AND ";
 				}
 
@@ -2634,7 +2625,8 @@
 
 		$entries = $xpath->query('//iframe');
 		foreach ($entries as $entry) {
-			$entry->setAttribute('sandbox', true);
+			$entry->setAttribute('sandbox', 'allow-scripts');
+
 		}
 
 		global $pluginhost;
@@ -2656,7 +2648,7 @@
 
 		$allowed_elements = array('a', 'address', 'audio', 'article',
 			'b', 'big', 'blockquote', 'body', 'br', 'cite',
-			'code', 'dd', 'del', 'details', 'div', 'dl',
+			'code', 'dd', 'del', 'details', 'div', 'dl', 'font',
 			'dt', 'em', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
 			'header', 'html', 'i', 'img', 'ins', 'kbd',
 			'li', 'nav', 'ol', 'p', 'pre', 'q', 's','small',
@@ -2838,19 +2830,19 @@
 	function format_warning($msg, $id = "") {
 		global $link;
 		return "<div class=\"warning\" id=\"$id\">
-			<img src=\"".theme_image($link, "images/sign_excl.svg")."\">$msg</div>";
+			<img src=\"images/sign_excl.svg\">$msg</div>";
 	}
 
 	function format_notice($msg, $id = "") {
 		global $link;
 		return "<div class=\"notice\" id=\"$id\">
-			<img src=\"".theme_image($link, "images/sign_info.svg")."\">$msg</div>";
+			<img src=\"images/sign_info.svg\">$msg</div>";
 	}
 
 	function format_error($msg, $id = "") {
 		global $link;
 		return "<div class=\"error\" id=\"$id\">
-			<img src=\"".theme_image($link, "images/sign_excl.svg")."\">$msg</div>";
+			<img src=\"images/sign_excl.svg\">$msg</div>";
 	}
 
 	function print_notice($msg) {
@@ -3039,7 +3031,7 @@
 			if (!$entry_comments) $entry_comments = "&nbsp;"; # placeholder
 
 			$rv['content'] .= "<div class='postTags' style='float : right'>
-				<img src='".theme_image($link, 'images/tag.png')."'
+				<img src='images/tag.png'
 				class='tagsPic' alt='Tags' title='Tags'>&nbsp;";
 
 			if (!$zoom_mode) {

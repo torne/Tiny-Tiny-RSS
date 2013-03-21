@@ -205,6 +205,8 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 		_infscroll_request_sent = 0;
 
+		headlines_scroll_handler($("headlines-frame"));
+
 		notify("");
 
 	} catch (e) {
@@ -541,7 +543,7 @@ function moveToPost(mode, noscroll) {
 
 					} else if (next_id) {
 						cdmExpandArticle(next_id);
-						cdmScrollToArticleId(next_id, noscroll);
+						cdmScrollToArticleId(next_id, true);
 					}
 
 				} else if (next_id) {
@@ -560,8 +562,13 @@ function moveToPost(mode, noscroll) {
 					var ctr = $("headlines-frame");
 
 					if (!getInitParam("cdm_expanded")) {
-						cdmExpandArticle(prev_id);
-						cdmScrollToArticleId(prev_id, true);
+
+						if (!noscroll && article.offsetTop < ctr.scrollTop) {
+							scrollArticle(-ctr.offsetHeight/3);
+						} else {
+							cdmExpandArticle(prev_id);
+							cdmScrollToArticleId(prev_id, true);
+						}
 					} else {
 
 						if (!noscroll && article && article.offsetTop < ctr.scrollTop) {
@@ -1171,6 +1178,23 @@ function headlines_scroll_handler(e) {
 	try {
 		var hsp = $("headlines-spacer");
 
+		$$("#headlines-frame > div[id*=RROW]").each(
+			function(child) {
+				if (child.offsetTop <= $("headlines-frame").scrollTop +
+					$("headlines-frame").offsetHeight) {
+
+					var cencw = $("CENCW-" + child.id.replace("RROW-", ""));
+
+					if (cencw) {
+						cencw.innerHTML = htmlspecialchars_decode(cencw.innerHTML);
+						cencw.setAttribute('id', '');
+						Element.show(cencw);
+					}
+				}
+			}
+		);
+
+
 		if (!_infscroll_disable) {
 			if ((hsp && e.scrollTop + e.offsetHeight >= hsp.offsetTop - hsp.offsetHeight) ||
 					(e.scrollHeight != 0 &&
@@ -1192,7 +1216,7 @@ function headlines_scroll_handler(e) {
 
 			$$("#headlines-frame > div[id*=RROW][class*=Unread]").each(
 				function(child) {
-					if ($("headlines-frame").scrollTop >
+					if (child.hasClassName("Unread") && $("headlines-frame").scrollTop >
 							(child.offsetTop + child.offsetHeight/2)) {
 
 						var id = child.id.replace("RROW-", "");
@@ -1348,7 +1372,6 @@ function cdmCollapseArticle(event, id) {
 
 function cdmExpandArticle(id) {
 	try {
-
 		console.log("cdmExpandArticle " + id);
 
 		hideAuxDlg();
@@ -1373,10 +1396,6 @@ function cdmExpandArticle(id) {
 
 		setActiveArticleId(id);
 
-		if (!getInitParam("cdm_expanded")) {
-			cdmScrollToArticleId(id, true);
-		}
-
 		elem = $("CICD-" + id);
 
 		var collapse = $$("div#RROW-" + id +
@@ -1388,6 +1407,7 @@ function cdmExpandArticle(id) {
 			if (cencw) {
 				cencw.innerHTML = htmlspecialchars_decode(cencw.innerHTML);
 				cencw.setAttribute('id', '');
+				Element.show(cencw);
 			}
 
 			Element.show(elem);
@@ -1395,12 +1415,10 @@ function cdmExpandArticle(id) {
 			Element.show(collapse);
 		}
 
-		/* var new_offset = $("RROW-" + id).offsetTop;
+		var new_offset = $("RROW-" + id).offsetTop;
 
-		$("headlines-frame").scrollTop += (new_offset-old_offset);
-
-		if ($("RROW-" + id).offsetTop != old_offset)
-			$("headlines-frame").scrollTop = new_offset; */
+		if (old_offset > new_offset)
+			$("headlines-frame").scrollTop -= (old_offset-new_offset);
 
 		toggleUnread(id, 0, true);
 		toggleSelected(id);

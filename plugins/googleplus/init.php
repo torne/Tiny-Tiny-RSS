@@ -23,7 +23,7 @@ class GooglePlus extends Plugin {
 	function hook_article_button($line) {
 		$article_id = $line["id"];
 
-		$rv = "<img src=\"".theme_image($this->link, 'plugins/googleplus/googleplus.png')."\"
+		$rv = "<img src=\"plugins/googleplus/googleplus.png\"
 			class='tagsPic' style=\"cursor : pointer\"
 			onclick=\"shareArticleToGooglePlus($article_id)\"
 			title='".__('Share on Google+')."'>";

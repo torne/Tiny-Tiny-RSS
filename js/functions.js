@@ -1746,7 +1746,7 @@ function feedBrowser() {
 					} });
 			},
 			removeFromArchive: function() {
-				var selected = this.getSelectedFeeds();
+				var selected = this.getSelectedFeedIds();
 
 				if (selected.length > 0) {
 
@@ -1755,7 +1755,7 @@ function feedBrowser() {
 					if (confirm(pr)) {
 						Element.show('feed_browser_spinner');
 
-						var query = "?op=rpc&method=remarchived&ids=" +
+						var query = "?op=rpc&method=remarchive&ids=" +
 							param_escape(selected.toString());;
 
 						new Ajax.Request("backend.php", {

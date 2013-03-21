@@ -2,7 +2,7 @@
 class Handler_Public extends Handler {
 
 	private function generate_syndicated_feed($owner_uid, $feed, $is_cat,
-		$limit, $offset, $search, $search_mode, $match_on,
+		$limit, $offset, $search, $search_mode,
 		$view_mode = false, $format = 'atom') {
 
 		require_once "lib/MiniTemplator.class.php";
@@ -25,7 +25,7 @@ class Handler_Public extends Handler {
 
 		$qfh_ret = queryFeedHeadlines($this->link, $feed,
 			$limit, $view_mode, $is_cat, $search, $search_mode,
-			$match_on, "$date_sort_field DESC", $offset, $owner_uid,
+			"$date_sort_field DESC", $offset, $owner_uid,
 			false, 0, false, true);
 
 		$result = $qfh_ret[0];
@@ -314,7 +314,6 @@ class Handler_Public extends Handler {
 		$offset = (int)db_escape_string($_REQUEST["offset"]);
 
 		$search = db_escape_string($_REQUEST["q"]);
-		$match_on = db_escape_string($_REQUEST["m"]);
 		$search_mode = db_escape_string($_REQUEST["smode"]);
 		$view_mode = db_escape_string($_REQUEST["view-mode"]);
 
@@ -338,7 +337,7 @@ class Handler_Public extends Handler {
 
 		if ($owner_id) {
 			$this->generate_syndicated_feed($owner_id, $feed, $is_cat, $limit,
-				$offset, $search, $search_mode, $match_on, $view_mode, $format);
+				$offset, $search, $search_mode, $view_mode, $format);
 		} else {
 			header('HTTP/1.1 403 Forbidden');
 		}
