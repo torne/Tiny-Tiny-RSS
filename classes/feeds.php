@@ -624,14 +624,14 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= "<span id=\"CWRAP-$id\">";
 
-					if (!$expand_cdm) {
-						$reply['content'] .= "<span id=\"CENCW-$id\">";
+//					if (!$expand_cdm) {
+						$reply['content'] .= "<span id=\"CENCW-$id\" style=\"display : none\">";
 						$reply['content'] .= htmlspecialchars($line["content"]);
 						$reply['content'] .= "</span.";
 
-					} else {
-						$reply['content'] .= $line["content"];
-					}
+//					} else {
+//						$reply['content'] .= $line["content"];
+//					}
 
 					$reply['content'] .= "</span>";
 

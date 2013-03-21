@@ -205,6 +205,8 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 		_infscroll_request_sent = 0;
 
+		headlines_scroll_handler($("headlines-frame"));
+
 		notify("");
 
 	} catch (e) {
@@ -1176,6 +1178,23 @@ function headlines_scroll_handler(e) {
 	try {
 		var hsp = $("headlines-spacer");
 
+		$$("#headlines-frame > div[id*=RROW]").each(
+			function(child) {
+				if (child.offsetTop <= $("headlines-frame").scrollTop +
+					$("headlines-frame").offsetHeight) {
+
+					var cencw = $("CENCW-" + child.id.replace("RROW-", ""));
+
+					if (cencw) {
+						cencw.innerHTML = htmlspecialchars_decode(cencw.innerHTML);
+						cencw.setAttribute('id', '');
+						Element.show(cencw);
+					}
+				}
+			}
+		);
+
+
 		if (!_infscroll_disable) {
 			if ((hsp && e.scrollTop + e.offsetHeight >= hsp.offsetTop - hsp.offsetHeight) ||
 					(e.scrollHeight != 0 &&
@@ -1197,7 +1216,7 @@ function headlines_scroll_handler(e) {
 
 			$$("#headlines-frame > div[id*=RROW][class*=Unread]").each(
 				function(child) {
-					if ($("headlines-frame").scrollTop >
+					if (child.hasClassName("Unread") && $("headlines-frame").scrollTop >
 							(child.offsetTop + child.offsetHeight/2)) {
 
 						var id = child.id.replace("RROW-", "");
@@ -1388,6 +1407,7 @@ function cdmExpandArticle(id) {
 			if (cencw) {
 				cencw.innerHTML = htmlspecialchars_decode(cencw.innerHTML);
 				cencw.setAttribute('id', '');
+				Element.show(cencw);
 			}
 
 			Element.show(elem);
