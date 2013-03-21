@@ -181,7 +181,7 @@ function updateTitle() {
 	var tmp = "Tiny Tiny RSS";
 
 	if (global_unread > 0) {
-		tmp = tmp + " (" + global_unread + ")";
+		tmp = "(" + global_unread + ") " + tmp;
 	}
 
 	if (window.fluid) {
