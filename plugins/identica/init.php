@@ -23,7 +23,7 @@ class Identica extends Plugin {
 	function hook_article_button($line) {
 		$article_id = $line["id"];
 
-		$rv = "<img src=\"".theme_image($this->link, 'plugins/identica/identica.png')."\"
+		$rv = "<img src=\"plugins/identica/identica.png\"
 			class='tagsPic' style=\"cursor : pointer\"
 			onclick=\"shareArticleToIdentica($article_id)\"
 			title='".__('Share on identi.ca')."'>";

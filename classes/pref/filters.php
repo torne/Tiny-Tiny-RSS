@@ -47,7 +47,7 @@ class Pref_Filters extends Handler_Protected {
 		$feed_title = getFeedTitle($this->link, $feed);
 
 		$qfh_ret = queryFeedHeadlines($this->link, -4, 30, "", false, false, false,
-			false, "date_entered DESC", 0, $_SESSION["uid"], $filter);
+			"date_entered DESC", 0, $_SESSION["uid"], $filter);
 
 		$result = $qfh_ret[0];
 
@@ -370,9 +370,9 @@ class Pref_Filters extends Handler_Protected {
 
 		$result = db_query($this->link, "SELECT description FROM ttrss_filter_types
 			WHERE id = ".(int)$rule["filter_type"]);
-		$match_on = db_fetch_result($result, 0, "description");
+		$filter_type = db_fetch_result($result, 0, "description");
 
-		return T_sprintf("%s on %s in %s", strip_tags($rule["reg_exp"]), $match_on, $feed);
+		return T_sprintf("%s on %s in %s", strip_tags($rule["reg_exp"]), $filter_type, $feed);
 	}
 
 	function printRuleName() {

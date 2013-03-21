@@ -18,7 +18,7 @@ class Close_Button extends Plugin {
 
 	function hook_article_button($line) {
 		if (!get_pref($this->link, "COMBINED_DISPLAY_MODE")) {
-			$rv = "<img src=\"".theme_image($this->link, 'plugins/close_button/button.png')."\"
+			$rv = "<img src=\"plugins/close_button/button.png\"
 				class='tagsPic' style=\"cursor : pointer\"
 				onclick=\"closeArticlePanel()\"
 				title='".__('Close article')."'>";

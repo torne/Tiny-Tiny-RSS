@@ -128,11 +128,11 @@
 <div id="header">
 	<img id="net-alert" style="display : none"
 		title="<?php echo __("Communication problem with server.") ?>"
-		src="<?php echo theme_image($link, 'images/alert.png') ?>"/>
+		src="images/alert.png"/>
 
 	<img id="newVersionIcon" style="display:none" onclick="newVersionDlg()"
 		width="13" height="13"
-		src="<?php echo theme_image($link, 'images/new_version.png') ?>"
+		src="images/new_version.png"
 		title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>"
 		alt="new_version_icon"/>
 </div>
@@ -201,12 +201,12 @@
 			<button id="net-alert" dojoType="dijit.form.Button" style="display : none" disabled="true"
 				title="<?php echo __("Communication problem with server.") ?>">
 			<img
-				src="<?php echo theme_image($link, 'images/alert.png') ?>" />
+				src="images/alert.png" />
 			</button>
 
 			<button id="newVersionIcon" dojoType="dijit.form.Button" style="display : none">
 			<img onclick="newVersionDlg()"
-				src="<?php echo theme_image($link, 'images/new_version.png') ?>"
+				src="images/new_version.png"
 				title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>" />
 			</button>
 

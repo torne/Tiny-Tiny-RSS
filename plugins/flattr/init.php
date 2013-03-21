@@ -25,7 +25,7 @@ class Flattr extends Plugin {
         $encoded = urlencode($article_link);
         $r = file_get_contents("https://api.flattr.com/rest/v2/things/lookup/?url=$encoded");
         $response = json_decode($r, true);
-        $image = "<img src=\"".theme_image($this->link, 'plugins/flattr/flattr.png')."\"
+        $image = "<img src=\"plugins/flattr/flattr.png\"
                        class='tagsPic' style=\"cursor : pointer\"
                        title='".__('Flattr this article.')."'>";
         // if Flattr has it in the catalogue, we display the button

@@ -22,7 +22,7 @@ class Feeds extends Handler_Protected {
 	}
 
 	private function format_headline_subtoolbar($feed_site_url, $feed_title,
-			$feed_id, $is_cat, $search, $match_on,
+			$feed_id, $is_cat, $search,
 			$search_mode, $view_mode, $error) {
 
 		$page_prev_link = "viewFeedGoPage(-1)";
@@ -50,7 +50,7 @@ class Feeds extends Handler_Protected {
 		if ($is_cat) $cat_q = "&is_cat=$is_cat";
 
 		if ($search) {
-			$search_q = "&q=$search&m=$match_on&smode=$search_mode";
+			$search_q = "&q=$search&smode=$search_mode";
 		} else {
 			$search_q = "";
 		}
@@ -209,7 +209,6 @@ class Feeds extends Handler_Protected {
 		}
 
 		@$search_mode = db_escape_string($_REQUEST["search_mode"]);
-		$match_on = "both"; // deprecated, TODO: remove
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H0", $timing_info);
 
@@ -219,7 +218,7 @@ class Feeds extends Handler_Protected {
 		}
 //		error_log("search_mode: " . $search_mode);
 		$qfh_ret = queryFeedHeadlines($this->link, $feed, $limit, $view_mode, $cat_view,
-			$search, $search_mode, $match_on, $override_order, $offset, 0,
+			$search, $search_mode, $override_order, $offset, 0,
 			false, 0, $include_children);
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H1", $timing_info);
@@ -233,7 +232,7 @@ class Feeds extends Handler_Protected {
 
 		$reply['toolbar'] = $this->format_headline_subtoolbar($feed_site_url,
 			$feed_title,
-			$feed, $cat_view, $search, $match_on, $search_mode, $view_mode,
+			$feed, $cat_view, $search, $search_mode, $view_mode,
 			$last_error);
 
 		$headlines_count = db_num_rows($result);
@@ -321,24 +320,22 @@ class Feeds extends Handler_Protected {
 
 				if ($line["marked"] == "t" || $line["marked"] == "1") {
 					$marked_pic = "<img id=\"FMPIC-$id\"
-						src=\"".theme_image($this->link, 'images/mark_set.svg')."\"
+						src=\"images/mark_set.svg\"
 						class=\"markedPic\" alt=\"Unstar article\"
 						onclick='javascript:toggleMark($id)'>";
 				} else {
 					$marked_pic = "<img id=\"FMPIC-$id\"
-						src=\"".theme_image($this->link, 'images/mark_unset.svg')."\"
+						src=\"images/mark_unset.svg\"
 						class=\"markedPic\" alt=\"Star article\"
 						onclick='javascript:toggleMark($id)'>";
 				}
 
 				if ($line["published"] == "t" || $line["published"] == "1") {
-					$published_pic = "<img id=\"FPPIC-$id\" src=\"".theme_image($this->link,
-						'images/pub_set.svg')."\"
+					$published_pic = "<img id=\"FPPIC-$id\" src=\"images/pub_set.svg\"
 						class=\"markedPic\"
 						alt=\"Unpublish article\" onclick='javascript:togglePub($id)'>";
 				} else {
-					$published_pic = "<img id=\"FPPIC-$id\" src=\"".theme_image($this->link,
-						'images/pub_unset.svg')."\"
+					$published_pic = "<img id=\"FPPIC-$id\" src=\"images/pub_unset.svg\"
 						class=\"markedPic\"
 						alt=\"Publish article\" onclick='javascript:togglePub($id)'>";
 				}
@@ -363,8 +360,7 @@ class Feeds extends Handler_Protected {
 
 				$score = $line["score"];
 
-				$score_pic = theme_image($this->link,
-					"images/" . get_score_pic($score));
+				$score_pic = "images/" . get_score_pic($score);
 
 /*				$score_title = __("(Click to change)");
 				$score_pic = "<img class='hlScorePic' src=\"images/$score_pic\"
@@ -650,8 +646,7 @@ class Feeds extends Handler_Protected {
 
 					$tags_str = format_tags_string($line["tags"], $id);
 
-					$reply['content'] .= "<img src='".theme_image($this->link,
-							'images/tag.png')."' alt='Tags' title='Tags'>
+					$reply['content'] .= "<img src='images/tag.png' alt='Tags' title='Tags'>
 						<span id=\"ATSTR-$id\">$tags_str</span>
 						<a title=\"".__('Edit tags for this article')."\"
 						href=\"#\" onclick=\"editArticleTags($id, $feed_id, true)\">(+)</a>";

@@ -663,7 +663,7 @@ class RPC extends Handler_Protected {
 			score = '$score' WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
 		print json_encode(array("id" => $id,
-			"score_pic" => theme_image($link, get_score_pic($score))));
+			"score_pic" => get_score_pic($score)));
 	}
 
 	function setpanelmode() {
