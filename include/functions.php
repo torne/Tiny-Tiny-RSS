@@ -122,14 +122,24 @@
 	 * @return void
 	 */
 	function _debug($msg) {
-		if (defined('QUIET') && QUIET) {
-			return;
-		}
 		$ts = strftime("%H:%M:%S", time());
 		if (function_exists('posix_getpid')) {
 			$ts = "$ts/" . posix_getpid();
 		}
-		print "[$ts] $msg\n";
+
+		if (!(defined('QUIET') && QUIET)) {
+			print "[$ts] $msg\n";
+		}
+
+		if (defined('LOGFILE'))  {
+			$fp = fopen(LOGFILE, 'a+');
+
+			if ($fp) {
+				fputs($fp, "[$ts] $msg\n");
+				fclose($fp);
+			}
+		}
+
 	} // function _debug
 
 	/**

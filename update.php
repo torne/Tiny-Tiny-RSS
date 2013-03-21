@@ -29,6 +29,7 @@
 			"task:",
 			"cleanup-tags",
 			"quiet",
+			"log:",
 			"indexes",
 			"convert-filters",
 			"force-update",
@@ -60,7 +61,6 @@
 		exit;
 	}
 
-
 	if (count($options) == 0 || isset($options["help"]) ) {
 		print "Tiny Tiny RSS data update script.\n\n";
 		print "Options:\n";
@@ -70,6 +70,7 @@
 		print "  --task N             - create lockfile using this task id\n";
 		print "  --cleanup-tags       - perform tags table maintenance\n";
 		print "  --quiet              - don't show messages\n";
+		print "  --log FILE           - log messages to FILE\n";
 		print "  --indexes            - recreate missing schema indexes\n";
 		print "  --convert-filters    - convert type1 filters to type2\n";
 		print "  --force-update       - force update of all feeds\n";
@@ -82,6 +83,11 @@
 		}
 
 		return;
+	}
+
+	if (isset($options["log"])) {
+		_debug("Logging to " . $options["log"]);
+		define('LOGFILE', $options["log"]);
 	}
 
 	define('QUIET', isset($options['quiet']));
