@@ -53,7 +53,7 @@
 
 		$expire = time() + $session_expire;
 
-		$data = db_escape_string(base64_encode($data), $session_connection);
+		$data = db_escape_string(base64_encode($data), false, $session_connection);
 
 		if ($session_read) {
 		 	$query = "UPDATE ttrss_sessions SET data='$data',
