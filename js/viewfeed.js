@@ -1348,7 +1348,6 @@ function cdmCollapseArticle(event, id) {
 
 function cdmExpandArticle(id) {
 	try {
-
 		console.log("cdmExpandArticle " + id);
 
 		hideAuxDlg();
@@ -1373,10 +1372,6 @@ function cdmExpandArticle(id) {
 
 		setActiveArticleId(id);
 
-		if (!getInitParam("cdm_expanded")) {
-			cdmScrollToArticleId(id, true);
-		}
-
 		elem = $("CICD-" + id);
 
 		var collapse = $$("div#RROW-" + id +
@@ -1395,12 +1390,12 @@ function cdmExpandArticle(id) {
 			Element.show(collapse);
 		}
 
-		/* var new_offset = $("RROW-" + id).offsetTop;
+		var new_offset = $("RROW-" + id).offsetTop;
 
 		$("headlines-frame").scrollTop += (new_offset-old_offset);
 
-		if ($("RROW-" + id).offsetTop != old_offset)
-			$("headlines-frame").scrollTop = new_offset; */
+//		if ($("RROW-" + id).offsetTop != old_offset)
+//			$("headlines-frame").scrollTop = new_offset;
 
 		toggleUnread(id, 0, true);
 		toggleSelected(id);
