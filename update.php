@@ -69,7 +69,7 @@
 		print "  --daemon             - start single-process update daemon\n";
 		print "  --task N             - create lockfile using this task id\n";
 		print "  --cleanup-tags       - perform tags table maintenance\n";
-		print "  --quiet              - don't show messages\n";
+		print "  --quiet              - don't output messages to stdout\n";
 		print "  --log FILE           - log messages to FILE\n";
 		print "  --indexes            - recreate missing schema indexes\n";
 		print "  --convert-filters    - convert type1 filters to type2\n";
@@ -85,12 +85,12 @@
 		return;
 	}
 
+	define('QUIET', isset($options['quiet']));
+
 	if (isset($options["log"])) {
 		_debug("Logging to " . $options["log"]);
 		define('LOGFILE', $options["log"]);
 	}
-
-	define('QUIET', isset($options['quiet']));
 
 	if (!isset($options["daemon"])) {
 		$lock_filename = "update.lock";

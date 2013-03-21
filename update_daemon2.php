@@ -14,9 +14,6 @@
 		define('DAEMON_EXTENDED_DEBUG', true);
 	}
 
-	define('PURGE_INTERVAL', 3600); // seconds
-	define('MAX_CHILD_RUNTIME', 600); // seconds
-
 	require_once "functions.php";
 	require_once "rssfuncs.php";
 	require_once "sanity_check.php";
@@ -24,8 +21,11 @@
 	require_once "db.php";
 	require_once "db-prefs.php";
 
+	// defaults
+	define('PURGE_INTERVAL', 3600); // seconds
+	define('MAX_CHILD_RUNTIME', 600); // seconds
 	define('MAX_JOBS', 2);
-	define('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL);
+	define('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL); // seconds
 
 	if (!function_exists('pcntl_fork')) {
 		die("error: This script requires PHP compiled with PCNTL module.\n");
@@ -118,6 +118,46 @@
 
 	pcntl_signal(SIGCHLD, 'sigchld_handler');
 
+	$longopts = array("log:",
+			"tasks:",
+			"interval",
+			"help");
+
+	$options = getopt("", $longopts);
+
+	if (isset($options["help"]) ) {
+		print "Tiny Tiny RSS update daemon.\n\n";
+		print "Options:\n";
+		print "  --log FILE           - log messages to FILE\n";
+		print "  --tasks N            - amount of update tasks to spawn\n";
+		print "                         default: " . MAX_JOBS . "\n";
+		print "  --interval N         - task spawn interval\n";
+		print "                         default: " . SPAWN_INTERVAL . " seconds.\n";
+		print "  --quiet              - don't output messages to stdout\n";
+		return;
+	}
+
+	define('QUIET', isset($options['quiet']));
+
+	if (isset($options["tasks"])) {
+		_debug("Set to spawn " . $options["tasks"] . " children.");
+		$max_jobs = $option["tasks"];
+	} else {
+		$max_jobs = MAX_JOBS;
+	}
+
+	if (isset($options["interval"])) {
+		_debug("Spawn interval: " . $options["interval"] . " seconds.");
+		$spawn_interval = $option["interval"];
+	} else {
+		$spawn_interval = SPAWN_INTERVAL;
+	}
+
+	if (isset($options["log"])) {
+		_debug("Logging to " . $options["log"]);
+		define('LOGFILE', $options["log"]);
+	}
+
 	if (file_is_locked("update_daemon.lock")) {
 		die("error: Can't create lockfile. ".
 			"Maybe another daemon is already running.\n");
@@ -142,20 +182,20 @@
 	while (true) {
 
 		// Since sleep is interupted by SIGCHLD, we need another way to
-		// respect the SPAWN_INTERVAL
-		$next_spawn = $last_checkpoint + SPAWN_INTERVAL - time();
+		// respect the spawn interval
+		$next_spawn = $last_checkpoint + $spawn_interval - time();
 
 		if ($next_spawn % 10 == 0) {
 			$running_jobs = count($children);
 			_debug("[MASTER] active jobs: $running_jobs, next spawn at $next_spawn sec.");
 		}
 
-		if ($last_checkpoint + SPAWN_INTERVAL < time()) {
+		if ($last_checkpoint + $spawn_interval < time()) {
 
 			check_ctimes();
 			reap_children();
 
-			for ($j = count($children); $j < MAX_JOBS; $j++) {
+			for ($j = count($children); $j < $max_jobs; $j++) {
 				$pid = pcntl_fork();
 				if ($pid == -1) {
 					die("fork failed!\n");
