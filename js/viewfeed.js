@@ -1392,10 +1392,8 @@ function cdmExpandArticle(id) {
 
 		var new_offset = $("RROW-" + id).offsetTop;
 
-		$("headlines-frame").scrollTop += (new_offset-old_offset);
-
-//		if ($("RROW-" + id).offsetTop != old_offset)
-//			$("headlines-frame").scrollTop = new_offset;
+		if (old_offset > new_offset)
+			$("headlines-frame").scrollTop -= (old_offset-new_offset);
 
 		toggleUnread(id, 0, true);
 		toggleSelected(id);
