@@ -1824,6 +1824,12 @@ function initHeadlinesMenu() {
 				openArticleInNewWindow(this.getParent().callerRowId);
 			}}));
 
+		menu.addChild(new dijit.MenuItem({
+			label: __("Display article URL"),
+			onClick: function(event) {
+				displayArticleUrl(this.getParent().callerRowId);
+			}}));
+
 		menu.addChild(new dijit.MenuSeparator());
 
 		menu.addChild(new dijit.MenuItem({
@@ -2031,6 +2037,24 @@ function changeScore(id, pic) {
 					}
 				} });
 		}
+	} catch (e) {
+		exception_error("changeScore", e);
+	}
+}
+
+function displayArticleUrl(id) {
+	try {
+		var query = "op=rpc&method=getlinkbyid&id=" + param_escape(id);
+
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) {
+					var reply = JSON.parse(transport.responseText);
+
+					if (reply && reply.link) {
+						prompt(__("Article URL:"), reply.link);
+					}
+				} });
 	} catch (e) {
 		exception_error("changeScore", e);
 	}
