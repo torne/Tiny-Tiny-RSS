@@ -23,7 +23,7 @@
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-	<title><?php echo PAGE_TITLE ?> : <?php echo __("Preferences") ?></title>
+	<title><?php echo get_site_title() ?> : <?php echo __("Preferences") ?></title>
 
 	<?php echo stylesheet_tag("lib/dijit/themes/claro/claro.css"); ?>
 	<?php echo stylesheet_tag("tt-rss.css"); ?>
