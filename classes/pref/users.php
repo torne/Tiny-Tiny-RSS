@@ -270,11 +270,9 @@ class Pref_Users extends Handler_Protected {
 			}
 		}
 
-		function resetPass() {
+		static function resetUserPassword($link, $uid, $show_password) {
 
-			$uid = db_escape_string($this->link, $_REQUEST["id"]);
-
-			$result = db_query($this->link, "SELECT login,email
+			$result = db_query($link, "SELECT login,email
 				FROM ttrss_users WHERE id = '$uid'");
 
 			$login = db_fetch_result($result, 0, "login");
@@ -286,18 +284,20 @@ class Pref_Users extends Handler_Protected {
 
 			$pwd_hash = encrypt_password($tmp_user_pwd, $new_salt, true);
 
-			db_query($this->link, "UPDATE ttrss_users SET pwd_hash = '$pwd_hash', salt = '$new_salt'
+			db_query($link, "UPDATE ttrss_users SET pwd_hash = '$pwd_hash', salt = '$new_salt'
 				WHERE id = '$uid'");
 
-			print T_sprintf("Changed password of user <b>%s</b>
-				 to <b>%s</b>", $login, $tmp_user_pwd);
+			if ($show_password) {
+				print T_sprintf("Changed password of user <b>%s</b>
+					to <b>%s</b>", $login, $tmp_user_pwd);
+			} else {
+				print T_sprintf("Sending new password of user <b>%s</b>
+					to <b>%s</b>", $login, $email);
+			}
 
 			require_once 'lib/phpmailer/class.phpmailer.php';
 
 			if ($email) {
-				print " ";
-				print T_sprintf("Notifying <b>%s</b>.", $email);
-
 				require_once "lib/MiniTemplator.class.php";
 
 				$tpl = new MiniTemplator;
@@ -340,8 +340,11 @@ class Pref_Users extends Handler_Protected {
 
 				if (!$rc) print_error($mail->ErrorInfo);
 			}
+		}
 
-			print "</div>";
+		function resetPass() {
+			$uid = db_escape_string($this->link, $_REQUEST["id"]);
+			Pref_Users::resetUserPassword($this->link, $uid, true);
 		}
 
 		function index() {

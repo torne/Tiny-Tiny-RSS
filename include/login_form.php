@@ -65,6 +65,20 @@
 		font-size : 12px;
 	}
 
+	a.forgotpass {
+		text-align : right;
+		font-size : 11px;
+		display : inline-block;
+	}
+
+	a {
+		color : #4684ff;
+	}
+
+	a:hover {
+		color : black;
+	}
+
 	div.footer a {
 		color : gray;
 	}
@@ -179,6 +193,8 @@ function bwLimitChange(elem) {
 			<input type="password" name="password" required="1"
 					style="width : 220px" class="input"
 					value="<?php echo $_SESSION["fake_password"] ?>"/>
+			<label></label>
+			<a class='forgotpass' href="public.php?op=forgotpass"><?php echo __("I forgot my password") ?></a>
 		</div>
 
 		<div class="row">

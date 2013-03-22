@@ -708,5 +708,92 @@ class Handler_Public extends Handler {
 		print json_encode(array("error" => array("code" => 7)));
 	}
 
+	function forgotpass() {
+		header('Content-Type: text/html; charset=utf-8');
+		print "<html>
+				<head>
+					<title>Tiny Tiny RSS</title>
+					<link rel=\"stylesheet\" type=\"text/css\" href=\"utility.css\">
+					<script type=\"text/javascript\" src=\"lib/prototype.js\"></script>
+					<script type=\"text/javascript\" src=\"lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls\"></script>
+					<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
+				</head>
+				<body id='forgotpass'>";
+
+		print '<div class="floatingLogo"><img src="images/logo_wide.png"></div>';
+		print "<h1>".__("Reset password")."</h1>";
+
+		@$method = $_POST['method'];
+
+		if (!$method) {
+			$secretkey = uniqid();
+			$_SESSION["secretkey"] = $secretkey;
+
+			print "<form method='POST' action='public.php'>";
+			print "<input type='hidden' name='secretkey' value='$secretkey'>";
+			print "<input type='hidden' name='method' value='do'>";
+			print "<input type='hidden' name='op' value='forgotpass'>";
+
+			print "<fieldset>";
+			print "<label>".__("Login:")."</label>";
+			print "<input type='text' name='login' value='' required>";
+			print "</fieldset>";
+
+			print "<fieldset>";
+			print "<label>".__("Email:")."</label>";
+			print "<input type='email' name='email' value='' required>";
+			print "</fieldset>";
+
+			print "<fieldset>";
+			print "<label>".__("How much is two plus two:")."</label>";
+			print "<input type='text' name='test' value='' required>";
+			print "</fieldset>";
+
+			print "<p/>";
+			print "<button type='submit'>".__("Reset password")."</button>";
+
+			print "</form>";
+		} else if ($method == 'do') {
+
+			$secretkey = $_POST["secretkey"];
+			$login = db_escape_string($this->link, $_POST["login"]);
+			$email = db_escape_string($this->link, $_POST["email"]);
+			$test = db_escape_string($this->link, $_POST["test"]);
+
+			if (($test != 4 && $test != 'four') || !$email || !$login) {
+				print_error(__('Some of the required form parameters are missing or incorrect.'));
+
+				print "<p><a href=\"public.php?op=forgotpass\">".__("Go back")."</a></p>";
+
+			} else if ($_SESSION["secretkey"] == $secretkey) {
+
+				$result = db_query($this->link, "SELECT id FROM ttrss_users
+					WHERE login = '$login' AND email = '$email'");
+
+				if (db_num_rows($result) != 0) {
+					$id = db_fetch_result($result, 0, "id");
+
+					Pref_Users::resetUserPassword($this->link, $id, false);
+
+					print "<p>".__("Completed.")."</p>";
+
+				} else {
+					print_error(__("Sorry, login and email combination not found."));
+					print "<p><a href=\"public.php?op=forgotpass\">".__("Go back")."</a></p>";
+				}
+
+			} else {
+				print_error(__("Form secret key incorrect. Please enable cookies and try again."));
+				print "<p><a href=\"public.php?op=forgotpass\">".__("Go back")."</a></p>";
+
+			}
+
+		}
+
+		print "</body>";
+		print "</html>";
+
+	}
+
 }
 ?>
