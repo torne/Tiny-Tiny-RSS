@@ -806,6 +806,13 @@ class Feeds extends Handler_Protected {
 		set_pref($this->link, "_DEFAULT_VIEW_LIMIT", $limit);
 		set_pref($this->link, "_DEFAULT_VIEW_ORDER_BY", $order_by);
 
+		/* bump login timestamp if needed */
+		if (time() - $_SESSION["last_login_update"] > 3600) {
+			db_query($this->link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " .
+				$_SESSION["uid"]);
+			$_SESSION["last_login_update"] = time();
+		}
+
 		if (!$cat_view && is_numeric($feed) && $feed > 0) {
 			db_query($this->link, "UPDATE ttrss_feeds SET last_viewed = NOW()
 							WHERE id = '$feed' AND owner_uid = ".$_SESSION["uid"]);

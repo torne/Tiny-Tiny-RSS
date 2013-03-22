@@ -768,6 +768,7 @@
 				/* bump login timestamp */
 				db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " .
 					$_SESSION["uid"]);
+				$_SESSION["last_login_update"] = time();
 			}
 
 			if ($_SESSION["uid"] && $_SESSION["language"] && SESSION_COOKIE_LIFETIME > 0) {
