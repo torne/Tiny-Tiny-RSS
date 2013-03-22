@@ -54,7 +54,7 @@
 					"ja_JP" => "日本語 (Japanese)",
 					"lv_LV" => "Latviešu",
 					"nb_NO" => "Norwegian bokmål",
-					"nl_NL" -> "Dutch", 
+					"nl_NL" => "Dutch", 
 					"pl_PL" => "Polski",
 					"ru_RU" => "Русский",
 					"pt_BR" => "Portuguese/Brazil",
