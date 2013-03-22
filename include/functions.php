@@ -778,7 +778,21 @@
 			if ($_SESSION["uid"]) {
 				cache_prefs($link);
 				load_user_plugins($link, $_SESSION["uid"]);
+
+				/* cleanup ccache */
+
+				db_query($link, "DELETE FROM ttrss_counters_cache WHERE owner_uid = ".
+					$_SESSION["uid"] . " AND
+						(SELECT COUNT(id) FROM ttrss_feeds WHERE
+							ttrss_feeds.id = feed_id) = 0");
+
+				db_query($link, "DELETE FROM ttrss_cat_counters_cache WHERE owner_uid = ".
+					$_SESSION["uid"] . " AND
+						(SELECT COUNT(id) FROM ttrss_feed_categories WHERE
+							ttrss_feed_categories.id = feed_id) = 0");
+
 			}
+
 		}
 	}
 
