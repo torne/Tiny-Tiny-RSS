@@ -4099,10 +4099,10 @@
 	}
 
     function get_site_title() {
-        $original_title = "Tiny Tiny RSS";
-        if (defined("SITE_TITLE")) {
-            return SITE_TITLE;
-        }
-        return $original_title;
+        if (defined("_SITE_TITLE")) {
+            return _SITE_TITLE;
+        } else {
+	        return "Tiny Tiny RSS";
+		  }
     }
 ?>
