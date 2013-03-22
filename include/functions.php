@@ -3024,8 +3024,8 @@
 					title=\"".htmlspecialchars($line['title'])."\"
 					href=\"" .
 					htmlspecialchars($line["link"]) . "\">" .
-					$line["title"] .
-					"<span class='author'>$entry_author</span></a></div>";
+					$line["title"] . "</a>" .
+					"<span class='author'>$entry_author</span></div>";
 			} else {
 				$rv['content'] .= "<div class='postTitle'>" . $line["title"] . "$entry_author</div>";
 			}
