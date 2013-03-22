@@ -178,7 +178,11 @@ function search() {
 }
 
 function updateTitle() {
-	var tmp = "Tiny Tiny RSS";
+	var tmp = document.title; 
+    if (tmp.indexOf(")") > 0)
+    {
+       tmp = tmp.substr(tmp.indexOf(")") + 1);
+    }
 
 	if (global_unread > 0) {
 		tmp = "(" + global_unread + ") " + tmp;
