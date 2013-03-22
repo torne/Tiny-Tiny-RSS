@@ -92,10 +92,10 @@ class Instances extends Plugin implements IHandler {
 								WHERE instance_id = '$id'");
 
 							foreach ($feeds['feeds'] as $feed) {
-								$feed_url = db_escape_string($feed['feed_url']);
-								$title = db_escape_string($feed['title']);
-								$subscribers = db_escape_string($feed['subscribers']);
-								$site_url = db_escape_string($feed['site_url']);
+								$feed_url = db_escape_string($this->link, $feed['feed_url']);
+								$title = db_escape_string($this->link, $feed['title']);
+								$subscribers = db_escape_string($this->link, $feed['subscribers']);
+								$site_url = db_escape_string($this->link, $feed['site_url']);
 
 								db_query($link, "INSERT INTO ttrss_linked_feeds
 									(feed_url, site_url, title, subscribers, instance_id, created, updated)
@@ -167,16 +167,16 @@ class Instances extends Plugin implements IHandler {
 	}
 
 	function remove() {
-		$ids = db_escape_string($_REQUEST['ids']);
+		$ids = db_escape_string($this->link, $_REQUEST['ids']);
 
 		db_query($this->link, "DELETE FROM ttrss_linked_instances WHERE
 			id IN ($ids)");
 	}
 
 	function add() {
-		$id = db_escape_string($_REQUEST["id"]);
-		$access_url = db_escape_string($_REQUEST["access_url"]);
-		$access_key = db_escape_string($_REQUEST["access_key"]);
+		$id = db_escape_string($this->link, $_REQUEST["id"]);
+		$access_url = db_escape_string($this->link, $_REQUEST["access_url"]);
+		$access_key = db_escape_string($this->link, $_REQUEST["access_key"]);
 
 		db_query($this->link, "BEGIN");
 
@@ -195,7 +195,7 @@ class Instances extends Plugin implements IHandler {
 	}
 
 	function edit() {
-		$id = db_escape_string($_REQUEST["id"]);
+		$id = db_escape_string($this->link, $_REQUEST["id"]);
 
 		$result = db_query($this->link, "SELECT * FROM ttrss_linked_instances WHERE
 			id = '$id'");
@@ -253,9 +253,9 @@ class Instances extends Plugin implements IHandler {
 	}
 
 	function editSave() {
-		$id = db_escape_string($_REQUEST["id"]);
-		$access_url = db_escape_string($_REQUEST["access_url"]);
-		$access_key = db_escape_string($_REQUEST["access_key"]);
+		$id = db_escape_string($this->link, $_REQUEST["id"]);
+		$access_url = db_escape_string($this->link, $_REQUEST["access_url"]);
+		$access_key = db_escape_string($this->link, $_REQUEST["access_key"]);
 
 		db_query($this->link, "UPDATE ttrss_linked_instances SET
 			access_key = '$access_key', access_url = '$access_url',
@@ -277,7 +277,7 @@ class Instances extends Plugin implements IHandler {
 
 		print "<div id=\"pref-instance-toolbar\" dojoType=\"dijit.Toolbar\">";
 
-		$sort = db_escape_string($_REQUEST["sort"]);
+		$sort = db_escape_string($this->link, $_REQUEST["sort"]);
 
 		if (!$sort || $sort == "undefined") {
 			$sort = "access_url";
@@ -364,7 +364,7 @@ class Instances extends Plugin implements IHandler {
 
 	function fbexport() {
 
-		$access_key = db_escape_string($_POST["key"]);
+		$access_key = db_escape_string($this->link, $_POST["key"]);
 
 		// TODO: rate limit checking using last_connected
 		$result = db_query($this->link, "SELECT id FROM ttrss_linked_instances

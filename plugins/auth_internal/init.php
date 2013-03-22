@@ -22,8 +22,8 @@ class Auth_Internal extends Plugin implements IAuthModule {
 
 		$pwd_hash1 = encrypt_password($password);
 		$pwd_hash2 = encrypt_password($password, $login);
-		$login = db_escape_string($login);
-		$otp = db_escape_string($_REQUEST["otp"]);
+		$login = db_escape_string($this->link, $login);
+		$otp = db_escape_string($this->link, $_REQUEST["otp"]);
 
 		if (get_schema_version($this->link) > 96) {
 			if (!defined('AUTH_DISABLE_OTP') || !AUTH_DISABLE_OTP) {
@@ -140,7 +140,7 @@ class Auth_Internal extends Plugin implements IAuthModule {
 	}
 
 	function check_password($owner_uid, $password) {
-		$owner_uid = db_escape_string($owner_uid);
+		$owner_uid = db_escape_string($this->link, $owner_uid);
 
 		$result = db_query($this->link, "SELECT salt,login FROM ttrss_users WHERE
 			id = '$owner_uid'");
@@ -169,7 +169,7 @@ class Auth_Internal extends Plugin implements IAuthModule {
 	}
 
 	function change_password($owner_uid, $old_password, $new_password) {
-		$owner_uid = db_escape_string($owner_uid);
+		$owner_uid = db_escape_string($this->link, $owner_uid);
 
 		if ($this->check_password($owner_uid, $old_password)) {
 

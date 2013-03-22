@@ -30,7 +30,7 @@ class MailTo extends Plugin {
 
 	function emailArticle() {
 
-		$param = db_escape_string($_REQUEST['param']);
+		$param = db_escape_string($this->link, $_REQUEST['param']);
 
 		require_once "lib/MiniTemplator.class.php";
 

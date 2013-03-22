@@ -180,7 +180,7 @@ class Handler_Public extends Handler {
 	}
 
 	function getUnread() {
-		$login = db_escape_string($_REQUEST["login"]);
+		$login = db_escape_string($this->link, $_REQUEST["login"]);
 		$fresh = $_REQUEST["fresh"] == "1";
 
 		$result = db_query($this->link, "SELECT id FROM ttrss_users WHERE login = '$login'");
@@ -202,7 +202,7 @@ class Handler_Public extends Handler {
 	}
 
 	function getProfiles() {
-		$login = db_escape_string($_REQUEST["login"]);
+		$login = db_escape_string($this->link, $_REQUEST["login"]);
 
 		$result = db_query($this->link, "SELECT * FROM ttrss_settings_profiles,ttrss_users
 			WHERE ttrss_users.id = ttrss_settings_profiles.owner_uid AND login = '$login' ORDER BY title");
@@ -222,9 +222,9 @@ class Handler_Public extends Handler {
 	}
 
 	function pubsub() {
-		$mode = db_escape_string($_REQUEST['hub_mode']);
-		$feed_id = (int) db_escape_string($_REQUEST['id']);
-		$feed_url = db_escape_string($_REQUEST['hub_topic']);
+		$mode = db_escape_string($this->link, $_REQUEST['hub_mode']);
+		$feed_id = (int) db_escape_string($this->link, $_REQUEST['id']);
+		$feed_url = db_escape_string($this->link, $_REQUEST['hub_topic']);
 
 		if (!PUBSUBHUBBUB_ENABLED) {
 			header('HTTP/1.0 404 Not Found');
@@ -285,7 +285,7 @@ class Handler_Public extends Handler {
 	}
 
 	function share() {
-		$uuid = db_escape_string($_REQUEST["key"]);
+		$uuid = db_escape_string($this->link, $_REQUEST["key"]);
 
 		$result = db_query($this->link, "SELECT ref_id, owner_uid FROM ttrss_user_entries WHERE
 			uuid = '$uuid'");
@@ -307,17 +307,17 @@ class Handler_Public extends Handler {
 	}
 
 	function rss() {
-		$feed = db_escape_string($_REQUEST["id"]);
-		$key = db_escape_string($_REQUEST["key"]);
+		$feed = db_escape_string($this->link, $_REQUEST["id"]);
+		$key = db_escape_string($this->link, $_REQUEST["key"]);
 		$is_cat = $_REQUEST["is_cat"] != false;
-		$limit = (int)db_escape_string($_REQUEST["limit"]);
-		$offset = (int)db_escape_string($_REQUEST["offset"]);
+		$limit = (int)db_escape_string($this->link, $_REQUEST["limit"]);
+		$offset = (int)db_escape_string($this->link, $_REQUEST["offset"]);
 
-		$search = db_escape_string($_REQUEST["q"]);
-		$search_mode = db_escape_string($_REQUEST["smode"]);
-		$view_mode = db_escape_string($_REQUEST["view-mode"]);
+		$search = db_escape_string($this->link, $_REQUEST["q"]);
+		$search_mode = db_escape_string($this->link, $_REQUEST["smode"]);
+		$view_mode = db_escape_string($this->link, $_REQUEST["view-mode"]);
 
-		$format = db_escape_string($_REQUEST['format']);
+		$format = db_escape_string($this->link, $_REQUEST['format']);
 
 		if (!$format) $format = 'atom';
 
@@ -371,10 +371,10 @@ class Handler_Public extends Handler {
 
 			if ($action == 'share') {
 
-				$title = db_escape_string(strip_tags($_REQUEST["title"]));
-				$url = db_escape_string(strip_tags($_REQUEST["url"]));
-				$content = db_escape_string(strip_tags($_REQUEST["content"]));
-				$labels = db_escape_string(strip_tags($_REQUEST["labels"]));
+				$title = db_escape_string($this->link, strip_tags($_REQUEST["title"]));
+				$url = db_escape_string($this->link, strip_tags($_REQUEST["url"]));
+				$content = db_escape_string($this->link, strip_tags($_REQUEST["content"]));
+				$labels = db_escape_string($this->link, strip_tags($_REQUEST["labels"]));
 
 				Article::create_published_article($this->link, $title, $url, $content, $labels,
 					$_SESSION["uid"]);
@@ -483,7 +483,7 @@ class Handler_Public extends Handler {
 
 		if (!SINGLE_USER_MODE) {
 
-			$login = db_escape_string($_POST["login"]);
+			$login = db_escape_string($this->link, $_POST["login"]);
 			$password = $_POST["password"];
 			$remember_me = $_POST["remember_me"];
 
@@ -496,7 +496,7 @@ class Handler_Public extends Handler {
 
 				if ($_POST["profile"]) {
 
-					$profile = db_escape_string($_POST["profile"]);
+					$profile = db_escape_string($this->link, $_POST["profile"]);
 
 					$result = db_query($this->link, "SELECT id FROM ttrss_settings_profiles
 						WHERE id = '$profile' AND owner_uid = " . $_SESSION["uid"]);
@@ -525,7 +525,7 @@ class Handler_Public extends Handler {
 
 		if ($_SESSION["uid"]) {
 
-			$feed_url = db_escape_string(trim($_REQUEST["feed_url"]));
+			$feed_url = db_escape_string($this->link, trim($_REQUEST["feed_url"]));
 
 			header('Content-Type: text/html; charset=utf-8');
 			print "<html>
@@ -618,14 +618,14 @@ class Handler_Public extends Handler {
 	}
 
 	function subscribe2() {
-		$feed_url = db_escape_string(trim($_REQUEST["feed_url"]));
-		$cat_id = db_escape_string($_REQUEST["cat_id"]);
-		$from = db_escape_string($_REQUEST["from"]);
+		$feed_url = db_escape_string($this->link, trim($_REQUEST["feed_url"]));
+		$cat_id = db_escape_string($this->link, $_REQUEST["cat_id"]);
+		$from = db_escape_string($this->link, $_REQUEST["from"]);
 
 		/* only read authentication information from POST */
 
-		$auth_login = db_escape_string(trim($_POST["auth_login"]));
-		$auth_pass = db_escape_string(trim($_POST["auth_pass"]));
+		$auth_login = db_escape_string($this->link, trim($_POST["auth_login"]));
+		$auth_pass = db_escape_string($this->link, trim($_POST["auth_pass"]));
 
 		$rc = subscribe_to_feed($this->link, $feed_url, $cat_id, $auth_login, $auth_pass);
 

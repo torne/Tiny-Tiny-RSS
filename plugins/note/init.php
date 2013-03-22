@@ -29,7 +29,7 @@ class Note extends Plugin {
 	}
 
 	function edit() {
-		$param = db_escape_string($_REQUEST['param']);
+		$param = db_escape_string($this->link, $_REQUEST['param']);
 
 		$result = db_query($this->link, "SELECT note FROM ttrss_user_entries WHERE
 			ref_id = '$param' AND owner_uid = " . $_SESSION['uid']);
@@ -58,8 +58,8 @@ class Note extends Plugin {
 	}
 
 	function setNote() {
-		$id = db_escape_string($_REQUEST["id"]);
-		$note = trim(strip_tags(db_escape_string($_REQUEST["note"])));
+		$id = db_escape_string($this->link, $_REQUEST["id"]);
+		$note = trim(strip_tags(db_escape_string($this->link, $_REQUEST["note"])));
 
 		db_query($this->link, "UPDATE ttrss_user_entries SET note = '$note'
 			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);

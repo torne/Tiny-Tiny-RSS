@@ -50,8 +50,8 @@ class Pref_Prefs extends Handler_Protected {
 
 		foreach (array_keys($_POST) as $pref_name) {
 
-			$pref_name = db_escape_string($pref_name);
-			$value = db_escape_string($_POST[$pref_name]);
+			$pref_name = db_escape_string($this->link, $pref_name);
+			$value = db_escape_string($this->link, $_POST[$pref_name]);
 
 			if ($pref_name == 'DIGEST_PREFERRED_TIME') {
 				if (get_pref($this->link, 'DIGEST_PREFERRED_TIME') != $value) {
@@ -71,7 +71,7 @@ class Pref_Prefs extends Handler_Protected {
 
 	function getHelp() {
 
-		$pref_name = db_escape_string($_REQUEST["pn"]);
+		$pref_name = db_escape_string($this->link, $_REQUEST["pn"]);
 
 		$result = db_query($this->link, "SELECT help_text FROM ttrss_prefs
 			WHERE pref_name = '$pref_name'");
@@ -86,8 +86,8 @@ class Pref_Prefs extends Handler_Protected {
 
 	function changeemail() {
 
-		$email = db_escape_string($_POST["email"]);
-		$full_name = db_escape_string($_POST["full_name"]);
+		$email = db_escape_string($this->link, $_POST["email"]);
+		$full_name = db_escape_string($this->link, $_POST["full_name"]);
 
 		$active_uid = $_SESSION["uid"];
 
@@ -798,7 +798,7 @@ class Pref_Prefs extends Handler_Protected {
 	}
 
 	function otpenable() {
-		$password = db_escape_string($_REQUEST["password"]);
+		$password = db_escape_string($this->link, $_REQUEST["password"]);
 		$enable_otp = $_REQUEST["enable_otp"] == "on";
 
 		global $pluginhost;
@@ -819,7 +819,7 @@ class Pref_Prefs extends Handler_Protected {
 	}
 
 	function otpdisable() {
-		$password = db_escape_string($_REQUEST["password"]);
+		$password = db_escape_string($this->link, $_REQUEST["password"]);
 
 		global $pluginhost;
 		$authenticator = $pluginhost->get_plugin($_SESSION["auth_module"]);
@@ -846,7 +846,7 @@ class Pref_Prefs extends Handler_Protected {
 	}
 
 	function clearplugindata() {
-		$name = db_escape_string($_REQUEST["name"]);
+		$name = db_escape_string($this->link, $_REQUEST["name"]);
 
 		global $pluginhost;
 		$pluginhost->clear_data($pluginhost->get_plugin($name));

@@ -202,13 +202,13 @@ class Feeds extends Handler_Protected {
 			}
 		}
 
-		@$search = db_escape_string($_REQUEST["query"]);
+		@$search = db_escape_string($this->link, $_REQUEST["query"]);
 
 		if ($search) {
 			$disable_cache = true;
 		}
 
-		@$search_mode = db_escape_string($_REQUEST["search_mode"]);
+		@$search_mode = db_escape_string($this->link, $_REQUEST["search_mode"]);
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H0", $timing_info);
 
@@ -757,17 +757,17 @@ class Feeds extends Handler_Protected {
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("0", $timing_info);
 
-		$omode = db_escape_string($_REQUEST["omode"]);
+		$omode = db_escape_string($this->link, $_REQUEST["omode"]);
 
-		$feed = db_escape_string($_REQUEST["feed"]);
-		$method = db_escape_string($_REQUEST["m"]);
-		$view_mode = db_escape_string($_REQUEST["view_mode"]);
+		$feed = db_escape_string($this->link, $_REQUEST["feed"]);
+		$method = db_escape_string($this->link, $_REQUEST["m"]);
+		$view_mode = db_escape_string($this->link, $_REQUEST["view_mode"]);
 		$limit = (int) get_pref($this->link, "DEFAULT_ARTICLE_LIMIT");
 		@$cat_view = $_REQUEST["cat"] == "true";
-		@$next_unread_feed = db_escape_string($_REQUEST["nuf"]);
-		@$offset = db_escape_string($_REQUEST["skip"]);
-		@$vgroup_last_feed = db_escape_string($_REQUEST["vgrlf"]);
-		$order_by = db_escape_string($_REQUEST["order_by"]);
+		@$next_unread_feed = db_escape_string($this->link, $_REQUEST["nuf"]);
+		@$offset = db_escape_string($this->link, $_REQUEST["skip"]);
+		@$vgroup_last_feed = db_escape_string($this->link, $_REQUEST["vgrlf"]);
+		$order_by = db_escape_string($this->link, $_REQUEST["order_by"]);
 
 		if (is_numeric($feed)) $feed = (int) $feed;
 

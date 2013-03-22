@@ -47,7 +47,7 @@ class Digest extends Plugin implements IHandler {
 	}
 
 	function digestgetcontents() {
-		$article_id = db_escape_string($_REQUEST['article_id']);
+		$article_id = db_escape_string($this->link, $_REQUEST['article_id']);
 
 		$result = db_query($this->link, "SELECT content,title,link,marked,published
 			FROM ttrss_entries, ttrss_user_entries
@@ -67,9 +67,9 @@ class Digest extends Plugin implements IHandler {
 	}
 
 	function digestupdate() {
-		$feed_id = db_escape_string($_REQUEST['feed_id']);
-		$offset = db_escape_string($_REQUEST['offset']);
-		$seq = db_escape_string($_REQUEST['seq']);
+		$feed_id = db_escape_string($this->link, $_REQUEST['feed_id']);
+		$offset = db_escape_string($this->link, $_REQUEST['offset']);
+		$seq = db_escape_string($this->link, $_REQUEST['seq']);
 
 		if (!$feed_id) $feed_id = -4;
 		if (!$offset) $offset = 0;

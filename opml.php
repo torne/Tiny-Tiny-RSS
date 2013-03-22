@@ -16,7 +16,7 @@
 	$op = $_REQUEST['op'];
 
 	if ($op == "publish"){
-		$key = db_escape_string($_REQUEST["key"]);
+		$key = db_escape_string($link, $_REQUEST["key"]);
 
 		$result = db_query($link, "SELECT owner_uid
 				FROM ttrss_access_keys WHERE

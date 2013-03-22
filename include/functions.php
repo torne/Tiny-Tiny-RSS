@@ -516,7 +516,7 @@
 
 	function initialize_user_prefs($link, $uid, $profile = false) {
 
-		$uid = db_escape_string($uid);
+		$uid = db_escape_string($link, $uid);
 
 		if (!$profile) {
 			$profile = "NULL";
@@ -911,7 +911,7 @@
 			}
 		}
 
-		if (db_escape_string("testTEST") != "testTEST") {
+		if (db_escape_string($link, "testTEST") != "testTEST") {
 			$error_code = 12;
 		}
 
@@ -1086,7 +1086,7 @@
 			} else { // tag
 				db_query($link, "BEGIN");
 
-				$tag_name = db_escape_string($feed);
+				$tag_name = db_escape_string($link, $feed);
 
 				$result = db_query($link, "SELECT post_int_id FROM ttrss_tags
 					WHERE tag_name = '$tag_name' AND owner_uid = $owner_uid");
@@ -1283,7 +1283,7 @@
 			return 0;
 		} else if ($feed != "0" && $n_feed == 0) {
 
-			$feed = db_escape_string($feed);
+			$feed = db_escape_string($link, $feed);
 
 			$result = db_query($link, "SELECT SUM((SELECT COUNT(int_id)
 				FROM ttrss_user_entries,ttrss_entries WHERE int_id = post_int_id
@@ -2744,7 +2744,7 @@
 
 	function get_article_tags($link, $id, $owner_uid = 0, $tag_cache = false) {
 
-		$a_id = db_escape_string($id);
+		$a_id = db_escape_string($link, $id);
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
@@ -2779,7 +2779,7 @@
 
 			/* update the cache */
 
-			$tags_str = db_escape_string(join(",", $tags));
+			$tags_str = db_escape_string($link, join(",", $tags));
 
 			db_query($link, "UPDATE ttrss_user_entries
 				SET tag_cache = '$tags_str' WHERE ref_id = '$id'
@@ -3511,7 +3511,7 @@
 		if (db_num_rows($result) == 1) {
 			return db_fetch_result($result, 0, "access_key");
 		} else {
-			$key = db_escape_string(sha1(uniqid(rand(), true)));
+			$key = db_escape_string($link, sha1(uniqid(rand(), true)));
 
 			$result = db_query($link, "INSERT INTO ttrss_access_keys
 				(access_key, feed_id, is_cat, owner_uid)
@@ -3865,7 +3865,7 @@
 
 			if ($regexp_valid) {
 
-				$rule['reg_exp'] = db_escape_string($rule['reg_exp']);
+				$rule['reg_exp'] = db_escape_string($link, $rule['reg_exp']);
 
 				switch ($rule["type"]) {
 					case "title":
@@ -3896,7 +3896,7 @@
 				}
 
 				if (isset($rule["feed_id"]) && $rule["feed_id"] > 0) {
-					$qpart .= " AND feed_id = " . db_escape_string($rule["feed_id"]);
+					$qpart .= " AND feed_id = " . db_escape_string($link, $rule["feed_id"]);
 				}
 
 				if (isset($rule["cat_id"])) {

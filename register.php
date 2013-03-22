@@ -74,7 +74,7 @@
 	if ($action == "check") {
 		header("Content-Type: application/xml");
 
-		$login = trim(db_escape_string($_REQUEST['login']));
+		$login = trim(db_escape_string($link, $_REQUEST['login']));
 
 		$result = db_query($link, "SELECT id FROM ttrss_users WHERE
 			LOWER(login) = LOWER('$login')");
@@ -242,9 +242,9 @@
 	<?php } else if ($action == "do_register") { ?>
 
 	<?php
-		$login = mb_strtolower(trim(db_escape_string($_REQUEST["login"])));
-		$email = trim(db_escape_string($_REQUEST["email"]));
-		$test = trim(db_escape_string($_REQUEST["turing_test"]));
+		$login = mb_strtolower(trim(db_escape_string($link, $_REQUEST["login"])));
+		$email = trim(db_escape_string($link, $_REQUEST["email"]));
+		$test = trim(db_escape_string($link, $_REQUEST["turing_test"]));
 
 		if (!$login || !$email || !$test) {
 			print_error(__("Your registration information is incomplete."));

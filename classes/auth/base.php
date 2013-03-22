@@ -21,7 +21,7 @@ class Auth_Base {
 			$user_id = $this->find_user_by_login($login);
 
 			if (!$user_id) {
-				$login = db_escape_string($login);
+				$login = db_escape_string($this->link, $login);
 				$salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
 				$pwd_hash = encrypt_password($password, $salt, true);
 
@@ -42,7 +42,7 @@ class Auth_Base {
 	}
 
 	function find_user_by_login($login) {
-		$login = db_escape_string($login);
+		$login = db_escape_string($this->link, $login);
 
 		$result = db_query($this->link, "SELECT id FROM ttrss_users WHERE
 			login = '$login'");

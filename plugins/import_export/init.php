@@ -49,7 +49,7 @@ class Import_Export extends Plugin implements IHandler {
 	}
 
 	function save() {
-		$example_value = db_escape_string($_POST["example_value"]);
+		$example_value = db_escape_string($this->link, $_POST["example_value"]);
 
 		echo "Value set to $example_value (not really)";
 	}
@@ -122,7 +122,7 @@ class Import_Export extends Plugin implements IHandler {
 	}
 
 	function exportrun() {
-		$offset = (int) db_escape_string($_REQUEST['offset']);
+		$offset = (int) db_escape_string($this->link, $_REQUEST['offset']);
 		$exported = 0;
 		$limit = 250;
 
@@ -238,7 +238,7 @@ class Import_Export extends Plugin implements IHandler {
 
 					foreach ($article_node->childNodes as $child) {
 						if ($child->nodeName != 'label_cache')
-							$article[$child->nodeName] = db_escape_string($child->nodeValue);
+							$article[$child->nodeName] = db_escape_string($this->link, $child->nodeValue);
 						else
 							$article[$child->nodeName] = $child->nodeValue;
 					}
@@ -346,7 +346,7 @@ class Import_Export extends Plugin implements IHandler {
 								$score = (int) $article['score'];
 
 								$tag_cache = $article['tag_cache'];
-								$label_cache = db_escape_string($article['label_cache']);
+								$label_cache = db_escape_string($this->link, $article['label_cache']);
 								$note = $article['note'];
 
 								//print "Importing " . $article['title'] . "<br/>";

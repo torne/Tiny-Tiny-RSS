@@ -88,7 +88,7 @@
 		if (!$labels)
 			$labels = get_article_labels($link, $id);
 
-		$labels = db_escape_string(json_encode($labels));
+		$labels = db_escape_string($link, json_encode($labels));
 
 		db_query($link, "UPDATE ttrss_user_entries SET
 			label_cache = '$labels' WHERE ref_id = '$id' AND  owner_uid = '$owner_uid'");

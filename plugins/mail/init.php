@@ -30,7 +30,7 @@ class Mail extends Plugin {
 
 	function emailArticle() {
 
-		$param = db_escape_string($_REQUEST['param']);
+		$param = db_escape_string($this->link, $_REQUEST['param']);
 
 		$secretkey = sha1(uniqid(rand(), true));
 
@@ -181,7 +181,7 @@ class Mail extends Plugin {
 			if (!$rc) {
 				$reply['error'] =  $mail->ErrorInfo;
 			} else {
-				save_email_address($this->link, db_escape_string($destination));
+				save_email_address($this->link, db_escape_string($this->link, $destination));
 				$reply['message'] = "UPDATE_COUNTERS";
 			}
 
@@ -193,7 +193,7 @@ class Mail extends Plugin {
 	}
 
 	function completeEmails() {
-		$search = db_escape_string($_REQUEST["search"]);
+		$search = db_escape_string($this->link, $_REQUEST["search"]);
 
 		print "<ul>";
 

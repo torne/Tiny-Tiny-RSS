@@ -116,7 +116,7 @@ class Pref_Users extends Handler_Protected {
 
 			header("Content-Type: text/xml");
 
-			$id = db_escape_string($_REQUEST["id"]);
+			$id = db_escape_string($this->link, $_REQUEST["id"]);
 
 			print "<dlg id=\"$method\">";
 			print "<title>".__('User Editor')."</title>";
@@ -199,11 +199,11 @@ class Pref_Users extends Handler_Protected {
 		}
 
 		function editSave() {
-			$login = db_escape_string(trim($_REQUEST["login"]));
-			$uid = db_escape_string($_REQUEST["id"]);
+			$login = db_escape_string($this->link, trim($_REQUEST["login"]));
+			$uid = db_escape_string($this->link, $_REQUEST["id"]);
 			$access_level = (int) $_REQUEST["access_level"];
-			$email = db_escape_string(trim($_REQUEST["email"]));
-			$password = db_escape_string(trim($_REQUEST["password"]));
+			$email = db_escape_string($this->link, trim($_REQUEST["email"]));
+			$password = db_escape_string($this->link, trim($_REQUEST["password"]));
 
 			if ($password) {
 				$salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
@@ -220,7 +220,7 @@ class Pref_Users extends Handler_Protected {
 		}
 
 		function remove() {
-			$ids = split(",", db_escape_string($_REQUEST["ids"]));
+			$ids = split(",", db_escape_string($this->link, $_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
 				if ($id != $_SESSION["uid"] && $id != 1) {
@@ -233,7 +233,7 @@ class Pref_Users extends Handler_Protected {
 
 		function add() {
 
-			$login = db_escape_string(trim($_REQUEST["login"]));
+			$login = db_escape_string($this->link, trim($_REQUEST["login"]));
 			$tmp_user_pwd = make_password(8);
 			$salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
 			$pwd_hash = encrypt_password($tmp_user_pwd, $salt, true);
@@ -272,7 +272,7 @@ class Pref_Users extends Handler_Protected {
 
 		function resetPass() {
 
-			$uid = db_escape_string($_REQUEST["id"]);
+			$uid = db_escape_string($this->link, $_REQUEST["id"]);
 
 			$result = db_query($this->link, "SELECT login,email
 				FROM ttrss_users WHERE id = '$uid'");
@@ -353,7 +353,7 @@ class Pref_Users extends Handler_Protected {
 
 			print "<div id=\"pref-user-toolbar\" dojoType=\"dijit.Toolbar\">";
 
-			$user_search = db_escape_string($_REQUEST["search"]);
+			$user_search = db_escape_string($this->link, $_REQUEST["search"]);
 
 			if (array_key_exists("search", $_REQUEST)) {
 				$_SESSION["prefs_user_search"] = $user_search;
@@ -368,7 +368,7 @@ class Pref_Users extends Handler_Protected {
 					__('Search')."</button>
 				</div>";
 
-			$sort = db_escape_string($_REQUEST["sort"]);
+			$sort = db_escape_string($this->link, $_REQUEST["sort"]);
 
 			if (!$sort || $sort == "undefined") {
 				$sort = "login";

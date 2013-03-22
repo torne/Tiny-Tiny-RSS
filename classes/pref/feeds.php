@@ -14,8 +14,8 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function renamecat() {
-		$title = db_escape_string($_REQUEST['title']);
-		$id = db_escape_string($_REQUEST['id']);
+		$title = db_escape_string($this->link, $_REQUEST['title']);
+		$id = db_escape_string($this->link, $_REQUEST['id']);
 
 		if ($title) {
 			db_query($this->link, "UPDATE ttrss_feed_categories SET
@@ -293,7 +293,7 @@ class Pref_Feeds extends Handler_Protected {
 		if ($item_id != 'root') {
 			if ($parent_id && $parent_id != 'root') {
 				$parent_bare_id = substr($parent_id, strpos($parent_id, ':')+1);
-				$parent_qpart = db_escape_string($parent_bare_id);
+				$parent_qpart = db_escape_string($this->link, $parent_bare_id);
 			} else {
 				$parent_qpart = 'NULL';
 			}
@@ -319,7 +319,7 @@ class Pref_Feeds extends Handler_Protected {
 					if (strpos($id, "FEED") === 0) {
 
 						$cat_id = ($item_id != "root") ?
-							db_escape_string($bare_item_id) : "NULL";
+							db_escape_string($this->link, $bare_item_id) : "NULL";
 
 						$cat_qpart = ($cat_id != 0) ? "cat_id = '$cat_id'" :
 							"cat_id = NULL";
@@ -334,7 +334,7 @@ class Pref_Feeds extends Handler_Protected {
 							$nest_level+1);
 
 						if ($item_id != 'root') {
-							$parent_qpart = db_escape_string($bare_id);
+							$parent_qpart = db_escape_string($this->link, $bare_id);
 						} else {
 							$parent_qpart = 'NULL';
 						}
@@ -424,7 +424,7 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function removeicon() {
-		$feed_id = db_escape_string($_REQUEST["feed_id"]);
+		$feed_id = db_escape_string($this->link, $_REQUEST["feed_id"]);
 
 		$result = db_query($this->link, "SELECT id FROM ttrss_feeds
 			WHERE id = '$feed_id' AND owner_uid = ". $_SESSION["uid"]);
@@ -440,7 +440,7 @@ class Pref_Feeds extends Handler_Protected {
 		header("Content-type: text/html");
 
 		$icon_file = $_FILES['icon_file']['tmp_name'];
-		$feed_id = db_escape_string($_REQUEST["feed_id"]);
+		$feed_id = db_escape_string($this->link, $_REQUEST["feed_id"]);
 
 		if (is_file($icon_file) && $feed_id) {
 			if (filesize($icon_file) < 20000) {
@@ -472,7 +472,7 @@ class Pref_Feeds extends Handler_Protected {
 		global $purge_intervals;
 		global $update_intervals;
 
-		$feed_id = db_escape_string($_REQUEST["id"]);
+		$feed_id = db_escape_string($this->link, $_REQUEST["id"]);
 
 		$result = db_query($this->link,
 			"SELECT * FROM ttrss_feeds WHERE id = '$feed_id' AND
@@ -708,7 +708,7 @@ class Pref_Feeds extends Handler_Protected {
 		global $purge_intervals;
 		global $update_intervals;
 
-		$feed_ids = db_escape_string($_REQUEST["ids"]);
+		$feed_ids = db_escape_string($this->link, $_REQUEST["ids"]);
 
 		print "<div class=\"dialogNotice\">" . __("Enable the options you wish to apply using checkboxes on the right:") . "</div>";
 
@@ -862,27 +862,27 @@ class Pref_Feeds extends Handler_Protected {
 
 	function editsaveops($batch) {
 
-		$feed_title = db_escape_string(trim($_POST["title"]));
-		$feed_link = db_escape_string(trim($_POST["feed_url"]));
-		$upd_intl = (int) db_escape_string($_POST["update_interval"]);
-		$purge_intl = (int) db_escape_string($_POST["purge_interval"]);
-		$feed_id = (int) db_escape_string($_POST["id"]); /* editSave */
-		$feed_ids = db_escape_string($_POST["ids"]); /* batchEditSave */
-		$cat_id = (int) db_escape_string($_POST["cat_id"]);
-		$auth_login = db_escape_string(trim($_POST["auth_login"]));
-		$auth_pass = db_escape_string(trim($_POST["auth_pass"]));
-		$private = checkbox_to_sql_bool(db_escape_string($_POST["private"]));
+		$feed_title = db_escape_string($this->link, trim($_POST["title"]));
+		$feed_link = db_escape_string($this->link, trim($_POST["feed_url"]));
+		$upd_intl = (int) db_escape_string($this->link, $_POST["update_interval"]);
+		$purge_intl = (int) db_escape_string($this->link, $_POST["purge_interval"]);
+		$feed_id = (int) db_escape_string($this->link, $_POST["id"]); /* editSave */
+		$feed_ids = db_escape_string($this->link, $_POST["ids"]); /* batchEditSave */
+		$cat_id = (int) db_escape_string($this->link, $_POST["cat_id"]);
+		$auth_login = db_escape_string($this->link, trim($_POST["auth_login"]));
+		$auth_pass = db_escape_string($this->link, trim($_POST["auth_pass"]));
+		$private = checkbox_to_sql_bool(db_escape_string($this->link, $_POST["private"]));
 		$include_in_digest = checkbox_to_sql_bool(
-			db_escape_string($_POST["include_in_digest"]));
+			db_escape_string($this->link, $_POST["include_in_digest"]));
 		$cache_images = checkbox_to_sql_bool(
-			db_escape_string($_POST["cache_images"]));
+			db_escape_string($this->link, $_POST["cache_images"]));
 		$hide_images = checkbox_to_sql_bool(
-			db_escape_string($_POST["hide_images"]));
+			db_escape_string($this->link, $_POST["hide_images"]));
 		$always_display_enclosures = checkbox_to_sql_bool(
-			db_escape_string($_POST["always_display_enclosures"]));
+			db_escape_string($this->link, $_POST["always_display_enclosures"]));
 
 		$mark_unread_on_update = checkbox_to_sql_bool(
-			db_escape_string($_POST["mark_unread_on_update"]));
+			db_escape_string($this->link, $_POST["mark_unread_on_update"]));
 
 		if (get_pref($this->link, 'ENABLE_FEED_CATS')) {
 			if ($cat_id && $cat_id != 0) {
@@ -999,7 +999,7 @@ class Pref_Feeds extends Handler_Protected {
 
 	function resetPubSub() {
 
-		$ids = db_escape_string($_REQUEST["ids"]);
+		$ids = db_escape_string($this->link, $_REQUEST["ids"]);
 
 		db_query($this->link, "UPDATE ttrss_feeds SET pubsub_state = 0 WHERE id IN ($ids)
 			AND owner_uid = " . $_SESSION["uid"]);
@@ -1009,7 +1009,7 @@ class Pref_Feeds extends Handler_Protected {
 
 	function remove() {
 
-		$ids = split(",", db_escape_string($_REQUEST["ids"]));
+		$ids = split(",", db_escape_string($this->link, $_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
 			$this->remove_feed($this->link, $id, $_SESSION["uid"]);
@@ -1019,14 +1019,14 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function clear() {
-		$id = db_escape_string($_REQUEST["id"]);
+		$id = db_escape_string($this->link, $_REQUEST["id"]);
 		$this->clear_feed_articles($this->link, $id);
 	}
 
 	function rescore() {
 		require_once "rssfuncs.php";
 
-		$ids = split(",", db_escape_string($_REQUEST["ids"]));
+		$ids = split(",", db_escape_string($this->link, $_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
 
@@ -1132,9 +1132,9 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function categorize() {
-		$ids = split(",", db_escape_string($_REQUEST["ids"]));
+		$ids = split(",", db_escape_string($this->link, $_REQUEST["ids"]));
 
-		$cat_id = db_escape_string($_REQUEST["cat_id"]);
+		$cat_id = db_escape_string($this->link, $_REQUEST["cat_id"]);
 
 		if ($cat_id == 0) {
 			$cat_id_qpart = 'NULL';
@@ -1156,14 +1156,14 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function removeCat() {
-		$ids = split(",", db_escape_string($_REQUEST["ids"]));
+		$ids = split(",", db_escape_string($this->link, $_REQUEST["ids"]));
 		foreach ($ids as $id) {
 			$this->remove_feed_category($this->link, $id, $_SESSION["uid"]);
 		}
 	}
 
 	function addCat() {
-		$feed_cat = db_escape_string(trim($_REQUEST["cat"]));
+		$feed_cat = db_escape_string($this->link, trim($_REQUEST["cat"]));
 
 		add_feed_category($this->link, $feed_cat);
 	}
@@ -1205,7 +1205,7 @@ class Pref_Feeds extends Handler_Protected {
 					__("Inactive feeds") . "</button>";
 		}
 
-		$feed_search = db_escape_string($_REQUEST["search"]);
+		$feed_search = db_escape_string($this->link, $_REQUEST["search"]);
 
 		if (array_key_exists("search", $_REQUEST)) {
 			$_SESSION["prefs_feed_search"] = $feed_search;

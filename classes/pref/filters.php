@@ -13,7 +13,7 @@ class Pref_Filters extends Handler_Protected {
 
 		$filter["enabled"] = true;
 		$filter["match_any_rule"] = sql_bool_to_bool(
-			checkbox_to_sql_bool(db_escape_string($_REQUEST["match_any_rule"])));
+			checkbox_to_sql_bool(db_escape_string($this->link, $_REQUEST["match_any_rule"])));
 		$filter["rules"] = array();
 
 		$result = db_query($this->link, "SELECT id,name FROM ttrss_filter_types");
@@ -168,7 +168,7 @@ class Pref_Filters extends Handler_Protected {
 
 			if ($line['action_id'] == 7) {
 				$label_result = db_query($this->link, "SELECT fg_color, bg_color
-					FROM ttrss_labels2 WHERE caption = '".db_escape_string($line['action_param'])."' AND
+					FROM ttrss_labels2 WHERE caption = '".db_escape_string($this->link, $line['action_param'])."' AND
 						owner_uid = " . $_SESSION["uid"]);
 
 				if (db_num_rows($label_result) > 0) {
@@ -207,7 +207,7 @@ class Pref_Filters extends Handler_Protected {
 
 	function edit() {
 
-		$filter_id = db_escape_string($_REQUEST["id"]);
+		$filter_id = db_escape_string($this->link, $_REQUEST["id"]);
 
 		$result = db_query($this->link,
 			"SELECT * FROM ttrss_filters2 WHERE id = '$filter_id' AND owner_uid = " . $_SESSION["uid"]);
@@ -403,9 +403,9 @@ class Pref_Filters extends Handler_Protected {
 
 #		print_r($_REQUEST);
 
-		$filter_id = db_escape_string($_REQUEST["id"]);
-		$enabled = checkbox_to_sql_bool(db_escape_string($_REQUEST["enabled"]));
-		$match_any_rule = checkbox_to_sql_bool(db_escape_string($_REQUEST["match_any_rule"]));
+		$filter_id = db_escape_string($this->link, $_REQUEST["id"]);
+		$enabled = checkbox_to_sql_bool(db_escape_string($this->link, $_REQUEST["enabled"]));
+		$match_any_rule = checkbox_to_sql_bool(db_escape_string($this->link, $_REQUEST["match_any_rule"]));
 
 		$result = db_query($this->link, "UPDATE ttrss_filters2 SET enabled = $enabled,
 		  	match_any_rule = $match_any_rule
@@ -418,7 +418,7 @@ class Pref_Filters extends Handler_Protected {
 
 	function remove() {
 
-		$ids = split(",", db_escape_string($_REQUEST["ids"]));
+		$ids = split(",", db_escape_string($this->link, $_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
 			db_query($this->link, "DELETE FROM ttrss_filters2 WHERE id = '$id' AND owner_uid = ". $_SESSION["uid"]);
@@ -457,9 +457,9 @@ class Pref_Filters extends Handler_Protected {
 			foreach ($rules as $rule) {
 				if ($rule) {
 
-					$reg_exp = strip_tags(db_escape_string(trim($rule["reg_exp"])));
-					$filter_type = (int) db_escape_string(trim($rule["filter_type"]));
-					$feed_id = db_escape_string(trim($rule["feed_id"]));
+					$reg_exp = strip_tags(db_escape_string($this->link, trim($rule["reg_exp"])));
+					$filter_type = (int) db_escape_string($this->link, trim($rule["filter_type"]));
+					$feed_id = db_escape_string($this->link, trim($rule["feed_id"]));
 
 					if (strpos($feed_id, "CAT:") === 0) {
 
@@ -487,9 +487,9 @@ class Pref_Filters extends Handler_Protected {
 			foreach ($actions as $action) {
 				if ($action) {
 
-					$action_id = (int) db_escape_string($action["action_id"]);
-					$action_param = db_escape_string($action["action_param"]);
-					$action_param_label = db_escape_string($action["action_param_label"]);
+					$action_id = (int) db_escape_string($this->link, $action["action_id"]);
+					$action_param = db_escape_string($this->link, $action["action_param"]);
+					$action_param_label = db_escape_string($this->link, $action["action_param_label"]);
 
 					if ($action_id == 7) {
 						$action_param = $action_param_label;
@@ -541,13 +541,13 @@ class Pref_Filters extends Handler_Protected {
 
 	function index() {
 
-		$sort = db_escape_string($_REQUEST["sort"]);
+		$sort = db_escape_string($this->link, $_REQUEST["sort"]);
 
 		if (!$sort || $sort == "undefined") {
 			$sort = "reg_exp";
 		}
 
-		$filter_search = db_escape_string($_REQUEST["search"]);
+		$filter_search = db_escape_string($this->link, $_REQUEST["search"]);
 
 		if (array_key_exists("search", $_REQUEST)) {
 			$_SESSION["prefs_filter_search"] = $filter_search;
@@ -559,7 +559,7 @@ class Pref_Filters extends Handler_Protected {
 		print "<div id=\"pref-filter-header\" dojoType=\"dijit.layout.ContentPane\" region=\"top\">";
 		print "<div id=\"pref-filter-toolbar\" dojoType=\"dijit.Toolbar\">";
 
-		$filter_search = db_escape_string($_REQUEST["search"]);
+		$filter_search = db_escape_string($this->link, $_REQUEST["search"]);
 
 		if (array_key_exists("search", $_REQUEST)) {
 			$_SESSION["prefs_filter_search"] = $filter_search;
@@ -806,7 +806,7 @@ class Pref_Filters extends Handler_Protected {
 		$action = json_decode($_REQUEST["action"], true);
 
 		if ($action) {
-			$action_param = db_escape_string($action["action_param"]);
+			$action_param = db_escape_string($this->link, $action["action_param"]);
 			$action_id = (int)$action["action_id"];
 		} else {
 			$action_param = "";
@@ -914,7 +914,7 @@ class Pref_Filters extends Handler_Protected {
 	}
 
 	function join() {
-		$ids = explode(",", db_escape_string($_REQUEST["ids"]));
+		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
 
 		if (count($ids) > 1) {
 			$base_id = array_shift($ids);

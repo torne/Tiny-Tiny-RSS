@@ -32,7 +32,7 @@ class GooglePlus extends Plugin {
 	}
 
 	function getInfo() {
-		$id = db_escape_string($_REQUEST['id']);
+		$id = db_escape_string($this->link, $_REQUEST['id']);
 
 		$result = db_query($this->link, "SELECT title, link
 				FROM ttrss_entries, ttrss_user_entries

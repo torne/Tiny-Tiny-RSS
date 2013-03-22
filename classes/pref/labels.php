@@ -8,7 +8,7 @@ class Pref_Labels extends Handler_Protected {
 	}
 
 	function edit() {
-		$label_id = db_escape_string($_REQUEST['id']);
+		$label_id = db_escape_string($this->link, $_REQUEST['id']);
 
 		$result = db_query($this->link, "SELECT * FROM ttrss_labels2 WHERE
 			id = '$label_id' AND owner_uid = " . $_SESSION["uid"]);
@@ -118,11 +118,11 @@ class Pref_Labels extends Handler_Protected {
 	}
 
 	function colorset() {
-		$kind = db_escape_string($_REQUEST["kind"]);
-		$ids = split(',', db_escape_string($_REQUEST["ids"]));
-		$color = db_escape_string($_REQUEST["color"]);
-		$fg = db_escape_string($_REQUEST["fg"]);
-		$bg = db_escape_string($_REQUEST["bg"]);
+		$kind = db_escape_string($this->link, $_REQUEST["kind"]);
+		$ids = split(',', db_escape_string($this->link, $_REQUEST["ids"]));
+		$color = db_escape_string($this->link, $_REQUEST["color"]);
+		$fg = db_escape_string($this->link, $_REQUEST["fg"]);
+		$bg = db_escape_string($this->link, $_REQUEST["bg"]);
 
 		foreach ($ids as $id) {
 
@@ -136,7 +136,7 @@ class Pref_Labels extends Handler_Protected {
 					AND owner_uid = " . $_SESSION["uid"]);
 			}
 
-			$caption = db_escape_string(label_find_caption($this->link, $id, $_SESSION["uid"]));
+			$caption = db_escape_string($this->link, label_find_caption($this->link, $id, $_SESSION["uid"]));
 
 			/* Remove cached data */
 
@@ -149,14 +149,14 @@ class Pref_Labels extends Handler_Protected {
 	}
 
 	function colorreset() {
-		$ids = split(',', db_escape_string($_REQUEST["ids"]));
+		$ids = split(',', db_escape_string($this->link, $_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
 			db_query($this->link, "UPDATE ttrss_labels2 SET
 				fg_color = '', bg_color = '' WHERE id = '$id'
 				AND owner_uid = " . $_SESSION["uid"]);
 
-			$caption = db_escape_string(label_find_caption($this->link, $id, $_SESSION["uid"]));
+			$caption = db_escape_string($this->link, label_find_caption($this->link, $id, $_SESSION["uid"]));
 
 			/* Remove cached data */
 
@@ -168,8 +168,8 @@ class Pref_Labels extends Handler_Protected {
 
 	function save() {
 
-		$id = db_escape_string($_REQUEST["id"]);
-		$caption = db_escape_string(trim($_REQUEST["caption"]));
+		$id = db_escape_string($this->link, $_REQUEST["id"]);
+		$caption = db_escape_string($this->link, trim($_REQUEST["caption"]));
 
 		db_query($this->link, "BEGIN");
 
@@ -190,7 +190,7 @@ class Pref_Labels extends Handler_Protected {
 
 					/* Update filters that reference label being renamed */
 
-					$old_caption = db_escape_string($old_caption);
+					$old_caption = db_escape_string($this->link, $old_caption);
 
 					db_query($this->link, "UPDATE ttrss_filters2_actions SET
 						action_param = '$caption' WHERE action_param = '$old_caption'
@@ -213,7 +213,7 @@ class Pref_Labels extends Handler_Protected {
 
 	function remove() {
 
-		$ids = split(",", db_escape_string($_REQUEST["ids"]));
+		$ids = split(",", db_escape_string($this->link, $_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
 			label_remove($this->link, $id, $_SESSION["uid"]);
@@ -222,8 +222,8 @@ class Pref_Labels extends Handler_Protected {
 	}
 
 	function add() {
-		$caption = db_escape_string($_REQUEST["caption"]);
-		$output = db_escape_string($_REQUEST["output"]);
+		$caption = db_escape_string($this->link, $_REQUEST["caption"]);
+		$output = db_escape_string($this->link, $_REQUEST["output"]);
 
 		if ($caption) {
 
@@ -250,13 +250,13 @@ class Pref_Labels extends Handler_Protected {
 
 	function index() {
 
-		$sort = db_escape_string($_REQUEST["sort"]);
+		$sort = db_escape_string($this->link, $_REQUEST["sort"]);
 
 		if (!$sort || $sort == "undefined") {
 			$sort = "caption";
 		}
 
-		$label_search = db_escape_string($_REQUEST["search"]);
+		$label_search = db_escape_string($this->link, $_REQUEST["search"]);
 
 		if (array_key_exists("search", $_REQUEST)) {
 			$_SESSION["prefs_label_search"] = $label_search;

@@ -44,7 +44,7 @@
 
 	function get_pref($link, $pref_name, $user_id = false, $die_on_error = false) {
 
-		$pref_name = db_escape_string($pref_name);
+		$pref_name = db_escape_string($link, $pref_name);
 		$prefs_cache = true;
 		$profile = false;
 
@@ -115,8 +115,8 @@
 	}
 
 	function set_pref($link, $pref_name, $value, $user_id = false, $strip_tags = true) {
-		$pref_name = db_escape_string($pref_name);
-		$value = db_escape_string($value, $strip_tags);
+		$pref_name = db_escape_string($link, $pref_name);
+		$value = db_escape_string($link, $value, $strip_tags);
 
 		if (!$user_id) {
 			$user_id = $_SESSION["uid"];

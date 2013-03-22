@@ -5,7 +5,7 @@ class Dlg extends Handler_Protected {
 	function before($method) {
 		if (parent::before($method)) {
 			header("Content-Type: text/xml; charset=utf-8");
-			$this->param = db_escape_string($_REQUEST["param"]);
+			$this->param = db_escape_string($this->link, $_REQUEST["param"]);
 			print "<dlg>";
 			return true;
 		}
@@ -302,7 +302,7 @@ class Dlg extends Handler_Protected {
 	function feedBrowser() {
 		if (defined('_DISABLE_FEED_BROWSER') && _DISABLE_FEED_BROWSER) return;
 
-		$browser_search = db_escape_string($_REQUEST["search"]);
+		$browser_search = db_escape_string($this->link, $_REQUEST["search"]);
 
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"updateFeedBrowser\">";
@@ -350,7 +350,7 @@ class Dlg extends Handler_Protected {
 	}
 
 	function search() {
-		$this->params = explode(":", db_escape_string($_REQUEST["param"]), 2);
+		$this->params = explode(":", db_escape_string($this->link, $_REQUEST["param"]), 2);
 
 		$active_feed_id = sprintf("%d", $this->params[0]);
 		$is_cat = $this->params[1] != "false";
@@ -550,7 +550,7 @@ class Dlg extends Handler_Protected {
 		print "<content><![CDATA[";
 
 		$this->params = explode(":", $this->param, 3);
-		$feed_id = db_escape_string($this->params[0]);
+		$feed_id = db_escape_string($this->link, $this->params[0]);
 		$is_cat = (bool) $this->params[1];
 
 		$key = get_feed_access_key($this->link, $feed_id, $is_cat);

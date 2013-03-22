@@ -18,10 +18,10 @@
 		$count = 0;
 
 		while ($line = db_fetch_assoc($result)) {
-			$subscribers = db_escape_string($line["subscribers"]);
-			$feed_url = db_escape_string($line["feed_url"]);
-			$title = db_escape_string($line["title"]);
-			$site_url = db_escape_string($line["site_url"]);
+			$subscribers = db_escape_string($link, $line["subscribers"]);
+			$feed_url = db_escape_string($link, $line["feed_url"]);
+			$title = db_escape_string($link, $line["title"]);
+			$site_url = db_escape_string($link, $line["site_url"]);
 
 			$tmp_result = db_query($link, "SELECT subscribers FROM
 				ttrss_feedbrowser_cache WHERE feed_url = '$feed_url'");
@@ -200,7 +200,7 @@
 		$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
 		$fetch_url = db_fetch_result($result, 0, "feed_url");
 
-		$feed = db_escape_string($feed);
+		$feed = db_escape_string($link, $feed);
 
 		/* if ($auth_login && $auth_pass ){
 			$url_parts = array();
@@ -238,7 +238,7 @@
 				_debug("update_rss_feed: unable to fetch: $fetch_last_error");
 			}
 
-			$error_escaped = db_escape_string($fetch_last_error);
+			$error_escaped = db_escape_string($link, $fetch_last_error);
 
 			db_query($link,
 				"UPDATE ttrss_feeds SET last_error = '$error_escaped',
@@ -287,7 +287,7 @@
 
 //		print_r($rss);
 
-		$feed = db_escape_string($feed);
+		$feed = db_escape_string($link, $feed);
 
 		if (!$rss->error()) {
 
@@ -318,7 +318,7 @@
 
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
-			$site_url = db_escape_string(mb_substr(rewrite_relative_url($fetch_url, $rss->get_link()), 0, 245));
+			$site_url = db_escape_string($link, mb_substr(rewrite_relative_url($fetch_url, $rss->get_link()), 0, 245));
 
 			if ($debug_enabled) {
 				_debug("update_rss_feed: checking favicon...");
@@ -333,7 +333,7 @@
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
 
-				$feed_title = db_escape_string($rss->get_title());
+				$feed_title = db_escape_string($link, $rss->get_title());
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: registering title: $feed_title");
@@ -475,13 +475,13 @@
 					$entry_author = $entry_author_item->get_name();
 					if (!$entry_author) $entry_author = $entry_author_item->get_email();
 
-					$entry_author = db_escape_string($entry_author);
+					$entry_author = db_escape_string($link, $entry_author);
 				}
 
-				$entry_guid = db_escape_string(mb_substr($entry_guid, 0, 245));
+				$entry_guid = db_escape_string($link, mb_substr($entry_guid, 0, 245));
 
-				$entry_comments = db_escape_string(mb_substr($entry_comments, 0, 245));
-				$entry_author = db_escape_string(mb_substr($entry_author, 0, 245));
+				$entry_comments = db_escape_string($link, mb_substr($entry_comments, 0, 245));
+				$entry_author = db_escape_string($link, mb_substr($entry_author, 0, 245));
 
 				$num_comments = $item->get_item_tags('http://purl.org/rss/1.0/modules/slash/', 'comments');
 
@@ -539,7 +539,7 @@
 
 				// FIXME not sure if owner_uid is a good idea here, we may have a base entry without user entry (?)
 				$result = db_query($link, "SELECT plugin_data,title,content,link,tag_cache,author FROM ttrss_entries, ttrss_user_entries
-					WHERE ref_id = id AND guid = '".db_escape_string($entry_guid)."' AND owner_uid = $owner_uid");
+					WHERE ref_id = id AND guid = '".db_escape_string($link, $entry_guid)."' AND owner_uid = $owner_uid");
 
 				if (db_num_rows($result) != 0) {
 					$entry_plugin_data = db_fetch_result($result, 0, "plugin_data");
@@ -568,11 +568,11 @@
 				}
 
 				$entry_tags = $article["tags"];
-				$entry_guid = db_escape_string($entry_guid);
-				$entry_title = db_escape_string($article["title"]);
-				$entry_author = db_escape_string($article["author"]);
-				$entry_link = db_escape_string($article["link"]);
-				$entry_plugin_data = db_escape_string($article["plugin_data"]);
+				$entry_guid = db_escape_string($link, $entry_guid);
+				$entry_title = db_escape_string($link, $article["title"]);
+				$entry_author = db_escape_string($link, $article["author"]);
+				$entry_link = db_escape_string($link, $article["link"]);
+				$entry_plugin_data = db_escape_string($link, $article["plugin_data"]);
 				$entry_content = $article["content"]; // escaped below
 
 
@@ -583,7 +583,7 @@
 				if ($cache_images && is_writable(CACHE_DIR . '/images'))
 					cache_images($entry_content, $site_url, $debug_enabled);
 
-				$entry_content = db_escape_string($entry_content, false);
+				$entry_content = db_escape_string($link, $entry_content, false);
 
 				$content_hash = "SHA1:" . sha1($entry_content);
 
@@ -829,7 +829,7 @@
 						$update_insignificant = false;
 					}
 
-					if (db_escape_string($orig_title) != $entry_title) {
+					if (db_escape_string($link, $orig_title) != $entry_title) {
 						$post_needs_update = true;
 						$update_insignificant = false;
 					}
@@ -896,9 +896,9 @@
 				db_query($link, "BEGIN");
 
 				foreach ($enclosures as $enc) {
-					$enc_url = db_escape_string($enc[0]);
-					$enc_type = db_escape_string($enc[1]);
-					$enc_dur = db_escape_string($enc[2]);
+					$enc_url = db_escape_string($link, $enc[0]);
+					$enc_type = db_escape_string($link, $enc[1]);
+					$enc_dur = db_escape_string($link, $enc[2]);
 
 					$result = db_query($link, "SELECT id FROM ttrss_enclosures
 						WHERE content_url = '$enc_url' AND post_id = '$entry_ref_id'");
@@ -959,7 +959,7 @@
 					foreach ($filtered_tags as $tag) {
 
 						$tag = sanitize_tag($tag);
-						$tag = db_escape_string($tag);
+						$tag = db_escape_string($link, $tag);
 
 						if (!tag_is_valid($tag)) continue;
 
@@ -981,7 +981,7 @@
 
 					$tags_to_cache = array_unique($tags_to_cache);
 
-					$tags_str = db_escape_string(join(",", $tags_to_cache));
+					$tags_str = db_escape_string($link, join(",", $tags_to_cache));
 
 					db_query($link, "UPDATE ttrss_user_entries
 						SET tag_cache = '$tags_str' WHERE ref_id = '$entry_ref_id'
@@ -1031,7 +1031,7 @@
 
 		} else {
 
-			$error_msg = db_escape_string(mb_substr($rss->error(), 0, 245));
+			$error_msg = db_escape_string($link, mb_substr($rss->error(), 0, 245));
 
 			if ($debug_enabled) {
 				_debug("update_rss_feed: error fetching feed: $error_msg");

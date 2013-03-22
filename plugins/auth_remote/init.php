@@ -21,7 +21,7 @@ class Auth_Remote extends Plugin implements IAuthModule {
 	}
 
 	function get_login_by_ssl_certificate() {
-		$cert_serial = db_escape_string(get_ssl_certificate_id());
+		$cert_serial = db_escape_string($this->link, get_ssl_certificate_id());
 
 		if ($cert_serial) {
 			$result = db_query($this->link, "SELECT login FROM ttrss_user_prefs, ttrss_users
@@ -29,7 +29,7 @@ class Auth_Remote extends Plugin implements IAuthModule {
 				owner_uid = ttrss_users.id");
 
 			if (db_num_rows($result) != 0) {
-				return db_escape_string(db_fetch_result($result, 0, "login"));
+				return db_escape_string($this->link, db_fetch_result($result, 0, "login"));
 			}
 		}
 
@@ -38,10 +38,10 @@ class Auth_Remote extends Plugin implements IAuthModule {
 
 
 	function authenticate($login, $password) {
-		$try_login = db_escape_string($_SERVER["REMOTE_USER"]);
+		$try_login = db_escape_string($this->link, $_SERVER["REMOTE_USER"]);
 
 		// php-cgi
-		if (!$try_login) $try_login = db_escape_string($_SERVER["REDIRECT_REMOTE_USER"]);
+		if (!$try_login) $try_login = db_escape_string($this->link, $_SERVER["REDIRECT_REMOTE_USER"]);
 
 		if (!$try_login) $try_login = $this->get_login_by_ssl_certificate();
 #	  	if (!$try_login) $try_login = "test_qqq";
@@ -60,14 +60,14 @@ class Auth_Remote extends Plugin implements IAuthModule {
 					// update user name
 					$fullname = $_SERVER['HTTP_USER_NAME'] ? $_SERVER['HTTP_USER_NAME'] : $_SERVER['AUTHENTICATE_CN'];
 					if ($fullname){
-						$fullname = db_escape_string($fullname);
+						$fullname = db_escape_string($this->link, $fullname);
 						db_query($this->link, "UPDATE ttrss_users SET full_name = '$fullname' WHERE id = " .
 							$user_id);
 					}
 					// update user mail
 					$email = $_SERVER['HTTP_USER_MAIL'] ? $_SERVER['HTTP_USER_MAIL'] : $_SERVER['AUTHENTICATE_MAIL'];
 					if ($email){
-						$email = db_escape_string($email);
+						$email = db_escape_string($this->link, $email);
 						db_query($this->link, "UPDATE ttrss_users SET email = '$email' WHERE id = " .
 							$user_id);
 					}

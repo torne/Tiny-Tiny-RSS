@@ -8,7 +8,7 @@ class Article extends Handler_Protected {
 	}
 
 	function redirect() {
-		$id = db_escape_string($_REQUEST['id']);
+		$id = db_escape_string($this->link, $_REQUEST['id']);
 
 		$result = db_query($this->link, "SELECT link FROM ttrss_entries, ttrss_user_entries
 						WHERE id = '$id' AND id = ref_id AND owner_uid = '".$_SESSION['uid']."'
@@ -27,10 +27,10 @@ class Article extends Handler_Protected {
 	}
 
 	function view() {
-		$id = db_escape_string($_REQUEST["id"]);
-		$cids = explode(",", db_escape_string($_REQUEST["cids"]));
-		$mode = db_escape_string($_REQUEST["mode"]);
-		$omode = db_escape_string($_REQUEST["omode"]);
+		$id = db_escape_string($this->link, $_REQUEST["id"]);
+		$cids = explode(",", db_escape_string($this->link, $_REQUEST["cids"]));
+		$mode = db_escape_string($this->link, $_REQUEST["mode"]);
+		$omode = db_escape_string($this->link, $_REQUEST["omode"]);
 
 		// in prefetch mode we only output requested cids, main article
 		// just gets marked as read (it already exists in client cache)
