@@ -1392,6 +1392,7 @@ function cdmExpandArticle(id) {
 		  	Element.hide(elem);
 			Element.show("CEXC-" + getActiveArticleId());
 			Element.hide(collapse);
+			$("RROW-" + getActiveArticleId()).removeClassName("active");
 		}
 
 		setActiveArticleId(id);
@@ -1413,6 +1414,7 @@ function cdmExpandArticle(id) {
 			Element.show(elem);
 			Element.hide("CEXC-" + id);
 			Element.show(collapse);
+			$("RROW-" + id).addClassName("active");
 		}
 
 		var new_offset = $("RROW-" + id).offsetTop;

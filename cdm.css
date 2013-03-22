@@ -132,6 +132,10 @@ div.cdm.expanded.Unread.Selected div.cdmHeader, div.cdm.expanded.Selected div.cd
 	background : #FFEA9E;
 }
 
+div.cdm.active.Selected div.cdmHeader {
+	background : #FFEA9E;
+}
+
 div.cdm.expanded.even.Unread, div.cdm.expanded.odd.Unread {
 	background : white;
 }
@@ -165,6 +169,7 @@ div.cdmHeader span.author {
 	font-size : 11px;
 }
 
-div.cdm.expanded div.cdmHeader a.title {
+div.cdm.expanded div.cdmHeader a.title, div.cdm.active div.cdmHeader a.title {
 	font-size : 13px;
 }
+
