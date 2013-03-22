@@ -829,16 +829,17 @@ class RPC extends Handler_Protected {
 		}
 	}
 
-	function getlinkbyid() {
+	function getlinktitlebyid() {
 		$id = db_escape_string($this->link, $_REQUEST['id']);
 
-		$result = db_query($this->link, "SELECT link FROM ttrss_entries, ttrss_user_entries
+		$result = db_query($this->link, "SELECT link, title FROM ttrss_entries, ttrss_user_entries
 			WHERE ref_id = '$id' AND ref_id = id AND owner_uid = ". $_SESSION["uid"]);
 
 		if (db_num_rows($result) != 0) {
 			$link = db_fetch_result($result, 0, "link");
+			$title = db_fetch_result($result, 0, "title");
 
-			echo json_encode(array("link" => $link));
+			echo json_encode(array("link" => $link, "title" => $title));
 		} else {
 			echo json_encode(array("error" => "ARTICLE_NOT_FOUND"));
 		}

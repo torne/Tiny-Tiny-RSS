@@ -2044,7 +2044,7 @@ function changeScore(id, pic) {
 
 function displayArticleUrl(id) {
 	try {
-		var query = "op=rpc&method=getlinkbyid&id=" + param_escape(id);
+		var query = "op=rpc&method=getlinktitlebyid&id=" + param_escape(id);
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
