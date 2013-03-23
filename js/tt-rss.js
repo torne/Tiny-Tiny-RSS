@@ -178,11 +178,7 @@ function search() {
 }
 
 function updateTitle() {
-	var tmp = document.title; 
-    if (tmp.indexOf('(')>0)
-    {
-       tmp = tmp.substr(0,tmp.lastIndexOf('('));
-    }
+	var tmp = "Tiny Tiny RSS";
 
 	if (global_unread > 0) {
 		tmp = "(" + global_unread + ") " + tmp;
