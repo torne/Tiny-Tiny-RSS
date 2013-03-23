@@ -7,7 +7,7 @@
 	set_include_path(dirname(__FILE__) ."/include" . PATH_SEPARATOR .
 		get_include_path());
 
-	require_once 'lib/phpmailer/class.phpmailer.php';
+	require_once 'classes/ttrssmailer.php';
 
 	require_once "functions.php";
 	require_once "sessions.php";
@@ -306,65 +306,28 @@
 						"\n".
 						"If that wasn't you, just ignore this message. Thanks.";
 
-					$mail = new PHPMailer();
-
-					$mail->PluginDir = "lib/phpmailer/";
-					$mail->SetLanguage("en", "lib/phpmailer/language/");
-
-					$mail->CharSet = "UTF-8";
-
-					$mail->From = SMTP_FROM_ADDRESS;
-					$mail->FromName = SMTP_FROM_NAME;
-					$mail->AddAddress($email);
-
-					if (SMTP_HOST) {
-						$mail->Host = SMTP_HOST;
-						$mail->Mailer = "smtp";
-						$mail->Username = SMTP_LOGIN;
-						$mail->Password = SMTP_PASSWORD;
-					}
-
-			//		$mail->IsHTML(true);
-					$mail->Subject = "Registration information for Tiny Tiny RSS";
-					$mail->Body = $reg_text;
-			//		$mail->AltBody = $digest_text;
-
-					$rc = $mail->Send();
+					$mail = new ttrssMailer();
+					$mail->IsHTML(false);
+					$rc = $mail->quickMail($email, "", "Registration information for Tiny Tiny RSS", $reg_text, false);
 
 					if (!$rc) print_error($mail->ErrorInfo);
-
+					
+					unset($reg_text);
+					unset($mail);
+					unset($rc);
 					$reg_text = "Hi!\n".
 						"\n".
 						"New user had registered at your Tiny Tiny RSS installation.\n".
 						"\n".
 						"Login: $login\n".
 						"Email: $email\n";
-
-					$mail = new PHPMailer();
-
-					$mail->PluginDir = "lib/phpmailer/";
-					$mail->SetLanguage("en", "lib/phpmailer/language/");
-
-					$mail->CharSet = "UTF-8";
-
-					$mail->From = SMTP_FROM_ADDRESS;
-					$mail->FromName = SMTP_FROM_NAME;
-					$mail->AddAddress(REG_NOTIFY_ADDRESS);
-
-					if (SMTP_HOST) {
-						$mail->Host = SMTP_HOST;
-						$mail->Mailer = "smtp";
-						$mail->Username = SMTP_LOGIN;
-						$mail->Password = SMTP_PASSWORD;
-					}
-
-			//		$mail->IsHTML(true);
-					$mail->Subject = "Registration notice for Tiny Tiny RSS";
-					$mail->Body = $reg_text;
-			//		$mail->AltBody = $digest_text;
-
-					$rc = $mail->Send();
-
+					
+					
+					$mail = new ttrssMailer();
+					$mail->IsHTML(false);
+					$rc = $mail->quickMail(REG_NOTIFY_ADDRESS, "", "Registration notice for Tiny Tiny RSS", $reg_text, false);
+					if (!$rc) print_error($mail->ErrorInfo);
+					
 					print_notice(__("Account created successfully."));
 
 					print "<p><form method=\"GET\" action=\"index.php\">

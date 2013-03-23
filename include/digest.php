@@ -8,7 +8,7 @@
 	 */
 	function send_headlines_digests($link, $debug = false) {
 
-		require_once 'lib/phpmailer/class.phpmailer.php';
+		require_once 'classes/ttrssmailer.php';
 
 		$user_limit = 15; // amount of users to process (e.g. emails to send out)
 		$limit = 1000; // maximum amount of headlines to include
@@ -50,31 +50,9 @@
 
 					if ($headlines_count > 0) {
 
-						$mail = new PHPMailer();
+						$mail = new ttrssMailer();
 
-						$mail->PluginDir = "lib/phpmailer/";
-						$mail->SetLanguage("en", "lib/phpmailer/language/");
-
-						$mail->CharSet = "UTF-8";
-
-						$mail->From = SMTP_FROM_ADDRESS;
-						$mail->FromName = SMTP_FROM_NAME;
-						$mail->AddAddress($line["email"], $line["login"]);
-
-						if (SMTP_HOST) {
-							$mail->Host = SMTP_HOST;
-							$mail->Mailer = "smtp";
-							$mail->SMTPAuth = SMTP_LOGIN != '';
-							$mail->Username = SMTP_LOGIN;
-							$mail->Password = SMTP_PASSWORD;
-						}
-
-						$mail->IsHTML(true);
-						$mail->Subject = DIGEST_SUBJECT;
-						$mail->Body = $digest;
-						$mail->AltBody = $digest_text;
-
-						$rc = $mail->Send();
+						$rc = $mail->quickMail($line["email"], $line["login"] , DIGEST_SUBJECT, $digest, $digest_text);
 
 						if (!$rc && $debug) print "ERROR: " . $mail->ErrorInfo;
 
