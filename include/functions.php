@@ -54,7 +54,7 @@
 					"ja_JP" => "日本語 (Japanese)",
 					"lv_LV" => "Latviešu",
 					"nb_NO" => "Norwegian bokmål",
-					"nl_NL" => "Dutch", 
+					"nl_NL" => "Dutch",
 					"pl_PL" => "Polski",
 					"ru_RU" => "Русский",
 					"pt_BR" => "Portuguese/Brazil",
@@ -360,7 +360,7 @@
 
 			$data = @file_get_contents($url);
 
-			$gzdecoded = gzdecode($data);
+			@$gzdecoded = gzdecode($data);
 			if ($gzdecoded) $data = $gzdecoded;
 
 			if (!$data && function_exists('error_get_last')) {
