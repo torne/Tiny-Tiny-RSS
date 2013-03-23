@@ -22,7 +22,7 @@ class ttrssMailer extends PHPMailer {
 		public $SMTPAuth=False;
 		public $Username;
 		public $Password;
-	
+
 	function __construct() {
 		$this->SetLanguage("en", "lib/phpmailer/language/");
 		//if SMTP_HOST is specified, use SMTP to send mail directly
@@ -36,7 +36,7 @@ class ttrssMailer extends PHPMailer {
 		}else{
 			$Port = "25";
 		}
-		
+
 		//if SMTP_LOGIN is specified, set credentials and enable auth
 		if(SMTP_LOGIN){
 			$SMTPAuth = true;
@@ -55,6 +55,7 @@ class ttrssMailer extends PHPMailer {
 		$this->addAddress($toAddress, $toName);
 		$this->Subject = $subject;
 		$this->Body = $body;
+		$this->IsHTML($altbody != '');
 		$rc=$this->send();
 		return $rc;
 	}

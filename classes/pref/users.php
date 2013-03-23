@@ -295,7 +295,7 @@ class Pref_Users extends Handler_Protected {
 					to <b>%s</b>", $login, $email);
 			}
 
-			require_once 'lib/phpmailer/class.phpmailer.php';
+			require_once 'classes/ttrssmailer.php';
 
 			if ($email) {
 				require_once "lib/MiniTemplator.class.php";
@@ -313,30 +313,11 @@ class Pref_Users extends Handler_Protected {
 
 				$tpl->generateOutputToString($message);
 
-				$mail = new PHPMailer();
+				$mail = new ttrssMailer();
 
-				$mail->PluginDir = "lib/phpmailer/";
-				$mail->SetLanguage("en", "lib/phpmailer/language/");
-
-				$mail->CharSet = "UTF-8";
-
-				$mail->From = SMTP_FROM_ADDRESS;
-				$mail->FromName = SMTP_FROM_NAME;
-				$mail->AddAddress($email, $login);
-
-				if (SMTP_HOST) {
-					$mail->Host = SMTP_HOST;
-					$mail->Mailer = "smtp";
-					$mail->SMTPAuth = SMTP_LOGIN != '';
-					$mail->Username = SMTP_LOGIN;
-					$mail->Password = SMTP_PASSWORD;
-				}
-
-				$mail->IsHTML(false);
-				$mail->Subject = __("[tt-rss] Password change notification");
-				$mail->Body = $message;
-
-				$rc = $mail->Send();
+				$rc = $mail->quickMail($email, $login,
+					__("[tt-rss] Password change notification"),
+					$message, false);
 
 				if (!$rc) print_error($mail->ErrorInfo);
 			}
