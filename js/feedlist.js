@@ -125,11 +125,9 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 
 			Form.enable("main_toolbar_form");
 
-			if (!offset) {
-				if (!setFeedExpandoIcon(feed, is_cat,
-							(is_cat) ? 'images/indicator_tiny.gif' : 'images/indicator_white.gif'))
+			if (!setFeedExpandoIcon(feed, is_cat,
+				(is_cat) ? 'images/indicator_tiny.gif' : 'images/indicator_white.gif'))
 					notify_progress("Loading, please wait...", true);
-			}
 		}
 
 		query += "&cat=" + is_cat;
