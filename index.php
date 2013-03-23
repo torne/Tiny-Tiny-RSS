@@ -53,7 +53,7 @@
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-    <title><?php echo get_site_title() ?></title>
+    <title><?php echo PAGE_TITLE ?></title>
 
 	<?php echo stylesheet_tag("lib/dijit/themes/claro/claro.css"); ?>
 	<?php echo stylesheet_tag("tt-rss.css"); ?>

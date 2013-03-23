@@ -179,9 +179,9 @@ function search() {
 
 function updateTitle() {
 	var tmp = document.title; 
-    if (tmp.indexOf(")") > 0)
+    if (tmp.indexOf('(')>0)
     {
-       tmp = tmp.substr(tmp.indexOf(")") + 1);
+       tmp = tmp.substr(0,tmp.lastIndexOf('('));
     }
 
 	if (global_unread > 0) {

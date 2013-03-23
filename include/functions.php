@@ -4085,11 +4085,4 @@
 		return $max_ts;
 	}
 
-    function get_site_title() {
-        $original_title = "Tiny Tiny RSS";
-        if (defined("SITE_TITLE")) {
-            return SITE_TITLE;
-        }
-        return $original_title;
-    }
 ?>
