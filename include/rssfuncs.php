@@ -998,7 +998,7 @@
 					foreach ($labels as $label) {
 						$caption = $label["caption"];
 
-						if (preg_match("/\b$caption\b/i", "$tags_str " . strip_tags($entry_content) . " $entry_title")) {
+						if ($caption && preg_match("/\b$caption\b/i", "$tags_str " . strip_tags($entry_content) . " $entry_title")) {
 							if (!labels_contains_caption($article_labels, $caption)) {
 								label_add_article($link, $entry_ref_id, $caption, $owner_uid);
 							}
