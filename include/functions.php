@@ -3022,7 +3022,8 @@
 
 			if ($line["link"]) {
 				$rv['content'] .= "<div class='postTitle'><a target='_blank'
-					title=\"".htmlspecialchars($line['title'])."\"
+					title=\"".htmlspecialchars($line["link"], ENT_COMPAT | ENT_HTML401,
+               'utf-8', false)."\"
 					href=\"" .
 					htmlspecialchars($line["link"]) . "\">" .
 					$line["title"] . "</a>" .

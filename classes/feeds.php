@@ -432,7 +432,8 @@ class Feeds extends Handler_Protected {
 					$reply['content'] .= "<div onclick='return hlClicked(event, $id)'
 						class=\"hlTitle\"><span class='hlContent$hlc_suffix'>";
 					$reply['content'] .= "<a id=\"RTITLE-$id\"
-						href=\"" . htmlspecialchars($line["link"]) . "\"
+						href=\"" . htmlspecialchars($line["link"], ENT_COMPAT | ENT_HTML401,
+							'utf-8', false) . "\"
 						onclick=\"\">" .
 						truncate_string($line["title"], 200);
 
