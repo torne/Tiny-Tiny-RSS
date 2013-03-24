@@ -37,7 +37,7 @@ function exportData() {
 								} else {
 
 									$("export_status_message").innerHTML =
-										__("Finished, exported %d articles. You can download the data <a class='visibleLink' href='%u'>here</a>.")
+										ngettext("Finished, exported %d article. You can download the data <a class='visibleLink' href='%u'>here</a>.", "Finished, exported %d articles. You can download the data <a class='visibleLink' href='%u'>here</a>.", exported)
 										.replace("%d", exported)
 										.replace("%u", "backend.php?op=pluginhandler&plugin=import_export&subop=exportget");
 
