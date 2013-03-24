@@ -2666,7 +2666,7 @@
 		$entries = $doc->getElementsByTagName("*");
 
 		$allowed_elements = array('a', 'address', 'audio', 'article',
-			'b', 'big', 'blockquote', 'body', 'br', 'cite',
+			'b', 'big', 'blockquote', 'body', 'br', 'cite', 'center',
 			'code', 'dd', 'del', 'details', 'div', 'dl', 'font',
 			'dt', 'em', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
 			'header', 'html', 'i', 'img', 'ins', 'kbd',
