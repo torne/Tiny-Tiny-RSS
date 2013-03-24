@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-24 13:39+0100\n"
+"POT-Creation-Date: 2013-03-24 13:57+0100\n"
 "PO-Revision-Date: 2012-10-25 00:12+0100\n"
 "Last-Translator: DavidM <milarupa@yahoo.es>\n"
 "Language-Team: Español <milarupa@yahoo.es>\n"
@@ -253,7 +253,7 @@ msgstr "La prueba de escape SQL ha fallado. Por favor, revise la configuración 
 #: classes/pref/filters.php:609
 #: classes/pref/labels.php:296
 #: classes/pref/feeds.php:1296
-#: plugins/digest/digest_body.php:49
+#: plugins/digest/digest_body.php:47
 #: js/viewfeed.js:1205
 msgid "Loading, please wait..."
 msgstr "Cargando. Por favor, espere..."
@@ -430,7 +430,7 @@ msgid "Keyboard shortcuts help"
 msgstr "Ayuda para atajos de teclado"
 
 #: index.php:238
-#: plugins/digest/digest_body.php:63
+#: plugins/digest/digest_body.php:61
 msgid "Logout"
 msgstr "Cerrar sesión"
 
@@ -885,7 +885,7 @@ msgstr "URL de la fuente"
 #: classes/pref/feeds.php:1624
 #: classes/pref/users.php:106
 #: plugins/import_export/init.php:409
-#: plugins/import_export/init.php:433
+#: plugins/import_export/init.php:432
 #: plugins/share/init.php:67
 #: plugins/updater/init.php:330
 msgid "Close this window"
@@ -2585,25 +2585,20 @@ msgid "Close article"
 msgstr "Cerrar artículo"
 
 #: plugins/digest/digest_body.php:43
-msgid ""
-"Your browser doesn't support Javascript, which is required\n"
-"\t\t\tfor this application to function properly. Please check your\n"
-"\t\t\tbrowser settings."
-msgstr ""
-"Su navegador no soporta Javascript, que es necesario\n"
-"para el funcionamiento correcto de esta aplicación.\n"
-"Por favor, revise la configuración de su navegador."
+#, fuzzy
+msgid "Your browser doesn't support Javascript, which is required for this application to function properly. Please check your browser settings."
+msgstr "Esta aplicación requiere Javascript para funcionar apropiadamente y su navegador no lo soporta actualmente. Por favor, revise las opciones de configuración de su navegador."
 
-#: plugins/digest/digest_body.php:55
+#: plugins/digest/digest_body.php:53
 #, fuzzy
 msgid "Back to feeds"
 msgstr "Volver a la lista de fuentes"
 
-#: plugins/digest/digest_body.php:60
+#: plugins/digest/digest_body.php:58
 msgid "Hello,"
 msgstr "Hola,"
 
-#: plugins/digest/digest_body.php:66
+#: plugins/digest/digest_body.php:64
 msgid "Regular version"
 msgstr "Versión estándar"
 
@@ -2699,10 +2694,8 @@ msgid "Prepare data"
 msgstr "Preparar datos"
 
 #: plugins/import_export/init.php:426
-#, php-format
-msgid ""
-"Could not upload file. You might need to adjust upload_max_filesize\n"
-"\t\t\t\tin PHP.ini (current value = %s)"
+#, fuzzy, php-format
+msgid "Could not upload file. You might need to adjust upload_max_filesize in PHP.ini (current value = %s)"
 msgstr "No se puedo cargar el archivo. Puede ser necesario ajustar el parámetro upload_max_filesize en PHP.ini (valor actual = %s)"
 
 #: plugins/instances/init.php:144
@@ -3454,6 +3447,15 @@ msgstr "Compartir artículo mediante URL"
 msgid "Live updating is considered experimental. Backup your tt-rss directory before continuing. Please type 'yes' to continue."
 msgstr "La actualización en vivo es una característica experimental. Haga una copia de seguridad de la carpeta de tt-rss antes de continuar. Escriba 'yes' para continuar."
 
+#~ msgid ""
+#~ "Your browser doesn't support Javascript, which is required\n"
+#~ "\t\t\tfor this application to function properly. Please check your\n"
+#~ "\t\t\tbrowser settings."
+#~ msgstr ""
+#~ "Su navegador no soporta Javascript, que es necesario\n"
+#~ "para el funcionamiento correcto de esta aplicación.\n"
+#~ "Por favor, revise la configuración de su navegador."
+
 #~ msgid "Finished: %d articles processed, %d imported, %d feeds created."
 #~ msgstr "Finalizado: %d artículos procesados, %d importados, %d fuentes creadas."
 
@@ -3840,12 +3842,6 @@ msgstr "La actualización en vivo es una característica experimental. Haga una 
 
 #~ msgid "Enable the Flash-based XSPF Player to play MP3-format podcast enclosures."
 #~ msgstr "Habilitar el reproductor XSPF basado en flash para reproducir los ficheros de sonido MP3."
-
-#~ msgid ""
-#~ "Your browser doesn't support Javascript, which is required\n"
-#~ "\t\tfor this application to function properly. Please check your\n"
-#~ "\t\tbrowser settings."
-#~ msgstr "Esta aplicación requiere Javascript para funcionar apropiadamente y su navegador no lo soporta actualmente. Por favor, revise las opciones de configuración de su navegador."
 
 #, fuzzy
 #~ msgid "Activate"

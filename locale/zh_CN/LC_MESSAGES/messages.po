@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-24 13:39+0100\n"
+"POT-Creation-Date: 2013-03-24 13:57+0100\n"
 "PO-Revision-Date: 2012-02-14 08:32+0000\n"
 "Last-Translator: Sai <lazycai.ffsky@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/tt-rss/language/zh_CN/)\n"
@@ -258,7 +258,7 @@ msgstr "SQL 脱出测试失败，请检查您的数据库和 PHP 设置。"
 #: classes/pref/filters.php:609
 #: classes/pref/labels.php:296
 #: classes/pref/feeds.php:1296
-#: plugins/digest/digest_body.php:49
+#: plugins/digest/digest_body.php:47
 #: js/viewfeed.js:1205
 msgid "Loading, please wait..."
 msgstr "读取中，请稍候……"
@@ -435,7 +435,7 @@ msgid "Keyboard shortcuts help"
 msgstr "快捷键帮助"
 
 #: index.php:238
-#: plugins/digest/digest_body.php:63
+#: plugins/digest/digest_body.php:61
 msgid "Logout"
 msgstr "注销"
 
@@ -888,7 +888,7 @@ msgstr "信息源 URL"
 #: classes/pref/feeds.php:1624
 #: classes/pref/users.php:106
 #: plugins/import_export/init.php:409
-#: plugins/import_export/init.php:433
+#: plugins/import_export/init.php:432
 #: plugins/share/init.php:67
 #: plugins/updater/init.php:330
 msgid "Close this window"
@@ -2558,24 +2558,22 @@ msgid "Close article"
 msgstr ""
 
 #: plugins/digest/digest_body.php:43
-msgid ""
-"Your browser doesn't support Javascript, which is required\n"
-"\t\t\tfor this application to function properly. Please check your\n"
-"\t\t\tbrowser settings."
+#, fuzzy
+msgid "Your browser doesn't support Javascript, which is required for this application to function properly. Please check your browser settings."
 msgstr ""
 "本页面需要JavaScript支持。\n"
 "\t\t\t请检查您的浏览器设置。"
 
-#: plugins/digest/digest_body.php:55
+#: plugins/digest/digest_body.php:53
 #, fuzzy
 msgid "Back to feeds"
 msgstr "很久不活跃的信息源"
 
-#: plugins/digest/digest_body.php:60
+#: plugins/digest/digest_body.php:58
 msgid "Hello,"
 msgstr "您好，"
 
-#: plugins/digest/digest_body.php:66
+#: plugins/digest/digest_body.php:64
 msgid "Regular version"
 msgstr ""
 
@@ -2668,9 +2666,7 @@ msgstr ""
 
 #: plugins/import_export/init.php:426
 #, php-format
-msgid ""
-"Could not upload file. You might need to adjust upload_max_filesize\n"
-"\t\t\t\tin PHP.ini (current value = %s)"
+msgid "Could not upload file. You might need to adjust upload_max_filesize in PHP.ini (current value = %s)"
 msgstr ""
 
 #: plugins/instances/init.php:144

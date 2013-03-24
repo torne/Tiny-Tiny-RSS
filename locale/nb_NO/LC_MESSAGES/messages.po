@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS 1.3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-24 13:39+0100\n"
+"POT-Creation-Date: 2013-03-24 13:57+0100\n"
 "PO-Revision-Date: 2009-05-02 00:10+0100\n"
 "Last-Translator: Christian Lomsdalen <christian@vindstille.net>\n"
 "Language-Team: Norwegian Bokmål <christian@vindstille.net>\n"
@@ -260,7 +260,7 @@ msgstr "SQL escaping testen feilen, sjekk database og PHP konfigurasjonene dine.
 #: classes/pref/filters.php:609
 #: classes/pref/labels.php:296
 #: classes/pref/feeds.php:1296
-#: plugins/digest/digest_body.php:49
+#: plugins/digest/digest_body.php:47
 #: js/viewfeed.js:1205
 msgid "Loading, please wait..."
 msgstr "laster, vennligst vent"
@@ -441,7 +441,7 @@ msgid "Keyboard shortcuts help"
 msgstr "Tastatursnarveier"
 
 #: index.php:238
-#: plugins/digest/digest_body.php:63
+#: plugins/digest/digest_body.php:61
 msgid "Logout"
 msgstr "Logg ut"
 
@@ -904,7 +904,7 @@ msgstr "Nyhetsstrøm"
 #: classes/pref/feeds.php:1624
 #: classes/pref/users.php:106
 #: plugins/import_export/init.php:409
-#: plugins/import_export/init.php:433
+#: plugins/import_export/init.php:432
 #: plugins/share/init.php:67
 #: plugins/updater/init.php:330
 msgid "Close this window"
@@ -2656,25 +2656,22 @@ msgstr "Fjern artikler"
 
 #: plugins/digest/digest_body.php:43
 #, fuzzy
-msgid ""
-"Your browser doesn't support Javascript, which is required\n"
-"\t\t\tfor this application to function properly. Please check your\n"
-"\t\t\tbrowser settings."
+msgid "Your browser doesn't support Javascript, which is required for this application to function properly. Please check your browser settings."
 msgstr ""
 "Din nettleser støtter ikke Javaskript som er nødvendig\n"
 "\t\tfor at dette programmet skal fungere ordentlig. Vennligst sjekk din \n"
 "\t\tnettlesers instillinger."
 
-#: plugins/digest/digest_body.php:55
+#: plugins/digest/digest_body.php:53
 #, fuzzy
 msgid "Back to feeds"
 msgstr "Trykk for å endre"
 
-#: plugins/digest/digest_body.php:60
+#: plugins/digest/digest_body.php:58
 msgid "Hello,"
 msgstr "Hei, "
 
-#: plugins/digest/digest_body.php:66
+#: plugins/digest/digest_body.php:64
 msgid "Regular version"
 msgstr ""
 
@@ -2774,9 +2771,7 @@ msgstr "Lagre"
 
 #: plugins/import_export/init.php:426
 #, php-format
-msgid ""
-"Could not upload file. You might need to adjust upload_max_filesize\n"
-"\t\t\t\tin PHP.ini (current value = %s)"
+msgid "Could not upload file. You might need to adjust upload_max_filesize in PHP.ini (current value = %s)"
 msgstr ""
 
 #: plugins/instances/init.php:144
@@ -3580,6 +3575,16 @@ msgid "Live updating is considered experimental. Backup your tt-rss directory be
 msgstr ""
 
 #, fuzzy
+#~ msgid ""
+#~ "Your browser doesn't support Javascript, which is required\n"
+#~ "\t\t\tfor this application to function properly. Please check your\n"
+#~ "\t\t\tbrowser settings."
+#~ msgstr ""
+#~ "Din nettleser støtter ikke Javaskript som er nødvendig\n"
+#~ "\t\tfor at dette programmet skal fungere ordentlig. Vennligst sjekk din \n"
+#~ "\t\tnettlesers instillinger."
+
+#, fuzzy
 #~ msgid "Enable categories"
 #~ msgstr "Tillatt kategorisering av nyhetsstrømmer"
 
@@ -3963,15 +3968,6 @@ msgstr ""
 
 #~ msgid "Enable the Flash-based XSPF Player to play MP3-format podcast enclosures."
 #~ msgstr "Bruk den flashbaserte XSPF spilleren for å spille MP3-formaterte podcaster."
-
-#~ msgid ""
-#~ "Your browser doesn't support Javascript, which is required\n"
-#~ "\t\tfor this application to function properly. Please check your\n"
-#~ "\t\tbrowser settings."
-#~ msgstr ""
-#~ "Din nettleser støtter ikke Javaskript som er nødvendig\n"
-#~ "\t\tfor at dette programmet skal fungere ordentlig. Vennligst sjekk din \n"
-#~ "\t\tnettlesers instillinger."
 
 #, fuzzy
 #~ msgid "Activate"
