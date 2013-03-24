@@ -3002,7 +3002,7 @@
 						<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 						<title>Tiny Tiny RSS - ".$line["title"]."</title>
 						<link rel=\"stylesheet\" type=\"text/css\" href=\"tt-rss.css\">
-					</head><body>";
+					</head><body id=\"ttrssZoom\">";
 			}
 
 			$rv['content'] .= "<div class=\"postReply\" id=\"POST-$id\">";
@@ -3115,7 +3115,7 @@
 
 		if ($zoom_mode) {
 			$rv['content'] .= "
-				<div style=\"text-align : center\">
+				<div class='footer'>
 				<button onclick=\"return window.close()\">".
 					__("Close this window")."</button></div>";
 			$rv['content'] .= "</body></html>";
