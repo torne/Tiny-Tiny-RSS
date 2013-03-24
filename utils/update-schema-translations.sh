@@ -1,5 +1,9 @@
 #!/bin/sh
 
+LC_ALL=C
+LANG=C
+LANGUAGE=C
+
 BASENAME=`basename $0`
 TMPFILE="/tmp/$BASENAME-$$.tmp"
 OUTFILE="include/localized_schema.php"
