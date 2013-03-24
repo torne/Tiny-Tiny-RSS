@@ -996,7 +996,7 @@
 					}
 
 					foreach ($labels as $label) {
-						$caption = $label["caption"];
+						$caption = preg_quote($label["caption"]);
 
 						if ($caption && preg_match("/\b$caption\b/i", "$tags_str " . strip_tags($entry_content) . " $entry_title")) {
 							if (!labels_contains_caption($article_labels, $caption)) {
