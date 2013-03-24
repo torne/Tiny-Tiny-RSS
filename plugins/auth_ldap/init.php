@@ -10,12 +10,13 @@
  *  Configuration
  *  Put the following options in config.php and customize them for your environment
  *
- * 	define('LDAP_AUTH_SERVER_URI, 'ldaps://LDAPServerHostname:port/');
- *	define('LDAP_AUTH_USETLS, FALSE); // Enable TLS Support for ldaps://
+ * 	define('LDAP_AUTH_SERVER_URI', 'ldaps://LDAPServerHostname:port/');
+ *	define('LDAP_AUTH_USETLS', FALSE); // Enable TLS Support for ldaps://
  *	define('LDAP_AUTH_ALLOW_UNTRUSTED_CERT', TRUE); // Allows untrusted certificate
  *	define('LDAP_AUTH_BINDDN', 'cn=serviceaccount,dc=example,dc=com');
  *	define('LDAP_AUTH_BINDPW', 'ServiceAccountsPassword');
  *	define('LDAP_AUTH_BASEDN', 'dc=example,dc=com');
+ * 	define('LDAP_AUTH_ANONYMOUSBEFOREBIND', FALSE);
  *	// ??? will be replaced with the entered username(escaped) at login 
  *	define('LDAP_AUTH_SEARCHFILTER', '(&(objectClass=person)(uid=???))');
  */
@@ -54,7 +55,7 @@ class Auth_Ldap extends Plugin implements IAuthModule {
 	}
 	
 	private function _log($msg) {
-		trigger_error($msg, E_USER_WARN);
+		trigger_error($msg, E_USER_WARNING);
 	}
 
 	function authenticate($login, $password) {
@@ -73,10 +74,15 @@ class Auth_Ldap extends Plugin implements IAuthModule {
 				return FALSE;
 			}
 			$ldapConnParams=array(
-				'host'=>$parsedURI['scheme'].'://'.$parsedURI['host'],
+				'host'=>$parsedURI['host'],
 				'basedn'=>LDAP_AUTH_BASEDN,
 				'options' => array('LDAP_OPT_REFERRALS' => 0)
 			);
+
+			if (!LDAP_AUTH_ANONYMOUSBEFOREBIND) {
+				$ldapConnParams['binddn']= LDAP_AUTH_BINDDN;
+				$ldapConnParams['bindpw']= LDAP_AUTH_BINDPW;
+			}
 			$ldapConnParams['starttls']= defined('LDAP_AUTH_USETLS') ?
 				LDAP_AUTH_USETLS : FALSE;
 					
@@ -92,11 +98,13 @@ class Auth_Ldap extends Plugin implements IAuthModule {
 				$this->_log('Could not connect to LDAP Server: '.$ldapConn->getMessage());
 				return FALSE;
 			}
-			// Bind with service account
-			$binding=$ldapConn->bind(LDAP_AUTH_BINDDN, LDAP_AUTH_BINDPW);
-			if (Net_LDAP2::isError($binding)) {
-				$this->_log('Cound not bind service account: '.$binding->getMessage());
-				return FALSE;
+			// Bind with service account if orignal connexion was anonymous
+			if (LDAP_AUTH_ANONYMOUSBEFOREBIND) {
+				$binding=$ldapConn->bind(LDAP_AUTH_BINDDN, LDAP_AUTH_BINDPW);
+				if (Net_LDAP2::isError($binding)) {
+					$this->_log('Cound not bind service account: '.$binding->getMessage());
+					return FALSE;
+				}
 			} 
 			//Searching for user
 			$completedSearchFiler=str_replace('???',$login,LDAP_AUTH_SEARCHFILTER);
