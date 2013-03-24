@@ -30,6 +30,10 @@ function __(msg) {
 	}
 }
 
+function ngettext(msg1, msg2, n) {
+	return (parseInt(n) > 1) ? msg2 : msg1;
+}
+
 <?php
 	$l10n = _get_reader();
 
