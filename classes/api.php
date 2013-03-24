@@ -133,7 +133,10 @@ class API extends Handler {
 		$result = db_query($this->link, "SELECT
 				id, title, order_id, (SELECT COUNT(id) FROM
 				ttrss_feeds WHERE
-				ttrss_feed_categories.id IS NOT NULL AND cat_id = ttrss_feed_categories.id) AS num_feeds
+				ttrss_feed_categories.id IS NOT NULL AND cat_id = ttrss_feed_categories.id) AS num_feeds,
+			(SELECT COUNT(id) FROM
+				ttrss_feed_categories AS c2 WHERE
+				c2.parent_cat = ttrss_feed_categories.id) AS num_cats
 			FROM ttrss_feed_categories
 			WHERE $nested_qpart AND owner_uid = " .
 			$_SESSION["uid"]);
@@ -141,7 +144,7 @@ class API extends Handler {
 		$cats = array();
 
 		while ($line = db_fetch_assoc($result)) {
-			if ($line["num_feeds"] > 0) {
+			if ($line["num_feeds"] > 0 || $line["num_cats"] > 0) {
 				$unread = getFeedUnread($this->link, $line["id"], true);
 
 				if ($enable_nested)
