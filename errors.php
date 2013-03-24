@@ -12,7 +12,7 @@
 	$ERRORS[2] = __("This program requires cookies " .
 			"to function properly. Your browser doesn't seem to support them.");
 
-	$ERRORS[3] = __("Backend sanity check failed");
+	$ERRORS[3] = __("Backend sanity check failed.");
 
 	$ERRORS[4] = __("Frontend sanity check failed.");
 
@@ -28,8 +28,7 @@
 
 	$ERRORS[9] = __("Configuration check failed");
 
-	$ERRORS[10] = __("Your version of MySQL is not currently supported. Please see
-		official site for more information.");
+	$ERRORS[10] = __("Your version of MySQL is not currently supported. Please see official site for more information.");
 
 	$ERRORS[11] = "[This error is not returned by server]";
 
