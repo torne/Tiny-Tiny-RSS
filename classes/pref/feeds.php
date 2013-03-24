@@ -55,7 +55,7 @@ class Pref_Feeds extends Handler_Protected {
 
 			$cat['items'] = $this->get_category_items($line['id']);
 
-			$cat['param'] = T_sprintf('(%d feeds)', count($cat['items']));
+			$cat['param'] = vsprintf(ngettext('(%d feed)', '(%d feeds)', count($cat['items'])), count($cat['items']));
 
 			if (count($cat['items']) > 0 || $show_empty_cats)
 				array_push($items, $cat);
@@ -172,7 +172,7 @@ class Pref_Feeds extends Handler_Protected {
 
 				$cat['items'] = $this->get_category_items($line['id']);
 
-				$cat['param'] = T_sprintf('(%d feeds)', count($cat['items']));
+				$cat['param'] = vsprintf(ngettext('(%d feed)', '(%d feeds)', count($cat['items'])), count($cat['items']));
 
 				if (count($cat['items']) > 0 || $show_empty_cats)
 					array_push($root['items'], $cat);
@@ -214,13 +214,13 @@ class Pref_Feeds extends Handler_Protected {
 				array_push($cat['items'], $feed);
 			}
 
-			$cat['param'] = T_sprintf('(%d feeds)', count($cat['items']));
+			$cat['param'] = vsprintf(ngettext('(%d feed)', '(%d feeds)', count($cat['items'])), count($cat['items']));
 
 			if (count($cat['items']) > 0 || $show_empty_cats)
 				array_push($root['items'], $cat);
 
 			$root['param'] += count($cat['items']);
-			$root['param'] = T_sprintf('(%d feeds)', $root['param']);
+			$root['param'] = vsprintf(ngettext('(%d feed)', '(%d feeds)', count($cat['items'])), count($cat['items']));
 
 		} else {
 			$feed_result = db_query($this->link, "SELECT id, title, last_error,
@@ -245,7 +245,7 @@ class Pref_Feeds extends Handler_Protected {
 				array_push($root['items'], $feed);
 			}
 
-			$root['param'] = T_sprintf('(%d feeds)', count($root['items']));
+			$root['param'] = vsprintf(ngettext('(%d feed)', '(%d feeds)', count($cat['items'])), count($cat['items']));
 		}
 
 		$fl = array();
