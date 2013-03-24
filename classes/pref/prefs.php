@@ -233,7 +233,7 @@ class Pref_Prefs extends Handler_Protected {
 			</script>";
 
 			if ($otp_enabled) {
-				print_notice("Changing your current password will disable OTP.");
+				print_notice(__("Changing your current password will disable OTP."));
 			}
 
 			print "<table width=\"100%\" class=\"prefPrefsList\">";
@@ -266,7 +266,7 @@ class Pref_Prefs extends Handler_Protected {
 
 				if ($otp_enabled) {
 
-					print_notice("One time passwords are currently enabled. Enter your current password below to disable.");
+					print_notice(__("One time passwords are currently enabled. Enter your current password below to disable."));
 
 					print "<form dojoType=\"dijit.form.Form\">";
 
@@ -401,7 +401,7 @@ class Pref_Prefs extends Handler_Protected {
 		print '<div dojoType="dijit.layout.ContentPane" region="center" style="overflow-y : auto">';
 
 		if ($_SESSION["profile"]) {
-			print_notice("Some preferences are only available in default profile.");
+			print_notice(__("Some preferences are only available in default profile."));
 		}
 
 		if ($_SESSION["profile"]) {
@@ -626,7 +626,7 @@ class Pref_Prefs extends Handler_Protected {
 
 		print "<h2>".__("Plugins")."</h2>";
 
-		print_notice("You will need to reload Tiny Tiny RSS for plugin changes to take effect.");
+		print_notice(__("You will need to reload Tiny Tiny RSS for plugin changes to take effect."));
 
 		print "<form dojoType=\"dijit.form.Form\" id=\"changePluginsForm\">";
 
