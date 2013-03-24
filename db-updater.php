@@ -155,8 +155,8 @@ function confirmOP() {
 			}
 		}
 
-		print "<p>".T_sprintf("Finished. Performed <b>%d</b> update(s) up to schema
-			version <b>%d</b>.", $num_updates, $version)."</p>";
+		print "<p>".vsprintf(ngettext("Finished. Performed <b>%d</b> update up to schema version <b>%d</b>.",
+			"Finished. Performed <b>%d</b> updates up to schema version <b>%d</b>.", $num_updates), $num_updates, $version)."</p>";
 
 		print "<form method=\"GET\" action=\"backend.php\">
 			<input type=\"hidden\" name=\"op\" value=\"logout\">

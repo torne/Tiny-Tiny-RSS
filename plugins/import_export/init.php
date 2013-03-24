@@ -382,8 +382,10 @@ class Import_Export extends Plugin implements IHandler {
 			}
 
 			print "<p>" .
-				T_sprintf("Finished: %d articles processed, %d imported, %d feeds created.",
-					$num_processed, $num_imported, $num_feeds_created) .
+				vsprintf(__("Finished: ")).
+				vsprintf(ngettext("%d article processed, ", "%d articles processed, ", $num_processed), $num_processed).
+				vsprintf(ngettext("%d imported, ", "%d imported, ", $num_imported), $num_imported).
+				vsprintf(ngettext("%d feed created.", "%d feeds created.", $num_feeds_created), $num_feeds_created).
 					"</p>";
 
 		} else {
@@ -421,8 +423,7 @@ class Import_Export extends Plugin implements IHandler {
 			$this->perform_data_import($this->link, $_FILES['export_file']['tmp_name'], $_SESSION['uid']);
 
 		} else {
-			print "<p>" . T_sprintf("Could not upload file. You might need to adjust upload_max_filesize
-				in PHP.ini (current value = %s)", ini_get("upload_max_filesize")) . " or use CLI import tool.</p>";
+			print "<p>" . T_sprintf("Could not upload file. You might need to adjust upload_max_filesize in PHP.ini (current value = %s)", ini_get("upload_max_filesize")) . " or use CLI import tool.</p>";
 
 		}
 
