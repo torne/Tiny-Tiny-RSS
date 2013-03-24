@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Michal Stanke <michal.stanke@mikk.cz>, 2013.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-21 23:29+0400\n"
-"PO-Revision-Date: 2013-03-22 14:50+0100\n"
-"Last-Translator: Michal Stanke <michal.stanke@mikk.cz>\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: cs\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,27 +27,27 @@ msgstr "Nikdy nečistit"
 
 #: backend.php:73
 msgid "1 week old"
-msgstr "starší než týden"
+msgstr "starší 1 týdne"
 
 #: backend.php:74
 msgid "2 weeks old"
-msgstr "starší než 2 týdny"
+msgstr "starší 2 týdnů"
 
 #: backend.php:75
 msgid "1 month old"
-msgstr "starší než měsíc"
+msgstr "starší 1 měsíce"
 
 #: backend.php:76
 msgid "2 months old"
-msgstr "starší než 2 měsíce"
+msgstr "starší 2 měsíců"
 
 #: backend.php:77
 msgid "3 months old"
-msgstr "starší než 3 měsíce"
+msgstr "starší 3 měsíců"
 
 #: backend.php:80
 msgid "Default interval"
-msgstr "Výchozí interval"
+msgstr "Výchozí časový interval"
 
 #: backend.php:81 backend.php:91
 msgid "Disable updates"
@@ -95,7 +95,7 @@ msgstr "Administrátor"
 
 #: db-updater.php:19
 msgid "Your access level is insufficient to run this script."
-msgstr "Vaše přístupová práva nejsou dostatečná pro spuštění tohoto skriptu."
+msgstr "Vaše úroveň přístupu není dostatečná pro spuštění skriptu."
 
 #: db-updater.php:44
 msgid "Database Updater"
@@ -107,7 +107,7 @@ msgstr "Nelze aktualizovat databázi"
 
 #: db-updater.php:88
 msgid "Could not find necessary schema file, need version:"
-msgstr "Nelze nalézt potřebný soubor schématu, požadovaná verze:"
+msgstr "Nelze nalézt potřebný soubor schéma, požadovaná verze:"
 
 #: db-updater.php:89
 msgid ", found: "
@@ -122,11 +122,11 @@ msgstr "Databáze Tiny Tiny RSS je aktuální."
 #: register.php:371 register.php:381 register.php:393
 #: classes/handler/public.php:610 classes/handler/public.php:698
 msgid "Return to Tiny Tiny RSS"
-msgstr "Zpět do Tiny Tiny RSS"
+msgstr "Zpět do Tiny TIny RSS"
 
 #: db-updater.php:100
 msgid "Please backup your database before proceeding."
-msgstr "Před pokračováním prosím zazálohujte databázi."
+msgstr "Před pokračováním proveďte prosím zálohu databáze."
 
 #: db-updater.php:102
 #, php-format
@@ -160,7 +160,7 @@ msgstr "OK"
 
 #: db-updater.php:150
 msgid "ERROR!"
-msgstr "CHYBA!"
+msgstr "CHYBA"
 
 #: db-updater.php:158
 #, php-format
@@ -168,7 +168,7 @@ msgid ""
 "Finished. Performed <b>%d</b> update(s) up to schema\n"
 "\t\t\tversion <b>%d</b>."
 msgstr ""
-"Dokončeno. Provedeno <b>%d</b> aktualizací na schéma\n"
+"Dokončeno. Vykonáno <b>%d</b> aktualizací na schéma\n"
 "\t\t\tverze <b>%d</b>."
 
 #: db-updater.php:168
@@ -185,83 +185,73 @@ msgid ""
 "Schema upgrade impossible. Please update Tiny Tiny RSS files to the newer "
 "version and continue."
 msgstr ""
-"Aktualizace schématu není možná. Aktualizujte Tiny Tiny RSS na novější "
-"verzi a pokračujte."
+"Aktualizace schéma není možná. Aktualizujte Tiny Tiny RSS na novější verzi a "
+"pokračujte."
 
 #: errors.php:9
 msgid ""
 "This program requires XmlHttpRequest to function properly. Your browser "
 "doesn't seem to support it."
 msgstr ""
-"Tento program vyžaduje pro správnou funkci XmlHttpRequest. Váš prohlížeč "
-"ji zřejmě nepodporuje."
 
 #: errors.php:12
 msgid ""
 "This program requires cookies to function properly. Your browser doesn't "
 "seem to support them."
 msgstr ""
-"Tento program vyžaduje pro správnou funkci povolené cookies. Váš prohlížeš "
-"je zřejmě nepodporuje."
 
 #: errors.php:15
 msgid "Backend sanity check failed"
-msgstr "Kontrola na pozadí selhala"
+msgstr ""
 
 #: errors.php:17
 msgid "Frontend sanity check failed."
-msgstr "Kontrola selhala"
+msgstr ""
 
 #: errors.php:19
 msgid ""
 "Incorrect database schema version. &lt;a href='db-updater.php'&gt;Please "
 "update&lt;/a&gt;."
 msgstr ""
-"Nesprávná verze schámatu databáze. &lt;a href='db-updater.php'&gt;Prosím "
-"aktualizujte&lt;/a&gt;."
 
 #: errors.php:21
 msgid "Request not authorized."
-msgstr "Požadavek nebyl ověřen"
+msgstr ""
 
 #: errors.php:23
 msgid "No operation to perform."
-msgstr "Nic k provedení."
+msgstr ""
 
 #: errors.php:25
 msgid ""
 "Could not display feed: query failed. Please check label match syntax or "
 "local configuration."
 msgstr ""
-"Zdroj nelze zobrazit: dotaz selhal. Zkontrolujte syntaxi label match a "
-"místní konfiguraci."
 
 #: errors.php:27
 msgid "Denied. Your access level is insufficient to access this page."
-msgstr "Nedovoleno. Vaše práva nejsou dostatečná pro přístup na tuto stránku."
+msgstr ""
 
 #: errors.php:29
 msgid "Configuration check failed"
-msgstr "Kontrola konfigurace selhala"
+msgstr ""
 
 #: errors.php:31
 msgid ""
 "Your version of MySQL is not currently supported. Please see\n"
 "\t\tofficial site for more information."
 msgstr ""
-"Vaše verze MySQL není podporována. Více informací\n"
-"\t\tnajdete na oficiálních stránkách."
 
 #: errors.php:36
 msgid "SQL escaping test failed, check your database and PHP configuration"
-msgstr "Test opuštění SQL selhal, zkontrolujte konfiguraci databáze a PHP"
+msgstr ""
 
 #: index.php:121 index.php:151 index.php:257 prefs.php:83
 #: classes/backend.php:5 classes/pref/labels.php:296
 #: classes/pref/filters.php:609 classes/pref/feeds.php:1296
 #: plugins/digest/digest_body.php:49 js/viewfeed.js:1205
 msgid "Loading, please wait..."
-msgstr "Načítání, čekejte prosím..."
+msgstr "Načítám, čekejte prosím..."
 
 #: index.php:131 index.php:203
 msgid "Communication problem with server."
@@ -269,15 +259,15 @@ msgstr "Chyba při komunikaci se serverem."
 
 #: index.php:137 index.php:211
 msgid "New version of Tiny Tiny RSS is available!"
-msgstr "Je dostupná nová verze Tiny Tiny RSS!"
+msgstr "Je dostupná nová verze TIny Tiny RSS."
 
 #: index.php:165
 msgid "Collapse feedlist"
-msgstr "Skrýt seznam zdrojů"
+msgstr ""
 
 #: index.php:168
 msgid "Show articles"
-msgstr "Zobrazit články"
+msgstr ""
 
 #: index.php:171
 msgid "Adaptive"
@@ -301,7 +291,7 @@ msgstr "Nepřečteno"
 
 #: index.php:176
 msgid "Ignore Scoring"
-msgstr "Ignorovat hodnocení"
+msgstr ""
 
 #: index.php:177
 msgid "Updated"
@@ -309,7 +299,7 @@ msgstr "Aktualizováno"
 
 #: index.php:180
 msgid "Sort articles"
-msgstr "Seřadit články"
+msgstr ""
 
 #: index.php:183
 msgid "Default"
@@ -325,7 +315,7 @@ msgstr "Název"
 
 #: index.php:186
 msgid "Score"
-msgstr "Hodnocení"
+msgstr "Skóre"
 
 #: index.php:192 classes/pref/feeds.php:535 classes/pref/feeds.php:758
 msgid "Update"
@@ -340,7 +330,7 @@ msgstr "Označit jako přečtené"
 
 #: index.php:216
 msgid "Actions..."
-msgstr "Akce..."
+msgstr "Činnosti..."
 
 #: index.php:218
 msgid "Preferences..."
@@ -352,7 +342,7 @@ msgstr "Hledat..."
 
 #: index.php:220
 msgid "Feed actions:"
-msgstr "Akce zdrojů:"
+msgstr ""
 
 #: index.php:221 classes/handler/public.php:540
 msgid "Subscribe to feed..."
@@ -360,36 +350,36 @@ msgstr "Přihlásit se k odběru..."
 
 #: index.php:222
 msgid "Edit this feed..."
-msgstr "Upravit zdroj..."
+msgstr "Upravit kanál..."
 
 #: index.php:223
 msgid "Rescore feed"
-msgstr "Znovu ohodnotit zdroj"
+msgstr ""
 
 #: index.php:224 classes/pref/feeds.php:684 classes/pref/feeds.php:1269
 #: js/PrefFeedTree.js:73
 msgid "Unsubscribe"
-msgstr "Zrušit odběr"
+msgstr "Odhlásit se"
 
 #: index.php:225
 msgid "All feeds:"
-msgstr "Všechny zdroje:"
+msgstr "Všechny kanály:"
 
 #: index.php:227
 msgid "(Un)hide read feeds"
-msgstr "Zobrazit/Skrýt přečtené zdroje"
+msgstr "Zobrazit/Skrýt přečtené kanály"
 
 #: index.php:228
 msgid "Other actions:"
-msgstr "Ostatní akce:"
+msgstr "Ostatní činnosti:"
 
 #: index.php:230
 msgid "Switch to digest..."
-msgstr "Přepnout na výběr..."
+msgstr ""
 
 #: index.php:232
 msgid "Show tag cloud..."
-msgstr "Zobrazit seznam štítků..."
+msgstr ""
 
 #: index.php:234 include/functions.php:1894
 msgid "Toggle widescreen mode"
@@ -397,11 +387,11 @@ msgstr "Přepnout širokoúhlý režim"
 
 #: index.php:236
 msgid "Select by tags..."
-msgstr "Výběr podle štítků..."
+msgstr ""
 
 #: index.php:237
 msgid "Create label..."
-msgstr "Vytvořit štítek..."
+msgstr ""
 
 #: index.php:238
 msgid "Create filter..."
@@ -432,7 +422,7 @@ msgstr "Opustit nastavení"
 #: prefs.php:106 classes/pref/feeds.php:100 classes/pref/feeds.php:1174
 #: classes/pref/feeds.php:1237
 msgid "Feeds"
-msgstr "Zdroje"
+msgstr "Kanály"
 
 #: prefs.php:109 classes/pref/filters.php:117
 msgid "Filters"
@@ -461,12 +451,10 @@ msgid ""
 "were not logged in once, are erased automatically 24 hours after temporary "
 "password is sent."
 msgstr ""
-"Vaše dočasné heslo bude odesláno na zadanou e-mailovou adresu. Účet, který "
-"se do 24 hodin od odeslání dočasného hesla nepřihlásí, bude smazán."
 
 #: register.php:221
 msgid "Desired login:"
-msgstr "Požadované jméno:"
+msgstr ""
 
 #: register.php:224
 msgid "Check availability"
@@ -502,11 +490,11 @@ msgstr "Účet byl úspěšně vytvořen."
 
 #: register.php:390
 msgid "New user registrations are currently closed."
-msgstr "Registrace nových uživatelů nyní nejsou povoleny."
+msgstr "Registrace nových uživatelů nejsou nyní povoleny."
 
 #: update.php:55
 msgid "Tiny Tiny RSS data update script."
-msgstr "Skript aktualizace dat Tiny Tiny RSS."
+msgstr ""
 
 #: mobile/login_form.php:28 include/login_form.php:209
 #: classes/handler/public.php:468
@@ -525,7 +513,7 @@ msgstr "Heslo:"
 
 #: mobile/login_form.php:52
 msgid "Open regular version"
-msgstr "Otevřít normální verzi"
+msgstr ""
 
 #: mobile/mobile-functions.php:68 mobile/mobile-functions.php:144
 #: mobile/mobile-functions.php:180 mobile/mobile-functions.php:207
@@ -541,21 +529,21 @@ msgstr "Speciální"
 
 #: mobile/mobile-functions.php:416
 msgid "Nothing found (click to reload feed)."
-msgstr "Nic nenalezeno (klikněte pro načtení zdroje)."
+msgstr ""
 
 #: mobile/prefs.php:24
 msgid "Enable categories"
-msgstr "Povolit kategorie"
+msgstr ""
 
 #: mobile/prefs.php:25 mobile/prefs.php:30 mobile/prefs.php:36
 #: mobile/prefs.php:41 mobile/prefs.php:46 mobile/prefs.php:51
 msgid "ON"
-msgstr "Zap."
+msgstr "Zapnuto"
 
 #: mobile/prefs.php:25 mobile/prefs.php:30 mobile/prefs.php:36
 #: mobile/prefs.php:41 mobile/prefs.php:46 mobile/prefs.php:51
 msgid "OFF"
-msgstr "Vyp."
+msgstr "Vypnuto"
 
 #: mobile/prefs.php:29
 msgid "Browse categories like folders"
@@ -567,11 +555,11 @@ msgstr "Zobrazit obrázky v příspěvcích"
 
 #: mobile/prefs.php:40
 msgid "Hide read articles and feeds"
-msgstr "Skrýt přečtené články a zdroje"
+msgstr "Skrýt přečtené články a kanály"
 
 #: mobile/prefs.php:45
 msgid "Sort feeds by unread count"
-msgstr "Řadit zdroje podle počtu nepřečtených článků"
+msgstr "Řadit kanály podle počtu nepřečtených článků"
 
 #: mobile/prefs.php:50 include/localized_schema.php:45
 msgid "Reverse headline order (oldest first)"
@@ -590,15 +578,15 @@ msgstr "%d archivovaných článků"
 
 #: include/feedbrowser.php:107
 msgid "No feeds found."
-msgstr "Nenalezeny žádné zdroje."
+msgstr "Nenalezeny žádné kanály."
 
 #: include/functions.php:712
 msgid "Session failed to validate (incorrect IP)"
-msgstr "Nezdařilo se ověřit relace (neplatné IP)"
+msgstr "Nezdařilo se ověřit sezení (neplatné IP)"
 
 #: include/functions.php:1598 classes/dlg.php:369 classes/pref/filters.php:368
 msgid "All feeds"
-msgstr "Všechny zdroje"
+msgstr "Všechny kanály"
 
 #: include/functions.php:1799
 msgid "Starred articles"
@@ -630,15 +618,15 @@ msgstr "Navigace"
 
 #: include/functions.php:1872
 msgid "Open next feed"
-msgstr "Otevřít další zdroj"
+msgstr "Otevřít následující kanál"
 
 #: include/functions.php:1873
 msgid "Open previous feed"
-msgstr "Otevřít předchozí zdroj"
+msgstr "Otevřít předchozí kanál"
 
 #: include/functions.php:1874
 msgid "Open next article"
-msgstr "Otevřít další článek"
+msgstr "Otevřít následující článek"
 
 #: include/functions.php:1875
 msgid "Open previous article"
@@ -646,11 +634,11 @@ msgstr "Otevřít předchozí článek"
 
 #: include/functions.php:1876
 msgid "Open next article (don't scroll long articles)"
-msgstr "Otevřít další článek (nerolovat dlouhé články)"
+msgstr ""
 
 #: include/functions.php:1877
 msgid "Open previous article (don't scroll long articles)"
-msgstr "Otevřít předchozí článek (nerolovat dlouhé články)"
+msgstr ""
 
 #: include/functions.php:1878
 msgid "Show search dialog"
@@ -674,7 +662,7 @@ msgstr "Přepnout přečteno"
 
 #: include/functions.php:1883
 msgid "Edit tags"
-msgstr "Upravit štítky"
+msgstr "Upravit značky"
 
 #: include/functions.php:1884
 msgid "Dismiss selected"
@@ -719,7 +707,7 @@ msgstr "Zavřít článek"
 
 #: include/functions.php:1895 plugins/embed_original/init.php:33
 msgid "Toggle embed original"
-msgstr "Přepnout vložený originál"
+msgstr ""
 
 #: include/functions.php:1896
 msgid "Article selection"
@@ -752,15 +740,15 @@ msgstr "Zrušit výběr"
 #: include/functions.php:1903 classes/pref/feeds.php:488
 #: classes/pref/feeds.php:719
 msgid "Feed"
-msgstr "Zdroj"
+msgstr "Kanál"
 
 #: include/functions.php:1904
 msgid "Refresh current feed"
-msgstr "Obnovit současný zdroj"
+msgstr "Obnovit současný kanál"
 
 #: include/functions.php:1905
 msgid "Un/hide read feeds"
-msgstr "Zobrazit/Skrýt přečtené zdroje"
+msgstr "Zobrazit/Skrýt přečtené kanály"
 
 #: include/functions.php:1906 classes/pref/feeds.php:1240
 msgid "Subscribe to feed"
@@ -768,7 +756,7 @@ msgstr "Přihlásit se k odběru"
 
 #: include/functions.php:1907 js/FeedTree.js:135 js/PrefFeedTree.js:67
 msgid "Edit feed"
-msgstr "Upravit zdroj"
+msgstr "Upravit kanál"
 
 #: include/functions.php:1909
 msgid "Reverse headlines"
@@ -776,19 +764,19 @@ msgstr ""
 
 #: include/functions.php:1910
 msgid "Debug feed update"
-msgstr "Debug aktualizace zdrojů"
+msgstr ""
 
 #: include/functions.php:1911 js/FeedTree.js:178
 msgid "Mark all feeds as read"
-msgstr "Označit všechny zdroje jako přečtené"
+msgstr "Označit všechny kanály za přečtené"
 
 #: include/functions.php:1912
 msgid "Un/collapse current category"
-msgstr "Zobrazit/skrýt aktuální kategorii"
+msgstr ""
 
 #: include/functions.php:1913
 msgid "Toggle combined mode"
-msgstr "Přepnout kombinovaný režim"
+msgstr ""
 
 #: include/functions.php:1914
 msgid "Go to"
@@ -796,19 +784,19 @@ msgstr "Přejít na"
 
 #: include/functions.php:1916
 msgid "Fresh"
-msgstr "Nový"
+msgstr ""
 
 #: include/functions.php:1919
 msgid "Tag cloud"
-msgstr "Seznam štítků"
+msgstr ""
 
 #: include/functions.php:1921
 msgid "Other"
-msgstr "Ostatní"
+msgstr "Jiné"
 
 #: include/functions.php:1922 classes/pref/labels.php:281
 msgid "Create label"
-msgstr "Vytvořit štítek"
+msgstr ""
 
 #: include/functions.php:1923 classes/pref/filters.php:587
 msgid "Create filter"
@@ -816,16 +804,16 @@ msgstr "Vytvořit filtr"
 
 #: include/functions.php:1924
 msgid "Un/collapse sidebar"
-msgstr "Zobrazit/skrýt postranní panel"
+msgstr ""
 
 #: include/functions.php:1925
 msgid "Show help dialog"
-msgstr "Zobrazit nápovědu"
+msgstr ""
 
 #: include/functions.php:2406
 #, php-format
 msgid "Search results: %s"
-msgstr "Výslekdy vyhledávání: %s"
+msgstr ""
 
 #: include/functions.php:2895 js/viewfeed.js:1929
 msgid "Click to play"
@@ -841,11 +829,11 @@ msgstr " - "
 
 #: include/functions.php:3040 include/functions.php:3357 classes/rpc.php:360
 msgid "no tags"
-msgstr "žádné štítky"
+msgstr "žádné značky"
 
 #: include/functions.php:3050 classes/feeds.php:650
 msgid "Edit tags for this article"
-msgstr "Upravit štítky tohoto článku"
+msgstr "Upravit značky pro článek"
 
 #: include/functions.php:3079 classes/feeds.php:606
 msgid "Originally from:"
@@ -853,11 +841,11 @@ msgstr "Původně z:"
 
 #: include/functions.php:3092 classes/feeds.php:619 classes/pref/feeds.php:507
 msgid "Feed URL"
-msgstr "URL zdroje"
+msgstr "URL kanálu"
 
 #: include/functions.php:3121
 msgid "Related"
-msgstr "Podobné"
+msgstr ""
 
 #: include/functions.php:3148 classes/dlg.php:43 classes/dlg.php:162
 #: classes/dlg.php:185 classes/dlg.php:222 classes/dlg.php:506
@@ -884,7 +872,7 @@ msgstr "Přílohy"
 
 #: include/localized_schema.php:4
 msgid "Title or Content"
-msgstr "Nadpis nebo Obsah"
+msgstr ""
 
 #: include/localized_schema.php:5
 msgid "Link"
@@ -913,7 +901,7 @@ msgstr "Publikovat článek"
 
 #: include/localized_schema.php:13
 msgid "Assign tags"
-msgstr "Přiřadit štítky"
+msgstr "Přiřadit značky"
 
 #: include/localized_schema.php:14 js/viewfeed.js:1893
 msgid "Assign label"
@@ -921,7 +909,7 @@ msgstr ""
 
 #: include/localized_schema.php:15
 msgid "Modify score"
-msgstr "Změnit hodnocení"
+msgstr ""
 
 #: include/localized_schema.php:17
 msgid "General"
@@ -941,9 +929,6 @@ msgid ""
 "with partially colliding userbase. When disabled, it forces same posts from "
 "different feeds to appear only once."
 msgstr ""
-"Tato volba je užitečná pro sledování několika agregátorů s částečně kolidující "
-"databází uživatelů. Pokud je vypnuta, sloučí stejné příspěvky z různých zdrojů "
-"pro zobrazení jako jeden."
 
 #: include/localized_schema.php:22
 msgid ""
