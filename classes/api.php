@@ -2,7 +2,7 @@
 
 class API extends Handler {
 
-	const API_LEVEL  = 4;
+	const API_LEVEL  = 5;
 
 	const STATUS_OK  = 0;
 	const STATUS_ERR = 1;
@@ -664,6 +664,36 @@ class API extends Handler {
 			}
 
 			return $headlines;
+	}
+
+	function unsubscribeFeed() {
+		$feed_id = (int) db_escape_string($this->link, $_REQUEST["feed_id"]);
+
+		$result = db_query($this->link, "SELECT id FROM ttrss_feeds WHERE
+			id = '$feed_id' AND owner_uid = ".$_SESSION["uid"]);
+
+		if (db_num_rows($result) != 0) {
+			Pref_Feeds::remove_feed($this->link, $feed_id, $_SESSION["uid"]);
+			print $this->wrap(self::STATUS_OK, array("status" => "OK"));
+		} else {
+			print $this->wrap(self::STATUS_ERR, array("error" => "FEED_NOT_FOUND"));
+		}
+	}
+
+	function subscribeToFeed() {
+		$feed_url = db_escape_string($this->link, $_REQUEST["feed_url"]);
+		$category_id = (int) db_escape_string($this->link, $_REQUEST["category_id"]);
+		$login = db_escape_string($this->link, $_REQUEST["login"]);
+		$password = db_escape_string($this->link, $_REQUEST["password"]);
+
+		if ($feed_url) {
+			$rc = subscribe_to_feed($this->link, $feed_url, $category_id,
+				$login, $password, false);
+
+			print $this->wrap(self::STATUS_OK, array("status" => $rc));
+		} else {
+			print $this->wrap(self::STATUS_ERR, array("error" => 'INCORRECT_USAGE'));
+		}
 	}
 
 }

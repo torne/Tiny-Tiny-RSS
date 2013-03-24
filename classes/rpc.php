@@ -105,9 +105,8 @@ class RPC extends Handler_Protected {
 		$cat = db_escape_string($this->link, $_REQUEST['cat']);
 		$login = db_escape_string($this->link, $_REQUEST['login']);
 		$pass = db_escape_string($this->link, $_REQUEST['pass']);
-		$need_auth = db_escape_string($this->link, $_REQUEST['need_auth']) != "";
 
-		$rc = subscribe_to_feed($this->link, $feed, $cat, $login, $pass, $need_auth);
+		$rc = subscribe_to_feed($this->link, $feed, $cat, $login, $pass);
 
 		print json_encode(array("result" => $rc));
 	}
@@ -623,7 +622,6 @@ class RPC extends Handler_Protected {
 		$feeds = explode("\n", db_escape_string($this->link, $_REQUEST['feeds']));
 		$login = db_escape_string($this->link, $_REQUEST['login']);
 		$pass = db_escape_string($this->link, $_REQUEST['pass']);
-		$need_auth = db_escape_string($this->link, $_REQUEST['need_auth']) != "";
 
 		foreach ($feeds as $feed) {
 			$feed = trim($feed);

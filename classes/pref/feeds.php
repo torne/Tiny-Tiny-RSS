@@ -1012,7 +1012,7 @@ class Pref_Feeds extends Handler_Protected {
 		$ids = split(",", db_escape_string($this->link, $_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
-			$this->remove_feed($this->link, $id, $_SESSION["uid"]);
+			Pref_Feeds::remove_feed($this->link, $id, $_SESSION["uid"]);
 		}
 
 		return;
@@ -1657,7 +1657,7 @@ class Pref_Feeds extends Handler_Protected {
 		ccache_remove($link, $id, $owner_uid, true);
 	}
 
-	private function remove_feed($link, $id, $owner_uid) {
+	static function remove_feed($link, $id, $owner_uid) {
 
 		if ($id > 0) {
 

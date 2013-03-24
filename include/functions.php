@@ -1535,7 +1535,7 @@
 	 *                 5 - Couldn't download the URL content.
 	 */
 	function subscribe_to_feed($link, $url, $cat_id = 0,
-			$auth_login = '', $auth_pass = '', $need_auth = false) {
+			$auth_login = '', $auth_pass = '') {
 
 		global $fetch_last_error;
 
