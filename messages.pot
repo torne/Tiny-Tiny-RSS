@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-24 13:57+0100\n"
+"POT-Creation-Date: 2013-03-24 20:08+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -243,8 +243,8 @@ msgid "SQL escaping test failed, check your database and PHP configuration"
 msgstr ""
 
 #: index.php:118 index.php:148 index.php:254 prefs.php:83
-#: classes/backend.php:5 classes/pref/filters.php:609
-#: classes/pref/labels.php:296 classes/pref/feeds.php:1296
+#: classes/backend.php:5 classes/pref/labels.php:296
+#: classes/pref/filters.php:609 classes/pref/feeds.php:1296
 #: plugins/digest/digest_body.php:47 js/viewfeed.js:1205
 msgid "Loading, please wait..."
 msgstr ""
@@ -758,7 +758,7 @@ msgstr ""
 msgid " - "
 msgstr ""
 
-#: include/functions.php:3037 include/functions.php:3329 classes/rpc.php:360
+#: include/functions.php:3037 include/functions.php:3329 classes/rpc.php:359
 msgid "no tags"
 msgstr ""
 
@@ -774,12 +774,12 @@ msgstr ""
 msgid "Feed URL"
 msgstr ""
 
-#: include/functions.php:3120 classes/backend.php:105 classes/dlg.php:43
-#: classes/dlg.php:162 classes/dlg.php:185 classes/dlg.php:222
-#: classes/dlg.php:506 classes/dlg.php:541 classes/dlg.php:572
-#: classes/dlg.php:606 classes/dlg.php:618 classes/pref/filters.php:108
-#: classes/pref/feeds.php:1553 classes/pref/feeds.php:1624
-#: classes/pref/users.php:106 plugins/import_export/init.php:409
+#: include/functions.php:3120 classes/dlg.php:43 classes/dlg.php:162
+#: classes/dlg.php:185 classes/dlg.php:222 classes/dlg.php:506
+#: classes/dlg.php:541 classes/dlg.php:572 classes/dlg.php:606
+#: classes/dlg.php:618 classes/backend.php:105 classes/pref/users.php:106
+#: classes/pref/filters.php:108 classes/pref/feeds.php:1553
+#: classes/pref/feeds.php:1624 plugins/import_export/init.php:409
 #: plugins/import_export/init.php:432 plugins/share/init.php:67
 #: plugins/updater/init.php:330
 msgid "Close this window"
@@ -1061,8 +1061,8 @@ msgstr ""
 msgid "Profile:"
 msgstr ""
 
-#: include/login_form.php:213 classes/dlg.php:98
-#: classes/handler/public.php:214 classes/rpc.php:64
+#: include/login_form.php:213 classes/handler/public.php:214
+#: classes/rpc.php:64 classes/dlg.php:98
 msgid "Default profile"
 msgstr ""
 
@@ -1078,24 +1078,117 @@ msgstr ""
 msgid "Article not found."
 msgstr ""
 
-#: classes/backend.php:34
-msgid "Keyboard Shortcuts"
+#: classes/handler/public.php:395 plugins/bookmarklets/init.php:38
+msgid "Share with Tiny Tiny RSS"
 msgstr ""
 
-#: classes/backend.php:57
-msgid "Shift"
+#: classes/handler/public.php:403
+msgid "Title:"
 msgstr ""
 
-#: classes/backend.php:60
-msgid "Ctrl"
+#: classes/handler/public.php:405 classes/dlg.php:665
+#: classes/pref/feeds.php:505 classes/pref/feeds.php:734
+#: plugins/instances/init.php:215
+msgid "URL:"
 msgstr ""
 
-#: classes/backend.php:84
-msgid "Other interface tips are available in the Tiny Tiny RSS wiki."
+#: classes/handler/public.php:407
+msgid "Content:"
 msgstr ""
 
-#: classes/backend.php:99
-msgid "Help topic not found."
+#: classes/handler/public.php:409
+msgid "Labels:"
+msgstr ""
+
+#: classes/handler/public.php:428
+msgid "Shared article will appear in the Published feed."
+msgstr ""
+
+#: classes/handler/public.php:430
+msgid "Share"
+msgstr ""
+
+#: classes/handler/public.php:431 classes/handler/public.php:473
+#: classes/dlg.php:296 classes/dlg.php:348 classes/dlg.php:408
+#: classes/dlg.php:439 classes/dlg.php:650 classes/dlg.php:700
+#: classes/dlg.php:749 classes/pref/users.php:194 classes/pref/labels.php:81
+#: classes/pref/filters.php:349 classes/pref/filters.php:729
+#: classes/pref/filters.php:798 classes/pref/filters.php:865
+#: classes/pref/feeds.php:701 classes/pref/feeds.php:849
+#: plugins/mail/init.php:131 plugins/note/init.php:55
+#: plugins/instances/init.php:251
+msgid "Cancel"
+msgstr ""
+
+#: classes/handler/public.php:452
+msgid "Not logged in"
+msgstr ""
+
+#: classes/handler/public.php:512
+msgid "Incorrect username or password"
+msgstr ""
+
+#: classes/handler/public.php:548 classes/handler/public.php:645
+#, php-format
+msgid "Already subscribed to <b>%s</b>."
+msgstr ""
+
+#: classes/handler/public.php:551 classes/handler/public.php:636
+#, php-format
+msgid "Subscribed to <b>%s</b>."
+msgstr ""
+
+#: classes/handler/public.php:554 classes/handler/public.php:639
+#, php-format
+msgid "Could not subscribe to <b>%s</b>."
+msgstr ""
+
+#: classes/handler/public.php:557 classes/handler/public.php:642
+#, php-format
+msgid "No feeds found in <b>%s</b>."
+msgstr ""
+
+#: classes/handler/public.php:560 classes/handler/public.php:648
+msgid "Multiple feed URLs found."
+msgstr ""
+
+#: classes/handler/public.php:564 classes/handler/public.php:653
+#, php-format
+msgid "Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL."
+msgstr ""
+
+#: classes/handler/public.php:582 classes/handler/public.php:671
+msgid "Subscribe to selected feed"
+msgstr ""
+
+#: classes/handler/public.php:607 classes/handler/public.php:695
+msgid "Edit subscription options"
+msgstr ""
+
+#: classes/handler/public.php:724 classes/handler/public.php:753
+#: classes/pref/users.php:378
+msgid "Reset password"
+msgstr ""
+
+#: classes/handler/public.php:764
+msgid "Some of the required form parameters are missing or incorrect."
+msgstr ""
+
+#: classes/handler/public.php:766 classes/handler/public.php:782
+#: classes/handler/public.php:787
+msgid "Go back"
+msgstr ""
+
+#: classes/handler/public.php:778
+msgid "Completed."
+msgstr ""
+
+#: classes/handler/public.php:781
+msgid "Sorry, login and email combination not found."
+msgstr ""
+
+#: classes/handler/public.php:786
+msgid "Form secret key incorrect. Please enable cookies and try again."
 msgstr ""
 
 #: classes/dlg.php:22
@@ -1104,30 +1197,30 @@ msgid ""
 "preferences to see your new data."
 msgstr ""
 
-#: classes/dlg.php:55 classes/pref/filters.php:230
-#: classes/pref/filters.php:277 classes/pref/filters.php:578
-#: classes/pref/filters.php:657 classes/pref/filters.php:684
-#: classes/pref/labels.php:272 classes/pref/feeds.php:1228
+#: classes/dlg.php:55 classes/pref/users.php:360 classes/pref/labels.php:272
+#: classes/pref/filters.php:230 classes/pref/filters.php:277
+#: classes/pref/filters.php:578 classes/pref/filters.php:657
+#: classes/pref/filters.php:684 classes/pref/feeds.php:1228
 #: classes/pref/feeds.php:1498 classes/pref/feeds.php:1567
-#: classes/pref/users.php:360 plugins/instances/init.php:287
+#: plugins/instances/init.php:287
 msgid "Select"
 msgstr ""
 
-#: classes/dlg.php:58 classes/feeds.php:92 classes/pref/filters.php:233
+#: classes/dlg.php:58 classes/feeds.php:92 classes/pref/users.php:363
+#: classes/pref/labels.php:275 classes/pref/filters.php:233
 #: classes/pref/filters.php:280 classes/pref/filters.php:581
 #: classes/pref/filters.php:660 classes/pref/filters.php:687
-#: classes/pref/labels.php:275 classes/pref/feeds.php:1231
-#: classes/pref/feeds.php:1501 classes/pref/feeds.php:1570
-#: classes/pref/users.php:363 plugins/instances/init.php:290
+#: classes/pref/feeds.php:1231 classes/pref/feeds.php:1501
+#: classes/pref/feeds.php:1570 plugins/instances/init.php:290
 msgid "All"
 msgstr ""
 
-#: classes/dlg.php:60 classes/feeds.php:95 classes/pref/filters.php:235
+#: classes/dlg.php:60 classes/feeds.php:95 classes/pref/users.php:365
+#: classes/pref/labels.php:277 classes/pref/filters.php:235
 #: classes/pref/filters.php:282 classes/pref/filters.php:583
 #: classes/pref/filters.php:662 classes/pref/filters.php:689
-#: classes/pref/labels.php:277 classes/pref/feeds.php:1233
-#: classes/pref/feeds.php:1503 classes/pref/feeds.php:1572
-#: classes/pref/users.php:365 plugins/instances/init.php:292
+#: classes/pref/feeds.php:1233 classes/pref/feeds.php:1503
+#: classes/pref/feeds.php:1572 plugins/instances/init.php:292
 msgid "None"
 msgstr ""
 
@@ -1194,13 +1287,13 @@ msgstr ""
 msgid "Available feeds"
 msgstr ""
 
-#: classes/dlg.php:268 classes/pref/feeds.php:557 classes/pref/feeds.php:783
-#: classes/pref/users.php:155
+#: classes/dlg.php:268 classes/pref/users.php:155 classes/pref/feeds.php:557
+#: classes/pref/feeds.php:783
 msgid "Authentication"
 msgstr ""
 
-#: classes/dlg.php:272 classes/dlg.php:727 classes/pref/feeds.php:563
-#: classes/pref/feeds.php:787 classes/pref/users.php:420
+#: classes/dlg.php:272 classes/dlg.php:727 classes/pref/users.php:420
+#: classes/pref/feeds.php:563 classes/pref/feeds.php:787
 msgid "Login"
 msgstr ""
 
@@ -1221,20 +1314,8 @@ msgstr ""
 msgid "More feeds"
 msgstr ""
 
-#: classes/dlg.php:296 classes/dlg.php:348 classes/dlg.php:408
-#: classes/dlg.php:439 classes/dlg.php:650 classes/dlg.php:700
-#: classes/dlg.php:749 classes/handler/public.php:431
-#: classes/handler/public.php:473 classes/pref/filters.php:349
-#: classes/pref/filters.php:729 classes/pref/filters.php:798
-#: classes/pref/filters.php:865 classes/pref/labels.php:81
-#: classes/pref/feeds.php:701 classes/pref/feeds.php:849
-#: classes/pref/users.php:194 plugins/instances/init.php:251
-#: plugins/mail/init.php:131 plugins/note/init.php:55
-msgid "Cancel"
-msgstr ""
-
-#: classes/dlg.php:316 classes/dlg.php:407 classes/pref/filters.php:574
-#: classes/pref/feeds.php:1224 classes/pref/users.php:350 js/tt-rss.js:166
+#: classes/dlg.php:316 classes/dlg.php:407 classes/pref/users.php:350
+#: classes/pref/filters.php:574 classes/pref/feeds.php:1224 js/tt-rss.js:166
 msgid "Search"
 msgstr ""
 
@@ -1250,10 +1331,9 @@ msgstr ""
 msgid "limit:"
 msgstr ""
 
-#: classes/dlg.php:347 classes/pref/filters.php:339
-#: classes/pref/filters.php:596 classes/pref/labels.php:284
-#: classes/pref/feeds.php:674 classes/pref/users.php:376
-#: plugins/instances/init.php:297
+#: classes/dlg.php:347 classes/pref/users.php:376 classes/pref/labels.php:284
+#: classes/pref/filters.php:339 classes/pref/filters.php:596
+#: classes/pref/feeds.php:674 plugins/instances/init.php:297
 msgid "Remove"
 msgstr ""
 
@@ -1273,11 +1353,11 @@ msgstr ""
 msgid "Tags for this article (separated by commas):"
 msgstr ""
 
-#: classes/dlg.php:437 classes/dlg.php:648 classes/pref/filters.php:346
-#: classes/pref/labels.php:79 classes/pref/feeds.php:700
-#: classes/pref/feeds.php:846 classes/pref/users.php:192
-#: plugins/instances/init.php:248 plugins/note/init.php:53
-#: plugins/nsfw/init.php:86 plugins/owncloud/init.php:62
+#: classes/dlg.php:437 classes/dlg.php:648 classes/pref/users.php:192
+#: classes/pref/labels.php:79 classes/pref/filters.php:346
+#: classes/pref/feeds.php:700 classes/pref/feeds.php:846
+#: plugins/nsfw/init.php:86 plugins/note/init.php:53
+#: plugins/owncloud/init.php:62 plugins/instances/init.php:248
 msgid "Save"
 msgstr ""
 
@@ -1350,12 +1430,6 @@ msgstr ""
 
 #: classes/dlg.php:659 plugins/instances/init.php:207
 msgid "Instance"
-msgstr ""
-
-#: classes/dlg.php:665 classes/handler/public.php:405
-#: classes/pref/feeds.php:505 classes/pref/feeds.php:734
-#: plugins/instances/init.php:215
-msgid "URL:"
 msgstr ""
 
 #: classes/dlg.php:668 plugins/instances/init.php:218
@@ -1442,8 +1516,8 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: classes/feeds.php:125 classes/feeds.php:130 plugins/mail/init.php:28
-#: plugins/mailto/init.php:28
+#: classes/feeds.php:125 classes/feeds.php:130 plugins/mailto/init.php:28
+#: plugins/mail/init.php:28
 msgid "Forward by email"
 msgstr ""
 
@@ -1498,99 +1572,24 @@ msgstr ""
 msgid "No feed selected."
 msgstr ""
 
-#: classes/handler/public.php:395 plugins/bookmarklets/init.php:38
-msgid "Share with Tiny Tiny RSS"
+#: classes/backend.php:34
+msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: classes/handler/public.php:403
-msgid "Title:"
+#: classes/backend.php:57
+msgid "Shift"
 msgstr ""
 
-#: classes/handler/public.php:407
-msgid "Content:"
+#: classes/backend.php:60
+msgid "Ctrl"
 msgstr ""
 
-#: classes/handler/public.php:409
-msgid "Labels:"
+#: classes/backend.php:84
+msgid "Other interface tips are available in the Tiny Tiny RSS wiki."
 msgstr ""
 
-#: classes/handler/public.php:428
-msgid "Shared article will appear in the Published feed."
-msgstr ""
-
-#: classes/handler/public.php:430
-msgid "Share"
-msgstr ""
-
-#: classes/handler/public.php:452
-msgid "Not logged in"
-msgstr ""
-
-#: classes/handler/public.php:512
-msgid "Incorrect username or password"
-msgstr ""
-
-#: classes/handler/public.php:548 classes/handler/public.php:645
-#, php-format
-msgid "Already subscribed to <b>%s</b>."
-msgstr ""
-
-#: classes/handler/public.php:551 classes/handler/public.php:636
-#, php-format
-msgid "Subscribed to <b>%s</b>."
-msgstr ""
-
-#: classes/handler/public.php:554 classes/handler/public.php:639
-#, php-format
-msgid "Could not subscribe to <b>%s</b>."
-msgstr ""
-
-#: classes/handler/public.php:557 classes/handler/public.php:642
-#, php-format
-msgid "No feeds found in <b>%s</b>."
-msgstr ""
-
-#: classes/handler/public.php:560 classes/handler/public.php:648
-msgid "Multiple feed URLs found."
-msgstr ""
-
-#: classes/handler/public.php:564 classes/handler/public.php:653
-#, php-format
-msgid "Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL."
-msgstr ""
-
-#: classes/handler/public.php:582 classes/handler/public.php:671
-msgid "Subscribe to selected feed"
-msgstr ""
-
-#: classes/handler/public.php:607 classes/handler/public.php:695
-msgid "Edit subscription options"
-msgstr ""
-
-#: classes/handler/public.php:724 classes/handler/public.php:753
-#: classes/pref/users.php:378
-msgid "Reset password"
-msgstr ""
-
-#: classes/handler/public.php:764
-msgid "Some of the required form parameters are missing or incorrect."
-msgstr ""
-
-#: classes/handler/public.php:766 classes/handler/public.php:782
-#: classes/handler/public.php:787
-msgid "Go back"
-msgstr ""
-
-#: classes/handler/public.php:778
-msgid "Completed."
-msgstr ""
-
-#: classes/handler/public.php:781
-msgid "Sorry, login and email combination not found."
-msgstr ""
-
-#: classes/handler/public.php:786
-msgid "Form secret key incorrect. Please enable cookies and try again."
+#: classes/backend.php:99
+msgid "Help topic not found."
 msgstr ""
 
 #: classes/opml.php:28 classes/opml.php:33
@@ -1647,6 +1646,138 @@ msgstr ""
 msgid "Error while parsing document."
 msgstr ""
 
+#: classes/pref/users.php:6 plugins/instances/init.php:157
+msgid "Your access level is insufficient to open this tab."
+msgstr ""
+
+#: classes/pref/users.php:27
+msgid "User details"
+msgstr ""
+
+#: classes/pref/users.php:41
+msgid "User not found"
+msgstr ""
+
+#: classes/pref/users.php:60 classes/pref/users.php:422
+msgid "Registered"
+msgstr ""
+
+#: classes/pref/users.php:61
+msgid "Last logged in"
+msgstr ""
+
+#: classes/pref/users.php:68
+msgid "Subscribed feeds count"
+msgstr ""
+
+#: classes/pref/users.php:72
+msgid "Subscribed feeds"
+msgstr ""
+
+#: classes/pref/users.php:122
+msgid "User Editor"
+msgstr ""
+
+#: classes/pref/users.php:158
+msgid "Access level: "
+msgstr ""
+
+#: classes/pref/users.php:171
+msgid "Change password to"
+msgstr ""
+
+#: classes/pref/users.php:177 classes/pref/feeds.php:577
+#: classes/pref/feeds.php:799
+msgid "Options"
+msgstr ""
+
+#: classes/pref/users.php:180
+msgid "E-mail: "
+msgstr ""
+
+#: classes/pref/users.php:258
+#, php-format
+msgid "Added user <b>%s</b> with password <b>%s</b>"
+msgstr ""
+
+#: classes/pref/users.php:265
+#, php-format
+msgid "Could not create user <b>%s</b>"
+msgstr ""
+
+#: classes/pref/users.php:269
+#, php-format
+msgid "User <b>%s</b> already exists."
+msgstr ""
+
+#: classes/pref/users.php:291
+#, php-format
+msgid "Changed password of user <b>%s</b> to <b>%s</b>"
+msgstr ""
+
+#: classes/pref/users.php:293
+#, php-format
+msgid "Sending new password of user <b>%s</b> to <b>%s</b>"
+msgstr ""
+
+#: classes/pref/users.php:317
+msgid "[tt-rss] Password change notification"
+msgstr ""
+
+#: classes/pref/users.php:368
+msgid "Create user"
+msgstr ""
+
+#: classes/pref/users.php:374 classes/pref/filters.php:593
+#: plugins/instances/init.php:296
+msgid "Edit"
+msgstr ""
+
+#: classes/pref/users.php:421
+msgid "Access Level"
+msgstr ""
+
+#: classes/pref/users.php:423
+msgid "Last login"
+msgstr ""
+
+#: classes/pref/users.php:444 plugins/instances/init.php:337
+msgid "Click to edit"
+msgstr ""
+
+#: classes/pref/users.php:464
+msgid "No users defined."
+msgstr ""
+
+#: classes/pref/users.php:466
+msgid "No matching users found."
+msgstr ""
+
+#: classes/pref/labels.php:22
+msgid "Caption"
+msgstr ""
+
+#: classes/pref/labels.php:37
+msgid "Colors"
+msgstr ""
+
+#: classes/pref/labels.php:42
+msgid "Foreground:"
+msgstr ""
+
+#: classes/pref/labels.php:42
+msgid "Background:"
+msgstr ""
+
+#: classes/pref/labels.php:232
+#, php-format
+msgid "Created label <b>%s</b>"
+msgstr ""
+
+#: classes/pref/labels.php:287
+msgid "Clear colors"
+msgstr ""
+
 #: classes/pref/filters.php:57
 msgid "Articles matching this filter:"
 msgstr ""
@@ -1696,11 +1827,6 @@ msgstr ""
 msgid "Combine"
 msgstr ""
 
-#: classes/pref/filters.php:593 classes/pref/users.php:374
-#: plugins/instances/init.php:296
-msgid "Edit"
-msgstr ""
-
 #: classes/pref/filters.php:600 classes/pref/feeds.php:1283
 msgid "Rescore articles"
 msgstr ""
@@ -1740,31 +1866,6 @@ msgstr ""
 
 #: classes/pref/filters.php:862 js/functions.js:1104
 msgid "Add action"
-msgstr ""
-
-#: classes/pref/labels.php:22
-msgid "Caption"
-msgstr ""
-
-#: classes/pref/labels.php:37
-msgid "Colors"
-msgstr ""
-
-#: classes/pref/labels.php:42
-msgid "Foreground:"
-msgstr ""
-
-#: classes/pref/labels.php:42
-msgid "Background:"
-msgstr ""
-
-#: classes/pref/labels.php:232
-#, php-format
-msgid "Created label <b>%s</b>"
-msgstr ""
-
-#: classes/pref/labels.php:287
-msgid "Clear colors"
 msgstr ""
 
 #: classes/pref/prefs.php:17
@@ -1968,11 +2069,6 @@ msgstr ""
 msgid ""
 "<b>Hint:</b> you need to fill in your login information if your feed "
 "requires authentication, except for Twitter feeds."
-msgstr ""
-
-#: classes/pref/feeds.php:577 classes/pref/feeds.php:799
-#: classes/pref/users.php:177
-msgid "Options"
 msgstr ""
 
 #: classes/pref/feeds.php:589 classes/pref/feeds.php:803
@@ -2183,101 +2279,50 @@ msgstr ""
 msgid "These feeds have not been updated because of errors:"
 msgstr ""
 
-#: classes/pref/users.php:6 plugins/instances/init.php:157
-msgid "Your access level is insufficient to open this tab."
+#: plugins/pocket/init.php:30
+msgid "Pocket"
 msgstr ""
 
-#: classes/pref/users.php:27
-msgid "User details"
+#: plugins/digest/digest_body.php:43
+msgid ""
+"Your browser doesn't support Javascript, which is required for this "
+"application to function properly. Please check your browser settings."
 msgstr ""
 
-#: classes/pref/users.php:41
-msgid "User not found"
+#: plugins/digest/digest_body.php:53
+msgid "Back to feeds"
 msgstr ""
 
-#: classes/pref/users.php:60 classes/pref/users.php:422
-msgid "Registered"
+#: plugins/digest/digest_body.php:58
+msgid "Hello,"
 msgstr ""
 
-#: classes/pref/users.php:61
-msgid "Last logged in"
+#: plugins/digest/digest_body.php:64
+msgid "Regular version"
 msgstr ""
 
-#: classes/pref/users.php:68
-msgid "Subscribed feeds count"
+#: plugins/close_button/init.php:24
+msgid "Close article"
 msgstr ""
 
-#: classes/pref/users.php:72
-msgid "Subscribed feeds"
+#: plugins/nsfw/init.php:32 plugins/nsfw/init.php:43
+msgid "Not work safe (click to toggle)"
 msgstr ""
 
-#: classes/pref/users.php:122
-msgid "User Editor"
+#: plugins/nsfw/init.php:53
+msgid "NSFW Plugin"
 msgstr ""
 
-#: classes/pref/users.php:158
-msgid "Access level: "
+#: plugins/nsfw/init.php:80
+msgid "Tags to consider NSFW (comma-separated)"
 msgstr ""
 
-#: classes/pref/users.php:171
-msgid "Change password to"
+#: plugins/nsfw/init.php:101
+msgid "Configuration saved."
 msgstr ""
 
-#: classes/pref/users.php:180
-msgid "E-mail: "
-msgstr ""
-
-#: classes/pref/users.php:258
-#, php-format
-msgid "Added user <b>%s</b> with password <b>%s</b>"
-msgstr ""
-
-#: classes/pref/users.php:265
-#, php-format
-msgid "Could not create user <b>%s</b>"
-msgstr ""
-
-#: classes/pref/users.php:269
-#, php-format
-msgid "User <b>%s</b> already exists."
-msgstr ""
-
-#: classes/pref/users.php:291
-#, php-format
-msgid "Changed password of user <b>%s</b> to <b>%s</b>"
-msgstr ""
-
-#: classes/pref/users.php:293
-#, php-format
-msgid "Sending new password of user <b>%s</b> to <b>%s</b>"
-msgstr ""
-
-#: classes/pref/users.php:317
-msgid "[tt-rss] Password change notification"
-msgstr ""
-
-#: classes/pref/users.php:368
-msgid "Create user"
-msgstr ""
-
-#: classes/pref/users.php:421
-msgid "Access Level"
-msgstr ""
-
-#: classes/pref/users.php:423
-msgid "Last login"
-msgstr ""
-
-#: classes/pref/users.php:444 plugins/instances/init.php:337
-msgid "Click to edit"
-msgstr ""
-
-#: classes/pref/users.php:464
-msgid "No users defined."
-msgstr ""
-
-#: classes/pref/users.php:466
-msgid "No matching users found."
+#: plugins/pinterest/init.php:29
+msgid "Pinterest"
 msgstr ""
 
 #: plugins/auth_internal/init.php:62
@@ -2290,6 +2335,32 @@ msgstr ""
 
 #: plugins/auth_internal/init.php:187
 msgid "Old password is incorrect."
+msgstr ""
+
+#: plugins/mailto/init.php:52 plugins/mailto/init.php:58
+#: plugins/mail/init.php:71 plugins/mail/init.php:77
+msgid "[Forwarded]"
+msgstr ""
+
+#: plugins/mailto/init.php:52 plugins/mail/init.php:71
+msgid "Multiple articles"
+msgstr ""
+
+#: plugins/mailto/init.php:74
+msgid "Clicking the following link to invoke your mail client:"
+msgstr ""
+
+#: plugins/mailto/init.php:78
+msgid "Forward selected article(s) by email."
+msgstr ""
+
+#: plugins/mailto/init.php:81
+msgid ""
+"You should be able to edit the message before sending in your mail client."
+msgstr ""
+
+#: plugins/mailto/init.php:86
+msgid "Close this dialog"
 msgstr ""
 
 #: plugins/bookmarklets/init.php:22
@@ -2313,52 +2384,6 @@ msgstr ""
 
 #: plugins/bookmarklets/init.php:34
 msgid "Use this bookmarklet to publish arbitrary pages using Tiny Tiny RSS"
-msgstr ""
-
-#: plugins/close_button/init.php:24
-msgid "Close article"
-msgstr ""
-
-#: plugins/digest/digest_body.php:43
-msgid ""
-"Your browser doesn't support Javascript, which is required for this "
-"application to function properly. Please check your browser settings."
-msgstr ""
-
-#: plugins/digest/digest_body.php:53
-msgid "Back to feeds"
-msgstr ""
-
-#: plugins/digest/digest_body.php:58
-msgid "Hello,"
-msgstr ""
-
-#: plugins/digest/digest_body.php:64
-msgid "Regular version"
-msgstr ""
-
-#: plugins/example/init.php:38
-msgid "Example Pane"
-msgstr ""
-
-#: plugins/example/init.php:69
-msgid "Sample value"
-msgstr ""
-
-#: plugins/example/init.php:75
-msgid "Set value"
-msgstr ""
-
-#: plugins/flattr/init.php:30
-msgid "Flattr this article."
-msgstr ""
-
-#: plugins/googleplus/init.php:29
-msgid "Share on Google+"
-msgstr ""
-
-#: plugins/identica/init.php:29
-msgid "Share on identi.ca"
 msgstr ""
 
 #: plugins/import_export/init.php:64
@@ -2431,6 +2456,54 @@ msgid ""
 "ini (current value = %s)"
 msgstr ""
 
+#: plugins/mail/init.php:92
+msgid "From:"
+msgstr ""
+
+#: plugins/mail/init.php:101
+msgid "To:"
+msgstr ""
+
+#: plugins/mail/init.php:114
+msgid "Subject:"
+msgstr ""
+
+#: plugins/mail/init.php:130
+msgid "Send e-mail"
+msgstr ""
+
+#: plugins/note/init.php:28 plugins/note/note.js:11
+msgid "Edit article note"
+msgstr ""
+
+#: plugins/example/init.php:38
+msgid "Example Pane"
+msgstr ""
+
+#: plugins/example/init.php:69
+msgid "Sample value"
+msgstr ""
+
+#: plugins/example/init.php:75
+msgid "Set value"
+msgstr ""
+
+#: plugins/identica/init.php:29
+msgid "Share on identi.ca"
+msgstr ""
+
+#: plugins/owncloud/init.php:35
+msgid "Owncloud"
+msgstr ""
+
+#: plugins/owncloud/init.php:59
+msgid "Owncloud url"
+msgstr ""
+
+#: plugins/owncloud/init.php:74
+msgid "Bookmark on OwnCloud "
+msgstr ""
+
 #: plugins/instances/init.php:144
 msgid "Linked"
 msgstr ""
@@ -2457,88 +2530,6 @@ msgstr ""
 msgid "Stored feeds"
 msgstr ""
 
-#: plugins/mail/init.php:71 plugins/mail/init.php:77
-#: plugins/mailto/init.php:52 plugins/mailto/init.php:58
-msgid "[Forwarded]"
-msgstr ""
-
-#: plugins/mail/init.php:71 plugins/mailto/init.php:52
-msgid "Multiple articles"
-msgstr ""
-
-#: plugins/mail/init.php:92
-msgid "From:"
-msgstr ""
-
-#: plugins/mail/init.php:101
-msgid "To:"
-msgstr ""
-
-#: plugins/mail/init.php:114
-msgid "Subject:"
-msgstr ""
-
-#: plugins/mail/init.php:130
-msgid "Send e-mail"
-msgstr ""
-
-#: plugins/mailto/init.php:74
-msgid "Clicking the following link to invoke your mail client:"
-msgstr ""
-
-#: plugins/mailto/init.php:78
-msgid "Forward selected article(s) by email."
-msgstr ""
-
-#: plugins/mailto/init.php:81
-msgid ""
-"You should be able to edit the message before sending in your mail client."
-msgstr ""
-
-#: plugins/mailto/init.php:86
-msgid "Close this dialog"
-msgstr ""
-
-#: plugins/note/init.php:28 plugins/note/note.js:11
-msgid "Edit article note"
-msgstr ""
-
-#: plugins/nsfw/init.php:32 plugins/nsfw/init.php:43
-msgid "Not work safe (click to toggle)"
-msgstr ""
-
-#: plugins/nsfw/init.php:53
-msgid "NSFW Plugin"
-msgstr ""
-
-#: plugins/nsfw/init.php:80
-msgid "Tags to consider NSFW (comma-separated)"
-msgstr ""
-
-#: plugins/nsfw/init.php:101
-msgid "Configuration saved."
-msgstr ""
-
-#: plugins/owncloud/init.php:35
-msgid "Owncloud"
-msgstr ""
-
-#: plugins/owncloud/init.php:59
-msgid "Owncloud url"
-msgstr ""
-
-#: plugins/owncloud/init.php:74
-msgid "Bookmark on OwnCloud "
-msgstr ""
-
-#: plugins/pinterest/init.php:29
-msgid "Pinterest"
-msgstr ""
-
-#: plugins/pocket/init.php:30
-msgid "Pocket"
-msgstr ""
-
 #: plugins/share/init.php:27
 msgid "Share by URL"
 msgstr ""
@@ -2547,8 +2538,12 @@ msgstr ""
 msgid "You can share this article by the following unique URL:"
 msgstr ""
 
-#: plugins/tweet/init.php:29
-msgid "Share on Twitter"
+#: plugins/flattr/init.php:30
+msgid "Flattr this article."
+msgstr ""
+
+#: plugins/googleplus/init.php:29
+msgid "Share on Google+"
 msgstr ""
 
 #: plugins/updater/init.php:295 plugins/updater/init.php:307
@@ -2572,6 +2567,10 @@ msgstr ""
 
 #: plugins/updater/init.php:328
 msgid "Start update"
+msgstr ""
+
+#: plugins/tweet/init.php:29
+msgid "Share on Twitter"
 msgstr ""
 
 #: js/feedlist.js:213
@@ -2952,8 +2951,8 @@ msgstr ""
 
 #: js/viewfeed.js:688 js/viewfeed.js:716 js/viewfeed.js:743 js/viewfeed.js:805
 #: js/viewfeed.js:837 js/viewfeed.js:974 js/viewfeed.js:1017
-#: js/viewfeed.js:1067 js/viewfeed.js:2013 plugins/mail/mail.js:7
-#: plugins/mailto/init.js:7
+#: js/viewfeed.js:1067 js/viewfeed.js:2013 plugins/mailto/init.js:7
+#: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr ""
 
@@ -3073,6 +3072,10 @@ msgstr ""
 msgid "Sorry, your browser does not support sandboxed iframes."
 msgstr ""
 
+#: plugins/mailto/init.js:21 plugins/mail/mail.js:21
+msgid "Forward article by email"
+msgstr ""
+
 #: plugins/import_export/import_export.js:13
 msgid "Export Data"
 msgstr ""
@@ -3113,10 +3116,6 @@ msgstr ""
 
 #: plugins/instances/instances.js:156
 msgid "Please select only one instance."
-msgstr ""
-
-#: plugins/mail/mail.js:21 plugins/mailto/init.js:21
-msgid "Forward article by email"
 msgstr ""
 
 #: plugins/share/share.js:10

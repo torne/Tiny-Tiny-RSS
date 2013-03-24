@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-24 13:57+0100\n"
+"POT-Creation-Date: 2013-03-24 20:08+0400\n"
 "PO-Revision-Date: 2013-03-16 22:33+0100\n"
 "Last-Translator: Zoltan Faludi <zoltan.faludi@gmail.com>\n"
 "Language-Team: HUNGARIAN\n"
@@ -254,8 +254,8 @@ msgstr "SQL eszképelési teszt sikertelen, ellenőrizze az adatbázis és a PHP
 #: index.php:254
 #: prefs.php:83
 #: classes/backend.php:5
-#: classes/pref/filters.php:609
 #: classes/pref/labels.php:296
+#: classes/pref/filters.php:609
 #: classes/pref/feeds.php:1296
 #: plugins/digest/digest_body.php:47
 #: js/viewfeed.js:1205
@@ -851,7 +851,7 @@ msgstr "-"
 
 #: include/functions.php:3037
 #: include/functions.php:3329
-#: classes/rpc.php:360
+#: classes/rpc.php:359
 msgid "no tags"
 msgstr "nincs címke"
 
@@ -872,7 +872,6 @@ msgid "Feed URL"
 msgstr "Hírcsatorna URL"
 
 #: include/functions.php:3120
-#: classes/backend.php:105
 #: classes/dlg.php:43
 #: classes/dlg.php:162
 #: classes/dlg.php:185
@@ -882,10 +881,11 @@ msgstr "Hírcsatorna URL"
 #: classes/dlg.php:572
 #: classes/dlg.php:606
 #: classes/dlg.php:618
+#: classes/backend.php:105
+#: classes/pref/users.php:106
 #: classes/pref/filters.php:108
 #: classes/pref/feeds.php:1553
 #: classes/pref/feeds.php:1624
-#: classes/pref/users.php:106
 #: plugins/import_export/init.php:409
 #: plugins/import_export/init.php:432
 #: plugins/share/init.php:67
@@ -1165,9 +1165,9 @@ msgid "Profile:"
 msgstr "Profil:"
 
 #: include/login_form.php:213
-#: classes/dlg.php:98
 #: classes/handler/public.php:214
 #: classes/rpc.php:64
+#: classes/dlg.php:98
 msgid "Default profile"
 msgstr "Alapértelmezett profil"
 
@@ -1184,73 +1184,191 @@ msgstr "Belépés"
 msgid "Article not found."
 msgstr "Hír nem található."
 
-#: classes/backend.php:34
-msgid "Keyboard Shortcuts"
-msgstr "Billentyűparancsok"
+#: classes/handler/public.php:395
+#: plugins/bookmarklets/init.php:38
+msgid "Share with Tiny Tiny RSS"
+msgstr "Megosztás Tiny Tiny RSS-el"
 
-#: classes/backend.php:57
-msgid "Shift"
+#: classes/handler/public.php:403
+msgid "Title:"
+msgstr "Cím:"
+
+#: classes/handler/public.php:405
+#: classes/dlg.php:665
+#: classes/pref/feeds.php:505
+#: classes/pref/feeds.php:734
+#: plugins/instances/init.php:215
+msgid "URL:"
+msgstr "Hírcsatorna URL:"
+
+#: classes/handler/public.php:407
+msgid "Content:"
+msgstr "Tartalom:"
+
+#: classes/handler/public.php:409
+msgid "Labels:"
+msgstr "Címkék:"
+
+#: classes/handler/public.php:428
+msgid "Shared article will appear in the Published feed."
+msgstr "A megosztott hír a Publikált hírek között fog megjelenni."
+
+#: classes/handler/public.php:430
+msgid "Share"
+msgstr "Megosztás"
+
+#: classes/handler/public.php:431
+#: classes/handler/public.php:473
+#: classes/dlg.php:296
+#: classes/dlg.php:348
+#: classes/dlg.php:408
+#: classes/dlg.php:439
+#: classes/dlg.php:650
+#: classes/dlg.php:700
+#: classes/dlg.php:749
+#: classes/pref/users.php:194
+#: classes/pref/labels.php:81
+#: classes/pref/filters.php:349
+#: classes/pref/filters.php:729
+#: classes/pref/filters.php:798
+#: classes/pref/filters.php:865
+#: classes/pref/feeds.php:701
+#: classes/pref/feeds.php:849
+#: plugins/mail/init.php:131
+#: plugins/note/init.php:55
+#: plugins/instances/init.php:251
+msgid "Cancel"
+msgstr "Mégse"
+
+#: classes/handler/public.php:452
+msgid "Not logged in"
+msgstr "Nincs belépve"
+
+#: classes/handler/public.php:512
+msgid "Incorrect username or password"
+msgstr "Hibás felhasználói név vagy jelszó"
+
+#: classes/handler/public.php:548
+#: classes/handler/public.php:645
+#, php-format
+msgid "Already subscribed to <b>%s</b>."
+msgstr "Már fel van iratkozva erre a hírcsatornára: <b>%s</b>."
+
+#: classes/handler/public.php:551
+#: classes/handler/public.php:636
+#, php-format
+msgid "Subscribed to <b>%s</b>."
+msgstr "Feliratkozva erre a hírcsatornára: <b>%s</b>."
+
+#: classes/handler/public.php:554
+#: classes/handler/public.php:639
+#, php-format
+msgid "Could not subscribe to <b>%s</b>."
+msgstr "Nem lehet feliratkozni ide: <b>%s</b>."
+
+#: classes/handler/public.php:557
+#: classes/handler/public.php:642
+#, php-format
+msgid "No feeds found in <b>%s</b>."
+msgstr "Nem található hírcsatorna itt: <b>%s</b>."
+
+#: classes/handler/public.php:560
+#: classes/handler/public.php:648
+msgid "Multiple feed URLs found."
+msgstr "Több hírcsatorna URL-t találtam."
+
+#: classes/handler/public.php:564
+#: classes/handler/public.php:653
+#, php-format
+msgid "Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL."
+msgstr "Nem lehet feliratkozni ide: <b>%s</b>.<br>Nem lehet betölteni a hícsatorna URL-t."
+
+#: classes/handler/public.php:582
+#: classes/handler/public.php:671
+msgid "Subscribe to selected feed"
+msgstr "Feliratkozás a kiválasztott hírcsatornára"
+
+#: classes/handler/public.php:607
+#: classes/handler/public.php:695
+msgid "Edit subscription options"
+msgstr "Feliratkozási beállítások szerkesztése"
+
+#: classes/handler/public.php:724
+#: classes/handler/public.php:753
+#: classes/pref/users.php:378
+msgid "Reset password"
+msgstr "Jelszó visszaállítás"
+
+#: classes/handler/public.php:764
+msgid "Some of the required form parameters are missing or incorrect."
 msgstr ""
 
-#: classes/backend.php:60
-msgid "Ctrl"
+#: classes/handler/public.php:766
+#: classes/handler/public.php:782
+#: classes/handler/public.php:787
+#, fuzzy
+msgid "Go back"
+msgstr "Visszalépés"
+
+#: classes/handler/public.php:778
+msgid "Completed."
 msgstr ""
 
-#: classes/backend.php:84
-msgid "Other interface tips are available in the Tiny Tiny RSS wiki."
-msgstr "További tippek a felhasználói felülethez elérhetők a Tiny Tiny RSS wikiben."
+#: classes/handler/public.php:781
+msgid "Sorry, login and email combination not found."
+msgstr ""
 
-#: classes/backend.php:99
-msgid "Help topic not found."
-msgstr "Súgótéma nem tlálható."
+#: classes/handler/public.php:786
+msgid "Form secret key incorrect. Please enable cookies and try again."
+msgstr ""
 
 #: classes/dlg.php:22
 msgid "If you have imported labels and/or filters, you might need to reload preferences to see your new data."
 msgstr "Ha címkéket és szűrőket is importált, akkor szükség lehet a beállításokat újra kell tölteni."
 
 #: classes/dlg.php:55
+#: classes/pref/users.php:360
+#: classes/pref/labels.php:272
 #: classes/pref/filters.php:230
 #: classes/pref/filters.php:277
 #: classes/pref/filters.php:578
 #: classes/pref/filters.php:657
 #: classes/pref/filters.php:684
-#: classes/pref/labels.php:272
 #: classes/pref/feeds.php:1228
 #: classes/pref/feeds.php:1498
 #: classes/pref/feeds.php:1567
-#: classes/pref/users.php:360
 #: plugins/instances/init.php:287
 msgid "Select"
 msgstr "Kiválasztás"
 
 #: classes/dlg.php:58
 #: classes/feeds.php:92
+#: classes/pref/users.php:363
+#: classes/pref/labels.php:275
 #: classes/pref/filters.php:233
 #: classes/pref/filters.php:280
 #: classes/pref/filters.php:581
 #: classes/pref/filters.php:660
 #: classes/pref/filters.php:687
-#: classes/pref/labels.php:275
 #: classes/pref/feeds.php:1231
 #: classes/pref/feeds.php:1501
 #: classes/pref/feeds.php:1570
-#: classes/pref/users.php:363
 #: plugins/instances/init.php:290
 msgid "All"
 msgstr "Mind"
 
 #: classes/dlg.php:60
 #: classes/feeds.php:95
+#: classes/pref/users.php:365
+#: classes/pref/labels.php:277
 #: classes/pref/filters.php:235
 #: classes/pref/filters.php:282
 #: classes/pref/filters.php:583
 #: classes/pref/filters.php:662
 #: classes/pref/filters.php:689
-#: classes/pref/labels.php:277
 #: classes/pref/feeds.php:1233
 #: classes/pref/feeds.php:1503
 #: classes/pref/feeds.php:1572
-#: classes/pref/users.php:365
 #: plugins/instances/init.php:292
 msgid "None"
 msgstr "Kijelölés törlése"
@@ -1319,17 +1437,17 @@ msgid "Available feeds"
 msgstr "Elérhető hírcsatornák"
 
 #: classes/dlg.php:268
+#: classes/pref/users.php:155
 #: classes/pref/feeds.php:557
 #: classes/pref/feeds.php:783
-#: classes/pref/users.php:155
 msgid "Authentication"
 msgstr "Azonosítás"
 
 #: classes/dlg.php:272
 #: classes/dlg.php:727
+#: classes/pref/users.php:420
 #: classes/pref/feeds.php:563
 #: classes/pref/feeds.php:787
-#: classes/pref/users.php:420
 msgid "Login"
 msgstr "Belépés"
 
@@ -1355,34 +1473,11 @@ msgstr "Feliratkozás"
 msgid "More feeds"
 msgstr "További hírcsatornák"
 
-#: classes/dlg.php:296
-#: classes/dlg.php:348
-#: classes/dlg.php:408
-#: classes/dlg.php:439
-#: classes/dlg.php:650
-#: classes/dlg.php:700
-#: classes/dlg.php:749
-#: classes/handler/public.php:431
-#: classes/handler/public.php:473
-#: classes/pref/filters.php:349
-#: classes/pref/filters.php:729
-#: classes/pref/filters.php:798
-#: classes/pref/filters.php:865
-#: classes/pref/labels.php:81
-#: classes/pref/feeds.php:701
-#: classes/pref/feeds.php:849
-#: classes/pref/users.php:194
-#: plugins/instances/init.php:251
-#: plugins/mail/init.php:131
-#: plugins/note/init.php:55
-msgid "Cancel"
-msgstr "Mégse"
-
 #: classes/dlg.php:316
 #: classes/dlg.php:407
+#: classes/pref/users.php:350
 #: classes/pref/filters.php:574
 #: classes/pref/feeds.php:1224
-#: classes/pref/users.php:350
 #: js/tt-rss.js:166
 msgid "Search"
 msgstr "Keresés"
@@ -1400,11 +1495,11 @@ msgid "limit:"
 msgstr "határ:"
 
 #: classes/dlg.php:347
+#: classes/pref/users.php:376
+#: classes/pref/labels.php:284
 #: classes/pref/filters.php:339
 #: classes/pref/filters.php:596
-#: classes/pref/labels.php:284
 #: classes/pref/feeds.php:674
-#: classes/pref/users.php:376
 #: plugins/instances/init.php:297
 msgid "Remove"
 msgstr "Eltávolít"
@@ -1427,15 +1522,15 @@ msgstr "A hír címkéi (vesszőkkel elválasztva):"
 
 #: classes/dlg.php:437
 #: classes/dlg.php:648
-#: classes/pref/filters.php:346
+#: classes/pref/users.php:192
 #: classes/pref/labels.php:79
+#: classes/pref/filters.php:346
 #: classes/pref/feeds.php:700
 #: classes/pref/feeds.php:846
-#: classes/pref/users.php:192
-#: plugins/instances/init.php:248
-#: plugins/note/init.php:53
 #: plugins/nsfw/init.php:86
+#: plugins/note/init.php:53
 #: plugins/owncloud/init.php:62
+#: plugins/instances/init.php:248
 msgid "Save"
 msgstr "Mentés"
 
@@ -1508,14 +1603,6 @@ msgstr "Egyéni CSS deklarációkkal itt felülbírálhatja a kiválasztott tém
 #: plugins/instances/init.php:207
 msgid "Instance"
 msgstr "Pédány"
-
-#: classes/dlg.php:665
-#: classes/handler/public.php:405
-#: classes/pref/feeds.php:505
-#: classes/pref/feeds.php:734
-#: plugins/instances/init.php:215
-msgid "URL:"
-msgstr "Hírcsatorna URL:"
 
 #: classes/dlg.php:668
 #: plugins/instances/init.php:218
@@ -1611,8 +1698,8 @@ msgstr "Törlés"
 
 #: classes/feeds.php:125
 #: classes/feeds.php:130
-#: plugins/mail/init.php:28
 #: plugins/mailto/init.php:28
+#: plugins/mail/init.php:28
 msgid "Forward by email"
 msgstr "Továbbítás emaiben"
 
@@ -1671,112 +1758,25 @@ msgstr "Néhány hírcsatorna frissítésével gond akadt. (Kattints ide a rész
 msgid "No feed selected."
 msgstr "Nincs kiválasztott hírcsatorna."
 
-#: classes/handler/public.php:395
-#: plugins/bookmarklets/init.php:38
-msgid "Share with Tiny Tiny RSS"
-msgstr "Megosztás Tiny Tiny RSS-el"
+#: classes/backend.php:34
+msgid "Keyboard Shortcuts"
+msgstr "Billentyűparancsok"
 
-#: classes/handler/public.php:403
-msgid "Title:"
-msgstr "Cím:"
-
-#: classes/handler/public.php:407
-msgid "Content:"
-msgstr "Tartalom:"
-
-#: classes/handler/public.php:409
-msgid "Labels:"
-msgstr "Címkék:"
-
-#: classes/handler/public.php:428
-msgid "Shared article will appear in the Published feed."
-msgstr "A megosztott hír a Publikált hírek között fog megjelenni."
-
-#: classes/handler/public.php:430
-msgid "Share"
-msgstr "Megosztás"
-
-#: classes/handler/public.php:452
-msgid "Not logged in"
-msgstr "Nincs belépve"
-
-#: classes/handler/public.php:512
-msgid "Incorrect username or password"
-msgstr "Hibás felhasználói név vagy jelszó"
-
-#: classes/handler/public.php:548
-#: classes/handler/public.php:645
-#, php-format
-msgid "Already subscribed to <b>%s</b>."
-msgstr "Már fel van iratkozva erre a hírcsatornára: <b>%s</b>."
-
-#: classes/handler/public.php:551
-#: classes/handler/public.php:636
-#, php-format
-msgid "Subscribed to <b>%s</b>."
-msgstr "Feliratkozva erre a hírcsatornára: <b>%s</b>."
-
-#: classes/handler/public.php:554
-#: classes/handler/public.php:639
-#, php-format
-msgid "Could not subscribe to <b>%s</b>."
-msgstr "Nem lehet feliratkozni ide: <b>%s</b>."
-
-#: classes/handler/public.php:557
-#: classes/handler/public.php:642
-#, php-format
-msgid "No feeds found in <b>%s</b>."
-msgstr "Nem található hírcsatorna itt: <b>%s</b>."
-
-#: classes/handler/public.php:560
-#: classes/handler/public.php:648
-msgid "Multiple feed URLs found."
-msgstr "Több hírcsatorna URL-t találtam."
-
-#: classes/handler/public.php:564
-#: classes/handler/public.php:653
-#, php-format
-msgid "Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL."
-msgstr "Nem lehet feliratkozni ide: <b>%s</b>.<br>Nem lehet betölteni a hícsatorna URL-t."
-
-#: classes/handler/public.php:582
-#: classes/handler/public.php:671
-msgid "Subscribe to selected feed"
-msgstr "Feliratkozás a kiválasztott hírcsatornára"
-
-#: classes/handler/public.php:607
-#: classes/handler/public.php:695
-msgid "Edit subscription options"
-msgstr "Feliratkozási beállítások szerkesztése"
-
-#: classes/handler/public.php:724
-#: classes/handler/public.php:753
-#: classes/pref/users.php:378
-msgid "Reset password"
-msgstr "Jelszó visszaállítás"
-
-#: classes/handler/public.php:764
-msgid "Some of the required form parameters are missing or incorrect."
+#: classes/backend.php:57
+msgid "Shift"
 msgstr ""
 
-#: classes/handler/public.php:766
-#: classes/handler/public.php:782
-#: classes/handler/public.php:787
-#, fuzzy
-msgid "Go back"
-msgstr "Visszalépés"
-
-#: classes/handler/public.php:778
-msgid "Completed."
+#: classes/backend.php:60
+msgid "Ctrl"
 msgstr ""
 
-#: classes/handler/public.php:781
-msgid "Sorry, login and email combination not found."
-msgstr ""
+#: classes/backend.php:84
+msgid "Other interface tips are available in the Tiny Tiny RSS wiki."
+msgstr "További tippek a felhasználói felülethez elérhetők a Tiny Tiny RSS wikiben."
 
-#: classes/handler/public.php:786
-msgid "Form secret key incorrect. Please enable cookies and try again."
-msgstr ""
+#: classes/backend.php:99
+msgid "Help topic not found."
+msgstr "Súgótéma nem tlálható."
 
 #: classes/opml.php:28
 #: classes/opml.php:33
@@ -1833,6 +1833,147 @@ msgstr "Hiba: kérem töltse fel az OPML fájlt!"
 msgid "Error while parsing document."
 msgstr "Hiba történt a dokuementum feldoglozása közben"
 
+#: classes/pref/users.php:6
+#: plugins/instances/init.php:157
+msgid "Your access level is insufficient to open this tab."
+msgstr "Hozzáférési szintje elégtelen ehhez a művelethez."
+
+#: classes/pref/users.php:27
+msgid "User details"
+msgstr "Felhasználói adatok"
+
+#: classes/pref/users.php:41
+msgid "User not found"
+msgstr "Felhasználó nem találhat"
+
+#: classes/pref/users.php:60
+#: classes/pref/users.php:422
+msgid "Registered"
+msgstr "Regisztrált"
+
+#: classes/pref/users.php:61
+msgid "Last logged in"
+msgstr "Utolsó belépés"
+
+#: classes/pref/users.php:68
+msgid "Subscribed feeds count"
+msgstr "Olvasott hírcsatornák száma"
+
+#: classes/pref/users.php:72
+msgid "Subscribed feeds"
+msgstr "Feliratkozott a következő hírcsatornákra:"
+
+#: classes/pref/users.php:122
+msgid "User Editor"
+msgstr "Felhasználó-szerkesztő"
+
+#: classes/pref/users.php:158
+msgid "Access level: "
+msgstr "Hozzáférési szint:"
+
+#: classes/pref/users.php:171
+msgid "Change password to"
+msgstr "Jelszó megváltoztatása"
+
+#: classes/pref/users.php:177
+#: classes/pref/feeds.php:577
+#: classes/pref/feeds.php:799
+msgid "Options"
+msgstr "Beállítások"
+
+#: classes/pref/users.php:180
+msgid "E-mail: "
+msgstr "E-mail:"
+
+#: classes/pref/users.php:258
+#, php-format
+msgid "Added user <b>%s</b> with password <b>%s</b>"
+msgstr "A következő felhasználó hozzáadva <b>%s</b> ezzel a jelszóval <b>%s</b>"
+
+#: classes/pref/users.php:265
+#, php-format
+msgid "Could not create user <b>%s</b>"
+msgstr "A következő felhasználó létrehozása sikertelen <b>%s</b>"
+
+#: classes/pref/users.php:269
+#, php-format
+msgid "User <b>%s</b> already exists."
+msgstr "A következő felhasználó már létezik <b>%s</b>."
+
+#: classes/pref/users.php:291
+#, fuzzy, php-format
+msgid "Changed password of user <b>%s</b> to <b>%s</b>"
+msgstr ""
+"<b>%s</b> felhasználó jelszava megváltoztatva \n"
+"\t\t\t\t\t erre: <b>%s</b>"
+
+#: classes/pref/users.php:293
+#, fuzzy, php-format
+msgid "Sending new password of user <b>%s</b> to <b>%s</b>"
+msgstr ""
+"<b>%s</b> felhasználó jelszava megváltoztatva \n"
+"\t\t\t\t\t erre: <b>%s</b>"
+
+#: classes/pref/users.php:317
+msgid "[tt-rss] Password change notification"
+msgstr "[tt-rss] Értesítés jelszó megváltoztatásáról."
+
+#: classes/pref/users.php:368
+msgid "Create user"
+msgstr "Felhasználó létrehozás"
+
+#: classes/pref/users.php:374
+#: classes/pref/filters.php:593
+#: plugins/instances/init.php:296
+msgid "Edit"
+msgstr "Szerkesztés"
+
+#: classes/pref/users.php:421
+msgid "Access Level"
+msgstr "Hozzáférési szint"
+
+#: classes/pref/users.php:423
+msgid "Last login"
+msgstr "Utolsó belépés"
+
+#: classes/pref/users.php:444
+#: plugins/instances/init.php:337
+msgid "Click to edit"
+msgstr "Kattintson ide a szerkesztéshez"
+
+#: classes/pref/users.php:464
+msgid "No users defined."
+msgstr "Nincs megadva felhasználó."
+
+#: classes/pref/users.php:466
+msgid "No matching users found."
+msgstr "Nem található a feltételeknek megfelelő felhasználó."
+
+#: classes/pref/labels.php:22
+msgid "Caption"
+msgstr "Cím"
+
+#: classes/pref/labels.php:37
+msgid "Colors"
+msgstr "Színek"
+
+#: classes/pref/labels.php:42
+msgid "Foreground:"
+msgstr "Előtér:"
+
+#: classes/pref/labels.php:42
+msgid "Background:"
+msgstr "Háttér:"
+
+#: classes/pref/labels.php:232
+#, php-format
+msgid "Created label <b>%s</b>"
+msgstr "Címke létrehozva: <b>%s</b>"
+
+#: classes/pref/labels.php:287
+msgid "Clear colors"
+msgstr "Színek visszaállítása"
+
 #: classes/pref/filters.php:57
 msgid "Articles matching this filter:"
 msgstr "A szűrőnek megfelelő hírek:"
@@ -1887,12 +2028,6 @@ msgstr ""
 msgid "Combine"
 msgstr "Egyesít"
 
-#: classes/pref/filters.php:593
-#: classes/pref/users.php:374
-#: plugins/instances/init.php:296
-msgid "Edit"
-msgstr "Szerkesztés"
-
 #: classes/pref/filters.php:600
 #: classes/pref/feeds.php:1283
 msgid "Rescore articles"
@@ -1937,31 +2072,6 @@ msgstr "Művelet mentés"
 #: js/functions.js:1104
 msgid "Add action"
 msgstr "Művelet hozzáadás"
-
-#: classes/pref/labels.php:22
-msgid "Caption"
-msgstr "Cím"
-
-#: classes/pref/labels.php:37
-msgid "Colors"
-msgstr "Színek"
-
-#: classes/pref/labels.php:42
-msgid "Foreground:"
-msgstr "Előtér:"
-
-#: classes/pref/labels.php:42
-msgid "Background:"
-msgstr "Háttér:"
-
-#: classes/pref/labels.php:232
-#, php-format
-msgid "Created label <b>%s</b>"
-msgstr "Címke létrehozva: <b>%s</b>"
-
-#: classes/pref/labels.php:287
-msgid "Clear colors"
-msgstr "Színek visszaállítása"
 
 #: classes/pref/prefs.php:17
 msgid "Old password cannot be blank."
@@ -2175,12 +2285,6 @@ msgstr "Régi hírek törlése:"
 msgid "<b>Hint:</b> you need to fill in your login information if your feed requires authentication, except for Twitter feeds."
 msgstr "<b>Megjegyzés:</b> ha a hírcsatorna megköveteli a hitelesítést (kivéve a Twitter csatornákat), ki kell tölteni a bejelentkezési információkat."
 
-#: classes/pref/feeds.php:577
-#: classes/pref/feeds.php:799
-#: classes/pref/users.php:177
-msgid "Options"
-msgstr "Beállítások"
-
 #: classes/pref/feeds.php:589
 #: classes/pref/feeds.php:803
 msgid "Hide from Popular feeds"
@@ -2389,146 +2493,9 @@ msgstr "Leiratkozás a kiválasztott hírcsatornákról"
 msgid "These feeds have not been updated because of errors:"
 msgstr "Váratlan hibák miatt ezek a hírcsatornák nem frissültek:"
 
-#: classes/pref/users.php:6
-#: plugins/instances/init.php:157
-msgid "Your access level is insufficient to open this tab."
-msgstr "Hozzáférési szintje elégtelen ehhez a művelethez."
-
-#: classes/pref/users.php:27
-msgid "User details"
-msgstr "Felhasználói adatok"
-
-#: classes/pref/users.php:41
-msgid "User not found"
-msgstr "Felhasználó nem találhat"
-
-#: classes/pref/users.php:60
-#: classes/pref/users.php:422
-msgid "Registered"
-msgstr "Regisztrált"
-
-#: classes/pref/users.php:61
-msgid "Last logged in"
-msgstr "Utolsó belépés"
-
-#: classes/pref/users.php:68
-msgid "Subscribed feeds count"
-msgstr "Olvasott hírcsatornák száma"
-
-#: classes/pref/users.php:72
-msgid "Subscribed feeds"
-msgstr "Feliratkozott a következő hírcsatornákra:"
-
-#: classes/pref/users.php:122
-msgid "User Editor"
-msgstr "Felhasználó-szerkesztő"
-
-#: classes/pref/users.php:158
-msgid "Access level: "
-msgstr "Hozzáférési szint:"
-
-#: classes/pref/users.php:171
-msgid "Change password to"
-msgstr "Jelszó megváltoztatása"
-
-#: classes/pref/users.php:180
-msgid "E-mail: "
-msgstr "E-mail:"
-
-#: classes/pref/users.php:258
-#, php-format
-msgid "Added user <b>%s</b> with password <b>%s</b>"
-msgstr "A következő felhasználó hozzáadva <b>%s</b> ezzel a jelszóval <b>%s</b>"
-
-#: classes/pref/users.php:265
-#, php-format
-msgid "Could not create user <b>%s</b>"
-msgstr "A következő felhasználó létrehozása sikertelen <b>%s</b>"
-
-#: classes/pref/users.php:269
-#, php-format
-msgid "User <b>%s</b> already exists."
-msgstr "A következő felhasználó már létezik <b>%s</b>."
-
-#: classes/pref/users.php:291
-#, fuzzy, php-format
-msgid "Changed password of user <b>%s</b> to <b>%s</b>"
-msgstr ""
-"<b>%s</b> felhasználó jelszava megváltoztatva \n"
-"\t\t\t\t\t erre: <b>%s</b>"
-
-#: classes/pref/users.php:293
-#, fuzzy, php-format
-msgid "Sending new password of user <b>%s</b> to <b>%s</b>"
-msgstr ""
-"<b>%s</b> felhasználó jelszava megváltoztatva \n"
-"\t\t\t\t\t erre: <b>%s</b>"
-
-#: classes/pref/users.php:317
-msgid "[tt-rss] Password change notification"
-msgstr "[tt-rss] Értesítés jelszó megváltoztatásáról."
-
-#: classes/pref/users.php:368
-msgid "Create user"
-msgstr "Felhasználó létrehozás"
-
-#: classes/pref/users.php:421
-msgid "Access Level"
-msgstr "Hozzáférési szint"
-
-#: classes/pref/users.php:423
-msgid "Last login"
-msgstr "Utolsó belépés"
-
-#: classes/pref/users.php:444
-#: plugins/instances/init.php:337
-msgid "Click to edit"
-msgstr "Kattintson ide a szerkesztéshez"
-
-#: classes/pref/users.php:464
-msgid "No users defined."
-msgstr "Nincs megadva felhasználó."
-
-#: classes/pref/users.php:466
-msgid "No matching users found."
-msgstr "Nem található a feltételeknek megfelelő felhasználó."
-
-#: plugins/auth_internal/init.php:62
-msgid "Please enter your one time password:"
-msgstr "Adja meg az egyszer használatos jelszót:"
-
-#: plugins/auth_internal/init.php:185
-msgid "Password has been changed."
-msgstr "A jelszó megváltoztatva."
-
-#: plugins/auth_internal/init.php:187
-msgid "Old password is incorrect."
-msgstr "A régi jelszó helytelen."
-
-#: plugins/bookmarklets/init.php:22
-msgid "Bookmarklets"
-msgstr ""
-
-#: plugins/bookmarklets/init.php:24
-msgid "Drag the link below to your browser toolbar, open the feed you're interested in in your browser and click on the link to subscribe to it."
-msgstr "Húzza a linket a böngésző eszköztára alá, nyissa meg a böngészőjében a hírcsatornát és kattintson a linkre a feliratkozáshoz."
-
-#: plugins/bookmarklets/init.php:28
-#, php-format
-msgid "Subscribe to %s in Tiny Tiny RSS?"
-msgstr "Feliratkozás %s hírcsatornára a Tiny Tiny RSS-ben?"
-
-#: plugins/bookmarklets/init.php:32
-msgid "Subscribe in Tiny Tiny RSS"
-msgstr "Feliratkozás a Tiny Tiny RSS-ben?"
-
-#: plugins/bookmarklets/init.php:34
-msgid "Use this bookmarklet to publish arbitrary pages using Tiny Tiny RSS"
-msgstr ""
-
-#: plugins/close_button/init.php:24
-msgid "Close article"
-msgstr "Hír bezárása"
+#: plugins/pocket/init.php:30
+msgid "Pocket"
+msgstr "Pocket"
 
 #: plugins/digest/digest_body.php:43
 #, fuzzy
@@ -2550,30 +2517,94 @@ msgstr "Üdv,"
 msgid "Regular version"
 msgstr "Alap változat"
 
-#: plugins/example/init.php:38
-msgid "Example Pane"
-msgstr "Példa ablak"
+#: plugins/close_button/init.php:24
+msgid "Close article"
+msgstr "Hír bezárása"
 
-#: plugins/example/init.php:69
-msgid "Sample value"
-msgstr "Példa érték"
+#: plugins/nsfw/init.php:32
+#: plugins/nsfw/init.php:43
+msgid "Not work safe (click to toggle)"
+msgstr ""
 
-#: plugins/example/init.php:75
-msgid "Set value"
-msgstr "Érték megadás"
+#: plugins/nsfw/init.php:53
+msgid "NSFW Plugin"
+msgstr ""
 
-#: plugins/flattr/init.php:30
+#: plugins/nsfw/init.php:80
+msgid "Tags to consider NSFW (comma-separated)"
+msgstr ""
+
+#: plugins/nsfw/init.php:101
 #, fuzzy
-msgid "Flattr this article."
-msgstr "Hír csillagozása"
+msgid "Configuration saved."
+msgstr "Beállítások elmentve."
 
-#: plugins/googleplus/init.php:29
-msgid "Share on Google+"
-msgstr "Megosztás Google+ -on"
+#: plugins/pinterest/init.php:29
+msgid "Pinterest"
+msgstr "Pinterest"
 
-#: plugins/identica/init.php:29
-msgid "Share on identi.ca"
-msgstr "Megosztás az identi.ca-n"
+#: plugins/auth_internal/init.php:62
+msgid "Please enter your one time password:"
+msgstr "Adja meg az egyszer használatos jelszót:"
+
+#: plugins/auth_internal/init.php:185
+msgid "Password has been changed."
+msgstr "A jelszó megváltoztatva."
+
+#: plugins/auth_internal/init.php:187
+msgid "Old password is incorrect."
+msgstr "A régi jelszó helytelen."
+
+#: plugins/mailto/init.php:52
+#: plugins/mailto/init.php:58
+#: plugins/mail/init.php:71
+#: plugins/mail/init.php:77
+msgid "[Forwarded]"
+msgstr "[Továbbítva]"
+
+#: plugins/mailto/init.php:52
+#: plugins/mail/init.php:71
+msgid "Multiple articles"
+msgstr "Többszörös hírek"
+
+#: plugins/mailto/init.php:74
+msgid "Clicking the following link to invoke your mail client:"
+msgstr ""
+
+#: plugins/mailto/init.php:78
+#, fuzzy
+msgid "Forward selected article(s) by email."
+msgstr "Továbbítás emaiben"
+
+#: plugins/mailto/init.php:81
+msgid "You should be able to edit the message before sending in your mail client."
+msgstr ""
+
+#: plugins/mailto/init.php:86
+#, fuzzy
+msgid "Close this dialog"
+msgstr "Ablak bezárása"
+
+#: plugins/bookmarklets/init.php:22
+msgid "Bookmarklets"
+msgstr ""
+
+#: plugins/bookmarklets/init.php:24
+msgid "Drag the link below to your browser toolbar, open the feed you're interested in in your browser and click on the link to subscribe to it."
+msgstr "Húzza a linket a böngésző eszköztára alá, nyissa meg a böngészőjében a hírcsatornát és kattintson a linkre a feliratkozáshoz."
+
+#: plugins/bookmarklets/init.php:28
+#, php-format
+msgid "Subscribe to %s in Tiny Tiny RSS?"
+msgstr "Feliratkozás %s hírcsatornára a Tiny Tiny RSS-ben?"
+
+#: plugins/bookmarklets/init.php:32
+msgid "Subscribe in Tiny Tiny RSS"
+msgstr "Feliratkozás a Tiny Tiny RSS-ben?"
+
+#: plugins/bookmarklets/init.php:34
+msgid "Use this bookmarklet to publish arbitrary pages using Tiny Tiny RSS"
+msgstr ""
 
 #: plugins/import_export/init.php:64
 msgid "Import and export"
@@ -2643,6 +2674,55 @@ msgstr ""
 "Nem lehet feltölteni a fájlt. A php.ini fájlban be kell állítani az upload_max_filesize értékét\n"
 "\t\t\t\t jelenlegi érték = %s"
 
+#: plugins/mail/init.php:92
+msgid "From:"
+msgstr "Feladó:"
+
+#: plugins/mail/init.php:101
+msgid "To:"
+msgstr "Címzett:"
+
+#: plugins/mail/init.php:114
+msgid "Subject:"
+msgstr "Tárgy:"
+
+#: plugins/mail/init.php:130
+msgid "Send e-mail"
+msgstr "Email küldés"
+
+#: plugins/note/init.php:28
+#: plugins/note/note.js:11
+msgid "Edit article note"
+msgstr "Megjegyzés"
+
+#: plugins/example/init.php:38
+msgid "Example Pane"
+msgstr "Példa ablak"
+
+#: plugins/example/init.php:69
+msgid "Sample value"
+msgstr "Példa érték"
+
+#: plugins/example/init.php:75
+msgid "Set value"
+msgstr "Érték megadás"
+
+#: plugins/identica/init.php:29
+msgid "Share on identi.ca"
+msgstr "Megosztás az identi.ca-n"
+
+#: plugins/owncloud/init.php:35
+msgid "Owncloud"
+msgstr ""
+
+#: plugins/owncloud/init.php:59
+msgid "Owncloud url"
+msgstr ""
+
+#: plugins/owncloud/init.php:74
+msgid "Bookmark on OwnCloud "
+msgstr ""
+
 #: plugins/instances/init.php:144
 msgid "Linked"
 msgstr "Linkelt"
@@ -2667,95 +2747,6 @@ msgstr "Állapot"
 msgid "Stored feeds"
 msgstr "Tárolt hírcsatornák"
 
-#: plugins/mail/init.php:71
-#: plugins/mail/init.php:77
-#: plugins/mailto/init.php:52
-#: plugins/mailto/init.php:58
-msgid "[Forwarded]"
-msgstr "[Továbbítva]"
-
-#: plugins/mail/init.php:71
-#: plugins/mailto/init.php:52
-msgid "Multiple articles"
-msgstr "Többszörös hírek"
-
-#: plugins/mail/init.php:92
-msgid "From:"
-msgstr "Feladó:"
-
-#: plugins/mail/init.php:101
-msgid "To:"
-msgstr "Címzett:"
-
-#: plugins/mail/init.php:114
-msgid "Subject:"
-msgstr "Tárgy:"
-
-#: plugins/mail/init.php:130
-msgid "Send e-mail"
-msgstr "Email küldés"
-
-#: plugins/mailto/init.php:74
-msgid "Clicking the following link to invoke your mail client:"
-msgstr ""
-
-#: plugins/mailto/init.php:78
-#, fuzzy
-msgid "Forward selected article(s) by email."
-msgstr "Továbbítás emaiben"
-
-#: plugins/mailto/init.php:81
-msgid "You should be able to edit the message before sending in your mail client."
-msgstr ""
-
-#: plugins/mailto/init.php:86
-#, fuzzy
-msgid "Close this dialog"
-msgstr "Ablak bezárása"
-
-#: plugins/note/init.php:28
-#: plugins/note/note.js:11
-msgid "Edit article note"
-msgstr "Megjegyzés"
-
-#: plugins/nsfw/init.php:32
-#: plugins/nsfw/init.php:43
-msgid "Not work safe (click to toggle)"
-msgstr ""
-
-#: plugins/nsfw/init.php:53
-msgid "NSFW Plugin"
-msgstr ""
-
-#: plugins/nsfw/init.php:80
-msgid "Tags to consider NSFW (comma-separated)"
-msgstr ""
-
-#: plugins/nsfw/init.php:101
-#, fuzzy
-msgid "Configuration saved."
-msgstr "Beállítások elmentve."
-
-#: plugins/owncloud/init.php:35
-msgid "Owncloud"
-msgstr ""
-
-#: plugins/owncloud/init.php:59
-msgid "Owncloud url"
-msgstr ""
-
-#: plugins/owncloud/init.php:74
-msgid "Bookmark on OwnCloud "
-msgstr ""
-
-#: plugins/pinterest/init.php:29
-msgid "Pinterest"
-msgstr "Pinterest"
-
-#: plugins/pocket/init.php:30
-msgid "Pocket"
-msgstr "Pocket"
-
 #: plugins/share/init.php:27
 msgid "Share by URL"
 msgstr "Megosztás URL-el"
@@ -2764,10 +2755,14 @@ msgstr "Megosztás URL-el"
 msgid "You can share this article by the following unique URL:"
 msgstr "Ezt a hírt megoszthatja a következő egyedi URL segítségével:"
 
-#: plugins/tweet/init.php:29
+#: plugins/flattr/init.php:30
 #, fuzzy
-msgid "Share on Twitter"
-msgstr "Megosztás az identi.ca-n"
+msgid "Flattr this article."
+msgstr "Hír csillagozása"
+
+#: plugins/googleplus/init.php:29
+msgid "Share on Google+"
+msgstr "Megosztás Google+ -on"
 
 #: plugins/updater/init.php:295
 #: plugins/updater/init.php:307
@@ -2790,6 +2785,11 @@ msgstr "Frissítésre kész."
 #: plugins/updater/init.php:328
 msgid "Start update"
 msgstr "Frissítés indtása"
+
+#: plugins/tweet/init.php:29
+#, fuzzy
+msgid "Share on Twitter"
+msgstr "Megosztás az identi.ca-n"
 
 #: js/feedlist.js:213
 msgid "New articles available in this feed (click to show)"
@@ -3192,8 +3192,8 @@ msgstr "Publikálás visszavonása"
 #: js/viewfeed.js:1017
 #: js/viewfeed.js:1067
 #: js/viewfeed.js:2013
-#: plugins/mail/mail.js:7
 #: plugins/mailto/init.js:7
+#: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "Nincsen kiválasztott hír."
 
@@ -3326,6 +3326,12 @@ msgstr "Betöltés..."
 msgid "Sorry, your browser does not support sandboxed iframes."
 msgstr ""
 
+#: plugins/mailto/init.js:21
+#: plugins/mail/mail.js:21
+#, fuzzy
+msgid "Forward article by email"
+msgstr "Továbbítás emaiben"
+
 #: plugins/import_export/import_export.js:13
 msgid "Export Data"
 msgstr "Adatok exportálása"
@@ -3370,12 +3376,6 @@ msgstr "Nincs kiválasztott szűrő."
 #, fuzzy
 msgid "Please select only one instance."
 msgstr "Kérem csak egy szűrőt jelöljön meg!"
-
-#: plugins/mail/mail.js:21
-#: plugins/mailto/init.js:21
-#, fuzzy
-msgid "Forward article by email"
-msgstr "Továbbítás emaiben"
 
 #: plugins/share/share.js:10
 #, fuzzy

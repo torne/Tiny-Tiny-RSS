@@ -5,7 +5,7 @@ TEMPLATE=messages.pot
 
 xgettext -kT_js_decl -kT_sprintf -kT_ngettext:1,2 -k__ -L PHP -o $TEMPLATE *.php include/*.php `find classes -iname '*.php'` `find plugins -iname '*.php'`
 
-xgettext --from-code utf-8 -k__ -L Java -j -o $TEMPLATE js/*.js `find plugins -iname '*.js'`
+xgettext --from-code utf-8 -k__ -kngettext -L Java -j -o $TEMPLATE js/*.js `find plugins -iname '*.js'`
 
 update_lang() {
 	if [ -f $1.po ]; then

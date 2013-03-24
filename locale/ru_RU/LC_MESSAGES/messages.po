@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-24 13:57+0100\n"
+"POT-Creation-Date: 2013-03-24 20:08+0400\n"
 "PO-Revision-Date: 2009-05-29 14:38+0300\n"
 "Last-Translator: Max Kamashev <max.kamashev@floscoeli.com>\n"
 "Language-Team: Русский <ru@li.org>\n"
@@ -257,8 +257,8 @@ msgstr "неудавшийся тест экранирования SQL, пров
 #: index.php:254
 #: prefs.php:83
 #: classes/backend.php:5
-#: classes/pref/filters.php:609
 #: classes/pref/labels.php:296
+#: classes/pref/filters.php:609
 #: classes/pref/feeds.php:1296
 #: plugins/digest/digest_body.php:47
 #: js/viewfeed.js:1205
@@ -857,7 +857,7 @@ msgstr " - "
 
 #: include/functions.php:3037
 #: include/functions.php:3329
-#: classes/rpc.php:360
+#: classes/rpc.php:359
 msgid "no tags"
 msgstr "нет тегов"
 
@@ -879,7 +879,6 @@ msgid "Feed URL"
 msgstr "Канал"
 
 #: include/functions.php:3120
-#: classes/backend.php:105
 #: classes/dlg.php:43
 #: classes/dlg.php:162
 #: classes/dlg.php:185
@@ -889,10 +888,11 @@ msgstr "Канал"
 #: classes/dlg.php:572
 #: classes/dlg.php:606
 #: classes/dlg.php:618
+#: classes/backend.php:105
+#: classes/pref/users.php:106
 #: classes/pref/filters.php:108
 #: classes/pref/feeds.php:1553
 #: classes/pref/feeds.php:1624
-#: classes/pref/users.php:106
 #: plugins/import_export/init.php:409
 #: plugins/import_export/init.php:432
 #: plugins/share/init.php:67
@@ -1178,9 +1178,9 @@ msgid "Profile:"
 msgstr "Профиль:"
 
 #: include/login_form.php:213
-#: classes/dlg.php:98
 #: classes/handler/public.php:214
 #: classes/rpc.php:64
+#: classes/dlg.php:98
 msgid "Default profile"
 msgstr "Профиль по умолчанию"
 
@@ -1197,73 +1197,197 @@ msgstr "Войти"
 msgid "Article not found."
 msgstr "Статья не найдена"
 
-#: classes/backend.php:34
-msgid "Keyboard Shortcuts"
-msgstr "Горячие Клавиши"
+#: classes/handler/public.php:395
+#: plugins/bookmarklets/init.php:38
+#, fuzzy
+msgid "Share with Tiny Tiny RSS"
+msgstr "Вернуться к Tiny Tiny RSS"
 
-#: classes/backend.php:57
-msgid "Shift"
+#: classes/handler/public.php:403
+msgid "Title:"
+msgstr "Заголовок:"
+
+#: classes/handler/public.php:405
+#: classes/dlg.php:665
+#: classes/pref/feeds.php:505
+#: classes/pref/feeds.php:734
+#: plugins/instances/init.php:215
+msgid "URL:"
+msgstr "URL:"
+
+#: classes/handler/public.php:407
+#, fuzzy
+msgid "Content:"
+msgstr "Содержимое"
+
+#: classes/handler/public.php:409
+#, fuzzy
+msgid "Labels:"
+msgstr "Метки"
+
+#: classes/handler/public.php:428
+msgid "Shared article will appear in the Published feed."
 msgstr ""
 
-#: classes/backend.php:60
-msgid "Ctrl"
+#: classes/handler/public.php:430
+msgid "Share"
 msgstr ""
 
-#: classes/backend.php:84
-msgid "Other interface tips are available in the Tiny Tiny RSS wiki."
+#: classes/handler/public.php:431
+#: classes/handler/public.php:473
+#: classes/dlg.php:296
+#: classes/dlg.php:348
+#: classes/dlg.php:408
+#: classes/dlg.php:439
+#: classes/dlg.php:650
+#: classes/dlg.php:700
+#: classes/dlg.php:749
+#: classes/pref/users.php:194
+#: classes/pref/labels.php:81
+#: classes/pref/filters.php:349
+#: classes/pref/filters.php:729
+#: classes/pref/filters.php:798
+#: classes/pref/filters.php:865
+#: classes/pref/feeds.php:701
+#: classes/pref/feeds.php:849
+#: plugins/mail/init.php:131
+#: plugins/note/init.php:55
+#: plugins/instances/init.php:251
+msgid "Cancel"
+msgstr "Отмена"
+
+#: classes/handler/public.php:452
+#, fuzzy
+msgid "Not logged in"
+msgstr "Последний вход"
+
+#: classes/handler/public.php:512
+msgid "Incorrect username or password"
+msgstr "Некорректное имя пользователя или пароль"
+
+#: classes/handler/public.php:548
+#: classes/handler/public.php:645
+#, php-format
+msgid "Already subscribed to <b>%s</b>."
+msgstr "Канал <b>%s</b> уже подписан."
+
+#: classes/handler/public.php:551
+#: classes/handler/public.php:636
+#, php-format
+msgid "Subscribed to <b>%s</b>."
+msgstr "Добавлена подписка на <b>%s</b>."
+
+#: classes/handler/public.php:554
+#: classes/handler/public.php:639
+#, fuzzy, php-format
+msgid "Could not subscribe to <b>%s</b>."
+msgstr "Канал <b>%s</b> уже подписан."
+
+#: classes/handler/public.php:557
+#: classes/handler/public.php:642
+#, fuzzy, php-format
+msgid "No feeds found in <b>%s</b>."
+msgstr "Каналы не найдены."
+
+#: classes/handler/public.php:560
+#: classes/handler/public.php:648
+#, fuzzy
+msgid "Multiple feed URLs found."
+msgstr "Опубликованный URL канала изменён."
+
+#: classes/handler/public.php:564
+#: classes/handler/public.php:653
+#, fuzzy, php-format
+msgid "Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL."
+msgstr "Канал <b>%s</b> уже подписан."
+
+#: classes/handler/public.php:582
+#: classes/handler/public.php:671
+#, fuzzy
+msgid "Subscribe to selected feed"
+msgstr "Отписаться от выбранных каналов?"
+
+#: classes/handler/public.php:607
+#: classes/handler/public.php:695
+msgid "Edit subscription options"
+msgstr "Редактировать опции  подписки"
+
+#: classes/handler/public.php:724
+#: classes/handler/public.php:753
+#: classes/pref/users.php:378
+msgid "Reset password"
+msgstr "Сбросить пароль"
+
+#: classes/handler/public.php:764
+msgid "Some of the required form parameters are missing or incorrect."
 msgstr ""
 
-#: classes/backend.php:99
-msgid "Help topic not found."
-msgstr "Раздел помощи не найден."
+#: classes/handler/public.php:766
+#: classes/handler/public.php:782
+#: classes/handler/public.php:787
+#, fuzzy
+msgid "Go back"
+msgstr "Переместить назад"
+
+#: classes/handler/public.php:778
+msgid "Completed."
+msgstr ""
+
+#: classes/handler/public.php:781
+msgid "Sorry, login and email combination not found."
+msgstr ""
+
+#: classes/handler/public.php:786
+msgid "Form secret key incorrect. Please enable cookies and try again."
+msgstr ""
 
 #: classes/dlg.php:22
 msgid "If you have imported labels and/or filters, you might need to reload preferences to see your new data."
 msgstr "Если вы импортировали метки или фильтры, вам возможно придется перезагрузить настройки чтобы увидеть новые данные."
 
 #: classes/dlg.php:55
+#: classes/pref/users.php:360
+#: classes/pref/labels.php:272
 #: classes/pref/filters.php:230
 #: classes/pref/filters.php:277
 #: classes/pref/filters.php:578
 #: classes/pref/filters.php:657
 #: classes/pref/filters.php:684
-#: classes/pref/labels.php:272
 #: classes/pref/feeds.php:1228
 #: classes/pref/feeds.php:1498
 #: classes/pref/feeds.php:1567
-#: classes/pref/users.php:360
 #: plugins/instances/init.php:287
 msgid "Select"
 msgstr "Выбрать"
 
 #: classes/dlg.php:58
 #: classes/feeds.php:92
+#: classes/pref/users.php:363
+#: classes/pref/labels.php:275
 #: classes/pref/filters.php:233
 #: classes/pref/filters.php:280
 #: classes/pref/filters.php:581
 #: classes/pref/filters.php:660
 #: classes/pref/filters.php:687
-#: classes/pref/labels.php:275
 #: classes/pref/feeds.php:1231
 #: classes/pref/feeds.php:1501
 #: classes/pref/feeds.php:1570
-#: classes/pref/users.php:363
 #: plugins/instances/init.php:290
 msgid "All"
 msgstr "Все"
 
 #: classes/dlg.php:60
 #: classes/feeds.php:95
+#: classes/pref/users.php:365
+#: classes/pref/labels.php:277
 #: classes/pref/filters.php:235
 #: classes/pref/filters.php:282
 #: classes/pref/filters.php:583
 #: classes/pref/filters.php:662
 #: classes/pref/filters.php:689
-#: classes/pref/labels.php:277
 #: classes/pref/feeds.php:1233
 #: classes/pref/feeds.php:1503
 #: classes/pref/feeds.php:1572
-#: classes/pref/users.php:365
 #: plugins/instances/init.php:292
 msgid "None"
 msgstr "Ничего"
@@ -1339,17 +1463,17 @@ msgid "Available feeds"
 msgstr "Доступные каналы"
 
 #: classes/dlg.php:268
+#: classes/pref/users.php:155
 #: classes/pref/feeds.php:557
 #: classes/pref/feeds.php:783
-#: classes/pref/users.php:155
 msgid "Authentication"
 msgstr "Авторизация"
 
 #: classes/dlg.php:272
 #: classes/dlg.php:727
+#: classes/pref/users.php:420
 #: classes/pref/feeds.php:563
 #: classes/pref/feeds.php:787
-#: classes/pref/users.php:420
 msgid "Login"
 msgstr "Пользователь:"
 
@@ -1375,34 +1499,11 @@ msgstr "Подписаться"
 msgid "More feeds"
 msgstr "Другие каналы"
 
-#: classes/dlg.php:296
-#: classes/dlg.php:348
-#: classes/dlg.php:408
-#: classes/dlg.php:439
-#: classes/dlg.php:650
-#: classes/dlg.php:700
-#: classes/dlg.php:749
-#: classes/handler/public.php:431
-#: classes/handler/public.php:473
-#: classes/pref/filters.php:349
-#: classes/pref/filters.php:729
-#: classes/pref/filters.php:798
-#: classes/pref/filters.php:865
-#: classes/pref/labels.php:81
-#: classes/pref/feeds.php:701
-#: classes/pref/feeds.php:849
-#: classes/pref/users.php:194
-#: plugins/instances/init.php:251
-#: plugins/mail/init.php:131
-#: plugins/note/init.php:55
-msgid "Cancel"
-msgstr "Отмена"
-
 #: classes/dlg.php:316
 #: classes/dlg.php:407
+#: classes/pref/users.php:350
 #: classes/pref/filters.php:574
 #: classes/pref/feeds.php:1224
-#: classes/pref/users.php:350
 #: js/tt-rss.js:166
 msgid "Search"
 msgstr "Поиск"
@@ -1423,11 +1524,11 @@ msgid "limit:"
 msgstr "Сколько:"
 
 #: classes/dlg.php:347
+#: classes/pref/users.php:376
+#: classes/pref/labels.php:284
 #: classes/pref/filters.php:339
 #: classes/pref/filters.php:596
-#: classes/pref/labels.php:284
 #: classes/pref/feeds.php:674
-#: classes/pref/users.php:376
 #: plugins/instances/init.php:297
 msgid "Remove"
 msgstr "Удалить"
@@ -1450,15 +1551,15 @@ msgstr "Теги для этой статьи (разделенные запят
 
 #: classes/dlg.php:437
 #: classes/dlg.php:648
-#: classes/pref/filters.php:346
+#: classes/pref/users.php:192
 #: classes/pref/labels.php:79
+#: classes/pref/filters.php:346
 #: classes/pref/feeds.php:700
 #: classes/pref/feeds.php:846
-#: classes/pref/users.php:192
-#: plugins/instances/init.php:248
-#: plugins/note/init.php:53
 #: plugins/nsfw/init.php:86
+#: plugins/note/init.php:53
 #: plugins/owncloud/init.php:62
+#: plugins/instances/init.php:248
 msgid "Save"
 msgstr "Сохранить"
 
@@ -1534,14 +1635,6 @@ msgstr ""
 #: plugins/instances/init.php:207
 msgid "Instance"
 msgstr "Инсталляция"
-
-#: classes/dlg.php:665
-#: classes/handler/public.php:405
-#: classes/pref/feeds.php:505
-#: classes/pref/feeds.php:734
-#: plugins/instances/init.php:215
-msgid "URL:"
-msgstr "URL:"
 
 #: classes/dlg.php:668
 #: plugins/instances/init.php:218
@@ -1642,8 +1735,8 @@ msgstr "Удалить"
 
 #: classes/feeds.php:125
 #: classes/feeds.php:130
-#: plugins/mail/init.php:28
 #: plugins/mailto/init.php:28
+#: plugins/mail/init.php:28
 msgid "Forward by email"
 msgstr "Отправить по почте"
 
@@ -1700,118 +1793,25 @@ msgstr "Некоторые каналы не могут быть обновле�
 msgid "No feed selected."
 msgstr "Канал не выбран."
 
-#: classes/handler/public.php:395
-#: plugins/bookmarklets/init.php:38
-#, fuzzy
-msgid "Share with Tiny Tiny RSS"
-msgstr "Вернуться к Tiny Tiny RSS"
+#: classes/backend.php:34
+msgid "Keyboard Shortcuts"
+msgstr "Горячие Клавиши"
 
-#: classes/handler/public.php:403
-msgid "Title:"
-msgstr "Заголовок:"
-
-#: classes/handler/public.php:407
-#, fuzzy
-msgid "Content:"
-msgstr "Содержимое"
-
-#: classes/handler/public.php:409
-#, fuzzy
-msgid "Labels:"
-msgstr "Метки"
-
-#: classes/handler/public.php:428
-msgid "Shared article will appear in the Published feed."
+#: classes/backend.php:57
+msgid "Shift"
 msgstr ""
 
-#: classes/handler/public.php:430
-msgid "Share"
+#: classes/backend.php:60
+msgid "Ctrl"
 msgstr ""
 
-#: classes/handler/public.php:452
-#, fuzzy
-msgid "Not logged in"
-msgstr "Последний вход"
-
-#: classes/handler/public.php:512
-msgid "Incorrect username or password"
-msgstr "Некорректное имя пользователя или пароль"
-
-#: classes/handler/public.php:548
-#: classes/handler/public.php:645
-#, php-format
-msgid "Already subscribed to <b>%s</b>."
-msgstr "Канал <b>%s</b> уже подписан."
-
-#: classes/handler/public.php:551
-#: classes/handler/public.php:636
-#, php-format
-msgid "Subscribed to <b>%s</b>."
-msgstr "Добавлена подписка на <b>%s</b>."
-
-#: classes/handler/public.php:554
-#: classes/handler/public.php:639
-#, fuzzy, php-format
-msgid "Could not subscribe to <b>%s</b>."
-msgstr "Канал <b>%s</b> уже подписан."
-
-#: classes/handler/public.php:557
-#: classes/handler/public.php:642
-#, fuzzy, php-format
-msgid "No feeds found in <b>%s</b>."
-msgstr "Каналы не найдены."
-
-#: classes/handler/public.php:560
-#: classes/handler/public.php:648
-#, fuzzy
-msgid "Multiple feed URLs found."
-msgstr "Опубликованный URL канала изменён."
-
-#: classes/handler/public.php:564
-#: classes/handler/public.php:653
-#, fuzzy, php-format
-msgid "Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL."
-msgstr "Канал <b>%s</b> уже подписан."
-
-#: classes/handler/public.php:582
-#: classes/handler/public.php:671
-#, fuzzy
-msgid "Subscribe to selected feed"
-msgstr "Отписаться от выбранных каналов?"
-
-#: classes/handler/public.php:607
-#: classes/handler/public.php:695
-msgid "Edit subscription options"
-msgstr "Редактировать опции  подписки"
-
-#: classes/handler/public.php:724
-#: classes/handler/public.php:753
-#: classes/pref/users.php:378
-msgid "Reset password"
-msgstr "Сбросить пароль"
-
-#: classes/handler/public.php:764
-msgid "Some of the required form parameters are missing or incorrect."
+#: classes/backend.php:84
+msgid "Other interface tips are available in the Tiny Tiny RSS wiki."
 msgstr ""
 
-#: classes/handler/public.php:766
-#: classes/handler/public.php:782
-#: classes/handler/public.php:787
-#, fuzzy
-msgid "Go back"
-msgstr "Переместить назад"
-
-#: classes/handler/public.php:778
-msgid "Completed."
-msgstr ""
-
-#: classes/handler/public.php:781
-msgid "Sorry, login and email combination not found."
-msgstr ""
-
-#: classes/handler/public.php:786
-msgid "Form secret key incorrect. Please enable cookies and try again."
-msgstr ""
+#: classes/backend.php:99
+msgid "Help topic not found."
+msgstr "Раздел помощи не найден."
 
 #: classes/opml.php:28
 #: classes/opml.php:33
@@ -1868,6 +1868,143 @@ msgstr "Ошибка: пожалуйста загрузите OPML файл."
 #: classes/opml.php:475
 msgid "Error while parsing document."
 msgstr "Ошибка при разборе документа."
+
+#: classes/pref/users.php:6
+#: plugins/instances/init.php:157
+msgid "Your access level is insufficient to open this tab."
+msgstr "Вашего уровня доступа недостаточно для открытия этой вкладки."
+
+#: classes/pref/users.php:27
+msgid "User details"
+msgstr "Подробнее..."
+
+#: classes/pref/users.php:41
+msgid "User not found"
+msgstr "Пользователь не найден"
+
+#: classes/pref/users.php:60
+#: classes/pref/users.php:422
+msgid "Registered"
+msgstr "Зарегистрирован"
+
+#: classes/pref/users.php:61
+msgid "Last logged in"
+msgstr "Последний вход"
+
+#: classes/pref/users.php:68
+msgid "Subscribed feeds count"
+msgstr "Количество подписанных каналов"
+
+#: classes/pref/users.php:72
+msgid "Subscribed feeds"
+msgstr "Подписан на каналы"
+
+#: classes/pref/users.php:122
+msgid "User Editor"
+msgstr "Редактор пользователей"
+
+#: classes/pref/users.php:158
+msgid "Access level: "
+msgstr "Уровень доступа:"
+
+#: classes/pref/users.php:171
+msgid "Change password to"
+msgstr "Изменить пароль на"
+
+#: classes/pref/users.php:177
+#: classes/pref/feeds.php:577
+#: classes/pref/feeds.php:799
+msgid "Options"
+msgstr "Опции:"
+
+#: classes/pref/users.php:180
+msgid "E-mail: "
+msgstr "E-mail: "
+
+#: classes/pref/users.php:258
+#, php-format
+msgid "Added user <b>%s</b> with password <b>%s</b>"
+msgstr "Добавлен пользователь <b>%s</b> с паролем <b>%s</b>"
+
+#: classes/pref/users.php:265
+#, php-format
+msgid "Could not create user <b>%s</b>"
+msgstr "Не могу добавить пользователя <b>%s</b>"
+
+#: classes/pref/users.php:269
+#, php-format
+msgid "User <b>%s</b> already exists."
+msgstr "Пользователь <b>%s</b> уже существует."
+
+#: classes/pref/users.php:291
+#, fuzzy, php-format
+msgid "Changed password of user <b>%s</b> to <b>%s</b>"
+msgstr "Пароль пользователя <b>%s</b> изменен на <b>%s</b>"
+
+#: classes/pref/users.php:293
+#, fuzzy, php-format
+msgid "Sending new password of user <b>%s</b> to <b>%s</b>"
+msgstr "Пароль пользователя <b>%s</b> изменен на <b>%s</b>"
+
+#: classes/pref/users.php:317
+msgid "[tt-rss] Password change notification"
+msgstr "[tt-rss] Уведомление о смене пароля"
+
+#: classes/pref/users.php:368
+msgid "Create user"
+msgstr "Добавить пользователя"
+
+#: classes/pref/users.php:374
+#: classes/pref/filters.php:593
+#: plugins/instances/init.php:296
+msgid "Edit"
+msgstr "Редактировать"
+
+#: classes/pref/users.php:421
+msgid "Access Level"
+msgstr "Уровень доступа:"
+
+#: classes/pref/users.php:423
+msgid "Last login"
+msgstr "Последний вход"
+
+#: classes/pref/users.php:444
+#: plugins/instances/init.php:337
+msgid "Click to edit"
+msgstr "Щёлкните для редактирования"
+
+#: classes/pref/users.php:464
+msgid "No users defined."
+msgstr "Пользователи не определены."
+
+#: classes/pref/users.php:466
+msgid "No matching users found."
+msgstr "Подходящих пользователей не найдено."
+
+#: classes/pref/labels.php:22
+msgid "Caption"
+msgstr "Заголовок"
+
+#: classes/pref/labels.php:37
+msgid "Colors"
+msgstr "Цвета"
+
+#: classes/pref/labels.php:42
+msgid "Foreground:"
+msgstr "Передний план:"
+
+#: classes/pref/labels.php:42
+msgid "Background:"
+msgstr "Фон:"
+
+#: classes/pref/labels.php:232
+#, php-format
+msgid "Created label <b>%s</b>"
+msgstr "Добавлена метка <b>%s</b>"
+
+#: classes/pref/labels.php:287
+msgid "Clear colors"
+msgstr "Очистить цвета"
 
 #: classes/pref/filters.php:57
 #, fuzzy
@@ -1927,12 +2064,6 @@ msgstr ""
 msgid "Combine"
 msgstr ""
 
-#: classes/pref/filters.php:593
-#: classes/pref/users.php:374
-#: plugins/instances/init.php:296
-msgid "Edit"
-msgstr "Редактировать"
-
 #: classes/pref/filters.php:600
 #: classes/pref/feeds.php:1283
 msgid "Rescore articles"
@@ -1981,31 +2112,6 @@ msgstr "Действия над каналами"
 #, fuzzy
 msgid "Add action"
 msgstr "Действия над каналом"
-
-#: classes/pref/labels.php:22
-msgid "Caption"
-msgstr "Заголовок"
-
-#: classes/pref/labels.php:37
-msgid "Colors"
-msgstr "Цвета"
-
-#: classes/pref/labels.php:42
-msgid "Foreground:"
-msgstr "Передний план:"
-
-#: classes/pref/labels.php:42
-msgid "Background:"
-msgstr "Фон:"
-
-#: classes/pref/labels.php:232
-#, php-format
-msgid "Created label <b>%s</b>"
-msgstr "Добавлена метка <b>%s</b>"
-
-#: classes/pref/labels.php:287
-msgid "Clear colors"
-msgstr "Очистить цвета"
 
 #: classes/pref/prefs.php:17
 msgid "Old password cannot be blank."
@@ -2228,12 +2334,6 @@ msgstr "Удаление сообщений:"
 #: classes/pref/feeds.php:573
 msgid "<b>Hint:</b> you need to fill in your login information if your feed requires authentication, except for Twitter feeds."
 msgstr ""
-
-#: classes/pref/feeds.php:577
-#: classes/pref/feeds.php:799
-#: classes/pref/users.php:177
-msgid "Options"
-msgstr "Опции:"
 
 #: classes/pref/feeds.php:589
 #: classes/pref/feeds.php:803
@@ -2458,144 +2558,9 @@ msgstr "Отписаться от выбранных каналов?"
 msgid "These feeds have not been updated because of errors:"
 msgstr "Эти каналы не были обновлены из-за ошибок:"
 
-#: classes/pref/users.php:6
-#: plugins/instances/init.php:157
-msgid "Your access level is insufficient to open this tab."
-msgstr "Вашего уровня доступа недостаточно для открытия этой вкладки."
-
-#: classes/pref/users.php:27
-msgid "User details"
-msgstr "Подробнее..."
-
-#: classes/pref/users.php:41
-msgid "User not found"
-msgstr "Пользователь не найден"
-
-#: classes/pref/users.php:60
-#: classes/pref/users.php:422
-msgid "Registered"
-msgstr "Зарегистрирован"
-
-#: classes/pref/users.php:61
-msgid "Last logged in"
-msgstr "Последний вход"
-
-#: classes/pref/users.php:68
-msgid "Subscribed feeds count"
-msgstr "Количество подписанных каналов"
-
-#: classes/pref/users.php:72
-msgid "Subscribed feeds"
-msgstr "Подписан на каналы"
-
-#: classes/pref/users.php:122
-msgid "User Editor"
-msgstr "Редактор пользователей"
-
-#: classes/pref/users.php:158
-msgid "Access level: "
-msgstr "Уровень доступа:"
-
-#: classes/pref/users.php:171
-msgid "Change password to"
-msgstr "Изменить пароль на"
-
-#: classes/pref/users.php:180
-msgid "E-mail: "
-msgstr "E-mail: "
-
-#: classes/pref/users.php:258
-#, php-format
-msgid "Added user <b>%s</b> with password <b>%s</b>"
-msgstr "Добавлен пользователь <b>%s</b> с паролем <b>%s</b>"
-
-#: classes/pref/users.php:265
-#, php-format
-msgid "Could not create user <b>%s</b>"
-msgstr "Не могу добавить пользователя <b>%s</b>"
-
-#: classes/pref/users.php:269
-#, php-format
-msgid "User <b>%s</b> already exists."
-msgstr "Пользователь <b>%s</b> уже существует."
-
-#: classes/pref/users.php:291
-#, fuzzy, php-format
-msgid "Changed password of user <b>%s</b> to <b>%s</b>"
-msgstr "Пароль пользователя <b>%s</b> изменен на <b>%s</b>"
-
-#: classes/pref/users.php:293
-#, fuzzy, php-format
-msgid "Sending new password of user <b>%s</b> to <b>%s</b>"
-msgstr "Пароль пользователя <b>%s</b> изменен на <b>%s</b>"
-
-#: classes/pref/users.php:317
-msgid "[tt-rss] Password change notification"
-msgstr "[tt-rss] Уведомление о смене пароля"
-
-#: classes/pref/users.php:368
-msgid "Create user"
-msgstr "Добавить пользователя"
-
-#: classes/pref/users.php:421
-msgid "Access Level"
-msgstr "Уровень доступа:"
-
-#: classes/pref/users.php:423
-msgid "Last login"
-msgstr "Последний вход"
-
-#: classes/pref/users.php:444
-#: plugins/instances/init.php:337
-msgid "Click to edit"
-msgstr "Щёлкните для редактирования"
-
-#: classes/pref/users.php:464
-msgid "No users defined."
-msgstr "Пользователи не определены."
-
-#: classes/pref/users.php:466
-msgid "No matching users found."
-msgstr "Подходящих пользователей не найдено."
-
-#: plugins/auth_internal/init.php:62
-#, fuzzy
-msgid "Please enter your one time password:"
-msgstr "Пожалуйста, укажите заметку для статьи:"
-
-#: plugins/auth_internal/init.php:185
-msgid "Password has been changed."
-msgstr "Пароль был изменен."
-
-#: plugins/auth_internal/init.php:187
-msgid "Old password is incorrect."
-msgstr "Старый пароль неправилен."
-
-#: plugins/bookmarklets/init.php:22
-msgid "Bookmarklets"
+#: plugins/pocket/init.php:30
+msgid "Pocket"
 msgstr ""
-
-#: plugins/bookmarklets/init.php:24
-msgid "Drag the link below to your browser toolbar, open the feed you're interested in in your browser and click on the link to subscribe to it."
-msgstr ""
-
-#: plugins/bookmarklets/init.php:28
-#, fuzzy, php-format
-msgid "Subscribe to %s in Tiny Tiny RSS?"
-msgstr "Вернуться к Tiny Tiny RSS"
-
-#: plugins/bookmarklets/init.php:32
-#, fuzzy
-msgid "Subscribe in Tiny Tiny RSS"
-msgstr "Вернуться к Tiny Tiny RSS"
-
-#: plugins/bookmarklets/init.php:34
-msgid "Use this bookmarklet to publish arbitrary pages using Tiny Tiny RSS"
-msgstr ""
-
-#: plugins/close_button/init.php:24
-msgid "Close article"
-msgstr "Закрыть статью"
 
 #: plugins/digest/digest_body.php:43
 #, fuzzy
@@ -2618,34 +2583,96 @@ msgstr "Привет,"
 msgid "Regular version"
 msgstr ""
 
-#: plugins/example/init.php:38
-#, fuzzy
-msgid "Example Pane"
-msgstr "Примеры"
+#: plugins/close_button/init.php:24
+msgid "Close article"
+msgstr "Закрыть статью"
 
-#: plugins/example/init.php:69
-msgid "Sample value"
+#: plugins/nsfw/init.php:32
+#: plugins/nsfw/init.php:43
+msgid "Not work safe (click to toggle)"
 msgstr ""
 
-#: plugins/example/init.php:75
-#, fuzzy
-msgid "Set value"
-msgstr "Отметить"
+#: plugins/nsfw/init.php:53
+msgid "NSFW Plugin"
+msgstr ""
 
-#: plugins/flattr/init.php:30
+#: plugins/nsfw/init.php:80
+msgid "Tags to consider NSFW (comma-separated)"
+msgstr ""
+
+#: plugins/nsfw/init.php:101
 #, fuzzy
-msgid "Flattr this article."
+msgid "Configuration saved."
+msgstr "Конфигурация сохранена."
+
+#: plugins/pinterest/init.php:29
+msgid "Pinterest"
+msgstr ""
+
+#: plugins/auth_internal/init.php:62
+#, fuzzy
+msgid "Please enter your one time password:"
+msgstr "Пожалуйста, укажите заметку для статьи:"
+
+#: plugins/auth_internal/init.php:185
+msgid "Password has been changed."
+msgstr "Пароль был изменен."
+
+#: plugins/auth_internal/init.php:187
+msgid "Old password is incorrect."
+msgstr "Старый пароль неправилен."
+
+#: plugins/mailto/init.php:52
+#: plugins/mailto/init.php:58
+#: plugins/mail/init.php:71
+#: plugins/mail/init.php:77
+msgid "[Forwarded]"
+msgstr ""
+
+#: plugins/mailto/init.php:52
+#: plugins/mail/init.php:71
+msgid "Multiple articles"
+msgstr "Все статьи"
+
+#: plugins/mailto/init.php:74
+msgid "Clicking the following link to invoke your mail client:"
+msgstr ""
+
+#: plugins/mailto/init.php:78
+#, fuzzy
+msgid "Forward selected article(s) by email."
 msgstr "Отмеченные"
 
-#: plugins/googleplus/init.php:29
-#, fuzzy
-msgid "Share on Google+"
-msgstr "Заголовок"
+#: plugins/mailto/init.php:81
+msgid "You should be able to edit the message before sending in your mail client."
+msgstr ""
 
-#: plugins/identica/init.php:29
+#: plugins/mailto/init.php:86
 #, fuzzy
-msgid "Share on identi.ca"
-msgstr "Заголовок"
+msgid "Close this dialog"
+msgstr "Закрыть это окно"
+
+#: plugins/bookmarklets/init.php:22
+msgid "Bookmarklets"
+msgstr ""
+
+#: plugins/bookmarklets/init.php:24
+msgid "Drag the link below to your browser toolbar, open the feed you're interested in in your browser and click on the link to subscribe to it."
+msgstr ""
+
+#: plugins/bookmarklets/init.php:28
+#, fuzzy, php-format
+msgid "Subscribe to %s in Tiny Tiny RSS?"
+msgstr "Вернуться к Tiny Tiny RSS"
+
+#: plugins/bookmarklets/init.php:32
+#, fuzzy
+msgid "Subscribe in Tiny Tiny RSS"
+msgstr "Вернуться к Tiny Tiny RSS"
+
+#: plugins/bookmarklets/init.php:34
+msgid "Use this bookmarklet to publish arbitrary pages using Tiny Tiny RSS"
+msgstr ""
 
 #: plugins/import_export/init.php:64
 msgid "Import and export"
@@ -2718,6 +2745,58 @@ msgstr "Сохранить"
 msgid "Could not upload file. You might need to adjust upload_max_filesize in PHP.ini (current value = %s)"
 msgstr ""
 
+#: plugins/mail/init.php:92
+msgid "From:"
+msgstr "От:"
+
+#: plugins/mail/init.php:101
+msgid "To:"
+msgstr "Кому:"
+
+#: plugins/mail/init.php:114
+msgid "Subject:"
+msgstr "Заголовок:"
+
+#: plugins/mail/init.php:130
+msgid "Send e-mail"
+msgstr "Отправить письмо"
+
+#: plugins/note/init.php:28
+#: plugins/note/note.js:11
+msgid "Edit article note"
+msgstr "Редактировать заметку"
+
+#: plugins/example/init.php:38
+#, fuzzy
+msgid "Example Pane"
+msgstr "Примеры"
+
+#: plugins/example/init.php:69
+msgid "Sample value"
+msgstr ""
+
+#: plugins/example/init.php:75
+#, fuzzy
+msgid "Set value"
+msgstr "Отметить"
+
+#: plugins/identica/init.php:29
+#, fuzzy
+msgid "Share on identi.ca"
+msgstr "Заголовок"
+
+#: plugins/owncloud/init.php:35
+msgid "Owncloud"
+msgstr ""
+
+#: plugins/owncloud/init.php:59
+msgid "Owncloud url"
+msgstr ""
+
+#: plugins/owncloud/init.php:74
+msgid "Bookmark on OwnCloud "
+msgstr ""
+
 #: plugins/instances/init.php:144
 msgid "Linked"
 msgstr "Связанные"
@@ -2744,95 +2823,6 @@ msgstr ""
 msgid "Stored feeds"
 msgstr "Больше каналов"
 
-#: plugins/mail/init.php:71
-#: plugins/mail/init.php:77
-#: plugins/mailto/init.php:52
-#: plugins/mailto/init.php:58
-msgid "[Forwarded]"
-msgstr ""
-
-#: plugins/mail/init.php:71
-#: plugins/mailto/init.php:52
-msgid "Multiple articles"
-msgstr "Все статьи"
-
-#: plugins/mail/init.php:92
-msgid "From:"
-msgstr "От:"
-
-#: plugins/mail/init.php:101
-msgid "To:"
-msgstr "Кому:"
-
-#: plugins/mail/init.php:114
-msgid "Subject:"
-msgstr "Заголовок:"
-
-#: plugins/mail/init.php:130
-msgid "Send e-mail"
-msgstr "Отправить письмо"
-
-#: plugins/mailto/init.php:74
-msgid "Clicking the following link to invoke your mail client:"
-msgstr ""
-
-#: plugins/mailto/init.php:78
-#, fuzzy
-msgid "Forward selected article(s) by email."
-msgstr "Отмеченные"
-
-#: plugins/mailto/init.php:81
-msgid "You should be able to edit the message before sending in your mail client."
-msgstr ""
-
-#: plugins/mailto/init.php:86
-#, fuzzy
-msgid "Close this dialog"
-msgstr "Закрыть это окно"
-
-#: plugins/note/init.php:28
-#: plugins/note/note.js:11
-msgid "Edit article note"
-msgstr "Редактировать заметку"
-
-#: plugins/nsfw/init.php:32
-#: plugins/nsfw/init.php:43
-msgid "Not work safe (click to toggle)"
-msgstr ""
-
-#: plugins/nsfw/init.php:53
-msgid "NSFW Plugin"
-msgstr ""
-
-#: plugins/nsfw/init.php:80
-msgid "Tags to consider NSFW (comma-separated)"
-msgstr ""
-
-#: plugins/nsfw/init.php:101
-#, fuzzy
-msgid "Configuration saved."
-msgstr "Конфигурация сохранена."
-
-#: plugins/owncloud/init.php:35
-msgid "Owncloud"
-msgstr ""
-
-#: plugins/owncloud/init.php:59
-msgid "Owncloud url"
-msgstr ""
-
-#: plugins/owncloud/init.php:74
-msgid "Bookmark on OwnCloud "
-msgstr ""
-
-#: plugins/pinterest/init.php:29
-msgid "Pinterest"
-msgstr ""
-
-#: plugins/pocket/init.php:30
-msgid "Pocket"
-msgstr ""
-
 #: plugins/share/init.php:27
 #, fuzzy
 msgid "Share by URL"
@@ -2842,9 +2832,14 @@ msgstr "Расшарить статью по ссылке"
 msgid "You can share this article by the following unique URL:"
 msgstr ""
 
-#: plugins/tweet/init.php:29
+#: plugins/flattr/init.php:30
 #, fuzzy
-msgid "Share on Twitter"
+msgid "Flattr this article."
+msgstr "Отмеченные"
+
+#: plugins/googleplus/init.php:29
+#, fuzzy
+msgid "Share on Google+"
 msgstr "Заголовок"
 
 #: plugins/updater/init.php:295
@@ -2872,6 +2867,11 @@ msgstr "Последнее обновление:"
 #, fuzzy
 msgid "Start update"
 msgstr "Последнее обновление:"
+
+#: plugins/tweet/init.php:29
+#, fuzzy
+msgid "Share on Twitter"
+msgstr "Заголовок"
 
 #: js/feedlist.js:213
 msgid "New articles available in this feed (click to show)"
@@ -3301,8 +3301,8 @@ msgstr "Не публиковать"
 #: js/viewfeed.js:1017
 #: js/viewfeed.js:1067
 #: js/viewfeed.js:2013
-#: plugins/mail/mail.js:7
 #: plugins/mailto/init.js:7
+#: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "Нет выбранных статей."
 
@@ -3446,6 +3446,12 @@ msgstr "Идет загрузка помощи..."
 msgid "Sorry, your browser does not support sandboxed iframes."
 msgstr ""
 
+#: plugins/mailto/init.js:21
+#: plugins/mail/mail.js:21
+#, fuzzy
+msgid "Forward article by email"
+msgstr "Отмеченные"
+
 #: plugins/import_export/import_export.js:13
 msgid "Export Data"
 msgstr "Экспортировать данные"
@@ -3490,12 +3496,6 @@ msgstr "Нет выбранных фильтров."
 #, fuzzy
 msgid "Please select only one instance."
 msgstr "Пожалуйста выберите только один фильтр."
-
-#: plugins/mail/mail.js:21
-#: plugins/mailto/init.js:21
-#, fuzzy
-msgid "Forward article by email"
-msgstr "Отмеченные"
 
 #: plugins/share/share.js:10
 msgid "Share article by URL"

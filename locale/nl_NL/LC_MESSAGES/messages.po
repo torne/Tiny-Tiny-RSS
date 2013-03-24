@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TT-RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-24 13:57+0100\n"
+"POT-Creation-Date: 2013-03-24 20:08+0400\n"
 "PO-Revision-Date: 2013-03-23 11:28+0100\n"
 "Last-Translator: Dingoe <translations@gvmelle.com>\n"
 "Language-Team: translations <LL@li.org>\n"
@@ -261,8 +261,8 @@ msgstr "SQL escaping test mislukt. Controleer uw database en de PHP configuratie
 #: index.php:254
 #: prefs.php:83
 #: classes/backend.php:5
-#: classes/pref/filters.php:609
 #: classes/pref/labels.php:296
+#: classes/pref/filters.php:609
 #: classes/pref/feeds.php:1296
 #: plugins/digest/digest_body.php:47
 #: js/viewfeed.js:1205
@@ -829,7 +829,7 @@ msgstr " - "
 
 #: include/functions.php:3037
 #: include/functions.php:3329
-#: classes/rpc.php:360
+#: classes/rpc.php:359
 msgid "no tags"
 msgstr "geen tags"
 
@@ -850,7 +850,6 @@ msgid "Feed URL"
 msgstr "Feed URL"
 
 #: include/functions.php:3120
-#: classes/backend.php:105
 #: classes/dlg.php:43
 #: classes/dlg.php:162
 #: classes/dlg.php:185
@@ -860,10 +859,11 @@ msgstr "Feed URL"
 #: classes/dlg.php:572
 #: classes/dlg.php:606
 #: classes/dlg.php:618
+#: classes/backend.php:105
+#: classes/pref/users.php:106
 #: classes/pref/filters.php:108
 #: classes/pref/feeds.php:1553
 #: classes/pref/feeds.php:1624
-#: classes/pref/users.php:106
 #: plugins/import_export/init.php:409
 #: plugins/import_export/init.php:432
 #: plugins/share/init.php:67
@@ -1142,9 +1142,9 @@ msgid "Profile:"
 msgstr "Profiel:"
 
 #: include/login_form.php:213
-#: classes/dlg.php:98
 #: classes/handler/public.php:214
 #: classes/rpc.php:64
+#: classes/dlg.php:98
 msgid "Default profile"
 msgstr "Standaard profiel"
 
@@ -1161,73 +1161,191 @@ msgstr "Aanmelden"
 msgid "Article not found."
 msgstr "Artikel niet gevonden."
 
-#: classes/backend.php:34
-msgid "Keyboard Shortcuts"
-msgstr "Sneltoetscombinaties"
+#: classes/handler/public.php:395
+#: plugins/bookmarklets/init.php:38
+msgid "Share with Tiny Tiny RSS"
+msgstr "Deel met Tiny Tiny RSS"
 
-#: classes/backend.php:57
-msgid "Shift"
-msgstr "Shift"
+#: classes/handler/public.php:403
+msgid "Title:"
+msgstr "Titel:"
 
-#: classes/backend.php:60
-msgid "Ctrl"
-msgstr "Ctrl"
+#: classes/handler/public.php:405
+#: classes/dlg.php:665
+#: classes/pref/feeds.php:505
+#: classes/pref/feeds.php:734
+#: plugins/instances/init.php:215
+msgid "URL:"
+msgstr "URL:"
 
-#: classes/backend.php:84
-msgid "Other interface tips are available in the Tiny Tiny RSS wiki."
-msgstr "andere interface tips zijn te vinden in de Tiny Tiny RSS wiki."
+#: classes/handler/public.php:407
+msgid "Content:"
+msgstr "Inhoud:"
 
-#: classes/backend.php:99
-msgid "Help topic not found."
-msgstr "Help onderwerp niet gevonden."
+#: classes/handler/public.php:409
+msgid "Labels:"
+msgstr "Labels:"
+
+#: classes/handler/public.php:428
+msgid "Shared article will appear in the Published feed."
+msgstr "Gedeeld artikel zal verschijnen in de Gepubliceerd feed."
+
+#: classes/handler/public.php:430
+msgid "Share"
+msgstr "Delen"
+
+#: classes/handler/public.php:431
+#: classes/handler/public.php:473
+#: classes/dlg.php:296
+#: classes/dlg.php:348
+#: classes/dlg.php:408
+#: classes/dlg.php:439
+#: classes/dlg.php:650
+#: classes/dlg.php:700
+#: classes/dlg.php:749
+#: classes/pref/users.php:194
+#: classes/pref/labels.php:81
+#: classes/pref/filters.php:349
+#: classes/pref/filters.php:729
+#: classes/pref/filters.php:798
+#: classes/pref/filters.php:865
+#: classes/pref/feeds.php:701
+#: classes/pref/feeds.php:849
+#: plugins/mail/init.php:131
+#: plugins/note/init.php:55
+#: plugins/instances/init.php:251
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: classes/handler/public.php:452
+msgid "Not logged in"
+msgstr "Niet ingelogd"
+
+#: classes/handler/public.php:512
+msgid "Incorrect username or password"
+msgstr "Onjuiste gebruikersnaam of wachtwoord"
+
+#: classes/handler/public.php:548
+#: classes/handler/public.php:645
+#, php-format
+msgid "Already subscribed to <b>%s</b>."
+msgstr "Reeds geabonneerd op <b>%s</b>."
+
+#: classes/handler/public.php:551
+#: classes/handler/public.php:636
+#, php-format
+msgid "Subscribed to <b>%s</b>."
+msgstr "Geabonneerd op  <b>%s</b>."
+
+#: classes/handler/public.php:554
+#: classes/handler/public.php:639
+#, php-format
+msgid "Could not subscribe to <b>%s</b>."
+msgstr "Kon niet abonneren op  <b>%s</b>."
+
+#: classes/handler/public.php:557
+#: classes/handler/public.php:642
+#, php-format
+msgid "No feeds found in <b>%s</b>."
+msgstr "Geen feeds gevonden in <b>%s</b>."
+
+#: classes/handler/public.php:560
+#: classes/handler/public.php:648
+msgid "Multiple feed URLs found."
+msgstr "Meerdere feed-URL's gevonden."
+
+#: classes/handler/public.php:564
+#: classes/handler/public.php:653
+#, php-format
+msgid "Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL."
+msgstr "Kon niet abonneren op  <b>%s</b>.<br>Kon de feed URL niet downloaden."
+
+#: classes/handler/public.php:582
+#: classes/handler/public.php:671
+msgid "Subscribe to selected feed"
+msgstr "Abonneren op de geselecteerde feed"
+
+#: classes/handler/public.php:607
+#: classes/handler/public.php:695
+msgid "Edit subscription options"
+msgstr "Bewerk abonnement opties"
+
+#: classes/handler/public.php:724
+#: classes/handler/public.php:753
+#: classes/pref/users.php:378
+msgid "Reset password"
+msgstr "Herstel wachtwoord"
+
+#: classes/handler/public.php:764
+msgid "Some of the required form parameters are missing or incorrect."
+msgstr ""
+
+#: classes/handler/public.php:766
+#: classes/handler/public.php:782
+#: classes/handler/public.php:787
+#, fuzzy
+msgid "Go back"
+msgstr "Terugzetten"
+
+#: classes/handler/public.php:778
+msgid "Completed."
+msgstr ""
+
+#: classes/handler/public.php:781
+msgid "Sorry, login and email combination not found."
+msgstr ""
+
+#: classes/handler/public.php:786
+msgid "Form secret key incorrect. Please enable cookies and try again."
+msgstr ""
 
 #: classes/dlg.php:22
 msgid "If you have imported labels and/or filters, you might need to reload preferences to see your new data."
 msgstr "Indien u labels en/of filters heeft geïmporteerd moet u waarschijnlijk te voorkeuren herladen om uw bijgewerkte gegevens te zien."
 
 #: classes/dlg.php:55
+#: classes/pref/users.php:360
+#: classes/pref/labels.php:272
 #: classes/pref/filters.php:230
 #: classes/pref/filters.php:277
 #: classes/pref/filters.php:578
 #: classes/pref/filters.php:657
 #: classes/pref/filters.php:684
-#: classes/pref/labels.php:272
 #: classes/pref/feeds.php:1228
 #: classes/pref/feeds.php:1498
 #: classes/pref/feeds.php:1567
-#: classes/pref/users.php:360
 #: plugins/instances/init.php:287
 msgid "Select"
 msgstr "Selecteer"
 
 #: classes/dlg.php:58
 #: classes/feeds.php:92
+#: classes/pref/users.php:363
+#: classes/pref/labels.php:275
 #: classes/pref/filters.php:233
 #: classes/pref/filters.php:280
 #: classes/pref/filters.php:581
 #: classes/pref/filters.php:660
 #: classes/pref/filters.php:687
-#: classes/pref/labels.php:275
 #: classes/pref/feeds.php:1231
 #: classes/pref/feeds.php:1501
 #: classes/pref/feeds.php:1570
-#: classes/pref/users.php:363
 #: plugins/instances/init.php:290
 msgid "All"
 msgstr "Alles"
 
 #: classes/dlg.php:60
 #: classes/feeds.php:95
+#: classes/pref/users.php:365
+#: classes/pref/labels.php:277
 #: classes/pref/filters.php:235
 #: classes/pref/filters.php:282
 #: classes/pref/filters.php:583
 #: classes/pref/filters.php:662
 #: classes/pref/filters.php:689
-#: classes/pref/labels.php:277
 #: classes/pref/feeds.php:1233
 #: classes/pref/feeds.php:1503
 #: classes/pref/feeds.php:1572
-#: classes/pref/users.php:365
 #: plugins/instances/init.php:292
 msgid "None"
 msgstr "Niets"
@@ -1296,17 +1414,17 @@ msgid "Available feeds"
 msgstr "Beschikbare feeds"
 
 #: classes/dlg.php:268
+#: classes/pref/users.php:155
 #: classes/pref/feeds.php:557
 #: classes/pref/feeds.php:783
-#: classes/pref/users.php:155
 msgid "Authentication"
 msgstr "Authenticatie"
 
 #: classes/dlg.php:272
 #: classes/dlg.php:727
+#: classes/pref/users.php:420
 #: classes/pref/feeds.php:563
 #: classes/pref/feeds.php:787
-#: classes/pref/users.php:420
 msgid "Login"
 msgstr "LoginID"
 
@@ -1332,34 +1450,11 @@ msgstr "Abonneren"
 msgid "More feeds"
 msgstr "Meer feeds"
 
-#: classes/dlg.php:296
-#: classes/dlg.php:348
-#: classes/dlg.php:408
-#: classes/dlg.php:439
-#: classes/dlg.php:650
-#: classes/dlg.php:700
-#: classes/dlg.php:749
-#: classes/handler/public.php:431
-#: classes/handler/public.php:473
-#: classes/pref/filters.php:349
-#: classes/pref/filters.php:729
-#: classes/pref/filters.php:798
-#: classes/pref/filters.php:865
-#: classes/pref/labels.php:81
-#: classes/pref/feeds.php:701
-#: classes/pref/feeds.php:849
-#: classes/pref/users.php:194
-#: plugins/instances/init.php:251
-#: plugins/mail/init.php:131
-#: plugins/note/init.php:55
-msgid "Cancel"
-msgstr "Annuleren"
-
 #: classes/dlg.php:316
 #: classes/dlg.php:407
+#: classes/pref/users.php:350
 #: classes/pref/filters.php:574
 #: classes/pref/feeds.php:1224
-#: classes/pref/users.php:350
 #: js/tt-rss.js:166
 msgid "Search"
 msgstr "Zoeken"
@@ -1377,11 +1472,11 @@ msgid "limit:"
 msgstr "Beperking:"
 
 #: classes/dlg.php:347
+#: classes/pref/users.php:376
+#: classes/pref/labels.php:284
 #: classes/pref/filters.php:339
 #: classes/pref/filters.php:596
-#: classes/pref/labels.php:284
 #: classes/pref/feeds.php:674
-#: classes/pref/users.php:376
 #: plugins/instances/init.php:297
 msgid "Remove"
 msgstr "Verwijderen"
@@ -1404,15 +1499,15 @@ msgstr "Tags voor dit artikel (komma gescheiden):"
 
 #: classes/dlg.php:437
 #: classes/dlg.php:648
-#: classes/pref/filters.php:346
+#: classes/pref/users.php:192
 #: classes/pref/labels.php:79
+#: classes/pref/filters.php:346
 #: classes/pref/feeds.php:700
 #: classes/pref/feeds.php:846
-#: classes/pref/users.php:192
-#: plugins/instances/init.php:248
-#: plugins/note/init.php:53
 #: plugins/nsfw/init.php:86
+#: plugins/note/init.php:53
 #: plugins/owncloud/init.php:62
+#: plugins/instances/init.php:248
 msgid "Save"
 msgstr "Opslaan"
 
@@ -1485,14 +1580,6 @@ msgstr "U kunt door de CSS-declaraties aan te passen de kleuren, lettertypen en 
 #: plugins/instances/init.php:207
 msgid "Instance"
 msgstr "Instantie"
-
-#: classes/dlg.php:665
-#: classes/handler/public.php:405
-#: classes/pref/feeds.php:505
-#: classes/pref/feeds.php:734
-#: plugins/instances/init.php:215
-msgid "URL:"
-msgstr "URL:"
 
 #: classes/dlg.php:668
 #: plugins/instances/init.php:218
@@ -1587,8 +1674,8 @@ msgstr "Verwijderen"
 
 #: classes/feeds.php:125
 #: classes/feeds.php:130
-#: plugins/mail/init.php:28
 #: plugins/mailto/init.php:28
+#: plugins/mail/init.php:28
 msgid "Forward by email"
 msgstr "doorsturen per e-mail"
 
@@ -1644,112 +1731,25 @@ msgstr "Sommige feeds hebben update fouten (klik voor details)"
 msgid "No feed selected."
 msgstr "Geen feeds geselecteerd."
 
-#: classes/handler/public.php:395
-#: plugins/bookmarklets/init.php:38
-msgid "Share with Tiny Tiny RSS"
-msgstr "Deel met Tiny Tiny RSS"
+#: classes/backend.php:34
+msgid "Keyboard Shortcuts"
+msgstr "Sneltoetscombinaties"
 
-#: classes/handler/public.php:403
-msgid "Title:"
-msgstr "Titel:"
+#: classes/backend.php:57
+msgid "Shift"
+msgstr "Shift"
 
-#: classes/handler/public.php:407
-msgid "Content:"
-msgstr "Inhoud:"
+#: classes/backend.php:60
+msgid "Ctrl"
+msgstr "Ctrl"
 
-#: classes/handler/public.php:409
-msgid "Labels:"
-msgstr "Labels:"
+#: classes/backend.php:84
+msgid "Other interface tips are available in the Tiny Tiny RSS wiki."
+msgstr "andere interface tips zijn te vinden in de Tiny Tiny RSS wiki."
 
-#: classes/handler/public.php:428
-msgid "Shared article will appear in the Published feed."
-msgstr "Gedeeld artikel zal verschijnen in de Gepubliceerd feed."
-
-#: classes/handler/public.php:430
-msgid "Share"
-msgstr "Delen"
-
-#: classes/handler/public.php:452
-msgid "Not logged in"
-msgstr "Niet ingelogd"
-
-#: classes/handler/public.php:512
-msgid "Incorrect username or password"
-msgstr "Onjuiste gebruikersnaam of wachtwoord"
-
-#: classes/handler/public.php:548
-#: classes/handler/public.php:645
-#, php-format
-msgid "Already subscribed to <b>%s</b>."
-msgstr "Reeds geabonneerd op <b>%s</b>."
-
-#: classes/handler/public.php:551
-#: classes/handler/public.php:636
-#, php-format
-msgid "Subscribed to <b>%s</b>."
-msgstr "Geabonneerd op  <b>%s</b>."
-
-#: classes/handler/public.php:554
-#: classes/handler/public.php:639
-#, php-format
-msgid "Could not subscribe to <b>%s</b>."
-msgstr "Kon niet abonneren op  <b>%s</b>."
-
-#: classes/handler/public.php:557
-#: classes/handler/public.php:642
-#, php-format
-msgid "No feeds found in <b>%s</b>."
-msgstr "Geen feeds gevonden in <b>%s</b>."
-
-#: classes/handler/public.php:560
-#: classes/handler/public.php:648
-msgid "Multiple feed URLs found."
-msgstr "Meerdere feed-URL's gevonden."
-
-#: classes/handler/public.php:564
-#: classes/handler/public.php:653
-#, php-format
-msgid "Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL."
-msgstr "Kon niet abonneren op  <b>%s</b>.<br>Kon de feed URL niet downloaden."
-
-#: classes/handler/public.php:582
-#: classes/handler/public.php:671
-msgid "Subscribe to selected feed"
-msgstr "Abonneren op de geselecteerde feed"
-
-#: classes/handler/public.php:607
-#: classes/handler/public.php:695
-msgid "Edit subscription options"
-msgstr "Bewerk abonnement opties"
-
-#: classes/handler/public.php:724
-#: classes/handler/public.php:753
-#: classes/pref/users.php:378
-msgid "Reset password"
-msgstr "Herstel wachtwoord"
-
-#: classes/handler/public.php:764
-msgid "Some of the required form parameters are missing or incorrect."
-msgstr ""
-
-#: classes/handler/public.php:766
-#: classes/handler/public.php:782
-#: classes/handler/public.php:787
-#, fuzzy
-msgid "Go back"
-msgstr "Terugzetten"
-
-#: classes/handler/public.php:778
-msgid "Completed."
-msgstr ""
-
-#: classes/handler/public.php:781
-msgid "Sorry, login and email combination not found."
-msgstr ""
-
-#: classes/handler/public.php:786
-msgid "Form secret key incorrect. Please enable cookies and try again."
-msgstr ""
+#: classes/backend.php:99
+msgid "Help topic not found."
+msgstr "Help onderwerp niet gevonden."
 
 #: classes/opml.php:28
 #: classes/opml.php:33
@@ -1806,6 +1806,147 @@ msgstr "Fout: OPML-bestand uploaden aub."
 msgid "Error while parsing document."
 msgstr "Fout bij het parseren van het document."
 
+#: classes/pref/users.php:6
+#: plugins/instances/init.php:157
+msgid "Your access level is insufficient to open this tab."
+msgstr "Uw toegangsniveau is niet toereikend om deze tab te openen."
+
+#: classes/pref/users.php:27
+msgid "User details"
+msgstr "Gebruiker's details"
+
+#: classes/pref/users.php:41
+msgid "User not found"
+msgstr "Gebruiker niet gevonden"
+
+#: classes/pref/users.php:60
+#: classes/pref/users.php:422
+msgid "Registered"
+msgstr "Geregistreerd"
+
+#: classes/pref/users.php:61
+msgid "Last logged in"
+msgstr "Laatst ingelogd"
+
+#: classes/pref/users.php:68
+msgid "Subscribed feeds count"
+msgstr "Aantal geabonneerde feeds"
+
+#: classes/pref/users.php:72
+msgid "Subscribed feeds"
+msgstr "Geabonneerde feeds"
+
+#: classes/pref/users.php:122
+msgid "User Editor"
+msgstr "Gebruiker's Editor"
+
+#: classes/pref/users.php:158
+msgid "Access level: "
+msgstr "Toegangsniveau:"
+
+#: classes/pref/users.php:171
+msgid "Change password to"
+msgstr "Wijzig wachtwoord naar"
+
+#: classes/pref/users.php:177
+#: classes/pref/feeds.php:577
+#: classes/pref/feeds.php:799
+msgid "Options"
+msgstr "Opties"
+
+#: classes/pref/users.php:180
+msgid "E-mail: "
+msgstr "E-mail: "
+
+#: classes/pref/users.php:258
+#, php-format
+msgid "Added user <b>%s</b> with password <b>%s</b>"
+msgstr "Gebruiker <b>%s</b> toegevoegd met wachtwoord <b>%s</b>"
+
+#: classes/pref/users.php:265
+#, php-format
+msgid "Could not create user <b>%s</b>"
+msgstr "Kon gebruiker <b>%s</b> niet aanmaken"
+
+#: classes/pref/users.php:269
+#, php-format
+msgid "User <b>%s</b> already exists."
+msgstr "Gebruiker <b>%s</b> bestaat al."
+
+#: classes/pref/users.php:291
+#, fuzzy, php-format
+msgid "Changed password of user <b>%s</b> to <b>%s</b>"
+msgstr ""
+"Wijzig wachtwoord van gebruiker<b>%s</b>\n"
+"\t\t\t\t naar <b>%s</b>"
+
+#: classes/pref/users.php:293
+#, fuzzy, php-format
+msgid "Sending new password of user <b>%s</b> to <b>%s</b>"
+msgstr ""
+"Wijzig wachtwoord van gebruiker<b>%s</b>\n"
+"\t\t\t\t naar <b>%s</b>"
+
+#: classes/pref/users.php:317
+msgid "[tt-rss] Password change notification"
+msgstr "[tt-rss] Melding verandering van wachtwoord"
+
+#: classes/pref/users.php:368
+msgid "Create user"
+msgstr "Gebruiker aanmaken"
+
+#: classes/pref/users.php:374
+#: classes/pref/filters.php:593
+#: plugins/instances/init.php:296
+msgid "Edit"
+msgstr "Bewerken"
+
+#: classes/pref/users.php:421
+msgid "Access Level"
+msgstr "Toegangsniveau"
+
+#: classes/pref/users.php:423
+msgid "Last login"
+msgstr "Laatste loginID"
+
+#: classes/pref/users.php:444
+#: plugins/instances/init.php:337
+msgid "Click to edit"
+msgstr "Klik voor bewerken"
+
+#: classes/pref/users.php:464
+msgid "No users defined."
+msgstr "Geen gebruikers gedefinieerd."
+
+#: classes/pref/users.php:466
+msgid "No matching users found."
+msgstr "geen overeenkomstige gebruikers gevonden."
+
+#: classes/pref/labels.php:22
+msgid "Caption"
+msgstr "Onderschrift"
+
+#: classes/pref/labels.php:37
+msgid "Colors"
+msgstr "Kleuren"
+
+#: classes/pref/labels.php:42
+msgid "Foreground:"
+msgstr "Voorgrond:"
+
+#: classes/pref/labels.php:42
+msgid "Background:"
+msgstr "Achtergrond:"
+
+#: classes/pref/labels.php:232
+#, php-format
+msgid "Created label <b>%s</b>"
+msgstr "aangemaakt label <b>%s</b>"
+
+#: classes/pref/labels.php:287
+msgid "Clear colors"
+msgstr "Wis kleuren"
+
 #: classes/pref/filters.php:57
 msgid "Articles matching this filter:"
 msgstr "Artikelen volgens dit filter:"
@@ -1860,12 +2001,6 @@ msgstr "%s op %s in %s"
 msgid "Combine"
 msgstr "Combineren"
 
-#: classes/pref/filters.php:593
-#: classes/pref/users.php:374
-#: plugins/instances/init.php:296
-msgid "Edit"
-msgstr "Bewerken"
-
 #: classes/pref/filters.php:600
 #: classes/pref/feeds.php:1283
 msgid "Rescore articles"
@@ -1910,31 +2045,6 @@ msgstr "Actie opslaan"
 #: js/functions.js:1104
 msgid "Add action"
 msgstr "Actie toevoegen"
-
-#: classes/pref/labels.php:22
-msgid "Caption"
-msgstr "Onderschrift"
-
-#: classes/pref/labels.php:37
-msgid "Colors"
-msgstr "Kleuren"
-
-#: classes/pref/labels.php:42
-msgid "Foreground:"
-msgstr "Voorgrond:"
-
-#: classes/pref/labels.php:42
-msgid "Background:"
-msgstr "Achtergrond:"
-
-#: classes/pref/labels.php:232
-#, php-format
-msgid "Created label <b>%s</b>"
-msgstr "aangemaakt label <b>%s</b>"
-
-#: classes/pref/labels.php:287
-msgid "Clear colors"
-msgstr "Wis kleuren"
 
 #: classes/pref/prefs.php:17
 msgid "Old password cannot be blank."
@@ -2146,12 +2256,6 @@ msgstr "Artikelopschoning:"
 msgid "<b>Hint:</b> you need to fill in your login information if your feed requires authentication, except for Twitter feeds."
 msgstr "<b>Hint:</b> U moet uw aanmeld informatie invullen als uw feed authenticatie vereist, behalve voor Twitter feeds."
 
-#: classes/pref/feeds.php:577
-#: classes/pref/feeds.php:799
-#: classes/pref/users.php:177
-msgid "Options"
-msgstr "Opties"
-
 #: classes/pref/feeds.php:589
 #: classes/pref/feeds.php:803
 msgid "Hide from Popular feeds"
@@ -2359,146 +2463,9 @@ msgstr "Abonnement opzeggen voor geselecteerde feeds"
 msgid "These feeds have not been updated because of errors:"
 msgstr "Deze feeds zijn niet bijgewerkt omdat er fouten zijn opgetreden:"
 
-#: classes/pref/users.php:6
-#: plugins/instances/init.php:157
-msgid "Your access level is insufficient to open this tab."
-msgstr "Uw toegangsniveau is niet toereikend om deze tab te openen."
-
-#: classes/pref/users.php:27
-msgid "User details"
-msgstr "Gebruiker's details"
-
-#: classes/pref/users.php:41
-msgid "User not found"
-msgstr "Gebruiker niet gevonden"
-
-#: classes/pref/users.php:60
-#: classes/pref/users.php:422
-msgid "Registered"
-msgstr "Geregistreerd"
-
-#: classes/pref/users.php:61
-msgid "Last logged in"
-msgstr "Laatst ingelogd"
-
-#: classes/pref/users.php:68
-msgid "Subscribed feeds count"
-msgstr "Aantal geabonneerde feeds"
-
-#: classes/pref/users.php:72
-msgid "Subscribed feeds"
-msgstr "Geabonneerde feeds"
-
-#: classes/pref/users.php:122
-msgid "User Editor"
-msgstr "Gebruiker's Editor"
-
-#: classes/pref/users.php:158
-msgid "Access level: "
-msgstr "Toegangsniveau:"
-
-#: classes/pref/users.php:171
-msgid "Change password to"
-msgstr "Wijzig wachtwoord naar"
-
-#: classes/pref/users.php:180
-msgid "E-mail: "
-msgstr "E-mail: "
-
-#: classes/pref/users.php:258
-#, php-format
-msgid "Added user <b>%s</b> with password <b>%s</b>"
-msgstr "Gebruiker <b>%s</b> toegevoegd met wachtwoord <b>%s</b>"
-
-#: classes/pref/users.php:265
-#, php-format
-msgid "Could not create user <b>%s</b>"
-msgstr "Kon gebruiker <b>%s</b> niet aanmaken"
-
-#: classes/pref/users.php:269
-#, php-format
-msgid "User <b>%s</b> already exists."
-msgstr "Gebruiker <b>%s</b> bestaat al."
-
-#: classes/pref/users.php:291
-#, fuzzy, php-format
-msgid "Changed password of user <b>%s</b> to <b>%s</b>"
-msgstr ""
-"Wijzig wachtwoord van gebruiker<b>%s</b>\n"
-"\t\t\t\t naar <b>%s</b>"
-
-#: classes/pref/users.php:293
-#, fuzzy, php-format
-msgid "Sending new password of user <b>%s</b> to <b>%s</b>"
-msgstr ""
-"Wijzig wachtwoord van gebruiker<b>%s</b>\n"
-"\t\t\t\t naar <b>%s</b>"
-
-#: classes/pref/users.php:317
-msgid "[tt-rss] Password change notification"
-msgstr "[tt-rss] Melding verandering van wachtwoord"
-
-#: classes/pref/users.php:368
-msgid "Create user"
-msgstr "Gebruiker aanmaken"
-
-#: classes/pref/users.php:421
-msgid "Access Level"
-msgstr "Toegangsniveau"
-
-#: classes/pref/users.php:423
-msgid "Last login"
-msgstr "Laatste loginID"
-
-#: classes/pref/users.php:444
-#: plugins/instances/init.php:337
-msgid "Click to edit"
-msgstr "Klik voor bewerken"
-
-#: classes/pref/users.php:464
-msgid "No users defined."
-msgstr "Geen gebruikers gedefinieerd."
-
-#: classes/pref/users.php:466
-msgid "No matching users found."
-msgstr "geen overeenkomstige gebruikers gevonden."
-
-#: plugins/auth_internal/init.php:62
-msgid "Please enter your one time password:"
-msgstr "Geef aub uw eenmalig wachtwoord:"
-
-#: plugins/auth_internal/init.php:185
-msgid "Password has been changed."
-msgstr "Wachtwoord is veranderd."
-
-#: plugins/auth_internal/init.php:187
-msgid "Old password is incorrect."
-msgstr "Oud wachtwoord is onjuist."
-
-#: plugins/bookmarklets/init.php:22
-msgid "Bookmarklets"
-msgstr "Bookmarklets"
-
-#: plugins/bookmarklets/init.php:24
-msgid "Drag the link below to your browser toolbar, open the feed you're interested in in your browser and click on the link to subscribe to it."
-msgstr "Sleep de link hieronder naar uw browser's werkbalk, open de feed waar u geïnteresseerd in bent in uw browser en klik op de link om u er op te abonneren."
-
-#: plugins/bookmarklets/init.php:28
-#, php-format
-msgid "Subscribe to %s in Tiny Tiny RSS?"
-msgstr "Abonneren op %s in Tiny Tiny RSS?"
-
-#: plugins/bookmarklets/init.php:32
-msgid "Subscribe in Tiny Tiny RSS"
-msgstr "Abonneren in Tiny Tiny RSS"
-
-#: plugins/bookmarklets/init.php:34
-msgid "Use this bookmarklet to publish arbitrary pages using Tiny Tiny RSS"
-msgstr "Gebruik deze bookmarklet om arbitraire pagina's met Tiny Tiny RSS te publiceren"
-
-#: plugins/close_button/init.php:24
-msgid "Close article"
-msgstr "Sluit artikel"
+#: plugins/pocket/init.php:30
+msgid "Pocket"
+msgstr "Pocket"
 
 #: plugins/digest/digest_body.php:43
 #, fuzzy
@@ -2520,29 +2487,91 @@ msgstr "Hallo,"
 msgid "Regular version"
 msgstr "Reguliere versie"
 
-#: plugins/example/init.php:38
-msgid "Example Pane"
-msgstr "Voorbeeldpaneel"
+#: plugins/close_button/init.php:24
+msgid "Close article"
+msgstr "Sluit artikel"
 
-#: plugins/example/init.php:69
-msgid "Sample value"
-msgstr "Voorbeeld waarde"
+#: plugins/nsfw/init.php:32
+#: plugins/nsfw/init.php:43
+msgid "Not work safe (click to toggle)"
+msgstr "NVVW (Niet Veilig Voor Werk) (klik om in/uit te schakelen)"
 
-#: plugins/example/init.php:75
-msgid "Set value"
-msgstr "Geef waarde"
+#: plugins/nsfw/init.php:53
+msgid "NSFW Plugin"
+msgstr "NVVW (Niet Veilig Voor Werk) Plug-in"
 
-#: plugins/flattr/init.php:30
-msgid "Flattr this article."
-msgstr "Flattr dit artikel."
+#: plugins/nsfw/init.php:80
+msgid "Tags to consider NSFW (comma-separated)"
+msgstr "Tags te overwegen als NVVW (komma gescheiden)"
 
-#: plugins/googleplus/init.php:29
-msgid "Share on Google+"
-msgstr "Deel op Google+"
+#: plugins/nsfw/init.php:101
+msgid "Configuration saved."
+msgstr "Configuratie opgeslagen."
 
-#: plugins/identica/init.php:29
-msgid "Share on identi.ca"
-msgstr "Deel op identi.ca"
+#: plugins/pinterest/init.php:29
+msgid "Pinterest"
+msgstr "Pinterest"
+
+#: plugins/auth_internal/init.php:62
+msgid "Please enter your one time password:"
+msgstr "Geef aub uw eenmalig wachtwoord:"
+
+#: plugins/auth_internal/init.php:185
+msgid "Password has been changed."
+msgstr "Wachtwoord is veranderd."
+
+#: plugins/auth_internal/init.php:187
+msgid "Old password is incorrect."
+msgstr "Oud wachtwoord is onjuist."
+
+#: plugins/mailto/init.php:52
+#: plugins/mailto/init.php:58
+#: plugins/mail/init.php:71
+#: plugins/mail/init.php:77
+msgid "[Forwarded]"
+msgstr "[Doorgestuurd]"
+
+#: plugins/mailto/init.php:52
+#: plugins/mail/init.php:71
+msgid "Multiple articles"
+msgstr "Meerdere artikelen"
+
+#: plugins/mailto/init.php:74
+msgid "Clicking the following link to invoke your mail client:"
+msgstr "Klikken op de volgende link om uw e-mail cliënt te starten:"
+
+#: plugins/mailto/init.php:78
+msgid "Forward selected article(s) by email."
+msgstr "Geselecteerde artikel(en) doorsturen per e-mail."
+
+#: plugins/mailto/init.php:81
+msgid "You should be able to edit the message before sending in your mail client."
+msgstr "U zou in staat moeten zijn het bericht te bewerken vóórdat u het verzendt met uw e-mail cliënt."
+
+#: plugins/mailto/init.php:86
+msgid "Close this dialog"
+msgstr "Sluit dit dialoogvenster"
+
+#: plugins/bookmarklets/init.php:22
+msgid "Bookmarklets"
+msgstr "Bookmarklets"
+
+#: plugins/bookmarklets/init.php:24
+msgid "Drag the link below to your browser toolbar, open the feed you're interested in in your browser and click on the link to subscribe to it."
+msgstr "Sleep de link hieronder naar uw browser's werkbalk, open de feed waar u geïnteresseerd in bent in uw browser en klik op de link om u er op te abonneren."
+
+#: plugins/bookmarklets/init.php:28
+#, php-format
+msgid "Subscribe to %s in Tiny Tiny RSS?"
+msgstr "Abonneren op %s in Tiny Tiny RSS?"
+
+#: plugins/bookmarklets/init.php:32
+msgid "Subscribe in Tiny Tiny RSS"
+msgstr "Abonneren in Tiny Tiny RSS"
+
+#: plugins/bookmarklets/init.php:34
+msgid "Use this bookmarklet to publish arbitrary pages using Tiny Tiny RSS"
+msgstr "Gebruik deze bookmarklet om arbitraire pagina's met Tiny Tiny RSS te publiceren"
 
 #: plugins/import_export/init.php:64
 msgid "Import and export"
@@ -2612,6 +2641,55 @@ msgstr ""
 "Kon bestand niet uploaden. U moet misschien de upload_max_filesize\n"
 "\t\t\t\tin PHP.ini aanpassen (huidige waarde = %s)"
 
+#: plugins/mail/init.php:92
+msgid "From:"
+msgstr "Van:"
+
+#: plugins/mail/init.php:101
+msgid "To:"
+msgstr "Naar:"
+
+#: plugins/mail/init.php:114
+msgid "Subject:"
+msgstr "Onderwerp:"
+
+#: plugins/mail/init.php:130
+msgid "Send e-mail"
+msgstr "Zend e-mail"
+
+#: plugins/note/init.php:28
+#: plugins/note/note.js:11
+msgid "Edit article note"
+msgstr "Bewerk artikel notitie"
+
+#: plugins/example/init.php:38
+msgid "Example Pane"
+msgstr "Voorbeeldpaneel"
+
+#: plugins/example/init.php:69
+msgid "Sample value"
+msgstr "Voorbeeld waarde"
+
+#: plugins/example/init.php:75
+msgid "Set value"
+msgstr "Geef waarde"
+
+#: plugins/identica/init.php:29
+msgid "Share on identi.ca"
+msgstr "Deel op identi.ca"
+
+#: plugins/owncloud/init.php:35
+msgid "Owncloud"
+msgstr "Owncloud"
+
+#: plugins/owncloud/init.php:59
+msgid "Owncloud url"
+msgstr "Owncloud url"
+
+#: plugins/owncloud/init.php:74
+msgid "Bookmark on OwnCloud "
+msgstr "Bladwijzers op OwnCloud"
+
 #: plugins/instances/init.php:144
 msgid "Linked"
 msgstr "Gekoppeld"
@@ -2636,92 +2714,6 @@ msgstr "Status"
 msgid "Stored feeds"
 msgstr "Opgeslagen feeds"
 
-#: plugins/mail/init.php:71
-#: plugins/mail/init.php:77
-#: plugins/mailto/init.php:52
-#: plugins/mailto/init.php:58
-msgid "[Forwarded]"
-msgstr "[Doorgestuurd]"
-
-#: plugins/mail/init.php:71
-#: plugins/mailto/init.php:52
-msgid "Multiple articles"
-msgstr "Meerdere artikelen"
-
-#: plugins/mail/init.php:92
-msgid "From:"
-msgstr "Van:"
-
-#: plugins/mail/init.php:101
-msgid "To:"
-msgstr "Naar:"
-
-#: plugins/mail/init.php:114
-msgid "Subject:"
-msgstr "Onderwerp:"
-
-#: plugins/mail/init.php:130
-msgid "Send e-mail"
-msgstr "Zend e-mail"
-
-#: plugins/mailto/init.php:74
-msgid "Clicking the following link to invoke your mail client:"
-msgstr "Klikken op de volgende link om uw e-mail cliënt te starten:"
-
-#: plugins/mailto/init.php:78
-msgid "Forward selected article(s) by email."
-msgstr "Geselecteerde artikel(en) doorsturen per e-mail."
-
-#: plugins/mailto/init.php:81
-msgid "You should be able to edit the message before sending in your mail client."
-msgstr "U zou in staat moeten zijn het bericht te bewerken vóórdat u het verzendt met uw e-mail cliënt."
-
-#: plugins/mailto/init.php:86
-msgid "Close this dialog"
-msgstr "Sluit dit dialoogvenster"
-
-#: plugins/note/init.php:28
-#: plugins/note/note.js:11
-msgid "Edit article note"
-msgstr "Bewerk artikel notitie"
-
-#: plugins/nsfw/init.php:32
-#: plugins/nsfw/init.php:43
-msgid "Not work safe (click to toggle)"
-msgstr "NVVW (Niet Veilig Voor Werk) (klik om in/uit te schakelen)"
-
-#: plugins/nsfw/init.php:53
-msgid "NSFW Plugin"
-msgstr "NVVW (Niet Veilig Voor Werk) Plug-in"
-
-#: plugins/nsfw/init.php:80
-msgid "Tags to consider NSFW (comma-separated)"
-msgstr "Tags te overwegen als NVVW (komma gescheiden)"
-
-#: plugins/nsfw/init.php:101
-msgid "Configuration saved."
-msgstr "Configuratie opgeslagen."
-
-#: plugins/owncloud/init.php:35
-msgid "Owncloud"
-msgstr "Owncloud"
-
-#: plugins/owncloud/init.php:59
-msgid "Owncloud url"
-msgstr "Owncloud url"
-
-#: plugins/owncloud/init.php:74
-msgid "Bookmark on OwnCloud "
-msgstr "Bladwijzers op OwnCloud"
-
-#: plugins/pinterest/init.php:29
-msgid "Pinterest"
-msgstr "Pinterest"
-
-#: plugins/pocket/init.php:30
-msgid "Pocket"
-msgstr "Pocket"
-
 #: plugins/share/init.php:27
 msgid "Share by URL"
 msgstr "Deel via URL"
@@ -2730,9 +2722,13 @@ msgstr "Deel via URL"
 msgid "You can share this article by the following unique URL:"
 msgstr "U kunt dit artikel delen via de volgende unieke URL:"
 
-#: plugins/tweet/init.php:29
-msgid "Share on Twitter"
-msgstr "Deel op Twitter"
+#: plugins/flattr/init.php:30
+msgid "Flattr this article."
+msgstr "Flattr dit artikel."
+
+#: plugins/googleplus/init.php:29
+msgid "Share on Google+"
+msgstr "Deel op Google+"
 
 #: plugins/updater/init.php:295
 #: plugins/updater/init.php:307
@@ -2755,6 +2751,10 @@ msgstr "Klaar voor bijwerken."
 #: plugins/updater/init.php:328
 msgid "Start update"
 msgstr "Start update"
+
+#: plugins/tweet/init.php:29
+msgid "Share on Twitter"
+msgstr "Deel op Twitter"
 
 #: js/feedlist.js:213
 msgid "New articles available in this feed (click to show)"
@@ -3156,8 +3156,8 @@ msgstr "Ongepubliceerd artikel"
 #: js/viewfeed.js:1017
 #: js/viewfeed.js:1067
 #: js/viewfeed.js:2013
-#: plugins/mail/mail.js:7
 #: plugins/mailto/init.js:7
+#: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "Geen artikelen geselecteerd."
 
@@ -3285,6 +3285,11 @@ msgstr "Laad meer..."
 msgid "Sorry, your browser does not support sandboxed iframes."
 msgstr "Sorry, uw browser lijkt iframes in een sandbox niet te ondersteunen."
 
+#: plugins/mailto/init.js:21
+#: plugins/mail/mail.js:21
+msgid "Forward article by email"
+msgstr "Artikel doorsturen per e-mail"
+
 #: plugins/import_export/import_export.js:13
 msgid "Export Data"
 msgstr "Data exporteren"
@@ -3324,11 +3329,6 @@ msgstr "Er zijn geen instanties geselecteerd."
 #: plugins/instances/instances.js:156
 msgid "Please select only one instance."
 msgstr "Selecteer aub slechts één instantie."
-
-#: plugins/mail/mail.js:21
-#: plugins/mailto/init.js:21
-msgid "Forward article by email"
-msgstr "Artikel doorsturen per e-mail"
 
 #: plugins/share/share.js:10
 msgid "Share article by URL"
