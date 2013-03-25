@@ -1374,6 +1374,8 @@ function cdmExpandArticle(id) {
 	try {
 		console.log("cdmExpandArticle " + id);
 
+		if (!$("RROW-" + id)) return false;
+
 		hideAuxDlg();
 
 		var elem = $("CICD-" + getActiveArticleId());
