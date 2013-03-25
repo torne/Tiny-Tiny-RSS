@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-24 20:08+0400\n"
+"POT-Creation-Date: 2013-03-25 12:26+0400\n"
 "PO-Revision-Date: 2012-02-14 08:32+0000\n"
 "Last-Translator: Sai <lazycai.ffsky@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/tt-rss/language/zh_CN/)\n"
@@ -252,24 +252,47 @@ msgstr "SQL 脱出测试失败，请检查您的数据库和 PHP 设置。"
 
 #: index.php:118
 #: index.php:148
-#: index.php:254
+#: index.php:253
 #: prefs.php:83
 #: classes/backend.php:5
 #: classes/pref/labels.php:296
 #: classes/pref/filters.php:609
 #: classes/pref/feeds.php:1296
 #: plugins/digest/digest_body.php:47
+#: js/feedlist.js:130
+#: js/feedlist.js:456
+#: js/functions.js:420
+#: js/functions.js:823
+#: js/functions.js:1259
+#: js/functions.js:1392
+#: js/functions.js:1704
+#: js/prefs.js:86
+#: js/prefs.js:576
+#: js/prefs.js:666
+#: js/prefs.js:870
+#: js/prefs.js:1457
+#: js/prefs.js:1510
+#: js/prefs.js:1568
+#: js/prefs.js:1584
+#: js/prefs.js:1600
+#: js/prefs.js:1619
+#: js/prefs.js:1813
+#: js/prefs.js:1829
+#: js/tt-rss.js:814
+#: js/viewfeed.js:783
 #: js/viewfeed.js:1205
+#: plugins/import_export/import_export.js:17
+#: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
 msgstr "读取中，请稍候……"
 
 #: index.php:128
-#: index.php:200
+#: index.php:199
 msgid "Communication problem with server."
 msgstr ""
 
 #: index.php:134
-#: index.php:208
+#: index.php:207
 msgid "New version of Tiny Tiny RSS is available!"
 msgstr "Tiny Tiny RSS 有新版本啦！"
 
@@ -311,39 +334,35 @@ msgstr "未读"
 msgid "Ignore Scoring"
 msgstr "忽略评分"
 
-#: index.php:174
-msgid "Updated"
-msgstr "有更新的"
-
-#: index.php:177
+#: index.php:176
 msgid "Sort articles"
 msgstr "排序文章"
 
-#: index.php:180
+#: index.php:179
 msgid "Default"
 msgstr "默认"
 
-#: index.php:181
+#: index.php:180
 msgid "Date"
 msgstr "日期"
 
-#: index.php:182
+#: index.php:181
 #: include/localized_schema.php:3
 msgid "Title"
 msgstr "标题"
 
-#: index.php:183
+#: index.php:182
 msgid "Score"
 msgstr "评分"
 
-#: index.php:189
+#: index.php:188
 #: classes/pref/feeds.php:535
 #: classes/pref/feeds.php:758
 msgid "Update"
 msgstr "更新列表"
 
-#: index.php:193
-#: index.php:223
+#: index.php:192
+#: index.php:222
 #: include/functions.php:1917
 #: include/localized_schema.php:10
 #: classes/feeds.php:111
@@ -355,86 +374,86 @@ msgstr "更新列表"
 msgid "Mark as read"
 msgstr "标记为已读"
 
-#: index.php:213
+#: index.php:212
 msgid "Actions..."
 msgstr "动作"
 
-#: index.php:215
+#: index.php:214
 #, fuzzy
 msgid "Preferences..."
 msgstr "偏好设置"
 
-#: index.php:216
+#: index.php:215
 msgid "Search..."
 msgstr "搜索"
 
-#: index.php:217
+#: index.php:216
 msgid "Feed actions:"
 msgstr "信息源操作："
 
-#: index.php:218
+#: index.php:217
 #: classes/handler/public.php:542
 msgid "Subscribe to feed..."
 msgstr "订阅信息源"
 
-#: index.php:219
+#: index.php:218
 msgid "Edit this feed..."
 msgstr "编辑信息源"
 
-#: index.php:220
+#: index.php:219
 msgid "Rescore feed"
 msgstr "为信息源重新评分"
 
-#: index.php:221
+#: index.php:220
 #: classes/pref/feeds.php:684
 #: classes/pref/feeds.php:1269
 #: js/PrefFeedTree.js:73
 msgid "Unsubscribe"
 msgstr "取消订阅"
 
-#: index.php:222
+#: index.php:221
 msgid "All feeds:"
 msgstr "全部信息源："
 
-#: index.php:224
+#: index.php:223
 msgid "(Un)hide read feeds"
 msgstr "隐藏（显示）已读信息"
 
-#: index.php:225
+#: index.php:224
 msgid "Other actions:"
 msgstr "其他操作："
 
-#: index.php:227
+#: index.php:226
 msgid "Switch to digest..."
 msgstr "切换至摘要模式"
 
-#: index.php:229
+#: index.php:228
 msgid "Show tag cloud..."
 msgstr "显示标签云"
 
-#: index.php:231
+#: index.php:230
 #: include/functions.php:1903
 #, fuzzy
 msgid "Toggle widescreen mode"
 msgstr "锁定加星标的项"
 
-#: index.php:233
+#: index.php:232
 msgid "Select by tags..."
 msgstr "通过自定义标签选择"
 
-#: index.php:234
+#: index.php:233
 msgid "Create label..."
 msgstr "创建预定义标签"
 
-#: index.php:235
+#: index.php:234
 msgid "Create filter..."
 msgstr "创建过滤器"
 
-#: index.php:236
+#: index.php:235
 msgid "Keyboard shortcuts help"
 msgstr "快捷键帮助"
 
-#: index.php:238
+#: index.php:237
 #: plugins/digest/digest_body.php:61
 msgid "Logout"
 msgstr "注销"
@@ -669,12 +688,12 @@ msgid "Open in new window"
 msgstr "在新窗口打开文章"
 
 #: include/functions.php:1896
-#: js/viewfeed.js:1844
+#: js/viewfeed.js:1846
 msgid "Mark below as read"
 msgstr ""
 
 #: include/functions.php:1897
-#: js/viewfeed.js:1838
+#: js/viewfeed.js:1840
 msgid "Mark above as read"
 msgstr ""
 
@@ -836,43 +855,43 @@ msgstr "显示搜索对话框"
 msgid "Search results: %s"
 msgstr ""
 
-#: include/functions.php:2897
-#: js/viewfeed.js:1931
+#: include/functions.php:2903
+#: js/viewfeed.js:1933
 msgid "Click to play"
 msgstr "点击播放"
 
-#: include/functions.php:2898
-#: js/viewfeed.js:1930
+#: include/functions.php:2904
+#: js/viewfeed.js:1932
 msgid "Play"
 msgstr "播放"
 
-#: include/functions.php:3015
+#: include/functions.php:3021
 msgid " - "
 msgstr " - "
 
-#: include/functions.php:3037
-#: include/functions.php:3329
+#: include/functions.php:3043
+#: include/functions.php:3335
 #: classes/rpc.php:359
 msgid "no tags"
 msgstr "无标签"
 
-#: include/functions.php:3047
+#: include/functions.php:3053
 #: classes/feeds.php:649
 msgid "Edit tags for this article"
 msgstr "为本文编辑自定义标签"
 
-#: include/functions.php:3076
+#: include/functions.php:3082
 #: classes/feeds.php:605
 msgid "Originally from:"
 msgstr "来源："
 
-#: include/functions.php:3089
+#: include/functions.php:3095
 #: classes/feeds.php:618
 #: classes/pref/feeds.php:507
 msgid "Feed URL"
 msgstr "信息源 URL"
 
-#: include/functions.php:3120
+#: include/functions.php:3126
 #: classes/dlg.php:43
 #: classes/dlg.php:162
 #: classes/dlg.php:185
@@ -894,15 +913,15 @@ msgstr "信息源 URL"
 msgid "Close this window"
 msgstr "关闭本窗口"
 
-#: include/functions.php:3354
+#: include/functions.php:3360
 msgid "(edit note)"
 msgstr "（编辑注记）"
 
-#: include/functions.php:3587
+#: include/functions.php:3593
 msgid "unknown type"
 msgstr "未知类型"
 
-#: include/functions.php:3643
+#: include/functions.php:3649
 #, fuzzy
 msgid "Attachments"
 msgstr "附件："
@@ -943,7 +962,7 @@ msgid "Assign tags"
 msgstr "添加自定义标签"
 
 #: include/localized_schema.php:14
-#: js/viewfeed.js:1895
+#: js/viewfeed.js:1897
 msgid "Assign label"
 msgstr "添加预定义标签"
 
@@ -2144,6 +2163,10 @@ msgstr "保存信息"
 msgid "Your password is at default value, please change it."
 msgstr "您还在使用系统默认的密码，请修改。"
 
+#: classes/pref/prefs.php:236
+msgid "Changing your current password will disable OTP."
+msgstr ""
+
 #: classes/pref/prefs.php:241
 msgid "Old password"
 msgstr "原密码"
@@ -2162,6 +2185,10 @@ msgstr "更改密码"
 
 #: classes/pref/prefs.php:265
 msgid "One time passwords / Authenticator"
+msgstr ""
+
+#: classes/pref/prefs.php:269
+msgid "One time passwords are currently enabled. Enter your current password below to disable."
 msgstr ""
 
 #: classes/pref/prefs.php:294
@@ -2191,6 +2218,10 @@ msgstr ""
 #, fuzzy
 msgid "Enable OTP"
 msgstr "已启用"
+
+#: classes/pref/prefs.php:404
+msgid "Some preferences are only available in default profile."
+msgstr ""
 
 #: classes/pref/prefs.php:493
 msgid "Customize"
@@ -2229,6 +2260,10 @@ msgstr "退出偏好设置"
 #: classes/pref/prefs.php:625
 #: classes/pref/prefs.php:627
 msgid "Plugins"
+msgstr ""
+
+#: classes/pref/prefs.php:629
+msgid "You will need to reload Tiny Tiny RSS for plugin changes to take effect."
 msgstr ""
 
 #: classes/pref/prefs.php:655
@@ -2843,9 +2878,23 @@ msgstr "日期的语法正确："
 msgid "Date syntax is incorrect."
 msgstr "日期的语法错误。"
 
+#: js/functions.js:733
+msgid "Upload complete."
+msgstr ""
+
 #: js/functions.js:757
 msgid "Remove stored feed icon?"
 msgstr "移除已保存的信息源图标？"
+
+#: js/functions.js:762
+#, fuzzy
+msgid "Removing feed icon..."
+msgstr "移除已保存的信息源图标？"
+
+#: js/functions.js:767
+#, fuzzy
+msgid "Feed icon removed."
+msgstr "找不到信息源。"
 
 #: js/functions.js:789
 msgid "Please select an image file to upload."
@@ -2854,6 +2903,11 @@ msgstr "请选择图片文件上传。"
 #: js/functions.js:791
 msgid "Upload new icon for this feed?"
 msgstr "为本信息源上传一个新的图标？"
+
+#: js/functions.js:792
+#, fuzzy
+msgid "Uploading, please wait..."
+msgstr "读取中，请稍候……"
 
 #: js/functions.js:808
 msgid "Please enter label caption:"
@@ -2906,10 +2960,19 @@ msgstr "创建过滤器"
 msgid "Reset subscription? Tiny Tiny RSS will try to subscribe to the notification hub again on next feed update."
 msgstr "重置订阅？ Tiny Tiny RSS 将会在下次信息源更新的时候尝试再次订阅信息提醒中心。"
 
+#: js/functions.js:1267
+#, fuzzy
+msgid "Subscription reset."
+msgstr "订阅信息源"
+
 #: js/functions.js:1277
 #: js/tt-rss.js:369
 msgid "Unsubscribe from %s?"
 msgstr "从 %s 取消订阅？"
+
+#: js/functions.js:1280
+msgid "Removing feed..."
+msgstr ""
 
 #: js/functions.js:1386
 msgid "Please enter category title:"
@@ -2918,6 +2981,11 @@ msgstr "请填写类别名称："
 #: js/functions.js:1417
 msgid "Generate new syndication address for this feed?"
 msgstr "为本信息源生成新的群地址？"
+
+#: js/functions.js:1421
+#: js/prefs.js:1234
+msgid "Trying to change address..."
+msgstr ""
 
 #: js/functions.js:1608
 #: js/tt-rss.js:350
@@ -2928,6 +2996,13 @@ msgstr "您无法编辑这种类型的信息源。"
 #: js/functions.js:1623
 msgid "Edit Feed"
 msgstr "编辑信息源"
+
+#: js/functions.js:1629
+#: js/prefs.js:194
+#: js/prefs.js:749
+#, fuzzy
+msgid "Saving data..."
+msgstr "保存信息"
 
 #: js/functions.js:1661
 msgid "More Feeds"
@@ -2958,6 +3033,12 @@ msgstr "更新错误的信息源"
 msgid "Remove selected feeds?"
 msgstr "移除选中的信息源？"
 
+#: js/functions.js:1817
+#: js/prefs.js:1195
+#, fuzzy
+msgid "Removing selected feeds..."
+msgstr "移除选中的信息源？"
+
 #: js/functions.js:1915
 msgid "Help"
 msgstr ""
@@ -2984,6 +3065,11 @@ msgstr "请输入登录名："
 msgid "Can't create user: no login specified."
 msgstr "无法创建用户：没有指定登录名。"
 
+#: js/prefs.js:66
+#, fuzzy
+msgid "Adding user..."
+msgstr "创建过滤器"
+
 #: js/prefs.js:117
 msgid "Edit Filter"
 msgstr "编辑过滤器"
@@ -2993,8 +3079,18 @@ msgstr "编辑过滤器"
 msgid "Remove filter?"
 msgstr "移除这个过滤器： %s ？"
 
+#: js/prefs.js:169
+#, fuzzy
+msgid "Removing filter..."
+msgstr "创建过滤器"
+
 #: js/prefs.js:279
 msgid "Remove selected labels?"
+msgstr "移除选中的预定义标签？"
+
+#: js/prefs.js:282
+#, fuzzy
+msgid "Removing selected labels..."
 msgstr "移除选中的预定义标签？"
 
 #: js/prefs.js:295
@@ -3005,6 +3101,11 @@ msgstr "没有选择任何预定义标签。"
 #: js/prefs.js:309
 msgid "Remove selected users? Neither default admin nor your account will be removed."
 msgstr "移除选中的用户？默认管理员和您的帐户不会被移除。"
+
+#: js/prefs.js:312
+#, fuzzy
+msgid "Removing selected users..."
+msgstr "移除选定的过滤器？"
 
 #: js/prefs.js:326
 #: js/prefs.js:507
@@ -3017,6 +3118,11 @@ msgstr "没有选中任何用户。"
 msgid "Remove selected filters?"
 msgstr "移除选定的过滤器？"
 
+#: js/prefs.js:347
+#, fuzzy
+msgid "Removing selected filters..."
+msgstr "移除选定的过滤器？"
+
 #: js/prefs.js:359
 #: js/prefs.js:597
 #: js/prefs.js:616
@@ -3027,6 +3133,11 @@ msgstr "没有选中的过滤器。"
 msgid "Unsubscribe from selected feeds?"
 msgstr "从选中的信息源取消订阅？"
 
+#: js/prefs.js:382
+#, fuzzy
+msgid "Unsubscribing from selected feeds..."
+msgstr "取消订阅选中的信息源"
+
 #: js/prefs.js:412
 msgid "Please select only one feed."
 msgstr "请仅选择一个信息源。"
@@ -3035,13 +3146,28 @@ msgstr "请仅选择一个信息源。"
 msgid "Erase all non-starred articles in selected feed?"
 msgstr "清空选中的信息源当中所有未加星标的文章？"
 
+#: js/prefs.js:421
+#, fuzzy
+msgid "Clearing selected feed..."
+msgstr "编辑选定的信息源"
+
 #: js/prefs.js:440
 msgid "How many days of articles to keep (0 - use default)?"
 msgstr "文章保存几天？（填写0则采用默认设置）"
 
+#: js/prefs.js:443
+#, fuzzy
+msgid "Purging selected feed..."
+msgstr "编辑选定的信息源"
+
 #: js/prefs.js:478
 msgid "Login field cannot be blank."
 msgstr "请填写登录信息。"
+
+#: js/prefs.js:482
+#, fuzzy
+msgid "Saving user..."
+msgstr "创建过滤器"
 
 #: js/prefs.js:512
 #: js/prefs.js:533
@@ -3053,6 +3179,11 @@ msgstr "请仅选择一个用户。"
 msgid "Reset password of selected user?"
 msgstr "重置选定用户的密码？"
 
+#: js/prefs.js:540
+#, fuzzy
+msgid "Resetting password for selected user..."
+msgstr "重置选定用户的密码？"
+
 #: js/prefs.js:602
 msgid "Please select only one filter."
 msgstr "请仅选择一个过滤器。"
@@ -3061,6 +3192,11 @@ msgstr "请仅选择一个过滤器。"
 #, fuzzy
 msgid "Combine selected filters?"
 msgstr "移除选定的过滤器？"
+
+#: js/prefs.js:623
+#, fuzzy
+msgid "Joining filters..."
+msgstr "创建过滤器"
 
 #: js/prefs.js:684
 msgid "Edit Multiple Feeds"
@@ -3078,6 +3214,12 @@ msgstr "OPML 导入"
 msgid "Please choose an OPML file first."
 msgstr "请先选择一个 OPML 文件。"
 
+#: js/prefs.js:827
+#: plugins/import_export/import_export.js:115
+#, fuzzy
+msgid "Importing, please wait..."
+msgstr "读取中，请稍候……"
+
 #: js/prefs.js:980
 msgid "Reset to defaults?"
 msgstr "重置为默认状态？"
@@ -3086,9 +3228,19 @@ msgstr "重置为默认状态？"
 msgid "Remove category %s? Any nested feeds would be placed into Uncategorized."
 msgstr ""
 
+#: js/prefs.js:1105
+#, fuzzy
+msgid "Removing category..."
+msgstr "创建类别"
+
 #: js/prefs.js:1126
 msgid "Remove selected categories?"
 msgstr "移除选中的类别？"
+
+#: js/prefs.js:1129
+#, fuzzy
+msgid "Removing selected categories..."
+msgstr "移除选定的类别"
 
 #: js/prefs.js:1142
 msgid "No categories are selected."
@@ -3099,6 +3251,11 @@ msgstr "没有选中任何类别。"
 msgid "Category title:"
 msgstr "类别"
 
+#: js/prefs.js:1154
+#, fuzzy
+msgid "Creating category..."
+msgstr "创建过滤器"
+
 #: js/prefs.js:1181
 msgid "Feeds without recent updates"
 msgstr "最近没更新的信息源"
@@ -3107,13 +3264,28 @@ msgstr "最近没更新的信息源"
 msgid "Replace current OPML publishing address with a new one?"
 msgstr "将当前的 OPML 发布地址更改替换为新地址？"
 
+#: js/prefs.js:1319
+#, fuzzy
+msgid "Clearing feed..."
+msgstr "清空信息源数据"
+
 #: js/prefs.js:1339
 msgid "Rescore articles in selected feeds?"
+msgstr "为选中信息源中的文章重置评分？"
+
+#: js/prefs.js:1342
+#, fuzzy
+msgid "Rescoring selected feeds..."
 msgstr "为选中信息源中的文章重置评分？"
 
 #: js/prefs.js:1362
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr "重置所有文章的评分？这可能将花费很长时间。"
+
+#: js/prefs.js:1365
+#, fuzzy
+msgid "Rescoring feeds..."
+msgstr "为信息源重新评分"
 
 #: js/prefs.js:1382
 msgid "Reset selected labels to default colors?"
@@ -3126,6 +3298,11 @@ msgstr "偏好文件的设置"
 #: js/prefs.js:1428
 msgid "Remove selected profiles? Active and default profiles will not be removed."
 msgstr "移除选中的偏好文件？当前偏好与默认偏好不会被移除。"
+
+#: js/prefs.js:1431
+#, fuzzy
+msgid "Removing selected profiles..."
+msgstr "移除选中的偏好文件"
 
 #: js/prefs.js:1446
 msgid "No profiles are selected."
@@ -3141,13 +3318,32 @@ msgstr "启用选中的偏好文件？"
 msgid "Please choose a profile to activate."
 msgstr "请选择希望启用的偏好文件。"
 
+#: js/prefs.js:1475
+#, fuzzy
+msgid "Creating profile..."
+msgstr "创建偏好文件"
+
 #: js/prefs.js:1531
 msgid "This will invalidate all previously generated feed URLs. Continue?"
 msgstr "之前生成的信息源 URL 将会回到未认证状态。是否继续？"
 
+#: js/prefs.js:1534
+#: js/prefs.js:1553
+msgid "Clearing URLs..."
+msgstr ""
+
+#: js/prefs.js:1541
+#, fuzzy
+msgid "Generated URLs cleared."
+msgstr "生成一个新的 URL"
+
 #: js/prefs.js:1550
 msgid "This will invalidate all previously shared article URLs. Continue?"
 msgstr "之前共享文章的 URL 将会回到未认证状态。是否继续？"
+
+#: js/prefs.js:1560
+msgid "Shared URLs cleared."
+msgstr ""
 
 #: js/prefs.js:1648
 msgid "Label Editor"
@@ -3156,6 +3352,15 @@ msgstr "编辑预定义标签"
 #: js/prefs.js:1711
 msgid "This will clear your stored authentication information for Twitter. Continue?"
 msgstr "这将会清空所有保存过的 Twitter 认证信息。是否继续？"
+
+#: js/prefs.js:1714
+#, fuzzy
+msgid "Clearing credentials..."
+msgstr "清空保存的个人信息"
+
+#: js/prefs.js:1721
+msgid "Twitter credentials have been cleared."
+msgstr ""
 
 #: js/prefs.js:1791
 msgid "Subscribing to feeds..."
@@ -3168,6 +3373,11 @@ msgstr ""
 #: js/tt-rss.js:120
 msgid "Mark all articles as read?"
 msgstr "将所有文章标记为已读？"
+
+#: js/tt-rss.js:126
+#, fuzzy
+msgid "Marking all feeds as read..."
+msgstr "标记所有信息源为已读"
 
 #: js/tt-rss.js:358
 msgid "You can't unsubscribe from the category."
@@ -3185,6 +3395,11 @@ msgstr "无法重置本类信息源的评分。"
 #: js/tt-rss.js:524
 msgid "Rescore articles in %s?"
 msgstr "重置 %s 中文章的评分？"
+
+#: js/tt-rss.js:527
+#, fuzzy
+msgid "Rescoring articles..."
+msgstr "为文章重新评分"
 
 #: js/tt-rss.js:694
 #, fuzzy
@@ -3231,7 +3446,7 @@ msgstr "取消发布文章"
 #: js/viewfeed.js:974
 #: js/viewfeed.js:1017
 #: js/viewfeed.js:1067
-#: js/viewfeed.js:2013
+#: js/viewfeed.js:2015
 #: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
@@ -3275,6 +3490,11 @@ msgstr[0] "将 %s 中选中的 %d 篇文章标记为已读？"
 msgid "Edit article Tags"
 msgstr "编辑文章的自定义标签"
 
+#: js/viewfeed.js:1103
+#, fuzzy
+msgid "Saving article tags..."
+msgstr "编辑文章的自定义标签"
+
 #: js/viewfeed.js:1283
 msgid "No article is selected."
 msgstr "未选中任何文章。"
@@ -3289,38 +3509,38 @@ msgid "Mark %d article as read?"
 msgid_plural "Mark %d articles as read?"
 msgstr[0] "将 %d 篇文章标记为已读？"
 
-#: js/viewfeed.js:1824
+#: js/viewfeed.js:1826
 msgid "Open original article"
 msgstr "打开原文"
 
-#: js/viewfeed.js:1830
+#: js/viewfeed.js:1832
 #, fuzzy
 msgid "Display article URL"
 msgstr "显示 URL"
 
-#: js/viewfeed.js:1900
+#: js/viewfeed.js:1902
 msgid "Remove label"
 msgstr "移除预定义标签"
 
-#: js/viewfeed.js:1924
+#: js/viewfeed.js:1926
 msgid "Playing..."
 msgstr "播放中……"
 
-#: js/viewfeed.js:1925
+#: js/viewfeed.js:1927
 msgid "Click to pause"
 msgstr "点击暂停"
 
-#: js/viewfeed.js:1982
+#: js/viewfeed.js:1984
 #, fuzzy
 msgid "Please enter new score for selected articles:"
 msgstr "删除选中的 %d 篇文章？"
 
-#: js/viewfeed.js:2024
+#: js/viewfeed.js:2026
 #, fuzzy
 msgid "Please enter new score for this article:"
 msgstr "请填写类别名称："
 
-#: js/viewfeed.js:2057
+#: js/viewfeed.js:2059
 #, fuzzy
 msgid "Article URL:"
 msgstr "全部文章"
@@ -3379,6 +3599,11 @@ msgstr ""
 msgid "Please choose the file first."
 msgstr ""
 
+#: plugins/note/note.js:17
+#, fuzzy
+msgid "Saving article note..."
+msgstr "编辑文章注记"
+
 #: plugins/instances/instances.js:10
 msgid "Link Instance"
 msgstr "链接实例"
@@ -3389,6 +3614,11 @@ msgstr "编辑实例"
 
 #: plugins/instances/instances.js:122
 msgid "Remove selected instances?"
+msgstr "移除选中的实例？"
+
+#: plugins/instances/instances.js:125
+#, fuzzy
+msgid "Removing selected instances..."
 msgstr "移除选中的实例？"
 
 #: plugins/instances/instances.js:139
@@ -3407,6 +3637,9 @@ msgstr "通过 URL 分享文章"
 #: plugins/updater/updater.js:58
 msgid "Live updating is considered experimental. Backup your tt-rss directory before continuing. Please type 'yes' to continue."
 msgstr ""
+
+#~ msgid "Updated"
+#~ msgstr "有更新的"
 
 #~ msgid "Home"
 #~ msgstr "主页"
@@ -3603,9 +3836,6 @@ msgstr ""
 #~ msgid "No feed categories defined."
 #~ msgstr "没有定义过的信息源类别。"
 
-#~ msgid "Remove selected categories"
-#~ msgstr "移除选定的类别"
-
 #~ msgid "<b>Hint:</b> you can drag feeds and categories around."
 #~ msgstr "<b>提示：</b> 您可以拖拽信息源和类别。"
 
@@ -3623,9 +3853,6 @@ msgstr ""
 
 #~ msgid "Register with Twitter.com"
 #~ msgstr "在 Twitter.com 上注册"
-
-#~ msgid "Clear stored credentials"
-#~ msgstr "清空保存的个人信息"
 
 #~ msgid "Created filter <b>%s</b>"
 #~ msgstr "创建过滤器 <b>%s</b>"

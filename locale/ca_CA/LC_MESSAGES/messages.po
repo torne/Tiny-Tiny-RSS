@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-24 20:08+0400\n"
+"POT-Creation-Date: 2013-03-25 12:26+0400\n"
 "PO-Revision-Date: 2009-11-19 09:40+0100\n"
 "Last-Translator: Alfred Galitó <bratac@bratac.cat>\n"
 "Language-Team: Català <bratac@bratac.cat>\n"
@@ -251,24 +251,47 @@ msgstr "Ha fallat la sortida de prova de SQL, reviseu la base configuració de l
 
 #: index.php:118
 #: index.php:148
-#: index.php:254
+#: index.php:253
 #: prefs.php:83
 #: classes/backend.php:5
 #: classes/pref/labels.php:296
 #: classes/pref/filters.php:609
 #: classes/pref/feeds.php:1296
 #: plugins/digest/digest_body.php:47
+#: js/feedlist.js:130
+#: js/feedlist.js:456
+#: js/functions.js:420
+#: js/functions.js:823
+#: js/functions.js:1259
+#: js/functions.js:1392
+#: js/functions.js:1704
+#: js/prefs.js:86
+#: js/prefs.js:576
+#: js/prefs.js:666
+#: js/prefs.js:870
+#: js/prefs.js:1457
+#: js/prefs.js:1510
+#: js/prefs.js:1568
+#: js/prefs.js:1584
+#: js/prefs.js:1600
+#: js/prefs.js:1619
+#: js/prefs.js:1813
+#: js/prefs.js:1829
+#: js/tt-rss.js:814
+#: js/viewfeed.js:783
 #: js/viewfeed.js:1205
+#: plugins/import_export/import_export.js:17
+#: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
 msgstr "S'està obrint, preneu paciència..."
 
 #: index.php:128
-#: index.php:200
+#: index.php:199
 msgid "Communication problem with server."
 msgstr ""
 
 #: index.php:134
-#: index.php:208
+#: index.php:207
 msgid "New version of Tiny Tiny RSS is available!"
 msgstr "Hi ha una nova versió de Tiny Tiny RSS!"
 
@@ -311,40 +334,36 @@ msgstr "Per llegir"
 msgid "Ignore Scoring"
 msgstr "Ignora la puntuació"
 
-#: index.php:174
-msgid "Updated"
-msgstr "Actualitzat"
-
-#: index.php:177
+#: index.php:176
 #, fuzzy
 msgid "Sort articles"
 msgstr "Articles mémorisés"
 
-#: index.php:180
+#: index.php:179
 msgid "Default"
 msgstr "Per defecte"
 
-#: index.php:181
+#: index.php:180
 msgid "Date"
 msgstr "Data"
 
-#: index.php:182
+#: index.php:181
 #: include/localized_schema.php:3
 msgid "Title"
 msgstr "Títol"
 
-#: index.php:183
+#: index.php:182
 msgid "Score"
 msgstr "Puntuació"
 
-#: index.php:189
+#: index.php:188
 #: classes/pref/feeds.php:535
 #: classes/pref/feeds.php:758
 msgid "Update"
 msgstr "Actualitza"
 
-#: index.php:193
-#: index.php:223
+#: index.php:192
+#: index.php:222
 #: include/functions.php:1917
 #: include/localized_schema.php:10
 #: classes/feeds.php:111
@@ -356,88 +375,88 @@ msgstr "Actualitza"
 msgid "Mark as read"
 msgstr "Marca'l com a llegit"
 
-#: index.php:213
+#: index.php:212
 msgid "Actions..."
 msgstr "Accions..."
 
-#: index.php:215
+#: index.php:214
 #, fuzzy
 msgid "Preferences..."
 msgstr "Preferències"
 
-#: index.php:216
+#: index.php:215
 msgid "Search..."
 msgstr "Cerca..."
 
-#: index.php:217
+#: index.php:216
 msgid "Feed actions:"
 msgstr "Accions sobre els canals:"
 
-#: index.php:218
+#: index.php:217
 #: classes/handler/public.php:542
 msgid "Subscribe to feed..."
 msgstr "Subscriviu-vos al canal"
 
-#: index.php:219
+#: index.php:218
 msgid "Edit this feed..."
 msgstr "Edita aquest canal..."
 
-#: index.php:220
+#: index.php:219
 msgid "Rescore feed"
 msgstr "Canvia la puntuació del canal"
 
-#: index.php:221
+#: index.php:220
 #: classes/pref/feeds.php:684
 #: classes/pref/feeds.php:1269
 #: js/PrefFeedTree.js:73
 msgid "Unsubscribe"
 msgstr "Dóna't de baixa"
 
-#: index.php:222
+#: index.php:221
 msgid "All feeds:"
 msgstr "Tots els canals"
 
-#: index.php:224
+#: index.php:223
 msgid "(Un)hide read feeds"
 msgstr "Mostra/amaga els canals llegits"
 
-#: index.php:225
+#: index.php:224
 msgid "Other actions:"
 msgstr "Altres accions:"
 
-#: index.php:227
+#: index.php:226
 msgid "Switch to digest..."
 msgstr ""
 
-#: index.php:229
+#: index.php:228
 #, fuzzy
 msgid "Show tag cloud..."
 msgstr "Núvol d'etiquetes"
 
-#: index.php:231
+#: index.php:230
 #: include/functions.php:1903
 #, fuzzy
 msgid "Toggle widescreen mode"
 msgstr "Canvia al mode de reordenació de categories"
 
-#: index.php:233
+#: index.php:232
 msgid "Select by tags..."
 msgstr ""
 
-#: index.php:234
+#: index.php:233
 msgid "Create label..."
 msgstr "Crea una etiqueta"
 
-#: index.php:235
+#: index.php:234
 msgid "Create filter..."
 msgstr "Crea un filtre..."
 
-#: index.php:236
+#: index.php:235
 #, fuzzy
 msgid "Keyboard shortcuts help"
 msgstr "Dreceres de teclat"
 
-#: index.php:238
+#: index.php:237
 #: plugins/digest/digest_body.php:61
 msgid "Logout"
 msgstr "Surt"
@@ -674,13 +693,13 @@ msgid "Open in new window"
 msgstr "Obre l'article en una finestra nova"
 
 #: include/functions.php:1896
-#: js/viewfeed.js:1844
+#: js/viewfeed.js:1846
 #, fuzzy
 msgid "Mark below as read"
 msgstr "Marca'l com a llegit"
 
 #: include/functions.php:1897
-#: js/viewfeed.js:1838
+#: js/viewfeed.js:1840
 #, fuzzy
 msgid "Mark above as read"
 msgstr "Marca'l com a llegit"
@@ -846,46 +865,46 @@ msgstr "Mostra el diàleg de cerca"
 msgid "Search results: %s"
 msgstr "Resultats de la cerca"
 
-#: include/functions.php:2897
-#: js/viewfeed.js:1931
+#: include/functions.php:2903
+#: js/viewfeed.js:1933
 #, fuzzy
 msgid "Click to play"
 msgstr "Feu clic per editar"
 
-#: include/functions.php:2898
-#: js/viewfeed.js:1930
+#: include/functions.php:2904
+#: js/viewfeed.js:1932
 msgid "Play"
 msgstr ""
 
-#: include/functions.php:3015
+#: include/functions.php:3021
 msgid " - "
 msgstr " - "
 
-#: include/functions.php:3037
-#: include/functions.php:3329
+#: include/functions.php:3043
+#: include/functions.php:3335
 #: classes/rpc.php:359
 msgid "no tags"
 msgstr "sense etiqueta"
 
-#: include/functions.php:3047
+#: include/functions.php:3053
 #: classes/feeds.php:649
 msgid "Edit tags for this article"
 msgstr "Edita les etiquetes d'aquest article"
 
-#: include/functions.php:3076
+#: include/functions.php:3082
 #: classes/feeds.php:605
 #, fuzzy
 msgid "Originally from:"
 msgstr "Mostra el contingut original de l'article"
 
-#: include/functions.php:3089
+#: include/functions.php:3095
 #: classes/feeds.php:618
 #: classes/pref/feeds.php:507
 #, fuzzy
 msgid "Feed URL"
 msgstr "Canal"
 
-#: include/functions.php:3120
+#: include/functions.php:3126
 #: classes/dlg.php:43
 #: classes/dlg.php:162
 #: classes/dlg.php:185
@@ -907,16 +926,16 @@ msgstr "Canal"
 msgid "Close this window"
 msgstr "Tanca la finestra"
 
-#: include/functions.php:3354
+#: include/functions.php:3360
 #, fuzzy
 msgid "(edit note)"
 msgstr "edita la nota"
 
-#: include/functions.php:3587
+#: include/functions.php:3593
 msgid "unknown type"
 msgstr "tipus desconegut"
 
-#: include/functions.php:3643
+#: include/functions.php:3649
 #, fuzzy
 msgid "Attachments"
 msgstr "Adjuncions:"
@@ -958,7 +977,7 @@ msgid "Assign tags"
 msgstr "Assigna etiquetes"
 
 #: include/localized_schema.php:14
-#: js/viewfeed.js:1895
+#: js/viewfeed.js:1897
 msgid "Assign label"
 msgstr "Assigna-li l'etiqueta"
 
@@ -2212,6 +2231,10 @@ msgstr ""
 "La contrasenya actual és la predeterminada,\n"
 "\t\t\t\t\t\t penseu en modificar-la."
 
+#: classes/pref/prefs.php:236
+msgid "Changing your current password will disable OTP."
+msgstr ""
+
 #: classes/pref/prefs.php:241
 msgid "Old password"
 msgstr "Contrasenya antiga"
@@ -2230,6 +2253,10 @@ msgstr "Canvia la contrasenya"
 
 #: classes/pref/prefs.php:265
 msgid "One time passwords / Authenticator"
+msgstr ""
+
+#: classes/pref/prefs.php:269
+msgid "One time passwords are currently enabled. Enter your current password below to disable."
 msgstr ""
 
 #: classes/pref/prefs.php:294
@@ -2259,6 +2286,10 @@ msgstr ""
 #, fuzzy
 msgid "Enable OTP"
 msgstr "Activat"
+
+#: classes/pref/prefs.php:404
+msgid "Some preferences are only available in default profile."
+msgstr ""
 
 #: classes/pref/prefs.php:493
 #, fuzzy
@@ -2300,6 +2331,10 @@ msgstr "Surt de les preferències"
 #: classes/pref/prefs.php:625
 #: classes/pref/prefs.php:627
 msgid "Plugins"
+msgstr ""
+
+#: classes/pref/prefs.php:629
+msgid "You will need to reload Tiny Tiny RSS for plugin changes to take effect."
 msgstr ""
 
 #: classes/pref/prefs.php:655
@@ -2955,10 +2990,25 @@ msgstr "La contrasenya antiga és incorrecta."
 msgid "Date syntax is incorrect."
 msgstr "La contrasenya antiga és incorrecta."
 
+#: js/functions.js:733
+#, fuzzy
+msgid "Upload complete."
+msgstr "Articles mémorisés"
+
 #: js/functions.js:757
 #, fuzzy
 msgid "Remove stored feed icon?"
 msgstr "Elimina les dades emmagatzemades"
+
+#: js/functions.js:762
+#, fuzzy
+msgid "Removing feed icon..."
+msgstr "S'està eliminant el canal..."
+
+#: js/functions.js:767
+#, fuzzy
+msgid "Feed icon removed."
+msgstr "No s'ha trobat el canal."
 
 #: js/functions.js:789
 #, fuzzy
@@ -2968,6 +3018,11 @@ msgstr "Si us plau, seleccioneu un canal."
 #: js/functions.js:791
 msgid "Upload new icon for this feed?"
 msgstr ""
+
+#: js/functions.js:792
+#, fuzzy
+msgid "Uploading, please wait..."
+msgstr "S'està obrint, preneu paciència..."
 
 #: js/functions.js:808
 msgid "Please enter label caption:"
@@ -3022,10 +3077,19 @@ msgstr "Crea un filtre"
 msgid "Reset subscription? Tiny Tiny RSS will try to subscribe to the notification hub again on next feed update."
 msgstr ""
 
+#: js/functions.js:1267
+#, fuzzy
+msgid "Subscription reset."
+msgstr "Subscriviu-vos al canal"
+
 #: js/functions.js:1277
 #: js/tt-rss.js:369
 msgid "Unsubscribe from %s?"
 msgstr "Us voleu donar de baixa de %s ?"
+
+#: js/functions.js:1280
+msgid "Removing feed..."
+msgstr "S'està eliminant el canal..."
 
 #: js/functions.js:1386
 #, fuzzy
@@ -3035,6 +3099,11 @@ msgstr "Si us plau, escriviu una nota per aquest article:"
 #: js/functions.js:1417
 msgid "Generate new syndication address for this feed?"
 msgstr ""
+
+#: js/functions.js:1421
+#: js/prefs.js:1234
+msgid "Trying to change address..."
+msgstr "S'està intentant canviar l'adreça..."
 
 #: js/functions.js:1608
 #: js/tt-rss.js:350
@@ -3046,6 +3115,13 @@ msgstr "No podeu editar aquest tipus de canal."
 #, fuzzy
 msgid "Edit Feed"
 msgstr "Edita el canal"
+
+#: js/functions.js:1629
+#: js/prefs.js:194
+#: js/prefs.js:749
+#, fuzzy
+msgid "Saving data..."
+msgstr "S'està desant el canal..."
 
 #: js/functions.js:1661
 #, fuzzy
@@ -3079,6 +3155,12 @@ msgstr "Erreurs de mise à jour"
 msgid "Remove selected feeds?"
 msgstr "Esteu segur que voleu suprimir els filtres seleccionats?"
 
+#: js/functions.js:1817
+#: js/prefs.js:1195
+#, fuzzy
+msgid "Removing selected feeds..."
+msgstr "S'estan suprimint els filtres seleccionats..."
+
 #: js/functions.js:1915
 msgid "Help"
 msgstr "Ajuda"
@@ -3106,6 +3188,10 @@ msgstr "Si us plau, introduïu la vostra identificació (login)"
 msgid "Can't create user: no login specified."
 msgstr "No s'ha pogut crear l'usuari: no hi ha cap nom especificat."
 
+#: js/prefs.js:66
+msgid "Adding user..."
+msgstr "S'està afegint l'usuari"
+
 #: js/prefs.js:117
 #, fuzzy
 msgid "Edit Filter"
@@ -3116,9 +3202,17 @@ msgstr "Filtres"
 msgid "Remove filter?"
 msgstr "Esteu segur que voleu suprimir el filtre %s?"
 
+#: js/prefs.js:169
+msgid "Removing filter..."
+msgstr "S'està eliminant el filtre."
+
 #: js/prefs.js:279
 msgid "Remove selected labels?"
 msgstr "Esteu segur que voleu suprimir les etiquetes seleccionades?"
+
+#: js/prefs.js:282
+msgid "Removing selected labels..."
+msgstr "S'estan seleccionat les etiquetes seleccionades..."
 
 #: js/prefs.js:295
 #: js/prefs.js:1396
@@ -3128,6 +3222,10 @@ msgstr "No heu seleccionat cap etiqueta."
 #: js/prefs.js:309
 msgid "Remove selected users? Neither default admin nor your account will be removed."
 msgstr ""
+
+#: js/prefs.js:312
+msgid "Removing selected users..."
+msgstr "S'estan suprimint els usuaris seleccionats..."
 
 #: js/prefs.js:326
 #: js/prefs.js:507
@@ -3140,6 +3238,10 @@ msgstr "No heu seleccionat cap usuari."
 msgid "Remove selected filters?"
 msgstr "Esteu segur que voleu suprimir els filtres seleccionats?"
 
+#: js/prefs.js:347
+msgid "Removing selected filters..."
+msgstr "S'estan suprimint els filtres seleccionats..."
+
 #: js/prefs.js:359
 #: js/prefs.js:597
 #: js/prefs.js:616
@@ -3150,6 +3252,10 @@ msgstr "No heu seleccionat cap filtre."
 msgid "Unsubscribe from selected feeds?"
 msgstr "Us voleu donar de baixa dels canals seleccionats?"
 
+#: js/prefs.js:382
+msgid "Unsubscribing from selected feeds..."
+msgstr "S'estan cancel·lant les subscripcions als canals seleccionats."
+
 #: js/prefs.js:412
 msgid "Please select only one feed."
 msgstr "Si us plau, seleccioneu només un canal."
@@ -3158,13 +3264,26 @@ msgstr "Si us plau, seleccioneu només un canal."
 msgid "Erase all non-starred articles in selected feed?"
 msgstr "Esteu segur que voleu suprimir tots els articles que no estan marcats als canals seleccionats?"
 
+#: js/prefs.js:421
+msgid "Clearing selected feed..."
+msgstr "S'està netejant el canal seleccionat..."
+
 #: js/prefs.js:440
 msgid "How many days of articles to keep (0 - use default)?"
 msgstr "Quants dies voleu mantenir els articles (0 - per defecte)?"
 
+#: js/prefs.js:443
+#, fuzzy
+msgid "Purging selected feed..."
+msgstr "S'està netejant el canal seleccionat..."
+
 #: js/prefs.js:478
 msgid "Login field cannot be blank."
 msgstr "El nom del camp no es pot deixar en blanc."
+
+#: js/prefs.js:482
+msgid "Saving user..."
+msgstr "S'està desant l'usuari"
 
 #: js/prefs.js:512
 #: js/prefs.js:533
@@ -3176,6 +3295,10 @@ msgstr "Si us plau, seleccioneu només un usuari."
 msgid "Reset password of selected user?"
 msgstr "Voleu reiniciar la contrasenya de l'usuari seleccionat?"
 
+#: js/prefs.js:540
+msgid "Resetting password for selected user..."
+msgstr "S'està reiniciant la contrasenya de l'usuari seleccionat..."
+
 #: js/prefs.js:602
 msgid "Please select only one filter."
 msgstr "Si us plau, seleccioneu només un filtre."
@@ -3184,6 +3307,11 @@ msgstr "Si us plau, seleccioneu només un filtre."
 #, fuzzy
 msgid "Combine selected filters?"
 msgstr "Esteu segur que voleu suprimir els filtres seleccionats?"
+
+#: js/prefs.js:623
+#, fuzzy
+msgid "Joining filters..."
+msgstr "S'està eliminant el filtre."
 
 #: js/prefs.js:684
 #, fuzzy
@@ -3204,6 +3332,12 @@ msgstr "Importeu"
 msgid "Please choose an OPML file first."
 msgstr "Primerament heu de seleccionar un canal."
 
+#: js/prefs.js:827
+#: plugins/import_export/import_export.js:115
+#, fuzzy
+msgid "Importing, please wait..."
+msgstr "S'està obrint, preneu paciència..."
+
 #: js/prefs.js:980
 msgid "Reset to defaults?"
 msgstr "Esteu segur que voleu establir els valors per defecte?"
@@ -3212,9 +3346,18 @@ msgstr "Esteu segur que voleu establir els valors per defecte?"
 msgid "Remove category %s? Any nested feeds would be placed into Uncategorized."
 msgstr ""
 
+#: js/prefs.js:1105
+#, fuzzy
+msgid "Removing category..."
+msgstr "Crea una categoria"
+
 #: js/prefs.js:1126
 msgid "Remove selected categories?"
 msgstr "Esteu segur que voleu suprimir les categories seleccionades?"
+
+#: js/prefs.js:1129
+msgid "Removing selected categories..."
+msgstr "S'estan seleccionant les categories seleccionades..."
 
 #: js/prefs.js:1142
 msgid "No categories are selected."
@@ -3224,6 +3367,11 @@ msgstr "No heu seleccionat cap categoria."
 #, fuzzy
 msgid "Category title:"
 msgstr "Edita les categories"
+
+#: js/prefs.js:1154
+#, fuzzy
+msgid "Creating category..."
+msgstr "Crea un filtre..."
 
 #: js/prefs.js:1181
 #, fuzzy
@@ -3235,13 +3383,27 @@ msgstr "Erreurs de mise à jour"
 msgid "Replace current OPML publishing address with a new one?"
 msgstr "Voleu canviar l'adreça de publicació per una de nova?"
 
+#: js/prefs.js:1319
+msgid "Clearing feed..."
+msgstr "S'està netejant el canal..."
+
 #: js/prefs.js:1339
 msgid "Rescore articles in selected feeds?"
 msgstr "Esteu segur que voleu canviar la puntuació dels articles en les etiquetes personalitzades?"
 
+#: js/prefs.js:1342
+#, fuzzy
+msgid "Rescoring selected feeds..."
+msgstr "S'està netejant el canal seleccionat..."
+
 #: js/prefs.js:1362
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr "Esteu segur que voleu recuperar tots els articles? Aquesta operació pot durar molt temps."
+
+#: js/prefs.js:1365
+#, fuzzy
+msgid "Rescoring feeds..."
+msgstr "Suppression d'un flux..."
 
 #: js/prefs.js:1382
 #, fuzzy
@@ -3255,6 +3417,11 @@ msgstr ""
 #: js/prefs.js:1428
 msgid "Remove selected profiles? Active and default profiles will not be removed."
 msgstr ""
+
+#: js/prefs.js:1431
+#, fuzzy
+msgid "Removing selected profiles..."
+msgstr "S'estan suprimint els filtres seleccionats..."
 
 #: js/prefs.js:1446
 #, fuzzy
@@ -3273,12 +3440,32 @@ msgstr "Esteu segur que voleu suprimir els filtres seleccionats?"
 msgid "Please choose a profile to activate."
 msgstr "Primerament heu de seleccionar un canal."
 
+#: js/prefs.js:1475
+#, fuzzy
+msgid "Creating profile..."
+msgstr "Crea un filtre"
+
 #: js/prefs.js:1531
 msgid "This will invalidate all previously generated feed URLs. Continue?"
 msgstr ""
 
+#: js/prefs.js:1534
+#: js/prefs.js:1553
+#, fuzzy
+msgid "Clearing URLs..."
+msgstr "S'està netejant el canal..."
+
+#: js/prefs.js:1541
+#, fuzzy
+msgid "Generated URLs cleared."
+msgstr "Canals generats"
+
 #: js/prefs.js:1550
 msgid "This will invalidate all previously shared article URLs. Continue?"
+msgstr ""
+
+#: js/prefs.js:1560
+msgid "Shared URLs cleared."
 msgstr ""
 
 #: js/prefs.js:1648
@@ -3287,6 +3474,15 @@ msgstr "Éditeur d'intitulé"
 
 #: js/prefs.js:1711
 msgid "This will clear your stored authentication information for Twitter. Continue?"
+msgstr ""
+
+#: js/prefs.js:1714
+#, fuzzy
+msgid "Clearing credentials..."
+msgstr "Esborra les dades del canal"
+
+#: js/prefs.js:1721
+msgid "Twitter credentials have been cleared."
 msgstr ""
 
 #: js/prefs.js:1791
@@ -3301,6 +3497,10 @@ msgstr ""
 #: js/tt-rss.js:120
 msgid "Mark all articles as read?"
 msgstr "Esteu segur que voleu marcar tots els articles com a llegits?"
+
+#: js/tt-rss.js:126
+msgid "Marking all feeds as read..."
+msgstr "S'estan marcant tots els canals com a llegits..."
 
 #: js/tt-rss.js:358
 msgid "You can't unsubscribe from the category."
@@ -3318,6 +3518,10 @@ msgstr "No podeu canviar la puntuació d'aquest tipus de canal."
 #: js/tt-rss.js:524
 msgid "Rescore articles in %s?"
 msgstr "Esteu segur que voleu canviar la puntuació dels articles a %s?"
+
+#: js/tt-rss.js:527
+msgid "Rescoring articles..."
+msgstr "S'estan canviant la puntuació dels articles"
 
 #: js/tt-rss.js:694
 #, fuzzy
@@ -3365,7 +3569,7 @@ msgstr "Deixa de publicar l'article"
 #: js/viewfeed.js:974
 #: js/viewfeed.js:1017
 #: js/viewfeed.js:1067
-#: js/viewfeed.js:2013
+#: js/viewfeed.js:2015
 #: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
@@ -3415,6 +3619,10 @@ msgstr[1] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a
 msgid "Edit article Tags"
 msgstr "Edita les etiquetes"
 
+#: js/viewfeed.js:1103
+msgid "Saving article tags..."
+msgstr "S'estan desant les etiquetes de l'article"
+
 #: js/viewfeed.js:1283
 msgid "No article is selected."
 msgstr "No hi ha cap article seleccionat."
@@ -3430,42 +3638,42 @@ msgid_plural "Mark %d articles as read?"
 msgstr[0] "Esteu segur que voleu marcar  %d article(s) com a llegit(s) ?"
 msgstr[1] "Esteu segur que voleu marcar  %d article(s) com a llegit(s) ?"
 
-#: js/viewfeed.js:1824
+#: js/viewfeed.js:1826
 #, fuzzy
 msgid "Open original article"
 msgstr "Mostra el contingut original de l'article"
 
-#: js/viewfeed.js:1830
+#: js/viewfeed.js:1832
 #, fuzzy
 msgid "Display article URL"
 msgstr "afficher les étiquettes"
 
-#: js/viewfeed.js:1900
+#: js/viewfeed.js:1902
 #, fuzzy
 msgid "Remove label"
 msgstr "Esteu segur que voleu suprimir les etiquetes seleccionades?"
 
-#: js/viewfeed.js:1924
+#: js/viewfeed.js:1926
 #, fuzzy
 msgid "Playing..."
 msgstr "S'està carregant la llista de canals..."
 
-#: js/viewfeed.js:1925
+#: js/viewfeed.js:1927
 #, fuzzy
 msgid "Click to pause"
 msgstr "Feu clic per editar"
 
-#: js/viewfeed.js:1982
+#: js/viewfeed.js:1984
 #, fuzzy
 msgid "Please enter new score for selected articles:"
 msgstr "Si us plau, escriviu una nota per aquest article:"
 
-#: js/viewfeed.js:2024
+#: js/viewfeed.js:2026
 #, fuzzy
 msgid "Please enter new score for this article:"
 msgstr "Si us plau, escriviu una nota per aquest article:"
 
-#: js/viewfeed.js:2057
+#: js/viewfeed.js:2059
 #, fuzzy
 msgid "Article URL:"
 msgstr "Tots els articles"
@@ -3535,6 +3743,11 @@ msgstr "Importeu"
 msgid "Please choose the file first."
 msgstr "Primerament heu de seleccionar un canal."
 
+#: plugins/note/note.js:17
+#, fuzzy
+msgid "Saving article note..."
+msgstr "S'estan desant les etiquetes de l'article"
+
 #: plugins/instances/instances.js:10
 #, fuzzy
 msgid "Link Instance"
@@ -3549,6 +3762,11 @@ msgstr "Edita les etiquetes"
 #, fuzzy
 msgid "Remove selected instances?"
 msgstr "Esteu segur que voleu suprimir els filtres seleccionats?"
+
+#: plugins/instances/instances.js:125
+#, fuzzy
+msgid "Removing selected instances..."
+msgstr "S'estan suprimint els filtres seleccionats..."
 
 #: plugins/instances/instances.js:139
 #: plugins/instances/instances.js:151
@@ -3569,6 +3787,9 @@ msgstr "Marca l'article"
 #: plugins/updater/updater.js:58
 msgid "Live updating is considered experimental. Backup your tt-rss directory before continuing. Please type 'yes' to continue."
 msgstr ""
+
+#~ msgid "Updated"
+#~ msgstr "Actualitzat"
 
 #, fuzzy
 #~ msgid ""
@@ -3772,10 +3993,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Twitter"
 #~ msgstr "Títol"
-
-#, fuzzy
-#~ msgid "Clear stored credentials"
-#~ msgstr "Esborra les dades del canal"
 
 #~ msgid "Created filter <b>%s</b>"
 #~ msgstr "S'ha creat el filtre <b>%s</b>"
@@ -4169,9 +4386,6 @@ msgstr ""
 #~ msgid "Adding feed..."
 #~ msgstr "S'està afegint el canal..."
 
-#~ msgid "Adding user..."
-#~ msgstr "S'està afegint l'usuari"
-
 #~ msgid "Assign score to article:"
 #~ msgstr "Puntua l'article:"
 
@@ -4190,12 +4404,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Changing password..."
 #~ msgstr "Canvia la contrasenya"
-
-#~ msgid "Clearing feed..."
-#~ msgstr "S'està netejant el canal..."
-
-#~ msgid "Clearing selected feed..."
-#~ msgstr "S'està netejant el canal seleccionat..."
 
 #~ msgid "comments"
 #~ msgstr "comentaris"
@@ -4218,18 +4426,11 @@ msgstr ""
 #~ msgid "Failed to open window for the article"
 #~ msgstr "No s'ha pogut obrir la finestra per a l'article"
 
-#, fuzzy
-#~ msgid "Feed icon removed."
-#~ msgstr "No s'ha trobat el canal."
-
 #~ msgid "Local data removed."
 #~ msgstr "S'han eliminat les dades locals."
 
 #~ msgid "Mark as read:"
 #~ msgstr "Marca com a llegits"
-
-#~ msgid "Marking all feeds as read..."
-#~ msgstr "S'estan marcant tots els canals com a llegits..."
 
 #~ msgid "Please wait until operation finishes."
 #~ msgstr "Espereu a que finalitzi l'operació actual."
@@ -4237,54 +4438,17 @@ msgstr ""
 #~ msgid "Remove selected articles from label?"
 #~ msgstr "Esteu segur que voleu eliminar els articles seleccionats de l'etiqueta?"
 
-#~ msgid "Removing feed..."
-#~ msgstr "S'està eliminant el canal..."
-
-#~ msgid "Removing filter..."
-#~ msgstr "S'està eliminant el filtre."
-
 #~ msgid "Removing offline data..."
 #~ msgstr "S'estan eliminant les dades fora de línia."
 
-#~ msgid "Removing selected categories..."
-#~ msgstr "S'estan seleccionant les categories seleccionades..."
-
-#~ msgid "Removing selected filters..."
-#~ msgstr "S'estan suprimint els filtres seleccionats..."
-
-#~ msgid "Removing selected labels..."
-#~ msgstr "S'estan seleccionat les etiquetes seleccionades..."
-
-#, fuzzy
-#~ msgid "Removing selected profiles..."
-#~ msgstr "S'estan suprimint els filtres seleccionats..."
-
-#~ msgid "Removing selected users..."
-#~ msgstr "S'estan suprimint els usuaris seleccionats..."
-
 #~ msgid "Rescore last 100 articles in selected feeds?"
 #~ msgstr "Esteu segur que voleu canviar la puntuació dels últims 100 articles en els canals seleccionats?"
-
-#~ msgid "Rescoring articles..."
-#~ msgstr "S'estan canviant la puntuació dels articles"
-
-#~ msgid "Resetting password for selected user..."
-#~ msgstr "S'està reiniciant la contrasenya de l'usuari seleccionat..."
-
-#~ msgid "Saving article tags..."
-#~ msgstr "S'estan desant les etiquetes de l'article"
-
-#~ msgid "Saving feed..."
-#~ msgstr "S'està desant el canal..."
 
 #~ msgid "Saving feeds..."
 #~ msgstr "S'estan desant els canals..."
 
 #~ msgid "Saving filter..."
 #~ msgstr "S'està desant el filtre..."
-
-#~ msgid "Saving user..."
-#~ msgstr "S'està desant l'usuari"
 
 #~ msgid "Selection"
 #~ msgstr "Selecció"
@@ -4294,10 +4458,6 @@ msgstr ""
 
 #~ msgid "Trying to change e-mail..."
 #~ msgstr "S'està intentant canviar l'adreça electrònica..."
-
-#, fuzzy
-#~ msgid "Upload failed."
-#~ msgstr "Articles mémorisés"
 
 #~ msgid "You have to synchronize some articles before going into offline mode."
 #~ msgstr "Heu de sincronitzar alguns articles abans de poder treballar fora de línia."
@@ -4314,14 +4474,8 @@ msgstr ""
 #~ msgid "Erase all non-starred articles in %s?"
 #~ msgstr "Segur que voleu eliminar tots els articles que no estan marcats a %s ?"
 
-#~ msgid "Trying to change address..."
-#~ msgstr "S'està intentant canviar l'adreça..."
-
 #~ msgid "Trying to change password..."
 #~ msgstr "S'està intentant canviar la contrasenya..."
-
-#~ msgid "Unsubscribing from selected feeds..."
-#~ msgstr "S'estan cancel·lant les subscripcions als canals seleccionats."
 
 #~ msgid "You can't clear this type of feed."
 #~ msgstr "No podeu purgar aquest tipus de canal."
@@ -4442,10 +4596,6 @@ msgstr ""
 
 #~ msgid "Address changed."
 #~ msgstr "Adresse modifiée."
-
-#, fuzzy
-#~ msgid "Rescoring feeds..."
-#~ msgstr "Suppression d'un flux..."
 
 #, fuzzy
 #~ msgid "Restart in offline mode"

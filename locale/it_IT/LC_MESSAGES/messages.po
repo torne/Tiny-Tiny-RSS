@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-24 20:08+0400\n"
+"POT-Creation-Date: 2013-03-25 12:26+0400\n"
 "PO-Revision-Date: 2012-02-14 08:31+0000\n"
 "Last-Translator: gothfox <cthulhoo@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -255,24 +255,47 @@ msgstr "Test di sanitizzazione dell&apos;SQL fallito; controllare il database e 
 
 #: index.php:118
 #: index.php:148
-#: index.php:254
+#: index.php:253
 #: prefs.php:83
 #: classes/backend.php:5
 #: classes/pref/labels.php:296
 #: classes/pref/filters.php:609
 #: classes/pref/feeds.php:1296
 #: plugins/digest/digest_body.php:47
+#: js/feedlist.js:130
+#: js/feedlist.js:456
+#: js/functions.js:420
+#: js/functions.js:823
+#: js/functions.js:1259
+#: js/functions.js:1392
+#: js/functions.js:1704
+#: js/prefs.js:86
+#: js/prefs.js:576
+#: js/prefs.js:666
+#: js/prefs.js:870
+#: js/prefs.js:1457
+#: js/prefs.js:1510
+#: js/prefs.js:1568
+#: js/prefs.js:1584
+#: js/prefs.js:1600
+#: js/prefs.js:1619
+#: js/prefs.js:1813
+#: js/prefs.js:1829
+#: js/tt-rss.js:814
+#: js/viewfeed.js:783
 #: js/viewfeed.js:1205
+#: plugins/import_export/import_export.js:17
+#: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
 msgstr "Caricamento, attendere prego..."
 
 #: index.php:128
-#: index.php:200
+#: index.php:199
 msgid "Communication problem with server."
 msgstr ""
 
 #: index.php:134
-#: index.php:208
+#: index.php:207
 msgid "New version of Tiny Tiny RSS is available!"
 msgstr "È disponibile la nuova versione di Tiny Tiny RSS."
 
@@ -314,39 +337,35 @@ msgstr "Non letti"
 msgid "Ignore Scoring"
 msgstr "Ignora punteggio"
 
-#: index.php:174
-msgid "Updated"
-msgstr "Aggiornato"
-
-#: index.php:177
+#: index.php:176
 msgid "Sort articles"
 msgstr "Ordina articoli"
 
-#: index.php:180
+#: index.php:179
 msgid "Default"
 msgstr "Predefinito"
 
-#: index.php:181
+#: index.php:180
 msgid "Date"
 msgstr "Data"
 
-#: index.php:182
+#: index.php:181
 #: include/localized_schema.php:3
 msgid "Title"
 msgstr "Titolo"
 
-#: index.php:183
+#: index.php:182
 msgid "Score"
 msgstr "Punteggio"
 
-#: index.php:189
+#: index.php:188
 #: classes/pref/feeds.php:535
 #: classes/pref/feeds.php:758
 msgid "Update"
 msgstr "Aggiorna"
 
-#: index.php:193
-#: index.php:223
+#: index.php:192
+#: index.php:222
 #: include/functions.php:1917
 #: include/localized_schema.php:10
 #: classes/feeds.php:111
@@ -358,86 +377,86 @@ msgstr "Aggiorna"
 msgid "Mark as read"
 msgstr "Segna come letto"
 
-#: index.php:213
+#: index.php:212
 msgid "Actions..."
 msgstr "Azioni..."
 
-#: index.php:215
+#: index.php:214
 #, fuzzy
 msgid "Preferences..."
 msgstr "Preferenze"
 
-#: index.php:216
+#: index.php:215
 msgid "Search..."
 msgstr "Cerca..."
 
-#: index.php:217
+#: index.php:216
 msgid "Feed actions:"
 msgstr "Azioni notiziari:"
 
-#: index.php:218
+#: index.php:217
 #: classes/handler/public.php:542
 msgid "Subscribe to feed..."
 msgstr "Sottoscrivi il notiziario..."
 
-#: index.php:219
+#: index.php:218
 msgid "Edit this feed..."
 msgstr "Modifica questo notiziario..."
 
-#: index.php:220
+#: index.php:219
 msgid "Rescore feed"
 msgstr "Cambia punteggio notiziario"
 
-#: index.php:221
+#: index.php:220
 #: classes/pref/feeds.php:684
 #: classes/pref/feeds.php:1269
 #: js/PrefFeedTree.js:73
 msgid "Unsubscribe"
 msgstr "Annulla sottoscrizione"
 
-#: index.php:222
+#: index.php:221
 msgid "All feeds:"
 msgstr "Tutti i notiziari:"
 
-#: index.php:224
+#: index.php:223
 msgid "(Un)hide read feeds"
 msgstr "Visualizza/Nascondi notiziari letti"
 
-#: index.php:225
+#: index.php:224
 msgid "Other actions:"
 msgstr "Altre azioni:"
 
-#: index.php:227
+#: index.php:226
 msgid "Switch to digest..."
 msgstr "Passa al sommario..."
 
-#: index.php:229
+#: index.php:228
 msgid "Show tag cloud..."
 msgstr "Mostra nuvola etichette..."
 
-#: index.php:231
+#: index.php:230
 #: include/functions.php:1903
 #, fuzzy
 msgid "Toggle widescreen mode"
 msgstr "Inverti con stella"
 
-#: index.php:233
+#: index.php:232
 msgid "Select by tags..."
 msgstr ""
 
-#: index.php:234
+#: index.php:233
 msgid "Create label..."
 msgstr "Crea etichetta..."
 
-#: index.php:235
+#: index.php:234
 msgid "Create filter..."
 msgstr "Crea filtro..."
 
-#: index.php:236
+#: index.php:235
 msgid "Keyboard shortcuts help"
 msgstr "Aiuto scorciatoie da tastiera"
 
-#: index.php:238
+#: index.php:237
 #: plugins/digest/digest_body.php:61
 msgid "Logout"
 msgstr "Esci"
@@ -673,12 +692,12 @@ msgid "Open in new window"
 msgstr "Aprire gli articoli in una nuova finestra"
 
 #: include/functions.php:1896
-#: js/viewfeed.js:1844
+#: js/viewfeed.js:1846
 msgid "Mark below as read"
 msgstr ""
 
 #: include/functions.php:1897
-#: js/viewfeed.js:1838
+#: js/viewfeed.js:1840
 msgid "Mark above as read"
 msgstr ""
 
@@ -839,43 +858,43 @@ msgstr "Mostra il dialogo di ricerca"
 msgid "Search results: %s"
 msgstr ""
 
-#: include/functions.php:2897
-#: js/viewfeed.js:1931
+#: include/functions.php:2903
+#: js/viewfeed.js:1933
 msgid "Click to play"
 msgstr "Fare clic per riprodurre"
 
-#: include/functions.php:2898
-#: js/viewfeed.js:1930
+#: include/functions.php:2904
+#: js/viewfeed.js:1932
 msgid "Play"
 msgstr "Riproduci"
 
-#: include/functions.php:3015
+#: include/functions.php:3021
 msgid " - "
 msgstr " - "
 
-#: include/functions.php:3037
-#: include/functions.php:3329
+#: include/functions.php:3043
+#: include/functions.php:3335
 #: classes/rpc.php:359
 msgid "no tags"
 msgstr "nessuna etichetta"
 
-#: include/functions.php:3047
+#: include/functions.php:3053
 #: classes/feeds.php:649
 msgid "Edit tags for this article"
 msgstr "Modifica le etichette per questo articolo"
 
-#: include/functions.php:3076
+#: include/functions.php:3082
 #: classes/feeds.php:605
 msgid "Originally from:"
 msgstr "Originariamente da:"
 
-#: include/functions.php:3089
+#: include/functions.php:3095
 #: classes/feeds.php:618
 #: classes/pref/feeds.php:507
 msgid "Feed URL"
 msgstr "URL del notiziario"
 
-#: include/functions.php:3120
+#: include/functions.php:3126
 #: classes/dlg.php:43
 #: classes/dlg.php:162
 #: classes/dlg.php:185
@@ -897,15 +916,15 @@ msgstr "URL del notiziario"
 msgid "Close this window"
 msgstr "Chiudi questa finestra"
 
-#: include/functions.php:3354
+#: include/functions.php:3360
 msgid "(edit note)"
 msgstr "(modifica note)"
 
-#: include/functions.php:3587
+#: include/functions.php:3593
 msgid "unknown type"
 msgstr "tipo sconosciuto"
 
-#: include/functions.php:3643
+#: include/functions.php:3649
 #, fuzzy
 msgid "Attachments"
 msgstr "Allegati:"
@@ -946,7 +965,7 @@ msgid "Assign tags"
 msgstr "Assegna etichette"
 
 #: include/localized_schema.php:14
-#: js/viewfeed.js:1895
+#: js/viewfeed.js:1897
 msgid "Assign label"
 msgstr "Assegna etichetta"
 
@@ -2147,6 +2166,10 @@ msgstr "Salva dati"
 msgid "Your password is at default value, please change it."
 msgstr "La password è impostata al valore predefinito: cambiarla."
 
+#: classes/pref/prefs.php:236
+msgid "Changing your current password will disable OTP."
+msgstr ""
+
 #: classes/pref/prefs.php:241
 msgid "Old password"
 msgstr "Vecchia password"
@@ -2165,6 +2188,10 @@ msgstr "Cambia password"
 
 #: classes/pref/prefs.php:265
 msgid "One time passwords / Authenticator"
+msgstr ""
+
+#: classes/pref/prefs.php:269
+msgid "One time passwords are currently enabled. Enter your current password below to disable."
 msgstr ""
 
 #: classes/pref/prefs.php:294
@@ -2194,6 +2221,10 @@ msgstr ""
 #, fuzzy
 msgid "Enable OTP"
 msgstr "Abilitato"
+
+#: classes/pref/prefs.php:404
+msgid "Some preferences are only available in default profile."
+msgstr ""
 
 #: classes/pref/prefs.php:493
 msgid "Customize"
@@ -2232,6 +2263,10 @@ msgstr "Esci dalle preferenze"
 #: classes/pref/prefs.php:625
 #: classes/pref/prefs.php:627
 msgid "Plugins"
+msgstr ""
+
+#: classes/pref/prefs.php:629
+msgid "You will need to reload Tiny Tiny RSS for plugin changes to take effect."
 msgstr ""
 
 #: classes/pref/prefs.php:655
@@ -2855,9 +2890,23 @@ msgstr "La sintassi della data appare con corretta:"
 msgid "Date syntax is incorrect."
 msgstr "La sintassi della data non è corretta."
 
+#: js/functions.js:733
+msgid "Upload complete."
+msgstr ""
+
 #: js/functions.js:757
 msgid "Remove stored feed icon?"
 msgstr "Rimuovi le icone salvate dei notiziari?"
+
+#: js/functions.js:762
+#, fuzzy
+msgid "Removing feed icon..."
+msgstr "Rimuovi le icone salvate dei notiziari?"
+
+#: js/functions.js:767
+#, fuzzy
+msgid "Feed icon removed."
+msgstr "Notiziario non trovato."
 
 #: js/functions.js:789
 msgid "Please select an image file to upload."
@@ -2866,6 +2915,11 @@ msgstr "Selezionare un file immagine da caricare."
 #: js/functions.js:791
 msgid "Upload new icon for this feed?"
 msgstr "Caricare una nuova icona per questo notiziario?"
+
+#: js/functions.js:792
+#, fuzzy
+msgid "Uploading, please wait..."
+msgstr "Caricamento, attendere prego..."
 
 #: js/functions.js:808
 msgid "Please enter label caption:"
@@ -2918,10 +2972,19 @@ msgstr "Crea filtro"
 msgid "Reset subscription? Tiny Tiny RSS will try to subscribe to the notification hub again on next feed update."
 msgstr "Reimpostare la sottoscrizione? Tiny Tiny RSS proverà ancora al prossimo aggiornamento del notiziario a sottoscrivere il centro notifiche."
 
+#: js/functions.js:1267
+#, fuzzy
+msgid "Subscription reset."
+msgstr "Sottoscrivi il notiziario..."
+
 #: js/functions.js:1277
 #: js/tt-rss.js:369
 msgid "Unsubscribe from %s?"
 msgstr "Annullare la sottoscrizione a «%s»?"
+
+#: js/functions.js:1280
+msgid "Removing feed..."
+msgstr ""
 
 #: js/functions.js:1386
 msgid "Please enter category title:"
@@ -2930,6 +2993,11 @@ msgstr "Inserire il titolo della categoria:"
 #: js/functions.js:1417
 msgid "Generate new syndication address for this feed?"
 msgstr "Generare un nuovo indirizzo per questo notiziario?"
+
+#: js/functions.js:1421
+#: js/prefs.js:1234
+msgid "Trying to change address..."
+msgstr ""
 
 #: js/functions.js:1608
 #: js/tt-rss.js:350
@@ -2940,6 +3008,13 @@ msgstr "Impossibile modificare questo tipo di notiziario."
 #: js/functions.js:1623
 msgid "Edit Feed"
 msgstr "Modifica notiziario"
+
+#: js/functions.js:1629
+#: js/prefs.js:194
+#: js/prefs.js:749
+#, fuzzy
+msgid "Saving data..."
+msgstr "Salva dati"
 
 #: js/functions.js:1661
 msgid "More Feeds"
@@ -2970,6 +3045,12 @@ msgstr "Notiziari con errori di aggiornamento"
 msgid "Remove selected feeds?"
 msgstr "Rimuovere i notiziari selezionati?"
 
+#: js/functions.js:1817
+#: js/prefs.js:1195
+#, fuzzy
+msgid "Removing selected feeds..."
+msgstr "Rimuovere i notiziari selezionati?"
+
 #: js/functions.js:1915
 msgid "Help"
 msgstr ""
@@ -2996,6 +3077,11 @@ msgstr "Inserire l'accesso:"
 msgid "Can't create user: no login specified."
 msgstr "Impossibile creare l'utente: nessun accesso specificato."
 
+#: js/prefs.js:66
+#, fuzzy
+msgid "Adding user..."
+msgstr "Crea filtro..."
+
 #: js/prefs.js:117
 msgid "Edit Filter"
 msgstr "Modifica filtro"
@@ -3005,8 +3091,18 @@ msgstr "Modifica filtro"
 msgid "Remove filter?"
 msgstr "Rimuovere il filtro «%s»?"
 
+#: js/prefs.js:169
+#, fuzzy
+msgid "Removing filter..."
+msgstr "Crea filtro..."
+
 #: js/prefs.js:279
 msgid "Remove selected labels?"
+msgstr "Rimuovere le etichette selezionate?"
+
+#: js/prefs.js:282
+#, fuzzy
+msgid "Removing selected labels..."
 msgstr "Rimuovere le etichette selezionate?"
 
 #: js/prefs.js:295
@@ -3017,6 +3113,11 @@ msgstr "Nessuna etichetta selezionata."
 #: js/prefs.js:309
 msgid "Remove selected users? Neither default admin nor your account will be removed."
 msgstr "Rimuovere gli utenti selezionati? Non saranno rimossi l'amministratore predefinito e il proprio utente."
+
+#: js/prefs.js:312
+#, fuzzy
+msgid "Removing selected users..."
+msgstr "Rimuovere i filtri selezionati?"
 
 #: js/prefs.js:326
 #: js/prefs.js:507
@@ -3029,6 +3130,11 @@ msgstr "Nessun utente selezionato."
 msgid "Remove selected filters?"
 msgstr "Rimuovere i filtri selezionati?"
 
+#: js/prefs.js:347
+#, fuzzy
+msgid "Removing selected filters..."
+msgstr "Rimuovere i filtri selezionati?"
+
 #: js/prefs.js:359
 #: js/prefs.js:597
 #: js/prefs.js:616
@@ -3039,6 +3145,11 @@ msgstr "Nessun filtro selezionato."
 msgid "Unsubscribe from selected feeds?"
 msgstr "Annullare la sottoscrizione ai notiziari selezionati?"
 
+#: js/prefs.js:382
+#, fuzzy
+msgid "Unsubscribing from selected feeds..."
+msgstr "Annulla la sottoscrizione ai notiziari selezionati"
+
 #: js/prefs.js:412
 msgid "Please select only one feed."
 msgstr "Selezionare solo un notiziario."
@@ -3047,13 +3158,28 @@ msgstr "Selezionare solo un notiziario."
 msgid "Erase all non-starred articles in selected feed?"
 msgstr "Eliminare tutti gli articoli senza la stella nel notiziario selezionato?"
 
+#: js/prefs.js:421
+#, fuzzy
+msgid "Clearing selected feed..."
+msgstr "Modifica i notiziari selezionati"
+
 #: js/prefs.js:440
 msgid "How many days of articles to keep (0 - use default)?"
 msgstr "Quanti giorni di articoli tenere (0 - utilizza il valore predefinito)?"
 
+#: js/prefs.js:443
+#, fuzzy
+msgid "Purging selected feed..."
+msgstr "Modifica i notiziari selezionati"
+
 #: js/prefs.js:478
 msgid "Login field cannot be blank."
 msgstr "Il campo accesso non può essere vuoto."
+
+#: js/prefs.js:482
+#, fuzzy
+msgid "Saving user..."
+msgstr "Crea filtro..."
 
 #: js/prefs.js:512
 #: js/prefs.js:533
@@ -3065,6 +3191,11 @@ msgstr "Selezionare un solo utente."
 msgid "Reset password of selected user?"
 msgstr "Reimpostare la password per l&apos;utente selezionato?"
 
+#: js/prefs.js:540
+#, fuzzy
+msgid "Resetting password for selected user..."
+msgstr "Reimpostare la password per l&apos;utente selezionato?"
+
 #: js/prefs.js:602
 msgid "Please select only one filter."
 msgstr "Selezionare solo un filtro."
@@ -3073,6 +3204,11 @@ msgstr "Selezionare solo un filtro."
 #, fuzzy
 msgid "Combine selected filters?"
 msgstr "Rimuovere i filtri selezionati?"
+
+#: js/prefs.js:623
+#, fuzzy
+msgid "Joining filters..."
+msgstr "Crea filtro..."
 
 #: js/prefs.js:684
 msgid "Edit Multiple Feeds"
@@ -3090,6 +3226,12 @@ msgstr "Importazione OPML"
 msgid "Please choose an OPML file first."
 msgstr "Scegliere prima un file OPML."
 
+#: js/prefs.js:827
+#: plugins/import_export/import_export.js:115
+#, fuzzy
+msgid "Importing, please wait..."
+msgstr "Caricamento, attendere prego..."
+
 #: js/prefs.js:980
 msgid "Reset to defaults?"
 msgstr "Reimpostare ai valori predefiniti?"
@@ -3098,9 +3240,19 @@ msgstr "Reimpostare ai valori predefiniti?"
 msgid "Remove category %s? Any nested feeds would be placed into Uncategorized."
 msgstr ""
 
+#: js/prefs.js:1105
+#, fuzzy
+msgid "Removing category..."
+msgstr "Crea categoria"
+
 #: js/prefs.js:1126
 msgid "Remove selected categories?"
 msgstr "Rimuovere le categorie selezionate?"
+
+#: js/prefs.js:1129
+#, fuzzy
+msgid "Removing selected categories..."
+msgstr "Rimuovi le categorie selezionate"
 
 #: js/prefs.js:1142
 msgid "No categories are selected."
@@ -3111,6 +3263,11 @@ msgstr "Nessuna categoria selezionata."
 msgid "Category title:"
 msgstr "Categorie"
 
+#: js/prefs.js:1154
+#, fuzzy
+msgid "Creating category..."
+msgstr "Crea filtro..."
+
 #: js/prefs.js:1181
 msgid "Feeds without recent updates"
 msgstr "Notiziari senza aggiornamenti recenti"
@@ -3119,13 +3276,28 @@ msgstr "Notiziari senza aggiornamenti recenti"
 msgid "Replace current OPML publishing address with a new one?"
 msgstr "Sostituire l&apos;indirizzo di pubblicazione OPML attuale con uno nuovo?"
 
+#: js/prefs.js:1319
+#, fuzzy
+msgid "Clearing feed..."
+msgstr "Pulisci i dati del notiziario"
+
 #: js/prefs.js:1339
 msgid "Rescore articles in selected feeds?"
+msgstr "Cambiare il punteggio agli articoli nel notiziario selezionato?"
+
+#: js/prefs.js:1342
+#, fuzzy
+msgid "Rescoring selected feeds..."
 msgstr "Cambiare il punteggio agli articoli nel notiziario selezionato?"
 
 #: js/prefs.js:1362
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr "Cambiare il punteggio a tutti i notiziari? Questa operazione può durare molto tempo."
+
+#: js/prefs.js:1365
+#, fuzzy
+msgid "Rescoring feeds..."
+msgstr "Cambia punteggio notiziario"
 
 #: js/prefs.js:1382
 msgid "Reset selected labels to default colors?"
@@ -3138,6 +3310,11 @@ msgstr "Impostazioni dei profili"
 #: js/prefs.js:1428
 msgid "Remove selected profiles? Active and default profiles will not be removed."
 msgstr "Rimuovere i profili selezionati? Il profilo attivo e quello predefinito non saranno rimossi."
+
+#: js/prefs.js:1431
+#, fuzzy
+msgid "Removing selected profiles..."
+msgstr "Rimuovi i profili selezionati"
 
 #: js/prefs.js:1446
 msgid "No profiles are selected."
@@ -3153,12 +3330,31 @@ msgstr "Attivare il profilo selezionato?"
 msgid "Please choose a profile to activate."
 msgstr "Scegliere un profilo da attivare"
 
+#: js/prefs.js:1475
+#, fuzzy
+msgid "Creating profile..."
+msgstr "Crea profilo"
+
 #: js/prefs.js:1531
 msgid "This will invalidate all previously generated feed URLs. Continue?"
 msgstr "Questo invaliderà tutti gli URL di notiziari generati precedentemente. Continuare?"
 
+#: js/prefs.js:1534
+#: js/prefs.js:1553
+msgid "Clearing URLs..."
+msgstr ""
+
+#: js/prefs.js:1541
+#, fuzzy
+msgid "Generated URLs cleared."
+msgstr "Genera nuovo URL"
+
 #: js/prefs.js:1550
 msgid "This will invalidate all previously shared article URLs. Continue?"
+msgstr ""
+
+#: js/prefs.js:1560
+msgid "Shared URLs cleared."
 msgstr ""
 
 #: js/prefs.js:1648
@@ -3168,6 +3364,15 @@ msgstr "Editor etichette"
 #: js/prefs.js:1711
 msgid "This will clear your stored authentication information for Twitter. Continue?"
 msgstr "Questo pulirà le informazioni di autenticazione memorizzate per Twitter. Continuare?"
+
+#: js/prefs.js:1714
+#, fuzzy
+msgid "Clearing credentials..."
+msgstr "Pulisci le credenziali memorizzate"
+
+#: js/prefs.js:1721
+msgid "Twitter credentials have been cleared."
+msgstr ""
 
 #: js/prefs.js:1791
 msgid "Subscribing to feeds..."
@@ -3180,6 +3385,11 @@ msgstr ""
 #: js/tt-rss.js:120
 msgid "Mark all articles as read?"
 msgstr "Segnare tutti gli articoli come letti?"
+
+#: js/tt-rss.js:126
+#, fuzzy
+msgid "Marking all feeds as read..."
+msgstr "Segna tutti i notiziari come letti"
 
 #: js/tt-rss.js:358
 msgid "You can't unsubscribe from the category."
@@ -3197,6 +3407,11 @@ msgstr "Impossibile cambiare il punteggio a questo tipo di notiziari."
 #: js/tt-rss.js:524
 msgid "Rescore articles in %s?"
 msgstr "Cambiare il punteggio degli articoli in «%s»?"
+
+#: js/tt-rss.js:527
+#, fuzzy
+msgid "Rescoring articles..."
+msgstr "Cambio punteggio degli articoli"
 
 #: js/tt-rss.js:694
 #, fuzzy
@@ -3243,7 +3458,7 @@ msgstr "Non pubblicare articolo"
 #: js/viewfeed.js:974
 #: js/viewfeed.js:1017
 #: js/viewfeed.js:1067
-#: js/viewfeed.js:2013
+#: js/viewfeed.js:2015
 #: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
@@ -3292,6 +3507,11 @@ msgstr[1] "Segnare %d articoli selezionati in «%s» come letti?"
 msgid "Edit article Tags"
 msgstr "Modifica etichette articolo"
 
+#: js/viewfeed.js:1103
+#, fuzzy
+msgid "Saving article tags..."
+msgstr "Modifica etichette articolo"
+
 #: js/viewfeed.js:1283
 msgid "No article is selected."
 msgstr "Nessun articolo selezionato."
@@ -3307,38 +3527,38 @@ msgid_plural "Mark %d articles as read?"
 msgstr[0] "Segnare %d articolo/i come letto/i?"
 msgstr[1] "Segnare %d articolo/i come letto/i?"
 
-#: js/viewfeed.js:1824
+#: js/viewfeed.js:1826
 msgid "Open original article"
 msgstr "Apri articolo di origine"
 
-#: js/viewfeed.js:1830
+#: js/viewfeed.js:1832
 #, fuzzy
 msgid "Display article URL"
 msgstr "Visualizza URL"
 
-#: js/viewfeed.js:1900
+#: js/viewfeed.js:1902
 msgid "Remove label"
 msgstr "Rimuovi etichetta"
 
-#: js/viewfeed.js:1924
+#: js/viewfeed.js:1926
 msgid "Playing..."
 msgstr "In riproduzione..."
 
-#: js/viewfeed.js:1925
+#: js/viewfeed.js:1927
 msgid "Click to pause"
 msgstr "Fare clic per mettere in pausa"
 
-#: js/viewfeed.js:1982
+#: js/viewfeed.js:1984
 #, fuzzy
 msgid "Please enter new score for selected articles:"
 msgstr "Eliminare i %d articoli selezionati?"
 
-#: js/viewfeed.js:2024
+#: js/viewfeed.js:2026
 #, fuzzy
 msgid "Please enter new score for this article:"
 msgstr "Inserire il titolo della categoria:"
 
-#: js/viewfeed.js:2057
+#: js/viewfeed.js:2059
 #, fuzzy
 msgid "Article URL:"
 msgstr "Tutti gli articoli"
@@ -3400,6 +3620,11 @@ msgstr ""
 msgid "Please choose the file first."
 msgstr ""
 
+#: plugins/note/note.js:17
+#, fuzzy
+msgid "Saving article note..."
+msgstr "Modifica note articolo"
+
 #: plugins/instances/instances.js:10
 msgid "Link Instance"
 msgstr "Collega istanza"
@@ -3410,6 +3635,11 @@ msgstr "Modifica istanza"
 
 #: plugins/instances/instances.js:122
 msgid "Remove selected instances?"
+msgstr "Rimuovere le istanze selezionate?"
+
+#: plugins/instances/instances.js:125
+#, fuzzy
+msgid "Removing selected instances..."
 msgstr "Rimuovere le istanze selezionate?"
 
 #: plugins/instances/instances.js:139
@@ -3429,6 +3659,9 @@ msgstr "Metti la stella all&apos;articolo"
 #: plugins/updater/updater.js:58
 msgid "Live updating is considered experimental. Backup your tt-rss directory before continuing. Please type 'yes' to continue."
 msgstr ""
+
+#~ msgid "Updated"
+#~ msgstr "Aggiornato"
 
 #~ msgid "Home"
 #~ msgstr "Casa"
@@ -3613,9 +3846,6 @@ msgstr ""
 #~ msgid "No feed categories defined."
 #~ msgstr "Nessuna categoria notiziari definita."
 
-#~ msgid "Remove selected categories"
-#~ msgstr "Rimuovi le categorie selezionate"
-
 #~ msgid "<b>Hint:</b> you can drag feeds and categories around."
 #~ msgstr "<b>Suggerimento:</b> si possono trascinare in giro i notiziari e le categorie."
 
@@ -3633,9 +3863,6 @@ msgstr ""
 
 #~ msgid "Register with Twitter.com"
 #~ msgstr "Registra su Twitter.com"
-
-#~ msgid "Clear stored credentials"
-#~ msgstr "Pulisci le credenziali memorizzate"
 
 #~ msgid "Created filter <b>%s</b>"
 #~ msgstr "Filtro <b>%s</b> creato"
