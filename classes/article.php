@@ -122,14 +122,16 @@ class Article extends Handler_Protected {
 				db_query($link, "UPDATE ttrss_entries SET
 					content = '$content', content_hash = '$content_hash' WHERE id = '$ref_id'");
 
-				db_query($link, "UPDATE ttrss_user_entries SET published = true WHERE
+				db_query($link, "UPDATE ttrss_user_entries SET published = true,
+						last_published = NOW() WHERE
 						int_id = '$int_id' AND owner_uid = '$owner_uid'");
 			} else {
 
 				db_query($link, "INSERT INTO ttrss_user_entries
-					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, published, tag_cache, label_cache, last_read, note, unread)
+					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, published, tag_cache, label_cache,
+						last_read, note, unread, last_published)
 					VALUES
-					('$ref_id', '', NULL, NULL, $owner_uid, true, '', '', NOW(), '', false)");
+					('$ref_id', '', NULL, NULL, $owner_uid, true, '', '', NOW(), '', false, NOW())");
 			}
 
 			if (count($labels) != 0) {
@@ -152,9 +154,10 @@ class Article extends Handler_Protected {
 				$ref_id = db_fetch_result($result, 0, "id");
 
 				db_query($link, "INSERT INTO ttrss_user_entries
-					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, published, tag_cache, label_cache, last_read, note, unread)
+					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, published, tag_cache, label_cache,
+						last_read, note, unread, last_published)
 					VALUES
-					('$ref_id', '', NULL, NULL, $owner_uid, true, '', '', NOW(), '', false)");
+					('$ref_id', '', NULL, NULL, $owner_uid, true, '', '', NOW(), '', false, NOW())");
 
 				if (count($labels) != 0) {
 					foreach ($labels as $label) {
