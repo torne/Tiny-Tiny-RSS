@@ -2237,28 +2237,40 @@
 					$view_query_part = " ";
 				} else if ($feed != -1) {
 
-					if (get_pref($link, "SORT_HEADLINES_BY_FEED_DATE", $owner_uid)) {
-						$a_date_sort_field = "updated";
+					if (defined('_CLASSIC_ADAPTIVE')) {
+
+						$unread = getFeedUnread($link, $feed, $cat_view);
+
+						if ($cat_view && $feed > 0 && $include_children)
+							$unread += getCategoryChildrenUnread($link, $feed);
+
+						if ($unread > 0)
+				        $view_query_part = " unread = true AND ";
+
 					} else {
-						$a_date_sort_field = "date_entered";
+
+						if (get_pref($link, "SORT_HEADLINES_BY_FEED_DATE", $owner_uid)) {
+							$a_date_sort_field = "updated";
+						} else {
+							$a_date_sort_field = "date_entered";
+						}
+
+						if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
+							$a_order_by = "$a_date_sort_field";
+						} else {
+							$a_order_by = "$a_date_sort_field DESC";
+						}
+
+						if (!$override_order) {
+							$override_order = "unread DESC, $a_order_by";
+						}
+
+						if (!$ignore_vfeed_group && ($is_cat || $feed_id < 0) &&
+								get_pref($link, 'VFEED_GROUP_BY_FEED', $owner_uid)) {
+
+							$override_order = "ttrss_feeds.title, $override_order";
+						}
 					}
-
-					if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-						$a_order_by = "$a_date_sort_field";
-					} else {
-						$a_order_by = "$a_date_sort_field DESC";
-					}
-
-					if (!$override_order) {
-						$override_order = "unread DESC, $a_order_by";
-					}
-
-					if (!$ignore_vfeed_group && ($is_cat || $feed_id < 0) &&
-							get_pref($link, 'VFEED_GROUP_BY_FEED', $owner_uid)) {
-
-						$override_order = "ttrss_feeds.title, $override_order";
-					}
-
 				}
 			}
 
