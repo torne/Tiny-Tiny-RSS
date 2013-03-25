@@ -323,9 +323,14 @@ class Updater extends Plugin {
 
 			if (is_array($_SESSION["version_data"])) {
 				$version = $_SESSION["version_data"]["version"];
+				$version_id = $_SESSION["version_data"]["version_id"];
 				print_notice(T_sprintf("New version of Tiny Tiny RSS is available (%s).", "<b>$version</b>"));
 
-				print "<p><button dojoType=\"dijit.form.Button\" onclick=\"return updateSelf()\">".
+				$details = "http://tt-rss.org/redmine/versions/$version_id";
+
+				print "<p><button onclick=\"window.open('$details')\" dojoType=\"dijit.form.Button\">".__("See the release notes")."</button>";
+
+				print " <button dojoType=\"dijit.form.Button\" onclick=\"return updateSelf()\">".
 					__('Update Tiny Tiny RSS')."</button></p>";
 
 			} else {

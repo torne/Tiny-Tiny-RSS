@@ -598,7 +598,7 @@ class Dlg extends Handler_Protected {
 
 			print "<div style='text-align : center'>";
 			print "<button dojoType=\"dijit.form.Button\"
-				onclick=\"return window.open('$details')\">".__("Details")."</button>";
+				onclick=\"return window.open('$details')\">".__("See the release notes")."</button>";
 			print "<button dojoType=\"dijit.form.Button\"
 				onclick=\"return window.open('$download')\">".__("Download")."</button>";
 			print "<button dojoType=\"dijit.form.Button\"

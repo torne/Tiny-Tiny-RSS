@@ -125,18 +125,6 @@
 
 <div style="display : none" onclick="Element.hide(this)" id="small_article_preview"></div>
 
-<div id="header">
-	<img id="net-alert" style="display : none"
-		title="<?php echo __("Communication problem with server.") ?>"
-		src="images/alert.png"/>
-
-	<img id="newVersionIcon" style="display:none" onclick="newVersionDlg()"
-		width="13" height="13"
-		src="images/new_version.png"
-		title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>"
-		alt="new_version_icon"/>
-</div>
-
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 <div id="cmdline" style="display : none"></div>
 <div id="auxDlg" style="display : none"></div>
