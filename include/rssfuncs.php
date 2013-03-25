@@ -435,7 +435,7 @@
 
 				$entry_timestamp = strtotime($item->get_date());
 
-				if ($entry_timestamp == -1 || !$entry_timestamp) {
+				if ($entry_timestamp == -1 || !$entry_timestamp || $entry_timestamp > time()) {
 					$entry_timestamp = time();
 					$no_orig_date = 'true';
 				} else {
