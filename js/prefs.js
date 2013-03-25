@@ -1706,27 +1706,6 @@ function editLabel(id, event) {
 	}
 }
 
-function clearTwitterCredentials() {
-	try {
-		var ok = confirm(__("This will clear your stored authentication information for Twitter. Continue?"));
-
-		if (ok) {
-			notify_progress("Clearing credentials...");
-
-			var query = "?op=pref-feeds&method=remtwitterinfo";
-
-			new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) {
-					notify_info("Twitter credentials have been cleared.");
-					updateFeedList();
-				} });
-		}
-
-	} catch (e) {
-		exception_error("clearTwitterCredentials", e);
-	}
-}
 
 function customizeCSS() {
 	try {
