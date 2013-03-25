@@ -792,6 +792,11 @@ class Pref_Filters extends Handler_Protected {
 			 style=\"font-size : 16px; width : 20em;\"
 			 name=\"reg_exp\" value=\"$reg_exp\"/>";
 
+		print "<hr/>";
+		print "<input id=\"filterDlg_inverse\" dojoType=\"dijit.form.CheckBox\"
+			 name=\"inverse\" $inverse_checked/>";
+		print "<label for=\"filterDlg_inverse\">".__("Inverse regular expression matching")."</label>";
+
 		print "<hr/>" .  __("on field") . " ";
 		print_select_hash("filter_type", $filter_type, $filter_types,
 			'dojoType="dijit.form.Select"');
@@ -805,13 +810,6 @@ class Pref_Filters extends Handler_Protected {
 			$cat_filter ? "CAT:$feed_id" : $feed_id,
 			'dojoType="dijit.form.FilteringSelect"');
 		print "</span>";
-
-		print "<p>";
-
-		print "<input id=\"filterDlg_inverse\" dojoType=\"dijit.form.CheckBox\"
-			 name=\"inverse\" $inverse_checked/>";
-
-		print "<label for=\"filterDlg_inverse\">".__("Inverse matching")."</label>";
 
 		print "</div>";
 

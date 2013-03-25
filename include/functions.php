@@ -3905,6 +3905,8 @@
 						break;
 				}
 
+				if (isset($rule['inverse'])) $qpart = "NOT ($qpart)";
+
 				if (isset($rule["feed_id"]) && $rule["feed_id"] > 0) {
 					$qpart .= " AND feed_id = " . db_escape_string($link, $rule["feed_id"]);
 				}
@@ -3924,8 +3926,6 @@
 
 					$qpart .= " AND $cat_qpart";
 				}
-
-				if (isset($rule['inverse'])) $qpart = "NOT ($qpart)";
 
 				array_push($query, "($qpart)");
 
