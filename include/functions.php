@@ -2408,7 +2408,7 @@
 			}
 
 			if ($view_mode == "unread_first") {
-				if (!$override_order) $override_order = "unread DESC, $order_by";
+				$order_by = "unread DESC, $order_by";
 			}
 
 			if ($override_order) {
