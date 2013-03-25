@@ -121,6 +121,7 @@
 	$longopts = array("log:",
 			"tasks:",
 			"interval",
+			"quiet",
 			"help");
 
 	$options = getopt("", $longopts);
