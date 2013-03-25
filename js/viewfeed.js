@@ -205,7 +205,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 		_infscroll_request_sent = 0;
 
-		headlines_scroll_handler($("headlines-frame"));
+		unpackVisibleHeadlines();
 
 		notify("");
 
@@ -315,7 +315,7 @@ function article_callback2(transport, id) {
 		var unread_in_buffer = $$("#headlines-frame > div[id*=RROW][class*=Unread]").length
 		request_counters(unread_in_buffer == 0);
 
-		headlines_scroll_handler($("headlines-frame"));
+		//headlines_scroll_handler($("headlines-frame"));
 
 /*		try {
 			if (!_infscroll_disable &&
@@ -397,7 +397,7 @@ function view(id) {
 					console.warn(e);
 				} */
 
-				headlines_scroll_handler($("headlines-frame"));
+				//headlines_scroll_handler($("headlines-frame"));
 
 				return;
 			}
@@ -1174,9 +1174,8 @@ function postMouseOut(id) {
 	post_under_pointer = false;
 }
 
-function headlines_scroll_handler(e) {
+function unpackVisibleHeadlines() {
 	try {
-		var hsp = $("headlines-spacer");
 
 		$$("#headlines-frame > div[id*=RROW]").each(
 			function(child) {
@@ -1194,6 +1193,17 @@ function headlines_scroll_handler(e) {
 			}
 		);
 
+
+	} catch (e) {
+		exception_error("unpackVisibleHeadlines", e);
+	}
+}
+
+function headlines_scroll_handler(e) {
+	try {
+		var hsp = $("headlines-spacer");
+
+		unpackVisibleHeadlines();
 
 		if (!_infscroll_disable) {
 			if ((hsp && e.scrollTop + e.offsetHeight >= hsp.offsetTop - hsp.offsetHeight) ||
