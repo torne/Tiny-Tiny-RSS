@@ -171,7 +171,6 @@
 			<option value="published"><?php echo __('Published') ?></option>
 			<option value="unread"><?php echo __('Unread') ?></option>
 			<!-- <option value="noscores"><?php echo __('Ignore Scoring') ?></option> -->
-			<option value="updated"><?php echo __('Updated') ?></option>
 		</select>
 
 		<select title="<?php echo __('Sort articles') ?>"
