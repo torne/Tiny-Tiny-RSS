@@ -2252,6 +2252,13 @@
 					if (!$override_order) {
 						$override_order = "unread DESC, $a_order_by";
 					}
+
+					if (!$ignore_vfeed_group &&
+							get_pref($link, 'VFEED_GROUP_BY_FEED', $owner_uid)) {
+
+						$override_order = "ttrss_feeds.title, $override_order";
+					}
+
 				}
 			}
 
