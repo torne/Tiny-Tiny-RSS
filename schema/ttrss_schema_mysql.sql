@@ -274,12 +274,14 @@ create table ttrss_filters2(id integer primary key auto_increment,
 	owner_uid integer not null,
 	match_any_rule boolean not null default false,
 	enabled boolean not null default true,
+	inverse bool not null default false,
 	index(owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 create table ttrss_filters2_rules(id integer primary key auto_increment,
 	filter_id integer not null references ttrss_filters2(id) on delete cascade,
 	reg_exp varchar(250) not null,
+	inverse bool not null default false,
 	filter_type integer not null,
 	feed_id integer default null,
 	cat_id integer default null,
@@ -313,7 +315,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (106);
+insert into ttrss_version values (107);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,

@@ -1165,11 +1165,13 @@
 
 		foreach ($filters as $filter) {
 			$match_any_rule = $filter["match_any_rule"];
+			$inverse = $filter["inverse"];
 			$filter_match = false;
 
 			foreach ($filter["rules"] as $rule) {
 				$match = false;
 				$reg_exp = $rule["reg_exp"];
+				$rule_inverse = $rule["inverse"];
 
 				if (!$reg_exp)
 					continue;
@@ -1202,6 +1204,8 @@
 					break;
 				}
 
+				if ($rule_inverse) $match = !$match;
+
 				if ($match_any_rule) {
 					if ($match) {
 						$filter_match = true;
@@ -1214,6 +1218,8 @@
 					}
 				}
 			}
+
+			if ($inverse) $filter_match = !$filter_match;
 
 			if ($filter_match) {
 				foreach ($filter["actions"] AS $action) {

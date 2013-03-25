@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 106);
+	define('SCHEMA_VERSION', 107);
 
 	$fetch_last_error = false;
 	$pluginhost = false;
@@ -3214,7 +3214,7 @@
 			$filter_id = $line["id"];
 
 			$result2 = db_query($link, "SELECT
-				r.reg_exp, r.feed_id, r.cat_id, r.cat_filter, t.name AS type_name
+				r.reg_exp, r.inverse, r.feed_id, r.cat_id, r.cat_filter, t.name AS type_name
 				FROM ttrss_filters2_rules AS r,
 				ttrss_filter_types AS t
 				WHERE
@@ -3231,6 +3231,7 @@
 				$rule = array();
 				$rule["reg_exp"] = $rule_line["reg_exp"];
 				$rule["type"] = $rule_line["type_name"];
+				$rule["inverse"] = sql_bool_to_bool($rule_line["inverse"]);
 
 				array_push($rules, $rule);
 			}
@@ -3254,6 +3255,7 @@
 
 			$filter = array();
 			$filter["match_any_rule"] = sql_bool_to_bool($line["match_any_rule"]);
+			$filter["inverse"] = sql_bool_to_bool($line["inverse"]);
 			$filter["rules"] = $rules;
 			$filter["actions"] = $actions;
 
@@ -3875,7 +3877,7 @@
 
 				$rule['reg_exp'] = db_escape_string($link, $rule['reg_exp']);
 
-				switch ($rule["type"]) {
+					switch ($rule["type"]) {
 					case "title":
 						$qpart = "LOWER(ttrss_entries.title) $reg_qpart LOWER('".
 							$rule['reg_exp'] . "')";
@@ -3923,16 +3925,22 @@
 					$qpart .= " AND $cat_qpart";
 				}
 
+				if (isset($rule['inverse'])) $qpart = "NOT ($qpart)";
+
 				array_push($query, "($qpart)");
 
 			}
 		}
 
 		if (count($query) > 0) {
-			return "(" . join($filter["match_any_rule"] ? "OR" : "AND", $query) . ")";
+			$fullquery = "(" . join($filter["match_any_rule"] ? "OR" : "AND", $query) . ")";
 		} else {
-			return "(false)";
+			$fullquery = "(false)";
 		}
+
+		if ($filter['inverse']) $fullquery = "(NOT $fullquery)";
+
+		return $fullquery;
 	}
 
 	if (!function_exists('gzdecode')) {

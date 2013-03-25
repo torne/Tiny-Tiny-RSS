@@ -14,6 +14,9 @@ class Pref_Filters extends Handler_Protected {
 		$filter["enabled"] = true;
 		$filter["match_any_rule"] = sql_bool_to_bool(
 			checkbox_to_sql_bool(db_escape_string($this->link, $_REQUEST["match_any_rule"])));
+		$filter["inverse"] = sql_bool_to_bool(
+			checkbox_to_sql_bool(db_escape_string($this->link, $_REQUEST["inverse"])));
+
 		$filter["rules"] = array();
 
 		$result = db_query($this->link, "SELECT id,name FROM ttrss_filter_types");
@@ -214,6 +217,7 @@ class Pref_Filters extends Handler_Protected {
 
 		$enabled = sql_bool_to_bool(db_fetch_result($result, 0, "enabled"));
 		$match_any_rule = sql_bool_to_bool(db_fetch_result($result, 0, "match_any_rule"));
+		$inverse = sql_bool_to_bool(db_fetch_result($result, 0, "inverse"));
 
 		print "<form id=\"filter_edit_form\" onsubmit='return false'>";
 
@@ -257,6 +261,7 @@ class Pref_Filters extends Handler_Protected {
 			unset($line["cat_id"]);
 			unset($line["filter_id"]);
 			unset($line["id"]);
+			if (!sql_bool_to_bool($line["inverse"])) unset($line["inverse"]);
 
 			$data = htmlspecialchars(json_encode($line));
 
@@ -330,6 +335,15 @@ class Pref_Filters extends Handler_Protected {
 		print "<br/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"match_any_rule\" id=\"match_any_rule\" $checked>
 				<label for=\"match_any_rule\">".__('Match any rule')."</label>";
 
+		if ($inverse) {
+			$checked = "checked=\"1\"";
+		} else {
+			$checked = "";
+		}
+
+		print "<br/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"inverse\" id=\"inverse\" $checked>
+				<label for=\"inverse\">".__('Inverse matching')."</label>";
+
 		print "<p/>";
 
 		print "<div class=\"dlgButtons\">";
@@ -372,7 +386,8 @@ class Pref_Filters extends Handler_Protected {
 			WHERE id = ".(int)$rule["filter_type"]);
 		$filter_type = db_fetch_result($result, 0, "description");
 
-		return T_sprintf("%s on %s in %s", strip_tags($rule["reg_exp"]), $filter_type, $feed);
+		return T_sprintf("%s on %s in %s %s", strip_tags($rule["reg_exp"]),
+			$filter_type, $feed, isset($rule["inverse"]) ? __("(inverse)") : "");
 	}
 
 	function printRuleName() {
@@ -406,9 +421,11 @@ class Pref_Filters extends Handler_Protected {
 		$filter_id = db_escape_string($this->link, $_REQUEST["id"]);
 		$enabled = checkbox_to_sql_bool(db_escape_string($this->link, $_REQUEST["enabled"]));
 		$match_any_rule = checkbox_to_sql_bool(db_escape_string($this->link, $_REQUEST["match_any_rule"]));
+		$inverse = checkbox_to_sql_bool(db_escape_string($this->link, $_REQUEST["inverse"]));
 
 		$result = db_query($this->link, "UPDATE ttrss_filters2 SET enabled = $enabled,
-		  	match_any_rule = $match_any_rule
+			match_any_rule = $match_any_rule,
+			inverse = $inverse
 			WHERE id = '$filter_id'
 			AND owner_uid = ". $_SESSION["uid"]);
 
@@ -458,6 +475,8 @@ class Pref_Filters extends Handler_Protected {
 				if ($rule) {
 
 					$reg_exp = strip_tags(db_escape_string($this->link, trim($rule["reg_exp"])));
+					$inverse = isset($rule["inverse"]) ? "true" : "false";
+
 					$filter_type = (int) db_escape_string($this->link, trim($rule["filter_type"]));
 					$feed_id = db_escape_string($this->link, trim($rule["feed_id"]));
 
@@ -477,8 +496,8 @@ class Pref_Filters extends Handler_Protected {
 					}
 
 					$query = "INSERT INTO ttrss_filters2_rules
-						(filter_id, reg_exp,filter_type,feed_id,cat_id,cat_filter) VALUES
-						('$filter_id', '$reg_exp', '$filter_type', $feed_id, $cat_id, $cat_filter)";
+						(filter_id, reg_exp,filter_type,feed_id,cat_id,cat_filter,inverse) VALUES
+						('$filter_id', '$reg_exp', '$filter_type', $feed_id, $cat_id, $cat_filter, $inverse)";
 
 					db_query($this->link, $query);
 				}
@@ -710,10 +729,8 @@ class Pref_Filters extends Handler_Protected {
 		print "<br/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"match_any_rule\" id=\"match_any_rule\">
 				<label for=\"match_any_rule\">".__('Match any rule')."</label>";
 
-		print "<p/>";
-
-/*		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"inverse\" id=\"inverse\">
-	<label for=\"inverse\">".__('Inverse match')."</label><hr/>"; */
+		print "<br/><input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"inverse\" id=\"inverse\">
+				<label for=\"inverse\">".__('Inverse matching')."</label>";
 
 //		print "</div>";
 
@@ -739,10 +756,12 @@ class Pref_Filters extends Handler_Protected {
 			$reg_exp = htmlspecialchars($rule["reg_exp"]);
 			$filter_type = $rule["filter_type"];
 			$feed_id = $rule["feed_id"];
+			$inverse_checked = isset($rule["inverse"]) ? "checked" : "";
 		} else {
 			$reg_exp = "";
 			$filter_type = 1;
 			$feed_id = 0;
+			$inverse_checked = "";
 		}
 
 		if (strpos($feed_id, "CAT:") === 0) {
@@ -786,6 +805,13 @@ class Pref_Filters extends Handler_Protected {
 			$cat_filter ? "CAT:$feed_id" : $feed_id,
 			'dojoType="dijit.form.FilteringSelect"');
 		print "</span>";
+
+		print "<p>";
+
+		print "<input id=\"filterDlg_inverse\" dojoType=\"dijit.form.CheckBox\"
+			 name=\"inverse\" $inverse_checked/>";
+
+		print "<label for=\"filterDlg_inverse\">".__("Inverse matching")."</label>";
 
 		print "</div>";
 
