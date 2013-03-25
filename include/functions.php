@@ -2039,6 +2039,7 @@
 		$data['cdm_expanded'] = get_pref($link, 'CDM_EXPANDED');
 
 		$data['dep_ts'] = calculate_dep_timestamp();
+		$data['reload_on_ts_change'] = !defined('_NO_RELOAD_ON_TS_CHANGE');
 
 		if (file_exists(LOCK_DIRECTORY . "/update_daemon.lock")) {
 
