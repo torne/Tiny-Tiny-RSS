@@ -13,7 +13,6 @@ drop table if exists ttrss_labels;
 drop table if exists ttrss_filters2_actions;
 drop table if exists ttrss_filters2_rules;
 drop table if exists ttrss_filters2;
-drop table if exists ttrss_filters;
 drop table if exists ttrss_filter_types;
 drop table if exists ttrss_filter_actions;
 drop table if exists ttrss_user_prefs;
@@ -246,29 +245,6 @@ insert into ttrss_filter_actions (id,name,description) values (6, 'score',
 
 insert into ttrss_filter_actions (id,name,description) values (7, 'label',
 	'Assign label');
-
-create table ttrss_filters (id integer not null primary key auto_increment,
-	owner_uid integer not null,
-	feed_id integer default null,
-	filter_type integer not null,
-	reg_exp varchar(250) not null,
-	filter_param varchar(250) not null default '',
-	inverse bool not null default false,
-	enabled bool not null default true,
-	cat_filter bool not null default false,
-	cat_id integer default null,
-	action_id integer not null default 1,
-	action_param varchar(250) not null default '',
-	index (filter_type),
-	foreign key (filter_type) references ttrss_filter_types(id) ON DELETE CASCADE,
-	index (owner_uid),
-	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
-	index (feed_id),
-	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE,
-	index (cat_id),
-	foreign key (cat_id) references ttrss_feed_categories(id) ON DELETE CASCADE,
-	index (action_id),
-	foreign key (action_id) references ttrss_filter_actions(id) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 create table ttrss_filters2(id integer primary key auto_increment,
 	owner_uid integer not null,

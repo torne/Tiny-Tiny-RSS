@@ -163,13 +163,6 @@
 			db_query($link, "DELETE FROM ttrss_access_keys WHERE
 				feed_id = '$ext_id' AND owner_uid = $owner_uid");
 
-			/* Disable filters that reference label being removed */
-
-			db_query($link, "UPDATE ttrss_filters SET
-				enabled = false WHERE action_param = '$caption'
-					AND action_id = 7
-					AND owner_uid = " . $owner_uid);
-
 			/* Remove cached data */
 
 			db_query($link, "UPDATE ttrss_user_entries SET label_cache = ''
