@@ -351,7 +351,9 @@ class API extends Handler {
 	}
 
 	function updateFeed() {
-		$feed_id = db_escape_string($this->link, $_REQUEST["feed_id"]);
+		require_once "include/rssfuncs.php";
+
+		$feed_id = (int) db_escape_string($this->link, $_REQUEST["feed_id"]);
 
 		update_rss_feed($this->link, $feed_id, true);
 
