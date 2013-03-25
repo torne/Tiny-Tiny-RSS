@@ -1173,7 +1173,7 @@ function postMouseIn(e, id) {
 
 	if (_post_preview_timeout) window.clearTimeout(_post_preview_timeout);
 
-	if (!getInitParam("cdm_expanded")) {
+	if (!isCdmMode() || !getInitParam("cdm_expanded")) {
 		_post_preview_timeout = window.setTimeout(function() {
 			displaySmallArticlePreview(e, id);
 		}, 1000);
