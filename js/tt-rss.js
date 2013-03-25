@@ -205,6 +205,8 @@ function genericSanityCheck() {
 	return true;
 }
 
+var hotkey_actions = {};
+
 function init() {
 	try {
 		//dojo.registerModulePath("fox", "../../js/");
@@ -252,6 +254,233 @@ function init() {
 			onComplete: function(transport) {
 					backend_sanity_check_callback(transport);
 				} });
+		
+		hotkey_actions["next_feed"] = function() {
+				var rv = dijit.byId("feedTree").getNextFeed(
+						getActiveFeedId(), activeFeedIsCat());
+
+				if (rv) viewfeed(rv[0], '', rv[1]);
+		};
+		hotkey_actions["prev_feed"] = function() {
+				var rv = dijit.byId("feedTree").getPreviousFeed(
+						getActiveFeedId(), activeFeedIsCat());
+
+				if (rv) viewfeed(rv[0], '', rv[1]);
+		};
+		hotkey_actions["next_article"] = function() {
+				moveToPost('next');
+		};
+		hotkey_actions["prev_article"] = function() {
+				moveToPost('prev');
+		};
+		hotkey_actions["next_article_noscroll"] = function() {
+				moveToPost('next', true);
+		};
+		hotkey_actions["prev_article_noscroll"] = function() {
+				moveToPost('prev', true);
+		};
+		hotkey_actions["collapse_article"] = function() {
+				var id = getActiveArticleId();
+				var elem = $("CICD-"+id);
+				if(elem.visible()) {
+					cdmCollapseArticle(null, id);
+				}
+				else {
+					cdmExpandArticle(id);
+				}
+		};
+		hotkey_actions["search_dialog"] = function() {
+				search();
+		};
+		hotkey_actions["toggle_mark"] = function() {
+				selectionToggleMarked(undefined, false, true);
+		};
+		hotkey_actions["toggle_publ"] = function() {
+				selectionTogglePublished(undefined, false, true);
+		};
+		hotkey_actions["toggle_unread"] = function() {
+				selectionToggleUnread(undefined, false, true);
+		};
+		hotkey_actions["edit_tags"] = function() {
+				var id = getActiveArticleId();
+				if (id) {
+					editArticleTags(id, getActiveFeedId(), isCdmMode());
+				};
+			}
+		hotkey_actions["dismiss_selected"] = function() {
+				dismissSelectedArticles();
+		};
+		hotkey_actions["open_in_new_window"] = function() {
+				if (getActiveArticleId()) {
+					openArticleInNewWindow(getActiveArticleId());
+					return;
+				}
+		};
+		hotkey_actions["catchup_below"] = function() {
+				catchupRelativeToArticle(1);
+		};
+		hotkey_actions["catchup_above"] = function() {
+				catchupRelativeToArticle(0);
+		};
+		hotkey_actions["article_scroll_down"] = function() {
+				var ctr = $("content_insert") ? $("content_insert") : $("headlines-frame");
+
+				scrollArticle(ctr.offsetHeight/3);
+		};
+		hotkey_actions["article_scroll_up"] = function() {
+				var ctr = $("content_insert") ? $("content_insert") : $("headlines-frame");
+
+				scrollArticle(-ctr.offsetHeight/3);
+		};
+		hotkey_actions["close_article"] = function() {
+				if (isCdmMode()) {
+					if (!getInitParam("cdm_expanded")) {
+						cdmCollapseArticle(false, getActiveArticleId());
+					} else {
+						dismissArticle(getActiveArticleId());
+					}
+				} else {
+					closeArticlePanel();
+				}
+		};
+		hotkey_actions["email_article"] = function() {
+				if (typeof emailArticle != "undefined") {
+					emailArticle();
+				} else if (typeof mailtoArticle != "undefined") {
+					mailtoArticle();
+				} else {
+					alert(__("Please enable mail plugin first."));
+				}
+		};
+		hotkey_actions["select_all"] = function() {
+				selectArticles('all');
+		};
+		hotkey_actions["select_unread"] = function() {
+				selectArticles('unread');
+		};
+		hotkey_actions["select_marked"] = function() {
+				selectArticles('marked');
+		};
+		hotkey_actions["select_published"] = function() {
+				selectArticles('published');
+		};
+		hotkey_actions["select_invert"] = function() {
+				selectArticles('invert');
+		};
+		hotkey_actions["select_none"] = function() {
+				selectArticles('none');
+		};
+		hotkey_actions["feed_refresh"] = function() {
+				if (getActiveFeedId() != undefined) {
+					viewfeed(getActiveFeedId(), '', activeFeedIsCat());
+					return;
+				}
+		};
+		hotkey_actions["feed_unhide_read"] = function() {
+				toggleDispRead();
+		};
+		hotkey_actions["feed_subscribe"] = function() {
+				quickAddFeed();
+		};
+		hotkey_actions["feed_debug_update"] = function() {
+				window.open("backend.php?op=feeds&method=view&feed=" + getActiveFeedId() +
+					"&view_mode=adaptive&order_by=default&update=&m=ForceUpdate&cat=" +
+					activeFeedIsCat() + "&DevForceUpdate=1&debug=1&xdebug=1&csrf_token=" +
+					getInitParam("csrf_token"));
+		};
+		hotkey_actions["feed_edit"] = function() {
+				if (activeFeedIsCat())
+					alert(__("You can't edit this kind of feed."));
+				else
+					editFeed(getActiveFeedId());
+		};
+		hotkey_actions["feed_catchup"] = function() {
+				if (getActiveFeedId() != undefined) {
+					catchupCurrentFeed();
+					return;
+				}
+		};
+		hotkey_actions["feed_reverse"] = function() {
+				reverseHeadlineOrder();
+		};
+		hotkey_actions["catchup_all"] = function() {
+				catchupAllFeeds();
+		};
+		hotkey_actions["cat_toggle_collapse"] = function() {
+				if (activeFeedIsCat()) {
+					dijit.byId("feedTree").collapseCat(getActiveFeedId());
+					return;
+				}
+		};
+		hotkey_actions["goto_all"] = function() {
+				viewfeed(-4);
+		};
+		hotkey_actions["goto_fresh"] = function() {
+				viewfeed(-3);
+		};
+		hotkey_actions["goto_marked"] = function() {
+				viewfeed(-1);
+		};
+		hotkey_actions["goto_published"] = function() {
+				viewfeed(-2);
+		};
+		hotkey_actions["goto_tagcloud"] = function() {
+				displayDlg("printTagCloud");
+		};
+		hotkey_actions["goto_prefs"] = function() {
+				gotoPreferences();
+		};
+		hotkey_actions["select_article_cursor"] = function() {
+				var id = getArticleUnderPointer();
+				if (id) {
+					var cb = dijit.byId("RCHK-" + id);
+					if (cb) {
+						cb.attr("checked", !cb.attr("checked"));
+						toggleSelectRowById(cb, "RROW-" + id);
+						return false;
+					}
+				}
+		};
+		hotkey_actions["create_label"] = function() {
+				addLabel();
+		};
+		hotkey_actions["create_filter"] = function() {
+				quickAddFilter();
+		};
+		hotkey_actions["collapse_sidebar"] = function() {
+				collapse_feedlist();
+		};
+		hotkey_actions["toggle_embed_original"] = function() {
+				if (typeof embedOriginalArticle != "undefined") {
+					if (getActiveArticleId())
+						embedOriginalArticle(getActiveArticleId());
+				} else {
+					alert(__("Please enable embed_original plugin first."));
+				}
+		};
+		hotkey_actions["toggle_widescreen"] = function() {
+				if (!isCdmMode()) {
+					_widescreen_mode = !_widescreen_mode;
+
+					switchPanelMode(_widescreen_mode);
+				}
+		};
+		hotkey_actions["help_dialog"] = function() {
+				helpDialog("main");
+		};
+		hotkey_actions["toggle_combined_mode"] = function() {
+				notify_progress("Loading, please wait...");
+
+				var value = isCdmMode() ? "false" : "true";
+				var query = "?op=rpc&method=setpref&key=COMBINED_DISPLAY_MODE&value=" + value;
+
+				new Ajax.Request("backend.php",	{
+					parameters: query,
+					onComplete: function(transport) {
+						window.location.reload();
+					} });
+		};
+
 
 	} catch (e) {
 		exception_error("init", e);
@@ -603,229 +832,8 @@ function hotkey_handler(e) {
 			}
 		}
 
-		switch (hotkey_action) {
-		case "next_feed":
-			var rv = dijit.byId("feedTree").getNextFeed(
-					getActiveFeedId(), activeFeedIsCat());
-
-			if (rv) viewfeed(rv[0], '', rv[1]);
-			return false;
-		case "prev_feed":
-			var rv = dijit.byId("feedTree").getPreviousFeed(
-					getActiveFeedId(), activeFeedIsCat());
-
-			if (rv) viewfeed(rv[0], '', rv[1]);
-			return false;
-		case "next_article":
-			moveToPost('next');
-			return false;
-		case "prev_article":
-			moveToPost('prev');
-			return false;
-		case "next_article_noscroll":
-			moveToPost('next', true);
-			return false;
-		case "prev_article_noscroll":
-			moveToPost('prev', true);
-			return false;
-		case "search_dialog":
-			search();
-			return ;
-		case "toggle_mark":
-			selectionToggleMarked(undefined, false, true);
-			return false;
-		case "toggle_publ":
-			selectionTogglePublished(undefined, false, true);
-			return false;
-		case "toggle_unread":
-			selectionToggleUnread(undefined, false, true);
-			return false;
-		case "edit_tags":
-			var id = getActiveArticleId();
-			if (id) {
-				editArticleTags(id, getActiveFeedId(), isCdmMode());
-				return;
-			}
-			return false;
-		case "dismiss_selected":
-			dismissSelectedArticles();
-			return false;
-		case "dismiss_read":
-			return false;
-		case "open_in_new_window":
-			if (getActiveArticleId()) {
-				openArticleInNewWindow(getActiveArticleId());
-				return;
-			}
-			return false;
-		case "catchup_below":
-			catchupRelativeToArticle(1);
-			return false;
-		case "catchup_above":
-			catchupRelativeToArticle(0);
-			return false;
-		case "article_scroll_down":
-			var ctr = $("content_insert") ? $("content_insert") : $("headlines-frame");
-
-			scrollArticle(ctr.offsetHeight/3);
-			return false;
-		case "article_scroll_up":
-			var ctr = $("content_insert") ? $("content_insert") : $("headlines-frame");
-
-			scrollArticle(-ctr.offsetHeight/3);
-			return false;
-		case "close_article":
-			if (isCdmMode()) {
-				if (!getInitParam("cdm_expanded")) {
-					cdmCollapseArticle(false, getActiveArticleId());
-				} else {
-					dismissArticle(getActiveArticleId());
-				}
-			} else {
-				closeArticlePanel();
-			}
-			return false;
-		case "email_article":
-			if (typeof emailArticle != "undefined") {
-				emailArticle();
-			} else if (typeof mailtoArticle != "undefined") {
-				mailtoArticle();
-			} else {
-				alert(__("Please enable mail plugin first."));
-			}
-			return false;
-		case "select_all":
-			selectArticles('all');
-			return false;
-		case "select_unread":
-			selectArticles('unread');
-			return false;
-		case "select_marked":
-			selectArticles('marked');
-			return false;
-		case "select_published":
-			selectArticles('published');
-			return false;
-		case "select_invert":
-			selectArticles('invert');
-			return false;
-		case "select_none":
-			selectArticles('none');
-			return false;
-		case "feed_refresh":
-			if (getActiveFeedId() != undefined) {
-				viewfeed(getActiveFeedId(), '', activeFeedIsCat());
-				return;
-			}
-			return false;
-		case "feed_unhide_read":
-			toggleDispRead();
-			return false;
-		case "feed_subscribe":
-			quickAddFeed();
-			return false;
-		case "feed_debug_update":
-			window.open("backend.php?op=feeds&method=view&feed=" + getActiveFeedId() +
-				"&view_mode=adaptive&order_by=default&update=&m=ForceUpdate&cat=" +
-				activeFeedIsCat() + "&DevForceUpdate=1&debug=1&xdebug=1&csrf_token=" +
-				getInitParam("csrf_token"));
-			return false;
-		case "feed_edit":
-			if (activeFeedIsCat())
-				alert(__("You can't edit this kind of feed."));
-			else
-				editFeed(getActiveFeedId());
-			return false;
-		case "feed_catchup":
-			if (getActiveFeedId() != undefined) {
-				catchupCurrentFeed();
-				return;
-			}
-			return false;
-		case "feed_reverse":
-			reverseHeadlineOrder();
-			return false;
-		case "catchup_all":
-			catchupAllFeeds();
-			return false;
-		case "cat_toggle_collapse":
-			if (activeFeedIsCat()) {
-				dijit.byId("feedTree").collapseCat(getActiveFeedId());
-				return;
-			}
-			return false;
-		case "goto_all":
-			viewfeed(-4);
-			return false;
-		case "goto_fresh":
-			viewfeed(-3);
-			return false;
-		case "goto_marked":
-			viewfeed(-1);
-			return false;
-		case "goto_published":
-			viewfeed(-2);
-			return false;
-		case "goto_tagcloud":
-			displayDlg("printTagCloud");
-			return false;
-		case "goto_prefs":
-			gotoPreferences();
-			return false;
-		case "select_article_cursor":
-			var id = getArticleUnderPointer();
-			if (id) {
-				var cb = dijit.byId("RCHK-" + id);
-				if (cb) {
-					cb.attr("checked", !cb.attr("checked"));
-					toggleSelectRowById(cb, "RROW-" + id);
-					return false;
-				}
-			}
-			return false;
-		case "create_label":
-			addLabel();
-			return false;
-		case "create_filter":
-			quickAddFilter();
-			return false;
-		case "collapse_sidebar":
-			collapse_feedlist();
-			return false;
-		case "toggle_embed_original":
-			if (typeof embedOriginalArticle != "undefined") {
-				if (getActiveArticleId())
-					embedOriginalArticle(getActiveArticleId());
-			} else {
-				alert(__("Please enable embed_original plugin first."));
-			}
-			return false;
-		case "toggle_widescreen":
-			if (!isCdmMode()) {
-				_widescreen_mode = !_widescreen_mode;
-
-				switchPanelMode(_widescreen_mode);
-			}
-			return false;
-		case "help_dialog":
-			helpDialog("main");
-			return false;
-		case "toggle_combined_mode":
-			notify_progress("Loading, please wait...");
-
-			var value = isCdmMode() ? "false" : "true";
-			var query = "?op=rpc&method=setpref&key=COMBINED_DISPLAY_MODE&value=" + value;
-
-			new Ajax.Request("backend.php",	{
-				parameters: query,
-				onComplete: function(transport) {
-					window.location.reload();
-				} });
-
-			return false;
-		default:
-			console.log("unhandled action: " + hotkey_action + "; hotkey: " + hotkey);
-		}
+		var action = hotkey_actions[hotkey_action];
+		if(action != null) action();
 
 	} catch (e) {
 		exception_error("hotkey_handler", e);
