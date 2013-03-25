@@ -911,6 +911,8 @@ class Pref_Filters extends Handler_Protected {
 				unset($line["cat_id"]);
 			}
 
+			if (!sql_bool_to_bool($line["inverse"])) unset($line["inverse"]);
+
 			if ($count < 2) {
 				array_push($titles, $this->getRuleName($line));
 			} else {
