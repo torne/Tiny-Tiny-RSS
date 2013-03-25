@@ -2236,13 +2236,21 @@
 				if ($search) {
 					$view_query_part = " ";
 				} else if ($feed != -1) {
-					$unread = getFeedUnread($link, $feed, $cat_view);
 
-					if ($cat_view && $feed > 0 && $include_children)
-						$unread += getCategoryChildrenUnread($link, $feed);
+					if (get_pref($link, "SORT_HEADLINES_BY_FEED_DATE", $owner_uid)) {
+						$a_date_sort_field = "updated";
+					} else {
+						$a_date_sort_field = "date_entered";
+					}
 
-					if ($unread > 0) {
-						$view_query_part = " unread = true AND ";
+					if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
+						$a_order_by = "$a_date_sort_field";
+					} else {
+						$a_order_by = "$a_date_sort_field DESC";
+					}
+
+					if (!$override_order) {
+						$override_order = "unread DESC, $a_order_by";
 					}
 				}
 			}
