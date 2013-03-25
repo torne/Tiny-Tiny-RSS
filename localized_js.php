@@ -2,9 +2,8 @@
 	set_include_path(dirname(__FILE__) ."/include" . PATH_SEPARATOR .
 		get_include_path());
 
-	define('DISABLE_SESSIONS', true);
-
-	require "functions.php";
+	require_once "sessions.php";
+	require_once "functions.php";
 	header("Content-Type: text/plain; charset=UTF-8");
 
 	function T_js_decl($s1, $s2) {
