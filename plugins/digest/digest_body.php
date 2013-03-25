@@ -18,14 +18,16 @@
 	<?php
 	foreach (array("lib/prototype.js",
 				"lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls",
-				"localized_js.php",
 				"js/functions.js",
 				"plugins/digest/digest.js",
 				"errors.php?mode=js") as $jsfile) {
 
 		echo javascript_tag($jsfile);
-
 	} ?>
+
+	<script type="text/javascript">
+	<?php init_js_translations(); ?>
+	</script>
 
 	<script type="text/javascript" src="plugins/digest/digest.js"></script>
 
