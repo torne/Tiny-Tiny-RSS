@@ -123,6 +123,8 @@
 	</div>
 </div>
 
+<div style="display : none" onclick="Element.hide(this)" id="small_article_preview"></div>
+
 <div id="header">
 	<img id="net-alert" style="display : none"
 		title="<?php echo __("Communication problem with server.") ?>"

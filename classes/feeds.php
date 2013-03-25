@@ -413,7 +413,7 @@ class Feeds extends Handler_Protected {
 						}
 					}
 
-					$mouseover_attrs = "onmouseover='postMouseIn($id)'
+					$mouseover_attrs = "onmouseover='postMouseIn(event, $id)'
 						onmouseout='postMouseOut($id)'";
 
 					$reply['content'] .= "<div class='$class' id='RROW-$id' $label_row_style $mouseover_attrs>";
@@ -512,7 +512,7 @@ class Feeds extends Handler_Protected {
 						}
 					}
 
-					$mouseover_attrs = "onmouseover='postMouseIn($id)'
+					$mouseover_attrs = "onmouseover='postMouseIn(event, $id)'
 						onmouseout='postMouseOut($id)'";
 
 					$expanded_class = $expand_cdm ? "expanded" : "";
@@ -537,7 +537,6 @@ class Feeds extends Handler_Protected {
 						onclick=\"return cdmClicked(event, $id);\"
 						class=\"titleWrap$hlc_suffix\">
 						<a class=\"title\"
-						title=\"".htmlspecialchars($line['title'])."\"
 						target=\"_blank\" href=\"".
 						htmlspecialchars($line["link"])."\">".
 						$line["title"] .
