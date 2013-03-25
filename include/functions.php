@@ -2407,6 +2407,10 @@
 				$order_by = "score DESC, $order_by";
 			}
 
+			if ($view_mode == "unread_first") {
+				if (!$override_order) $override_order = "unread DESC, $order_by";
+			}
+
 			if ($override_order) {
 				$order_by = $override_order;
 			}
