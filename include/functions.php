@@ -2685,15 +2685,21 @@
 			}
 
 			if ($entry->hasAttributes()) {
-				foreach (iterator_to_array($entry->attributes) as $attr) {
+				$attrs_to_remove = array();
+
+				foreach ($entry->attributes as $attr) {
 
 					if (strpos($attr->nodeName, 'on') === 0) {
-						$entry->removeAttributeNode($attr);
+						array_push($attrs_to_remove, $attr);
 					}
 
 					if (in_array($attr->nodeName, $disallowed_attributes)) {
-						$entry->removeAttributeNode($attr);
+						array_push($attrs_to_remove, $attr);
 					}
+				}
+
+				foreach ($attrs_to_remove as $attr) {
+					$entry->removeAttributeNode($attr);
 				}
 			}
 		}
