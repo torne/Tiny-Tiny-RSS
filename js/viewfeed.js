@@ -1177,6 +1177,8 @@ function postMouseOut(id) {
 function unpackVisibleHeadlines() {
 	try {
 
+		if (!isCdmMode()) return;
+
 		$$("#headlines-frame > div[id*=RROW]").each(
 			function(child) {
 				if (child.offsetTop <= $("headlines-frame").scrollTop +
