@@ -39,7 +39,6 @@
 				"lib/dojo/dojo.js",
 				"lib/dijit/dijit.js",
 				"lib/dojo/tt-rss-layer.js",
-				"localized_js.php",
 				"errors.php?mode=js") as $jsfile) {
 
 		echo javascript_tag($jsfile);
@@ -60,6 +59,7 @@
 
 		print get_minified_js(array("functions", "deprecated", "prefs"));
 
+		init_js_translations();
 	?>
 	</script>
 
