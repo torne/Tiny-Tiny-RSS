@@ -2256,7 +2256,7 @@
 				$view_query_part = " published = true AND ";
 			}
 
-			if ($view_mode == "unread") {
+			if ($view_mode == "unread" && $feed != -6) {
 				$view_query_part = " unread = true AND ";
 			}
 
