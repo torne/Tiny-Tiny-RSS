@@ -15,7 +15,8 @@ function ownArticle(id) {
 	    onComplete: function(transport) {
 		var ti = JSON.parse(transport.responseText);
 		
-		var share_url = ti.ownurl + "?app=bookmarks&getfile=addBm.php?output=popup&url=" + param_escape(ti.link);
+		var share_url = ti.ownurl + "/apps/bookmarks/addBm.php?output=popup&url=" + param_escape(ti.link)
+			+ '&title=' +  ti.title;
 		
 		w.location.href = share_url;
 	    } });
