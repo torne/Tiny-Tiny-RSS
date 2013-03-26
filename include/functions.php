@@ -2336,7 +2336,13 @@
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 				$allow_archived = true;
 
-				if (!$override_order) $override_order = "last_marked DESC, updated DESC";
+				if (!$override_order) {
+					if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
+						$override_order = "date_entered";
+					} else {
+						$override_order = "last_marked DESC, date_entered DESC";
+					}
+				}
 
 			} else if ($feed == -2) { // published virtual feed OR labels category
 
@@ -2345,7 +2351,14 @@
 					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 					$allow_archived = true;
 
-					if (!$override_order) $override_order = "last_published DESC, updated DESC";
+					if (!$override_order) {
+						if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
+							$override_order = "date_entered";
+						} else {
+							$override_order = "last_published DESC, date_entered DESC";
+						}
+					}
+
 				} else {
 					$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 
