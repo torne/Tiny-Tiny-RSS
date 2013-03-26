@@ -1289,7 +1289,7 @@ function headlines_scroll_handler(e) {
 
 				if (!_infscroll_request_sent) {
 					catchup_timeout_id = window.setTimeout('catchupBatchedArticles()',
-						2000);
+						1000);
 				}
 			}
 		}
