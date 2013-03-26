@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-21 23:29+0400\n"
+"POT-Creation-Date: 2013-03-26 15:16+0400\n"
 "PO-Revision-Date: 2013-03-26 12:00+0100\n"
 "Last-Translator: Zoltan Faludi <zoltan.faludi@gmail.com>\n"
 "Language-Team: HUNGARIAN\n"
@@ -49,39 +49,48 @@ msgstr "3 hónapos"
 msgid "Default interval"
 msgstr "Frissítési intervallum:"
 
-#: backend.php:81 backend.php:91
+#: backend.php:81
+#: backend.php:91
 msgid "Disable updates"
 msgstr "Frissítések kikapcsolása"
 
-#: backend.php:82 backend.php:92
+#: backend.php:82
+#: backend.php:92
 msgid "Each 15 minutes"
 msgstr "Minden 15 percben"
 
-#: backend.php:83 backend.php:93
+#: backend.php:83
+#: backend.php:93
 msgid "Each 30 minutes"
 msgstr "Minden 30 percben"
 
-#: backend.php:84 backend.php:94
+#: backend.php:84
+#: backend.php:94
 msgid "Hourly"
 msgstr "Óránként"
 
-#: backend.php:85 backend.php:95
+#: backend.php:85
+#: backend.php:95
 msgid "Each 4 hours"
 msgstr "Minden 4 órában"
 
-#: backend.php:86 backend.php:96
+#: backend.php:86
+#: backend.php:96
 msgid "Each 12 hours"
 msgstr "Minden 12 órában"
 
-#: backend.php:87 backend.php:97
+#: backend.php:87
+#: backend.php:97
 msgid "Daily"
 msgstr "Napi"
 
-#: backend.php:88 backend.php:98
+#: backend.php:88
+#: backend.php:98
 msgid "Weekly"
 msgstr "Heti"
 
-#: backend.php:101 classes/pref/users.php:139
+#: backend.php:101
+#: classes/pref/users.php:139
 msgid "User"
 msgstr "Felhasználó"
 
@@ -117,10 +126,19 @@ msgstr ", találat:"
 msgid "Tiny Tiny RSS database is up to date."
 msgstr "A Tiny Tiny RSS adatbázis friss."
 
-#: db-updater.php:94 db-updater.php:163 db-updater.php:176 register.php:194
-#: register.php:239 register.php:252 register.php:267 register.php:286
-#: register.php:371 register.php:381 register.php:393
-#: classes/handler/public.php:610 classes/handler/public.php:698
+#: db-updater.php:94
+#: db-updater.php:163
+#: db-updater.php:176
+#: register.php:194
+#: register.php:239
+#: register.php:252
+#: register.php:267
+#: register.php:286
+#: register.php:334
+#: register.php:344
+#: register.php:356
+#: classes/handler/public.php:612
+#: classes/handler/public.php:700
 msgid "Return to Tiny Tiny RSS"
 msgstr "Vissza az RSS-olvasóhoz"
 
@@ -130,12 +148,8 @@ msgstr "A továbbhaladás előtt készítsen biztosági másolatot adatbázisár
 
 #: db-updater.php:102
 #, php-format
-msgid ""
-"Your Tiny Tiny RSS database needs update to the latest version (<b>%d</b> to "
-"<b>%d</b>)."
-msgstr ""
-"A Tiny Tiny RSS adatbázisát frissíteni kell a legújabb verzióra (<b>%d</b> "
-"to <b>%d</b>)."
+msgid "Your Tiny Tiny RSS database needs update to the latest version (<b>%d</b> to <b>%d</b>)."
+msgstr "A Tiny Tiny RSS adatbázisát frissíteni kell a legújabb verzióra (<b>%d</b> to <b>%d</b>)."
 
 #: db-updater.php:116
 msgid "Perform updates"
@@ -163,11 +177,11 @@ msgid "ERROR!"
 msgstr "HIBA!"
 
 #: db-updater.php:158
-#, php-format
-msgid ""
-"Finished. Performed <b>%d</b> update(s) up to schema\n"
-"\t\t\tversion <b>%d</b>."
-msgstr "Elkészült.  <b>%d</b> frissítés a <b>%d</b> verziójú sémára."
+#, fuzzy, php-format
+msgid "Finished. Performed <b>%d</b> update up to schema version <b>%d</b>."
+msgid_plural "Finished. Performed <b>%d</b> updates up to schema version <b>%d</b>."
+msgstr[0] "Elkészült.  <b>%d</b> frissítés a <b>%d</b> verziójú sémára."
+msgstr[1] "Elkészült.  <b>%d</b> frissítés a <b>%d</b> verziójú sémára."
 
 #: db-updater.php:168
 msgid "Your database schema is from a newer version of Tiny Tiny RSS."
@@ -179,31 +193,20 @@ msgid "Found schema version: <b>%d</b>, required: <b>%d</b>."
 msgstr "A talált séma verziója: <b>%d</b>, a szükséges: <b>%d</b>."
 
 #: db-updater.php:172
-msgid ""
-"Schema upgrade impossible. Please update Tiny Tiny RSS files to the newer "
-"version and continue."
-msgstr ""
-"A séma frissítése nem lehetséges. A folytatáshoz frissítse a Tiny Tiny RSS "
-"fájljait egy újabb verzióra."
+msgid "Schema upgrade impossible. Please update Tiny Tiny RSS files to the newer version and continue."
+msgstr "A séma frissítése nem lehetséges. A folytatáshoz frissítse a Tiny Tiny RSS fájljait egy újabb verzióra."
 
 #: errors.php:9
-msgid ""
-"This program requires XmlHttpRequest to function properly. Your browser "
-"doesn't seem to support it."
-msgstr ""
-"A program működéséhez XmlHttpRequest szükséges, úgy tűnik az Ön böngészője "
-"ezt nem támogatja."
+msgid "This program requires XmlHttpRequest to function properly. Your browser doesn't seem to support it."
+msgstr "A program működéséhez XmlHttpRequest szükséges, úgy tűnik az Ön böngészője ezt nem támogatja."
 
 #: errors.php:12
-msgid ""
-"This program requires cookies to function properly. Your browser doesn't "
-"seem to support them."
-msgstr ""
-"A program működéséhez engedélkyezett sütik szükségesek, úgy tűnik a "
-"böngésződ nem támogatja a sütiket."
+msgid "This program requires cookies to function properly. Your browser doesn't seem to support them."
+msgstr "A program működéséhez engedélkyezett sütik szükségesek, úgy tűnik a böngésződ nem támogatja a sütiket."
 
 #: errors.php:15
-msgid "Backend sanity check failed"
+#, fuzzy
+msgid "Backend sanity check failed."
 msgstr "Háttér épség ellenőrzés sikertelen"
 
 #: errors.php:17
@@ -211,12 +214,8 @@ msgid "Frontend sanity check failed."
 msgstr "Frontend épség ellenőrzés sikertelen"
 
 #: errors.php:19
-msgid ""
-"Incorrect database schema version. &lt;a href='db-updater.php'&gt;Please "
-"update&lt;/a&gt;."
-msgstr ""
-"Érvénytelen adatbázis séma verzió. &lt;a href='db-updater.php'&gt;Kérem "
-"frissítse&lt;/a&gt;."
+msgid "Incorrect database schema version. &lt;a href='db-updater.php'&gt;Please update&lt;/a&gt;."
+msgstr "Érvénytelen adatbázis séma verzió. &lt;a href='db-updater.php'&gt;Kérem frissítse&lt;/a&gt;."
 
 #: errors.php:21
 msgid "Request not authorized."
@@ -227,12 +226,8 @@ msgid "No operation to perform."
 msgstr "Nincs elvégzendő művelet."
 
 #: errors.php:25
-msgid ""
-"Could not display feed: query failed. Please check label match syntax or "
-"local configuration."
-msgstr ""
-"A hírcsatorna nem jeleníthető meg: lekérdezés sikertelen. Kérem ellenőrizze "
-"a címke egyeztetést vagy a helyi konfigurációt."
+msgid "Could not display feed: query failed. Please check label match syntax or local configuration."
+msgstr "A hírcsatorna nem jeleníthető meg: lekérdezés sikertelen. Kérem ellenőrizze a címke egyeztetést vagy a helyi konfigurációt."
 
 #: errors.php:27
 msgid "Denied. Your access level is insufficient to access this page."
@@ -243,181 +238,228 @@ msgid "Configuration check failed"
 msgstr "Beállításellenőrzés sikertelen."
 
 #: errors.php:31
-msgid ""
-"Your version of MySQL is not currently supported. Please see\n"
-"\t\tofficial site for more information."
+#, fuzzy
+msgid "Your version of MySQL is not currently supported. Please see official site for more information."
 msgstr ""
-"A MySQL Ön által használt verziója jelenleg nem támogatott. Kérem teknitse "
-"meg \n"
+"A MySQL Ön által használt verziója jelenleg nem támogatott. Kérem teknitse meg \n"
 "\t\ta hivatalos weboldalt további információkért."
 
-#: errors.php:36
+#: errors.php:35
 msgid "SQL escaping test failed, check your database and PHP configuration"
-msgstr ""
-"SQL eszképelési teszt sikertelen, ellenőrizze az adatbázis és a PHP "
-"bállításokat"
+msgstr "SQL eszképelési teszt sikertelen, ellenőrizze az adatbázis és a PHP bállításokat"
 
-#: index.php:121 index.php:151 index.php:257 prefs.php:83
-#: classes/backend.php:5 classes/pref/labels.php:296
-#: classes/pref/filters.php:609 classes/pref/feeds.php:1296
-#: plugins/digest/digest_body.php:49 js/viewfeed.js:1205
+#: index.php:118
+#: index.php:138
+#: index.php:244
+#: prefs.php:83
+#: classes/backend.php:5
+#: classes/pref/labels.php:296
+#: classes/pref/filters.php:628
+#: classes/pref/feeds.php:1296
+#: plugins/digest/digest_body.php:49
+#: js/feedlist.js:130
+#: js/feedlist.js:456
+#: js/functions.js:420
+#: js/functions.js:823
+#: js/functions.js:1259
+#: js/functions.js:1392
+#: js/functions.js:1704
+#: js/prefs.js:86
+#: js/prefs.js:576
+#: js/prefs.js:666
+#: js/prefs.js:870
+#: js/prefs.js:1457
+#: js/prefs.js:1510
+#: js/prefs.js:1568
+#: js/prefs.js:1584
+#: js/prefs.js:1600
+#: js/prefs.js:1619
+#: js/prefs.js:1792
+#: js/prefs.js:1808
+#: js/tt-rss.js:814
+#: js/viewfeed.js:785
+#: js/viewfeed.js:1262
+#: plugins/import_export/import_export.js:17
+#: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
 msgstr "Betöltés, kérem várjon..."
 
-#: index.php:131 index.php:203
-msgid "Communication problem with server."
-msgstr "Kommunikációs probléma a szerverrel"
-
-#: index.php:137 index.php:211
-msgid "New version of Tiny Tiny RSS is available!"
-msgstr "A Tiny Tiny RSS-nek elérhető egy újabb verziója!"
-
-#: index.php:165
+#: index.php:152
 msgid "Collapse feedlist"
 msgstr "Hírcsatornalista összecsukása"
 
-#: index.php:168
+#: index.php:155
 msgid "Show articles"
 msgstr "Hírek megjelenítése"
 
-#: index.php:171
+#: index.php:158
 msgid "Adaptive"
 msgstr "Adaptív"
 
-#: index.php:172
+#: index.php:159
 msgid "All Articles"
 msgstr "Minden hír"
 
-#: index.php:173 include/functions.php:1917 classes/feeds.php:106
+#: index.php:160
+#: include/functions.php:1926
+#: classes/feeds.php:106
 msgid "Starred"
 msgstr "Csillagozott"
 
-#: index.php:174 include/functions.php:1918 classes/feeds.php:107
+#: index.php:161
+#: include/functions.php:1927
+#: classes/feeds.php:107
 msgid "Published"
 msgstr "Publikált"
 
-#: index.php:175 classes/feeds.php:93 classes/feeds.php:105
+#: index.php:162
+#: classes/feeds.php:93
+#: classes/feeds.php:105
 msgid "Unread"
 msgstr "Olvasatlan"
 
-#: index.php:176
+#: index.php:163
+#, fuzzy
+msgid "Unread First"
+msgstr "Olvasatlan"
+
+#: index.php:164
 msgid "Ignore Scoring"
 msgstr "Pontozás memmőzése"
 
-#: index.php:177
-msgid "Updated"
-msgstr "Frissített"
-
-#: index.php:180
+#: index.php:167
 msgid "Sort articles"
 msgstr "Hírek rendezése"
 
-#: index.php:183
+#: index.php:170
 msgid "Default"
 msgstr "Alapértelmezett"
 
-#: index.php:184
+#: index.php:171
 msgid "Date"
 msgstr "Dátum"
 
-#: index.php:185 include/localized_schema.php:3
+#: index.php:172
+#: include/localized_schema.php:3
 msgid "Title"
 msgstr "Cím"
 
-#: index.php:186
+#: index.php:173
 msgid "Score"
 msgstr "Pontszám"
 
-#: index.php:192 classes/pref/feeds.php:535 classes/pref/feeds.php:758
+#: index.php:179
+#: classes/pref/feeds.php:535
+#: classes/pref/feeds.php:758
 msgid "Update"
 msgstr "Frissítés"
 
-#: index.php:196 index.php:226 include/functions.php:1908
-#: include/localized_schema.php:10 classes/feeds.php:111 classes/feeds.php:136
-#: classes/feeds.php:406 js/FeedTree.js:128 js/FeedTree.js:156
+#: index.php:183
+#: index.php:213
+#: include/functions.php:1917
+#: include/localized_schema.php:10
+#: classes/feeds.php:111
+#: classes/feeds.php:136
+#: classes/feeds.php:406
+#: js/FeedTree.js:128
+#: js/FeedTree.js:156
 #: plugins/digest/digest.js:630
 msgid "Mark as read"
 msgstr "Megjelölés olvasottként"
 
-#: index.php:216
+#: index.php:190
+msgid "Communication problem with server."
+msgstr "Kommunikációs probléma a szerverrel"
+
+#: index.php:198
+msgid "New version of Tiny Tiny RSS is available!"
+msgstr "A Tiny Tiny RSS-nek elérhető egy újabb verziója!"
+
+#: index.php:203
 msgid "Actions..."
 msgstr "Műveletek"
 
-#: index.php:218
+#: index.php:205
 msgid "Preferences..."
 msgstr "Beállítások..."
 
-#: index.php:219
+#: index.php:206
 msgid "Search..."
 msgstr "Keresés..."
 
-#: index.php:220
+#: index.php:207
 msgid "Feed actions:"
 msgstr "Műveletek hírcsatornákkal:"
 
-#: index.php:221 classes/handler/public.php:540
+#: index.php:208
+#: classes/handler/public.php:542
 msgid "Subscribe to feed..."
 msgstr "Feliratkozás hírcsatornára..."
 
-#: index.php:222
+#: index.php:209
 msgid "Edit this feed..."
 msgstr "Hírcsatorna szerkesztése..."
 
-#: index.php:223
+#: index.php:210
 msgid "Rescore feed"
 msgstr "Hírcsatorna újrapontozása"
 
-#: index.php:224 classes/pref/feeds.php:684 classes/pref/feeds.php:1269
+#: index.php:211
+#: classes/pref/feeds.php:684
+#: classes/pref/feeds.php:1269
 #: js/PrefFeedTree.js:73
 msgid "Unsubscribe"
 msgstr "Leiratkozás"
 
-#: index.php:225
+#: index.php:212
 msgid "All feeds:"
 msgstr "Az összes hírcsatorna:"
 
-#: index.php:227
+#: index.php:214
 msgid "(Un)hide read feeds"
 msgstr "Olvasottak rejtése/mutatása"
 
-#: index.php:228
+#: index.php:215
 msgid "Other actions:"
 msgstr "Egyéb műveletek:"
 
-#: index.php:230
+#: index.php:217
 msgid "Switch to digest..."
 msgstr "Váltás áttekintő módba..."
 
-#: index.php:232
+#: index.php:219
 msgid "Show tag cloud..."
 msgstr "Címkefelhő megjelenítése..."
 
-#: index.php:234 include/functions.php:1894
+#: index.php:221
+#: include/functions.php:1903
 msgid "Toggle widescreen mode"
 msgstr "Szélesvásznú mód váltása"
 
-#: index.php:236
+#: index.php:223
 msgid "Select by tags..."
 msgstr "Kijelölés címkék alapján"
 
-#: index.php:237
+#: index.php:224
 msgid "Create label..."
 msgstr "Új címke létrehozása..."
 
-#: index.php:238
+#: index.php:225
 msgid "Create filter..."
 msgstr "Szűrő létrehozása..."
 
-#: index.php:239
+#: index.php:226
 msgid "Keyboard shortcuts help"
 msgstr "Billentyűparancsok súgója"
 
-#: index.php:241 mobile/mobile-functions.php:69
-#: mobile/mobile-functions.php:244 plugins/digest/digest_body.php:63
+#: index.php:228
+#: plugins/digest/digest_body.php:63
 msgid "Logout"
 msgstr "Kijelentkezés"
 
-#: prefs.php:26 prefs.php:103 include/functions.php:1920
+#: prefs.php:26
+#: prefs.php:103
+#: include/functions.php:1929
 #: classes/pref/prefs.php:377
 msgid "Preferences"
 msgstr "Beállítások"
@@ -430,17 +472,22 @@ msgstr "Billentyűparancsok"
 msgid "Exit preferences"
 msgstr "Kilépés a beállításokból"
 
-#: prefs.php:106 classes/pref/feeds.php:100 classes/pref/feeds.php:1174
+#: prefs.php:106
+#: classes/pref/feeds.php:100
+#: classes/pref/feeds.php:1174
 #: classes/pref/feeds.php:1237
 msgid "Feeds"
 msgstr "Hírcsatornák"
 
-#: prefs.php:109 classes/pref/filters.php:117
+#: prefs.php:109
+#: classes/pref/filters.php:120
 msgid "Filters"
 msgstr "Szűrők"
 
-#: prefs.php:112 mobile/mobile-functions.php:205 include/functions.php:1127
-#: include/functions.php:1748 classes/pref/labels.php:90
+#: prefs.php:112
+#: include/functions.php:1136
+#: include/functions.php:1757
+#: classes/pref/labels.php:90
 msgid "Labels"
 msgstr "Címkék"
 
@@ -448,7 +495,8 @@ msgstr "Címkék"
 msgid "Users"
 msgstr "Felhasználók"
 
-#: register.php:186 include/login_form.php:212
+#: register.php:186
+#: include/login_form.php:228
 msgid "Create new account"
 msgstr "Új felhasználói fiók létrehozása"
 
@@ -457,14 +505,8 @@ msgid "New user registrations are administratively disabled."
 msgstr "Új felhasználók regisztrációja adminisztrátor által letilva."
 
 #: register.php:215
-msgid ""
-"Your temporary password will be sent to the specified email. Accounts, which "
-"were not logged in once, are erased automatically 24 hours after temporary "
-"password is sent."
-msgstr ""
-"Ideiglenes jelszavát elküdljük a megadott e-mail címre. Azok a felhasználói "
-"fiókok, amelyekbe az ideiglenes jelszó kipostázásától számított 24 órán "
-"belül nem lépnek be, automatikusan törlődnek."
+msgid "Your temporary password will be sent to the specified email. Accounts, which were not logged in once, are erased automatically 24 hours after temporary password is sent."
+msgstr "Ideiglenes jelszavát elküdljük a megadott e-mail címre. Azok a felhasználói fiókok, amelyekbe az ideiglenes jelszó kipostázásától számított 24 órán belül nem lépnek be, automatikusan törlődnek."
 
 #: register.php:221
 msgid "Desired login:"
@@ -475,10 +517,12 @@ msgid "Check availability"
 msgstr "Ellenőrizze, hogy nem foglalt-e már:"
 
 #: register.php:226
+#: classes/handler/public.php:743
 msgid "Email:"
 msgstr "E-mail:"
 
 #: register.php:229
+#: classes/handler/public.php:748
 msgid "How much is two plus two:"
 msgstr "Mennyi kettő meg kettő?"
 
@@ -498,11 +542,11 @@ msgstr "Ez a felhasználónév már foglalt."
 msgid "Registration failed."
 msgstr "Regisztráció sikertelen."
 
-#: register.php:368
+#: register.php:331
 msgid "Account created successfully."
 msgstr "Felhasználói fiók sikeresen létrehozva"
 
-#: register.php:390
+#: register.php:353
 msgid "New user registrations are currently closed."
 msgstr "Új felhasználók regisztrációja jelenleg nem engedélyezett."
 
@@ -510,378 +554,348 @@ msgstr "Új felhasználók regisztrációja jelenleg nem engedélyezett."
 msgid "Tiny Tiny RSS data update script."
 msgstr "A Tiny Tiny RSS adatbázis frissítő szkript."
 
-#: mobile/login_form.php:28 include/login_form.php:209
-#: classes/handler/public.php:468
-msgid "Log in"
-msgstr "Belépés"
-
-#: mobile/login_form.php:40 include/login_form.php:169
-#: classes/handler/public.php:452
-msgid "Login:"
-msgstr "Felhasználó:"
-
-#: mobile/login_form.php:45 include/login_form.php:178
-#: classes/handler/public.php:455
-msgid "Password:"
-msgstr "Jelszó:"
-
-#: mobile/login_form.php:52
-msgid "Open regular version"
-msgstr "Szokásos verzió használata"
-
-#: mobile/mobile-functions.php:68 mobile/mobile-functions.php:144
-#: mobile/mobile-functions.php:180 mobile/mobile-functions.php:207
-#: mobile/mobile-functions.php:243 mobile/mobile-functions.php:380
-#: mobile/prefs.php:19
-msgid "Home"
-msgstr "Kezdőlap"
-
-#: mobile/mobile-functions.php:178 include/functions.php:1125
-#: include/functions.php:1746
-msgid "Special"
-msgstr "Kiemelt"
-
-#: mobile/mobile-functions.php:416
-msgid "Nothing found (click to reload feed)."
-msgstr "Semmit sem találtam (kattintson az újratöltéshez)."
-
-#: mobile/prefs.php:24
-msgid "Enable categories"
-msgstr "Kategóriák engedélyezése"
-
-#: mobile/prefs.php:25 mobile/prefs.php:30 mobile/prefs.php:36
-#: mobile/prefs.php:41 mobile/prefs.php:46 mobile/prefs.php:51
-msgid "ON"
-msgstr "BE"
-
-#: mobile/prefs.php:25 mobile/prefs.php:30 mobile/prefs.php:36
-#: mobile/prefs.php:41 mobile/prefs.php:46 mobile/prefs.php:51
-msgid "OFF"
-msgstr "KI"
-
-#: mobile/prefs.php:29
-msgid "Browse categories like folders"
-msgstr "Tallózás a kategóriákban mint a könyvtárakban"
-
-#: mobile/prefs.php:35
-msgid "Show images in posts"
-msgstr "Képek mejelenítése a hírekben"
-
-#: mobile/prefs.php:40
-msgid "Hide read articles and feeds"
-msgstr "Olvasott hírek és hírcsatornák elrejtése"
-
-#: mobile/prefs.php:45
-msgid "Sort feeds by unread count"
-msgstr "Hírcsatornák rendezése olvasatlan hírek száma szerint"
-
-#: mobile/prefs.php:50 include/localized_schema.php:45
-msgid "Reverse headline order (oldest first)"
-msgstr "Fordított hírcím-sorrend (régiebbiek előbb)"
-
-#: include/digest.php:131 include/functions.php:1136
-#: include/functions.php:1649 include/functions.php:1734
-#: include/functions.php:1756 classes/opml.php:416 classes/pref/feeds.php:188
+#: include/digest.php:109
+#: include/functions.php:1145
+#: include/functions.php:1658
+#: include/functions.php:1743
+#: include/functions.php:1765
+#: classes/opml.php:416
+#: classes/pref/feeds.php:188
 msgid "Uncategorized"
 msgstr "Kategorizálatlan"
 
 #: include/feedbrowser.php:83
-#, php-format
-msgid "%d archived articles"
-msgstr "%d archivált hír"
+#, fuzzy, php-format
+msgid "%d archived article"
+msgid_plural "%d archived articles"
+msgstr[0] "%d archivált hír"
+msgstr[1] "%d archivált hír"
 
 #: include/feedbrowser.php:107
 msgid "No feeds found."
 msgstr "Nem található hírcsatorna."
 
-#: include/functions.php:712
+#: include/functions.php:706
 msgid "Session failed to validate (incorrect IP)"
 msgstr "Nem sikerült érvényesíteni a munkamenetet (érvénytelen IP)"
 
-#: include/functions.php:1598 classes/dlg.php:369 classes/pref/filters.php:368
+#: include/functions.php:1134
+#: include/functions.php:1755
+msgid "Special"
+msgstr "Kiemelt"
+
+#: include/functions.php:1607
+#: classes/dlg.php:369
+#: classes/pref/filters.php:382
 msgid "All feeds"
 msgstr "Összes hírcsatorna"
 
-#: include/functions.php:1799
+#: include/functions.php:1808
 msgid "Starred articles"
 msgstr "Csillagozott hírek"
 
-#: include/functions.php:1801
+#: include/functions.php:1810
 msgid "Published articles"
 msgstr "Publikált hírek"
 
-#: include/functions.php:1803
+#: include/functions.php:1812
 msgid "Fresh articles"
 msgstr "Friss hírek"
 
-#: include/functions.php:1805 include/functions.php:1915
+#: include/functions.php:1814
+#: include/functions.php:1924
 msgid "All articles"
 msgstr "Az összes hír"
 
-#: include/functions.php:1807
+#: include/functions.php:1816
 msgid "Archived articles"
 msgstr "Archivált hírek"
 
-#: include/functions.php:1809
+#: include/functions.php:1818
 msgid "Recently read"
 msgstr "Legutóbb olvasott"
 
-#: include/functions.php:1871
+#: include/functions.php:1880
 msgid "Navigation"
 msgstr "Navigáció"
 
-#: include/functions.php:1872
+#: include/functions.php:1881
 msgid "Open next feed"
 msgstr "Következő hírcsatorna megnyitása"
 
-#: include/functions.php:1873
+#: include/functions.php:1882
 msgid "Open previous feed"
 msgstr "Előző hírcsatorna megnyitása"
 
-#: include/functions.php:1874
+#: include/functions.php:1883
 msgid "Open next article"
 msgstr "Következő hír megnyitása"
 
-#: include/functions.php:1875
+#: include/functions.php:1884
 msgid "Open previous article"
 msgstr "Előző hír megjelenítése"
 
-#: include/functions.php:1876
+#: include/functions.php:1885
 msgid "Open next article (don't scroll long articles)"
 msgstr "Következő hír megnyitása (nem görgeti a hosszú híreket)"
 
-#: include/functions.php:1877
+#: include/functions.php:1886
 msgid "Open previous article (don't scroll long articles)"
 msgstr "Előző hír megnyitása (nem görgeti a hosszú híreket)"
 
-#: include/functions.php:1878
+#: include/functions.php:1887
 msgid "Show search dialog"
 msgstr "Keresőmező megjelenítése"
 
-#: include/functions.php:1879
+#: include/functions.php:1888
 msgid "Article"
 msgstr "Hír"
 
-#: include/functions.php:1880
+#: include/functions.php:1889
 msgid "Toggle starred"
 msgstr "Csillagoz"
 
-#: include/functions.php:1881
+#: include/functions.php:1890
 msgid "Toggle published"
 msgstr "Publikált"
 
-#: include/functions.php:1882
+#: include/functions.php:1891
 msgid "Toggle unread"
 msgstr "Olvasatlannak jelöl"
 
-#: include/functions.php:1883
+#: include/functions.php:1892
 msgid "Edit tags"
 msgstr "Címkék szerkesztése"
 
-#: include/functions.php:1884
+#: include/functions.php:1893
 #, fuzzy
 msgid "Dismiss selected"
 msgstr "Eltávolítja a kijelölt híreket a címke alól?"
 
-#: include/functions.php:1885
+#: include/functions.php:1894
 #, fuzzy
 msgid "Dismiss read"
 msgstr "Látható olvasott hírek elrejtése"
 
-#: include/functions.php:1886
+#: include/functions.php:1895
 msgid "Open in new window"
 msgstr "Megnyitás új ablakban"
 
-#: include/functions.php:1887 js/viewfeed.js:1842
+#: include/functions.php:1896
+#: js/viewfeed.js:1903
 msgid "Mark below as read"
 msgstr "Olvasottnak jel ez alatt"
 
-#: include/functions.php:1888 js/viewfeed.js:1836
+#: include/functions.php:1897
+#: js/viewfeed.js:1897
 msgid "Mark above as read"
 msgstr "Olvasottnak jel ez fölött"
 
-#: include/functions.php:1889
+#: include/functions.php:1898
 msgid "Scroll down"
 msgstr "Legördítés"
 
-#: include/functions.php:1890
+#: include/functions.php:1899
 msgid "Scroll up"
 msgstr "Felgördítés"
 
-#: include/functions.php:1891
+#: include/functions.php:1900
 msgid "Select article under cursor"
 msgstr "Az kurzor alatti hír kiválasztása"
 
-#: include/functions.php:1892
+#: include/functions.php:1901
 msgid "Email article"
 msgstr "Hír küldése emailben"
 
-#: include/functions.php:1893
+#: include/functions.php:1902
 msgid "Close/collapse article"
 msgstr "Hír bezárása"
 
-#: include/functions.php:1895 plugins/embed_original/init.php:33
+#: include/functions.php:1904
+#: plugins/embed_original/init.php:33
 msgid "Toggle embed original"
 msgstr "Eredeti megjelenítésének váltása"
 
-#: include/functions.php:1896
+#: include/functions.php:1905
 msgid "Article selection"
 msgstr "Hír kijelölés"
 
-#: include/functions.php:1897
+#: include/functions.php:1906
 msgid "Select all articles"
 msgstr "Minden hír kijelölése"
 
-#: include/functions.php:1898
+#: include/functions.php:1907
 msgid "Select unread"
 msgstr "Olvasatlan hírek kijelölése"
 
-#: include/functions.php:1899
+#: include/functions.php:1908
 msgid "Select starred"
 msgstr "Csillagozott hírek kijelölése"
 
-#: include/functions.php:1900
+#: include/functions.php:1909
 msgid "Select published"
 msgstr "Publikált hírek kijlölése"
 
-#: include/functions.php:1901
+#: include/functions.php:1910
 msgid "Invert selection"
 msgstr "Fordított kijelölés"
 
-#: include/functions.php:1902
+#: include/functions.php:1911
 msgid "Deselect everything"
 msgstr "Kijelölés eltávolítása"
 
-#: include/functions.php:1903 classes/pref/feeds.php:488
+#: include/functions.php:1912
+#: classes/pref/feeds.php:488
 #: classes/pref/feeds.php:719
 msgid "Feed"
 msgstr "Hírcsatorna"
 
-#: include/functions.php:1904
+#: include/functions.php:1913
 msgid "Refresh current feed"
 msgstr "Aktuális hírcsatorna frissítése"
 
-#: include/functions.php:1905
+#: include/functions.php:1914
 msgid "Un/hide read feeds"
 msgstr "Olvasott hírcsatornák rejtése/mutatása"
 
-#: include/functions.php:1906 classes/pref/feeds.php:1240
+#: include/functions.php:1915
+#: classes/pref/feeds.php:1240
 msgid "Subscribe to feed"
 msgstr "Feliratkozás hírcsatornára"
 
-#: include/functions.php:1907 js/FeedTree.js:135 js/PrefFeedTree.js:67
+#: include/functions.php:1916
+#: js/FeedTree.js:135
+#: js/PrefFeedTree.js:67
 msgid "Edit feed"
 msgstr "Hírcsatorna szerkesztése"
 
-#: include/functions.php:1909
+#: include/functions.php:1918
 msgid "Reverse headlines"
 msgstr "Címek fordított sorrendben"
 
-#: include/functions.php:1910
+#: include/functions.php:1919
 msgid "Debug feed update"
 msgstr "Hírcsatorna frissítés hibakaresés"
 
-#: include/functions.php:1911 js/FeedTree.js:178
+#: include/functions.php:1920
+#: js/FeedTree.js:178
 msgid "Mark all feeds as read"
 msgstr "Minden hírcsatornát olvasottként jelöl"
 
-#: include/functions.php:1912
+#: include/functions.php:1921
 msgid "Un/collapse current category"
 msgstr "Kategória kinyitás/összecsukás"
 
-#: include/functions.php:1913
+#: include/functions.php:1922
 msgid "Toggle combined mode"
 msgstr "Váltás kombinált módba"
 
-#: include/functions.php:1914
+#: include/functions.php:1923
 msgid "Go to"
 msgstr "Ugrás ide"
 
-#: include/functions.php:1916
+#: include/functions.php:1925
 msgid "Fresh"
 msgstr "Friss"
 
-#: include/functions.php:1919
+#: include/functions.php:1928
 msgid "Tag cloud"
 msgstr "Címkefelhő"
 
-#: include/functions.php:1921
+#: include/functions.php:1930
 msgid "Other"
 msgstr "Egyéb"
 
-#: include/functions.php:1922 classes/pref/labels.php:281
+#: include/functions.php:1931
+#: classes/pref/labels.php:281
 msgid "Create label"
 msgstr "Címke létrehozása"
 
-#: include/functions.php:1923 classes/pref/filters.php:587
+#: include/functions.php:1932
+#: classes/pref/filters.php:606
 msgid "Create filter"
 msgstr "Szűrő létrehozása"
 
-#: include/functions.php:1924
+#: include/functions.php:1933
 msgid "Un/collapse sidebar"
 msgstr "Oldalsáv megjelenítés/elrejtés"
 
-#: include/functions.php:1925
+#: include/functions.php:1934
 msgid "Show help dialog"
 msgstr "Súgó ablak megjelenítése"
 
-#: include/functions.php:2406
+#: include/functions.php:2434
 #, php-format
 msgid "Search results: %s"
 msgstr "Keresési eredmények: %s"
 
-#: include/functions.php:2895 js/viewfeed.js:1929
+#: include/functions.php:2922
+#: js/viewfeed.js:1990
 msgid "Click to play"
 msgstr "Kattintson a lejátszáshoz"
 
-#: include/functions.php:2896 js/viewfeed.js:1928
+#: include/functions.php:2923
+#: js/viewfeed.js:1989
 msgid "Play"
 msgstr "Lejátszás"
 
-#: include/functions.php:3018
+#: include/functions.php:3040
 msgid " - "
 msgstr "-"
 
-#: include/functions.php:3040 include/functions.php:3357 classes/rpc.php:360
+#: include/functions.php:3062
+#: include/functions.php:3356
+#: classes/rpc.php:359
 msgid "no tags"
 msgstr "nincs címke"
 
-#: include/functions.php:3050 classes/feeds.php:650
+#: include/functions.php:3072
+#: classes/feeds.php:648
 msgid "Edit tags for this article"
 msgstr "Címkék hozzáadása a hírhez"
 
-#: include/functions.php:3079 classes/feeds.php:606
+#: include/functions.php:3101
+#: classes/feeds.php:604
 msgid "Originally from:"
 msgstr "Eredeti innen:"
 
-#: include/functions.php:3092 classes/feeds.php:619 classes/pref/feeds.php:507
+#: include/functions.php:3114
+#: classes/feeds.php:617
+#: classes/pref/feeds.php:507
 msgid "Feed URL"
 msgstr "Hírcsatorna URL"
 
-#: include/functions.php:3121
-msgid "Related"
-msgstr "Kapcsolódik"
-
-#: include/functions.php:3148 classes/dlg.php:43 classes/dlg.php:162
-#: classes/dlg.php:185 classes/dlg.php:222 classes/dlg.php:506
-#: classes/dlg.php:541 classes/dlg.php:572 classes/dlg.php:606
-#: classes/dlg.php:618 classes/backend.php:105 classes/pref/users.php:106
-#: classes/pref/filters.php:108 classes/pref/feeds.php:1553
-#: classes/pref/feeds.php:1624 plugins/import_export/init.php:407
-#: plugins/import_export/init.php:431 plugins/share/init.php:67
-#: plugins/updater/init.php:330
+#: include/functions.php:3145
+#: classes/dlg.php:43
+#: classes/dlg.php:162
+#: classes/dlg.php:185
+#: classes/dlg.php:222
+#: classes/dlg.php:506
+#: classes/dlg.php:541
+#: classes/dlg.php:572
+#: classes/dlg.php:606
+#: classes/dlg.php:618
+#: classes/backend.php:105
+#: classes/pref/users.php:106
+#: classes/pref/filters.php:111
+#: classes/pref/feeds.php:1553
+#: classes/pref/feeds.php:1624
+#: plugins/import_export/init.php:409
+#: plugins/import_export/init.php:432
+#: plugins/share/init.php:67
+#: plugins/updater/init.php:357
 msgid "Close this window"
 msgstr "Ablak bezárása"
 
-#: include/functions.php:3382
+#: include/functions.php:3381
 msgid "(edit note)"
 msgstr "(jegyzet szerkesztése)"
 
-#: include/functions.php:3615
+#: include/functions.php:3614
 msgid "unknown type"
 msgstr "ismeretlen hírcsatornatípus"
 
-#: include/functions.php:3671
+#: include/functions.php:3670
 msgid "Attachments"
 msgstr "Csatolmányok:"
 
@@ -909,8 +923,10 @@ msgstr "Hír törlése"
 msgid "Set starred"
 msgstr "Csillagoz"
 
-#: include/localized_schema.php:12 js/viewfeed.js:480
-#: plugins/digest/digest.js:264 plugins/digest/digest.js:734
+#: include/localized_schema.php:12
+#: js/viewfeed.js:482
+#: plugins/digest/digest.js:264
+#: plugins/digest/digest.js:734
 msgid "Publish article"
 msgstr "Hír publikálása"
 
@@ -918,7 +934,8 @@ msgstr "Hír publikálása"
 msgid "Assign tags"
 msgstr "Címke hozzáadása"
 
-#: include/localized_schema.php:14 js/viewfeed.js:1893
+#: include/localized_schema.php:14
+#: js/viewfeed.js:1954
 msgid "Assign label"
 msgstr "Címke hozzáadása"
 
@@ -939,67 +956,36 @@ msgid "Advanced"
 msgstr "Speciális"
 
 #: include/localized_schema.php:21
-msgid ""
-"This option is useful when you are reading several planet-type aggregators "
-"with partially colliding userbase. When disabled, it forces same posts from "
-"different feeds to appear only once."
-msgstr ""
-"Ez az opció akkor hasznos, amikor sok planet típusú hírgyűjtőt olvas részben "
-"átfedő felhasználó bázissal. Ha ki van kapcsolva, akkor arra törekszik, hogy "
-"ugyanaz a hír csak egyszer jelenjen meg."
+msgid "This option is useful when you are reading several planet-type aggregators with partially colliding userbase. When disabled, it forces same posts from different feeds to appear only once."
+msgstr "Ez az opció akkor hasznos, amikor sok planet típusú hírgyűjtőt olvas részben átfedő felhasználó bázissal. Ha ki van kapcsolva, akkor arra törekszik, hogy ugyanaz a hír csak egyszer jelenjen meg."
 
 #: include/localized_schema.php:22
-msgid ""
-"Display expanded list of feed articles, instead of separate displays for "
-"headlines and article content"
-msgstr ""
-"A hír címének és tartalmának külön való megjelenítése helyett jelentísen emg "
-"egy kombinált listát a hírek címével és tartalmával együtt."
+msgid "Display expanded list of feed articles, instead of separate displays for headlines and article content"
+msgstr "A hír címének és tartalmának külön való megjelenítése helyett jelentísen emg egy kombinált listát a hírek címével és tartalmával együtt."
 
 #: include/localized_schema.php:23
-msgid ""
-"Automatically open next feed with unread articles after marking one as read"
-msgstr ""
-"Automatikusan megnyitja a következő olvasatlan híreket tartalmazó "
-"hírcsatornát miután egyet megjelöl olvasottként"
+msgid "Automatically open next feed with unread articles after marking one as read"
+msgstr "Automatikusan megnyitja a következő olvasatlan híreket tartalmazó hírcsatornát miután egyet megjelöl olvasottként"
 
 #: include/localized_schema.php:24
-msgid ""
-"This option enables sending daily digest of new (and unread) headlines on "
-"your configured e-mail address"
-msgstr ""
-"Itt engedélyezheti a friss és olvasatlan cikkek napi elküldését a megadott e-"
-"mail címére.."
+msgid "This option enables sending daily digest of new (and unread) headlines on your configured e-mail address"
+msgstr "Itt engedélyezheti a friss és olvasatlan cikkek napi elküldését a megadott e-mail címére.."
 
 #: include/localized_schema.php:25
-msgid ""
-"This option enables marking articles as read automatically while you scroll "
-"article list."
-msgstr ""
-"Ez a beállítás lehetővé teszi a hírek automatikus olvasottnak jelölését a "
-"hír lista görgetése közben."
+msgid "This option enables marking articles as read automatically while you scroll article list."
+msgstr "Ez a beállítás lehetővé teszi a hírek automatikus olvasottnak jelölését a hír lista görgetése közben."
 
 #: include/localized_schema.php:26
 msgid "Strip all but most common HTML tags when reading articles."
-msgstr ""
-"Hírek olvasásakor távolítsa el a a HTML kódokat a leggyakrabban használtak "
-"kivételével."
+msgstr "Hírek olvasásakor távolítsa el a a HTML kódokat a leggyakrabban használtak kivételével."
 
 #: include/localized_schema.php:27
-msgid ""
-"When auto-detecting tags in articles these tags will not be applied (comma-"
-"separated list)."
-msgstr ""
-"Ha a program megtalája ezeket a címkéket a hírekben, kihagyja őket (lista, "
-"elemek vesszővel elválasztva)"
+msgid "When auto-detecting tags in articles these tags will not be applied (comma-separated list)."
+msgstr "Ha a program megtalája ezeket a címkéket a hírekben, kihagyja őket (lista, elemek vesszővel elválasztva)"
 
 #: include/localized_schema.php:28
-msgid ""
-"When this option is enabled, headlines in Special feeds and Labels are "
-"grouped by feeds"
-msgstr ""
-"Ha ezt a beállítást engedélyezi, a Kiemelt hírcsatornákban és a Címkékben "
-"szereplő címeket a program hírcsatornák alapján csoportosítja."
+msgid "When this option is enabled, headlines in Special feeds and Labels are grouped by feeds"
+msgstr "Ha ezt a beállítást engedélyezi, a Kiemelt hírcsatornákban és a Címkékben szereplő címeket a program hírcsatornák alapján csoportosítja."
 
 #: include/localized_schema.php:29
 msgid "Customize CSS stylesheet to your liking"
@@ -1007,9 +993,7 @@ msgstr "Saját ízlése szerint testreszabhatja a CSS stíluslapot"
 
 #: include/localized_schema.php:30
 msgid "Use feed-specified date to sort headlines instead of local import date."
-msgstr ""
-"A helyi import dátum helyett használja a hírcsatornában megadott dátumot a "
-"címek rendezéséhez."
+msgstr "A helyi import dátum helyett használja a hírcsatornában megadott dátumot a címek rendezéséhez."
 
 #: include/localized_schema.php:31
 msgid "Click to register your SSL client certificate with tt-rss"
@@ -1067,6 +1051,10 @@ msgstr "Hírcsatorna végén mutassa a következő hírcsatornát"
 msgid "Sort feeds by unread articles count"
 msgstr "Hírcsatornák rendezése olvasatlan hírek száma alapján"
 
+#: include/localized_schema.php:45
+msgid "Reverse headline order (oldest first)"
+msgstr "Fordított hírcím-sorrend (régiebbiek előbb)"
+
 #: include/localized_schema.php:46
 msgid "Enable e-mail digest"
 msgstr "Hírösszefoglaló e-mail elküldésének engedélyezése"
@@ -1093,8 +1081,7 @@ msgstr "Meddig legyen friss egy hír (órákban megadva)"
 
 #: include/localized_schema.php:52
 msgid "Mark articles in e-mail digest as read"
-msgstr ""
-"Az email összefoglalóban elküldött hírek megjelölése hírek olvasottként"
+msgstr "Az email összefoglalóban elküldött hírek megjelölése hírek olvasottként"
 
 #: include/localized_schema.php:53
 msgid "Automatically expand articles in combined mode"
@@ -1124,7 +1111,8 @@ msgstr "Külső API engedélyezése"
 msgid "User timezone"
 msgstr "Felhasználó időzónája"
 
-#: include/localized_schema.php:60 js/prefs.js:1740
+#: include/localized_schema.php:60
+#: js/prefs.js:1719
 msgid "Customize stylesheet"
 msgstr "Stíluslap testreszabása"
 
@@ -1144,148 +1132,237 @@ msgstr "A kivonatot megpróbálja a megadott időben elküldeni"
 msgid "Assign articles to labels automatically"
 msgstr "Címkék automatikus hozzárendelése a hírekhez"
 
-#: include/login_form.php:185 classes/handler/public.php:458
+#: include/login_form.php:183
+#: classes/handler/public.php:454
+#: classes/handler/public.php:738
+msgid "Login:"
+msgstr "Felhasználó:"
+
+#: include/login_form.php:192
+#: classes/handler/public.php:457
+msgid "Password:"
+msgstr "Jelszó:"
+
+#: include/login_form.php:197
+#, fuzzy
+msgid "I forgot my password"
+msgstr "Érvénytelen jelszó"
+
+#: include/login_form.php:201
+#: classes/handler/public.php:460
 msgid "Language:"
 msgstr "Nyelv:"
 
-#: include/login_form.php:193
+#: include/login_form.php:209
 msgid "Profile:"
 msgstr "Profil:"
 
-#: include/login_form.php:197 classes/handler/public.php:212
-#: classes/rpc.php:64 classes/dlg.php:98
+#: include/login_form.php:213
+#: classes/handler/public.php:214
+#: classes/rpc.php:64
+#: classes/dlg.php:98
 msgid "Default profile"
 msgstr "Alapértelmezett profil"
 
-#: include/login_form.php:205
+#: include/login_form.php:221
 msgid "Use less traffic"
 msgstr "Kisebb adatforgalom"
+
+#: include/login_form.php:225
+#: classes/handler/public.php:470
+msgid "Log in"
+msgstr "Belépés"
 
 #: classes/article.php:25
 msgid "Article not found."
 msgstr "Hír nem található."
 
-#: classes/handler/public.php:393 plugins/bookmarklets/init.php:38
+#: classes/handler/public.php:395
+#: plugins/bookmarklets/init.php:38
 msgid "Share with Tiny Tiny RSS"
 msgstr "Megosztás Tiny Tiny RSS-el"
 
-#: classes/handler/public.php:401
+#: classes/handler/public.php:403
 msgid "Title:"
 msgstr "Cím:"
 
-#: classes/handler/public.php:403 classes/dlg.php:665
-#: classes/pref/feeds.php:505 classes/pref/feeds.php:734
+#: classes/handler/public.php:405
+#: classes/dlg.php:665
+#: classes/pref/feeds.php:505
+#: classes/pref/feeds.php:734
 #: plugins/instances/init.php:215
 msgid "URL:"
 msgstr "Hírcsatorna URL:"
 
-#: classes/handler/public.php:405
+#: classes/handler/public.php:407
 msgid "Content:"
 msgstr "Tartalom:"
 
-#: classes/handler/public.php:407
+#: classes/handler/public.php:409
 msgid "Labels:"
 msgstr "Címkék:"
 
-#: classes/handler/public.php:426
+#: classes/handler/public.php:428
 msgid "Shared article will appear in the Published feed."
 msgstr "A megosztott hír a Publikált hírek között fog megjelenni."
 
-#: classes/handler/public.php:428
+#: classes/handler/public.php:430
 msgid "Share"
 msgstr "Megosztás"
 
-#: classes/handler/public.php:429 classes/handler/public.php:471
-#: classes/dlg.php:296 classes/dlg.php:348 classes/dlg.php:408
-#: classes/dlg.php:439 classes/dlg.php:650 classes/dlg.php:700
-#: classes/dlg.php:749 classes/pref/users.php:194 classes/pref/labels.php:81
-#: classes/pref/filters.php:349 classes/pref/filters.php:729
-#: classes/pref/filters.php:798 classes/pref/filters.php:865
-#: classes/pref/feeds.php:701 classes/pref/feeds.php:849
-#: plugins/mail/init.php:131 plugins/note/init.php:55
+#: classes/handler/public.php:431
+#: classes/handler/public.php:473
+#: classes/dlg.php:296
+#: classes/dlg.php:348
+#: classes/dlg.php:408
+#: classes/dlg.php:439
+#: classes/dlg.php:650
+#: classes/dlg.php:700
+#: classes/dlg.php:749
+#: classes/pref/users.php:194
+#: classes/pref/labels.php:81
+#: classes/pref/filters.php:363
+#: classes/pref/filters.php:746
+#: classes/pref/filters.php:822
+#: classes/pref/filters.php:889
+#: classes/pref/feeds.php:701
+#: classes/pref/feeds.php:849
+#: plugins/mail/init.php:131
+#: plugins/note/init.php:55
 #: plugins/instances/init.php:251
 msgid "Cancel"
 msgstr "Mégsem"
 
-#: classes/handler/public.php:450
+#: classes/handler/public.php:452
 msgid "Not logged in"
 msgstr "Nincs belépve"
 
-#: classes/handler/public.php:510
+#: classes/handler/public.php:512
 msgid "Incorrect username or password"
 msgstr "Hibás felhasználói név vagy jelszó"
 
-#: classes/handler/public.php:546 classes/handler/public.php:643
+#: classes/handler/public.php:548
+#: classes/handler/public.php:645
 #, php-format
 msgid "Already subscribed to <b>%s</b>."
 msgstr "Már fel van iratkozva erre a hírcsatornára: <b>%s</b>."
 
-#: classes/handler/public.php:549 classes/handler/public.php:634
+#: classes/handler/public.php:551
+#: classes/handler/public.php:636
 #, php-format
 msgid "Subscribed to <b>%s</b>."
 msgstr "Feliratkozva erre a hírcsatornára: <b>%s</b>."
 
-#: classes/handler/public.php:552 classes/handler/public.php:637
+#: classes/handler/public.php:554
+#: classes/handler/public.php:639
 #, php-format
 msgid "Could not subscribe to <b>%s</b>."
 msgstr "Nem lehet feliratkozni ide: <b>%s</b>."
 
-#: classes/handler/public.php:555 classes/handler/public.php:640
+#: classes/handler/public.php:557
+#: classes/handler/public.php:642
 #, php-format
 msgid "No feeds found in <b>%s</b>."
 msgstr "Nem található hírcsatorna itt: <b>%s</b>."
 
-#: classes/handler/public.php:558 classes/handler/public.php:646
+#: classes/handler/public.php:560
+#: classes/handler/public.php:648
 msgid "Multiple feed URLs found."
 msgstr "Több hírcsatorna URL-t találtam."
 
-#: classes/handler/public.php:562 classes/handler/public.php:651
+#: classes/handler/public.php:564
+#: classes/handler/public.php:653
 #, php-format
 msgid "Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL."
-msgstr ""
-"Nem lehet feliratkozni ide: <b>%s</b>.<br>Nem lehet betölteni a hícsatorna "
-"URL-t."
+msgstr "Nem lehet feliratkozni ide: <b>%s</b>.<br>Nem lehet betölteni a hícsatorna URL-t."
 
-#: classes/handler/public.php:580 classes/handler/public.php:669
+#: classes/handler/public.php:582
+#: classes/handler/public.php:671
 msgid "Subscribe to selected feed"
 msgstr "Feliratkozás a kiválasztott hírcsatornára"
 
-#: classes/handler/public.php:605 classes/handler/public.php:693
+#: classes/handler/public.php:607
+#: classes/handler/public.php:695
 msgid "Edit subscription options"
 msgstr "Feliratkozási beállítások szerkesztése"
 
-#: classes/dlg.php:22
-msgid ""
-"If you have imported labels and/or filters, you might need to reload "
-"preferences to see your new data."
-msgstr ""
-"Ha címkéket és szűrőket is importált, akkor szükség lehet a beállításokat "
-"újra kell tölteni."
+#: classes/handler/public.php:724
+#: classes/handler/public.php:753
+#: classes/pref/users.php:378
+msgid "Reset password"
+msgstr "Jelszó visszaállítás"
 
-#: classes/dlg.php:55 classes/pref/users.php:378 classes/pref/labels.php:272
-#: classes/pref/filters.php:230 classes/pref/filters.php:277
-#: classes/pref/filters.php:578 classes/pref/filters.php:657
-#: classes/pref/filters.php:684 classes/pref/feeds.php:1228
-#: classes/pref/feeds.php:1498 classes/pref/feeds.php:1567
+#: classes/handler/public.php:764
+msgid "Some of the required form parameters are missing or incorrect."
+msgstr ""
+
+#: classes/handler/public.php:766
+#: classes/handler/public.php:782
+#: classes/handler/public.php:787
+#, fuzzy
+msgid "Go back"
+msgstr "Visszalépés"
+
+#: classes/handler/public.php:778
+msgid "Completed."
+msgstr ""
+
+#: classes/handler/public.php:781
+msgid "Sorry, login and email combination not found."
+msgstr ""
+
+#: classes/handler/public.php:786
+msgid "Form secret key incorrect. Please enable cookies and try again."
+msgstr ""
+
+#: classes/dlg.php:22
+msgid "If you have imported labels and/or filters, you might need to reload preferences to see your new data."
+msgstr "Ha címkéket és szűrőket is importált, akkor szükség lehet a beállításokat újra kell tölteni."
+
+#: classes/dlg.php:55
+#: classes/pref/users.php:360
+#: classes/pref/labels.php:272
+#: classes/pref/filters.php:234
+#: classes/pref/filters.php:282
+#: classes/pref/filters.php:597
+#: classes/pref/filters.php:676
+#: classes/pref/filters.php:703
+#: classes/pref/feeds.php:1228
+#: classes/pref/feeds.php:1498
+#: classes/pref/feeds.php:1567
 #: plugins/instances/init.php:287
 msgid "Select"
 msgstr "Kiválasztás"
 
-#: classes/dlg.php:58 classes/feeds.php:92 classes/pref/users.php:381
-#: classes/pref/labels.php:275 classes/pref/filters.php:233
-#: classes/pref/filters.php:280 classes/pref/filters.php:581
-#: classes/pref/filters.php:660 classes/pref/filters.php:687
-#: classes/pref/feeds.php:1231 classes/pref/feeds.php:1501
-#: classes/pref/feeds.php:1570 plugins/instances/init.php:290
+#: classes/dlg.php:58
+#: classes/feeds.php:92
+#: classes/pref/users.php:363
+#: classes/pref/labels.php:275
+#: classes/pref/filters.php:237
+#: classes/pref/filters.php:285
+#: classes/pref/filters.php:600
+#: classes/pref/filters.php:679
+#: classes/pref/filters.php:706
+#: classes/pref/feeds.php:1231
+#: classes/pref/feeds.php:1501
+#: classes/pref/feeds.php:1570
+#: plugins/instances/init.php:290
 msgid "All"
 msgstr "Mind"
 
-#: classes/dlg.php:60 classes/feeds.php:95 classes/pref/users.php:383
-#: classes/pref/labels.php:277 classes/pref/filters.php:235
-#: classes/pref/filters.php:282 classes/pref/filters.php:583
-#: classes/pref/filters.php:662 classes/pref/filters.php:689
-#: classes/pref/feeds.php:1233 classes/pref/feeds.php:1503
-#: classes/pref/feeds.php:1572 plugins/instances/init.php:292
+#: classes/dlg.php:60
+#: classes/feeds.php:95
+#: classes/pref/users.php:365
+#: classes/pref/labels.php:277
+#: classes/pref/filters.php:239
+#: classes/pref/filters.php:287
+#: classes/pref/filters.php:602
+#: classes/pref/filters.php:681
+#: classes/pref/filters.php:708
+#: classes/pref/feeds.php:1233
+#: classes/pref/feeds.php:1503
+#: classes/pref/feeds.php:1572
+#: plugins/instances/init.php:292
 msgid "None"
 msgstr "Kijelölés törlése"
 
@@ -1293,7 +1370,8 @@ msgstr "Kijelölés törlése"
 msgid "Create profile"
 msgstr "Profil létrehozás"
 
-#: classes/dlg.php:92 classes/dlg.php:122
+#: classes/dlg.php:92
+#: classes/dlg.php:122
 msgid "(active)"
 msgstr "(aktív)"
 
@@ -1313,7 +1391,8 @@ msgstr "Publikus OPML URL"
 msgid "Your Public OPML URL is:"
 msgstr "A publikus OPML URL címe:"
 
-#: classes/dlg.php:182 classes/dlg.php:569
+#: classes/dlg.php:182
+#: classes/dlg.php:569
 msgid "Generate new URL"
 msgstr "Új URL generálás"
 
@@ -1322,34 +1401,26 @@ msgid "Notice"
 msgstr "Értesítés"
 
 #: classes/dlg.php:200
-msgid ""
-"Update daemon is enabled in configuration, but daemon process is not "
-"running, which prevents all feeds from updating. Please start the daemon "
-"process or contact instance owner."
-msgstr ""
-"A frissítő daemon a beállításokban engedélyezve van, ám a daemon folyamat "
-"nem fut, így a hírcsatornák nem tudnak frissülni. Kérem indítsa el a daemon "
-"folyamatot, vagy lépjen kapcsolatba az oldal/szerver tulajdonosával."
+msgid "Update daemon is enabled in configuration, but daemon process is not running, which prevents all feeds from updating. Please start the daemon process or contact instance owner."
+msgstr "A frissítő daemon a beállításokban engedélyezve van, ám a daemon folyamat nem fut, így a hírcsatornák nem tudnak frissülni. Kérem indítsa el a daemon folyamatot, vagy lépjen kapcsolatba az oldal/szerver tulajdonosával."
 
-#: classes/dlg.php:204 classes/dlg.php:213
+#: classes/dlg.php:204
+#: classes/dlg.php:213
 msgid "Last update:"
 msgstr "Legutóbbi frissítés:"
 
 #: classes/dlg.php:209
-msgid ""
-"Update daemon is taking too long to perform a feed update. This could "
-"indicate a problem like crash or a hang. Please check the daemon process or "
-"contact instance owner."
-msgstr ""
-"A frissítő daemon túl régóta próbálkozik a hírcsatornák frissítésével. Ez "
-"összeomlás vagy hiba jele is lehet, kérem lépjen kapcsolatba az oldal/"
-"szerver tulajdonosával!"
+msgid "Update daemon is taking too long to perform a feed update. This could indicate a problem like crash or a hang. Please check the daemon process or contact instance owner."
+msgstr "A frissítő daemon túl régóta próbálkozik a hírcsatornák frissítésével. Ez összeomlás vagy hiba jele is lehet, kérem lépjen kapcsolatba az oldal/szerver tulajdonosával!"
 
-#: classes/dlg.php:234 classes/dlg.php:242
+#: classes/dlg.php:234
+#: classes/dlg.php:242
 msgid "Feed or site URL"
 msgstr "Hírcsatorna vagy weboldal URL"
 
-#: classes/dlg.php:248 classes/dlg.php:713 classes/pref/feeds.php:527
+#: classes/dlg.php:248
+#: classes/dlg.php:713
+#: classes/pref/feeds.php:527
 #: classes/pref/feeds.php:747
 msgid "Place in category:"
 msgstr "Hozzáadás a következő kategóriához:"
@@ -1358,18 +1429,26 @@ msgstr "Hozzáadás a következő kategóriához:"
 msgid "Available feeds"
 msgstr "Elérhető hírcsatornák"
 
-#: classes/dlg.php:268 classes/pref/users.php:155 classes/pref/feeds.php:557
+#: classes/dlg.php:268
+#: classes/pref/users.php:155
+#: classes/pref/feeds.php:557
 #: classes/pref/feeds.php:783
 msgid "Authentication"
 msgstr "Azonosítás"
 
-#: classes/dlg.php:272 classes/dlg.php:727 classes/pref/users.php:438
-#: classes/pref/feeds.php:563 classes/pref/feeds.php:787
+#: classes/dlg.php:272
+#: classes/dlg.php:727
+#: classes/pref/users.php:420
+#: classes/pref/feeds.php:563
+#: classes/pref/feeds.php:787
 msgid "Login"
 msgstr "Belépés"
 
-#: classes/dlg.php:275 classes/dlg.php:730 classes/pref/prefs.php:202
-#: classes/pref/feeds.php:569 classes/pref/feeds.php:793
+#: classes/dlg.php:275
+#: classes/dlg.php:730
+#: classes/pref/prefs.php:202
+#: classes/pref/feeds.php:569
+#: classes/pref/feeds.php:793
 msgid "Password"
 msgstr "Jelszó"
 
@@ -1377,7 +1456,9 @@ msgstr "Jelszó"
 msgid "This feed requires authentication."
 msgstr "Ez a hírcsatorna azonosítást igényel."
 
-#: classes/dlg.php:290 classes/dlg.php:346 classes/dlg.php:748
+#: classes/dlg.php:290
+#: classes/dlg.php:346
+#: classes/dlg.php:748
 msgid "Subscribe"
 msgstr "Feliratkozás"
 
@@ -1385,8 +1466,12 @@ msgstr "Feliratkozás"
 msgid "More feeds"
 msgstr "További hírcsatornák"
 
-#: classes/dlg.php:316 classes/dlg.php:407 classes/pref/users.php:368
-#: classes/pref/filters.php:574 classes/pref/feeds.php:1224 js/tt-rss.js:166
+#: classes/dlg.php:316
+#: classes/dlg.php:407
+#: classes/pref/users.php:350
+#: classes/pref/filters.php:593
+#: classes/pref/feeds.php:1224
+#: js/tt-rss.js:166
 msgid "Search"
 msgstr "Keresés"
 
@@ -1402,9 +1487,13 @@ msgstr "Hírcsatorna archívum"
 msgid "limit:"
 msgstr "határ:"
 
-#: classes/dlg.php:347 classes/pref/users.php:394 classes/pref/labels.php:284
-#: classes/pref/filters.php:339 classes/pref/filters.php:596
-#: classes/pref/feeds.php:674 plugins/instances/init.php:297
+#: classes/dlg.php:347
+#: classes/pref/users.php:376
+#: classes/pref/labels.php:284
+#: classes/pref/filters.php:353
+#: classes/pref/filters.php:615
+#: classes/pref/feeds.php:674
+#: plugins/instances/init.php:297
 msgid "Remove"
 msgstr "Eltávolít"
 
@@ -1424,11 +1513,17 @@ msgstr "Ez a hírcsatorna"
 msgid "Tags for this article (separated by commas):"
 msgstr "A hír címkéi (vesszőkkel elválasztva):"
 
-#: classes/dlg.php:437 classes/dlg.php:648 classes/pref/users.php:192
-#: classes/pref/labels.php:79 classes/pref/filters.php:346
-#: classes/pref/feeds.php:700 classes/pref/feeds.php:846
-#: plugins/nsfw/init.php:86 plugins/note/init.php:53
-#: plugins/owncloud/init.php:62 plugins/instances/init.php:248
+#: classes/dlg.php:437
+#: classes/dlg.php:648
+#: classes/pref/users.php:192
+#: classes/pref/labels.php:79
+#: classes/pref/filters.php:360
+#: classes/pref/feeds.php:700
+#: classes/pref/feeds.php:846
+#: plugins/nsfw/init.php:86
+#: plugins/note/init.php:53
+#: plugins/owncloud/init.php:62
+#: plugins/instances/init.php:248
 msgid "Save"
 msgstr "Mentés"
 
@@ -1460,7 +1555,8 @@ msgstr "Melyik címkék?"
 msgid "Display entries"
 msgstr "Bejegyzések megejenítése"
 
-#: classes/dlg.php:549 classes/feeds.php:138
+#: classes/dlg.php:549
+#: classes/feeds.php:138
 msgid "View as RSS"
 msgstr "Megtekintés RSS-ként"
 
@@ -1468,22 +1564,20 @@ msgstr "Megtekintés RSS-ként"
 msgid "You can view this feed as RSS using the following URL:"
 msgstr "Ezt a hírcsatornát megtekintheti RSS-ként a következő URL-en:"
 
-#: classes/dlg.php:589 plugins/updater/init.php:304
+#: classes/dlg.php:589
+#: plugins/updater/init.php:327
 #, php-format
 msgid "New version of Tiny Tiny RSS is available (%s)."
 msgstr "Új Tiny Tiny RSS verzió érhető el (%s)."
 
 #: classes/dlg.php:597
-msgid ""
-"You can update using built-in updater in the Preferences or by using update."
-"php"
-msgstr ""
-"Frissíthet a beépített frissítővel a Beállításokban, vagy az update.php "
-"használatával"
+msgid "You can update using built-in updater in the Preferences or by using update.php"
+msgstr "Frissíthet a beépített frissítővel a Beállításokban, vagy az update.php használatával"
 
-#: classes/dlg.php:601 classes/pref/users.php:390
-msgid "Details"
-msgstr "Részletek"
+#: classes/dlg.php:601
+#: plugins/updater/init.php:331
+msgid "See the release notes"
+msgstr ""
 
 #: classes/dlg.php:603
 msgid "Download"
@@ -1495,38 +1589,38 @@ msgstr "Hiba a verzió információ fogadása közben vagy nem érhető el új v
 
 #: classes/dlg.php:632
 #, php-format
-msgid ""
-"You can override colors, fonts and layout of your currently selected theme "
-"with custom CSS declarations here. <a target=\"_blank\" class=\"visibleLink"
-"\" href=\"%s\">This file</a> can be used as a baseline."
-msgstr ""
-"Egyéni CSS deklarációkkal itt felülbírálhatja a kiválasztott téma színeit, "
-"betűtípusait és elrendezését. <a target=\"_blank\" class=\"visibleLink\" "
-"href=\"%s\">Ez a fájl</a> használható kiindulásként."
+msgid "You can override colors, fonts and layout of your currently selected theme with custom CSS declarations here. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">This file</a> can be used as a baseline."
+msgstr "Egyéni CSS deklarációkkal itt felülbírálhatja a kiválasztott téma színeit, betűtípusait és elrendezését. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">Ez a fájl</a> használható kiindulásként."
 
-#: classes/dlg.php:659 plugins/instances/init.php:207
+#: classes/dlg.php:659
+#: plugins/instances/init.php:207
 msgid "Instance"
 msgstr "Pédány"
 
-#: classes/dlg.php:668 plugins/instances/init.php:218
+#: classes/dlg.php:668
+#: plugins/instances/init.php:218
 #: plugins/instances/init.php:315
 msgid "Instance URL"
 msgstr "Példány URL"
 
-#: classes/dlg.php:678 plugins/instances/init.php:229
+#: classes/dlg.php:678
+#: plugins/instances/init.php:229
 msgid "Access key:"
 msgstr "Hozzáférési kulcs:"
 
-#: classes/dlg.php:681 plugins/instances/init.php:232
+#: classes/dlg.php:681
+#: plugins/instances/init.php:232
 #: plugins/instances/init.php:316
 msgid "Access key"
 msgstr "Hozzáférési kulcs"
 
-#: classes/dlg.php:685 plugins/instances/init.php:236
+#: classes/dlg.php:685
+#: plugins/instances/init.php:236
 msgid "Use one access key for both linked instances."
 msgstr "Egy hozzáférési kulcs használata minden linkelt példányhoz."
 
-#: classes/dlg.php:693 plugins/instances/init.php:244
+#: classes/dlg.php:693
+#: plugins/instances/init.php:244
 msgid "Generate new key"
 msgstr "Új kulcs generálása"
 
@@ -1586,13 +1680,17 @@ msgstr "Archivál"
 msgid "Move back"
 msgstr "Visszalépés"
 
-#: classes/feeds.php:118 classes/pref/filters.php:242
-#: classes/pref/filters.php:289 classes/pref/filters.php:669
-#: classes/pref/filters.php:696
+#: classes/feeds.php:118
+#: classes/pref/filters.php:246
+#: classes/pref/filters.php:294
+#: classes/pref/filters.php:688
+#: classes/pref/filters.php:715
 msgid "Delete"
 msgstr "Törlés"
 
-#: classes/feeds.php:125 classes/feeds.php:130 plugins/mailto/init.php:28
+#: classes/feeds.php:125
+#: classes/feeds.php:130
+#: plugins/mailto/init.php:28
 #: plugins/mail/init.php:28
 msgid "Forward by email"
 msgstr "Továbbítás emaiben"
@@ -1601,54 +1699,53 @@ msgstr "Továbbítás emaiben"
 msgid "Feed:"
 msgstr "Hírcsatorna:"
 
-#: classes/feeds.php:201 classes/feeds.php:795
+#: classes/feeds.php:201
+#: classes/feeds.php:793
 msgid "Feed not found."
 msgstr "Hírcsatorna nem található"
 
-#: classes/feeds.php:496
+#: classes/feeds.php:498
 msgid "mark as read"
 msgstr "olvasottként jelöl"
 
-#: classes/feeds.php:551
+#: classes/feeds.php:549
 msgid "Collapse article"
 msgstr "Hír bezárása"
 
-#: classes/feeds.php:696
+#: classes/feeds.php:694
 msgid "No unread articles found to display."
 msgstr "Nincs megjeleníthető olvasatlan hír."
 
-#: classes/feeds.php:699
+#: classes/feeds.php:697
 msgid "No updated articles found to display."
 msgstr "Nincs megjeleníthető friss hír."
 
-#: classes/feeds.php:702
+#: classes/feeds.php:700
 msgid "No starred articles found to display."
 msgstr "Nincs megjeleníthető csillagozott hír."
 
-#: classes/feeds.php:706
-msgid ""
-"No articles found to display. You can assign articles to labels manually "
-"(see the Actions menu above) or use a filter."
+#: classes/feeds.php:704
+msgid "No articles found to display. You can assign articles to labels manually (see the Actions menu above) or use a filter."
 msgstr ""
 "A jelenlegi címke alá nincs besorolva egy hír sem.\n"
-"Címkék alá híreket besorolhat manuálisan (lásd a fenti Műveletek menüt) vagy "
-"a besoroláshoz használhat Szűrőket."
+"Címkék alá híreket besorolhat manuálisan (lásd a fenti Műveletek menüt) vagy a besoroláshoz használhat Szűrőket."
 
-#: classes/feeds.php:708
+#: classes/feeds.php:706
 msgid "No articles found to display."
 msgstr "Nincs megjeleníthető hír."
 
-#: classes/feeds.php:723 classes/feeds.php:904
+#: classes/feeds.php:721
+#: classes/feeds.php:909
 #, php-format
 msgid "Feeds last updated at %s"
 msgstr "Hírcsatornák utolsó frissítése: %s"
 
-#: classes/feeds.php:733 classes/feeds.php:914
+#: classes/feeds.php:731
+#: classes/feeds.php:919
 msgid "Some feeds have update errors (click for details)"
-msgstr ""
-"Néhány hírcsatorna frissítésével gond akadt. (Kattints ide a részletekhez!)"
+msgstr "Néhány hírcsatorna frissítésével gond akadt. (Kattints ide a részletekhez!)"
 
-#: classes/feeds.php:894
+#: classes/feeds.php:899
 msgid "No feed selected."
 msgstr "Nincs kiválasztott hírcsatorna."
 
@@ -1666,14 +1763,14 @@ msgstr "Ctrl"
 
 #: classes/backend.php:84
 msgid "Other interface tips are available in the Tiny Tiny RSS wiki."
-msgstr ""
-"További tippek a felhasználói felülethez elérhetők a Tiny Tiny RSS wikiben."
+msgstr "További tippek a felhasználói felülethez elérhetők a Tiny Tiny RSS wikiben."
 
 #: classes/backend.php:99
 msgid "Help topic not found."
 msgstr "Súgótéma nem tlálható."
 
-#: classes/opml.php:28 classes/opml.php:33
+#: classes/opml.php:28
+#: classes/opml.php:33
 msgid "OPML Utility"
 msgstr "OMPL-segédprogram"
 
@@ -1727,7 +1824,8 @@ msgstr "Hiba: kérem töltse fel az OPML fájlt!"
 msgid "Error while parsing document."
 msgstr "Hiba történt a dokuementum feldoglozása közben"
 
-#: classes/pref/users.php:6 plugins/instances/init.php:157
+#: classes/pref/users.php:6
+#: plugins/instances/init.php:157
 msgid "Your access level is insufficient to open this tab."
 msgstr "Hozzáférési szintje elégtelen ehhez a művelethez."
 
@@ -1739,7 +1837,8 @@ msgstr "Felhasználói adatok"
 msgid "User not found"
 msgstr "Felhasználó nem találhat"
 
-#: classes/pref/users.php:60 classes/pref/users.php:440
+#: classes/pref/users.php:60
+#: classes/pref/users.php:422
 msgid "Registered"
 msgstr "Regisztrált"
 
@@ -1767,7 +1866,8 @@ msgstr "Hozzáférési szint:"
 msgid "Change password to"
 msgstr "Jelszó megváltoztatása"
 
-#: classes/pref/users.php:177 classes/pref/feeds.php:577
+#: classes/pref/users.php:177
+#: classes/pref/feeds.php:577
 #: classes/pref/feeds.php:799
 msgid "Options"
 msgstr "Beállítások"
@@ -1779,8 +1879,7 @@ msgstr "E-mail:"
 #: classes/pref/users.php:258
 #, php-format
 msgid "Added user <b>%s</b> with password <b>%s</b>"
-msgstr ""
-"A következő felhasználó hozzáadva <b>%s</b> ezzel a jelszóval <b>%s</b>"
+msgstr "A következő felhasználó hozzáadva <b>%s</b> ezzel a jelszóval <b>%s</b>"
 
 #: classes/pref/users.php:265
 #, php-format
@@ -1792,54 +1891,56 @@ msgstr "A következő felhasználó létrehozása sikertelen <b>%s</b>"
 msgid "User <b>%s</b> already exists."
 msgstr "A következő felhasználó már létezik <b>%s</b>."
 
-#: classes/pref/users.php:292
-#, php-format
-msgid ""
-"Changed password of user <b>%s</b>\n"
-"\t\t\t\t to <b>%s</b>"
+#: classes/pref/users.php:291
+#, fuzzy, php-format
+msgid "Changed password of user <b>%s</b> to <b>%s</b>"
 msgstr ""
 "<b>%s</b> felhasználó jelszava megváltoztatva \n"
 "\t\t\t\t\t erre: <b>%s</b>"
 
-#: classes/pref/users.php:299
-#, php-format
-msgid "Notifying <b>%s</b>."
-msgstr "<b>%s</b> értesítése."
+#: classes/pref/users.php:293
+#, fuzzy, php-format
+msgid "Sending new password of user <b>%s</b> to <b>%s</b>"
+msgstr ""
+"<b>%s</b> felhasználó jelszava megváltoztatva \n"
+"\t\t\t\t\t erre: <b>%s</b>"
 
-#: classes/pref/users.php:336
+#: classes/pref/users.php:317
 msgid "[tt-rss] Password change notification"
 msgstr "[tt-rss] Értesítés jelszó megváltoztatásáról."
 
-#: classes/pref/users.php:386
+#: classes/pref/users.php:368
 msgid "Create user"
 msgstr "Felhasználó létrehozás"
 
-#: classes/pref/users.php:392 classes/pref/filters.php:593
+#: classes/pref/users.php:372
+msgid "Details"
+msgstr "Részletek"
+
+#: classes/pref/users.php:374
+#: classes/pref/filters.php:612
 #: plugins/instances/init.php:296
 msgid "Edit"
 msgstr "Szerkesztés"
 
-#: classes/pref/users.php:396
-msgid "Reset password"
-msgstr "Jelszó visszaállítás"
-
-#: classes/pref/users.php:439
+#: classes/pref/users.php:421
 msgid "Access Level"
 msgstr "Hozzáférési szint"
 
-#: classes/pref/users.php:441
+#: classes/pref/users.php:423
 msgid "Last login"
 msgstr "Utolsó belépés"
 
-#: classes/pref/users.php:462 plugins/instances/init.php:337
+#: classes/pref/users.php:444
+#: plugins/instances/init.php:337
 msgid "Click to edit"
 msgstr "Kattintson ide a szerkesztéshez"
 
-#: classes/pref/users.php:482
+#: classes/pref/users.php:464
 msgid "No users defined."
 msgstr "Nincs megadva felhasználó."
 
-#: classes/pref/users.php:484
+#: classes/pref/users.php:466
 msgid "No matching users found."
 msgstr "Nem található a feltételeknek megfelelő felhasználó."
 
@@ -1868,95 +1969,117 @@ msgstr "Címke létrehozva: <b>%s</b>"
 msgid "Clear colors"
 msgstr "Színek visszaállítása"
 
-#: classes/pref/filters.php:57
+#: classes/pref/filters.php:60
 msgid "Articles matching this filter:"
 msgstr "A szűrőnek megfelelő hírek:"
 
-#: classes/pref/filters.php:94
+#: classes/pref/filters.php:97
 msgid "No recent articles matching this filter have been found."
 msgstr "Nem található a feltételeknek megfelelő hír."
 
-#: classes/pref/filters.php:98
-msgid ""
-"Complex expressions might not give results while testing due to issues with "
-"database server regexp implementation."
-msgstr ""
-"Az adatbázis szerver regexp implementációjával kapcsolatos problémák miatt a "
-"összetett kifejezések nem biztos, hogy eredményesek lesznek."
+#: classes/pref/filters.php:101
+msgid "Complex expressions might not give results while testing due to issues with database server regexp implementation."
+msgstr "Az adatbázis szerver regexp implementációjával kapcsolatos problémák miatt a összetett kifejezések nem biztos, hogy eredményesek lesznek."
 
-#: classes/pref/filters.php:225 classes/pref/filters.php:652
-#: classes/pref/filters.php:767
+#: classes/pref/filters.php:229
+#: classes/pref/filters.php:671
+#: classes/pref/filters.php:786
 msgid "Match"
 msgstr "Szabály"
 
-#: classes/pref/filters.php:239 classes/pref/filters.php:286
-#: classes/pref/filters.php:666 classes/pref/filters.php:693
+#: classes/pref/filters.php:243
+#: classes/pref/filters.php:291
+#: classes/pref/filters.php:685
+#: classes/pref/filters.php:712
 msgid "Add"
 msgstr "Hozzáad"
 
-#: classes/pref/filters.php:272 classes/pref/filters.php:679
+#: classes/pref/filters.php:277
+#: classes/pref/filters.php:698
 msgid "Apply actions"
 msgstr "Műveletek alkalmazása"
 
-#: classes/pref/filters.php:322 classes/pref/filters.php:708
+#: classes/pref/filters.php:327
+#: classes/pref/filters.php:727
 msgid "Enabled"
 msgstr "Engedélyezve"
 
-#: classes/pref/filters.php:331 classes/pref/filters.php:711
+#: classes/pref/filters.php:336
+#: classes/pref/filters.php:730
 msgid "Match any rule"
 msgstr "Minden szabálynak megfeleljen"
 
-#: classes/pref/filters.php:343 classes/pref/filters.php:723
+#: classes/pref/filters.php:345
+#: classes/pref/filters.php:733
+#, fuzzy
+msgid "Inverse matching"
+msgstr "Fordított kijelölés"
+
+#: classes/pref/filters.php:357
+#: classes/pref/filters.php:740
 msgid "Test"
 msgstr "Teszt"
 
-#: classes/pref/filters.php:375
-#, php-format
-msgid "%s on %s in %s"
+#: classes/pref/filters.php:390
+#, fuzzy
+msgid "(inverse)"
+msgstr "Fordított"
+
+#: classes/pref/filters.php:389
+#, fuzzy, php-format
+msgid "%s on %s in %s %s"
 msgstr "%s ebben: %s itt: %s"
 
-#: classes/pref/filters.php:590
+#: classes/pref/filters.php:609
 msgid "Combine"
 msgstr "Egyesít"
 
-#: classes/pref/filters.php:600 classes/pref/feeds.php:1283
+#: classes/pref/filters.php:619
+#: classes/pref/feeds.php:1283
 msgid "Rescore articles"
 msgstr "Hírek újrapontszámozása"
 
-#: classes/pref/filters.php:726
+#: classes/pref/filters.php:743
 msgid "Create"
 msgstr "Létrehoz"
 
-#: classes/pref/filters.php:776
+#: classes/pref/filters.php:798
+msgid "Inverse regular expression matching"
+msgstr ""
+
+#: classes/pref/filters.php:800
 msgid "on field"
 msgstr "...szerepeljen ebben a mezőben: "
 
-#: classes/pref/filters.php:782 js/PrefFilterTree.js:29
+#: classes/pref/filters.php:806
+#: js/PrefFilterTree.js:29
 #: plugins/digest/digest.js:241
 msgid "in"
 msgstr "itt"
 
-#: classes/pref/filters.php:795
+#: classes/pref/filters.php:819
 msgid "Save rule"
 msgstr "Szabály mentés"
 
-#: classes/pref/filters.php:795 js/functions.js:1078
+#: classes/pref/filters.php:819
+#: js/functions.js:1078
 msgid "Add rule"
 msgstr "Szabály hozzáadás"
 
-#: classes/pref/filters.php:818
+#: classes/pref/filters.php:842
 msgid "Perform Action"
 msgstr "Műveletek"
 
-#: classes/pref/filters.php:844
+#: classes/pref/filters.php:868
 msgid "with parameters:"
 msgstr "Beállítás:"
 
-#: classes/pref/filters.php:862
+#: classes/pref/filters.php:886
 msgid "Save action"
 msgstr "Művelet mentés"
 
-#: classes/pref/filters.php:862 js/functions.js:1104
+#: classes/pref/filters.php:886
+#: js/functions.js:1104
 msgid "Add action"
 msgstr "Művelet hozzáadás"
 
@@ -2017,6 +2140,10 @@ msgstr "Adatok mentése"
 msgid "Your password is at default value, please change it."
 msgstr "A jelszava még az alapértelmezett, kérem változtassa meg."
 
+#: classes/pref/prefs.php:236
+msgid "Changing your current password will disable OTP."
+msgstr ""
+
 #: classes/pref/prefs.php:241
 msgid "Old password"
 msgstr "Régi jelszó"
@@ -2037,7 +2164,12 @@ msgstr "Jelszó megváltoztatása"
 msgid "One time passwords / Authenticator"
 msgstr "Egyszer használatos jelszavak / Hitelesítő"
 
-#: classes/pref/prefs.php:294 classes/pref/prefs.php:345
+#: classes/pref/prefs.php:269
+msgid "One time passwords are currently enabled. Enter your current password below to disable."
+msgstr ""
+
+#: classes/pref/prefs.php:294
+#: classes/pref/prefs.php:345
 msgid "Enter your password"
 msgstr "Adja meg a jelszavát"
 
@@ -2046,12 +2178,8 @@ msgid "Disable OTP"
 msgstr "OTP letiltása"
 
 #: classes/pref/prefs.php:311
-msgid ""
-"You will need a compatible Authenticator to use this. Changing your password "
-"would automatically disable OTP."
-msgstr ""
-"Ennek a használatához egy kompatibilis Hitelesítőre van szükség. A jelszó "
-"módosítása automatikusan letiltja az OTP-t."
+msgid "You will need a compatible Authenticator to use this. Changing your password would automatically disable OTP."
+msgstr "Ennek a használatához egy kompatibilis Hitelesítőre van szükség. A jelszó módosítása automatikusan letiltja az OTP-t."
 
 #: classes/pref/prefs.php:313
 msgid "Scan the following code by the Authenticator application:"
@@ -2064,6 +2192,10 @@ msgstr "Beszkenneltem a kódot és be szeretném kapcsolni az OTP-t"
 #: classes/pref/prefs.php:362
 msgid "Enable OTP"
 msgstr "OTP engedélyezése"
+
+#: classes/pref/prefs.php:404
+msgid "Some preferences are only available in default profile."
+msgstr ""
 
 #: classes/pref/prefs.php:493
 msgid "Customize"
@@ -2098,31 +2230,41 @@ msgstr "Alapértelmezett beállítások"
 msgid "Show additional preferences"
 msgstr "További beállítások megjelenítése"
 
-#: classes/pref/prefs.php:625 classes/pref/prefs.php:627
+#: classes/pref/prefs.php:625
+#: classes/pref/prefs.php:627
 msgid "Plugins"
 msgstr "Beépülők"
+
+#: classes/pref/prefs.php:629
+msgid "You will need to reload Tiny Tiny RSS for plugin changes to take effect."
+msgstr ""
 
 #: classes/pref/prefs.php:655
 msgid "System plugins"
 msgstr "Rendszer beépülők"
 
-#: classes/pref/prefs.php:659 classes/pref/prefs.php:708
+#: classes/pref/prefs.php:659
+#: classes/pref/prefs.php:708
 msgid "Plugin"
 msgstr "Beépülő"
 
-#: classes/pref/prefs.php:660 classes/pref/prefs.php:709
+#: classes/pref/prefs.php:660
+#: classes/pref/prefs.php:709
 msgid "Description"
 msgstr "Leírás"
 
-#: classes/pref/prefs.php:661 classes/pref/prefs.php:710
+#: classes/pref/prefs.php:661
+#: classes/pref/prefs.php:710
 msgid "Version"
 msgstr "Verzió"
 
-#: classes/pref/prefs.php:662 classes/pref/prefs.php:711
+#: classes/pref/prefs.php:662
+#: classes/pref/prefs.php:711
 msgid "Author"
 msgstr "Szerző"
 
-#: classes/pref/prefs.php:695 classes/pref/prefs.php:746
+#: classes/pref/prefs.php:695
+#: classes/pref/prefs.php:746
 msgid "Clear data"
 msgstr "Adatok törlése"
 
@@ -2134,7 +2276,8 @@ msgstr "Felhasználói beépülők"
 msgid "Enable selected plugins"
 msgstr "Kiválasztott beépülők engedélyezése"
 
-#: classes/pref/prefs.php:816 classes/pref/prefs.php:834
+#: classes/pref/prefs.php:816
+#: classes/pref/prefs.php:834
 msgid "Incorrect password"
 msgstr "Érvénytelen jelszó"
 
@@ -2142,50 +2285,57 @@ msgstr "Érvénytelen jelszó"
 msgid "Check to enable field"
 msgstr "Jelölje be a mező engedélyezéséhez"
 
-#: classes/pref/feeds.php:58 classes/pref/feeds.php:175
-#: classes/pref/feeds.php:217 classes/pref/feeds.php:223
+#: classes/pref/feeds.php:58
+#: classes/pref/feeds.php:175
+#: classes/pref/feeds.php:217
+#: classes/pref/feeds.php:223
 #: classes/pref/feeds.php:248
-#, php-format
-msgid "(%d feeds)"
-msgstr "(%d hírcsatorna)"
+#, fuzzy, php-format
+msgid "(%d feed)"
+msgid_plural "(%d feeds)"
+msgstr[0] "(%d hírcsatorna)"
+msgstr[1] "(%d hírcsatorna)"
 
 #: classes/pref/feeds.php:494
 msgid "Feed Title"
 msgstr "Hírcsatorna címe"
 
-#: classes/pref/feeds.php:550 classes/pref/feeds.php:774
+#: classes/pref/feeds.php:550
+#: classes/pref/feeds.php:774
 msgid "Article purging:"
 msgstr "Régi hírek törlése:"
 
 #: classes/pref/feeds.php:573
-msgid ""
-"<b>Hint:</b> you need to fill in your login information if your feed "
-"requires authentication, except for Twitter feeds."
-msgstr ""
-"<b>Megjegyzés:</b> ha a hírcsatorna megköveteli a hitelesítést (kivéve a "
-"Twitter csatornákat), ki kell tölteni a bejelentkezési információkat."
+msgid "<b>Hint:</b> you need to fill in your login information if your feed requires authentication, except for Twitter feeds."
+msgstr "<b>Megjegyzés:</b> ha a hírcsatorna megköveteli a hitelesítést (kivéve a Twitter csatornákat), ki kell tölteni a bejelentkezési információkat."
 
-#: classes/pref/feeds.php:589 classes/pref/feeds.php:803
+#: classes/pref/feeds.php:589
+#: classes/pref/feeds.php:803
 msgid "Hide from Popular feeds"
 msgstr "Elrejtés a Népszerű hírcsatornákból"
 
-#: classes/pref/feeds.php:601 classes/pref/feeds.php:809
+#: classes/pref/feeds.php:601
+#: classes/pref/feeds.php:809
 msgid "Include in e-mail digest"
 msgstr "Hozzáadás az e-mail összefoglalóhoz"
 
-#: classes/pref/feeds.php:614 classes/pref/feeds.php:815
+#: classes/pref/feeds.php:614
+#: classes/pref/feeds.php:815
 msgid "Always display image attachments"
 msgstr "Kép csatolmányokat mindig jelenítse meg"
 
-#: classes/pref/feeds.php:627 classes/pref/feeds.php:823
+#: classes/pref/feeds.php:627
+#: classes/pref/feeds.php:823
 msgid "Do not embed images"
 msgstr "Ne ágyazza be a képeket"
 
-#: classes/pref/feeds.php:640 classes/pref/feeds.php:831
+#: classes/pref/feeds.php:640
+#: classes/pref/feeds.php:831
 msgid "Cache images locally"
 msgstr "Képek helyi tárolása"
 
-#: classes/pref/feeds.php:652 classes/pref/feeds.php:837
+#: classes/pref/feeds.php:652
+#: classes/pref/feeds.php:837
 msgid "Mark updated articles as unread"
 msgstr "Frissült hírek megjelölése olvasatlanként"
 
@@ -2203,15 +2353,14 @@ msgstr "Újra feliratkozás a push frissítésekre"
 
 #: classes/pref/feeds.php:698
 msgid "Resets PubSubHubbub subscription status for push-enabled feeds."
-msgstr ""
-"Visszaállítja a PubSubHubbub feliratkozást a push-engedélyezett "
-"hírcsatornákhoz."
+msgstr "Visszaállítja a PubSubHubbub feliratkozást a push-engedélyezett hírcsatornákhoz."
 
 #: classes/pref/feeds.php:713
 msgid "Enable the options you wish to apply using checkboxes on the right:"
 msgstr "A jobb oldali jelölőnégyzetek segítségével engedélyezheti az opciókat:"
 
-#: classes/pref/feeds.php:1077 classes/pref/feeds.php:1130
+#: classes/pref/feeds.php:1077
+#: classes/pref/feeds.php:1130
 msgid "All done."
 msgstr "Kész."
 
@@ -2227,11 +2376,13 @@ msgstr "Inaktív hírcsatornák"
 msgid "Edit selected feeds"
 msgstr "Kijelölt hírcsatornák szerkeztése"
 
-#: classes/pref/feeds.php:1244 classes/pref/feeds.php:1258
+#: classes/pref/feeds.php:1244
+#: classes/pref/feeds.php:1258
 msgid "Reset sort order"
 msgstr "Rendezési sorren visszaállítása"
 
-#: classes/pref/feeds.php:1246 js/prefs.js:1785
+#: classes/pref/feeds.php:1246
+#: js/prefs.js:1764
 msgid "Batch subscribe"
 msgstr "Kötegelt feliratkozás"
 
@@ -2268,12 +2419,8 @@ msgid "OPML"
 msgstr "OPML"
 
 #: classes/pref/feeds.php:1335
-msgid ""
-"Using OPML you can export and import your feeds, filters, labels and Tiny "
-"Tiny RSS settings."
-msgstr ""
-"Az OPML használatával hírcsatornákat, szűrőket, címkéket és beállításokat "
-"exportálhat, importálhat."
+msgid "Using OPML you can export and import your feeds, filters, labels and Tiny Tiny RSS settings."
+msgstr "Az OPML használatával hírcsatornákat, szűrőket, címkéket és beállításokat exportálhat, importálhat."
 
 #: classes/pref/feeds.php:1337
 msgid "Only main settings profile can be migrated using OPML."
@@ -2296,20 +2443,12 @@ msgid "Export OPML"
 msgstr "Exportálás OPML-be"
 
 #: classes/pref/feeds.php:1364
-msgid ""
-"Your OPML can be published publicly and can be subscribed by anyone who "
-"knows the URL below."
-msgstr ""
-"Az OPML nyilvánosságra hozható és bárki feliratkozhat rá, aki ismeri az "
-"alábbi URL-t."
+msgid "Your OPML can be published publicly and can be subscribed by anyone who knows the URL below."
+msgstr "Az OPML nyilvánosságra hozható és bárki feliratkozhat rá, aki ismeri az alábbi URL-t."
 
 #: classes/pref/feeds.php:1366
-msgid ""
-"Published OPML does not include your Tiny Tiny RSS settings, feeds that "
-"require authentication or feeds hidden from Popular feeds."
-msgstr ""
-"A publikált OPML nem tartalmazza a beállításokat, az azonosítást igénylő "
-"hírcsatornákat és az Népszerű hírcsatornákból elrejtetteket."
+msgid "Published OPML does not include your Tiny Tiny RSS settings, feeds that require authentication or feeds hidden from Popular feeds."
+msgstr "A publikált OPML nem tartalmazza a beállításokat, az azonosítást igénylő hírcsatornákat és az Népszerű hírcsatornákból elrejtetteket."
 
 #: classes/pref/feeds.php:1369
 msgid "Display published OPML URL"
@@ -2320,12 +2459,8 @@ msgid "Firefox integration"
 msgstr "Firefox integráció"
 
 #: classes/pref/feeds.php:1381
-msgid ""
-"This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the "
-"link below."
-msgstr ""
-"Ez a Tiny Tiny RSS oldal beállítható a Firefox böngésző alapértelmezett "
-"hírcsatorna-olvasójaként. Ehhez kattintson az alábbi linkre!"
+msgid "This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the link below."
+msgstr "Ez a Tiny Tiny RSS oldal beállítható a Firefox böngésző alapértelmezett hírcsatorna-olvasójaként. Ehhez kattintson az alábbi linkre!"
 
 #: classes/pref/feeds.php:1388
 msgid "Click here to register this site as a feed reader."
@@ -2340,12 +2475,8 @@ msgid "Published articles and generated feeds"
 msgstr "Publikált hírek és generált hírcsatornák"
 
 #: classes/pref/feeds.php:1400
-msgid ""
-"Published articles are exported as a public RSS feed and can be subscribed "
-"by anyone who knows the URL specified below."
-msgstr ""
-"A program a publikált hírekből egy publikus RSS hírcsatornát készít, amelyre "
-"bárki feliratkozhat, aki tudja a lenti címet."
+msgid "Published articles are exported as a public RSS feed and can be subscribed by anyone who knows the URL specified below."
+msgstr "A program a publikált hírekből egy publikus RSS hírcsatornát készít, amelyre bárki feliratkozhat, aki tudja a lenti címet."
 
 #: classes/pref/feeds.php:1406
 msgid "Display URL"
@@ -2368,17 +2499,16 @@ msgid "Unshare all articles"
 msgstr "Minden hír megosztásának visszavonása"
 
 #: classes/pref/feeds.php:1494
-msgid ""
-"These feeds have not been updated with new content for 3 months (oldest "
-"first):"
-msgstr ""
-"Ezek a hírcsatornák 3 hónapja nem frissültek új tartalommal (régebbiek elöl):"
+msgid "These feeds have not been updated with new content for 3 months (oldest first):"
+msgstr "Ezek a hírcsatornák 3 hónapja nem frissültek új tartalommal (régebbiek elöl):"
 
-#: classes/pref/feeds.php:1531 classes/pref/feeds.php:1600
+#: classes/pref/feeds.php:1531
+#: classes/pref/feeds.php:1600
 msgid "Click to edit feed"
 msgstr "Kattintson a hírcsatorna szerkesztéséhez"
 
-#: classes/pref/feeds.php:1549 classes/pref/feeds.php:1620
+#: classes/pref/feeds.php:1549
+#: classes/pref/feeds.php:1620
 msgid "Unsubscribe from selected feeds"
 msgstr "Leiratkozás a kiválasztott hírcsatornákról"
 
@@ -2390,11 +2520,9 @@ msgstr "Váratlan hibák miatt ezek a hírcsatornák nem frissültek:"
 msgid "Pocket"
 msgstr "Pocket"
 
-#: plugins/digest/digest_body.php:43
-msgid ""
-"Your browser doesn't support Javascript, which is required\n"
-"\t\t\tfor this application to function properly. Please check your\n"
-"\t\t\tbrowser settings."
+#: plugins/digest/digest_body.php:45
+#, fuzzy
+msgid "Your browser doesn't support Javascript, which is required for this application to function properly. Please check your browser settings."
 msgstr ""
 "A böngészője nem támogatja a Javascriptet, amely szükséges\n"
 "\t\t\taz alakalmazás megfelelő működéséhez. Kérem ellenőrizze\n"
@@ -2416,7 +2544,8 @@ msgstr "Alap változat"
 msgid "Close article"
 msgstr "Hír bezárása"
 
-#: plugins/nsfw/init.php:32 plugins/nsfw/init.php:43
+#: plugins/nsfw/init.php:32
+#: plugins/nsfw/init.php:43
 msgid "Not work safe (click to toggle)"
 msgstr "Munkahelyen nem bitonságos (kattintson a váltáshoz)"
 
@@ -2448,28 +2577,28 @@ msgstr "A jelszó megváltoztatva."
 msgid "Old password is incorrect."
 msgstr "A régi jelszó helytelen."
 
-#: plugins/mailto/init.php:52 plugins/mailto/init.php:58
-#: plugins/mail/init.php:71 plugins/mail/init.php:77
+#: plugins/mailto/init.php:52
+#: plugins/mailto/init.php:58
+#: plugins/mail/init.php:71
+#: plugins/mail/init.php:77
 msgid "[Forwarded]"
 msgstr "[Továbbítva]"
 
-#: plugins/mailto/init.php:52 plugins/mail/init.php:71
+#: plugins/mailto/init.php:52
+#: plugins/mail/init.php:71
 msgid "Multiple articles"
 msgstr "Többszörös hírek"
 
 #: plugins/mailto/init.php:74
 msgid "Clicking the following link to invoke your mail client:"
-msgstr ""
-"A levelezőprogram használatával való továbbításhoz kattintson az alábbi "
-"linkre:"
+msgstr "A levelezőprogram használatával való továbbításhoz kattintson az alábbi linkre:"
 
 #: plugins/mailto/init.php:78
 msgid "Forward selected article(s) by email."
 msgstr "Kijelölt hírek továbbítása e-mailben."
 
 #: plugins/mailto/init.php:81
-msgid ""
-"You should be able to edit the message before sending in your mail client."
+msgid "You should be able to edit the message before sending in your mail client."
 msgstr "A levél elküldése előtt lehetőség van az üzenet szerkesztésére."
 
 #: plugins/mailto/init.php:86
@@ -2481,12 +2610,8 @@ msgid "Bookmarklets"
 msgstr ""
 
 #: plugins/bookmarklets/init.php:24
-msgid ""
-"Drag the link below to your browser toolbar, open the feed you're interested "
-"in in your browser and click on the link to subscribe to it."
-msgstr ""
-"Húzza a linket a böngésző eszköztára alá, nyissa meg a böngészőjében a "
-"hírcsatornát és kattintson a linkre a feliratkozáshoz."
+msgid "Drag the link below to your browser toolbar, open the feed you're interested in in your browser and click on the link to subscribe to it."
+msgstr "Húzza a linket a böngésző eszköztára alá, nyissa meg a böngészőjében a hírcsatornát és kattintson a linkre a feliratkozáshoz."
 
 #: plugins/bookmarklets/init.php:28
 #, php-format
@@ -2510,12 +2635,8 @@ msgid "Article archive"
 msgstr "Hír archívum"
 
 #: plugins/import_export/init.php:68
-msgid ""
-"You can export and import your Starred and Archived articles for safekeeping "
-"or when migrating between tt-rss instances."
-msgstr ""
-"A biztonság kedvéért exportálhatja és importálhatja a csillagozott és az "
-"archivált híreket a tt-rss költözések között."
+msgid "You can export and import your Starred and Archived articles for safekeeping or when migrating between tt-rss instances."
+msgstr "A biztonság kedvéért exportálhatja és importálhatja a csillagozott és az archivált híreket a tt-rss költözések között."
 
 #: plugins/import_export/init.php:71
 msgid "Export my data"
@@ -2534,27 +2655,43 @@ msgid "Could not import: unrecognized document format."
 msgstr "Nem sikerült az importálás: ismeretlen dokumentum formátum."
 
 #: plugins/import_export/init.php:385
-#, php-format
-msgid "Finished: %d articles processed, %d imported, %d feeds created."
+msgid "Finished: "
 msgstr ""
-"Elkészült: %d hír feldolgozva, %d importálva, %d hírcsatorna létrehozva."
 
-#: plugins/import_export/init.php:391
+#: plugins/import_export/init.php:386
+#, fuzzy, php-format
+msgid "%d article processed, "
+msgid_plural "%d articles processed, "
+msgstr[0] "Megjegyzés"
+msgstr[1] "Megjegyzés"
+
+#: plugins/import_export/init.php:387
+#, php-format
+msgid "%d imported, "
+msgid_plural "%d imported, "
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugins/import_export/init.php:388
+#, fuzzy, php-format
+msgid "%d feed created."
+msgid_plural "%d feeds created."
+msgstr[0] "Nincs kiválasztott hírcsatorna."
+msgstr[1] "Nincs kiválasztott hírcsatorna."
+
+#: plugins/import_export/init.php:393
 msgid "Could not load XML document."
 msgstr "Az XML dokumentum nem tölthető be."
 
-#: plugins/import_export/init.php:403
+#: plugins/import_export/init.php:405
 msgid "Prepare data"
 msgstr "Adatok előkészítése"
 
-#: plugins/import_export/init.php:424
-#, php-format
-msgid ""
-"Could not upload file. You might need to adjust upload_max_filesize\n"
-"\t\t\t\tin PHP.ini (current value = %s)"
+#: plugins/import_export/init.php:426
+#, fuzzy, php-format
+msgid "Could not upload file. You might need to adjust upload_max_filesize in PHP.ini (current value = %s)"
 msgstr ""
-"Nem lehet feltölteni a fájlt. A php.ini fájlban be kell állítani az "
-"upload_max_filesize értékét\n"
+"Nem lehet feltölteni a fájlt. A php.ini fájlban be kell állítani az upload_max_filesize értékét\n"
 "\t\t\t\t jelenlegi érték = %s"
 
 #: plugins/mail/init.php:92
@@ -2573,7 +2710,8 @@ msgstr "Tárgy:"
 msgid "Send e-mail"
 msgstr "Email küldés"
 
-#: plugins/note/init.php:28 plugins/note/note.js:11
+#: plugins/note/init.php:28
+#: plugins/note/note.js:11
 msgid "Edit article note"
 msgstr "Megjegyzés"
 
@@ -2614,13 +2752,8 @@ msgid "Link instance"
 msgstr "Link példány"
 
 #: plugins/instances/init.php:307
-msgid ""
-"You can connect other instances of Tiny Tiny RSS to this one to share "
-"Popular feeds. Link to this instance of Tiny Tiny RSS by using this URL:"
-msgstr ""
-"A Népszerű hírcsatornák megosztásához csatlakoztathat másik Tiny Tiny RSS "
-"példányokat ehhez. A Tiny Tiny RSS ezen példányához való kapcsolódáshoz ez "
-"az URL használható:"
+msgid "You can connect other instances of Tiny Tiny RSS to this one to share Popular feeds. Link to this instance of Tiny Tiny RSS by using this URL:"
+msgstr "A Népszerű hírcsatornák megosztásához csatlakoztathat másik Tiny Tiny RSS példányokat ehhez. A Tiny Tiny RSS ezen példányához való kapcsolódáshoz ez az URL használható:"
 
 #: plugins/instances/init.php:317
 msgid "Last connected"
@@ -2650,28 +2783,25 @@ msgstr "Flattr támogatás."
 msgid "Share on Google+"
 msgstr "Megosztás Google+ -on"
 
-#: plugins/updater/init.php:295 plugins/updater/init.php:307
+#: plugins/updater/init.php:317
+#: plugins/updater/init.php:334
 #: plugins/updater/updater.js:10
 msgid "Update Tiny Tiny RSS"
 msgstr "Tiny Tiny RSS frissítése"
 
-#: plugins/updater/init.php:310
+#: plugins/updater/init.php:337
 msgid "Your Tiny Tiny RSS installation is up to date."
 msgstr "A Tiny Tiny RSS telepítés naprakész."
 
-#: plugins/updater/init.php:320
-msgid ""
-"Do not close this dialog until updating is finished. Backup your tt-rss "
-"directory before continuing."
-msgstr ""
-"Ne zárja be amíg a frissítés be nem fejeződik. A folytatás előtt mentse el a "
-"tt-rss könyvtárának tartalmát."
+#: plugins/updater/init.php:347
+msgid "Do not close this dialog until updating is finished. Backup your tt-rss directory before continuing."
+msgstr "Ne zárja be amíg a frissítés be nem fejeződik. A folytatás előtt mentse el a tt-rss könyvtárának tartalmát."
 
-#: plugins/updater/init.php:323
+#: plugins/updater/init.php:350
 msgid "Ready to update."
 msgstr "Frissítésre kész."
 
-#: plugins/updater/init.php:328
+#: plugins/updater/init.php:355
 msgid "Start update"
 msgstr "Frissítés indtása"
 
@@ -2679,23 +2809,19 @@ msgstr "Frissítés indtása"
 msgid "Share on Twitter"
 msgstr "Megosztás az Twitteren"
 
-#: js/feedlist.js:215
+#: js/feedlist.js:213
 msgid "New articles available in this feed (click to show)"
-msgstr ""
-"Új hírek érhetők el ebben a csatornában (kattintson a megjelenítésükhöz)"
+msgstr "Új hírek érhetők el ebben a csatornában (kattintson a megjelenítésükhöz)"
 
-#: js/feedlist.js:417 js/feedlist.js:432 plugins/digest/digest.js:25
+#: js/feedlist.js:415
+#: js/feedlist.js:430
+#: plugins/digest/digest.js:25
 msgid "Mark all articles in %s as read?"
 msgstr "Minden hírt megjelöl olvasottként itt: %s?"
 
 #: js/functions.js:91
-msgid ""
-"Are you sure to report this exception to tt-rss.org? The report will include "
-"your browser information. Your IP would be saved in the database."
-msgstr ""
-"Biztos, hogy be akarja jelenteni ezt a hibát a tt-rss.org oldalon? A "
-"jelentés tartalmazni a fogja a böngésző információit. Az IP címe el lesz "
-"tárolva az adatbázisban."
+msgid "Are you sure to report this exception to tt-rss.org? The report will include your browser information. Your IP would be saved in the database."
+msgstr "Biztos, hogy be akarja jelenteni ezt a hibát a tt-rss.org oldalon? A jelentés tartalmazni a fogja a böngésző információit. Az IP címe el lesz tárolva az adatbázisban."
 
 #: js/functions.js:627
 msgid "Date syntax appears to be correct:"
@@ -2705,9 +2831,23 @@ msgstr "A dátum szintaxisa helyesnek tűnik:"
 msgid "Date syntax is incorrect."
 msgstr "A dátum szintaxisa helytelen."
 
+#: js/functions.js:733
+msgid "Upload complete."
+msgstr ""
+
 #: js/functions.js:757
 msgid "Remove stored feed icon?"
 msgstr "Eltávolítja a hírcsatorna tárolt ikonját?"
+
+#: js/functions.js:762
+#, fuzzy
+msgid "Removing feed icon..."
+msgstr "Eltávolítja a hírcsatorna tárolt ikonját?"
+
+#: js/functions.js:767
+#, fuzzy
+msgid "Feed icon removed."
+msgstr "Hírcsatorna nem található"
 
 #: js/functions.js:789
 msgid "Please select an image file to upload."
@@ -2716,6 +2856,11 @@ msgstr "Kérem válasszon egy feltöltendő képet."
 #: js/functions.js:791
 msgid "Upload new icon for this feed?"
 msgstr "Új ikon tölt fel ehhez a hírcsatornához?"
+
+#: js/functions.js:792
+#, fuzzy
+msgid "Uploading, please wait..."
+msgstr "Betöltés, kérem várjon..."
 
 #: js/functions.js:808
 msgid "Please enter label caption:"
@@ -2761,61 +2906,90 @@ msgstr "Művelet szerkesztése"
 msgid "Create Filter"
 msgstr "Szűrő létrehozás"
 
-#: js/functions.js:1245
-msgid ""
-"Reset subscription? Tiny Tiny RSS will try to subscribe to the notification "
-"hub again on next feed update."
-msgstr ""
-"Feliratkozás visszaállítása? a következő frissítéskor Tiny Tiny RSS "
-"megpróbál automatikusan újra feliratkozni."
+#: js/functions.js:1256
+msgid "Reset subscription? Tiny Tiny RSS will try to subscribe to the notification hub again on next feed update."
+msgstr "Feliratkozás visszaállítása? a következő frissítéskor Tiny Tiny RSS megpróbál automatikusan újra feliratkozni."
 
-#: js/functions.js:1266 js/tt-rss.js:369
+#: js/functions.js:1267
+#, fuzzy
+msgid "Subscription reset."
+msgstr "Feliratkozás hírcsatornára..."
+
+#: js/functions.js:1277
+#: js/tt-rss.js:369
 msgid "Unsubscribe from %s?"
 msgstr "Leiratkozik innen: %s?"
 
-#: js/functions.js:1375
+#: js/functions.js:1280
+msgid "Removing feed..."
+msgstr ""
+
+#: js/functions.js:1386
 msgid "Please enter category title:"
 msgstr "Adja meg a kategória címét:"
 
-#: js/functions.js:1406
+#: js/functions.js:1417
 msgid "Generate new syndication address for this feed?"
 msgstr "Új hírszolgáltatási cím generálásása ehhez a hírcsatornához?"
 
-#: js/functions.js:1597 js/tt-rss.js:350 js/tt-rss.js:735
+#: js/functions.js:1421
+#: js/prefs.js:1234
+msgid "Trying to change address..."
+msgstr ""
+
+#: js/functions.js:1608
+#: js/tt-rss.js:350
+#: js/tt-rss.js:735
 msgid "You can't edit this kind of feed."
 msgstr "Ezt a hírcsatornatípust nem szerkesztheted."
 
-#: js/functions.js:1612
+#: js/functions.js:1623
 msgid "Edit Feed"
 msgstr "Hírcsatorna szerkesztése"
 
-#: js/functions.js:1650
+#: js/functions.js:1629
+#: js/prefs.js:194
+#: js/prefs.js:749
+#, fuzzy
+msgid "Saving data..."
+msgstr "Adatok mentése"
+
+#: js/functions.js:1661
 msgid "More Feeds"
 msgstr "További hírcsatornák"
 
-#: js/functions.js:1711 js/functions.js:1821 js/prefs.js:397 js/prefs.js:427
-#: js/prefs.js:459 js/prefs.js:642 js/prefs.js:662 js/prefs.js:1210
+#: js/functions.js:1722
+#: js/functions.js:1832
+#: js/prefs.js:397
+#: js/prefs.js:427
+#: js/prefs.js:459
+#: js/prefs.js:642
+#: js/prefs.js:662
+#: js/prefs.js:1210
 #: js/prefs.js:1355
 msgid "No feeds are selected."
 msgstr "Nincs kiválasztott hírcsatorna."
 
-#: js/functions.js:1753
-msgid ""
-"Remove selected feeds from the archive? Feeds with stored articles will not "
-"be removed."
-msgstr ""
-"Eltávolítja a kijelölt hírcsatornákat az archívumból? A tárolt hírekkel "
-"rendelkező hírcsatornák nem lesznek törölve."
+#: js/functions.js:1764
+msgid "Remove selected feeds from the archive? Feeds with stored articles will not be removed."
+msgstr "Eltávolítja a kijelölt hírcsatornákat az archívumból? A tárolt hírekkel rendelkező hírcsatornák nem lesznek törölve."
 
-#: js/functions.js:1792
+#: js/functions.js:1803
 msgid "Feeds with update errors"
 msgstr "Hírcsatornák frissítési hibával"
 
-#: js/functions.js:1803 js/prefs.js:1192
+#: js/functions.js:1814
+#: js/prefs.js:1192
 msgid "Remove selected feeds?"
 msgstr "Eltávolítja a kiválasztott hírcsatornákat?"
 
-#: js/functions.js:1904
+#: js/functions.js:1817
+#: js/prefs.js:1195
+#, fuzzy
+msgid "Removing selected feeds..."
+msgstr "Eltávolítja a kiválasztott hírcsatornákat?"
+
+#: js/functions.js:1915
 msgid "Help"
 msgstr "Súgó"
 
@@ -2839,6 +3013,11 @@ msgstr "Kérem adja meg a felhasználói nevét:"
 msgid "Can't create user: no login specified."
 msgstr "Felhasználó létrehozása sikertelen, nincs megadva felhasználói név."
 
+#: js/prefs.js:66
+#, fuzzy
+msgid "Adding user..."
+msgstr "Szűrő hozzáadása..."
+
 #: js/prefs.js:117
 msgid "Edit Filter"
 msgstr "Szűrő szerkesztése"
@@ -2847,23 +3026,38 @@ msgstr "Szűrő szerkesztése"
 msgid "Remove filter?"
 msgstr "Eltávolítja szűrőt?"
 
+#: js/prefs.js:169
+#, fuzzy
+msgid "Removing filter..."
+msgstr "Szűrő hozzáadása..."
+
 #: js/prefs.js:279
 msgid "Remove selected labels?"
 msgstr "Eltávolítja a kiválasztott címkéket?"
 
-#: js/prefs.js:295 js/prefs.js:1396
+#: js/prefs.js:282
+#, fuzzy
+msgid "Removing selected labels..."
+msgstr "Eltávolítja a kiválasztott címkéket?"
+
+#: js/prefs.js:295
+#: js/prefs.js:1396
 msgid "No labels are selected."
 msgstr "Nincs kiválasztott címke."
 
 #: js/prefs.js:309
-msgid ""
-"Remove selected users? Neither default admin nor your account will be "
-"removed."
-msgstr ""
-"Eltávolítja a kijelölt felhasználókat? Az alapértelmezett admin és az ön "
-"fiókja nem lesz törölve."
+msgid "Remove selected users? Neither default admin nor your account will be removed."
+msgstr "Eltávolítja a kijelölt felhasználókat? Az alapértelmezett admin és az ön fiókja nem lesz törölve."
 
-#: js/prefs.js:326 js/prefs.js:507 js/prefs.js:528 js/prefs.js:567
+#: js/prefs.js:312
+#, fuzzy
+msgid "Removing selected users..."
+msgstr "Eltávolítja a kiválasztott szűrőket?"
+
+#: js/prefs.js:326
+#: js/prefs.js:507
+#: js/prefs.js:528
+#: js/prefs.js:567
 msgid "No users are selected."
 msgstr "Nincs kijelölt felhasználó."
 
@@ -2871,13 +3065,25 @@ msgstr "Nincs kijelölt felhasználó."
 msgid "Remove selected filters?"
 msgstr "Eltávolítja a kiválasztott szűrőket?"
 
-#: js/prefs.js:359 js/prefs.js:597 js/prefs.js:616
+#: js/prefs.js:347
+#, fuzzy
+msgid "Removing selected filters..."
+msgstr "Eltávolítja a kiválasztott szűrőket?"
+
+#: js/prefs.js:359
+#: js/prefs.js:597
+#: js/prefs.js:616
 msgid "No filters are selected."
 msgstr "Nincs kiválasztott szűrő."
 
 #: js/prefs.js:378
 msgid "Unsubscribe from selected feeds?"
 msgstr "Leiratkozik a kiválasztott hírcsatornákról?"
+
+#: js/prefs.js:382
+#, fuzzy
+msgid "Unsubscribing from selected feeds..."
+msgstr "Leiratkozás a kiválasztott hírcsatornákról"
 
 #: js/prefs.js:412
 msgid "Please select only one feed."
@@ -2887,21 +3093,42 @@ msgstr "Kérem csak egy hírcsatornát jelöljön meg!"
 msgid "Erase all non-starred articles in selected feed?"
 msgstr "Eltávolítja az összes csillag nélküli hírt a kijelölt hírcsatornából?"
 
+#: js/prefs.js:421
+#, fuzzy
+msgid "Clearing selected feed..."
+msgstr "Kijelölt hírcsatornák szerkeztése"
+
 #: js/prefs.js:440
 msgid "How many days of articles to keep (0 - use default)?"
-msgstr ""
-"Milyen régi híreket szeretne megtartani  (napokban; 0 - alapértelmezett)?"
+msgstr "Milyen régi híreket szeretne megtartani  (napokban; 0 - alapértelmezett)?"
+
+#: js/prefs.js:443
+#, fuzzy
+msgid "Purging selected feed..."
+msgstr "Kijelölt hírcsatornák szerkeztése"
 
 #: js/prefs.js:478
 msgid "Login field cannot be blank."
 msgstr "A felhasználói név nem maradhat üresen."
 
-#: js/prefs.js:512 js/prefs.js:533 js/prefs.js:572
+#: js/prefs.js:482
+#, fuzzy
+msgid "Saving user..."
+msgstr "Szűrő hozzáadása..."
+
+#: js/prefs.js:512
+#: js/prefs.js:533
+#: js/prefs.js:572
 msgid "Please select only one user."
 msgstr "Kérem csak egy felhasználót jelöljön meg!"
 
 #: js/prefs.js:537
 msgid "Reset password of selected user?"
+msgstr "Visszaállítja  akiválasztott felhasználók jelszavakit?"
+
+#: js/prefs.js:540
+#, fuzzy
+msgid "Resetting password for selected user..."
 msgstr "Visszaállítja  akiválasztott felhasználók jelszavakit?"
 
 #: js/prefs.js:602
@@ -2911,6 +3138,11 @@ msgstr "Kérem csak egy szűrőt jelöljön meg!"
 #: js/prefs.js:620
 msgid "Combine selected filters?"
 msgstr "Egyesíti a kiválasztott szűrőket?"
+
+#: js/prefs.js:623
+#, fuzzy
+msgid "Joining filters..."
+msgstr "Szűrő hozzáadása..."
 
 #: js/prefs.js:684
 msgid "Edit Multiple Feeds"
@@ -2928,19 +3160,32 @@ msgstr "OPML importálás"
 msgid "Please choose an OPML file first."
 msgstr "Először válasszon egy OPML fjlt."
 
+#: js/prefs.js:827
+#: plugins/import_export/import_export.js:115
+#, fuzzy
+msgid "Importing, please wait..."
+msgstr "Betöltés, kérem várjon..."
+
 #: js/prefs.js:980
 msgid "Reset to defaults?"
 msgstr "Visszaállítja a gyári beállításokat?"
 
 #: js/prefs.js:1099
-msgid ""
-"Remove category %s? Any nested feeds would be placed into Uncategorized."
-msgstr ""
-"Eltávolítja %s kategóriát? Minden tartalmazott hírcsatorna a "
-"Kategorizálatlanba fog kerülni."
+msgid "Remove category %s? Any nested feeds would be placed into Uncategorized."
+msgstr "Eltávolítja %s kategóriát? Minden tartalmazott hírcsatorna a Kategorizálatlanba fog kerülni."
+
+#: js/prefs.js:1105
+#, fuzzy
+msgid "Removing category..."
+msgstr "Kategória eltávolítása"
 
 #: js/prefs.js:1126
 msgid "Remove selected categories?"
+msgstr "Kiválasztott kategóriák eltávolítása?"
+
+#: js/prefs.js:1129
+#, fuzzy
+msgid "Removing selected categories..."
 msgstr "Kiválasztott kategóriák eltávolítása?"
 
 #: js/prefs.js:1142
@@ -2951,6 +3196,11 @@ msgstr "Nincs kategória kiválaszta."
 msgid "Category title:"
 msgstr "Kategória címe:"
 
+#: js/prefs.js:1154
+#, fuzzy
+msgid "Creating category..."
+msgstr "Szűrő létrehozása..."
+
 #: js/prefs.js:1181
 msgid "Feeds without recent updates"
 msgstr "Hírcsatornák frissítések nélkül"
@@ -2959,13 +3209,28 @@ msgstr "Hírcsatornák frissítések nélkül"
 msgid "Replace current OPML publishing address with a new one?"
 msgstr "Lecseréli a jelenlegi OPML hírcsatornája címét egy újra?"
 
+#: js/prefs.js:1319
+#, fuzzy
+msgid "Clearing feed..."
+msgstr "Hírcsatorna-adatok törlése"
+
 #: js/prefs.js:1339
 msgid "Rescore articles in selected feeds?"
+msgstr "Újrapontszámozza a híreket a kijelölt hírcsatornákban?"
+
+#: js/prefs.js:1342
+#, fuzzy
+msgid "Rescoring selected feeds..."
 msgstr "Újrapontszámozza a híreket a kijelölt hírcsatornákban?"
 
 #: js/prefs.js:1362
 msgid "Rescore all articles? This operation may take a lot of time."
 msgstr "Újrapontoz minden cíkket? Ez a művelet hosszú ideig is eltarthat."
+
+#: js/prefs.js:1365
+#, fuzzy
+msgid "Rescoring feeds..."
+msgstr "Hírcsatorna újrapontozása"
 
 #: js/prefs.js:1382
 msgid "Reset selected labels to default colors?"
@@ -2976,50 +3241,64 @@ msgid "Settings Profiles"
 msgstr "Beállítási profilok"
 
 #: js/prefs.js:1428
-msgid ""
-"Remove selected profiles? Active and default profiles will not be removed."
-msgstr ""
-"Eltávolítja a kijelölt profilokat? Az aktív és az alapértelmezett profil nem "
-"lesz törölve."
+msgid "Remove selected profiles? Active and default profiles will not be removed."
+msgstr "Eltávolítja a kijelölt profilokat? Az aktív és az alapértelmezett profil nem lesz törölve."
+
+#: js/prefs.js:1431
+#, fuzzy
+msgid "Removing selected profiles..."
+msgstr "Eltávolítja a kiválasztott profilokat?"
 
 #: js/prefs.js:1446
 msgid "No profiles are selected."
 msgstr "Nincsenek kiválasztott profilok."
 
-#: js/prefs.js:1454 js/prefs.js:1507
+#: js/prefs.js:1454
+#: js/prefs.js:1507
 msgid "Activate selected profile?"
 msgstr "Aktiválja a kiválasztott profilt?"
 
-#: js/prefs.js:1470 js/prefs.js:1523
+#: js/prefs.js:1470
+#: js/prefs.js:1523
 msgid "Please choose a profile to activate."
 msgstr "Válasszon egy aktiválandó profilt."
 
+#: js/prefs.js:1475
+#, fuzzy
+msgid "Creating profile..."
+msgstr "Profil létrehozás"
+
 #: js/prefs.js:1531
 msgid "This will invalidate all previously generated feed URLs. Continue?"
+msgstr "Ez érvényteleníteni fog minden korábban generált hírcsatorna URL-t. Folytatja?"
+
+#: js/prefs.js:1534
+#: js/prefs.js:1553
+msgid "Clearing URLs..."
 msgstr ""
-"Ez érvényteleníteni fog minden korábban generált hírcsatorna URL-t. "
-"Folytatja?"
+
+#: js/prefs.js:1541
+#, fuzzy
+msgid "Generated URLs cleared."
+msgstr "Új URL generálás"
 
 #: js/prefs.js:1550
 msgid "This will invalidate all previously shared article URLs. Continue?"
+msgstr "Ez érvényteleníteni fog minden korábban megosztott hír URL-t. Folytatja?"
+
+#: js/prefs.js:1560
+msgid "Shared URLs cleared."
 msgstr ""
-"Ez érvényteleníteni fog minden korábban megosztott hír URL-t. Folytatja?"
 
 #: js/prefs.js:1648
 msgid "Label Editor"
 msgstr "Címke Szerkesztő"
 
-#: js/prefs.js:1711
-msgid ""
-"This will clear your stored authentication information for Twitter. Continue?"
-msgstr ""
-"Ez törölni fogja a Twitter tárolt hitelesítési információit. Folytatja?"
-
-#: js/prefs.js:1791
+#: js/prefs.js:1770
 msgid "Subscribing to feeds..."
 msgstr "Feliratkozás a hírcsatornákra..."
 
-#: js/prefs.js:1828
+#: js/prefs.js:1807
 msgid "Clear stored data for this plugin?"
 msgstr "Törli a beépülő tárolt adatait?"
 
@@ -3027,11 +3306,17 @@ msgstr "Törli a beépülő tárolt adatait?"
 msgid "Mark all articles as read?"
 msgstr "Minden hírt megjelöl olvasottként?"
 
+#: js/tt-rss.js:126
+#, fuzzy
+msgid "Marking all feeds as read..."
+msgstr "Minden hírcsatornát olvasottként jelöl"
+
 #: js/tt-rss.js:358
 msgid "You can't unsubscribe from the category."
 msgstr "Ebből a kategóriából nem ."
 
-#: js/tt-rss.js:363 js/tt-rss.js:519
+#: js/tt-rss.js:363
+#: js/tt-rss.js:519
 msgid "Please select some feed first."
 msgstr "Válasszon hírcsatorná(ka)t!"
 
@@ -3042,6 +3327,11 @@ msgstr "Ez a hírcsatorna típust nem lehet újraponszámozni."
 #: js/tt-rss.js:524
 msgid "Rescore articles in %s?"
 msgstr "Újrapontszámozza %s híreit?"
+
+#: js/tt-rss.js:527
+#, fuzzy
+msgid "Rescoring articles..."
+msgstr "Hírek újrapontszámozása"
 
 #: js/tt-rss.js:694
 msgid "Please enable mail plugin first."
@@ -3055,107 +3345,143 @@ msgstr "Először engedélyezze az embed_original beépülőt."
 msgid "New version available!"
 msgstr "Új verzió érhető el."
 
-#: js/viewfeed.js:104
+#: js/viewfeed.js:106
 msgid "Cancel search"
 msgstr "Keresés megszakítása"
 
-#: js/viewfeed.js:437 plugins/digest/digest.js:257
+#: js/viewfeed.js:439
+#: plugins/digest/digest.js:257
 #: plugins/digest/digest.js:694
 msgid "Unstar article"
 msgstr "Csillagot levesz a hírről"
 
-#: js/viewfeed.js:442 plugins/digest/digest.js:259
+#: js/viewfeed.js:444
+#: plugins/digest/digest.js:259
 #: plugins/digest/digest.js:698
 msgid "Star article"
 msgstr "Hír csillagozása"
 
-#: js/viewfeed.js:475 plugins/digest/digest.js:262
+#: js/viewfeed.js:477
+#: plugins/digest/digest.js:262
 #: plugins/digest/digest.js:729
 msgid "Unpublish article"
 msgstr "Publikálás visszavonása"
 
-#: js/viewfeed.js:688 js/viewfeed.js:716 js/viewfeed.js:743 js/viewfeed.js:805
-#: js/viewfeed.js:837 js/viewfeed.js:974 js/viewfeed.js:1017
-#: js/viewfeed.js:1067 js/viewfeed.js:2011 plugins/mailto/init.js:7
+#: js/viewfeed.js:690
+#: js/viewfeed.js:718
+#: js/viewfeed.js:745
+#: js/viewfeed.js:807
+#: js/viewfeed.js:839
+#: js/viewfeed.js:976
+#: js/viewfeed.js:1019
+#: js/viewfeed.js:1069
+#: js/viewfeed.js:2072
+#: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "Nincsen kiválasztott hír."
 
-#: js/viewfeed.js:954
+#: js/viewfeed.js:956
 msgid "Mark all visible articles in %s as read?"
 msgstr "Minden látható hírt megjelöl olvasottként itt: %s?"
 
-#: js/viewfeed.js:982
-msgid "Delete %d selected articles in %s?"
-msgstr "%d kijelölt hír törlése innen: %s?"
-
 #: js/viewfeed.js:984
-msgid "Delete %d selected articles?"
-msgstr "Törli a %d kijelölt hírt?"
+#, fuzzy
+msgid "Delete %d selected article in %s?"
+msgid_plural "Delete %d selected articles in %s?"
+msgstr[0] "%d kijelölt hír törlése innen: %s?"
+msgstr[1] "%d kijelölt hír törlése innen: %s?"
 
-#: js/viewfeed.js:1026
-msgid "Archive %d selected articles in %s?"
-msgstr "%d kijelölt hír archiválása inne: %s?"
+#: js/viewfeed.js:986
+#, fuzzy
+msgid "Delete %d selected article?"
+msgid_plural "Delete %d selected articles?"
+msgstr[0] "Törli a %d kijelölt hírt?"
+msgstr[1] "Törli a %d kijelölt hírt?"
 
-#: js/viewfeed.js:1029
-msgid "Move %d archived articles back?"
-msgstr "%d archivált hír visszaállítása?"
+#: js/viewfeed.js:1028
+#, fuzzy
+msgid "Archive %d selected article in %s?"
+msgid_plural "Archive %d selected articles in %s?"
+msgstr[0] "%d kijelölt hír archiválása inne: %s?"
+msgstr[1] "%d kijelölt hír archiválása inne: %s?"
 
-#: js/viewfeed.js:1073
-msgid "Mark %d selected articles in %s as read?"
-msgstr "%d kijelölt hír megjelölése olvasottként itt: %s?"
+#: js/viewfeed.js:1031
+#, fuzzy
+msgid "Move %d archived article back?"
+msgid_plural "Move %d archived articles back?"
+msgstr[0] "%d archivált hír visszaállítása?"
+msgstr[1] "%d archivált hír visszaállítása?"
 
-#: js/viewfeed.js:1097
+#: js/viewfeed.js:1075
+#, fuzzy
+msgid "Mark %d selected article in %s as read?"
+msgid_plural "Mark %d selected articles in %s as read?"
+msgstr[0] "%d kijelölt hír megjelölése olvasottként itt: %s?"
+msgstr[1] "%d kijelölt hír megjelölése olvasottként itt: %s?"
+
+#: js/viewfeed.js:1099
 msgid "Edit article Tags"
 msgstr "Hír címkéinek szerkesztése"
 
-#: js/viewfeed.js:1283
+#: js/viewfeed.js:1105
+#, fuzzy
+msgid "Saving article tags..."
+msgstr "Hír címkéinek szerkesztése"
+
+#: js/viewfeed.js:1340
 msgid "No article is selected."
 msgstr "Nincs kiválasztott hír."
 
-#: js/viewfeed.js:1318
+#: js/viewfeed.js:1375
 msgid "No articles found to mark"
 msgstr "Nincs megjelölendő hír."
 
-#: js/viewfeed.js:1320
-msgid "Mark %d article(s) as read?"
-msgstr "%d hír megjelölése olvasottként?"
+#: js/viewfeed.js:1377
+#, fuzzy
+msgid "Mark %d article as read?"
+msgid_plural "Mark %d articles as read?"
+msgstr[0] "%d hír megjelölése olvasottként?"
+msgstr[1] "%d hír megjelölése olvasottként?"
 
-#: js/viewfeed.js:1822
+#: js/viewfeed.js:1883
 msgid "Open original article"
 msgstr "Eredeti hír megjelenítése"
 
-#: js/viewfeed.js:1828
+#: js/viewfeed.js:1889
 msgid "Display article URL"
 msgstr "URL megjelenítése"
 
-#: js/viewfeed.js:1898
+#: js/viewfeed.js:1959
 msgid "Remove label"
 msgstr "Címke eltávolítás"
 
-#: js/viewfeed.js:1922
+#: js/viewfeed.js:1983
 msgid "Playing..."
 msgstr "Lejátszás..."
 
-#: js/viewfeed.js:1923
+#: js/viewfeed.js:1984
 msgid "Click to pause"
 msgstr "Kattintson a megállításhoz"
 
-#: js/viewfeed.js:1980
+#: js/viewfeed.js:2041
 msgid "Please enter new score for selected articles:"
 msgstr "Adjon meg egy új pontszámot a kijelölt hírekhez:"
 
-#: js/viewfeed.js:2022
+#: js/viewfeed.js:2083
 msgid "Please enter new score for this article:"
 msgstr "Adjon meg egy új pontszámot a hírhez:"
 
-#: js/viewfeed.js:2055
+#: js/viewfeed.js:2116
 msgid "Article URL:"
 msgstr "Hír URL:"
 
 #: plugins/digest/digest.js:71
-msgid "Mark %d displayed articles as read?"
-msgstr "%d hír megjelölése olvasottként?"
+#, fuzzy
+msgid "Mark %d displayed article as read?"
+msgid_plural "Mark %d displayed articles as read?"
+msgstr[0] "%d hír megjelölése olvasottként?"
+msgstr[1] "%d hír megjelölése olvasottként?"
 
 #: plugins/digest/digest.js:289
 msgid "Error: unable to load article."
@@ -3166,8 +3492,11 @@ msgid "Click to expand article."
 msgstr "Kattintson a hír kinyitásához"
 
 #: plugins/digest/digest.js:518
+#, fuzzy
 msgid "%d more..."
-msgstr "%d további..."
+msgid_plural "%d more..."
+msgstr[0] "%d további..."
+msgstr[1] "%d további..."
 
 #: plugins/digest/digest.js:525
 msgid "No unread feeds."
@@ -3181,7 +3510,8 @@ msgstr "Továbbiak betöltése..."
 msgid "Sorry, your browser does not support sandboxed iframes."
 msgstr "Elnézést, a böngészője nem támogatja sandboxed iframeket."
 
-#: plugins/mailto/init.js:21 plugins/mail/mail.js:21
+#: plugins/mailto/init.js:21
+#: plugins/mail/mail.js:21
 msgid "Forward article by email"
 msgstr "Továbbítás emaiben"
 
@@ -3190,12 +3520,11 @@ msgid "Export Data"
 msgstr "Adatok exportálása"
 
 #: plugins/import_export/import_export.js:40
-msgid ""
-"Finished, exported %d articles. You can download the data <a "
-"class='visibleLink' href='%u'>here</a>."
-msgstr ""
-"%d hír exportálása befejezve. Az adatokat <a class='visibleLink' "
-"href='%u'>innen</a> letöltheti."
+#, fuzzy
+msgid "Finished, exported %d article. You can download the data <a class='visibleLink' href='%u'>here</a>."
+msgid_plural "Finished, exported %d articles. You can download the data <a class='visibleLink' href='%u'>here</a>."
+msgstr[0] "%d hír exportálása befejezve. Az adatokat <a class='visibleLink' href='%u'>innen</a> letöltheti."
+msgstr[1] "%d hír exportálása befejezve. Az adatokat <a class='visibleLink' href='%u'>innen</a> letöltheti."
 
 #: plugins/import_export/import_export.js:93
 msgid "Data Import"
@@ -3204,6 +3533,11 @@ msgstr "Adatok importálása"
 #: plugins/import_export/import_export.js:112
 msgid "Please choose the file first."
 msgstr "Először válassza ki a fájlt."
+
+#: plugins/note/note.js:17
+#, fuzzy
+msgid "Saving article note..."
+msgstr "Megjegyzés"
 
 #: plugins/instances/instances.js:10
 msgid "Link Instance"
@@ -3217,7 +3551,13 @@ msgstr "Pédány szerkesztés"
 msgid "Remove selected instances?"
 msgstr "Eltávolítja a kiválasztott példányokat?"
 
-#: plugins/instances/instances.js:139 plugins/instances/instances.js:151
+#: plugins/instances/instances.js:125
+#, fuzzy
+msgid "Removing selected instances..."
+msgstr "Eltávolítja a kiválasztott példányokat?"
+
+#: plugins/instances/instances.js:139
+#: plugins/instances/instances.js:151
 msgid "No instances are selected."
 msgstr "Nincs kiválasztott példányok."
 
@@ -3230,12 +3570,53 @@ msgid "Share article by URL"
 msgstr "Megosztás URL-el"
 
 #: plugins/updater/updater.js:58
-msgid ""
-"Live updating is considered experimental. Backup your tt-rss directory "
-"before continuing. Please type 'yes' to continue."
-msgstr ""
-"Az élő frissítés még kisérleti fázisban van. A folytatás előtt mentse el a "
-"tt-rss könyvtárának tartalmát. A folytatáshoz írja be a 'yes' szót."
+msgid "Live updating is considered experimental. Backup your tt-rss directory before continuing. Please type 'yes' to continue."
+msgstr "Az élő frissítés még kisérleti fázisban van. A folytatás előtt mentse el a tt-rss könyvtárának tartalmát. A folytatáshoz írja be a 'yes' szót."
+
+#~ msgid "Updated"
+#~ msgstr "Frissített"
+
+#~ msgid "Open regular version"
+#~ msgstr "Szokásos verzió használata"
+
+#~ msgid "Home"
+#~ msgstr "Kezdőlap"
+
+#~ msgid "Nothing found (click to reload feed)."
+#~ msgstr "Semmit sem találtam (kattintson az újratöltéshez)."
+
+#~ msgid "Enable categories"
+#~ msgstr "Kategóriák engedélyezése"
+
+#~ msgid "ON"
+#~ msgstr "BE"
+
+#~ msgid "OFF"
+#~ msgstr "KI"
+
+#~ msgid "Browse categories like folders"
+#~ msgstr "Tallózás a kategóriákban mint a könyvtárakban"
+
+#~ msgid "Show images in posts"
+#~ msgstr "Képek mejelenítése a hírekben"
+
+#~ msgid "Hide read articles and feeds"
+#~ msgstr "Olvasott hírek és hírcsatornák elrejtése"
+
+#~ msgid "Sort feeds by unread count"
+#~ msgstr "Hírcsatornák rendezése olvasatlan hírek száma szerint"
+
+#~ msgid "Related"
+#~ msgstr "Kapcsolódik"
+
+#~ msgid "Notifying <b>%s</b>."
+#~ msgstr "<b>%s</b> értesítése."
+
+#~ msgid "Finished: %d articles processed, %d imported, %d feeds created."
+#~ msgstr "Elkészült: %d hír feldolgozva, %d importálva, %d hírcsatorna létrehozva."
+
+#~ msgid "This will clear your stored authentication information for Twitter. Continue?"
+#~ msgstr "Ez törölni fogja a Twitter tárolt hitelesítési információit. Folytatja?"
 
 #~ msgid "Yes"
 #~ msgstr "Igen"
@@ -3301,12 +3682,8 @@ msgstr ""
 #~ msgid "Edit feed categories"
 #~ msgstr "Kategóriák szerkesztése"
 
-#~ msgid ""
-#~ "<b>Note:</b> not all actions may be available, depending on Tiny Tiny RSS "
-#~ "configuration and your access level."
-#~ msgstr ""
-#~ "<b>Megjegyzés:</b> a Tiny Tiny RSS beállításaitól és a hozzáférési "
-#~ "szinttől függően nem minden művelet lesz elérhető."
+#~ msgid "<b>Note:</b> not all actions may be available, depending on Tiny Tiny RSS configuration and your access level."
+#~ msgstr "<b>Megjegyzés:</b> a Tiny Tiny RSS beállításaitól és a hozzáférési szinttől függően nem minden művelet lesz elérhető."
 
 #~ msgid "Fatal: authentication module %s not found."
 #~ msgstr "Hiba: %s hitelesítési modul nem található."
