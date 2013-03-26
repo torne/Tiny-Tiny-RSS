@@ -35,6 +35,9 @@
 		if ($mobile->isTablet() && $pluginhost->get_plugin("digest")) {
 			header('Location: backend.php?op=digest');
 			exit;
+		} else if ($mobile->isMobile()) {
+			header('Location: mobile/index.php');
+			exit;
 		}
 	}
 
