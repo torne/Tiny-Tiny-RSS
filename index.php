@@ -42,6 +42,9 @@
 		} else if ($mobile->isMobile() && $pluginhost->get_plugin("mobile")) {
 			header('Location: backend.php?op=mobile');
 			exit;
+		} else if ($mobile->isMobile() && $pluginhost->get_plugin("digest")) {
+			header('Location: backend.php?op=digest');
+			exit;
 		}
 	}
 
