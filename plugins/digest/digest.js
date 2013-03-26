@@ -2,6 +2,7 @@ var last_feeds = [];
 var init_params = {};
 var hotkeys_map = false;
 var hotkey_prefix = false;
+var mobile_mode = false;
 
 var _active_feed_id = false;
 var _update_timeout = false;
@@ -122,7 +123,7 @@ function set_selected_article(article_id) {
 		});
 
 	} catch (e) {
-		exception_error("mark_selected_feed", e);
+		exception_error("set_selected_article", e);
 	}
 }
 
@@ -141,7 +142,7 @@ function set_selected_feed(feed_id) {
 		_active_feed_id = feed_id;
 
 	} catch (e) {
-		exception_error("mark_selected_feed", e);
+		exception_error("set_selected_feed", e);
 	}
 }
 
@@ -298,6 +299,20 @@ function view(article_id) {
 	}
 }
 
+function close_feed() {
+	$("headlines").removeClassName("move");
+
+	if (mobile_mode) set_selected_feed(false);
+}
+
+function go_back() {
+	if ($("article").hasClassName("visible")) {
+		close_article();
+	} else {
+		close_feed();
+	}
+}
+
 function close_article() {
 	$("content").removeClassName("move");
 	$("article").removeClassName("visible");
@@ -305,6 +320,8 @@ function close_article() {
 
 function viewfeed(feed_id, offset, replace, no_effects, no_indicator, callback) {
 	try {
+
+		$("headlines").addClassName("move");
 
 		if (!feed_id) feed_id = _active_feed_id;
 		if (offset == undefined) offset = 0;
@@ -659,17 +676,20 @@ function init_second_stage() {
 
 				document.onkeydown = hotkey_handler;
 
-				window.setTimeout('viewfeed(-4)', 100);
-				_update_timeout = window.setTimeout('update()', 5*1000);
-				} });
+				if (!mobile_mode)
+					window.setTimeout('viewfeed(-4)', 100);
+					_update_timeout = window.setTimeout('update()', 5*1000);
+					} });
 
 	} catch (e) {
 		exception_error("init_second_stage", e);
 	}
 }
 
-function init() {
+function init(mobile) {
 	try {
+		mobile_mode = mobile;
+
 		new Ajax.Request("backend.php", {
 			parameters: {op: "rpc", method: "sanityCheck"},
 			onComplete: function(transport) {
@@ -858,7 +878,7 @@ function hotkey_handler(e) {
 
 		switch (keycode) {
 		case 27: // esc
-			close_article();
+			go_back();
 			return false;
 		}
 

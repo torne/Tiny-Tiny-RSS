@@ -7,7 +7,21 @@
 <head>
 	<title>Tiny Tiny RSS</title>
 
-	<?php echo stylesheet_tag("plugins/digest/digest.css") ?>
+	<?php
+		require_once "lib/Mobile_Detect.php";
+		$mobile = new Mobile_Detect();
+
+		if ($mobile->isMobile() || @$_REQUEST['mode'] == 'mobile') {
+			$_SESSION["digest_mobile"] = 1;
+			echo stylesheet_tag("plugins/digest/mobile.css");
+		} else {
+			$_SESSION["digest_mobile"] = 0;
+			echo stylesheet_tag("plugins/digest/digest.css");
+		}
+	?>
+
+	<meta name="viewport" content="width=device-width,
+		minimum-scale=1.0, maximum-scale=1.0" />
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
@@ -33,7 +47,7 @@
 
 	<script type="text/javascript">
 		Event.observe(window, 'load', function() {
-			init();
+			init(<?php echo $_SESSION["digest_mobile"] ?>);
 		});
 	</script>
 </head>
@@ -51,8 +65,8 @@
 	</div>
 
 	<div id="header">
-	<a style="float : left" href="#" onclick="close_article()">
-		<?php echo __("Back to feeds") ?></a>
+	<a style="float : left" href="#" onclick="go_back()">
+		<?php echo __("Go back") ?></a>
 
 	<div class="links">
 
