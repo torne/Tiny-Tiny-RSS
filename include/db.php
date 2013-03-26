@@ -15,7 +15,7 @@ function db_connect($host, $user, $pass, $db) {
 			$string .= " host=$host";
 		}
 
-		if (defined('DB_PORT')) {
+		if (defined('DB_PORT') && DB_PORT) {
 			$string = "$string port=" . DB_PORT;
 		}
 

@@ -12,6 +12,10 @@
 
 			require_once "sanity_config.php";
 
+			if (file_exists("install") && !file_exists("config.php")) {
+				array_push($errors, "Please copy config.php-dist to config.php or run the installer in install/");
+			}
+
 			if (strpos(PLUGINS, "auth_") === FALSE) {
 				array_push($errors, "Please enable at least one authentication module via PLUGINS constant in config.php");
 			}

@@ -1,4 +1,8 @@
 <?php
+	if (file_exists("install") && !file_exists("config.php")) {
+		header("Location: install/");
+	}
+
 	if (!file_exists("config.php")) {
 		print "<b>Fatal Error</b>: You forgot to copy
 		<b>config.php-dist</b> to <b>config.php</b> and edit it.\n";
