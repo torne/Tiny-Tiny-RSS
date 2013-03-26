@@ -1190,6 +1190,7 @@ function displaySmallArticlePreview(e, id) {
 				cexc = $("CEXC-" + id);
 				preview = $("small_article_preview");
 				row = $("RROW-" + id);
+				ctr = $("headlines-frame");
 
 				if (id != getActiveArticleId() && (!isCdmMode() || (cexc && Element.visible(cexc))) && row && preview) {
 					preview.innerHTML = transport.responseText;
@@ -1197,7 +1198,7 @@ function displaySmallArticlePreview(e, id) {
 
 					preview.setStyle({
 						left: (e.clientX + 20) + 'px',
-						top: (Element.cumulativeOffset(row)[1] + row.offsetHeight + 10) + 'px' });
+						top: (row.offsetTop + row.offsetHeight*2 + 20 - ctr.scrollTop) + 'px' });
 
 				}
 
