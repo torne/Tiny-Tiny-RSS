@@ -21,8 +21,6 @@ class Mobile extends Plugin implements IHandler {
 	function index() {
 		header("Content-type: text/html; charset=utf-8");
 
-		login_sequence($this->link);
-
 		header("Location: plugins/mobile/index.php");
 	}
 
