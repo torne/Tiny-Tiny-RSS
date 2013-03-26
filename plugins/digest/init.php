@@ -99,7 +99,7 @@ class Digest extends Plugin implements IHandler {
 		}
 
 		if ($_REQUEST["init"] == 1) {
-			$params["hotkeys"] = get_hotkeys_map($link);
+			$params["hotkeys"] = get_hotkeys_map($this->link);
 		}
 		$params["feeds"] = $feeds;
 
