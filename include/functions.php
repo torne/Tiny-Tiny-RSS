@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 107);
+	define('SCHEMA_VERSION', 108);
 
 	$fetch_last_error = false;
 	$pluginhost = false;
