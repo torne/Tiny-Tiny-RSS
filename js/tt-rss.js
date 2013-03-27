@@ -1,6 +1,7 @@
 var global_unread = -1;
 var hotkey_prefix = false;
 var hotkey_prefix_pressed = false;
+var hotkey_actions = {};
 var _widescreen_mode = false;
 var _rpc_seq = 0;
 var _active_feed_id = 0;
@@ -205,7 +206,6 @@ function genericSanityCheck() {
 	return true;
 }
 
-var hotkey_actions = {};
 
 function init() {
 	try {
