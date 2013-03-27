@@ -325,12 +325,12 @@ function init() {
 		hotkey_actions["article_scroll_down"] = function() {
 				var ctr = $("content_insert") ? $("content_insert") : $("headlines-frame");
 
-				scrollArticle(ctr.offsetHeight/3);
+				scrollArticle(40);
 		};
 		hotkey_actions["article_scroll_up"] = function() {
 				var ctr = $("content_insert") ? $("content_insert") : $("headlines-frame");
 
-				scrollArticle(-ctr.offsetHeight/3);
+				scrollArticle(-40);
 		};
 		hotkey_actions["close_article"] = function() {
 				if (isCdmMode()) {
