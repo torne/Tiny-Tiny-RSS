@@ -181,9 +181,11 @@
 
 <body>
 
-<div class="floatingLogo"><img src="images/logo_wide.png"></div>
+<div class="floatingLogo"><img src="images/logo_small.png"></div>
 
 <h1><?php echo __("Create new account") ?></h1>
+
+<div class="content">
 
 <?php
 		if (!ENABLE_REGISTRATION) {
@@ -311,7 +313,7 @@
 					$rc = $mail->quickMail($email, "", "Registration information for Tiny Tiny RSS", $reg_text, false);
 
 					if (!$rc) print_error($mail->ErrorInfo);
-					
+
 					unset($reg_text);
 					unset($mail);
 					unset($rc);
@@ -321,13 +323,13 @@
 						"\n".
 						"Login: $login\n".
 						"Email: $email\n";
-					
-					
+
+
 					$mail = new ttrssMailer();
 					$mail->IsHTML(false);
 					$rc = $mail->quickMail(REG_NOTIFY_ADDRESS, "", "Registration notice for Tiny Tiny RSS", $reg_text, false);
 					if (!$rc) print_error($mail->ErrorInfo);
-					
+
 					print_notice(__("Account created successfully."));
 
 					print "<p><form method=\"GET\" action=\"index.php\">
@@ -357,6 +359,8 @@
 				</form>"; ?>
 
 <?php } ?>
+
+	</div>
 
 </body>
 </html>

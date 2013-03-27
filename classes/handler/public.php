@@ -537,9 +537,9 @@ class Handler_Public extends Handler {
 					<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 				</head>
 				<body>
-				<img class=\"floatingLogo\" src=\"images/logo_wide.png\"
+				<img class=\"floatingLogo\" src=\"images/logo_small.png\"
 			  		alt=\"Tiny Tiny RSS\"/>
-					<h1>".__("Subscribe to feed...")."</h1>";
+					<h1>".__("Subscribe to feed...")."</h1><div class='content'>";
 
 			$rc = subscribe_to_feed($this->link, $feed_url);
 
@@ -612,7 +612,7 @@ class Handler_Public extends Handler {
 				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 				</form></p>";
 
-			print "</body></html>";
+			print "</div></body></html>";
 
 		} else {
 			render_login_form($this->link);
@@ -720,8 +720,9 @@ class Handler_Public extends Handler {
 				</head>
 				<body id='forgotpass'>";
 
-		print '<div class="floatingLogo"><img src="images/logo_wide.png"></div>';
+		print '<div class="floatingLogo"><img src="images/logo_small.png"></div>';
 		print "<h1>".__("Reset password")."</h1>";
+		print "<div class='content'>";
 
 		@$method = $_POST['method'];
 
@@ -790,6 +791,7 @@ class Handler_Public extends Handler {
 
 		}
 
+		print "</div>";
 		print "</body>";
 		print "</html>";
 

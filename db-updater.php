@@ -39,9 +39,11 @@ function confirmOP() {
 }
 </script>
 
-<div class="floatingLogo"><img src="images/logo_wide.png"></div>
+<div class="floatingLogo"><img src="images/logo_small.png"></div>
 
 <h1><?php echo __("Database Updater") ?></h1>
+
+<div class="content">
 
 <?php
 	function getline($fp, $delim) {
@@ -180,6 +182,8 @@ function confirmOP() {
 	}
 
 ?>
+
+</div>
 
 </body>
 </html>

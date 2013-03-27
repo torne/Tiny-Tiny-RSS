@@ -102,7 +102,7 @@
 			$link = mysql_connect($host, $user, $pass);
 			if ($link) {
 				$result = mysql_select_db($db, $link);
-				return $link;
+				if ($result) return $link;
 			}
 		}
 	}
@@ -131,9 +131,11 @@
 
 ?>
 
-<div class="floatingLogo"><img src="../images/logo_wide.png"></div>
+<div class="floatingLogo"><img src="../images/logo_small.png"></div>
 
 <h1>Tiny Tiny RSS Installer</h1>
+
+<div class='content'>
 
 <?php
 	if (file_exists("../config.php")) {
@@ -225,6 +227,8 @@
 		}
 
 	?>
+
+	<?php print_notice("Configuration check succeeded."); ?>
 
 	<h2>Checking database</h2>
 
@@ -347,6 +351,7 @@
 		}
 	?>
 
+</div>
 
 </body>
 </html>

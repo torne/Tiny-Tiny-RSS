@@ -29,8 +29,8 @@ class Opml extends Handler_Protected {
 				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 			</head>
 			<body>
-			<div class=\"floatingLogo\"><img src=\"images/logo_wide.png\"></div>
-			<h1>".__('OPML Utility')."</h1>";
+			<div class=\"floatingLogo\"><img src=\"images/logo_small.png\"></div>
+			<h1>".__('OPML Utility')."</h1><div class='content'>";
 
 		add_feed_category($this->link, "Imported feeds");
 
@@ -41,7 +41,7 @@ class Opml extends Handler_Protected {
 			<input type=\"submit\" value=\"".__("Return to preferences")."\">
 			</form>";
 
-		print "</body></html>";
+		print "</div></body></html>";
 
 
 	}

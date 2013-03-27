@@ -150,7 +150,8 @@
 				<link rel="stylesheet" type="text/css" href="utility.css">
 			</head>
 		<body>
-		<div class="floatingLogo"><img src="images/logo_wide.png"></div>
+		<div class="floatingLogo"><img src="images/logo_small.png"></div>
+			<div class="content">
 
 			<h1>Startup failed</h1>
 
@@ -162,6 +163,8 @@
 			<p>You might want to check tt-rss <a href="http://tt-rss.org/wiki">wiki</a> or the
 				<a href="http://tt-rss.org/forum">forums</a> for more information. Please search the forums before creating new topic
 				for your question.</p>
+
+		</div>
 		</body>
 		</html>
 
