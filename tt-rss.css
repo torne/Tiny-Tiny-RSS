@@ -180,6 +180,10 @@ a:hover {
 	background-color : #fff7d5 ! important;
 }
 
+.Unread div.hlTitle {
+	font-weight : bold;
+}
+
 .even.Unread.Selected {
 	background : #fff7d5 ! important;
 	border-width : 0px 0px 1px 0px;
@@ -252,41 +256,16 @@ a:hover {
 	border-color : #c0c0c0;
 }
 
-/* preferences */
-
-table.prefPrefsList h3 {
-	margin-top : 0.5em;
-	margin-bottom : 0px;
-}
-
-tr.title td {
-	border-width : 0px 0px 1px 0px;
-	border-color : #ecf4ff;
-	border-style : solid;
-	color : #4684ff;
-}
-
-tr.title td a {
-	color : #4684ff;
-}
-
-tr.title td a:hover {
-	color : black;
-}
-
-div.prefFeedCatHolder, div.prefFeedOPMLHolder, div.inactiveFeedHolder, div.filterTestHolder {
+div.filterTestHolder {
 	height : 300px;
 	overflow : auto;
-	border-width : 0px 1px 1px 1px;
 	border-color : #c0c0c0;
 	border-style : solid;
 	margin : 0px 0px 5px 0px;
 	background-color : #ecf4ff;
-}
-
-div.prefFeedOPMLHolder, div.filterTestHolder {
 	border-width : 1px 1px 1px 1px;
 }
+
 
 #content-insert blockquote, #headlines-frame blockquote, .dijitContentPane blockquote {
 	margin : 5px 0px 5px 0px;
@@ -494,28 +473,8 @@ ul.feedErrorsList {
 	padding : 5px;
 }
 
-ul.selfUpdateList {
-	height : 200px;
-	overflow : auto;
-	list-style-type : none;
-	border : 1px solid #c0c0c0;
-	background-color : #ecf4ff;
-	margin : 0px 0px 5px 0px;
-	padding : 5px;
-}
-
 ul.feedErrorsList em {
 	color : gray;
-}
-
-ul.userFeedList {
-	height : 300px;
-	overflow : auto;
-	list-style-type : none;
-	border : 1px solid gray;
-	background-color : white;
-	margin : 0px 0px 5px 0px;
-	padding : 0px;
 }
 
 ul.browseFeedList {
@@ -614,47 +573,10 @@ html, body#ttrssMain, #main {
 	margin: 0;
 } 
 
-html, body#ttrssPrefs, #main {
-	width: 100%; 
-	height: 100%;
-	border: 0; 
-	padding: 0; 
-	margin: 0;
-} 
-
 #toolbar div.actionChooser {
 	display : table-cell;
 	text-align : right;
 	padding-right : 3px;
-}
-
-/* preferences layout */
-
-div.return {
-	float : right;
-	font-size : 12px;
-	margin-right : 10px;
-}
-
-div.return a {
-	color : #4684ff;
-}
-
-div.return a:hover {
-	color : black;
-}
-
-#header a {
-	color : #4684ff;	
-}
-
-#header a:hover {
-	color : black;
-}
-
-#header img {
-	vertical-align : middle;
-	cursor : pointer;
 }
 
 div.autocomplete {
@@ -790,25 +712,6 @@ div#cmdline {
 	vertical-align : middle;
 	height : 18px;
 	width : 18px;
-}
-
-div#auxDlg {
-	position : absolute;
-	z-index : 3;
-	bottom : 5px;
-	right : 25px;
-	padding : 5px;
-	border-width : 1px;
-	border-style : solid;
-	border-color : #d7c47a;
-	background-color : #fff7d5;
-	color : black;
-	text-align : center;
-	font-size : 13px;
-}
-
-div#auxDlg a {
-	color : #4684ff;
 }
 
 div.hlTitle {
@@ -992,63 +895,8 @@ img.feedIcon, img.tinyFeedIcon {
 	vertical-align : middle;
 }
 
-div#feedlistLoading, div#filterlistLoading, div#labellistLoading {
-	text-align : center;
-	padding : 5px;
-	color : gray;
-}
-
-div#feedlistLoading img, div#filterlistLoading img, div#labellistLoading {
-	margin-right : 5px;
-}
-
-div#pref-tabs .dijitContentPane {
-	font-size : 12px;
-}
-
-div#pref-tabs {
-	margin : 0px 5px 0px 5px;
-}
-
-div#pref-tabs .dijitContentPane h3 {
-	font-size : 14px;
-	font-weight : bold;
-}
-
-#pref-filter-wrap, #pref-filter-header, #pref-filter-content, 
-#pref-label-wrap, #pref-label-header, #pref-label-content,
-#pref-user-wrap, #pref-user-header, #pref-user-content, 
-#pref-instance-wrap, #pref-instance-header, #pref-instance-content {
-	margin : 0px;
-	padding : 0px;
-	border-width : 0px;
-}
-
-#userConfigTab, #labelConfigTab, #filterConfigTab, #pref-feeds-feeds, #instanceConfigTab { 
-	padding : 0px;
-}
-
-#errorButton {
-	color : red;
-}
-
-span.labelFixedLength {
-	display : inline-block;
-	width : 70%;
-}
-
-#filter_dlg_date_chk_box {
-	display : inline-block;
-}
-
 .dijitDialog .dijitToolbar {
 	border : 1px solid #c0c0c0;
-}
-
-a.bookmarklet {
-	color : #4684ff;
-	border : 1px solid #ecf4ff;
-	padding : 2px;
 }
 
 .player {
@@ -1063,6 +911,7 @@ a.bookmarklet {
 	text-align : center;
 	background : white;
 }
+
 .player.playing {
 	color : #00c000;
 	border-color : #00c000;
@@ -1079,10 +928,6 @@ a.bookmarklet {
 	text-align : center;
 	padding : 1em;
 	color : gray;
-}
-
-td.error { 
-	color : red;
 }
 
 div.dialogNotice {
@@ -1109,10 +954,6 @@ ul#filterDlg_Matches li, ul#filterDlg_Actions li {
 
 ul#filterDlg_Matches li div.dijitCheckBox, ul#filterDlg_Actions li div.dijitCheckBox {
 	margin-right : 5px;
-}
-
-table.prefPluginsList td label, table.prefUserList td {
-	cursor : pointer;
 }
 
 ul.helpKbList {
@@ -1147,10 +988,6 @@ span.collapseBtn {
 
 div.postContent p {
 	max-width : 650px;
-}
-
-.Unread div.hlTitle {
-	font-weight : bold;
 }
 
 div.postContent iframe {

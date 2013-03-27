@@ -88,8 +88,6 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 
 				_infscroll_request_sent = timestamp;
 			}
-
-			hideAuxDlg();
 		}
 
 		Form.enable("main_toolbar_form");
@@ -206,23 +204,6 @@ function request_counters(force) {
 	}
 }
 
-function displayNewContentPrompt(id) {
-	try {
-
-		var msg = "<a href='#' onclick='viewCurrentFeed()'>" +
-			__("New articles available in this feed (click to show)") + "</a>";
-
-		msg = msg.replace("%s", getFeedName(id));
-
-		$('auxDlg').innerHTML = msg;
-
-		new Effect.Appear('auxDlg', {duration : 0.5});
-
-	} catch (e) {
-		exception_error("displayNewContentPrompt", e);
-	}
-}
-
 function parse_counters(elems, scheduled_call) {
 	try {
 		for (var l = 0; l < elems.length; l++) {
@@ -243,10 +224,6 @@ function parse_counters(elems, scheduled_call) {
 			if (id == "subscribed-feeds") {
 				feeds_found = ctr;
 				continue;
-			}
-
-			if (id == getActiveFeedId() && ctr > getFeedUnread(id) && scheduled_call) {
-				displayNewContentPrompt(id);
 			}
 
 			if (getFeedUnread(id, (kind == "cat")) != ctr ||

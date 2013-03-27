@@ -717,15 +717,6 @@ function hotkey_prefix_timeout() {
 	}
 }
 
-function hideAuxDlg() {
-	try {
-		Element.hide('auxDlg');
-	} catch (e) {
-		exception_error("hideAuxDlg", e);
-	}
-}
-
-
 function uploadIconHandler(rc) {
 	try {
 		switch (rc) {

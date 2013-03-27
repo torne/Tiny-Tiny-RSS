@@ -1,0 +1,129 @@
+html, body#ttrssPrefs, #main {
+	width: 100%; 
+	height: 100%;
+	border: 0; 
+	padding: 0; 
+	margin: 0;
+} 
+
+#header a {
+	color : #4684ff;	
+}
+
+#header a:hover {
+	color : black;
+}
+
+#header img {
+	vertical-align : middle;
+	cursor : pointer;
+}
+
+
+div#pref-tabs .dijitContentPane {
+	font-size : 12px;
+}
+
+div#pref-tabs {
+	margin : 0px 5px 0px 5px;
+}
+
+div#pref-tabs .dijitContentPane h3 {
+	font-size : 14px;
+	font-weight : bold;
+}
+
+#pref-filter-wrap, #pref-filter-header, #pref-filter-content, 
+#pref-label-wrap, #pref-label-header, #pref-label-content,
+#pref-user-wrap, #pref-user-header, #pref-user-content, 
+#pref-instance-wrap, #pref-instance-header, #pref-instance-content {
+	margin : 0px;
+	padding : 0px;
+	border-width : 0px;
+}
+
+#userConfigTab, #labelConfigTab, #filterConfigTab, #pref-feeds-feeds, #instanceConfigTab { 
+	padding : 0px;
+}
+
+/* preferences */
+
+table.prefPrefsList h3 {
+	margin-top : 0.5em;
+	margin-bottom : 0px;
+}
+
+tr.title td {
+	border-width : 0px 0px 1px 0px;
+	border-color : #ecf4ff;
+	border-style : solid;
+	color : #4684ff;
+}
+
+tr.title td a {
+	color : #4684ff;
+}
+
+tr.title td a:hover {
+	color : black;
+}
+
+div.prefFeedCatHolder, div.prefFeedOPMLHolder, div.inactiveFeedHolder {
+	height : 300px;
+	overflow : auto;
+	border-width : 0px 1px 1px 1px;
+	border-color : #c0c0c0;
+	border-style : solid;
+	margin : 0px 0px 5px 0px;
+	background-color : #ecf4ff;
+}
+
+div.filterTestHolder {
+	border-width : 1px 1px 1px 1px;
+}
+
+ul.selfUpdateList {
+	height : 200px;
+	overflow : auto;
+	list-style-type : none;
+	border : 1px solid #c0c0c0;
+	background-color : #ecf4ff;
+	margin : 0px 0px 5px 0px;
+	padding : 5px;
+}
+
+div#feedlistLoading, div#filterlistLoading, div#labellistLoading {
+	text-align : center;
+	padding : 5px;
+	color : gray;
+}
+
+div#feedlistLoading img, div#filterlistLoading img, div#labellistLoading {
+	margin-right : 5px;
+}
+
+#errorButton {
+	color : red;
+}
+
+a.bookmarklet {
+	color : #4684ff;
+	border : 1px solid #ecf4ff;
+	padding : 2px;
+}
+
+table.prefPluginsList td label, table.prefUserList td {
+	cursor : pointer;
+}
+
+ul.userFeedList {
+	height : 300px;
+	overflow : auto;
+	list-style-type : none;
+	border : 1px solid gray;
+	background-color : white;
+	margin : 0px 0px 5px 0px;
+	padding : 0px;
+}
+
+

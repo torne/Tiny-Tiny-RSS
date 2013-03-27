@@ -41,7 +41,6 @@
 				<p><a href="{enclosure/@url}">Extra...</a></p>
 			</xsl:if>
 
-			<hr/>
 
 		</xsl:for-each>
 

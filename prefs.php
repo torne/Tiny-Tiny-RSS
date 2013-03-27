@@ -37,6 +37,7 @@
 
 	<?php echo stylesheet_tag("lib/dijit/themes/claro/claro.css"); ?>
 	<?php echo stylesheet_tag("tt-rss.css"); ?>
+	<?php echo stylesheet_tag("prefs.css"); ?>
 
 	<?php print_user_stylesheet($link) ?>
 
