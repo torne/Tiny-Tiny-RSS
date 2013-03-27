@@ -115,6 +115,32 @@ class Pref_Feeds extends Handler_Protected {
 				array_push($cat['items'], $this->feedlist_init_feed($i));
 			}
 
+			/* Plugin feeds for -1 */
+
+			global $pluginhost;
+
+			$feeds = $pluginhost->get_feeds(-1);
+
+			if ($feeds) {
+				foreach ($feeds as $feed) {
+					$feed_id = PluginHost::pfeed_to_feed_id($feed['id']);
+
+					$item = array();
+					$item['id'] = 'FEED:' . $feed_id;
+					$item['bare_id'] = (int)$feed_id;
+					$item['name'] = $feed['title'];
+					$item['checkbox'] = false;
+					$item['error'] = '';
+					$item['icon'] = $feed['icon'];
+
+					$item['param'] = '';
+					$item['unread'] = 0; //$feed['sender']->get_unread($feed['id']);
+					$item['type'] = 'feed';
+
+					array_push($cat['items'], $item);
+				}
+			}
+
 			if ($enable_cats) {
 				array_push($root['items'], $cat);
 			} else {

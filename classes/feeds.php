@@ -217,9 +217,38 @@ class Feeds extends Handler_Protected {
 		    $search_mode = $method;
 		}
 //		error_log("search_mode: " . $search_mode);
-		$qfh_ret = queryFeedHeadlines($this->link, $feed, $limit, $view_mode, $cat_view,
-			$search, $search_mode, $override_order, $offset, 0,
-			false, 0, $include_children);
+
+		if (!$cat_view && is_numeric($feed) && $feed < PLUGIN_FEED_BASE_INDEX) {
+			global $pluginhost;
+
+			$handler = $pluginhost->get_feed_handler(
+				PluginHost::feed_to_pfeed_id($feed));
+
+		//	function queryFeedHeadlines($link, $feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false) {
+
+			if ($handler) {
+				$options = array(
+					"limit" => $limit,
+					"view_mode" => $view_mode,
+					"cat_view" => $cat_view,
+					"search" => $search,
+					"search_mode" => $search_mode,
+					"override_order" => $override_order,
+					"offset" => $offset,
+					"owner_uid" => $_SESSION["uid"],
+					"filter" => false,
+					"since_id" => 0,
+					"include_children" => $include_children);
+
+				$qfh_ret = $handler->get_headlines(PluginHost::feed_to_pfeed_id($feed),
+					$options);
+			}
+
+		} else {
+			$qfh_ret = queryFeedHeadlines($this->link, $feed, $limit, $view_mode, $cat_view,
+				$search, $search_mode, $override_order, $offset, 0,
+				false, 0, $include_children);
+		}
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H1", $timing_info);
 

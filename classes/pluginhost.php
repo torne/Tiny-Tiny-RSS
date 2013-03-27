@@ -6,6 +6,7 @@ class PluginHost {
 	private $handlers = array();
 	private $commands = array();
 	private $storage = array();
+	private $feeds = array();
 	private $owner_uid;
 	private $debug;
 
@@ -301,5 +302,43 @@ class PluginHost {
 	function get_debug() {
 		return $this->debug;
 	}
+
+	// Plugin feed functions are *EXPERIMENTAL*!
+
+	// cat_id: only -1 is supported (Special)
+	function add_feed($cat_id, $title, $icon, $sender) {
+		if (!$this->feeds[$cat_id]) $this->feeds[$cat_id] = array();
+
+		$id = count($this->feeds[$cat_id]);
+
+		array_push($this->feeds[$cat_id],
+			array('id' => $id, 'title' => $title, 'sender' => $sender, 'icon' => $icon));
+
+		return $id;
+	}
+
+	function get_feeds($cat_id) {
+		return $this->feeds[$cat_id];
+	}
+
+	// convert feed_id (e.g. -129) to pfeed_id first
+	function get_feed_handler($pfeed_id) {
+		foreach ($this->feeds as $cat) {
+			foreach ($cat as $feed) {
+				if ($feed['id'] == $pfeed_id) {
+					return $feed['sender'];
+				}
+			}
+		}
+	}
+
+	static function pfeed_to_feed_id($label) {
+		return PLUGIN_FEED_BASE_INDEX - 1 - abs($label);
+	}
+
+	static function feed_to_pfeed_id($feed) {
+		return PLUGIN_FEED_BASE_INDEX - 1 + abs($feed);
+	}
+
 }
 ?>

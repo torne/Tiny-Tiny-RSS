@@ -3,6 +3,7 @@
 	define('SCHEMA_VERSION', 109);
 
 	define('LABEL_BASE_INDEX', -1024);
+	define('PLUGIN_FEED_BASE_INDEX', -128);
 
 	$fetch_last_error = false;
 	$pluginhost = false;
@@ -1428,6 +1429,20 @@
 //				$cv["xmsg"] = getFeedArticles($link, $i)." ".__("total");
 
 			array_push($ret_arr, $cv);
+		}
+
+		global $pluginhost;
+
+		if ($pluginhost) {
+			$feeds = $pluginhost->get_feeds(-1);
+
+			foreach ($feeds as $feed) {
+				$cv = array("id" => PluginHost::pfeed_to_feed_id($feed['id']),
+					"counter" => $feed['sender']->get_unread($feed['id']));
+
+				array_push($ret_arr, $cv);
+			}
+
 		}
 
 		return $ret_arr;
