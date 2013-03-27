@@ -121,8 +121,9 @@ class Pref_Prefs extends Handler_Protected {
 
 		global $access_level_names;
 
-		$prefs_blacklist = array("HIDE_READ_FEEDS", "FEEDS_SORT_BY_UNREAD",
-					"STRIP_UNSAFE_TAGS");
+		$prefs_blacklist = array("STRIP_UNSAFE_TAGS");
+
+		/* "FEEDS_SORT_BY_UNREAD", "HIDE_READ_FEEDS", "REVERSE_HEADLINES" */
 
 		$profile_blacklist = array("ALLOW_DUPLICATE_POSTS", "PURGE_OLD_DAYS",
 					"PURGE_UNREAD_ARTICLES", "DIGEST_ENABLE", "DIGEST_CATCHUP",
