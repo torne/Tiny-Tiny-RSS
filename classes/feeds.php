@@ -700,7 +700,7 @@ class Feeds extends Handler_Protected {
 					$message = __("No starred articles found to display.");
 					break;
 				default:
-					if ($feed < -10) {
+					if ($feed < LABEL_BASE_INDEX) {
 						$message = __("No articles found to display. You can assign articles to labels manually (see the Actions menu above) or use a filter.");
 					} else {
 						$message = __("No articles found to display.");
@@ -777,8 +777,8 @@ class Feeds extends Handler_Protected {
 
 		$result = false;
 
-		if ($feed < -10) {
-			$label_feed = -11-$feed;
+		if ($feed < LABEL_BASE_INDEX) {
+			$label_feed = feed_to_label_id($feed);
 			$result = db_query($this->link, "SELECT id FROM ttrss_labels2 WHERE
 							id = '$label_feed' AND owner_uid = " . $_SESSION['uid']);
 		} else if (!$cat_view && is_numeric($feed) && $feed > 0) {

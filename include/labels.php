@@ -158,7 +158,7 @@
 
 			/* Remove access key for the label */
 
-			$ext_id = -11 - $id;
+			$ext_id = LABEL_BASE_INDEX - 1 - $id;
 
 			db_query($link, "DELETE FROM ttrss_access_keys WHERE
 				feed_id = '$ext_id' AND owner_uid = $owner_uid");

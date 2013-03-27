@@ -207,7 +207,7 @@
 
 			while ($line = db_fetch_assoc($result)) {
 
-				$id = -$line["id"] - 11;
+				$id = label_to_feed_id($line["id"]);
 
 				$unread = getFeedUnread($link, $id);
 				$title = $line["caption"];

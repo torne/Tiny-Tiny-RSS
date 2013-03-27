@@ -1920,7 +1920,7 @@ function initHeadlinesMenu() {
 				var bare_id = id.substr(id.indexOf(":")+1);
 				var name = label.name[0];
 
-				bare_id = -11-bare_id;
+				bare_id = feed_to_label_id(bare_id);
 
 				labelAddMenu.addChild(new dijit.MenuItem({
 					label: name,
@@ -2120,3 +2120,4 @@ function displayArticleUrl(id) {
 		exception_error("changeScore", e);
 	}
 }
+

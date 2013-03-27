@@ -2,6 +2,8 @@
 	define('EXPECTED_CONFIG_VERSION', 26);
 	define('SCHEMA_VERSION', 108);
 
+	define('LABEL_BASE_INDEX', -1024);
+
 	$fetch_last_error = false;
 	$pluginhost = false;
 
@@ -1034,7 +1036,7 @@
 							AND $ref_check_qpart AND unread = true
 							AND owner_uid = $owner_uid");
 
-				} else if ($feed < 0 && $feed > -10) { // special, like starred
+				} else if ($feed < 0 && $feed > LABEL_BASE_INDEX) { // special, like starred
 
 					if ($feed == -1) {
 						db_query($link, "UPDATE ttrss_user_entries
@@ -1085,9 +1087,9 @@
 							owner_uid = $owner_uid");
 					}
 
-				} else if ($feed < -10) { // label
+				} else if ($feed < LABEL_BASE_INDEX) { // label
 
-					$label_id = -$feed - 11;
+					$label_id = feed_to_label_id($feed);
 
 					db_query($link, "UPDATE ttrss_user_entries, ttrss_user_labels2
 						SET unread = false, last_read = NOW()
@@ -1334,9 +1336,9 @@
 				$match_part = "feed_id IS NULL";
 			}
 
-		} else if ($feed < -10) {
+		} else if ($feed < LABEL_BASE_INDEX) {
 
-			$label_id = -$feed - 11;
+			$label_id = feed_to_label_id($feed);
 
 			return getLabelUnread($link, $label_id, $owner_uid);
 
@@ -1446,7 +1448,7 @@
 
 		while ($line = db_fetch_assoc($result)) {
 
-			$id = -$line["id"] - 11;
+			$id = label_to_feed_id($line["id"]);
 
 			$label_name = $line["caption"];
 			$count = $line["unread"];
@@ -1753,7 +1755,7 @@
 	function getFeedCatTitle($link, $id) {
 		if ($id == -1) {
 			return __("Special");
-		} else if ($id < -10) {
+		} else if ($id < LABEL_BASE_INDEX) {
 			return __("Labels");
 		} else if ($id > 0) {
 			$result = db_query($link, "SELECT ttrss_feed_categories.title
@@ -1791,7 +1793,7 @@
 			return "images/recently_read.png";
 			break;
 		default:
-			if ($id < -10) {
+			if ($id < LABEL_BASE_INDEX) {
 				return "images/label.png";
 			} else {
 				if (file_exists(ICONS_DIR . "/$id.ico"))
@@ -1816,8 +1818,8 @@
 			return __("Archived articles");
 		} else if ($id == -6) {
 			return __("Recently read");
-		} else if ($id < -10) {
-			$label_id = -$id - 11;
+		} else if ($id < LABEL_BASE_INDEX) {
+			$label_id = feed_to_label_id($id);
 			$result = db_query($link, "SELECT caption FROM ttrss_labels2 WHERE id = '$label_id'");
 			if (db_num_rows($result) == 1) {
 				return db_fetch_result($result, 0, "caption");
@@ -2389,8 +2391,8 @@
 			} else if ($feed == -4) { // all articles virtual feed
 				$query_strategy_part = "true";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
-			} else if ($feed <= -10) { // labels
-				$label_id = -$feed - 11;
+			} else if ($feed <= LABEL_BASE_INDEX) { // labels
+				$label_id = feed_to_label_id($feed);
 
 				$query_strategy_part = "label_id = '$label_id' AND
 					ttrss_labels2.id = ttrss_user_labels2.label_id AND
@@ -4153,6 +4155,14 @@
 
 			print T_js_decl($orig, $translation);
 		}
+	}
+
+	function label_to_feed_id($label) {
+		return LABEL_BASE_INDEX - 1 - abs($label);
+	}
+
+	function feed_to_label_id($feed) {
+		return LABEL_BASE_INDEX - 1 + abs($feed);
 	}
 
 ?>

@@ -106,7 +106,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		var id = args.item.id[0];
 		var bare_id = parseInt(id.substr(id.indexOf(':')+1));
 
-		if (bare_id < -10) {
+		if (bare_id < _label_base_index) {
 			var span = dojo.doc.createElement('span');
 			var fg_color = args.item.fg_color[0];
 			var bg_color = args.item.bg_color[0];
@@ -380,7 +380,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 				var node = tree._itemNodesMap[id];
 
 				if (node) {
-					if (hide && unread == 0 && (bare_id > 0 || bare_id < -10 || !show_special)) {
+					if (hide && unread == 0 && (bare_id > 0 || bare_id < _label_base_index || !show_special)) {
 						Effect.Fade(node[0].rowNode, {duration : 0.3,
 							queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
 					} else {
