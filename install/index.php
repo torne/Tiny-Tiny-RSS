@@ -324,17 +324,17 @@
 
 			foreach ($data as $line) {
 				if (preg_match("/define\('DB_TYPE'/", $line)) {
-					echo "\tdefine('DB_TYPE', '$DB_TYPE')\n";
+					echo "\tdefine('DB_TYPE', '$DB_TYPE');\n";
 				} else if (preg_match("/define\('DB_HOST'/", $line)) {
-					echo "\tdefine('DB_HOST', '$DB_HOST')\n";
+					echo "\tdefine('DB_HOST', '$DB_HOST');\n";
 				} else if (preg_match("/define\('DB_USER'/", $line)) {
-					echo "\tdefine('DB_USER', '$DB_USER')\n";
+					echo "\tdefine('DB_USER', '$DB_USER');\n";
 				} else if (preg_match("/define\('DB_NAME'/", $line)) {
-					echo "\tdefine('DB_NAME', '$DB_NAME')\n";
+					echo "\tdefine('DB_NAME', '$DB_NAME');\n";
 				} else if (preg_match("/define\('DB_PASS'/", $line)) {
-					echo "\tdefine('DB_PASS', '$DB_PASS')\n";
+					echo "\tdefine('DB_PASS', '$DB_PASS');\n";
 				} else if (preg_match("/define\('DB_PORT'/", $line)) {
-					echo "\tdefine('DB_PORT', '$DB_PORT')\n";
+					echo "\tdefine('DB_PORT', '$DB_PORT');\n";
 
 				} else {
 					print "$line\n";
