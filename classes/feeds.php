@@ -351,7 +351,9 @@ class Feeds extends Handler_Protected {
 #				$content_link = "<a href=\"javascript:viewContentUrl('".$line["link"]."');\">" .
 #					$line["title"] . "</a>";
 
-				$updated_fmt = make_local_datetime($this->link, $line["updated_noms"], false);
+				$updated_fmt = make_local_datetime($this->link, $line["updated"], false);
+				$date_entered_fmt = T_sprintf("Imported at %s",
+					make_local_datetime($this->link, $line["date_entered"], false));
 
 				if (get_pref($this->link, 'SHOW_CONTENT_PREVIEW')) {
 					$content_preview = truncate_string(strip_tags($line["content_preview"]),
@@ -459,7 +461,9 @@ class Feeds extends Handler_Protected {
 						}
 					}
 
-					$reply['content'] .= "$updated_fmt</span>";
+					$reply['content'] .= "<span title='$date_entered_fmt'>$updated_fmt</span>
+						</span>";
+
 					$reply['content'] .= "<div class=\"hlRight\">";
 
 					$reply['content'] .= $score_pic;
@@ -566,7 +570,8 @@ class Feeds extends Handler_Protected {
 						}
 					}
 
-					$reply['content'] .= "<span class='updated'>$updated_fmt</span>";
+					$reply['content'] .= "<span class='updated' title='$date_entered_fmt'>
+						$updated_fmt</span>";
 
 					$reply['content'] .= "<div style=\"vertical-align : middle\">";
 					$reply['content'] .= "$score_pic";

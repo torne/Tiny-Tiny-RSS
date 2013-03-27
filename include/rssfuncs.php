@@ -224,6 +224,8 @@
 
 		$simplepie_cache_dir = CACHE_DIR . "/simplepie";
 
+		$date_feed_processed = date('Y-m-d H:i');
+
 		if (!is_dir($simplepie_cache_dir)) {
 			mkdir($simplepie_cache_dir);
 		}
@@ -626,7 +628,7 @@
 							'',
 							$no_orig_date,
 							NOW(),
-							NOW(),
+							'$date_feed_processed',
 							'$entry_comments',
 							'$num_comments',
 							'$entry_plugin_data',

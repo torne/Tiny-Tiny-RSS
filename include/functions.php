@@ -2341,9 +2341,9 @@
 
 				if (!$override_order) {
 					if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-						$override_order = "date_entered";
+						$override_order = "date_entered, updated";
 					} else {
-						$override_order = "last_marked DESC, date_entered DESC";
+						$override_order = "last_marked DESC, date_entered DESC, updated DESC";
 					}
 				}
 
@@ -2356,9 +2356,9 @@
 
 					if (!$override_order) {
 						if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-							$override_order = "date_entered";
+							$override_order = "date_entered, updated";
 						} else {
-							$override_order = "last_published DESC, date_entered DESC";
+							$override_order = "last_published DESC, date_entered DESC, updated DESC";
 						}
 					}
 
@@ -2383,9 +2383,9 @@
 				$intl = get_pref($link, "FRESH_ARTICLE_MAX_AGE", $owner_uid);
 
 				if (DB_TYPE == "pgsql") {
-					$query_strategy_part .= " AND updated > NOW() - INTERVAL '$intl hour' ";
+					$query_strategy_part .= " AND date_entered > NOW() - INTERVAL '$intl hour' ";
 				} else {
-					$query_strategy_part .= " AND updated > DATE_SUB(NOW(), INTERVAL $intl HOUR) ";
+					$query_strategy_part .= " AND date_entered > DATE_SUB(NOW(), INTERVAL $intl HOUR) ";
 				}
 
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
@@ -2414,9 +2414,9 @@
 			}
 
 			if (get_pref($link, 'REVERSE_HEADLINES', $owner_uid)) {
-				$order_by = "$date_sort_field";
+				$order_by = "$date_sort_field, updated";
 			} else {
-				$order_by = "$date_sort_field DESC";
+				$order_by = "$date_sort_field DESC, updated DESC";
 			}
 
 			if ($view_mode != "noscores") {
@@ -2500,10 +2500,8 @@
 						hide_images,
 						unread,feed_id,marked,published,link,last_read,orig_feed_id,
 						last_marked, last_published,
-						".SUBSTRING_FOR_DATE."(last_read,1,19) as last_read_noms,
 						$vfeed_query_part
 						$content_query_part
-						".SUBSTRING_FOR_DATE."(updated,1,19) as updated_noms,
 						author,score
 					FROM
 						$from_qpart
@@ -2544,11 +2542,9 @@
 								"last_read," .
 								"(SELECT hide_images FROM ttrss_feeds WHERE id = feed_id) AS hide_images," .
 								"last_marked, last_published, " .
-								SUBSTRING_FOR_DATE . "(last_read,1,19) as last_read_noms," .
 								$since_id_part .
 								$vfeed_query_part .
 								$content_query_part .
-								SUBSTRING_FOR_DATE . "(updated,1,19) as updated_noms," .
 								"score ";
 
 				$feed_kind = "Tags";
