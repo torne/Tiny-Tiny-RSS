@@ -412,10 +412,12 @@ class Pref_Prefs extends Handler_Protected {
 			$profile_qpart = "profile IS NULL";
 		}
 
-		if ($_SESSION["prefs_show_advanced"])
+		/* if ($_SESSION["prefs_show_advanced"])
 			$access_query = "true";
 		else
-			$access_query = "(access_level = 0 AND section_id != 3)";
+			$access_query = "(access_level = 0 AND section_id != 3)"; */
+
+		$access_query = 'true';
 
 		$result = db_query($this->link, "SELECT DISTINCT
 			ttrss_user_prefs.pref_name,short_desc,help_text,value,type_name,
@@ -602,7 +604,7 @@ class Pref_Prefs extends Handler_Protected {
 
 		print "&nbsp;";
 
-		$checked = $_SESSION["prefs_show_advanced"] ? "checked='1'" : "";
+		/* $checked = $_SESSION["prefs_show_advanced"] ? "checked='1'" : "";
 
 		print "<input onclick='toggleAdvancedPrefs()'
 				id='prefs_show_advanced'
@@ -610,7 +612,7 @@ class Pref_Prefs extends Handler_Protected {
 				$checked
 				type=\"checkbox\"></input>
 				<label for='prefs_show_advanced'>" .
-				__("Show additional preferences") . "</label>";
+				__("Show additional preferences") . "</label>"; */
 
 		global $pluginhost;
 		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB_SECTION,
