@@ -1339,6 +1339,8 @@ function backend_sanity_check_callback(transport) {
 				for (k in params) {
 					var v = params[k];
 					console.log("IP: " + k + " => " + v);
+
+					if (k == "label_base_index") _label_base_index = parseInt(v);
 				}
 			}
 

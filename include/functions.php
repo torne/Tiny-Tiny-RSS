@@ -1856,6 +1856,7 @@
 		$params["default_view_limit"] = (int) get_pref($link, "_DEFAULT_VIEW_LIMIT");
 		$params["default_view_order_by"] = get_pref($link, "_DEFAULT_VIEW_ORDER_BY");
 		$params["bw_limit"] = (int) $_SESSION["bw_limit"];
+		$params["label_base_index"] = (int) LABEL_BASE_INDEX;
 
 		$result = db_query($link, "SELECT MAX(id) AS mid, COUNT(*) AS nf FROM
 			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
