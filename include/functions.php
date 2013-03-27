@@ -287,8 +287,6 @@
 	}
 
 	function fetch_file_contents($url, $type = false, $login = false, $pass = false, $post_query = false, $timeout = false) {
-		$login = urlencode($login);
-		$pass = urlencode($pass);
 
 		global $fetch_last_error;
 
@@ -350,10 +348,12 @@
 
 			return $contents;
 		} else {
-			if ($login && $pass ){
+			if ($login && $pass){
 				$url_parts = array();
 
 				preg_match("/(^[^:]*):\/\/(.*)/", $url, $url_parts);
+
+				$pass = urlencode($pass);
 
 				if ($url_parts[1] && $url_parts[2]) {
 					$url = $url_parts[1] . "://$login:$pass@" . $url_parts[2];
