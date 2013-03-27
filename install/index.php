@@ -129,6 +129,12 @@
 		}
 	}
 
+	function make_self_url_path() {
+		$url_path = ($_SERVER['HTTPS'] != "on" ? 'http://' :  'https://') . $_SERVER["HTTP_HOST"] . parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+
+		return $url_path;
+	}
+
 ?>
 
 <div class="floatingLogo"><img src="../images/logo_small.png"></div>
@@ -138,6 +144,7 @@
 <div class='content'>
 
 <?php
+
 	if (file_exists("../config.php")) {
 		require "../config.php";
 
@@ -155,13 +162,17 @@
 	@$DB_NAME = strip_tags($_POST['DB_NAME']);
 	@$DB_PASS = strip_tags($_POST['DB_PASS']);
 	@$DB_PORT = strip_tags($_POST['DB_PORT']);
+	@$SELF_URL_PATH = strip_tags($_POST['SELF_URL_PATH']);
 
+	if (!$SELF_URL_PATH) {
+		$SELF_URL_PATH = preg_replace("/\/install\/$/", "/", make_self_url_path());
+	}
 ?>
-
-<h2>Database settings</h2>
 
 <form action="" method="post">
 <input type="hidden" name="op" value="testconfig">
+
+<h2>Database settings</h2>
 
 <?php
 	$issel_pgsql = $DB_TYPE == "pgsql" ? "selected" : "";
@@ -200,6 +211,16 @@
 	<label>Port</label>
 	<input name="DB_PORT" placeholder="if needed, PgSQL only" size="20" value="<?php echo $DB_PORT ?>"/>
 </fieldset>
+
+<h2>Other settings</h2>
+
+<p>This should be set to the location your Tiny Tiny RSS will be available on.</p>
+
+<fieldset>
+	<label>Tiny Tiny RSS URL</label>
+	<input  name="SELF_URL_PATH" placeholder="<?php echo $SELF_URL_PATH; ?>" size="60" value="<?php echo $SELF_URL_PATH ?>"/>
+</fieldset>
+
 
 <p><input type="submit" value="Test configuration"></p>
 
@@ -267,6 +288,7 @@
 				<input type="hidden" name="DB_HOST" value="<?php echo $DB_HOST ?>"/>
 				<input type="hidden" name="DB_PORT" value="<?php echo $DB_PORT ?>"/>
 				<input type="hidden" name="DB_TYPE" value="<?php echo $DB_TYPE ?>"/>
+				<input type="hidden" name="SELF_URL_PATH" value="<?php echo $SELF_URL_PATH ?>"/>
 
 				<?php if ($need_confirm) { ?>
 					<p><input onclick="return confirm('Please read the warning above. Continue?')" type="submit" value="Initialize database" style="color : red"></p>
@@ -283,6 +305,7 @@
 				<input type="hidden" name="DB_HOST" value="<?php echo $DB_HOST ?>"/>
 				<input type="hidden" name="DB_PORT" value="<?php echo $DB_PORT ?>"/>
 				<input type="hidden" name="DB_TYPE" value="<?php echo $DB_TYPE ?>"/>
+				<input type="hidden" name="SELF_URL_PATH" value="<?php echo $SELF_URL_PATH ?>"/>
 
 				<input type="hidden" name="op" value="skipschema">
 				<p><input type="submit" value="Skip initialization"></p>
@@ -339,7 +362,8 @@
 					echo "\tdefine('DB_PASS', '$DB_PASS');\n";
 				} else if (preg_match("/define\('DB_PORT'/", $line)) {
 					echo "\tdefine('DB_PORT', '$DB_PORT');\n";
-
+				} else if (preg_match("/define\('SELF_URL_PATH'/", $line)) {
+					echo "\tdefine('SELF_URL_PATH', '$SELF_URL_PATH');\n";
 				} else {
 					print "$line\n";
 				}
