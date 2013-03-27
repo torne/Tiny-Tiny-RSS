@@ -331,39 +331,29 @@ a.helpLink:hover {
 	display : block;
 }
 
+div.notice, div.warning, div.error {
+	padding : 4px 10px 4px 4px;
+	display : inline-block;
+	margin : 2px 0px 2px 0px;
+	font-size : 11px;
+	box-shadow : 0px 0px 2px #ccc;
+}
+
 div.notice {
-	background : #ffffff;
-	border : 1px solid #88b0f0;
-	width : 60%;
-	padding : 5px;
-	margin : 0px 0px 5px 0px;
-	font-size : 12px;
+	background : #ecf4ff;
 }
 
 div.warning {
 	background : #fff7d5;
-	border : 1px solid #d7c47a;
-	font-size : 12px;
-	width : 60%;
-	padding : 5px;
-	margin : 0px 0px 5px 0px;
-}
-
-div.warning img, div.notice img, div.error img {
-	vertical-align : middle;
-	padding : 5px;
-}
-
-span.filterDateError {
-	color : #ff0000;
 }
 
 div.error {
-	border : 1px solid #ff0000;
 	background : #ffcccc;
-	padding : 5px;
-	margin : 0px 0px 5px 0px;
-	font-size : 12px;
+}
+
+div.warning img, div.notice img, div.error img {
+	margin-right : 4px;
+	vertical-align : middle;
 }
 
 ul.nomarks {
