@@ -456,7 +456,7 @@ class Feeds extends Handler_Protected {
 						if (@$line["feed_title"]) {
 							$reply['content'] .= "<div class=\"hlFeed\">
 								<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
-								$line["feed_title"]."</a>
+								truncate_string($line["feed_title"],30)."</a>
 							</div>";
 						}
 					}
@@ -565,7 +565,7 @@ class Feeds extends Handler_Protected {
 						if (@$line["feed_title"]) {
 							$reply['content'] .= "<div class=\"hlFeed\">
 								<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
-								$line["feed_title"]."</a>
+								truncate_string($line["feed_title"],30)."</a>
 							</div>";
 						}
 					}
