@@ -203,7 +203,7 @@ class Pref_Users extends Handler_Protected {
 			$uid = db_escape_string($this->link, $_REQUEST["id"]);
 			$access_level = (int) $_REQUEST["access_level"];
 			$email = db_escape_string($this->link, trim($_REQUEST["email"]));
-			$password = db_escape_string($this->link, trim($_REQUEST["password"]));
+			$password = $_REQUEST["password"];
 
 			if ($password) {
 				$salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
