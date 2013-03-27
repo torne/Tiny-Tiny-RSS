@@ -724,6 +724,8 @@ class Handler_Public extends Handler {
 		print "<h1>".__("Reset password")."</h1>";
 		print "<div class='content'>";
 
+		print "<p>".__("You will need to provide valid account name and email. New password will be sent on your email address.")."</p>";
+
 		@$method = $_POST['method'];
 
 		if (!$method) {

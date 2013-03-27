@@ -209,7 +209,7 @@
 
 <fieldset>
 	<label>Port</label>
-	<input name="DB_PORT" placeholder="if needed, PgSQL only" size="20" value="<?php echo $DB_PORT ?>"/>
+	<input name="DB_PORT" type="number" placeholder="if needed, PgSQL only" size="20" value="<?php echo $DB_PORT ?>"/>
 </fieldset>
 
 <h2>Other settings</h2>
@@ -218,7 +218,7 @@
 
 <fieldset>
 	<label>Tiny Tiny RSS URL</label>
-	<input  name="SELF_URL_PATH" placeholder="<?php echo $SELF_URL_PATH; ?>" size="60" value="<?php echo $SELF_URL_PATH ?>"/>
+	<input type="url" name="SELF_URL_PATH" placeholder="<?php echo $SELF_URL_PATH; ?>" size="60" value="<?php echo $SELF_URL_PATH ?>"/>
 </fieldset>
 
 
