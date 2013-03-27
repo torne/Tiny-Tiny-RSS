@@ -541,7 +541,7 @@ function moveToPost(mode, noscroll) {
 					if (!noscroll && article && article.offsetTop + article.offsetHeight >
 							ctr.scrollTop + ctr.offsetHeight) {
 
-						scrollArticle(ctr.offsetHeight/2);
+						scrollArticle(ctr.offsetHeight/4);
 
 					} else if (next_id) {
 						cdmExpandArticle(next_id);
@@ -566,7 +566,7 @@ function moveToPost(mode, noscroll) {
 					if (!getInitParam("cdm_expanded")) {
 
 						if (!noscroll && article.offsetTop < ctr.scrollTop) {
-							scrollArticle(-ctr.offsetHeight/3);
+							scrollArticle(-ctr.offsetHeight/4);
 						} else {
 							cdmExpandArticle(prev_id);
 							cdmScrollToArticleId(prev_id, true);
@@ -578,7 +578,7 @@ function moveToPost(mode, noscroll) {
 						} else if (!noscroll && prev_article &&
 								prev_article.offsetTop < ctr.scrollTop) {
 							cdmExpandArticle(prev_id);
-							scrollArticle(-ctr.offsetHeight/3);
+							scrollArticle(-ctr.offsetHeight/4);
 						} else if (prev_id) {
 							cdmExpandArticle(prev_id);
 							cdmScrollToArticleId(prev_id, noscroll);
