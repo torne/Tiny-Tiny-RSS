@@ -2270,6 +2270,10 @@
 				$view_query_part = " marked = true AND ";
 			}
 
+			if ($view_mode == "has_note") {
+				$view_query_part = " (note IS NOT NULL AND note != '') AND ";
+			}
+
 			if ($view_mode == "published") {
 				$view_query_part = " published = true AND ";
 			}
