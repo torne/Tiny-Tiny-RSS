@@ -254,7 +254,7 @@ function init() {
 			onComplete: function(transport) {
 					backend_sanity_check_callback(transport);
 				} });
-		
+
 		hotkey_actions["next_feed"] = function() {
 				var rv = dijit.byId("feedTree").getNextFeed(
 						getActiveFeedId(), activeFeedIsCat());
@@ -833,7 +833,11 @@ function hotkey_handler(e) {
 		}
 
 		var action = hotkey_actions[hotkey_action];
-		if(action != null) action();
+
+		if (action != null) {
+			action();
+			return false;
+		}
 
 	} catch (e) {
 		exception_error("hotkey_handler", e);
