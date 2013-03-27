@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 108);
+	define('SCHEMA_VERSION', 109);
 
 	define('LABEL_BASE_INDEX', -1024);
 
