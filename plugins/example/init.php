@@ -10,7 +10,8 @@ class Example extends Plugin {
 		return array(1.0,
 			"Example plugin #1",
 			"fox",
-			true);
+			true,
+			"http://site.com");
 	}
 
 	function init($host) {

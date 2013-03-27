@@ -629,7 +629,7 @@ class Pref_Prefs extends Handler_Protected {
 
 		print "<h2>".__("Plugins")."</h2>";
 
-		print_notice(__("Download more plugins at <a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/forum/viewforum.php?f=22\">Tiny Tiny RSS forums</a>."));
+		print_notice(__("Download more plugins at tt-rss.org <a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/forum/viewforum.php?f=22\">forums</a> or <a target=\"_blank\" class=\"visibleLink\" href=\"http://tt-rss.org/wiki/Plugins\">wiki</a>."));
 
 		print "<p class='insensitive'>" . __("You will need to reload Tiny Tiny RSS for plugin changes to take effect.") . "</p>";
 
@@ -690,7 +690,12 @@ class Pref_Prefs extends Handler_Protected {
 						type=\"checkbox\"></td>";
 
 				print "<td>$name</td>";
-				print "<td>" . htmlspecialchars($about[1]) . "</td>";
+				print "<td>" . htmlspecialchars($about[1]);
+				if (@$about[4]) {
+					print " &mdash; <a target=\"_blank\" class=\"visibleLink\"
+						href=\"".htmlspecialchars($about[4])."\">".__("more info")."</a>";
+				}
+				print "</td>";
 				print "<td>" . htmlspecialchars(sprintf("%.2f", $about[0])) . "</td>";
 				print "<td>" . htmlspecialchars($about[2]) . "</td>";
 
@@ -742,7 +747,13 @@ class Pref_Prefs extends Handler_Protected {
 					type=\"checkbox\"></td>";
 
 				print "<td><label for='FPCHK-$name'>$name</label></td>";
-				print "<td><label for='FPCHK-$name'>" . htmlspecialchars($about[1]) . "</label></td>";
+				print "<td><label for='FPCHK-$name'>" . htmlspecialchars($about[1]) . "</label>";
+				if (@$about[4]) {
+					print " &mdash; <a target=\"_blank\" class=\"visibleLink\"
+						href=\"".htmlspecialchars($about[4])."\">".__("more info")."</a>";
+				}
+				print "</td>";
+
 				print "<td>" . htmlspecialchars(sprintf("%.2f", $about[0])) . "</td>";
 				print "<td>" . htmlspecialchars($about[2]) . "</td>";
 
