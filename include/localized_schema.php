@@ -1,4 +1,4 @@
-<?php # This file has been generated at:  Tue Mar 26 15:16:40 MSK 2013
+<?php # This file has been generated at:  Wed Mar 27 12:43:58 MSK 2013
 
 __("Title");
 __("Title or Content");
@@ -39,7 +39,7 @@ __('Show content preview in headlines list');
 __('Short date format');
 __('Long date format');
 __('Combined feed display');
-__('Hide feeds with no unread messages');
+__('Hide feeds with no unread articles');
 __('On catchup show next feed');
 __('Sort feeds by unread articles count');
 __('Reverse headline order (oldest first)');
