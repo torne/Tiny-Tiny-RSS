@@ -194,29 +194,28 @@ function notify_real(msg, no_hide, n_type) {
 
 	*/
 
-	if (typeof __ != 'undefined') {
-		msg = __(msg);
-	}
+	msg = __(msg);
 
 	if (n_type == 1) {
 		n.className = "notify";
 	} else if (n_type == 2) {
-		n.className = "notifyProgress";
+		n.className = "notify progress";
 		msg = "<img src='images/indicator_white.gif'> " + msg;
 	} else if (n_type == 3) {
-		n.className = "notifyError";
+		n.className = "notify error";
 		msg = "<img src='images/sign_excl.svg'> " + msg;
 	} else if (n_type == 4) {
-		n.className = "notifyInfo";
+		n.className = "notify info";
 		msg = "<img src='images/sign_info.svg'> " + msg;
 	}
 
-//	msg = "<img src='images/live_com_loading.gif'> " + msg;
-
 	if (no_hide) {
-		msg += " (<a href='#' onclick=\"notify('')\">X</a>)";
+		msg += " <span>(<a href='#' onclick=\"notify('')\">" +
+			__("close") + "</a>)</span>";
 	}
 
+
+//	msg = "<img src='images/live_com_loading.gif'> " + msg;
 
 	nb.innerHTML = msg;
 

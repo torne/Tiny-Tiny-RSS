@@ -132,53 +132,51 @@ a:hover {
 }
 
 #notify {
-	border-width : 0px 1px 1px 1px;
+	top : 10px;
+	right : 10px;
+	border-width : 1px;
 	border-style : solid;
-	top : 0px;
-	right : 35%;
-	min-width : 30%;
 	position : absolute;	
 	display : none;
 	float : right;
-	font-size : 12px;
+	font-size : 11px;
 	z-index : 99;
-	padding : 5px 5px 5px 5px;
+	padding : 5px;
+	min-width : 200px;
+	box-shadow : 0px 0px 2px #ccc;
 }
 
 #notify img {
 	vertical-align : middle;
-}
-
-.notifyProgress {
-	border-color : #d7c47a;
-	background-color : #fff7d5;
-	color : black;
-}
-
-.notifyInfo {
-	border-color : #7AD78E;
-	background-color : #D5FFDB;
-	color : black;
+	margin-right : 4px;
 }
 
 .notify {
 	border-color : #d7c47a;
 	background-color : #fff7d5;
-	color : black;
 }
 
-.notifyError {
+.notify.progress {
+	border-color : #d7c47a;
+	background-color : #fff7d5;
+}
+
+.notify.info {
+	border-color : #88b0f0;
+	background-color : #ecf4ff;
+}
+
+.notify.error {
 	background-color : #ffcccc;
 	border-color : #ff0000;
-	color : black;
 }
 
-.notifyError span:hover {
+.notify.error span:hover {
 	color : red;
 	cursor : pointer;
 }
 
-.Selected, .Selected {
+.Selected {
 	background-color : #fff7d5 ! important;
 }
 
@@ -254,10 +252,6 @@ a:hover {
 	border-color : #c0c0c0;
 }
 
-.invisible {
-	display : none;
-}
-
 /* preferences */
 
 table.prefPrefsList h3 {
@@ -292,14 +286,6 @@ div.prefFeedCatHolder, div.prefFeedOPMLHolder, div.inactiveFeedHolder, div.filte
 
 div.prefFeedOPMLHolder, div.filterTestHolder {
 	border-width : 1px 1px 1px 1px;
-}
-
-a.helpLink {
-	color : #808080;
-}
-
-a.helpLink:hover {
-	color : #4684ff;
 }
 
 #content-insert blockquote, #headlines-frame blockquote, .dijitContentPane blockquote {
@@ -381,10 +367,6 @@ span.feed_error {
 
 .insensitive a:hover {
 	color : black;
-}
-
-.small {
-	font-size : 11px;
 }
 
 div#headlines-toolbar {
@@ -485,10 +467,6 @@ div.hlFeed a:hover {
 img.markedPic {
 	cursor : pointer;
 	vertical-align : middle;
-}
-
-a.warning {
-	color : #f04040;
 }
 
 div.tagCloudContainer {
@@ -709,16 +687,6 @@ div.autocomplete ul li {
 
 a.visibleLink {
 	color : #4684ff;
-}
-
-a.visibleLinkB {
-	color : #4684ff;
-	border : 1px solid #4684ff;
-	padding : 2px;
-}
-
-a.visibleLinkB:hover {
-	background-color : #ecf4ff;
 }
 
 .hlContentH a, .hlContentH span {

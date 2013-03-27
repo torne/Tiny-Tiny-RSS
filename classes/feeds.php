@@ -744,7 +744,7 @@ class Feeds extends Handler_Protected {
 			if (!$offset && $message) {
 				$reply['content'] .= "<div class='whiteBox'>$message";
 
-				$reply['content'] .= "<p class=\"small\"><span class=\"insensitive\">";
+				$reply['content'] .= "<p><span class=\"insensitive\">";
 
 				$result = db_query($this->link, "SELECT ".SUBSTRING_FOR_DATE."(MAX(last_updated), 1, 19) AS last_updated FROM ttrss_feeds
 					WHERE owner_uid = " . $_SESSION['uid']);
@@ -932,7 +932,7 @@ class Feeds extends Handler_Protected {
 		$reply['headlines']['toolbar'] = '';
 		$reply['headlines']['content'] = "<div class='whiteBox'>".__('No feed selected.');
 
-		$reply['headlines']['content'] .= "<p class=\"small\"><span class=\"insensitive\">";
+		$reply['headlines']['content'] .= "<p><span class=\"insensitive\">";
 
 		$result = db_query($link, "SELECT ".SUBSTRING_FOR_DATE."(MAX(last_updated), 1, 19) AS last_updated FROM ttrss_feeds
 			WHERE owner_uid = " . $_SESSION['uid']);
