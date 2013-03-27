@@ -2666,23 +2666,6 @@
 
 		}
 
-		global $pluginhost;
-
-		if (isset($pluginhost)) {
-			foreach ($pluginhost->get_hooks($pluginhost::HOOK_SANITIZE) as $plugin) {
-				$doc = $plugin->hook_sanitize($doc, $site_url);
-			}
-		}
-
-		$doc->removeChild($doc->firstChild); //remove doctype
-		$doc = strip_harmful_tags($doc);
-		$res = $doc->saveHTML();
-		return $res;
-	}
-
-	function strip_harmful_tags($doc) {
-		$entries = $doc->getElementsByTagName("*");
-
 		$allowed_elements = array('a', 'address', 'audio', 'article',
 			'b', 'big', 'blockquote', 'body', 'br', 'cite', 'center',
 			'code', 'dd', 'del', 'details', 'div', 'dl', 'font',
@@ -2693,9 +2676,33 @@
 			'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead',
 			'tr', 'track', 'tt', 'u', 'ul', 'var', 'wbr', 'video' );
 
-		if ($_SESSION['hasSandbox']) array_push($allowed_elements, 'iframe');
+		if ($_SESSION['hasSandbox']) $allowed_elements[] = 'iframe';
 
 		$disallowed_attributes = array('id', 'style', 'class');
+
+		global $pluginhost;
+
+		if (isset($pluginhost)) {
+			foreach ($pluginhost->get_hooks($pluginhost::HOOK_SANITIZE) as $plugin) {
+				$retval = $plugin->hook_sanitize($doc, $site_url, $allowed_elements, $disallowed_attributes);
+				if (is_array($retval)) {
+					$doc = $retval[0];
+					$allowed_elements = $retval[1];
+					$disallowed_attributes = $retval[2];
+				} else {
+					$doc = $retval;
+				}
+			}
+		}
+
+		$doc->removeChild($doc->firstChild); //remove doctype
+		$doc = strip_harmful_tags($doc, $allowed_elements, $disallowed_attributes);
+		$res = $doc->saveHTML();
+		return $res;
+	}
+
+	function strip_harmful_tags($doc, $allowed_elements, $disallowed_attributes) {
+		$entries = $doc->getElementsByTagName("*");
 
 		foreach ($entries as $entry) {
 			if (!in_array($entry->nodeName, $allowed_elements)) {
