@@ -123,7 +123,7 @@
 
 		$user_prefs_cache = array();
 
-		if($debug) _debug(sprintf("Scheduled %d feeds to update...\n", db_num_rows($result)));
+		if($debug) _debug(sprintf("Scheduled %d feeds to update...", db_num_rows($result)));
 
 		// Here is a little cache magic in order to minimize risk of double feed updates.
 		$feeds_to_update = array();
