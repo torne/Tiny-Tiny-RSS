@@ -864,7 +864,7 @@ class Feeds extends Handler_Protected {
 
 		switch ($order_by) {
 			case "date_reverse":
-				$override_order = "date_entered DESC, updated";
+				$override_order = "date_entered, updated";
 				break;
 			case "feed_dates":
 				$override_order = "updated DESC";
