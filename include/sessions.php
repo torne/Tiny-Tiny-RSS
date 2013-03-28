@@ -103,14 +103,12 @@
 	}
 
 	if (!defined('TTRSS_SESSION_NAME') || TTRSS_SESSION_NAME != 'ttrss_api_sid') {
-		if ($_COOKIE[$session_name]) {
+		if (isset($_COOKIE[$session_name])) {
 			@session_start();
 
 			if (!$_SESSION["uid"]) {
 				session_destroy();
-				if (isset($_COOKIE[session_name()])) {
-				   setcookie(session_name(), '', time()-42000, '/');
-				}
+			   setcookie(session_name(), '', time()-42000, '/');
 			}
 		}
 	}
