@@ -17,25 +17,68 @@ class GreaderStarredImport extends Plugin {
 		$this->link = $host->get_link();
 		$this->host = $host;
 
+		$host->add_command("greader-import",
+			"import data in Google Reader JSON format",
+			$this, ":", "FILE");
+
 		$host->add_hook($host::HOOK_PREFS_TAB, $this);
+	}
+
+	function greader_import($args) {
+		$file = $args['greader_import'];
+
+		if (!file_exists($file)) {
+			_debug("file not found: $file");
+			return;
+		}
+
+		_debug("please enter your username:");
+
+		$username = db_escape_string($this->link, trim(read_stdin()));
+
+		_debug("looking up user: $username...");
+
+		$result = db_query($this->link, "SELECT id FROM ttrss_users
+			WHERE login = '$username'");
+
+		if (db_num_rows($result) == 0) {
+			_debug("user not found.");
+			return;
+		}
+
+		$owner_uid = db_fetch_result($result, 0, "id");
+
+		_debug("processing: $file (owner_uid: $owner_uid)");
+
+		$this->import($file, $owner_uid);
 	}
 
 	function get_prefs_js() {
 		return file_get_contents(dirname(__FILE__) . "/init.js");
 	}
 
-	function import() {
+	function import($file = false, $owner_uid = 0) {
 
-		header("Content-Type: text/html");
+		if (!$file) {
+			header("Content-Type: text/html");
 
-		if (is_file($_FILES['starred_file']['tmp_name'])) {
-			$doc = json_decode(file_get_contents($_FILES['starred_file']['tmp_name']), true);
+			if (is_file($_FILES['starred_file']['tmp_name'])) {
+				$doc = json_decode(file_get_contents($_FILES['starred_file']['tmp_name']), true);
+			} else {
+				print_error(__('No file uploaded.'));
+				return;
+			}
 		} else {
-			print_error(__('No file uploaded.'));
-			return;
+			$doc = json_decode(file_get_contents($file), true);
 		}
 
-		$sql_set_marked = strtolower($_FILES['starred_file']['name']) == 'starred.json' ? 'true' : 'false';
+		if ($file) {
+			$sql_set_marked = strtolower(basename($file)) == 'starred.json' ? 'true' : 'false';
+			_debug("will set articles as starred: $sql_set_marked");
+
+		} else {
+			$sql_set_marked = strtolower($_FILES['starred_file']['name']) == 'starred.json' ? 'true' : 'false';
+		}
 
 		if ($doc) {
 			if (isset($doc['items'])) {
@@ -66,12 +109,16 @@ class GreaderStarredImport extends Plugin {
 
 					$processed++;
 
-					$imported += (int) $this->create_article($guid, $title,
+					$imported += (int) $this->create_article($owner_uid, $guid, $title,
 						$updated, $link, $content, $author, $sql_set_marked);
 
 				}
 
-				print "<p style='text-align : center'>" . T_sprintf("All done. %d out of %d articles imported.", $imported, $processed) . "</p>";
+				if ($file) {
+					_debug(sprintf("All done. %d of %d articles imported.", $imported, $processed));
+				} else {
+					print "<p style='text-align : center'>" . T_sprintf("All done. %d out of %d articles imported.", $imported, $processed) . "</p>";
+				}
 
 			} else {
 				print_error(__('The document has incorrect format.'));
@@ -81,18 +128,17 @@ class GreaderStarredImport extends Plugin {
 			print_error(__('Error while parsing document.'));
 		}
 
-		print "<div align='center'>";
-		print "<button dojoType=\"dijit.form.Button\"
-			onclick=\"dijit.byId('starredImportDlg').execute()\">".
-			__('Close this window')."</button>";
-		print "</div>";
-
+		if (!$file) {
+			print "<div align='center'>";
+			print "<button dojoType=\"dijit.form.Button\"
+				onclick=\"dijit.byId('starredImportDlg').execute()\">".
+				__('Close this window')."</button>";
+			print "</div>";
+		}
 	}
 
 	// expects ESCAPED data
-	private function create_article($guid, $title, $updated, $link, $content, $author, $marked) {
-
-		$owner_uid = $_SESSION["uid"];
+	private function create_article($owner_uid, $guid, $title, $updated, $link, $content, $author, $marked) {
 
 		if (!$guid) $guid = sha1($link);
 

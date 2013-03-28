@@ -172,10 +172,12 @@ class PluginHost {
 		return false;
 	}
 
-	function add_command($command, $description, $sender) {
+	function add_command($command, $description, $sender, $suffix = "", $arghelp = "") {
 		$command = str_replace("-", "_", strtolower($command));
 
 		$this->commands[$command] = array("description" => $description,
+			"suffix" => $suffix,
+			"arghelp" => $arghelp,
 			"class" => $sender);
 	}
 

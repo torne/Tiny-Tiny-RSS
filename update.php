@@ -37,7 +37,7 @@
 			"help");
 
 	foreach ($pluginhost->get_commands() as $command => $data) {
-		array_push($longopts, $command);
+		array_push($longopts, $command . $data["suffix"]);
 	}
 
 	$options = getopt("", $longopts);
@@ -79,7 +79,8 @@
 		print "Plugin options:\n";
 
 		foreach ($pluginhost->get_commands() as $command => $data) {
-			printf("  --%-19s - %s\n", "$command", $data["description"]);
+			$args = $data['arghelp'];
+			printf(" --%-19s - %s\n", "$command $args", $data["description"]);
 		}
 
 		return;
