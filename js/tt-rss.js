@@ -36,6 +36,9 @@ function setActiveFeedId(id, is_cat) {
 		_active_feed_id = id;
 		_active_feed_is_cat = is_cat;
 
+		$("headlines-frame").setAttribute("feed-id", id);
+		$("headlines-frame").setAttribute("is-cat", is_cat ? 1 : 0);
+
 		selectFeed(id, is_cat);
 	} catch (e) {
 		exception_error("setActiveFeedId", e);
