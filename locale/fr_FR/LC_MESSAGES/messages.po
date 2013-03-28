@@ -1,27 +1,26 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
 # Translators:
 # gothfox <cthulhoo@gmail.com>, 2011.
-#   <raphael.huck@gmail.com>, 2011.
+# <raphael.huck@gmail.com>, 2011.
 # Thomas Jost <schnouki@schnouki.net>, 2011, 2012.
 # Raphael Rochet <raphael@rri.fr>, 2013
+# Alexandre Gravel-Raymond <alex@ndre.gr>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-27 16:48+0400\n"
-"PO-Revision-Date: 2013-03-27 14:09+0100\n"
-"Last-Translator: Raphael Rochet <raphael@rri.fr>\n"
-"Language-Team: French (France) (http://www.transifex.net/projects/p/tt-rss/"
-"language/fr_FR/)\n"
+"PO-Revision-Date: 2013-03-27 21:35+0200\n"
+"Last-Translator: Alexandre Gravel-Raymond <alex@ndre.gr>\n"
+"Language-Team: French\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Virtaal 0.7.1\n"
 
 #: backend.php:71
 msgid "Use default"
@@ -158,7 +157,7 @@ msgstr "Passage à la version %d..."
 
 #: db-updater.php:144
 msgid "Checking version... "
-msgstr "Vérification de la version..."
+msgstr "Vérification de la version... "
 
 #: db-updater.php:150
 msgid "OK!"
@@ -173,8 +172,12 @@ msgstr "ERREUR !"
 msgid "Finished. Performed <b>%d</b> update up to schema version <b>%d</b>."
 msgid_plural ""
 "Finished. Performed <b>%d</b> updates up to schema version <b>%d</b>."
-msgstr[0] "Terminé. Le schéma est passé de la version <b>%d</b> à <b>%d</b>."
-msgstr[1] "Terminé. Le schéma est passé de la version <b>%d</b> à <b>%d</b>."
+msgstr[0] ""
+"Terminé. <b>%d</b> modification a été effectuée pour parvenir à la version "
+"de schéma <b>%d</b>."
+msgstr[1] ""
+"Terminé. <b>%d</b> modifications ont été effectuées pour parvenir à la "
+"version de schéma <b>%d</b>."
 
 #: db-updater.php:170
 msgid "Your database schema is from a newer version of Tiny Tiny RSS."
@@ -243,7 +246,7 @@ msgid ""
 "local configuration."
 msgstr ""
 "Impossible d'afficher le flux : la requête n'a pas abouti. Veuillez vérifier "
-"la syntaxe de l'étiquette de correspondance ou la configuration locale."
+"la syntaxe de correspondance d'étiquette ou la configuration locale."
 
 #: errors.php:27
 msgid "Denied. Your access level is insufficient to access this page."
@@ -260,14 +263,14 @@ msgid ""
 "Your version of MySQL is not currently supported. Please see official site "
 "for more information."
 msgstr ""
-"Votre version de MySQL n'est actuellement pas supportée. Veuillez consulter "
+"Votre version de MySQL n'est pas supportée actuellement. Veuillez consulter "
 "le site officiel pour plus d'informations."
 
 #: errors.php:35
 msgid "SQL escaping test failed, check your database and PHP configuration"
 msgstr ""
-"Le test d'échappement SQL a échoué, vérifiez votre base de donnée et votre "
-"configuration de PHP."
+"Le test d'échappement SQL a échoué, veuillez vérifier votre configuration de "
+"base de données et de PHP"
 
 #: index.php:127 index.php:147 index.php:253 prefs.php:93
 #: classes/backend.php:5 classes/pref/labels.php:296
@@ -352,7 +355,7 @@ msgstr "Marquer comme lu"
 
 #: index.php:199
 msgid "Communication problem with server."
-msgstr "Problème de communication avec le serveur."
+msgstr "Un problème de communication avec le serveur est survenu."
 
 #: index.php:207
 msgid "New version of Tiny Tiny RSS is available!"
@@ -397,7 +400,7 @@ msgstr "Tous les flux :"
 
 #: index.php:223
 msgid "(Un)hide read feeds"
-msgstr "(Dé)Masquer les flux lus"
+msgstr "Masquer/afficher les flux lus"
 
 #: index.php:224
 msgid "Other actions:"
@@ -409,11 +412,11 @@ msgstr "Basculer en mode résumé..."
 
 #: index.php:228
 msgid "Show tag cloud..."
-msgstr "Afficher le nuage d'étiquettes"
+msgstr "Afficher le nuage de tags..."
 
 #: index.php:230 include/functions.php:1921
 msgid "Toggle widescreen mode"
-msgstr "(Dés)Activer le mode écran large"
+msgstr "Basculer le mode écran large"
 
 #: index.php:232
 msgid "Select by tags..."
@@ -483,13 +486,13 @@ msgid ""
 "were not logged in once, are erased automatically 24 hours after temporary "
 "password is sent."
 msgstr ""
-"Votre mot de passe temporaire va être envoyé à l'email indiqué. Les comptes "
-"ne s'étant pas connectés au moins une fois dans les 24 heures qui suivent "
-"l'envoi du mail seront supprimés."
+"Votre mot de passe temporaire va être envoyé à l'adresse mail indiquée. Les "
+"comptes ne s'étant pas connectés au moins une fois dans les 24 heures qui "
+"suivent l'envoi du mail seront supprimés."
 
 #: register.php:223
 msgid "Desired login:"
-msgstr "Login souhaité :"
+msgstr "Identifiant souhaité :"
 
 #: register.php:226
 msgid "Check availability"
@@ -497,11 +500,11 @@ msgstr "Vérifier la disponibilité"
 
 #: register.php:228 classes/handler/public.php:744
 msgid "Email:"
-msgstr "Adresse email :"
+msgstr "Adresse mail :"
 
 #: register.php:231 classes/handler/public.php:749
 msgid "How much is two plus two:"
-msgstr "Combien dont 2 plus 2 :"
+msgstr "Combien font 2 plus 2 :"
 
 #: register.php:234
 msgid "Submit registration"
@@ -513,7 +516,7 @@ msgstr "Vos informations d'inscription sont incomplètes."
 
 #: register.php:267
 msgid "Sorry, this username is already taken."
-msgstr "Désolé, ce login est déjà utilisé."
+msgstr "Désolé, cet identifiant est déjà utilisé."
 
 #: register.php:286
 msgid "Registration failed."
@@ -529,7 +532,7 @@ msgstr "L'inscription de nouveaux utilisateurs est actuellement fermée."
 
 #: update.php:55
 msgid "Tiny Tiny RSS data update script."
-msgstr "Script de mise à jour de Tiny Tiny RSS."
+msgstr "Script de mise à jour des données de Tiny Tiny RSS."
 
 #: include/digest.php:109 include/functions.php:1148
 #: include/functions.php:1675 include/functions.php:1760
@@ -550,7 +553,7 @@ msgstr "Aucun flux trouvé."
 
 #: include/functions.php:709
 msgid "Session failed to validate (incorrect IP)"
-msgstr "Echec de la validation de la session (adresse ip incorrecte)"
+msgstr "Echec de la validation de la session (adresse IP incorrecte)"
 
 #: include/functions.php:1137 include/functions.php:1772
 #: plugins/mobile/mobile-functions.php:171
@@ -623,15 +626,15 @@ msgstr "Article"
 
 #: include/functions.php:1907
 msgid "Toggle starred"
-msgstr "Marquer comme remarquable"
+msgstr "Marquer comme (non) remarquable"
 
 #: include/functions.php:1908
 msgid "Toggle published"
-msgstr "Marquer comme publié"
+msgstr "Marquer comme (non) publié"
 
 #: include/functions.php:1909
 msgid "Toggle unread"
-msgstr "Marquages comme non-lu"
+msgstr "Marquer comme (non) lu"
 
 #: include/functions.php:1910
 msgid "Edit tags"
@@ -667,11 +670,11 @@ msgstr "Défiler vers le haut"
 
 #: include/functions.php:1918
 msgid "Select article under cursor"
-msgstr "Selectionner l'article sous le curseur"
+msgstr "Sélectionner l'article sous le curseur"
 
 #: include/functions.php:1919
 msgid "Email article"
-msgstr "Envoyer l'article par e-mail"
+msgstr "Envoyer l'article par mail"
 
 #: include/functions.php:1920
 msgid "Close/collapse article"
@@ -679,11 +682,11 @@ msgstr "Contracter l'article"
 
 #: include/functions.php:1922 plugins/embed_original/init.php:33
 msgid "Toggle embed original"
-msgstr "(Dés)activer l'intégration de l'original"
+msgstr "Basculer l'intégration de l'article original"
 
 #: include/functions.php:1923
 msgid "Article selection"
-msgstr "Sélection de l'article"
+msgstr "Sélection d'article"
 
 #: include/functions.php:1924
 msgid "Select all articles"
@@ -691,23 +694,23 @@ msgstr "Sélectionner tous les articles"
 
 #: include/functions.php:1925
 msgid "Select unread"
-msgstr "Sélectionner les non-lus"
+msgstr "Sélectionner les articles non-lus"
 
 #: include/functions.php:1926
 msgid "Select starred"
-msgstr "Sélectionner les remarquables"
+msgstr "Sélectionner les articles remarquables"
 
 #: include/functions.php:1927
 msgid "Select published"
-msgstr "Sélectionner les publiés"
+msgstr "Sélectionner les articles publiés"
 
 #: include/functions.php:1928
 msgid "Invert selection"
-msgstr "Inverser la selection"
+msgstr "Inverser la sélection"
 
 #: include/functions.php:1929
 msgid "Deselect everything"
-msgstr "Désélectionner tout"
+msgstr "Tout désélectionner"
 
 #: include/functions.php:1930 classes/pref/feeds.php:514
 #: classes/pref/feeds.php:745
@@ -720,7 +723,7 @@ msgstr "Actualiser le flux actif"
 
 #: include/functions.php:1932
 msgid "Un/hide read feeds"
-msgstr "(Dé)Masquer les flux lus"
+msgstr "Masquer/afficher les flux lus"
 
 #: include/functions.php:1933 classes/pref/feeds.php:1266
 msgid "Subscribe to feed"
@@ -748,7 +751,7 @@ msgstr "Étendre/contracter la catégorie"
 
 #: include/functions.php:1940
 msgid "Toggle combined mode"
-msgstr "(Dés)Activer le mode combiné"
+msgstr "Basculer le mode combiné"
 
 #: include/functions.php:1941
 msgid "Go to"
@@ -898,9 +901,9 @@ msgid ""
 "different feeds to appear only once."
 msgstr ""
 "Cette option est utile si vous lisez des articles venant d'agrégateurs de "
-"type « planet&nbsp,;», dans lesquels certains flux se recoupent largement. "
-"Lorsque cette option est désactivée, les articles en double sont affichées "
-"en un seul exemplaire."
+"type «planet», dans lesquels certains flux se recoupent largement. Lorsque "
+"cette option est désactivée, les articles en double sont affichés en un seul "
+"exemplaire."
 
 #: include/localized_schema.php:22
 msgid ""
@@ -935,15 +938,15 @@ msgstr ""
 msgid "Strip all but most common HTML tags when reading articles."
 msgstr ""
 "Élimine toutes les balises HTML sauf les plus courantes lors de la lecture "
-"des articles"
+"des articles."
 
 #: include/localized_schema.php:27
 msgid ""
 "When auto-detecting tags in articles these tags will not be applied (comma-"
 "separated list)."
 msgstr ""
-"Lors de l'auto-détection des tags dans les articles, ces tags ne sont pas "
-"utilisés (en faire une liste, séparés par des virgules)"
+"Lors de l'auto-détection des tags dans les articles, ces tags ne seront pas "
+"utilisés (séparés par des virgules)."
 
 #: include/localized_schema.php:28
 msgid ""
@@ -969,7 +972,7 @@ msgstr "Cliquez pour enregistrer votre certificat client SSL dans tt-rss"
 
 #: include/localized_schema.php:32
 msgid "Uses UTC timezone"
-msgstr "Utiliser l'heure GMT"
+msgstr "Utilise l'heure GMT"
 
 #: include/localized_schema.php:33
 msgid "Purge articles after this number of days (0 - disables)"
@@ -1104,7 +1107,7 @@ msgstr "Assigner des étiquettes aux articles automatiquement"
 #: include/login_form.php:183 classes/handler/public.php:454
 #: classes/handler/public.php:739 plugins/mobile/login_form.php:40
 msgid "Login:"
-msgstr "Login :"
+msgstr "Identifiant :"
 
 #: include/login_form.php:192 classes/handler/public.php:457
 #: plugins/mobile/login_form.php:45
@@ -1147,21 +1150,21 @@ msgstr "Partager avec Tiny Tiny RSS"
 
 #: classes/handler/public.php:403
 msgid "Title:"
-msgstr "Titre : "
+msgstr "Titre :"
 
 #: classes/handler/public.php:405 classes/dlg.php:665
 #: classes/pref/feeds.php:531 classes/pref/feeds.php:760
 #: plugins/instances/init.php:215
 msgid "URL:"
-msgstr "URL du flux :"
+msgstr "URL :"
 
 #: classes/handler/public.php:407
 msgid "Content:"
-msgstr "Contenu : "
+msgstr "Contenu :"
 
 #: classes/handler/public.php:409
 msgid "Labels:"
-msgstr "Etiquettes : "
+msgstr "Etiquettes :"
 
 #: classes/handler/public.php:428
 msgid "Shared article will appear in the Published feed."
@@ -1189,7 +1192,7 @@ msgstr "Non connecté"
 
 #: classes/handler/public.php:512
 msgid "Incorrect username or password"
-msgstr "Login ou mot de passe incorrect"
+msgstr "Identifiant ou mot de passe incorrect"
 
 #: classes/handler/public.php:548 classes/handler/public.php:645
 #, php-format
@@ -1250,7 +1253,7 @@ msgstr "Terminé."
 
 #: classes/handler/public.php:782
 msgid "Sorry, login and email combination not found."
-msgstr "Désolé, couple identifiant/email non trouvé"
+msgstr "Désolé, ce couple identifiant et mail n'a pas été trouvé."
 
 #: classes/handler/public.php:787
 msgid "Form secret key incorrect. Please enable cookies and try again."
@@ -1441,7 +1444,7 @@ msgstr "Nuage d'étiquettes"
 
 #: classes/dlg.php:514
 msgid "Select item(s) by tags"
-msgstr "Sélectionner des éléments par étiquettes"
+msgstr "Sélectionner des éléments par tags"
 
 #: classes/dlg.php:517
 msgid "Match:"
@@ -1453,11 +1456,11 @@ msgstr "Au moins une"
 
 #: classes/dlg.php:522
 msgid "All tags."
-msgstr "Toutes les étiquettes."
+msgstr "Tous les tags."
 
 #: classes/dlg.php:524
 msgid "Which Tags?"
-msgstr "Quelles étiquettes ?"
+msgstr "Quels tags ?"
 
 #: classes/dlg.php:537
 msgid "Display entries"
@@ -1551,7 +1554,7 @@ msgstr "Flux auxquels s'abonner, un par ligne"
 
 #: classes/dlg.php:741
 msgid "Feeds require authentication."
-msgstr "Les flux requièrent une identification"
+msgstr "Les flux requièrent une identification."
 
 #: classes/feeds.php:68
 msgid "Visit the website"
@@ -1627,15 +1630,15 @@ msgstr "Fermer l'article"
 
 #: classes/feeds.php:728
 msgid "No unread articles found to display."
-msgstr "Aucun article non-lu à afficher"
+msgstr "Aucun article non lu à afficher."
 
 #: classes/feeds.php:731
 msgid "No updated articles found to display."
-msgstr "Aucun article mis à jour à afficher"
+msgstr "Aucun article mis à jour à afficher."
 
 #: classes/feeds.php:734
 msgid "No starred articles found to display."
-msgstr "Aucun article remarquable à afficher"
+msgstr "Aucun article remarquable à afficher."
 
 #: classes/feeds.php:738
 msgid ""
@@ -1774,7 +1777,7 @@ msgstr "Éditeur d'utilisateur"
 
 #: classes/pref/users.php:158
 msgid "Access level: "
-msgstr "Permissions :"
+msgstr "Permissions : "
 
 #: classes/pref/users.php:171
 msgid "Change password to"
@@ -1787,7 +1790,7 @@ msgstr "Options"
 
 #: classes/pref/users.php:180
 msgid "E-mail: "
-msgstr "Adresse email :"
+msgstr "Adresse email : "
 
 #: classes/pref/users.php:258
 #, php-format
@@ -2093,8 +2096,7 @@ msgstr "Scanner le code suivant avec l'application identificateur :"
 
 #: classes/pref/prefs.php:355
 msgid "I have scanned the code and would like to enable OTP"
-msgstr ""
-"J'ai scanné le code et je veux activer les mots de passe à usage unique"
+msgstr "J'ai scanné le code et je veux activer les mots de passe à usage unique"
 
 #: classes/pref/prefs.php:363
 msgid "Enable OTP"
@@ -2135,15 +2137,15 @@ msgstr "Revenir aux valeurs par défaut"
 
 #: classes/pref/prefs.php:628 classes/pref/prefs.php:630
 msgid "Plugins"
-msgstr "Compléments"
+msgstr "Plugins"
 
 #: classes/pref/prefs.php:632
 msgid ""
 "Download more plugins at <a class=\"visibleLink\" target=\"_blank\" href="
 "\"http://tt-rss.org/forum/viewforum.php?f=22\">Tiny Tiny RSS forums</a>."
 msgstr ""
-"Téléchargez plus de compléments sur <a class=\"visibleLink\" target=\"_blank"
-"\" href=\"http://tt-rss.org/forum/viewforum.php?f=22\">le forum Tiny Tiny "
+"Téléchargez plus de plugins sur <a class=\"visibleLink\" target=\"_blank\" "
+"href=\"http://tt-rss.org/forum/viewforum.php?f=22\">le forum Tiny Tiny "
 "RSS</a>."
 
 #: classes/pref/prefs.php:634
@@ -2151,15 +2153,15 @@ msgid ""
 "You will need to reload Tiny Tiny RSS for plugin changes to take effect."
 msgstr ""
 "Vous devrez relancer Tiny Tiny RSS pour que les changements apportés aux "
-"compléments prennent effet."
+"plugins prennent effet."
 
 #: classes/pref/prefs.php:660
 msgid "System plugins"
-msgstr "Compléments systèmes"
+msgstr "Plugins systèmes"
 
 #: classes/pref/prefs.php:664 classes/pref/prefs.php:713
 msgid "Plugin"
-msgstr "Complément"
+msgstr "Plugin"
 
 #: classes/pref/prefs.php:665 classes/pref/prefs.php:714
 msgid "Description"
@@ -2179,11 +2181,11 @@ msgstr "Purger les données"
 
 #: classes/pref/prefs.php:709
 msgid "User plugins"
-msgstr "Compléments utilisateur"
+msgstr "Plugins utilisateur"
 
 #: classes/pref/prefs.php:766
 msgid "Enable selected plugins"
-msgstr "Activer les compléments sélectionnés"
+msgstr "Activer les plugins sélectionnés"
 
 #: classes/pref/prefs.php:821 classes/pref/prefs.php:839
 msgid "Incorrect password"
@@ -2298,7 +2300,7 @@ msgstr "Ajouter une catégorie"
 
 #: classes/pref/feeds.php:1282
 msgid "(Un)hide empty categories"
-msgstr "(Dé)Masquer les catégories vides"
+msgstr "Masquer/afficher les catégories vides"
 
 #: classes/pref/feeds.php:1286
 msgid "Remove selected"
@@ -2354,8 +2356,8 @@ msgid ""
 "Your OPML can be published publicly and can be subscribed by anyone who "
 "knows the URL below."
 msgstr ""
-"Les articles publiés sont exportés comme un flux RSS public et toute "
-"personne qui connaît l'adresse indiquée ci-dessous peut s'y abonner."
+"Votre fichier OPML peut être publié et toute personne qui connaît l'adresse "
+"indiquée ci-dessous peut s'y abonner."
 
 #: classes/pref/feeds.php:1392
 msgid ""
@@ -2419,7 +2421,7 @@ msgstr "Vous pouvez désactiver tous les articles partagés par URL unique ici."
 
 #: classes/pref/feeds.php:1442
 msgid "Unshare all articles"
-msgstr "Départager tous les articles"
+msgstr "Désactiver le partage pour tous les articles"
 
 #: classes/pref/feeds.php:1520
 msgid ""
@@ -2446,7 +2448,7 @@ msgid ""
 "Your browser doesn't support Javascript, which is required for this "
 "application to function properly. Please check your browser settings."
 msgstr ""
-"Votre navigateur ne gère pas Javascript, alors que c'est nécessaire pour le "
+"Votre navigateur ne gère pas JavaScript, alors que c'est nécessaire pour le "
 "bon fonctionnement de ce logiciel. Veuillez modifier la configuration de "
 "votre navigateur."
 
@@ -2464,15 +2466,15 @@ msgstr "Fermer l'article"
 
 #: plugins/nsfw/init.php:32 plugins/nsfw/init.php:43
 msgid "Not work safe (click to toggle)"
-msgstr "Pas sur au travail (cliquer pour basculer)"
+msgstr "Non convenable au travail (cliquer pour basculer)"
 
 #: plugins/nsfw/init.php:53
 msgid "NSFW Plugin"
-msgstr "Complément NSFW"
+msgstr "Plugin NSFW"
 
 #: plugins/nsfw/init.php:80
 msgid "Tags to consider NSFW (comma-separated)"
-msgstr "Etiquettes à considérer Pas Sur Au Travail (séparées par des virgules)"
+msgstr "Tags à considérer non convenables au travail (séparés par des virgules)"
 
 #: plugins/nsfw/init.php:101
 msgid "Configuration saved."
@@ -2501,7 +2503,7 @@ msgstr "Accueil"
 
 #: plugins/mobile/mobile-functions.php:409
 msgid "Nothing found (click to reload feed)."
-msgstr "Rien trouvé (cliquez pour recharger le flux)."
+msgstr "Rien n'a été trouvé (cliquez pour recharger le flux)."
 
 #: plugins/mobile/login_form.php:52
 msgid "Open regular version"
@@ -2515,13 +2517,13 @@ msgstr "Utiliser les catégories de flux"
 #: plugins/mobile/prefs.php:46 plugins/mobile/prefs.php:51
 #: plugins/mobile/prefs.php:56 plugins/mobile/prefs.php:61
 msgid "ON"
-msgstr "Marche"
+msgstr "Activé"
 
 #: plugins/mobile/prefs.php:35 plugins/mobile/prefs.php:40
 #: plugins/mobile/prefs.php:46 plugins/mobile/prefs.php:51
 #: plugins/mobile/prefs.php:56 plugins/mobile/prefs.php:61
 msgid "OFF"
-msgstr "Arrêt"
+msgstr "Désactivé"
 
 #: plugins/mobile/prefs.php:39
 msgid "Browse categories like folders"
@@ -2554,7 +2556,7 @@ msgstr "Cliquez sur le lien suivant pour ouvrir votre client de messagerie:"
 
 #: plugins/mailto/init.php:78
 msgid "Forward selected article(s) by email."
-msgstr "Transférer le ou les articles par email."
+msgstr "Transférer le ou les article(s) par mail."
 
 #: plugins/mailto/init.php:81
 msgid ""
@@ -2569,7 +2571,7 @@ msgstr "Fermer ce dialogue"
 
 #: plugins/bookmarklets/init.php:22
 msgid "Bookmarklets"
-msgstr "Appliquettes"
+msgstr "Bookmarklets"
 
 #: plugins/bookmarklets/init.php:24
 msgid ""
@@ -2591,7 +2593,7 @@ msgstr "S'abonner dans Tiny Tiny RSS"
 
 #: plugins/bookmarklets/init.php:34
 msgid "Use this bookmarklet to publish arbitrary pages using Tiny Tiny RSS"
-msgstr "Utilisez cette appliquette pour publier des pages avec Tiny Tiny RSS"
+msgstr "Utilisez ce bookmarklet pour publier des pages avec Tiny Tiny RSS"
 
 #: plugins/import_export/init.php:64
 msgid "Import and export"
@@ -2606,8 +2608,8 @@ msgid ""
 "You can export and import your Starred and Archived articles for safekeeping "
 "or when migrating between tt-rss instances."
 msgstr ""
-"Vous pouvez exporter et importer vos articles Remarquables et Archivés pour "
-"sauvegarde ou pour transfert entre instances de tt-rss."
+"Vous pouvez exporter et importer vos articles remarquables et archivés afin "
+"de les sauvegarder ou pour les transférer entre deux instances de tt-rss."
 
 #: plugins/import_export/init.php:71
 msgid "Export my data"
@@ -2619,15 +2621,15 @@ msgstr "Importer"
 
 #: plugins/import_export/init.php:221
 msgid "Could not import: incorrect schema version."
-msgstr "Importation impossible : version du schéma incorrecte."
+msgstr "Import impossible : version du schéma incorrecte."
 
 #: plugins/import_export/init.php:226
 msgid "Could not import: unrecognized document format."
-msgstr "Importation impossible : format de document non reconnu."
+msgstr "Import impossible : format de document non reconnu."
 
 #: plugins/import_export/init.php:385
 msgid "Finished: "
-msgstr "Fini: "
+msgstr "Fini : "
 
 #: plugins/import_export/init.php:386
 #, php-format
@@ -2681,7 +2683,7 @@ msgstr "Sujet :"
 
 #: plugins/mail/init.php:130
 msgid "Send e-mail"
-msgstr "Envoyer l'email"
+msgstr "Envoyer le mail"
 
 #: plugins/note/init.php:28 plugins/note/note.js:11
 msgid "Edit article note"
@@ -2713,7 +2715,7 @@ msgid ""
 "Popular feeds. Link to this instance of Tiny Tiny RSS by using this URL:"
 msgstr ""
 "Vous pouvez connecter d'autres instances de Tiny Tiny RSS à celle-ci pour "
-"partager les Flux Populaires. Pour cela utilisez l'URL suivante :"
+"partager les flux populaires. Pour cela, utilisez l'URL suivante :"
 
 #: plugins/instances/init.php:317
 msgid "Last connected"
@@ -2749,8 +2751,8 @@ msgid ""
 "Do not close this dialog until updating is finished. Backup your tt-rss "
 "directory before continuing."
 msgstr ""
-"Ne fermez pas ce dialogue avant que la mise à jour soit terminée. "
-"Sauvegardez votre dossier tt-rss avant de continuer."
+"Ne fermez pas ce dialogue avant que la mise à jour soit terminée. Veuillez "
+"sauvegarder votre dossier tt-rss avant de continuer."
 
 #: plugins/updater/init.php:350
 msgid "Ready to update."
@@ -2762,7 +2764,7 @@ msgstr "Commencer la mise à jour"
 
 #: js/feedlist.js:213
 msgid "New articles available in this feed (click to show)"
-msgstr "Nouveaux articles disponible dans ce flux (cliquer pour les afficher)"
+msgstr "Nouveaux articles disponibles dans ce flux (cliquer pour les afficher)"
 
 #: js/feedlist.js:415 js/feedlist.js:430 plugins/digest/digest.js:26
 msgid "Mark all articles in %s as read?"
@@ -2791,7 +2793,7 @@ msgstr "Envoi terminé."
 
 #: js/functions.js:758
 msgid "Remove stored feed icon?"
-msgstr "Supprimer les icônes stockées ?"
+msgstr "Supprimer l'icône de flux stockée ?"
 
 #: js/functions.js:763
 msgid "Removing feed icon..."
@@ -2835,11 +2837,11 @@ msgstr "L'URL spécifiée semble invalide."
 
 #: js/functions.js:892
 msgid "Specified URL doesn't seem to contain any feeds."
-msgstr "L'URL spécifiée ne semble pas correspondre à un flux."
+msgstr "L'URL spécifiée ne semble pas contenir de flux."
 
 #: js/functions.js:945
 msgid "Couldn't download the specified URL: %s"
-msgstr "N'a pu télécharger l'URL spécifiée: %s"
+msgstr "L'URL spécifiée n'a pas pu être téléchargée : %s"
 
 #: js/functions.js:949
 msgid "You are already subscribed to this feed."
@@ -2949,15 +2951,15 @@ msgstr "Inverser"
 
 #: js/prefs.js:55
 msgid "Please enter login:"
-msgstr "Veuillez saisir le login :"
+msgstr "Veuillez saisir l'identifiant :"
 
 #: js/prefs.js:62
 msgid "Can't create user: no login specified."
-msgstr "Impossible de créer l'utilisateur : aucun login spécifié."
+msgstr "Impossible de créer l'utilisateur : aucun identifiant n'a été spécifié."
 
 #: js/prefs.js:66
 msgid "Adding user..."
-msgstr "Ajout utilisateur..."
+msgstr "Ajout de l'utilisateur..."
 
 #: js/prefs.js:117
 msgid "Edit Filter"
@@ -3035,8 +3037,8 @@ msgstr "Nettoyage du flux sélectionné..."
 #: js/prefs.js:440
 msgid "How many days of articles to keep (0 - use default)?"
 msgstr ""
-"Combien de jour faut-il conserver l'article (entrer 0 pour utiliser la "
-"valeur par défaut)"
+"Combien de jours faut-il conserver les articles (0 pour utiliser la valeur "
+"par défaut) ?"
 
 #: js/prefs.js:443
 msgid "Purging selected feed..."
@@ -3044,7 +3046,7 @@ msgstr "Purge du flux sélectionné..."
 
 #: js/prefs.js:478
 msgid "Login field cannot be blank."
-msgstr "Le nom ne peut pas être vide."
+msgstr "L'identifiant ne peut pas être vide."
 
 #: js/prefs.js:482
 msgid "Saving user..."
@@ -3147,7 +3149,7 @@ msgstr "Recalculer le score des articles des flux sélectionnés ?"
 
 #: js/prefs.js:1342
 msgid "Rescoring selected feeds..."
-msgstr "Recalcul des score des flux sélectionnés..."
+msgstr "Recalcul du score des flux sélectionnés..."
 
 #: js/prefs.js:1362
 msgid "Rescore all articles? This operation may take a lot of time."
@@ -3157,7 +3159,7 @@ msgstr ""
 
 #: js/prefs.js:1365
 msgid "Rescoring feeds..."
-msgstr "Recalcul des score des flux..."
+msgstr "Recalcul du score des flux..."
 
 #: js/prefs.js:1382
 msgid "Reset selected labels to default colors?"
@@ -3216,7 +3218,7 @@ msgstr ""
 
 #: js/prefs.js:1560
 msgid "Shared URLs cleared."
-msgstr "URL partagées nettoyés."
+msgstr "URL partagées supprimées."
 
 #: js/prefs.js:1648
 msgid "Label Editor"
@@ -3228,7 +3230,7 @@ msgstr "Abonnement aux flux..."
 
 #: js/prefs.js:1807
 msgid "Clear stored data for this plugin?"
-msgstr "Effacer les données pour ce complément ?"
+msgstr "Effacer les données pour ce plugin ?"
 
 #: js/tt-rss.js:121
 msgid "Mark all articles as read?"
@@ -3240,11 +3242,11 @@ msgstr "Marquage de tous les flux comme lus..."
 
 #: js/tt-rss.js:352
 msgid "Please enable mail plugin first."
-msgstr "Veuillez d'abord activer le complément mail."
+msgstr "Veuillez d'abord activer le plugin mail."
 
 #: js/tt-rss.js:458
 msgid "Please enable embed_original plugin first."
-msgstr "Veuillez d'abord activer le complément embed_original."
+msgstr "Veuillez d'abord activer le plugin embed_original."
 
 #: js/tt-rss.js:587
 msgid "You can't unsubscribe from the category."
@@ -3272,7 +3274,7 @@ msgstr "Une nouvelle version est disponible !"
 
 #: js/viewfeed.js:106
 msgid "Cancel search"
-msgstr "Annuler"
+msgstr "Annuler la recherche"
 
 #: js/viewfeed.js:439 plugins/digest/digest.js:258
 #: plugins/digest/digest.js:714
@@ -3327,16 +3329,16 @@ msgstr[1] "Restaurer %d articles archivés ?"
 #: js/viewfeed.js:1075
 msgid "Mark %d selected article in %s as read?"
 msgid_plural "Mark %d selected articles in %s as read?"
-msgstr[0] "Marquer %d article sélectionné de %s comme lus ?"
+msgstr[0] "Marquer %d article sélectionné de %s comme lu ?"
 msgstr[1] "Marquer %d articles sélectionnés de %s comme lus ?"
 
 #: js/viewfeed.js:1099
 msgid "Edit article Tags"
-msgstr "Modifier les étiquettes de l'article"
+msgstr "Modifier les tags de l'article"
 
 #: js/viewfeed.js:1105
 msgid "Saving article tags..."
-msgstr "Sauvegarde des étiquettes de l'article..."
+msgstr "Sauvegarde des tags de l'article..."
 
 #: js/viewfeed.js:1340
 msgid "No article is selected."
@@ -3414,7 +3416,8 @@ msgstr "Charger plus..."
 
 #: plugins/embed_original/init.js:6
 msgid "Sorry, your browser does not support sandboxed iframes."
-msgstr "Malheureusement votre navigateur ne supporte pas les cadres isolés."
+msgstr ""
+"Malheureusement, votre navigateur ne supporte pas les iframes sécurisées."
 
 #: plugins/mailto/init.js:21 plugins/mail/mail.js:21
 msgid "Forward article by email"
@@ -3422,7 +3425,7 @@ msgstr "Transférer l'article par email"
 
 #: plugins/import_export/import_export.js:13
 msgid "Export Data"
-msgstr "Exporer les données"
+msgstr "Exporter les données"
 
 #: plugins/import_export/import_export.js:40
 msgid ""
@@ -3432,11 +3435,11 @@ msgid_plural ""
 "Finished, exported %d articles. You can download the data <a "
 "class='visibleLink' href='%u'>here</a>."
 msgstr[0] ""
-"Terminé, %d article exporté. Vous pouvez télécharger les données <a class="
-"\"visibleLink\" href=\"%u\">ici</a>."
+"Terminé, %d article exporté. Vous pouvez télécharger les données <a "
+"class='visibleLink' href='%u'>ici</a>."
 msgstr[1] ""
-"Terminé, %d articles exportés. Vous pouvez télécharger les données <a class="
-"\"visibleLink\" href=\"%u\">ici</a>."
+"Terminé, %d articles exportés. Vous pouvez télécharger les données <a "
+"class='visibleLink' href='%u'>ici</a>."
 
 #: plugins/import_export/import_export.js:93
 msgid "Data Import"
@@ -3483,8 +3486,8 @@ msgid ""
 "Live updating is considered experimental. Backup your tt-rss directory "
 "before continuing. Please type 'yes' to continue."
 msgstr ""
-"La mise à jour directe est expérimentale. Sauvegardez votre dossier tt-rss "
-"avant de continuer. Tapez 'oui' pour continuer."
+"La mise à jour en direct est expérimentale. Veuillez sauvegarder votre "
+"dossier tt-rss avant de continuer. Tapez « yes » pour continuer."
 
 #~ msgid "Share on identi.ca"
 #~ msgstr "Partager sur identi.ca"
