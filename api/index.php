@@ -49,6 +49,8 @@
 	if ($_REQUEST["sid"]) {
 		session_id($_REQUEST["sid"]);
 		@session_start();
+	} else if (defined('_API_DEBUG_HTTP_ENABLED')) {
+		@session_start();
 	}
 
 	if (!init_connection($link)) return;

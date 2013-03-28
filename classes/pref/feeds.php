@@ -87,6 +87,10 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function getfeedtree() {
+		print json_encode($this->makefeedtree());
+	}
+
+	function makefeedtree() {
 
 		if ($_REQUEST['mode'] != 2)
 			$search = $_SESSION["prefs_feed_search"];
@@ -284,8 +288,7 @@ class Pref_Feeds extends Handler_Protected {
 			$fl['items'] =& $root['items'];
 		}
 
-		print json_encode($fl);
-		return;
+		return $fl;
 	}
 
 	function catsortreset() {

@@ -704,6 +704,20 @@ class API extends Handler {
 		}
 	}
 
+	function getFeedTree() {
+		$pf = new Pref_Feeds($this->link, $_REQUEST);
+
+		$_REQUEST['mode'] = 2;
+
+		if ($pf){
+			$data = $pf->makefeedtree();
+			print $this->wrap(self::STATUS_OK, array("categories" => $data));
+		} else {
+			print $this->wrap(self::STATUS_ERR, array("error" =>
+				'UNABLE_TO_INSTANTIATE_OBJECT'));
+		}
+
+	}
 }
 
 ?>
