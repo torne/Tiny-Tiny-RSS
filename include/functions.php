@@ -3814,8 +3814,6 @@
 			$limit -= $limit_part;
 		}
 
-		print "\n";
-
 		return $tags_deleted;
 	}
 
