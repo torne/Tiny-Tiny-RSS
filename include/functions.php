@@ -2692,7 +2692,7 @@
 			'code', 'dd', 'del', 'details', 'div', 'dl', 'font',
 			'dt', 'em', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
 			'header', 'html', 'i', 'img', 'ins', 'kbd',
-			'li', 'nav', 'ol', 'p', 'pre', 'q', 's','small',
+			'li', 'nav', 'noscript', 'ol', 'p', 'pre', 'q', 's','small',
 			'source', 'span', 'strike', 'strong', 'sub', 'summary',
 			'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead',
 			'tr', 'track', 'tt', 'u', 'ul', 'var', 'wbr', 'video' );
