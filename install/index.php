@@ -107,6 +107,36 @@
 		}
 	}
 
+	function make_config($DB_TYPE, $DB_HOST, $DB_USER, $DB_NAME, $DB_PASS,
+			$DB_PORT, $SELF_URL_PATH) {
+
+		$data = explode("\n", file_get_contents("../config.php-dist"));
+
+		$rv = "";
+
+		foreach ($data as $line) {
+			if (preg_match("/define\('DB_TYPE'/", $line)) {
+				$rv .= "\tdefine('DB_TYPE', '$DB_TYPE');\n";
+			} else if (preg_match("/define\('DB_HOST'/", $line)) {
+				$rv .= "\tdefine('DB_HOST', '$DB_HOST');\n";
+			} else if (preg_match("/define\('DB_USER'/", $line)) {
+				$rv .= "\tdefine('DB_USER', '$DB_USER');\n";
+			} else if (preg_match("/define\('DB_NAME'/", $line)) {
+				$rv .= "\tdefine('DB_NAME', '$DB_NAME');\n";
+			} else if (preg_match("/define\('DB_PASS'/", $line)) {
+				$rv .= "\tdefine('DB_PASS', '$DB_PASS');\n";
+			} else if (preg_match("/define\('DB_PORT'/", $line)) {
+				$rv .= "\tdefine('DB_PORT', '$DB_PORT');\n";
+			} else if (preg_match("/define\('SELF_URL_PATH'/", $line)) {
+				$rv .= "\tdefine('SELF_URL_PATH', '$SELF_URL_PATH');\n";
+			} else {
+				$rv .= "$line\n";
+			}
+		}
+
+		return $rv;
+	}
+
 	function db_query($link, $query, $type, $die_on_error = true) {
 		if ($type == "pgsql") {
 			$result = pg_query($link, $query);
@@ -149,7 +179,7 @@
 		require "../config.php";
 
 		if (!defined('_INSTALLER_IGNORE_CONFIG_CHECK')) {
-			print_error("Error: config.php already exists; aborting.");
+			print_error("Error: config.php already exists in tt-rss directory; aborting.");
 			exit;
 		}
 	}
@@ -344,34 +374,62 @@
 
 			print "<h2>Generated configuration file</h2>";
 
-			print "<p>Copy following text and save as <b>config.php</b> in tt-rss main directory. It is suggested to read through the file to the end in case you need any options changed fom default values.</p>";
+			print "<p>Copy following text and save as <code>config.php</code> in tt-rss main directory. It is suggested to read through the file to the end in case you need any options changed fom default values.</p>";
 
-			print "<textarea cols=\"80\" rows=\"20\" name=\"config\">";
-			$data = explode("\n", file_get_contents("../config.php-dist"));
+			print "<p>After copying the file, you will be able to login with default username and password combination: <code>admin</code> and <code>password</code>. Don't forget to change the password immediately!</p>"; ?>
 
-			foreach ($data as $line) {
-				if (preg_match("/define\('DB_TYPE'/", $line)) {
-					echo "\tdefine('DB_TYPE', '$DB_TYPE');\n";
-				} else if (preg_match("/define\('DB_HOST'/", $line)) {
-					echo "\tdefine('DB_HOST', '$DB_HOST');\n";
-				} else if (preg_match("/define\('DB_USER'/", $line)) {
-					echo "\tdefine('DB_USER', '$DB_USER');\n";
-				} else if (preg_match("/define\('DB_NAME'/", $line)) {
-					echo "\tdefine('DB_NAME', '$DB_NAME');\n";
-				} else if (preg_match("/define\('DB_PASS'/", $line)) {
-					echo "\tdefine('DB_PASS', '$DB_PASS');\n";
-				} else if (preg_match("/define\('DB_PORT'/", $line)) {
-					echo "\tdefine('DB_PORT', '$DB_PORT');\n";
-				} else if (preg_match("/define\('SELF_URL_PATH'/", $line)) {
-					echo "\tdefine('SELF_URL_PATH', '$SELF_URL_PATH');\n";
-				} else {
-					print "$line\n";
-				}
+			<form action="" method="post">
+				<input type="hidden" name="op" value="saveconfig">
+				<input type="hidden" name="DB_USER" value="<?php echo $DB_USER ?>"/>
+				<input type="hidden" name="DB_PASS" value="<?php echo $DB_PASS ?>"/>
+				<input type="hidden" name="DB_NAME" value="<?php echo $DB_NAME ?>"/>
+				<input type="hidden" name="DB_HOST" value="<?php echo $DB_HOST ?>"/>
+				<input type="hidden" name="DB_PORT" value="<?php echo $DB_PORT ?>"/>
+				<input type="hidden" name="DB_TYPE" value="<?php echo $DB_TYPE ?>"/>
+				<input type="hidden" name="SELF_URL_PATH" value="<?php echo $SELF_URL_PATH ?>"/>
+			<?php print "<textarea cols=\"80\" rows=\"20\">";
+			echo make_config($DB_TYPE, $DB_HOST, $DB_USER, $DB_NAME, $DB_PASS,
+				$DB_PORT, $SELF_URL_PATH);
+			print "</textarea>"; ?>
+
+			<?php if (is_writable("..")) { ?>
+				<p>We can also try saving the file automatically now.</p>
+
+				<p><input type="submit" value="Save configuration"></p>
+				</form>
+			<?php } else {
+				print_error("Unfortunately, parent directory is not writable, so we're unable to save config.php automatically.");
 			}
 
-			print "</textarea>";
+		   print_notice("You can generate the file again by changing the form above.");
 
-			print "<p>You can generate the file again by changing the form above.</p>";
+		} else if ($op == "saveconfig") {
+
+			print "<h2>Saving configuration file to parent directory...</h2>";
+
+			if (!file_exists("../config.php")) {
+
+				$fp = fopen("../config.php", "w");
+
+				if ($fp) {
+					$written = fwrite($fp, make_config($DB_TYPE, $DB_HOST,
+						$DB_USER, $DB_NAME, $DB_PASS,
+						$DB_PORT, $SELF_URL_PATH));
+
+					if ($written > 0) {
+						print_notice("Successfully saved config.php. You can try <a href=\"..\">loading tt-rss now</a>.");
+
+					} else {
+						print_notice("Unable to write into config.php in tt-rss directory.");
+					}
+
+					fclose($fp);
+				} else {
+					print_error("Unable to open config.php in tt-rss directory for writing.");
+				}
+			} else {
+				print_error("config.php already present in tt-rss directory, refusing to overwrite.");
+			}
 		}
 	?>
 
