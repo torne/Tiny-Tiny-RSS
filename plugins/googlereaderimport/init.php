@@ -7,7 +7,7 @@ class GoogleReaderImport extends Plugin {
 
 	function about() {
 		return array(1.0,
-			"Import Starred or Shared items from Google Reader takeout",
+			"Import starred/shared items from Google Reader takeout",
 			"fox",
 			false,
 			"");
