@@ -3693,13 +3693,15 @@
 				$rv .= "<hr clear='both'/>";
 			}
 
-			$rv .= "<br/><div dojoType=\"dijit.form.DropDownButton\">".
-				"<span>" . __('Attachments')."</span>";
-			$rv .= "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
+			$rv .= "<select onchange=\"openSelectedAttachment(this)\">".
+				"<option value=''>" . __('Attachments')."</option>";
 
-			foreach ($entries_html as $entry) { $rv .= $entry; };
+			foreach ($entries as $entry) {
+				$rv .= "<option value=\"".htmlspecialchars($entry["url"])."\">" . htmlspecialchars($entry["filename"]) . "</option>";
 
-			$rv .= "</div></div>";
+			};
+
+			$rv .= "</select>";
 		}
 
 		return $rv;
