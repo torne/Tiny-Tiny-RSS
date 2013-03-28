@@ -125,7 +125,7 @@ class API extends Handler {
 	function getCategories() {
 		$unread_only = sql_bool_to_bool($_REQUEST["unread_only"]);
 		$enable_nested = sql_bool_to_bool($_REQUEST["enable_nested"]);
-		$include_empty = (int)$_REQUEST['include_empty'];
+		$include_empty = sql_bool_to_bool($_REQUEST['include_empty']);
 
 		// TODO do not return empty categories, return Uncategorized and standard virtual cats
 
@@ -706,7 +706,7 @@ class API extends Handler {
 	}
 
 	function getFeedTree() {
-		$include_empty = (int)$_REQUEST['include_empty'];
+		$include_empty = sql_bool_to_bool($_REQUEST['include_empty']);
 
 		$pf = new Pref_Feeds($this->link, $_REQUEST);
 
