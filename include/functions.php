@@ -1436,13 +1436,14 @@
 		if ($pluginhost) {
 			$feeds = $pluginhost->get_feeds(-1);
 
-			foreach ($feeds as $feed) {
-				$cv = array("id" => PluginHost::pfeed_to_feed_id($feed['id']),
-					"counter" => $feed['sender']->get_unread($feed['id']));
+			if (is_array($feeds)) {
+				foreach ($feeds as $feed) {
+					$cv = array("id" => PluginHost::pfeed_to_feed_id($feed['id']),
+						"counter" => $feed['sender']->get_unread($feed['id']));
 
-				array_push($ret_arr, $cv);
+					array_push($ret_arr, $cv);
+				}
 			}
-
 		}
 
 		return $ret_arr;
