@@ -349,6 +349,18 @@ class Handler_Public extends Handler {
 		include "rssfuncs.php";
 		// Update all feeds needing a update.
 		update_daemon_common($this->link, 0, true, false);
+
+		// Update feedbrowser
+		update_feedbrowser_cache($this->link);
+
+		// Purge orphans and cleanup tags
+		purge_orphans($this->link);
+
+		cleanup_tags($this->link, 14, 50000);
+
+		global $pluginhost;
+		$pluginhost->run_hooks($pluginhost::HOOK_UPDATE_TASK, "hook_update_task", $op);
+
 	}
 
 	function sharepopup() {

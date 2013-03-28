@@ -735,6 +735,10 @@ class RPC extends Handler_Protected {
 			}
 		}
 
+		// Purge orphans and cleanup tags
+		purge_orphans($this->link);
+		cleanup_tags($this->link, 14, 50000);
+
 		if ($num_updated > 0) {
 			print json_encode(array("message" => "UPDATE_COUNTERS",
 				"num_updated" => $num_updated));
