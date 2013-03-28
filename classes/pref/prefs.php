@@ -121,7 +121,7 @@ class Pref_Prefs extends Handler_Protected {
 
 		global $access_level_names;
 
-		$prefs_blacklist = array("STRIP_UNSAFE_TAGS");
+		$prefs_blacklist = array("STRIP_UNSAFE_TAGS", "REVERSE_HEADLINES");
 
 		/* "FEEDS_SORT_BY_UNREAD", "HIDE_READ_FEEDS", "REVERSE_HEADLINES" */
 

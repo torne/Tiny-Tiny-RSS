@@ -413,20 +413,8 @@ function catchupFeed(feed, is_cat) {
 			return;
 		}
 
-		var max_id = 0;
-
-		if (feed == getActiveFeedId() && is_cat == activeFeedIsCat()) {
-			$$("#headlines-frame > div[id*=RROW]").each(
-				function(child) {
-					var id = parseInt(child.id.replace("RROW-", ""));
-
-					if (id > max_id) max_id = id;
-				}
-			);
-		}
-
 		var catchup_query = "?op=rpc&method=catchupFeed&feed_id=" +
-			feed + "&is_cat=" + is_cat + "&max_id=" + max_id;
+			feed + "&is_cat=" + is_cat;
 
 		console.log(catchup_query);
 

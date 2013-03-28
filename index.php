@@ -177,9 +177,7 @@
 			onchange="viewModeChanged()"
 			dojoType="dijit.form.Select" name="order_by">
 			<option selected="selected" value="default"><?php echo __('Default') ?></option>
-			<option value="date"><?php echo __('Date') ?></option>
-			<option value="title"><?php echo __('Title') ?></option>
-			<option value="score"><?php echo __('Score') ?></option>
+			<option value="date_reverse"><?php echo __('Oldest first') ?></option>
 		</select>
 
 		<!-- deprecated -->

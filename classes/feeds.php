@@ -869,28 +869,8 @@ class Feeds extends Handler_Protected {
 		}
 
 		switch ($order_by) {
-			case "date":
-				if (get_pref($this->link, 'REVERSE_HEADLINES', $owner_uid)) {
-					$override_order = "$date_sort_field, updated";
-				} else {
-					$override_order = "$date_sort_field DESC, updated DESC";
-				}
-				break;
-
-			case "title":
-				if (get_pref($this->link, 'REVERSE_HEADLINES', $owner_uid)) {
-					$override_order = "title DESC, $date_sort_field, updated";
-				} else {
-					$override_order = "title, $date_sort_field DESC, updated DESC";
-				}
-				break;
-
-			case "score":
-				if (get_pref($this->link, 'REVERSE_HEADLINES', $owner_uid)) {
-					$override_order = "score, $date_sort_field, updated";
-				} else {
-					$override_order = "score DESC, $date_sort_field DESC, updated DESC";
-				}
+			case "date_reverse":
+				$override_order = "$date_sort_field, updated";
 				break;
 		}
 
