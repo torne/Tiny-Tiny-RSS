@@ -492,7 +492,7 @@ class Handler_Public extends Handler {
 	}
 
 	function login() {
-
+		@session_destroy();
 		@session_start();
 
 		$_SESSION["prefs_cache"] = array();
