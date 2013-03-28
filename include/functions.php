@@ -754,6 +754,7 @@
 		$_SESSION["prefs_cache"] = false;
 
 		if (SINGLE_USER_MODE) {
+			@session_start();
 			authenticate_user($link, "admin", null);
 			cache_prefs($link);
 			load_user_plugins($link, $_SESSION["uid"]);
