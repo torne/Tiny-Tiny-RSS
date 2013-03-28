@@ -290,7 +290,7 @@ class Pref_Users extends Handler_Protected {
 			if ($show_password) {
 				print T_sprintf("Changed password of user <b>%s</b> to <b>%s</b>", $login, $tmp_user_pwd);
 			} else {
-				print T_sprintf("Sending new password of user <b>%s</b> to <b>%s</b>", $login, $email);
+				print_notice(T_sprintf("Sending new password of user <b>%s</b> to <b>%s</b>", $login, $email));
 			}
 
 			require_once 'classes/ttrssmailer.php';
