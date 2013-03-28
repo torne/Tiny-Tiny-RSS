@@ -1,5 +1,5 @@
 <?php
-class GreaderStarredImport extends Plugin {
+class GoogleReaderImport extends Plugin {
 
 
 	private $link;
@@ -61,6 +61,8 @@ class GreaderStarredImport extends Plugin {
 
 		if (!$file) {
 			header("Content-Type: text/html");
+
+			$owner_uid = $_SESSION["uid"];
 
 			if (is_file($_FILES['starred_file']['tmp_name'])) {
 				$doc = json_decode(file_get_contents($_FILES['starred_file']['tmp_name']), true);
@@ -205,7 +207,7 @@ class GreaderStarredImport extends Plugin {
 			<input id=\"starred_file\" name=\"starred_file\" type=\"file\">&nbsp;
 			<input type=\"hidden\" name=\"op\" value=\"pluginhandler\">
 			<input type=\"hidden\" name=\"method\" value=\"import\">
-			<input type=\"hidden\" name=\"plugin\" value=\"greaderstarredimport\">
+			<input type=\"hidden\" name=\"plugin\" value=\"googlereaderimport\">
 			<button dojoType=\"dijit.form.Button\" onclick=\"return starredImport();\" type=\"submit\">" .
 			__('Import my Starred items') . "</button>";
 
