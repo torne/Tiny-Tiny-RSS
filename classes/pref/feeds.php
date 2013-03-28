@@ -739,7 +739,9 @@ class Pref_Feeds extends Handler_Protected {
 
 		$feed_ids = db_escape_string($this->link, $_REQUEST["ids"]);
 
-		print "<div class=\"dialogNotice\">" . __("Enable the options you wish to apply using checkboxes on the right:") . "</div>";
+		print_notice("Enable the options you wish to apply using checkboxes on the right:");
+
+		print "<p>";
 
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"ids\" value=\"$feed_ids\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-feeds\">";
@@ -1520,7 +1522,7 @@ class Pref_Feeds extends Handler_Protected {
 			GROUP BY ttrss_feeds.title, ttrss_feeds.id, ttrss_feeds.site_url, ttrss_feeds.feed_url
 			ORDER BY last_article");
 
-		print "<div class=\"dialogNotice\">" . __("These feeds have not been updated with new content for 3 months (oldest first):") . "</div>";
+		print "<h2" .__("These feeds have not been updated with new content for 3 months (oldest first):") . "</h2>";
 
 		print "<div dojoType=\"dijit.Toolbar\">";
 		print "<div dojoType=\"dijit.form.DropDownButton\">".
@@ -1586,7 +1588,8 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function feedsWithErrors() {
-		print "<div class=\"dialogNotice\">" . __("These feeds have not been updated because of errors:") . "</div>";
+		print "<h2>" . __("These feeds have not been updated because of errors:") .
+			"</h2>";
 
 		$result = db_query($this->link, "SELECT id,title,feed_url,last_error,site_url
 		FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);

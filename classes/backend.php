@@ -29,6 +29,10 @@ class Backend extends Handler {
 			array_push($omap[$action], $sequence);
 		}
 
+		print_notice("<a target=\"_blank\" href=\"http://tt-rss.org/wiki/InterfaceTips\">".
+			__("Other interface tips are available in the Tiny Tiny RSS wiki.") .
+			"</a>");
+
 		print "<ul class='helpKbList' id='helpKbList'>";
 
 		print "<h2>" . __("Keyboard Shortcuts") . "</h2>";
@@ -79,10 +83,6 @@ class Backend extends Handler {
 		}
 
 		print "</ul>";
-
-		print "<p><a target=\"_blank\" href=\"http://tt-rss.org/wiki/InterfaceTips\">".
-			__("Other interface tips are available in the Tiny Tiny RSS wiki.") .
-			"</a></p>";
 	}
 
 	function help() {

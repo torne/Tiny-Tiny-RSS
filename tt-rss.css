@@ -299,9 +299,13 @@ div.filterTestHolder {
 div.notice, div.warning, div.error {
 	padding : 4px 10px 4px 4px;
 	display : inline-block;
-	margin : 2px 0px 2px 0px;
+	margin : 2px 0px 4px 0px;
 	font-size : 12px;
 	box-shadow : 0px 0px 2px #ccc;
+}
+
+div.notice div.inner, div.warning div.inner, div.error div.inner {
+	vertical-align : middle;
 }
 
 div.notice {
@@ -318,6 +322,7 @@ div.error {
 
 div.warning img, div.notice img, div.error img {
 	margin-right : 4px;
+	float : left;
 	vertical-align : middle;
 }
 
@@ -899,6 +904,12 @@ img.feedIcon, img.tinyFeedIcon {
 	border : 1px solid #c0c0c0;
 }
 
+.dijitDialog h2 {
+	margin-top : 0px;
+	margin-bottom : 4px;
+	border-width : 0px;
+}
+
 .player {
 	display : inline-block;
 	color : gray;
@@ -927,11 +938,6 @@ img.feedIcon, img.tinyFeedIcon {
 	margin-left : 1px;
 	text-align : center;
 	padding : 1em;
-	color : gray;
-}
-
-div.dialogNotice {
-	margin-bottom : 5px;
 	color : gray;
 }
 

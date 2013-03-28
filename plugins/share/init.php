@@ -46,7 +46,7 @@ class Share extends Plugin {
 					AND owner_uid = " . $_SESSION['uid']);
 			}
 
-			print __("You can share this article by the following unique URL:");
+			print "<h2>". __("You can share this article by the following unique URL:") . "</h2>";
 
 			$url_path = get_self_url_prefix();
 			$url_path .= "/public.php?op=share&key=$uuid";

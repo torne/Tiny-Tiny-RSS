@@ -557,7 +557,7 @@ class Dlg extends Handler_Protected {
 
 		$url_path = htmlspecialchars($this->params[2]) . "&key=" . $key;
 
-		print "<div class=\"dialogNotice\">" .	__("You can view this feed as RSS using the following URL:") . "</div>";
+		print "<h2>".__("You can view this feed as RSS using the following URL:")."</h2>";
 
 		print "<div class=\"tagCloudContainer\">";
 		print "<a id='gen_feed_url' href='$url_path' target='_blank'>$url_path</a>";
@@ -628,9 +628,7 @@ class Dlg extends Handler_Protected {
 
 		$value = str_replace("<br/>", "\n", $value);
 
-		print "<div class=\"dialogNotice\">";
-		print T_sprintf("You can override colors, fonts and layout of your currently selected theme with custom CSS declarations here. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">This file</a> can be used as a baseline.", "tt-rss.css");
-		print "</div>";
+		print_notice(T_sprintf("You can override colors, fonts and layout of your currently selected theme with custom CSS declarations here. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">This file</a> can be used as a baseline.", "tt-rss.css"));
 
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"setpref\">";
