@@ -47,6 +47,7 @@ class API extends Handler {
 	}
 
 	function login() {
+		@session_destroy();
 		@session_start();
 
 		$login = db_escape_string($this->link, $_REQUEST["user"]);
