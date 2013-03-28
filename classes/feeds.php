@@ -218,7 +218,7 @@ class Feeds extends Handler_Protected {
 		}
 //		error_log("search_mode: " . $search_mode);
 
-		if (!$cat_view && is_numeric($feed) && $feed < PLUGIN_FEED_BASE_INDEX) {
+		if (!$cat_view && is_numeric($feed) && $feed < PLUGIN_FEED_BASE_INDEX && $feed > LABEL_BASE_INDEX) {
 			global $pluginhost;
 
 			$handler = $pluginhost->get_feed_handler(
