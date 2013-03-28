@@ -125,6 +125,7 @@ class API extends Handler {
 	function getCategories() {
 		$unread_only = sql_bool_to_bool($_REQUEST["unread_only"]);
 		$enable_nested = sql_bool_to_bool($_REQUEST["enable_nested"]);
+		$include_empty = (int)$_REQUEST['include_empty'];
 
 		// TODO do not return empty categories, return Uncategorized and standard virtual cats
 
@@ -147,7 +148,7 @@ class API extends Handler {
 		$cats = array();
 
 		while ($line = db_fetch_assoc($result)) {
-			if ($line["num_feeds"] > 0 || $line["num_cats"] > 0) {
+			if ($include_empty || $line["num_feeds"] > 0 || $line["num_cats"] > 0) {
 				$unread = getFeedUnread($this->link, $line["id"], true);
 
 				if ($enable_nested)
@@ -705,9 +706,12 @@ class API extends Handler {
 	}
 
 	function getFeedTree() {
+		$include_empty = (int)$_REQUEST['include_empty'];
+
 		$pf = new Pref_Feeds($this->link, $_REQUEST);
 
 		$_REQUEST['mode'] = 2;
+		$_REQUEST['force_show_empty'] = $include_empty;
 
 		if ($pf){
 			$data = $pf->makefeedtree();
