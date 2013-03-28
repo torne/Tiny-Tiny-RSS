@@ -862,15 +862,12 @@ class Feeds extends Handler_Protected {
 
 		$override_order = false;
 
-		if (get_pref($this->link, "SORT_HEADLINES_BY_FEED_DATE", $owner_uid)) {
-			$date_sort_field = "updated";
-		} else {
-			$date_sort_field = "date_entered";
-		}
-
 		switch ($order_by) {
 			case "date_reverse":
-				$override_order = "$date_sort_field, updated";
+				$override_order = "date_entered DESC, updated";
+				break;
+			case "feed_dates":
+				$override_order = "updated DESC";
 				break;
 		}
 

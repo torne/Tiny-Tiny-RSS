@@ -178,6 +178,7 @@
 			dojoType="dijit.form.Select" name="order_by">
 			<option selected="selected" value="default"><?php echo __('Default') ?></option>
 			<option value="date_reverse"><?php echo __('Oldest first') ?></option>
+			<option value="feed_dates"><?php echo __('Newest first') ?></option>
 		</select>
 
 		<!-- deprecated -->

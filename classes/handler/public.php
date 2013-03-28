@@ -14,11 +14,7 @@ class Handler_Public extends Handler {
 
 		if (!$limit) $limit = 100;
 
-		if (get_pref($this->link, "SORT_HEADLINES_BY_FEED_DATE", $owner_uid)) {
-			$date_sort_field = "updated";
-		} else {
-			$date_sort_field = "date_entered";
-		}
+		$date_sort_field = "date_entered DESC, updated DESC";
 
 		if ($feed == -2)
 			$date_sort_field = "last_published";
@@ -27,7 +23,7 @@ class Handler_Public extends Handler {
 
 		$qfh_ret = queryFeedHeadlines($this->link, $feed,
 			$limit, $view_mode, $is_cat, $search, $search_mode,
-			"$date_sort_field DESC", $offset, $owner_uid,
+			$date_sort_field, $offset, $owner_uid,
 			false, 0, false, true);
 
 		$result = $qfh_ret[0];
