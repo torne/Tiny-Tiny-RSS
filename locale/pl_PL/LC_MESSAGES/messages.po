@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-28 19:38+0400\n"
+"POT-Creation-Date: 2013-03-28 21:05+0400\n"
 "PO-Revision-Date: 2013-03-25 13:25+0100\n"
 "Last-Translator: Mirosław Lach <m.wordpress@lach.waw.pl>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/tt-rss/language/pl/)\n"
@@ -139,9 +139,9 @@ msgstr "Schemat bazy danych Tiny Tiny RSS jest aktualny."
 #: register.php:336
 #: register.php:346
 #: register.php:358
-#: classes/handler/public.php:631
-#: classes/handler/public.php:719
-#: classes/handler/public.php:808
+#: classes/handler/public.php:627
+#: classes/handler/public.php:715
+#: classes/handler/public.php:804
 msgid "Return to Tiny Tiny RSS"
 msgstr "Wróć do Tiny Tiny RSS"
 
@@ -248,17 +248,17 @@ msgstr "Twoja wersja serwera MySQL nie jest obecnie wspierana. Zapoznaj się z z
 msgid "SQL escaping test failed, check your database and PHP configuration"
 msgstr "Test escape'owania SQL nie powiódł się. Sprawdź konfigurację swojej bazy danych i PHP."
 
-#: index.php:127
-#: index.php:146
-#: index.php:253
-#: prefs.php:94
+#: index.php:135
+#: index.php:154
+#: index.php:260
+#: prefs.php:102
 #: classes/backend.php:5
 #: classes/pref/labels.php:296
 #: classes/pref/filters.php:628
 #: classes/pref/feeds.php:1330
 #: plugins/digest/digest_body.php:63
 #: js/feedlist.js:128
-#: js/feedlist.js:433
+#: js/feedlist.js:421
 #: js/functions.js:420
 #: js/functions.js:814
 #: js/functions.js:1250
@@ -284,83 +284,78 @@ msgstr "Test escape'owania SQL nie powiódł się. Sprawdź konfigurację swojej
 msgid "Loading, please wait..."
 msgstr "Trwa ładowanie, proszę czekać..."
 
-#: index.php:160
+#: index.php:168
 msgid "Collapse feedlist"
 msgstr "Rozwiń listę kanałów"
 
-#: index.php:163
+#: index.php:171
 msgid "Show articles"
 msgstr "Pokaż artykuły"
 
-#: index.php:166
+#: index.php:174
 msgid "Adaptive"
 msgstr "Adaptacyjny"
 
-#: index.php:167
+#: index.php:175
 msgid "All Articles"
 msgstr "Wszystkie artykuły"
 
-#: index.php:168
-#: include/functions.php:1946
+#: index.php:176
+#: include/functions.php:1941
 #: classes/feeds.php:106
 msgid "Starred"
 msgstr "Oznaczone gwiazdką"
 
-#: index.php:169
-#: include/functions.php:1947
+#: index.php:177
+#: include/functions.php:1942
 #: classes/feeds.php:107
 msgid "Published"
 msgstr "Opublikowane"
 
-#: index.php:170
+#: index.php:178
 #: classes/feeds.php:93
 #: classes/feeds.php:105
 msgid "Unread"
 msgstr "Nieprzeczytane"
 
-#: index.php:171
+#: index.php:179
 #, fuzzy
 msgid "Unread First"
 msgstr "Nieprzeczytane"
 
-#: index.php:172
+#: index.php:180
 msgid "With Note"
 msgstr ""
 
-#: index.php:173
+#: index.php:181
 msgid "Ignore Scoring"
 msgstr "Ignoruj punktację"
 
-#: index.php:176
+#: index.php:184
 msgid "Sort articles"
 msgstr "Sortuj artykuły"
 
-#: index.php:179
+#: index.php:187
 msgid "Default"
 msgstr "Domyślne"
 
-#: index.php:180
-msgid "Date"
-msgstr "Data"
-
-#: index.php:181
-#: include/localized_schema.php:3
-msgid "Title"
-msgstr "Tytuł"
-
-#: index.php:182
-msgid "Score"
-msgstr "Punktacja"
-
 #: index.php:188
+msgid "Newest first"
+msgstr ""
+
+#: index.php:189
+msgid "Oldest first"
+msgstr ""
+
+#: index.php:195
 #: classes/pref/feeds.php:567
 #: classes/pref/feeds.php:792
 msgid "Update"
 msgstr "Aktualizuj"
 
-#: index.php:192
-#: index.php:222
-#: include/functions.php:1937
+#: index.php:199
+#: index.php:229
+#: include/functions.php:1932
 #: include/localized_schema.php:10
 #: classes/feeds.php:111
 #: classes/feeds.php:136
@@ -371,92 +366,92 @@ msgstr "Aktualizuj"
 msgid "Mark as read"
 msgstr "Oznacz jako przeczytane"
 
-#: index.php:199
+#: index.php:206
 msgid "Communication problem with server."
 msgstr "Problem w komunikacji z serwerem."
 
-#: index.php:207
+#: index.php:214
 msgid "New version of Tiny Tiny RSS is available!"
 msgstr "Dostępna jest nowa wersja Tiny Tiny RSS!"
 
-#: index.php:212
+#: index.php:219
 msgid "Actions..."
 msgstr "Działania..."
 
-#: index.php:214
+#: index.php:221
 msgid "Preferences..."
 msgstr "Ustawienia..."
 
-#: index.php:215
+#: index.php:222
 msgid "Search..."
 msgstr "Szukaj..."
 
-#: index.php:216
+#: index.php:223
 msgid "Feed actions:"
 msgstr "Działania dla kanałów:"
 
-#: index.php:217
-#: classes/handler/public.php:561
+#: index.php:224
+#: classes/handler/public.php:557
 msgid "Subscribe to feed..."
 msgstr "Prenumeruj kanał..."
 
-#: index.php:218
+#: index.php:225
 msgid "Edit this feed..."
 msgstr "Edytuj ten kanał..."
 
-#: index.php:219
+#: index.php:226
 msgid "Rescore feed"
 msgstr "Przelicz punktację kanału"
 
-#: index.php:220
+#: index.php:227
 #: classes/pref/feeds.php:716
 #: classes/pref/feeds.php:1303
 #: js/PrefFeedTree.js:73
 msgid "Unsubscribe"
 msgstr "Wypisz się"
 
-#: index.php:221
+#: index.php:228
 msgid "All feeds:"
 msgstr "Wszystkie kanały:"
 
-#: index.php:223
+#: index.php:230
 msgid "(Un)hide read feeds"
 msgstr "Pokaż/Ukryj przeczytane kanały"
 
-#: index.php:224
+#: index.php:231
 msgid "Other actions:"
 msgstr "Inne działania:"
 
-#: index.php:226
+#: index.php:233
 msgid "Switch to digest..."
 msgstr "Przełącz na przegląd..."
 
-#: index.php:228
+#: index.php:235
 msgid "Show tag cloud..."
 msgstr "Pokaż chmurę tagów..."
 
-#: index.php:230
-#: include/functions.php:1923
+#: index.php:237
+#: include/functions.php:1918
 msgid "Toggle widescreen mode"
 msgstr "Przełącz tryb szerokoekranowy"
 
-#: index.php:232
+#: index.php:239
 msgid "Select by tags..."
 msgstr "Wybierz używając tagów..."
 
-#: index.php:233
+#: index.php:240
 msgid "Create label..."
 msgstr "Utwórz etykietę..."
 
-#: index.php:234
+#: index.php:241
 msgid "Create filter..."
 msgstr "Utwórz filtr..."
 
-#: index.php:235
+#: index.php:242
 msgid "Keyboard shortcuts help"
 msgstr "O skrótach klawiszowych"
 
-#: index.php:237
+#: index.php:244
 #: plugins/digest/digest_body.php:77
 #: plugins/mobile/mobile-functions.php:62
 #: plugins/mobile/mobile-functions.php:237
@@ -464,41 +459,41 @@ msgid "Logout"
 msgstr "Wyloguj"
 
 #: prefs.php:36
-#: prefs.php:114
-#: include/functions.php:1949
-#: classes/pref/prefs.php:378
+#: prefs.php:122
+#: include/functions.php:1944
+#: classes/pref/prefs.php:377
 msgid "Preferences"
 msgstr "Ustawienia"
 
-#: prefs.php:105
+#: prefs.php:113
 msgid "Keyboard shortcuts"
 msgstr "Skróty klawiszowe"
 
-#: prefs.php:106
+#: prefs.php:114
 msgid "Exit preferences"
 msgstr "Wyjdź z ustawień"
 
-#: prefs.php:117
+#: prefs.php:125
 #: classes/pref/feeds.php:106
 #: classes/pref/feeds.php:1208
 #: classes/pref/feeds.php:1271
 msgid "Feeds"
 msgstr "Kanały"
 
-#: prefs.php:120
+#: prefs.php:128
 #: classes/pref/filters.php:120
 msgid "Filters"
 msgstr "Filtry"
 
-#: prefs.php:123
-#: include/functions.php:1140
-#: include/functions.php:1776
+#: prefs.php:131
+#: include/functions.php:1135
+#: include/functions.php:1771
 #: classes/pref/labels.php:90
 #: plugins/mobile/mobile-functions.php:198
 msgid "Labels"
 msgstr "Etykiety"
 
-#: prefs.php:127
+#: prefs.php:135
 msgid "Users"
 msgstr "Użytkownicy"
 
@@ -524,12 +519,12 @@ msgid "Check availability"
 msgstr "Sprawdź dostępność"
 
 #: register.php:228
-#: classes/handler/public.php:765
+#: classes/handler/public.php:761
 msgid "Email:"
 msgstr "Email:"
 
 #: register.php:231
-#: classes/handler/public.php:770
+#: classes/handler/public.php:766
 msgid "How much is two plus two:"
 msgstr "Ile wynosi dwa plus dwa:"
 
@@ -562,10 +557,10 @@ msgid "Tiny Tiny RSS data update script."
 msgstr "Skrypt aktualizacji danych Tiny Tiny RSS."
 
 #: include/digest.php:109
-#: include/functions.php:1149
-#: include/functions.php:1677
-#: include/functions.php:1762
-#: include/functions.php:1784
+#: include/functions.php:1144
+#: include/functions.php:1672
+#: include/functions.php:1757
+#: include/functions.php:1779
 #: classes/opml.php:416
 #: classes/pref/feeds.php:221
 msgid "Uncategorized"
@@ -587,292 +582,292 @@ msgstr "Nie znaleziono kanałów."
 msgid "Session failed to validate (incorrect IP)"
 msgstr "Nie powiodła się weryfikacja sesji (nieprawidłowy adres IP)"
 
-#: include/functions.php:1138
-#: include/functions.php:1774
+#: include/functions.php:1133
+#: include/functions.php:1769
 #: plugins/mobile/mobile-functions.php:171
 msgid "Special"
 msgstr "Specjalne"
 
-#: include/functions.php:1626
+#: include/functions.php:1621
 #: classes/dlg.php:369
 #: classes/pref/filters.php:382
 msgid "All feeds"
 msgstr "Wszystkie kanały"
 
-#: include/functions.php:1827
+#: include/functions.php:1822
 msgid "Starred articles"
 msgstr "Artykuły oznaczone gwiazdką"
 
-#: include/functions.php:1829
+#: include/functions.php:1824
 msgid "Published articles"
 msgstr "Opublikowane artykuły"
 
-#: include/functions.php:1831
+#: include/functions.php:1826
 msgid "Fresh articles"
 msgstr "Świeże artykuły"
 
-#: include/functions.php:1833
-#: include/functions.php:1944
+#: include/functions.php:1828
+#: include/functions.php:1939
 msgid "All articles"
 msgstr "Wszystkie artykuły"
 
-#: include/functions.php:1835
+#: include/functions.php:1830
 msgid "Archived articles"
 msgstr "Zarchiwizowane artykuły"
 
-#: include/functions.php:1837
+#: include/functions.php:1832
 msgid "Recently read"
 msgstr "Ostatnio czytane"
 
-#: include/functions.php:1900
+#: include/functions.php:1895
 msgid "Navigation"
 msgstr "Nawigacja"
 
-#: include/functions.php:1901
+#: include/functions.php:1896
 msgid "Open next feed"
 msgstr "Przejdź do następnego kanału"
 
-#: include/functions.php:1902
+#: include/functions.php:1897
 msgid "Open previous feed"
 msgstr "Otwórz poprzedni kanał"
 
-#: include/functions.php:1903
+#: include/functions.php:1898
 msgid "Open next article"
 msgstr "Otwórz następny artykuł"
 
-#: include/functions.php:1904
+#: include/functions.php:1899
 msgid "Open previous article"
 msgstr "Otwórz poprzedni artykuł"
 
-#: include/functions.php:1905
+#: include/functions.php:1900
 msgid "Open next article (don't scroll long articles)"
 msgstr "Otwórz następny artykuł (nie przewijaj długich artykułów)"
 
-#: include/functions.php:1906
+#: include/functions.php:1901
 msgid "Open previous article (don't scroll long articles)"
 msgstr "Otwórz poprzeni artykół (nie przewijaj długich artykułów)"
 
-#: include/functions.php:1907
+#: include/functions.php:1902
 msgid "Show search dialog"
 msgstr "Otwórz okno wyszukiwania"
 
-#: include/functions.php:1908
+#: include/functions.php:1903
 msgid "Article"
 msgstr "Artykuł"
 
-#: include/functions.php:1909
+#: include/functions.php:1904
 msgid "Toggle starred"
 msgstr "Przełącz oznaczenie gwiazdką"
 
-#: include/functions.php:1910
+#: include/functions.php:1905
 msgid "Toggle published"
 msgstr "Przełącz flagę publikacji"
 
-#: include/functions.php:1911
+#: include/functions.php:1906
 msgid "Toggle unread"
 msgstr "Przełącz flagę \"przeczytano\""
 
-#: include/functions.php:1912
+#: include/functions.php:1907
 msgid "Edit tags"
 msgstr "Edytuj tagi"
 
-#: include/functions.php:1913
+#: include/functions.php:1908
 msgid "Dismiss selected"
 msgstr "Odrzuć wybrane"
 
-#: include/functions.php:1914
+#: include/functions.php:1909
 msgid "Dismiss read"
 msgstr "Odrzuć przeczytane"
 
-#: include/functions.php:1915
+#: include/functions.php:1910
 msgid "Open in new window"
 msgstr "Otwórz w nowym oknie"
 
-#: include/functions.php:1916
+#: include/functions.php:1911
 #: js/viewfeed.js:1897
 msgid "Mark below as read"
 msgstr "Oznacz poniższe jako przeczytane"
 
-#: include/functions.php:1917
+#: include/functions.php:1912
 #: js/viewfeed.js:1891
 msgid "Mark above as read"
 msgstr "Oznacz powyższe jako przeczytane"
 
-#: include/functions.php:1918
+#: include/functions.php:1913
 msgid "Scroll down"
 msgstr "Przewiń w dół"
 
-#: include/functions.php:1919
+#: include/functions.php:1914
 msgid "Scroll up"
 msgstr "Przewiń do góry"
 
-#: include/functions.php:1920
+#: include/functions.php:1915
 msgid "Select article under cursor"
 msgstr "Wybierz artykuł pod kursorem"
 
-#: include/functions.php:1921
+#: include/functions.php:1916
 msgid "Email article"
 msgstr "Prześlij artykuł emailem"
 
-#: include/functions.php:1922
+#: include/functions.php:1917
 msgid "Close/collapse article"
 msgstr "Zamknij/zwiń artykuł"
 
-#: include/functions.php:1924
+#: include/functions.php:1919
 #: plugins/embed_original/init.php:33
 msgid "Toggle embed original"
 msgstr "Przełącza flagę \"wbuduj oryginalny artykuł\""
 
-#: include/functions.php:1925
+#: include/functions.php:1920
 msgid "Article selection"
 msgstr "Wybór artykułów"
 
-#: include/functions.php:1926
+#: include/functions.php:1921
 msgid "Select all articles"
 msgstr "Wybierz wszystkie artykuły"
 
-#: include/functions.php:1927
+#: include/functions.php:1922
 msgid "Select unread"
 msgstr "Wybierz nieprzeczytane"
 
-#: include/functions.php:1928
+#: include/functions.php:1923
 msgid "Select starred"
 msgstr "Wybierz oznaczone gwiazdką"
 
-#: include/functions.php:1929
+#: include/functions.php:1924
 msgid "Select published"
 msgstr "Wybierz opublikowane"
 
-#: include/functions.php:1930
+#: include/functions.php:1925
 msgid "Invert selection"
 msgstr "Odwróć zaznaczenie"
 
-#: include/functions.php:1931
+#: include/functions.php:1926
 msgid "Deselect everything"
 msgstr "Odznacz wszystko"
 
-#: include/functions.php:1932
+#: include/functions.php:1927
 #: classes/pref/feeds.php:520
 #: classes/pref/feeds.php:753
 msgid "Feed"
 msgstr "Kanał"
 
-#: include/functions.php:1933
+#: include/functions.php:1928
 msgid "Refresh current feed"
 msgstr "Odśwież bieżący kanał"
 
-#: include/functions.php:1934
+#: include/functions.php:1929
 msgid "Un/hide read feeds"
 msgstr "Pokaż/Ukryj przeczytane kanały"
 
-#: include/functions.php:1935
+#: include/functions.php:1930
 #: classes/pref/feeds.php:1274
 msgid "Subscribe to feed"
 msgstr "Prenumeruj kanał"
 
-#: include/functions.php:1936
+#: include/functions.php:1931
 #: js/FeedTree.js:135
 #: js/PrefFeedTree.js:67
 msgid "Edit feed"
 msgstr "Edytuj kanał"
 
-#: include/functions.php:1938
+#: include/functions.php:1933
 msgid "Reverse headlines"
 msgstr "Odwróć kolejność nagłówków"
 
-#: include/functions.php:1939
+#: include/functions.php:1934
 msgid "Debug feed update"
 msgstr "Testuj aktualizację kanałów"
 
-#: include/functions.php:1940
+#: include/functions.php:1935
 #: js/FeedTree.js:178
 msgid "Mark all feeds as read"
 msgstr "Oznacz wszystkie kanały jako przeczytane"
 
-#: include/functions.php:1941
+#: include/functions.php:1936
 msgid "Un/collapse current category"
 msgstr "Zwiń/rozwiń bieżącą kategorię"
 
-#: include/functions.php:1942
+#: include/functions.php:1937
 msgid "Toggle combined mode"
 msgstr "Przełącz tryb scalony"
 
-#: include/functions.php:1943
+#: include/functions.php:1938
 msgid "Go to"
 msgstr "Idź do"
 
-#: include/functions.php:1945
+#: include/functions.php:1940
 msgid "Fresh"
 msgstr "Świeży"
 
-#: include/functions.php:1948
+#: include/functions.php:1943
 msgid "Tag cloud"
 msgstr "Chmura tagów"
 
-#: include/functions.php:1950
+#: include/functions.php:1945
 msgid "Other"
 msgstr "Inne"
 
-#: include/functions.php:1951
+#: include/functions.php:1946
 #: classes/pref/labels.php:281
 msgid "Create label"
 msgstr "Utwórz etykietę"
 
-#: include/functions.php:1952
+#: include/functions.php:1947
 #: classes/pref/filters.php:606
 msgid "Create filter"
 msgstr "Utwórz filtr"
 
-#: include/functions.php:1953
+#: include/functions.php:1948
 msgid "Un/collapse sidebar"
 msgstr "Zwin/rozwiń pasek boczny"
 
-#: include/functions.php:1954
+#: include/functions.php:1949
 msgid "Show help dialog"
 msgstr "Otwórz okno pomocy"
 
-#: include/functions.php:2458
+#: include/functions.php:2441
 #, php-format
 msgid "Search results: %s"
 msgstr "Wyniki wyszukiwania: %s"
 
-#: include/functions.php:2949
+#: include/functions.php:2932
 #: js/viewfeed.js:1984
 msgid "Click to play"
 msgstr "Wciśnij aby odtworzyć"
 
-#: include/functions.php:2950
+#: include/functions.php:2933
 #: js/viewfeed.js:1983
 msgid "Play"
 msgstr "Odtwórz"
 
-#: include/functions.php:3067
+#: include/functions.php:3050
 msgid " - "
 msgstr " - "
 
-#: include/functions.php:3089
-#: include/functions.php:3383
+#: include/functions.php:3072
+#: include/functions.php:3366
 #: classes/rpc.php:359
 msgid "no tags"
 msgstr "brak tagów"
 
-#: include/functions.php:3099
+#: include/functions.php:3082
 #: classes/feeds.php:682
 msgid "Edit tags for this article"
 msgstr "Edytuj tagi dla tego artykułu"
 
-#: include/functions.php:3128
+#: include/functions.php:3111
 #: classes/feeds.php:638
 msgid "Originally from:"
 msgstr "Oryginał pochodzi z:"
 
-#: include/functions.php:3141
+#: include/functions.php:3124
 #: classes/feeds.php:651
 #: classes/pref/feeds.php:539
 msgid "Feed URL"
 msgstr "Adres kanału"
 
-#: include/functions.php:3172
+#: include/functions.php:3155
 #: classes/dlg.php:43
 #: classes/dlg.php:162
 #: classes/dlg.php:185
@@ -895,17 +890,21 @@ msgstr "Adres kanału"
 msgid "Close this window"
 msgstr "Zamknij to okno"
 
-#: include/functions.php:3408
+#: include/functions.php:3391
 msgid "(edit note)"
 msgstr "(edytuj notatkę)"
 
-#: include/functions.php:3641
+#: include/functions.php:3624
 msgid "unknown type"
 msgstr "nieznany typ"
 
-#: include/functions.php:3697
+#: include/functions.php:3680
 msgid "Attachments"
 msgstr "Załączniki"
+
+#: include/localized_schema.php:3
+msgid "Title"
+msgstr "Tytuł"
 
 #: include/localized_schema.php:4
 msgid "Title or Content"
@@ -1012,145 +1011,153 @@ msgid "Uses UTC timezone"
 msgstr "Używa strefy UTC"
 
 #: include/localized_schema.php:33
+msgid "Select one of the available CSS themes"
+msgstr ""
+
+#: include/localized_schema.php:34
 msgid "Purge articles after this number of days (0 - disables)"
 msgstr "Usuń artykuły po X dniach (0 - wyłącza)"
 
-#: include/localized_schema.php:34
+#: include/localized_schema.php:35
 msgid "Default interval between feed updates"
 msgstr "Domyślny czas pomiędzy aktualizacjami kanału"
 
-#: include/localized_schema.php:35
+#: include/localized_schema.php:36
 msgid "Amount of articles to display at once"
 msgstr "Ilość artykułów do wyświetlenia za jednym razem"
 
-#: include/localized_schema.php:36
+#: include/localized_schema.php:37
 msgid "Allow duplicate posts"
 msgstr "Zezwalaj na powielanie artykułów"
 
-#: include/localized_schema.php:37
+#: include/localized_schema.php:38
 msgid "Enable feed categories"
 msgstr "Włącz kategorie kanałów"
 
-#: include/localized_schema.php:38
+#: include/localized_schema.php:39
 msgid "Show content preview in headlines list"
 msgstr "Wyświetl podgląd treści w widoku nagłówków"
 
-#: include/localized_schema.php:39
+#: include/localized_schema.php:40
 msgid "Short date format"
 msgstr "Krótki format daty"
 
-#: include/localized_schema.php:40
+#: include/localized_schema.php:41
 msgid "Long date format"
 msgstr "Długi format daty"
 
-#: include/localized_schema.php:41
+#: include/localized_schema.php:42
 msgid "Combined feed display"
 msgstr "Tryb zintegrowany widoku kanału"
 
-#: include/localized_schema.php:42
+#: include/localized_schema.php:43
 #, fuzzy
 msgid "Hide feeds with no unread articles"
 msgstr "Ukryj kanały nie zawierające nieprzeczytanych artykułów"
 
-#: include/localized_schema.php:43
+#: include/localized_schema.php:44
 msgid "On catchup show next feed"
 msgstr "Przejdź do następnego kanału po zakończeniu lektury ostatniego artykułu"
 
-#: include/localized_schema.php:44
+#: include/localized_schema.php:45
 msgid "Sort feeds by unread articles count"
 msgstr "Sortuj kanały według liczby nieprzeczytanych artykułów"
 
-#: include/localized_schema.php:45
+#: include/localized_schema.php:46
 #: plugins/mobile/prefs.php:60
 msgid "Reverse headline order (oldest first)"
 msgstr "Odwrotny porządek nagłówków (najstarsze pierwsze)"
 
-#: include/localized_schema.php:46
+#: include/localized_schema.php:47
 msgid "Enable e-mail digest"
 msgstr "Włącz przegląd artykułów wysyłany emailem"
 
-#: include/localized_schema.php:47
+#: include/localized_schema.php:48
 msgid "Confirm marking feed as read"
 msgstr "Potwierdź oznaczanie kanału jako przeczytanego"
 
-#: include/localized_schema.php:48
+#: include/localized_schema.php:49
 msgid "Automatically mark articles as read"
 msgstr "Automatycznie oznacz artykuły jako przeczytane"
 
-#: include/localized_schema.php:49
+#: include/localized_schema.php:50
 msgid "Strip unsafe tags from articles"
 msgstr "Usuń niebezpieczne tagi z artykułów"
 
-#: include/localized_schema.php:50
+#: include/localized_schema.php:51
 msgid "Blacklisted tags"
 msgstr "Czarna lista tagów"
 
-#: include/localized_schema.php:51
+#: include/localized_schema.php:52
 msgid "Maximum age of fresh articles (in hours)"
 msgstr "Przez ile czasu uznawać artykuł za świeży (w godzinach)"
 
-#: include/localized_schema.php:52
+#: include/localized_schema.php:53
 msgid "Mark articles in e-mail digest as read"
 msgstr "Oznacz jako przeczytane artykuły przesłane emailem jako przegląd"
 
-#: include/localized_schema.php:53
+#: include/localized_schema.php:54
 msgid "Automatically expand articles in combined mode"
 msgstr "Automatycznie powiększ okno artykułu w trybie zintegrowanym"
 
-#: include/localized_schema.php:54
+#: include/localized_schema.php:55
 msgid "Purge unread articles"
 msgstr "Czyszczenie nieprzeczytanych artykułów"
 
-#: include/localized_schema.php:55
+#: include/localized_schema.php:56
 msgid "Show special feeds when hiding read feeds"
 msgstr "Pokaż kanały specjalne gdy włączone ukrywanie przeczytanych kanałów."
 
-#: include/localized_schema.php:56
+#: include/localized_schema.php:57
 msgid "Group headlines in virtual feeds"
 msgstr "Grupuj nagłówki w wirtualnych kanałach"
 
-#: include/localized_schema.php:57
+#: include/localized_schema.php:58
 msgid "Do not embed images in articles"
 msgstr "Nie osadzaj obrazków w artykułach"
 
-#: include/localized_schema.php:58
+#: include/localized_schema.php:59
 msgid "Enable external API"
 msgstr "Włącz zewnętrzne API"
 
-#: include/localized_schema.php:59
+#: include/localized_schema.php:60
 msgid "User timezone"
 msgstr "Strefa czasowa użytkownika"
 
-#: include/localized_schema.php:60
+#: include/localized_schema.php:61
 #: js/prefs.js:1719
 msgid "Customize stylesheet"
 msgstr "Dostosuj arkusz styli"
 
-#: include/localized_schema.php:61
+#: include/localized_schema.php:62
 msgid "Sort headlines by feed date"
 msgstr "Sortuj nagłówki według daty kanału"
 
-#: include/localized_schema.php:62
+#: include/localized_schema.php:63
 msgid "Login with an SSL certificate"
 msgstr "Logowanie z wykorzystaniem certyfikatu SSL"
 
-#: include/localized_schema.php:63
+#: include/localized_schema.php:64
 msgid "Try to send digests around specified time"
 msgstr "Spróbuj wysłać podsumowanie w pobliżu wskazanej godziny"
 
-#: include/localized_schema.php:64
+#: include/localized_schema.php:65
 msgid "Assign articles to labels automatically"
 msgstr "Automatycznie przypisz etykiety do artykułów"
 
+#: include/localized_schema.php:66
+msgid "Select theme"
+msgstr "Wybierz styl"
+
 #: include/login_form.php:183
-#: classes/handler/public.php:466
-#: classes/handler/public.php:760
+#: classes/handler/public.php:462
+#: classes/handler/public.php:756
 #: plugins/mobile/login_form.php:40
 msgid "Login:"
 msgstr "Nazwa użytkownika:"
 
 #: include/login_form.php:192
-#: classes/handler/public.php:469
+#: classes/handler/public.php:465
 #: plugins/mobile/login_form.php:45
 msgid "Password:"
 msgstr "Hasło:"
@@ -1160,7 +1167,7 @@ msgid "I forgot my password"
 msgstr "Zapomniałem hasła"
 
 #: include/login_form.php:201
-#: classes/handler/public.php:472
+#: classes/handler/public.php:468
 msgid "Language:"
 msgstr "Język:"
 
@@ -1169,7 +1176,7 @@ msgid "Profile:"
 msgstr "Profil:"
 
 #: include/login_form.php:213
-#: classes/handler/public.php:214
+#: classes/handler/public.php:210
 #: classes/rpc.php:64
 #: classes/dlg.php:98
 msgid "Default profile"
@@ -1184,7 +1191,7 @@ msgid "Remember me"
 msgstr ""
 
 #: include/login_form.php:235
-#: classes/handler/public.php:482
+#: classes/handler/public.php:478
 #: plugins/mobile/login_form.php:28
 msgid "Log in"
 msgstr "Zaloguj"
@@ -1193,16 +1200,16 @@ msgstr "Zaloguj"
 msgid "Article not found."
 msgstr "Artykuł nie został znaleziony."
 
-#: classes/handler/public.php:407
+#: classes/handler/public.php:403
 #: plugins/bookmarklets/init.php:38
 msgid "Share with Tiny Tiny RSS"
 msgstr "Udostępnij za pomocą Tiny Tiny RSS"
 
-#: classes/handler/public.php:415
+#: classes/handler/public.php:411
 msgid "Title:"
 msgstr "Tytuł:"
 
-#: classes/handler/public.php:417
+#: classes/handler/public.php:413
 #: classes/dlg.php:663
 #: classes/pref/feeds.php:537
 #: classes/pref/feeds.php:768
@@ -1210,24 +1217,24 @@ msgstr "Tytuł:"
 msgid "URL:"
 msgstr "Adres:"
 
-#: classes/handler/public.php:419
+#: classes/handler/public.php:415
 msgid "Content:"
 msgstr "Treść:"
 
-#: classes/handler/public.php:421
+#: classes/handler/public.php:417
 msgid "Labels:"
 msgstr "Etykiety:"
 
-#: classes/handler/public.php:440
+#: classes/handler/public.php:436
 msgid "Shared article will appear in the Published feed."
 msgstr "Udostępniany artykuł będzie wyświetlany w Publikowanych kanałach."
 
-#: classes/handler/public.php:442
+#: classes/handler/public.php:438
 msgid "Share"
 msgstr "Udostępnij"
 
-#: classes/handler/public.php:443
-#: classes/handler/public.php:485
+#: classes/handler/public.php:439
+#: classes/handler/public.php:481
 #: classes/dlg.php:296
 #: classes/dlg.php:348
 #: classes/dlg.php:408
@@ -1249,89 +1256,89 @@ msgstr "Udostępnij"
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: classes/handler/public.php:464
+#: classes/handler/public.php:460
 msgid "Not logged in"
 msgstr "Nie zalogowany"
 
-#: classes/handler/public.php:531
+#: classes/handler/public.php:527
 msgid "Incorrect username or password"
 msgstr "Nieprawidłowa nazwa użytkownika lub hasło"
 
-#: classes/handler/public.php:567
-#: classes/handler/public.php:664
+#: classes/handler/public.php:563
+#: classes/handler/public.php:660
 #, php-format
 msgid "Already subscribed to <b>%s</b>."
 msgstr "Prenumerujesz już kanał <b>%s</b>."
 
-#: classes/handler/public.php:570
-#: classes/handler/public.php:655
+#: classes/handler/public.php:566
+#: classes/handler/public.php:651
 #, php-format
 msgid "Subscribed to <b>%s</b>."
 msgstr "Zaprenumerowano kanał <b>%s</b>."
 
-#: classes/handler/public.php:573
-#: classes/handler/public.php:658
+#: classes/handler/public.php:569
+#: classes/handler/public.php:654
 #, php-format
 msgid "Could not subscribe to <b>%s</b>."
 msgstr "Nie udało się zaprenumerować <b>%s</b>."
 
-#: classes/handler/public.php:576
-#: classes/handler/public.php:661
+#: classes/handler/public.php:572
+#: classes/handler/public.php:657
 #, php-format
 msgid "No feeds found in <b>%s</b>."
 msgstr "Nie znaleziono kanałów w <b>%s</b>."
 
-#: classes/handler/public.php:579
-#: classes/handler/public.php:667
+#: classes/handler/public.php:575
+#: classes/handler/public.php:663
 msgid "Multiple feed URLs found."
 msgstr "Znaleziono wiele adresów kanałów."
 
-#: classes/handler/public.php:583
-#: classes/handler/public.php:672
+#: classes/handler/public.php:579
+#: classes/handler/public.php:668
 #, php-format
 msgid "Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL."
 msgstr "Nie udało się zaprenumerować <b>%s</b>. Nie udało się pobrać adresu kanału."
 
-#: classes/handler/public.php:601
-#: classes/handler/public.php:690
+#: classes/handler/public.php:597
+#: classes/handler/public.php:686
 msgid "Subscribe to selected feed"
 msgstr "Prenumeruj wybrany kanał"
 
-#: classes/handler/public.php:626
-#: classes/handler/public.php:714
+#: classes/handler/public.php:622
+#: classes/handler/public.php:710
 msgid "Edit subscription options"
 msgstr "Edytuj opcje prenumeraty"
 
-#: classes/handler/public.php:743
+#: classes/handler/public.php:739
 #, fuzzy
 msgid "Password recovery"
 msgstr "Hasło"
 
-#: classes/handler/public.php:752
+#: classes/handler/public.php:748
 msgid "You will need to provide valid account name and email. New password will be sent on your email address."
 msgstr ""
 
-#: classes/handler/public.php:775
+#: classes/handler/public.php:771
 #: classes/pref/users.php:378
 msgid "Reset password"
 msgstr "Resetuj hasło"
 
-#: classes/handler/public.php:786
+#: classes/handler/public.php:782
 msgid "Some of the required form parameters are missing or incorrect."
 msgstr "Niektóre z wymaganych parametrów są nieprawidłowe lub nie zostały wprowadzone."
 
-#: classes/handler/public.php:790
-#: classes/handler/public.php:816
-#: classes/handler/public.php:825
+#: classes/handler/public.php:786
+#: classes/handler/public.php:812
+#: classes/handler/public.php:821
 #: plugins/digest/digest_body.php:69
 msgid "Go back"
 msgstr "Cofnij"
 
-#: classes/handler/public.php:812
+#: classes/handler/public.php:808
 msgid "Sorry, login and email combination not found."
 msgstr "Przykro mi, podana kombinacja nazwy użytkownika i adresu email nie została oznaleziona."
 
-#: classes/handler/public.php:822
+#: classes/handler/public.php:818
 msgid "Form secret key incorrect. Please enable cookies and try again."
 msgstr "Nieprawidłowa wartość poufnego klucza. Włącz ciasteczka i spróbuj ponownie."
 
@@ -1466,7 +1473,7 @@ msgstr "Nazwa użytkownika"
 
 #: classes/dlg.php:275
 #: classes/dlg.php:728
-#: classes/pref/prefs.php:203
+#: classes/pref/prefs.php:202
 #: classes/pref/feeds.php:601
 #: classes/pref/feeds.php:827
 msgid "Password"
@@ -1757,17 +1764,17 @@ msgid "No articles found to display."
 msgstr "Nie znaleziono artykułów."
 
 #: classes/feeds.php:755
-#: classes/feeds.php:943
+#: classes/feeds.php:920
 #, php-format
 msgid "Feeds last updated at %s"
 msgstr "Kanały ostatnio uaktualnione o %s"
 
 #: classes/feeds.php:765
-#: classes/feeds.php:953
+#: classes/feeds.php:930
 msgid "Some feeds have update errors (click for details)"
 msgstr "Wystąpiły błędy aktualizacji niektórych kanałów (kliknij aby zobaczyć szczegóły)"
 
-#: classes/feeds.php:933
+#: classes/feeds.php:910
 msgid "No feed selected."
 msgstr "Nie wybrano kanału."
 
@@ -2132,177 +2139,177 @@ msgstr "Nieznana opcja: %s"
 msgid "Your personal data has been saved."
 msgstr "Dwoje dane osobiste zostały zapisane."
 
-#: classes/pref/prefs.php:138
+#: classes/pref/prefs.php:137
 msgid "Personal data / Authentication"
 msgstr "Dane osobiste / Uwierzytelnianie"
 
-#: classes/pref/prefs.php:158
+#: classes/pref/prefs.php:157
 msgid "Personal data"
 msgstr "Informacje osobiste"
 
-#: classes/pref/prefs.php:168
+#: classes/pref/prefs.php:167
 msgid "Full name"
 msgstr "Nazwa"
 
-#: classes/pref/prefs.php:172
+#: classes/pref/prefs.php:171
 msgid "E-mail"
 msgstr "E-mail"
 
-#: classes/pref/prefs.php:178
+#: classes/pref/prefs.php:177
 msgid "Access level"
 msgstr "Poziom dostępu"
 
-#: classes/pref/prefs.php:188
+#: classes/pref/prefs.php:187
 msgid "Save data"
 msgstr "Zapisz dane"
 
-#: classes/pref/prefs.php:210
+#: classes/pref/prefs.php:209
 msgid "Your password is at default value, please change it."
 msgstr "Używasz domyślnego hasła, zmień je proszę."
 
-#: classes/pref/prefs.php:237
+#: classes/pref/prefs.php:236
 msgid "Changing your current password will disable OTP."
 msgstr "Zmiana Twojego bieżącego hasła spowoduje wyłączenie mechanizmu OTP."
 
-#: classes/pref/prefs.php:242
+#: classes/pref/prefs.php:241
 msgid "Old password"
 msgstr "Stare hasło"
 
-#: classes/pref/prefs.php:245
+#: classes/pref/prefs.php:244
 msgid "New password"
 msgstr "Nowe hasło"
 
-#: classes/pref/prefs.php:250
+#: classes/pref/prefs.php:249
 msgid "Confirm password"
 msgstr "Potwierdź hasło"
 
-#: classes/pref/prefs.php:260
+#: classes/pref/prefs.php:259
 msgid "Change password"
 msgstr "Zmień hasło"
 
-#: classes/pref/prefs.php:266
+#: classes/pref/prefs.php:265
 msgid "One time passwords / Authenticator"
 msgstr "Hasło jednorazowe / Uwierzytelnianie"
 
-#: classes/pref/prefs.php:270
+#: classes/pref/prefs.php:269
 msgid "One time passwords are currently enabled. Enter your current password below to disable."
 msgstr "Hasła jednorazowe są obecnie włączone. Wprowadź swoje obecne hasło aby je wyłączyć."
 
-#: classes/pref/prefs.php:295
-#: classes/pref/prefs.php:346
+#: classes/pref/prefs.php:294
+#: classes/pref/prefs.php:345
 msgid "Enter your password"
 msgstr "Wprowadź hasło"
 
-#: classes/pref/prefs.php:306
+#: classes/pref/prefs.php:305
 msgid "Disable OTP"
 msgstr "Wyłącz hasła jednorazowe"
 
-#: classes/pref/prefs.php:312
+#: classes/pref/prefs.php:311
 msgid "You will need a compatible Authenticator to use this. Changing your password would automatically disable OTP."
 msgstr "Potrzebujesz właściwego modułu uwierzytelniającego aby użyć tej funkcji. Zmiana hasła spowoduje automatyczne wyłączenie OTP."
 
-#: classes/pref/prefs.php:314
+#: classes/pref/prefs.php:313
 msgid "Scan the following code by the Authenticator application:"
 msgstr "Zeskanuj poniższy kod przy użyciu aplikacji uwierzytelniającej:"
 
-#: classes/pref/prefs.php:355
+#: classes/pref/prefs.php:354
 msgid "I have scanned the code and would like to enable OTP"
 msgstr "Zeskanowałem kod i chciałbym włączyć OTP."
 
-#: classes/pref/prefs.php:363
+#: classes/pref/prefs.php:362
 msgid "Enable OTP"
 msgstr "Włącz hasła jednorazowe"
 
-#: classes/pref/prefs.php:405
+#: classes/pref/prefs.php:400
 msgid "Some preferences are only available in default profile."
 msgstr "Niektóre ustawienia dostępne są jedynie dla domyślnego profilu."
 
-#: classes/pref/prefs.php:496
+#: classes/pref/prefs.php:491
 msgid "Customize"
 msgstr "Dostosuj"
 
-#: classes/pref/prefs.php:555
+#: classes/pref/prefs.php:558
 msgid "Register"
 msgstr "Zarejestruj"
 
-#: classes/pref/prefs.php:559
+#: classes/pref/prefs.php:562
 msgid "Clear"
 msgstr "Wyczyść"
 
-#: classes/pref/prefs.php:565
+#: classes/pref/prefs.php:568
 #, php-format
 msgid "Current server time: %s (UTC)"
 msgstr "Czas serwera to: %s (UTC)"
 
-#: classes/pref/prefs.php:598
+#: classes/pref/prefs.php:601
 msgid "Save configuration"
 msgstr "Zapisz konfigurację"
 
-#: classes/pref/prefs.php:601
+#: classes/pref/prefs.php:604
 msgid "Manage profiles"
 msgstr "Zarządzaj profilami"
 
-#: classes/pref/prefs.php:604
+#: classes/pref/prefs.php:607
 msgid "Reset to defaults"
 msgstr "Przywróć domyślne"
 
-#: classes/pref/prefs.php:628
-#: classes/pref/prefs.php:630
+#: classes/pref/prefs.php:631
+#: classes/pref/prefs.php:633
 msgid "Plugins"
 msgstr "Wtyczki"
 
-#: classes/pref/prefs.php:632
+#: classes/pref/prefs.php:635
 msgid "You will need to reload Tiny Tiny RSS for plugin changes to take effect."
 msgstr "Musisz przeładować Tiny Tiny RSS aby zastosować zmiany we wtyczkach."
 
-#: classes/pref/prefs.php:634
+#: classes/pref/prefs.php:637
 msgid "Download more plugins at tt-rss.org <a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/forum/viewforum.php?f=22\">forums</a> or <a target=\"_blank\" class=\"visibleLink\" href=\"http://tt-rss.org/wiki/Plugins\">wiki</a>."
 msgstr ""
 
-#: classes/pref/prefs.php:660
+#: classes/pref/prefs.php:663
 msgid "System plugins"
 msgstr "Wtyczki systemowe"
 
-#: classes/pref/prefs.php:664
-#: classes/pref/prefs.php:718
+#: classes/pref/prefs.php:667
+#: classes/pref/prefs.php:721
 msgid "Plugin"
 msgstr "Wtyczka"
 
-#: classes/pref/prefs.php:665
-#: classes/pref/prefs.php:719
+#: classes/pref/prefs.php:668
+#: classes/pref/prefs.php:722
 msgid "Description"
 msgstr "Opis"
 
-#: classes/pref/prefs.php:666
-#: classes/pref/prefs.php:720
+#: classes/pref/prefs.php:669
+#: classes/pref/prefs.php:723
 msgid "Version"
 msgstr "Wersja"
 
-#: classes/pref/prefs.php:667
-#: classes/pref/prefs.php:721
+#: classes/pref/prefs.php:670
+#: classes/pref/prefs.php:724
 msgid "Author"
 msgstr "Autor"
 
-#: classes/pref/prefs.php:696
-#: classes/pref/prefs.php:753
+#: classes/pref/prefs.php:699
+#: classes/pref/prefs.php:756
 msgid "more info"
 msgstr ""
 
-#: classes/pref/prefs.php:705
-#: classes/pref/prefs.php:762
+#: classes/pref/prefs.php:708
+#: classes/pref/prefs.php:765
 msgid "Clear data"
 msgstr "Wyczyść dane"
 
-#: classes/pref/prefs.php:714
+#: classes/pref/prefs.php:717
 msgid "User plugins"
 msgstr "Wtyczki użytkowników"
 
-#: classes/pref/prefs.php:777
+#: classes/pref/prefs.php:780
 msgid "Enable selected plugins"
 msgstr "Włącz wybrane wtyczki"
 
-#: classes/pref/prefs.php:832
-#: classes/pref/prefs.php:850
+#: classes/pref/prefs.php:835
+#: classes/pref/prefs.php:853
 msgid "Incorrect password"
 msgstr "Nieprawidłowe hasło"
 
@@ -3374,7 +3381,7 @@ msgstr "Przeliczyć punktację artykułów w %s?"
 msgid "Rescoring articles..."
 msgstr "Przeliczanie punktacji kanałów..."
 
-#: js/tt-rss.js:879
+#: js/tt-rss.js:893
 msgid "New version available!"
 msgstr "Dostępna jest nowa wersja!"
 
@@ -3608,6 +3615,12 @@ msgstr "Udostępnij artykuł"
 msgid "Live updating is considered experimental. Backup your tt-rss directory before continuing. Please type 'yes' to continue."
 msgstr "Aktualizacja \"na żywo\" jest uznawana za funkcję eksperymentalną. Wykonaj kopię swojego katalogu tt-rss przed kontynuowaniem. Wpisz 'yes' aby kontynuować."
 
+#~ msgid "Date"
+#~ msgstr "Data"
+
+#~ msgid "Score"
+#~ msgstr "Punktacja"
+
 #~ msgid "Completed."
 #~ msgstr "Zakończono."
 
@@ -3743,9 +3756,6 @@ msgstr "Aktualizacja \"na żywo\" jest uznawana za funkcję eksperymentalną. Wy
 
 #~ msgid "Open article in new tab"
 #~ msgstr "Otwórz artykuł w nowej zakładce"
-
-#~ msgid "Select theme"
-#~ msgstr "Wybierz styl"
 
 #~ msgid "Right-to-left content"
 #~ msgstr "Treść czytana od prawej do lewej"

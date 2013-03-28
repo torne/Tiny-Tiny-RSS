@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-28 19:38+0400\n"
+"POT-Creation-Date: 2013-03-28 21:05+0400\n"
 "PO-Revision-Date: 2013-03-18 22:55+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: \n"
@@ -136,9 +136,9 @@ msgstr "Tiny Tiny RSS datubāze ir aktuāla."
 #: register.php:336
 #: register.php:346
 #: register.php:358
-#: classes/handler/public.php:631
-#: classes/handler/public.php:719
-#: classes/handler/public.php:808
+#: classes/handler/public.php:627
+#: classes/handler/public.php:715
+#: classes/handler/public.php:804
 msgid "Return to Tiny Tiny RSS"
 msgstr "Atgriezties uz Tiny Tiny RSS"
 
@@ -252,17 +252,17 @@ msgstr ""
 msgid "SQL escaping test failed, check your database and PHP configuration"
 msgstr "Neizdevās SQL izņēmumu tests, pārbaudiet jūsu datu bāzes un PHP iestatījumus"
 
-#: index.php:127
-#: index.php:146
-#: index.php:253
-#: prefs.php:94
+#: index.php:135
+#: index.php:154
+#: index.php:260
+#: prefs.php:102
 #: classes/backend.php:5
 #: classes/pref/labels.php:296
 #: classes/pref/filters.php:628
 #: classes/pref/feeds.php:1330
 #: plugins/digest/digest_body.php:63
 #: js/feedlist.js:128
-#: js/feedlist.js:433
+#: js/feedlist.js:421
 #: js/functions.js:420
 #: js/functions.js:814
 #: js/functions.js:1250
@@ -288,83 +288,78 @@ msgstr "Neizdevās SQL izņēmumu tests, pārbaudiet jūsu datu bāzes un PHP ie
 msgid "Loading, please wait..."
 msgstr "Ielādē, lūdzu gaidiet..."
 
-#: index.php:160
+#: index.php:168
 msgid "Collapse feedlist"
 msgstr "Sakļaut barotņu sarakstu"
 
-#: index.php:163
+#: index.php:171
 msgid "Show articles"
 msgstr "Rādīt rakstus"
 
-#: index.php:166
+#: index.php:174
 msgid "Adaptive"
 msgstr "Adaptīvs"
 
-#: index.php:167
+#: index.php:175
 msgid "All Articles"
 msgstr "Visus rakstus"
 
-#: index.php:168
-#: include/functions.php:1946
+#: index.php:176
+#: include/functions.php:1941
 #: classes/feeds.php:106
 msgid "Starred"
 msgstr "Zvaigžņotos"
 
-#: index.php:169
-#: include/functions.php:1947
+#: index.php:177
+#: include/functions.php:1942
 #: classes/feeds.php:107
 msgid "Published"
 msgstr "Publicētos"
 
-#: index.php:170
+#: index.php:178
 #: classes/feeds.php:93
 #: classes/feeds.php:105
 msgid "Unread"
 msgstr "Nelasītos"
 
-#: index.php:171
+#: index.php:179
 #, fuzzy
 msgid "Unread First"
 msgstr "Nelasītos"
 
-#: index.php:172
+#: index.php:180
 msgid "With Note"
 msgstr ""
 
-#: index.php:173
+#: index.php:181
 msgid "Ignore Scoring"
 msgstr "Ignorēt novērtējumu"
 
-#: index.php:176
+#: index.php:184
 msgid "Sort articles"
 msgstr "Kārtot rakstus"
 
-#: index.php:179
+#: index.php:187
 msgid "Default"
 msgstr "Noklusētais"
 
-#: index.php:180
-msgid "Date"
-msgstr "Datums"
-
-#: index.php:181
-#: include/localized_schema.php:3
-msgid "Title"
-msgstr "Virsraksts"
-
-#: index.php:182
-msgid "Score"
-msgstr "Novērtējums"
-
 #: index.php:188
+msgid "Newest first"
+msgstr ""
+
+#: index.php:189
+msgid "Oldest first"
+msgstr ""
+
+#: index.php:195
 #: classes/pref/feeds.php:567
 #: classes/pref/feeds.php:792
 msgid "Update"
 msgstr "Atjaunot"
 
-#: index.php:192
-#: index.php:222
-#: include/functions.php:1937
+#: index.php:199
+#: index.php:229
+#: include/functions.php:1932
 #: include/localized_schema.php:10
 #: classes/feeds.php:111
 #: classes/feeds.php:136
@@ -375,94 +370,94 @@ msgstr "Atjaunot"
 msgid "Mark as read"
 msgstr "Atzīmēt kā lasītu"
 
-#: index.php:199
+#: index.php:206
 msgid "Communication problem with server."
 msgstr ""
 
-#: index.php:207
+#: index.php:214
 msgid "New version of Tiny Tiny RSS is available!"
 msgstr "Ir pieejama jauna Tiny Tiny RSS versija!"
 
-#: index.php:212
+#: index.php:219
 msgid "Actions..."
 msgstr "Darbības"
 
-#: index.php:214
+#: index.php:221
 #, fuzzy
 msgid "Preferences..."
 msgstr "Iestatījumi"
 
-#: index.php:215
+#: index.php:222
 msgid "Search..."
 msgstr "Meklēt"
 
-#: index.php:216
+#: index.php:223
 msgid "Feed actions:"
 msgstr "Barotnes darbības"
 
-#: index.php:217
-#: classes/handler/public.php:561
+#: index.php:224
+#: classes/handler/public.php:557
 msgid "Subscribe to feed..."
 msgstr "Abonēt barotni..."
 
-#: index.php:218
+#: index.php:225
 msgid "Edit this feed..."
 msgstr "Rediģēt šo barotni..."
 
-#: index.php:219
+#: index.php:226
 msgid "Rescore feed"
 msgstr "Pārvērtēt barotni"
 
-#: index.php:220
+#: index.php:227
 #: classes/pref/feeds.php:716
 #: classes/pref/feeds.php:1303
 #: js/PrefFeedTree.js:73
 msgid "Unsubscribe"
 msgstr "Atteikties"
 
-#: index.php:221
+#: index.php:228
 msgid "All feeds:"
 msgstr "Visas barotnes:"
 
-#: index.php:223
+#: index.php:230
 msgid "(Un)hide read feeds"
 msgstr "(Ne)rādīt lasītās barotnes"
 
-#: index.php:224
+#: index.php:231
 msgid "Other actions:"
 msgstr "Citas darbības:"
 
-#: index.php:226
+#: index.php:233
 msgid "Switch to digest..."
 msgstr "Pārslēgties uz īssavilkumu..."
 
-#: index.php:228
+#: index.php:235
 msgid "Show tag cloud..."
 msgstr "Radīt birku mākoni..."
 
-#: index.php:230
-#: include/functions.php:1923
+#: index.php:237
+#: include/functions.php:1918
 #, fuzzy
 msgid "Toggle widescreen mode"
 msgstr "Pārslēgt zvaigžņošanu"
 
-#: index.php:232
+#: index.php:239
 msgid "Select by tags..."
 msgstr "Atlasīt pēc iezīmēm..."
 
-#: index.php:233
+#: index.php:240
 msgid "Create label..."
 msgstr "Izveidot iezīmi"
 
-#: index.php:234
+#: index.php:241
 msgid "Create filter..."
 msgstr "Izveidot filtru..."
 
-#: index.php:235
+#: index.php:242
 msgid "Keyboard shortcuts help"
 msgstr "Isinājumtaustiņu palīdzība"
 
-#: index.php:237
+#: index.php:244
 #: plugins/digest/digest_body.php:77
 #: plugins/mobile/mobile-functions.php:62
 #: plugins/mobile/mobile-functions.php:237
@@ -470,41 +465,41 @@ msgid "Logout"
 msgstr "Atteikties"
 
 #: prefs.php:36
-#: prefs.php:114
-#: include/functions.php:1949
-#: classes/pref/prefs.php:378
+#: prefs.php:122
+#: include/functions.php:1944
+#: classes/pref/prefs.php:377
 msgid "Preferences"
 msgstr "Iestatījumi"
 
-#: prefs.php:105
+#: prefs.php:113
 msgid "Keyboard shortcuts"
 msgstr "Īsinājumtaustiņi"
 
-#: prefs.php:106
+#: prefs.php:114
 msgid "Exit preferences"
 msgstr "Iziet no iestatījumiem"
 
-#: prefs.php:117
+#: prefs.php:125
 #: classes/pref/feeds.php:106
 #: classes/pref/feeds.php:1208
 #: classes/pref/feeds.php:1271
 msgid "Feeds"
 msgstr "Barotnes"
 
-#: prefs.php:120
+#: prefs.php:128
 #: classes/pref/filters.php:120
 msgid "Filters"
 msgstr "Filtri"
 
-#: prefs.php:123
-#: include/functions.php:1140
-#: include/functions.php:1776
+#: prefs.php:131
+#: include/functions.php:1135
+#: include/functions.php:1771
 #: classes/pref/labels.php:90
 #: plugins/mobile/mobile-functions.php:198
 msgid "Labels"
 msgstr "Iezīmes"
 
-#: prefs.php:127
+#: prefs.php:135
 msgid "Users"
 msgstr "Lietotāji"
 
@@ -530,12 +525,12 @@ msgid "Check availability"
 msgstr "Pārbaudīt pieejamību"
 
 #: register.php:228
-#: classes/handler/public.php:765
+#: classes/handler/public.php:761
 msgid "Email:"
 msgstr "E-pasts:"
 
 #: register.php:231
-#: classes/handler/public.php:770
+#: classes/handler/public.php:766
 msgid "How much is two plus two:"
 msgstr "Cik ir divi un divi:"
 
@@ -568,10 +563,10 @@ msgid "Tiny Tiny RSS data update script."
 msgstr "Tiny Tiny RSS datu atjaunošanas skripts."
 
 #: include/digest.php:109
-#: include/functions.php:1149
-#: include/functions.php:1677
-#: include/functions.php:1762
-#: include/functions.php:1784
+#: include/functions.php:1144
+#: include/functions.php:1672
+#: include/functions.php:1757
+#: include/functions.php:1779
 #: classes/opml.php:416
 #: classes/pref/feeds.php:221
 msgid "Uncategorized"
@@ -592,319 +587,319 @@ msgstr "Neatradu barotnes."
 msgid "Session failed to validate (incorrect IP)"
 msgstr "Neizdevās validēt sesiju (mainījusies IP adrese)"
 
-#: include/functions.php:1138
-#: include/functions.php:1774
+#: include/functions.php:1133
+#: include/functions.php:1769
 #: plugins/mobile/mobile-functions.php:171
 msgid "Special"
 msgstr "Īpaši"
 
-#: include/functions.php:1626
+#: include/functions.php:1621
 #: classes/dlg.php:369
 #: classes/pref/filters.php:382
 msgid "All feeds"
 msgstr "Visas barotnes"
 
-#: include/functions.php:1827
+#: include/functions.php:1822
 msgid "Starred articles"
 msgstr "Zvaigžņotie raksti"
 
-#: include/functions.php:1829
+#: include/functions.php:1824
 msgid "Published articles"
 msgstr "Publicētie raksti"
 
-#: include/functions.php:1831
+#: include/functions.php:1826
 msgid "Fresh articles"
 msgstr "Jaunākie raksti"
 
-#: include/functions.php:1833
-#: include/functions.php:1944
+#: include/functions.php:1828
+#: include/functions.php:1939
 msgid "All articles"
 msgstr "Visi raksti"
 
-#: include/functions.php:1835
+#: include/functions.php:1830
 msgid "Archived articles"
 msgstr "Arhivētie raksti"
 
-#: include/functions.php:1837
+#: include/functions.php:1832
 msgid "Recently read"
 msgstr "Nesen lasītie raksti"
 
-#: include/functions.php:1900
+#: include/functions.php:1895
 msgid "Navigation"
 msgstr "Navigācija"
 
-#: include/functions.php:1901
+#: include/functions.php:1896
 #, fuzzy
 msgid "Open next feed"
 msgstr "Pēc noķeršanas rādīt nākamo barotni"
 
-#: include/functions.php:1902
+#: include/functions.php:1897
 msgid "Open previous feed"
 msgstr ""
 
-#: include/functions.php:1903
+#: include/functions.php:1898
 #, fuzzy
 msgid "Open next article"
 msgstr "Atvērt sākotnējo rakstu"
 
-#: include/functions.php:1904
+#: include/functions.php:1899
 #, fuzzy
 msgid "Open previous article"
 msgstr "Atvērt sākotnējo rakstu"
 
-#: include/functions.php:1905
+#: include/functions.php:1900
 msgid "Open next article (don't scroll long articles)"
 msgstr ""
 
-#: include/functions.php:1906
+#: include/functions.php:1901
 msgid "Open previous article (don't scroll long articles)"
 msgstr ""
 
-#: include/functions.php:1907
+#: include/functions.php:1902
 msgid "Show search dialog"
 msgstr "Rādīt meklēšanas logu"
 
-#: include/functions.php:1908
+#: include/functions.php:1903
 #, fuzzy
 msgid "Article"
 msgstr "Visus rakstus"
 
-#: include/functions.php:1909
+#: include/functions.php:1904
 msgid "Toggle starred"
 msgstr "Pārslēgt zvaigžņošanu"
 
-#: include/functions.php:1910
+#: include/functions.php:1905
 msgid "Toggle published"
 msgstr "Pārslēgt publicēšanu"
 
-#: include/functions.php:1911
+#: include/functions.php:1906
 msgid "Toggle unread"
 msgstr "Pārslēgt nelasītu"
 
-#: include/functions.php:1912
+#: include/functions.php:1907
 msgid "Edit tags"
 msgstr "Rediģēt iezīmes"
 
-#: include/functions.php:1913
+#: include/functions.php:1908
 #, fuzzy
 msgid "Dismiss selected"
 msgstr "Atmest atlasītos rakstus"
 
-#: include/functions.php:1914
+#: include/functions.php:1909
 #, fuzzy
 msgid "Dismiss read"
 msgstr "Atmest lasītos rakstus"
 
-#: include/functions.php:1915
+#: include/functions.php:1910
 #, fuzzy
 msgid "Open in new window"
 msgstr "Atvērt rakstu jaunā logā"
 
-#: include/functions.php:1916
+#: include/functions.php:1911
 #: js/viewfeed.js:1897
 msgid "Mark below as read"
 msgstr "Iezīmēt lejup kā lasītus"
 
-#: include/functions.php:1917
+#: include/functions.php:1912
 #: js/viewfeed.js:1891
 msgid "Mark above as read"
 msgstr "Iezīmēt augšup kā lasītus"
 
-#: include/functions.php:1918
+#: include/functions.php:1913
 #, fuzzy
 msgid "Scroll down"
 msgstr "Viss izdarīts."
 
-#: include/functions.php:1919
+#: include/functions.php:1914
 msgid "Scroll up"
 msgstr ""
 
-#: include/functions.php:1920
+#: include/functions.php:1915
 #, fuzzy
 msgid "Select article under cursor"
 msgstr "Iezīmēt rakstu zem peles kursora"
 
-#: include/functions.php:1921
+#: include/functions.php:1916
 msgid "Email article"
 msgstr "Nosūtīt rakstu uz e-pastu"
 
-#: include/functions.php:1922
+#: include/functions.php:1917
 #, fuzzy
 msgid "Close/collapse article"
 msgstr "Aizvērt rakstu"
 
-#: include/functions.php:1924
+#: include/functions.php:1919
 #: plugins/embed_original/init.php:33
 #, fuzzy
 msgid "Toggle embed original"
 msgstr "Pārslēgt publicēšanu"
 
-#: include/functions.php:1925
+#: include/functions.php:1920
 #, fuzzy
 msgid "Article selection"
 msgstr "Apgriezt rakstu iezīmēšanu"
 
-#: include/functions.php:1926
+#: include/functions.php:1921
 msgid "Select all articles"
 msgstr "Iezīmēt visus rakstus"
 
-#: include/functions.php:1927
+#: include/functions.php:1922
 #, fuzzy
 msgid "Select unread"
 msgstr "Iezīmēt nelasītos rakstus"
 
-#: include/functions.php:1928
+#: include/functions.php:1923
 #, fuzzy
 msgid "Select starred"
 msgstr "Uzlikt zvaigzni"
 
-#: include/functions.php:1929
+#: include/functions.php:1924
 #, fuzzy
 msgid "Select published"
 msgstr "Iezīmēt publicētos rakstus"
 
-#: include/functions.php:1930
+#: include/functions.php:1925
 #, fuzzy
 msgid "Invert selection"
 msgstr "Apgriezt rakstu iezīmēšanu"
 
-#: include/functions.php:1931
+#: include/functions.php:1926
 #, fuzzy
 msgid "Deselect everything"
 msgstr "Neatzīmēt rakstus"
 
-#: include/functions.php:1932
+#: include/functions.php:1927
 #: classes/pref/feeds.php:520
 #: classes/pref/feeds.php:753
 msgid "Feed"
 msgstr "Barotne"
 
-#: include/functions.php:1933
+#: include/functions.php:1928
 #, fuzzy
 msgid "Refresh current feed"
 msgstr "Atjaunot aktīvo barotni"
 
-#: include/functions.php:1934
+#: include/functions.php:1929
 #, fuzzy
 msgid "Un/hide read feeds"
 msgstr "(Ne)rādīt lasītās barotnes"
 
-#: include/functions.php:1935
+#: include/functions.php:1930
 #: classes/pref/feeds.php:1274
 msgid "Subscribe to feed"
 msgstr "Abonēt barotni"
 
-#: include/functions.php:1936
+#: include/functions.php:1931
 #: js/FeedTree.js:135
 #: js/PrefFeedTree.js:67
 msgid "Edit feed"
 msgstr "Rediģēt barotni"
 
-#: include/functions.php:1938
+#: include/functions.php:1933
 #, fuzzy
 msgid "Reverse headlines"
 msgstr "Apgriezt virsrakstu secību"
 
-#: include/functions.php:1939
+#: include/functions.php:1934
 #, fuzzy
 msgid "Debug feed update"
 msgstr "Atslēgt atjaunojumus"
 
-#: include/functions.php:1940
+#: include/functions.php:1935
 #: js/FeedTree.js:178
 msgid "Mark all feeds as read"
 msgstr "Atzīmēt visas barotnes kā lasītas"
 
-#: include/functions.php:1941
+#: include/functions.php:1936
 #, fuzzy
 msgid "Un/collapse current category"
 msgstr "Ievietot kategorijā:"
 
-#: include/functions.php:1942
+#: include/functions.php:1937
 #, fuzzy
 msgid "Toggle combined mode"
 msgstr "Pārslēgt publicēšanu"
 
-#: include/functions.php:1943
+#: include/functions.php:1938
 #, fuzzy
 msgid "Go to"
 msgstr "Doties uz..."
 
-#: include/functions.php:1945
+#: include/functions.php:1940
 msgid "Fresh"
 msgstr ""
 
-#: include/functions.php:1948
+#: include/functions.php:1943
 msgid "Tag cloud"
 msgstr "Iezīmju mākonis"
 
-#: include/functions.php:1950
+#: include/functions.php:1945
 #, fuzzy
 msgid "Other"
 msgstr "Citas barotnes"
 
-#: include/functions.php:1951
+#: include/functions.php:1946
 #: classes/pref/labels.php:281
 msgid "Create label"
 msgstr "Izveidot etiķeti"
 
-#: include/functions.php:1952
+#: include/functions.php:1947
 #: classes/pref/filters.php:606
 msgid "Create filter"
 msgstr "Izveidot filtru"
 
-#: include/functions.php:1953
+#: include/functions.php:1948
 #, fuzzy
 msgid "Un/collapse sidebar"
 msgstr "Sakļaut sānjoslu"
 
-#: include/functions.php:1954
+#: include/functions.php:1949
 #, fuzzy
 msgid "Show help dialog"
 msgstr "Rādīt meklēšanas logu"
 
-#: include/functions.php:2458
+#: include/functions.php:2441
 #, php-format
 msgid "Search results: %s"
 msgstr "Meklēšanas rezultāti: %s"
 
-#: include/functions.php:2949
+#: include/functions.php:2932
 #: js/viewfeed.js:1984
 msgid "Click to play"
 msgstr "Klikšķiniet, lai atskaņotu"
 
-#: include/functions.php:2950
+#: include/functions.php:2933
 #: js/viewfeed.js:1983
 msgid "Play"
 msgstr "Atskaņot"
 
-#: include/functions.php:3067
+#: include/functions.php:3050
 msgid " - "
 msgstr "–"
 
-#: include/functions.php:3089
-#: include/functions.php:3383
+#: include/functions.php:3072
+#: include/functions.php:3366
 #: classes/rpc.php:359
 msgid "no tags"
 msgstr "nav iezīmju"
 
-#: include/functions.php:3099
+#: include/functions.php:3082
 #: classes/feeds.php:682
 msgid "Edit tags for this article"
 msgstr "Rediģēt šī raksta iezīmes"
 
-#: include/functions.php:3128
+#: include/functions.php:3111
 #: classes/feeds.php:638
 msgid "Originally from:"
 msgstr "Sākotnējais no:"
 
-#: include/functions.php:3141
+#: include/functions.php:3124
 #: classes/feeds.php:651
 #: classes/pref/feeds.php:539
 msgid "Feed URL"
 msgstr "Barotnes URL"
 
-#: include/functions.php:3172
+#: include/functions.php:3155
 #: classes/dlg.php:43
 #: classes/dlg.php:162
 #: classes/dlg.php:185
@@ -927,17 +922,21 @@ msgstr "Barotnes URL"
 msgid "Close this window"
 msgstr "Aizvērt šo logu"
 
-#: include/functions.php:3408
+#: include/functions.php:3391
 msgid "(edit note)"
 msgstr "(rediģēt piezīmi)"
 
-#: include/functions.php:3641
+#: include/functions.php:3624
 msgid "unknown type"
 msgstr "nezināms tips"
 
-#: include/functions.php:3697
+#: include/functions.php:3680
 msgid "Attachments"
 msgstr "Pielikumi"
+
+#: include/localized_schema.php:3
+msgid "Title"
+msgstr "Virsraksts"
 
 #: include/localized_schema.php:4
 msgid "Title or Content"
@@ -1044,146 +1043,154 @@ msgid "Uses UTC timezone"
 msgstr "Izmanto UTC laika zonu"
 
 #: include/localized_schema.php:33
+msgid "Select one of the available CSS themes"
+msgstr ""
+
+#: include/localized_schema.php:34
 msgid "Purge articles after this number of days (0 - disables)"
 msgstr "Dzēst rakstus pēc norādītā dienu skaita (0 – atceļ)"
 
-#: include/localized_schema.php:34
+#: include/localized_schema.php:35
 msgid "Default interval between feed updates"
 msgstr "Noklusētais barotņu atjaunošanas intervāls "
 
-#: include/localized_schema.php:35
+#: include/localized_schema.php:36
 msgid "Amount of articles to display at once"
 msgstr "Vienlaicīgi parādīto rakstu skaits"
 
-#: include/localized_schema.php:36
+#: include/localized_schema.php:37
 msgid "Allow duplicate posts"
 msgstr "Atļaut dublētus ziņojumus"
 
-#: include/localized_schema.php:37
+#: include/localized_schema.php:38
 msgid "Enable feed categories"
 msgstr "Iespējot barotņu kategorijas"
 
-#: include/localized_schema.php:38
+#: include/localized_schema.php:39
 msgid "Show content preview in headlines list"
 msgstr "Rādīt virsrakstu sarakstā satura priekšskatījumu"
 
-#: include/localized_schema.php:39
+#: include/localized_schema.php:40
 msgid "Short date format"
 msgstr "Īsais datumu formāts"
 
-#: include/localized_schema.php:40
+#: include/localized_schema.php:41
 msgid "Long date format"
 msgstr "Garais datumu formāts"
 
-#: include/localized_schema.php:41
+#: include/localized_schema.php:42
 msgid "Combined feed display"
 msgstr "Kombinēts barotņu skatījums"
 
-#: include/localized_schema.php:42
+#: include/localized_schema.php:43
 #, fuzzy
 msgid "Hide feeds with no unread articles"
 msgstr "Slēpt barotnes ar izlasītiem ziņojumiem"
 
-#: include/localized_schema.php:43
+#: include/localized_schema.php:44
 msgid "On catchup show next feed"
 msgstr "Pēc noķeršanas rādīt nākamo barotni"
 
-#: include/localized_schema.php:44
+#: include/localized_schema.php:45
 msgid "Sort feeds by unread articles count"
 msgstr "Kārtot barotnes pēc nelasīto ziņu skaita"
 
-#: include/localized_schema.php:45
+#: include/localized_schema.php:46
 #: plugins/mobile/prefs.php:60
 msgid "Reverse headline order (oldest first)"
 msgstr "Apgriezt virsrakstu secību (vecākos vispirms)"
 
-#: include/localized_schema.php:46
+#: include/localized_schema.php:47
 msgid "Enable e-mail digest"
 msgstr "Iespējot īssavilkuma sūtīšanu pa e-pastu"
 
-#: include/localized_schema.php:47
+#: include/localized_schema.php:48
 msgid "Confirm marking feed as read"
 msgstr "Apstiprināt barotnes atzīmēšanu kā izlasītu"
 
-#: include/localized_schema.php:48
+#: include/localized_schema.php:49
 msgid "Automatically mark articles as read"
 msgstr "Automātiski atzīmēt rakstus kā izlasītus"
 
-#: include/localized_schema.php:49
+#: include/localized_schema.php:50
 msgid "Strip unsafe tags from articles"
 msgstr "Izdzrest nedrošos tagus no rakstiem"
 
-#: include/localized_schema.php:50
+#: include/localized_schema.php:51
 msgid "Blacklisted tags"
 msgstr "Tagu melnais saraksts"
 
-#: include/localized_schema.php:51
+#: include/localized_schema.php:52
 msgid "Maximum age of fresh articles (in hours)"
 msgstr "Maksimālais svaigo rakstu laiks (stundās)"
 
-#: include/localized_schema.php:52
+#: include/localized_schema.php:53
 msgid "Mark articles in e-mail digest as read"
 msgstr "Atzīmēt īssavilkuma rakstus e-pastā kā lasītus"
 
-#: include/localized_schema.php:53
+#: include/localized_schema.php:54
 msgid "Automatically expand articles in combined mode"
 msgstr "Automātiski rādīt rakstus kombinētajā režīmā"
 
-#: include/localized_schema.php:54
+#: include/localized_schema.php:55
 msgid "Purge unread articles"
 msgstr "Dzēst nelasītos rakstus"
 
-#: include/localized_schema.php:55
+#: include/localized_schema.php:56
 msgid "Show special feeds when hiding read feeds"
 msgstr "Rādīt īpašās barotnes kad tiek slēptas izlasītās"
 
-#: include/localized_schema.php:56
+#: include/localized_schema.php:57
 msgid "Group headlines in virtual feeds"
 msgstr "Apvienot virsrakstus virtuālās barotnēs"
 
-#: include/localized_schema.php:57
+#: include/localized_schema.php:58
 #, fuzzy
 msgid "Do not embed images in articles"
 msgstr "Nerādīt rakstos attēlus"
 
-#: include/localized_schema.php:58
+#: include/localized_schema.php:59
 msgid "Enable external API"
 msgstr "Iespējot ārēju API"
 
-#: include/localized_schema.php:59
+#: include/localized_schema.php:60
 msgid "User timezone"
 msgstr "Lietotāja laika zona"
 
-#: include/localized_schema.php:60
+#: include/localized_schema.php:61
 #: js/prefs.js:1719
 msgid "Customize stylesheet"
 msgstr "Pielāgot stilu lapu"
 
-#: include/localized_schema.php:61
+#: include/localized_schema.php:62
 msgid "Sort headlines by feed date"
 msgstr "Kārtot virsrakstus pēc barotnes laika"
 
-#: include/localized_schema.php:62
+#: include/localized_schema.php:63
 msgid "Login with an SSL certificate"
 msgstr "Pieteikties ar SSL sertifikātu"
 
-#: include/localized_schema.php:63
+#: include/localized_schema.php:64
 msgid "Try to send digests around specified time"
 msgstr "Censties nosūtīt īssavilkumus ap norādīto laiku"
 
-#: include/localized_schema.php:64
+#: include/localized_schema.php:65
 msgid "Assign articles to labels automatically"
 msgstr "Pievienot rakstu iezīmes automātiski"
 
+#: include/localized_schema.php:66
+msgid "Select theme"
+msgstr "Izvēlieties tēmu"
+
 #: include/login_form.php:183
-#: classes/handler/public.php:466
-#: classes/handler/public.php:760
+#: classes/handler/public.php:462
+#: classes/handler/public.php:756
 #: plugins/mobile/login_form.php:40
 msgid "Login:"
 msgstr "Pieteikties:"
 
 #: include/login_form.php:192
-#: classes/handler/public.php:469
+#: classes/handler/public.php:465
 #: plugins/mobile/login_form.php:45
 msgid "Password:"
 msgstr "Parole:"
@@ -1194,7 +1201,7 @@ msgid "I forgot my password"
 msgstr "Nepareiza parole"
 
 #: include/login_form.php:201
-#: classes/handler/public.php:472
+#: classes/handler/public.php:468
 msgid "Language:"
 msgstr "Valoda:"
 
@@ -1203,7 +1210,7 @@ msgid "Profile:"
 msgstr "Profils:"
 
 #: include/login_form.php:213
-#: classes/handler/public.php:214
+#: classes/handler/public.php:210
 #: classes/rpc.php:64
 #: classes/dlg.php:98
 msgid "Default profile"
@@ -1218,7 +1225,7 @@ msgid "Remember me"
 msgstr ""
 
 #: include/login_form.php:235
-#: classes/handler/public.php:482
+#: classes/handler/public.php:478
 #: plugins/mobile/login_form.php:28
 msgid "Log in"
 msgstr "Pieteikties"
@@ -1227,16 +1234,16 @@ msgstr "Pieteikties"
 msgid "Article not found."
 msgstr "Raksts netika atrasts."
 
-#: classes/handler/public.php:407
+#: classes/handler/public.php:403
 #: plugins/bookmarklets/init.php:38
 msgid "Share with Tiny Tiny RSS"
 msgstr "Kopīgot ar Tiny Tiny RSS"
 
-#: classes/handler/public.php:415
+#: classes/handler/public.php:411
 msgid "Title:"
 msgstr "Virsraksts:"
 
-#: classes/handler/public.php:417
+#: classes/handler/public.php:413
 #: classes/dlg.php:663
 #: classes/pref/feeds.php:537
 #: classes/pref/feeds.php:768
@@ -1244,24 +1251,24 @@ msgstr "Virsraksts:"
 msgid "URL:"
 msgstr "URL:"
 
-#: classes/handler/public.php:419
+#: classes/handler/public.php:415
 msgid "Content:"
 msgstr "Saturs:"
 
-#: classes/handler/public.php:421
+#: classes/handler/public.php:417
 msgid "Labels:"
 msgstr "Etiķetes:"
 
-#: classes/handler/public.php:440
+#: classes/handler/public.php:436
 msgid "Shared article will appear in the Published feed."
 msgstr "Kopīgotais raksts parādīsies Publicēts barotnē"
 
-#: classes/handler/public.php:442
+#: classes/handler/public.php:438
 msgid "Share"
 msgstr "Kopīgot"
 
-#: classes/handler/public.php:443
-#: classes/handler/public.php:485
+#: classes/handler/public.php:439
+#: classes/handler/public.php:481
 #: classes/dlg.php:296
 #: classes/dlg.php:348
 #: classes/dlg.php:408
@@ -1283,90 +1290,90 @@ msgstr "Kopīgot"
 msgid "Cancel"
 msgstr "Atcelt"
 
-#: classes/handler/public.php:464
+#: classes/handler/public.php:460
 msgid "Not logged in"
 msgstr "Nav pieteicies"
 
-#: classes/handler/public.php:531
+#: classes/handler/public.php:527
 msgid "Incorrect username or password"
 msgstr "Nepareizs lietotāja vārds vai parole"
 
-#: classes/handler/public.php:567
-#: classes/handler/public.php:664
+#: classes/handler/public.php:563
+#: classes/handler/public.php:660
 #, php-format
 msgid "Already subscribed to <b>%s</b>."
 msgstr "Jau ir pasūtījis <b>%s</b>."
 
-#: classes/handler/public.php:570
-#: classes/handler/public.php:655
+#: classes/handler/public.php:566
+#: classes/handler/public.php:651
 #, php-format
 msgid "Subscribed to <b>%s</b>."
 msgstr "Pasūtījis <b>%s</b>."
 
-#: classes/handler/public.php:573
-#: classes/handler/public.php:658
+#: classes/handler/public.php:569
+#: classes/handler/public.php:654
 #, php-format
 msgid "Could not subscribe to <b>%s</b>."
 msgstr "Neizdevās pasūtīt <b>%s</b>."
 
-#: classes/handler/public.php:576
-#: classes/handler/public.php:661
+#: classes/handler/public.php:572
+#: classes/handler/public.php:657
 #, php-format
 msgid "No feeds found in <b>%s</b>."
 msgstr "<b>%s</b> barotne netika atrasta."
 
-#: classes/handler/public.php:579
-#: classes/handler/public.php:667
+#: classes/handler/public.php:575
+#: classes/handler/public.php:663
 msgid "Multiple feed URLs found."
 msgstr "Atradu vairākus barotņu URLus."
 
-#: classes/handler/public.php:583
-#: classes/handler/public.php:672
+#: classes/handler/public.php:579
+#: classes/handler/public.php:668
 #, php-format
 msgid "Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL."
 msgstr "Neizdevās pasūtīt <b>%s</b>.<br>Nevarēju lejuplādēt barotnes URL."
 
-#: classes/handler/public.php:601
-#: classes/handler/public.php:690
+#: classes/handler/public.php:597
+#: classes/handler/public.php:686
 msgid "Subscribe to selected feed"
 msgstr "Pasūtīt norādīto barotni"
 
-#: classes/handler/public.php:626
-#: classes/handler/public.php:714
+#: classes/handler/public.php:622
+#: classes/handler/public.php:710
 msgid "Edit subscription options"
 msgstr "Rediģēt barotnes iestatījumus"
 
-#: classes/handler/public.php:743
+#: classes/handler/public.php:739
 #, fuzzy
 msgid "Password recovery"
 msgstr "Parole"
 
-#: classes/handler/public.php:752
+#: classes/handler/public.php:748
 msgid "You will need to provide valid account name and email. New password will be sent on your email address."
 msgstr ""
 
-#: classes/handler/public.php:775
+#: classes/handler/public.php:771
 #: classes/pref/users.php:378
 msgid "Reset password"
 msgstr "Atstatīt paroli"
 
-#: classes/handler/public.php:786
+#: classes/handler/public.php:782
 msgid "Some of the required form parameters are missing or incorrect."
 msgstr ""
 
-#: classes/handler/public.php:790
-#: classes/handler/public.php:816
-#: classes/handler/public.php:825
+#: classes/handler/public.php:786
+#: classes/handler/public.php:812
+#: classes/handler/public.php:821
 #: plugins/digest/digest_body.php:69
 #, fuzzy
 msgid "Go back"
 msgstr "Pārvietot atpakaļ"
 
-#: classes/handler/public.php:812
+#: classes/handler/public.php:808
 msgid "Sorry, login and email combination not found."
 msgstr ""
 
-#: classes/handler/public.php:822
+#: classes/handler/public.php:818
 msgid "Form secret key incorrect. Please enable cookies and try again."
 msgstr ""
 
@@ -1501,7 +1508,7 @@ msgstr "Pieteikšanās"
 
 #: classes/dlg.php:275
 #: classes/dlg.php:728
-#: classes/pref/prefs.php:203
+#: classes/pref/prefs.php:202
 #: classes/pref/feeds.php:601
 #: classes/pref/feeds.php:827
 msgid "Password"
@@ -1794,17 +1801,17 @@ msgid "No articles found to display."
 msgstr "Netika atrasti raksti, ko rādīt."
 
 #: classes/feeds.php:755
-#: classes/feeds.php:943
+#: classes/feeds.php:920
 #, php-format
 msgid "Feeds last updated at %s"
 msgstr "Barotnes pēdējo reizi atjaunotas %s."
 
 #: classes/feeds.php:765
-#: classes/feeds.php:953
+#: classes/feeds.php:930
 msgid "Some feeds have update errors (click for details)"
 msgstr "Dažas barotnes ir atjaunotas ar kļūdām (klikšķiniet lai skatītu vairāk)"
 
-#: classes/feeds.php:933
+#: classes/feeds.php:910
 msgid "No feed selected."
 msgstr "Nav izvēlēta barotne."
 
@@ -2172,179 +2179,179 @@ msgstr "Nezināma iespēja %s."
 msgid "Your personal data has been saved."
 msgstr "Jūsu personīgie dati ir saglabāti."
 
-#: classes/pref/prefs.php:138
+#: classes/pref/prefs.php:137
 msgid "Personal data / Authentication"
 msgstr "Personīgie dati/autentifikācija"
 
-#: classes/pref/prefs.php:158
+#: classes/pref/prefs.php:157
 msgid "Personal data"
 msgstr "Personīgie dati"
 
-#: classes/pref/prefs.php:168
+#: classes/pref/prefs.php:167
 msgid "Full name"
 msgstr "Vārds un uzvārds"
 
-#: classes/pref/prefs.php:172
+#: classes/pref/prefs.php:171
 msgid "E-mail"
 msgstr "E-pasts"
 
-#: classes/pref/prefs.php:178
+#: classes/pref/prefs.php:177
 msgid "Access level"
 msgstr "Pieejas līmenis"
 
-#: classes/pref/prefs.php:188
+#: classes/pref/prefs.php:187
 msgid "Save data"
 msgstr "Saglabāt datus"
 
-#: classes/pref/prefs.php:210
+#: classes/pref/prefs.php:209
 msgid "Your password is at default value, please change it."
 msgstr "Jums ir norādīta noklusētā parole, lūdzu nomainiet to."
 
-#: classes/pref/prefs.php:237
+#: classes/pref/prefs.php:236
 msgid "Changing your current password will disable OTP."
 msgstr ""
 
-#: classes/pref/prefs.php:242
+#: classes/pref/prefs.php:241
 msgid "Old password"
 msgstr "Vecā parole"
 
-#: classes/pref/prefs.php:245
+#: classes/pref/prefs.php:244
 msgid "New password"
 msgstr "Jaunā parole"
 
-#: classes/pref/prefs.php:250
+#: classes/pref/prefs.php:249
 msgid "Confirm password"
 msgstr "Apstipriniet paroli"
 
-#: classes/pref/prefs.php:260
+#: classes/pref/prefs.php:259
 msgid "Change password"
 msgstr "Nomainīt paroli"
 
-#: classes/pref/prefs.php:266
+#: classes/pref/prefs.php:265
 msgid "One time passwords / Authenticator"
 msgstr "Vienreizlietojamā parole/autentifikācija"
 
-#: classes/pref/prefs.php:270
+#: classes/pref/prefs.php:269
 msgid "One time passwords are currently enabled. Enter your current password below to disable."
 msgstr ""
 
-#: classes/pref/prefs.php:295
-#: classes/pref/prefs.php:346
+#: classes/pref/prefs.php:294
+#: classes/pref/prefs.php:345
 msgid "Enter your password"
 msgstr "Ievadiet savu paroli"
 
-#: classes/pref/prefs.php:306
+#: classes/pref/prefs.php:305
 msgid "Disable OTP"
 msgstr "Atslēgt vienreizlietojamo paroli"
 
-#: classes/pref/prefs.php:312
+#: classes/pref/prefs.php:311
 msgid "You will need a compatible Authenticator to use this. Changing your password would automatically disable OTP."
 msgstr "Lai to lietotu, jums būs nepieciešams savietojams autentifikators. Jūsu paroles maiņa automātiski atslēgs vienreizlietojamo paroli."
 
-#: classes/pref/prefs.php:314
+#: classes/pref/prefs.php:313
 msgid "Scan the following code by the Authenticator application:"
 msgstr "Ar autentifikācijas moduli noskenējiet sekojošo kodu:"
 
-#: classes/pref/prefs.php:355
+#: classes/pref/prefs.php:354
 msgid "I have scanned the code and would like to enable OTP"
 msgstr "Esmu noskenējis šo kodu un vēlos iespējot vienreizlietojamo paroli"
 
-#: classes/pref/prefs.php:363
+#: classes/pref/prefs.php:362
 msgid "Enable OTP"
 msgstr "Iespējot vienreizlietojamo paroli"
 
-#: classes/pref/prefs.php:405
+#: classes/pref/prefs.php:400
 msgid "Some preferences are only available in default profile."
 msgstr ""
 
-#: classes/pref/prefs.php:496
+#: classes/pref/prefs.php:491
 msgid "Customize"
 msgstr "Pielāgot"
 
-#: classes/pref/prefs.php:555
+#: classes/pref/prefs.php:558
 msgid "Register"
 msgstr "Reģistrēt"
 
-#: classes/pref/prefs.php:559
+#: classes/pref/prefs.php:562
 msgid "Clear"
 msgstr "Attīrīt"
 
-#: classes/pref/prefs.php:565
+#: classes/pref/prefs.php:568
 #, php-format
 msgid "Current server time: %s (UTC)"
 msgstr "Tekošā laika zona ir: %s (UTC)"
 
-#: classes/pref/prefs.php:598
+#: classes/pref/prefs.php:601
 msgid "Save configuration"
 msgstr "Saglabāt iestatījumus"
 
-#: classes/pref/prefs.php:601
+#: classes/pref/prefs.php:604
 msgid "Manage profiles"
 msgstr "Pārvaldīt profilus"
 
-#: classes/pref/prefs.php:604
+#: classes/pref/prefs.php:607
 msgid "Reset to defaults"
 msgstr "Atstatīt uz noklusētajiem"
 
-#: classes/pref/prefs.php:628
-#: classes/pref/prefs.php:630
+#: classes/pref/prefs.php:631
+#: classes/pref/prefs.php:633
 msgid "Plugins"
 msgstr ""
 
-#: classes/pref/prefs.php:632
+#: classes/pref/prefs.php:635
 msgid "You will need to reload Tiny Tiny RSS for plugin changes to take effect."
 msgstr ""
 
-#: classes/pref/prefs.php:634
+#: classes/pref/prefs.php:637
 msgid "Download more plugins at tt-rss.org <a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/forum/viewforum.php?f=22\">forums</a> or <a target=\"_blank\" class=\"visibleLink\" href=\"http://tt-rss.org/wiki/Plugins\">wiki</a>."
 msgstr ""
 
-#: classes/pref/prefs.php:660
+#: classes/pref/prefs.php:663
 msgid "System plugins"
-msgstr ""
-
-#: classes/pref/prefs.php:664
-#: classes/pref/prefs.php:718
-msgid "Plugin"
-msgstr ""
-
-#: classes/pref/prefs.php:665
-#: classes/pref/prefs.php:719
-msgid "Description"
-msgstr ""
-
-#: classes/pref/prefs.php:666
-#: classes/pref/prefs.php:720
-msgid "Version"
 msgstr ""
 
 #: classes/pref/prefs.php:667
 #: classes/pref/prefs.php:721
+msgid "Plugin"
+msgstr ""
+
+#: classes/pref/prefs.php:668
+#: classes/pref/prefs.php:722
+msgid "Description"
+msgstr ""
+
+#: classes/pref/prefs.php:669
+#: classes/pref/prefs.php:723
+msgid "Version"
+msgstr ""
+
+#: classes/pref/prefs.php:670
+#: classes/pref/prefs.php:724
 msgid "Author"
 msgstr ""
 
-#: classes/pref/prefs.php:696
-#: classes/pref/prefs.php:753
+#: classes/pref/prefs.php:699
+#: classes/pref/prefs.php:756
 msgid "more info"
 msgstr ""
 
-#: classes/pref/prefs.php:705
-#: classes/pref/prefs.php:762
+#: classes/pref/prefs.php:708
+#: classes/pref/prefs.php:765
 #, fuzzy
 msgid "Clear data"
 msgstr "Dzēst barotņu datus"
 
-#: classes/pref/prefs.php:714
+#: classes/pref/prefs.php:717
 msgid "User plugins"
 msgstr ""
 
-#: classes/pref/prefs.php:777
+#: classes/pref/prefs.php:780
 #, fuzzy
 msgid "Enable selected plugins"
 msgstr "Iespējot barotņu kategorijas"
 
-#: classes/pref/prefs.php:832
-#: classes/pref/prefs.php:850
+#: classes/pref/prefs.php:835
+#: classes/pref/prefs.php:853
 msgid "Incorrect password"
 msgstr "Nepareiza parole"
 
@@ -3451,7 +3458,7 @@ msgstr "Pārvērtēt rakstus %s?"
 msgid "Rescoring articles..."
 msgstr "Pārvērtēt rakstus"
 
-#: js/tt-rss.js:879
+#: js/tt-rss.js:893
 msgid "New version available!"
 msgstr "Ir pieejama jauna versija!"
 
@@ -3701,6 +3708,12 @@ msgstr "Kopīgot ar URL"
 msgid "Live updating is considered experimental. Backup your tt-rss directory before continuing. Please type 'yes' to continue."
 msgstr "Lūdzu neaizveriet logu līdz ir pabeigta atjaunošana. Pirms turpināt, izveidojiet jūsu tt-rss mapes rezerves kopiju."
 
+#~ msgid "Date"
+#~ msgstr "Datums"
+
+#~ msgid "Score"
+#~ msgstr "Novērtējums"
+
 #~ msgid "Enable the options you wish to apply using checkboxes on the right:"
 #~ msgstr "Iespējojiet iespējas, iezīmējot izvēles rūtiņas labajā pusē:"
 
@@ -3822,9 +3835,6 @@ msgstr "Lūdzu neaizveriet logu līdz ir pabeigta atjaunošana. Pirms turpināt,
 
 #~ msgid "Open article in new tab"
 #~ msgstr "Atvērt jaunā cilnē"
-
-#~ msgid "Select theme"
-#~ msgstr "Izvēlieties tēmu"
 
 #~ msgid "Right-to-left content"
 #~ msgstr "Saturs no labās uz kreiso pusi"
