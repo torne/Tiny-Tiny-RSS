@@ -492,9 +492,6 @@ class Handler_Public extends Handler {
 	}
 
 	function login() {
-		@session_destroy();
-		@session_start();
-
 		$_SESSION["prefs_cache"] = array();
 
 		if (!SINGLE_USER_MODE) {
@@ -502,6 +499,8 @@ class Handler_Public extends Handler {
 			$login = db_escape_string($this->link, $_POST["login"]);
 			$password = $_POST["password"];
 			$remember_me = $_POST["remember_me"];
+
+			@session_start();
 
 			if (authenticate_user($this->link, $login, $password)) {
 				$_POST["password"] = "";
