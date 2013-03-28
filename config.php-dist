@@ -130,10 +130,8 @@
 	// 0 means cookie will be deleted when browser closes.
 	// Setting this to zero will affect several user preferences
 	// like widescreen mode not saving and disable "remember me".
-
-	define('SESSION_EXPIRE_TIME', 86400*30);
-	// Hard expiration limit for sessions. Should be
-	// greater or equal to SESSION_COOKIE_LIFETIME
+	// Note that if remember me is not checked, session cookie
+	// will always expire with browser session.
 
 	define('SESSION_CHECK_ADDRESS', 1);
 	// Check client IP address when validating session:

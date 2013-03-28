@@ -4,7 +4,7 @@
 	require_once "config.php";
 	require_once "db.php";
 
-	$session_expire = SESSION_EXPIRE_TIME; //seconds
+	$session_expire = max(SESSION_COOKIE_LIFETIME, 86400);
 	$session_name = (!defined('TTRSS_SESSION_NAME')) ? "ttrss_sid" : TTRSS_SESSION_NAME;
 
 	if (@$_SERVER['HTTPS'] == "on") {
@@ -15,7 +15,7 @@
 	ini_set("session.gc_probability", 50);
 	ini_set("session.name", $session_name);
 	ini_set("session.use_only_cookies", true);
-	ini_set("session.gc_maxlifetime", SESSION_EXPIRE_TIME);
+	ini_set("session.gc_maxlifetime", $session_expire);
 
 	function ttrss_open ($s, $n) {
 

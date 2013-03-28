@@ -56,14 +56,6 @@
 				}
 			}
 
-			if (SESSION_EXPIRE_TIME < 60) {
-				array_push($errors, "SESSION_EXPIRE_TIME set in config.php is too low, please set it to an integer value >= 60");
-			}
-
-			if (SESSION_EXPIRE_TIME < SESSION_COOKIE_LIFETIME) {
-				array_push($errors, "SESSION_EXPIRE_TIME set in config.php should be >= to SESSION_COOKIE_LIFETIME");
-			}
-
 			if (SINGLE_USER_MODE) {
 				$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
