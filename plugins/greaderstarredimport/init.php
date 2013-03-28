@@ -7,7 +7,7 @@ class GreaderStarredImport extends Plugin {
 
 	function about() {
 		return array(1.0,
-			"Import starred items from Google Reader takeout",
+			"Import Starred or Shared items from Google Reader takeout",
 			"fox",
 			false,
 			"");
@@ -34,6 +34,8 @@ class GreaderStarredImport extends Plugin {
 			print_error(__('No file uploaded.'));
 			return;
 		}
+
+		$sql_set_marked = strtolower($_FILES['starred_file']['name']) == 'starred.json' ? 'true' : 'false';
 
 		if ($doc) {
 			if (isset($doc['items'])) {
@@ -65,7 +67,7 @@ class GreaderStarredImport extends Plugin {
 					$processed++;
 
 					$imported += (int) $this->create_article($guid, $title,
-						$updated, $link, $content, $author);
+						$updated, $link, $content, $author, $sql_set_marked);
 
 				}
 
@@ -88,7 +90,7 @@ class GreaderStarredImport extends Plugin {
 	}
 
 	// expects ESCAPED data
-	private function create_article($guid, $title, $updated, $link, $content, $author) {
+	private function create_article($guid, $title, $updated, $link, $content, $author, $marked) {
 
 		$owner_uid = $_SESSION["uid"];
 
@@ -121,7 +123,7 @@ class GreaderStarredImport extends Plugin {
 					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, marked, tag_cache, label_cache,
 						last_read, note, unread, last_marked)
 					VALUES
-					('$ref_id', '', NULL, NULL, $owner_uid, true, '', '', NOW(), '', false, NOW())");
+					('$ref_id', '', NULL, NULL, $owner_uid, $marked, '', '', NOW(), '', false, NOW())");
 
 				if (count($labels) != 0) {
 					foreach ($labels as $label) {
@@ -141,11 +143,11 @@ class GreaderStarredImport extends Plugin {
 	function hook_prefs_tab($args) {
 		if ($args != "prefFeeds") return;
 
-		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__("Import starred items from Google Reader")."\">";
+		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__("Import starred or shared items from Google Reader")."\">";
 
-		print_notice("Your imported articles will appear in Starred and Archived feeds.");
+		print_notice("Your imported articles will appear in Starred (in file is named starred.json) and Archived feeds.");
 
-		print "<p>".__("Paste your starred.json into the form below."). "</p>";
+		print "<p>".__("Paste your starred.json or shared.json into the form below."). "</p>";
 
 		print "<iframe id=\"starred_upload_iframe\"
 			name=\"starred_upload_iframe\" onload=\"starredImportComplete(this)\"
