@@ -47,6 +47,8 @@ class API extends Handler {
 	}
 
 	function login() {
+		@session_start();
+
 		$login = db_escape_string($this->link, $_REQUEST["user"]);
 		$password = $_REQUEST["password"];
 		$password_base64 = base64_decode($_REQUEST["password"]);
