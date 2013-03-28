@@ -39,6 +39,14 @@
 	<?php echo stylesheet_tag("tt-rss.css"); ?>
 	<?php echo stylesheet_tag("prefs.css"); ?>
 
+	<?php if ($_SESSION["uid"]) {
+		$theme = get_pref($link, "USER_CSS_THEME", $_SESSION["uid"], false);
+		if ($theme) {
+			echo stylesheet_tag("themes/$theme");
+		}
+	}
+	?>
+
 	<?php print_user_stylesheet($link) ?>
 
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
