@@ -129,7 +129,7 @@
 	// Default lifetime of a session (e.g. login) cookie. In seconds, 
 	// 0 means cookie will be deleted when browser closes.
 	// Setting this to zero will affect several user preferences
-	// like widescreen mode not saving.
+	// like widescreen mode not saving and disable "remember me".
 
 	define('SESSION_EXPIRE_TIME', 86400*30);
 	// Hard expiration limit for sessions. Should be
