@@ -2659,7 +2659,7 @@
 
 				if ($entry->nodeName == 'img') {
 					if (($owner && get_pref($link, "STRIP_IMAGES", $owner)) ||
-							$force_remove_images) {
+							$force_remove_images || $_SESSION["bw_limit"]) {
 
 						$p = $doc->createElement('p');
 
@@ -3663,7 +3663,7 @@
 				array_push($entries, $entry);
 			}
 
-			if ($_SESSION['uid'] && !get_pref($link, "STRIP_IMAGES")) {
+			if ($_SESSION['uid'] && !get_pref($link, "STRIP_IMAGES") && !$_SESSION["bw_limit"]) {
 				if ($always_display_enclosures ||
 							!preg_match("/<img/i", $article_content)) {
 
