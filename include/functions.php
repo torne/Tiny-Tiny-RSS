@@ -3693,7 +3693,7 @@
 				$rv .= "<hr clear='both'/>";
 			}
 
-			$rv .= "<select onchange=\"openSelectedAttachment(this)\">".
+			$rv .= "<select class=\"attachments\" onchange=\"openSelectedAttachment(this)\">".
 				"<option value=''>" . __('Attachments')."</option>";
 
 			foreach ($entries as $entry) {
