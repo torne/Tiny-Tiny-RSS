@@ -17,9 +17,9 @@ class Handler_Public extends Handler {
 		$date_sort_field = "date_entered DESC, updated DESC";
 
 		if ($feed == -2)
-			$date_sort_field = "last_published";
+			$date_sort_field = "last_published DESC";
 		else if ($feed == -1)
-			$date_sort_field = "last_marked";
+			$date_sort_field = "last_marked DESC";
 
 		$qfh_ret = queryFeedHeadlines($this->link, $feed,
 			$limit, $view_mode, $is_cat, $search, $search_mode,
