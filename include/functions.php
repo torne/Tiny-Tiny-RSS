@@ -2250,7 +2250,7 @@
 
 			$view_query_part = "";
 
-			if ($view_mode == "adaptive" || $view_query_part == "noscores") {
+			if ($view_mode == "adaptive") {
 				if ($search) {
 					$view_query_part = " ";
 				} else if ($feed != -1) {
@@ -2280,10 +2280,6 @@
 
 			if ($view_mode == "unread" && $feed != -6) {
 				$view_query_part = " unread = true AND ";
-			}
-
-			if ($view_mode == "updated") {
-				$view_query_part = " (last_read is null and unread = false) AND ";
 			}
 
 			if ($limit > 0) {
@@ -2425,10 +2421,6 @@
 			}
 
 			$order_by = "$date_sort_field DESC, updated DESC";
-
-			if ($view_mode != "noscores") {
-				$order_by = "score DESC, $order_by";
-			}
 
 			if ($view_mode == "unread_first") {
 				$order_by = "unread DESC, $order_by";
