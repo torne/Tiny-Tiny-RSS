@@ -89,7 +89,7 @@ class GoogleReaderImport extends Plugin {
 				foreach ($doc['items'] as $item) {
 //					print_r($item);
 
-					$guid = db_escape_string($this->link, $item['id']);
+					$guid = db_escape_string($this->link, mb_substr($item['id'], 0, 250));
 					$title = db_escape_string($this->link, $item['title']);
 					$updated = date('Y-m-d h:i:s', $item['updated']);
 					$link = '';
