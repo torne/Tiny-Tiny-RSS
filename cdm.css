@@ -85,6 +85,7 @@ div.cdm.expanded {
 	margin : 4px 4px 0px 4px;
 	border-width : 1px;
 	border-color : #c0c0c0;
+	box-shadow : 0px 0px 2px #ccc;
 }
 
 div.cdm.expanded div.cdmHeader {
@@ -119,6 +120,10 @@ div.cdm.expanded.active.Selected div.cdmHeader {
 div.cdm.active {
 	border-color : #88b0f0;
 	background : white ! important;
+}
+
+div.cdm.expanded.active {
+	box-shadow : 0px 0px 2px #4684ff;
 }
 
 div.cdm.active div.cdmHeader {
