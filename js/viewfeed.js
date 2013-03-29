@@ -243,7 +243,6 @@ function render_article(article) {
 function showArticleInHeadlines(id) {
 
 	try {
-
 		selectArticles("none");
 
 		var crow = $("RROW-" + id);
@@ -253,6 +252,7 @@ function showArticleInHeadlines(id) {
 		var article_is_unread = crow.hasClassName("Unread");
 
 		crow.removeClassName("Unread");
+		crow.addClassName("active");
 
 		selectArticles('none');
 
@@ -337,6 +337,9 @@ function article_callback2(transport, id) {
 
 function view(id) {
 	try {
+		var oldrow = $("RROW-" + getActiveArticleId());
+		if (oldrow) oldrow.removeClassName("active");
+
 		var crow = $("RROW-" + id);
 
 		if (!crow) return;

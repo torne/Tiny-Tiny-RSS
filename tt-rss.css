@@ -193,33 +193,23 @@ a:hover {
 	color : #909090;
 }
 
-.hl.even {
-	border-width : 0px 0px 1px 0px;
+.hl {
+	border-width : 0px 1px 1px 0px;
 	border-style : solid;
 	border-color : #c0c0c0;
+}
+
+.hl.active {
+	background : #ecf4ff ! important;
+}
+
+.hl.even {
 	background : #f0f0f0;
 	border-collapse : collapse;
 }
 
 .hl.odd {
-	border-width : 0px 0px 1px 0px;
-	border-style : solid;
-	border-color : #c0c0c0;
-	border-collapse : collapse;
-}
-
-.hl.even.Unread {
-	background : #f0f0f0;
-	border-width : 0px 0px 1px 0px;
-	border-style : solid;
-	border-color : #c0c0c0;
-	border-collapse : collapse;
-}
-
-.hl.odd.Unread {
-	border-width : 0px 0px 1px 0px;
-	border-style : solid;
-	border-color : #c0c0c0;
+	background : white;
 }
 
 div.filterTestHolder {
@@ -1006,5 +996,14 @@ select.attachments {
 	display : block;
 	margin-top : 10px;
 	max-width : 120px;
+}
+
+div.hl.active {
+	border-color : #88b0f0;
+}
+
+div.hl.active a.title {
+	color : #4684ff;
+	font-weight : bold;
 }
 
