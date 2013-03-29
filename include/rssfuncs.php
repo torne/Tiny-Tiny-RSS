@@ -158,7 +158,8 @@
 			$tmp_result = db_query($link, "SELECT ttrss_feeds.feed_url,ttrss_feeds.id,last_updated
 			FROM ttrss_feeds, ttrss_users WHERE
 				ttrss_users.id = ttrss_feeds.owner_uid AND
-				feed_url = '".db_escape_string($link, $feed)."'
+				feed_url = '".db_escape_string($link, $feed)."' AND
+				ttrss_feeds.update_interval != -1
 				$login_thresh_qpart
 			ORDER BY feed_url $query_limit");
 
