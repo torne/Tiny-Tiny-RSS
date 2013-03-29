@@ -447,7 +447,7 @@ class Feeds extends Handler_Protected {
 					$mouseover_attrs = "onmouseover='postMouseIn(event, $id)'
 						onmouseout='postMouseOut($id)'";
 
-					$reply['content'] .= "<div class='$class' id='RROW-$id' $label_row_style $mouseover_attrs>";
+					$reply['content'] .= "<div class='hl $class' id='RROW-$id' $label_row_style $mouseover_attrs>";
 
 					$reply['content'] .= "<div class='hlLeft'>";
 
@@ -548,7 +548,7 @@ class Feeds extends Handler_Protected {
 					$mouseover_attrs = "onmouseover='postMouseIn(event, $id)'
 						onmouseout='postMouseOut($id)'";
 
-					$expanded_class = $expand_cdm ? "expanded" : "";
+					$expanded_class = $expand_cdm ? "expanded" : "expandable";
 
 					$reply['content'] .= "<div class=\"cdm $expanded_class $class\"
 						id=\"RROW-$id\" $mouseover_attrs'>";

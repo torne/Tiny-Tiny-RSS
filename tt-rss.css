@@ -176,29 +176,37 @@ a:hover {
 	cursor : pointer;
 }
 
-.Selected {
-	background-color : #fff7d5 ! important;
+.hl.Selected {
+	background-color : #fff7d5;
 }
 
-.Unread div.hlTitle {
+.hl.Unread div.hlTitle {
 	font-weight : bold;
 }
 
-.even.Unread.Selected {
-	background : #fff7d5 ! important;
+.hl.even.Unread.Selected {
+	background : #fff7d5;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #e7d796;
 }
 
-.odd.Unread.Selected {
-	background : #fff7d5 ! important;
+.hl.odd.Unread.Selected {
+	background : #fff7d5;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #e7d796;
 }
 
-.even.Selected {
+.hl.even.Selected {
+	background : #fff7d5;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #e7d796;
+	border-collapse : collapse;
+}
+
+.hl.odd.Selected {
 	background : #fff7d5 ! important;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -206,15 +214,7 @@ a:hover {
 	border-collapse : collapse;
 }
 
-.odd.Selected {
-	background : #fff7d5 ! important;
-	border-width : 0px 0px 1px 0px;
-	border-style : solid;
-	border-color : #e7d796;
-	border-collapse : collapse;
-}
-
-.even.Grayed {
+.hl.even.Grayed {
 	background : #f0f0f0;
 	color : #909090;
 	border-width : 0px 0px 1px 0px;
@@ -223,11 +223,11 @@ a:hover {
 	border-collapse : collapse;
 }
 
-.odd.Grayed {
+.hl.odd.Grayed {
 	color : #909090;
 }
 
-.even {
+.hl.even {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #c0c0c0;
@@ -235,14 +235,14 @@ a:hover {
 	border-collapse : collapse;
 }
 
-.odd {
+.hl.odd {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #c0c0c0;
 	border-collapse : collapse;
 }
 
-.even.Unread {
+.hl.even.Unread {
 	background : #f0f0f0;
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -250,7 +250,7 @@ a:hover {
 	border-collapse : collapse;
 }
 
-.odd.Unread {
+.hl.odd.Unread {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #c0c0c0;
@@ -356,7 +356,7 @@ span.feed_error {
 div#headlines-toolbar {
 	border-width : 0px 0px 1px 0px;
 	background-color : #f0f0f0;
-	border-color : #88b0f0 #88b0f0 #ecf4ff #88b0f0;
+	border-color : #c0c0c0;
 	font-size : 11px;
 	font-family : "Segoe UI", Tahoma, sans-serif;
 	color : gray;

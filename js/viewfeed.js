@@ -1646,14 +1646,18 @@ function cdmClicked(event, id) {
 				return cdmExpandArticle(id);
 			} else {
 
+				var elem = $("RROW-" + getActiveArticleId());
+
+				if (elem) elem.removeClassName("active");
+
 				selectArticles("none");
 				toggleSelected(id);
 
 				var elem = $("RROW-" + id);
 				var article_is_unread = elem.hasClassName("Unread");
 
-				if (elem)
-					elem.removeClassName("Unread");
+				elem.removeClassName("Unread");
+				elem.addClassName("active");
 
 				setActiveArticleId(id);
 
