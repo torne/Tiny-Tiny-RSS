@@ -548,6 +548,9 @@
 			if (array_search($line["pref_name"], $active_prefs) === FALSE) {
 //				print "adding " . $line["pref_name"] . "<br>";
 
+				$line["def_value"] = db_escape_string($link, $line["def_value"]);
+				$line["pref_name"] = db_escape_string($link, $line["pref_name"]);
+
 				if (get_schema_version($link) < 63) {
 					db_query($link, "INSERT INTO ttrss_user_prefs
 						(owner_uid,pref_name,value) VALUES
