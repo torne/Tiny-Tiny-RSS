@@ -106,7 +106,7 @@
 		if (isset($_COOKIE[$session_name])) {
 			@session_start();
 
-			if (!isset($_SESSION["uid"] || !$_SESSION["uid"]) {
+			if (!isset($_SESSION["uid"]) || !$_SESSION["uid"]) {
 				session_destroy();
 			   setcookie(session_name(), '', time()-42000, '/');
 			}
