@@ -152,6 +152,8 @@ class RPC extends Handler_Protected {
 		$result = db_query($this->link, "DELETE FROM ttrss_user_entries
 		WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
+		purge_orphans($this->link);
+
 		print json_encode(array("message" => "UPDATE_COUNTERS"));
 	}
 
