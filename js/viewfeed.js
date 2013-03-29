@@ -1150,7 +1150,9 @@ function cdmScrollToArticleId(id, force) {
 
 		if (force || e.offsetTop+e.offsetHeight > (ctr.scrollTop+ctr.offsetHeight) ||
 				e.offsetTop < ctr.scrollTop) {
-			ctr.scrollTop = e.offsetTop;
+
+			// expanded cdm has a 4px margin now
+			ctr.scrollTop = parseInt(e.offsetTop) - 4;
 		}
 
 	} catch (e) {
@@ -1432,6 +1434,8 @@ function cdmExpandArticle(id) {
 
 		if (!$("RROW-" + id)) return false;
 
+		var oldrow = $("RROW-" + getActiveArticleId());
+
 		var elem = $("CICD-" + getActiveArticleId());
 
 		if (id == getActiveArticleId() && Element.visible(elem))
@@ -1448,8 +1452,9 @@ function cdmExpandArticle(id) {
 		  	Element.hide(elem);
 			Element.show("CEXC-" + getActiveArticleId());
 			Element.hide(collapse);
-			$("RROW-" + getActiveArticleId()).removeClassName("active");
 		}
+
+		if (oldrow) oldrow.removeClassName("active");
 
 		setActiveArticleId(id);
 
@@ -1470,7 +1475,6 @@ function cdmExpandArticle(id) {
 			Element.show(elem);
 			Element.hide("CEXC-" + id);
 			Element.show(collapse);
-			$("RROW-" + id).addClassName("active");
 		}
 
 		var new_offset = $("RROW-" + id).offsetTop;
@@ -1480,6 +1484,7 @@ function cdmExpandArticle(id) {
 
 		toggleUnread(id, 0, true);
 		toggleSelected(id);
+		$("RROW-" + id).addClassName("active");
 
 	} catch (e) {
 		exception_error("cdmExpandArticle", e);
