@@ -142,7 +142,7 @@
 
 <div id="footer" dojoType="dijit.layout.ContentPane" region="bottom">
 	<a class="insensitive" target="_blank" href="http://tt-rss.org/">
-	Tiny Tiny RSS</a> &copy; 2005-<?php echo date('Y') ?>
+	Tiny Tiny RSS</a> <?php echo VERSION ?> &copy; 2005-<?php echo date('Y') ?>
 	<a class="insensitive" target="_blank"
 	href="http://fakecake.org/">Andrew Dolgov</a>
 </div> <!-- footer -->
