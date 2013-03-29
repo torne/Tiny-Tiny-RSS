@@ -157,7 +157,7 @@ function confirmOP() {
 			}
 		}
 
-		print "<p>".vsprintf(ngettext("Finished. Performed <b>%d</b> update up to schema version <b>%d</b>.",
+		print "<p>".sprintf(ngettext("Finished. Performed <b>%d</b> update up to schema version <b>%d</b>.",
 			"Finished. Performed <b>%d</b> updates up to schema version <b>%d</b>.", $num_updates), $num_updates, $version)."</p>";
 
 		print "<form method=\"GET\" action=\"backend.php\">
