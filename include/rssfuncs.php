@@ -119,7 +119,7 @@
 				AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
 				$login_thresh_qpart $update_limit_qpart
 			 $updstart_thresh_qpart
-			ORDER BY $random_qpart $query_limit");
+			ORDER BY feed_url,$random_qpart $query_limit");
 
 		$user_prefs_cache = array();
 
@@ -149,7 +149,6 @@
 			if($debug) _debug("Feed: " . $line["feed_url"] . ", " . $line["last_updated"]);
 
 			update_rss_feed($link, $line["id"], true);
-
 			sleep(1); // prevent flood (FIXME make this an option?)
 		}
 
@@ -202,36 +201,44 @@
 
 		$feed = db_escape_string($link, $feed);
 
-		/* if ($auth_login && $auth_pass ){
-			$url_parts = array();
-			preg_match("/(^[^:]*):\/\/(.*)/", $fetch_url, $url_parts);
-
-			if ($url_parts[1] && $url_parts[2]) {
-				$fetch_url = $url_parts[1] . "://$auth_login:$auth_pass@" . $url_parts[2];
-			}
-		} */
-
-		if ($override_url)
-			$fetch_url = $override_url;
-
-		if ($debug_enabled) {
-			_debug("update_rss_feed: fetching [$fetch_url]...");
-		}
-
-		// Ignore cache if new feed or manual update.
-		$cache_age = (is_null($last_updated) || $last_updated == '1970-01-01 00:00:00') ?
-			-1 : get_feed_update_interval($link, $feed) * 60;
-
-		$simplepie_cache_dir = CACHE_DIR . "/simplepie";
+		if ($override_url) $fetch_url = $override_url;
 
 		$date_feed_processed = date('Y-m-d H:i');
 
-		if (!is_dir($simplepie_cache_dir)) {
-			mkdir($simplepie_cache_dir);
+		$cache_filename = CACHE_DIR . "/simplepie/" . sha1($fetch_url) . ".xml";
+
+		// Ignore cache if new feed or manual update.
+		$cache_age = ($no_cache || is_null($last_updated) || $last_updated == '1970-01-01 00:00:00') ?
+			30 : get_feed_update_interval($link, $feed) * 60;
+
+		if ($debug_enabled) {
+			_debug("update_rss_feed: cache filename: $cache_filename exists: " . file_exists($cache_filename));
+			_debug("update_rss_feed: cache age: $cache_age; no cache: $no_cache");
 		}
 
-		$feed_data = fetch_file_contents($fetch_url, false,
-			$auth_login, $auth_pass, false, $no_cache ? 15 : 45);
+		$cached_feed_data_hash = false;
+
+		if (file_exists($cache_filename) &&
+			is_readable($cache_filename) &&
+			!$auth_login && !$auth_pass &&
+			filemtime($cache_filename) > time() - $cache_age) {
+
+				if ($debug_enabled) {
+					_debug("update_rss_feed: using local cache.");
+				}
+
+				$feed_data = file_get_contents($cache_filename);
+				$cached_feed_data_hash = sha1($feed_data);
+		}
+
+		if (!$feed_data) {
+			if ($debug_enabled) {
+				_debug("update_rss_feed: fetching [$fetch_url]...");
+			}
+
+			$feed_data = fetch_file_contents($fetch_url, false,
+				$auth_login, $auth_pass, false, $no_cache ? 15 : 45);
+		}
 
 		if (!$feed_data) {
 			global $fetch_last_error;
@@ -247,6 +254,18 @@
 					last_updated = NOW() WHERE id = '$feed'");
 
 			return;
+		}
+
+		// cache data for later
+		if (!$auth_pass && !$auth_login && is_writable(CACHE_DIR . "/simplepie")) {
+			if (sha1($feed_data) != $cached_feed_data_hash) {
+
+				if ($debug_enabled) {
+					_debug("update_rss_feed: saving $cache_filename");
+				}
+
+				@file_put_contents($cache_filename, $feed_data);
+			}
 		}
 
 		$pluginhost = new PluginHost($link);
@@ -272,17 +291,11 @@
 		$rss->sanitize = new SanitizeDummy();
 		$rss->set_output_encoding('UTF-8');
 		$rss->set_raw_data($feed_data);
+		$rss->enable_cache(false);
 
 		if ($debug_enabled) {
 			_debug("feed update interval (sec): " .
 				get_feed_update_interval($link, $feed)*60);
-		}
-
-		$rss->enable_cache(!$no_cache);
-
-		if (!$no_cache) {
-			$rss->set_cache_location($simplepie_cache_dir);
-			$rss->set_cache_duration($cache_age);
 		}
 
 		@$rss->init();
