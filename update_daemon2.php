@@ -186,7 +186,7 @@
 		// respect the spawn interval
 		$next_spawn = $last_checkpoint + $spawn_interval - time();
 
-		if ($next_spawn % 10 == 0) {
+		if ($next_spawn % 60 == 0) {
 			$running_jobs = count($children);
 			_debug("[MASTER] active jobs: $running_jobs, next spawn at $next_spawn sec.");
 		}
