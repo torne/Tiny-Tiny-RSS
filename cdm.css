@@ -72,10 +72,19 @@ div.cdmFooter {
 div.cdm {
 	border-width : 0px 1px 1px 0px;
 	border-collapse : collapse;
-	border-bottom-color : #c0c0c0;
-	border-right-color : #c0c0c0;
+	border-color : #c0c0c0;
 	border-style : solid;
+	background : #fafafa;
+}
+
+div.cdm.expandable {
 	background : #f0f0f0;
+}
+
+div.cdm.expanded {
+	margin : 4px 4px 0px 4px;
+	border-width : 1px;
+	border-color : #c0c0c0;
 }
 
 div.cdm.expanded div.cdmHeader {
@@ -108,8 +117,7 @@ div.cdm.expanded.active.Selected div.cdmHeader {
 }
 
 div.cdm.active {
-	border-right-color : #88b0f0;
-	border-bottom-color : #88b0f0;
+	border-color : #88b0f0;
 	background : white ! important;
 }
 
