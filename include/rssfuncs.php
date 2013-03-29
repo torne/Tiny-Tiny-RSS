@@ -149,7 +149,6 @@
 			if($debug) _debug("Feed: " . $line["feed_url"] . ", " . $line["last_updated"]);
 
 			update_rss_feed($link, $line["id"], true);
-			sleep(1); // prevent flood (FIXME make this an option?)
 		}
 
 		require_once "digest.php";
@@ -205,7 +204,7 @@
 
 		$date_feed_processed = date('Y-m-d H:i');
 
-		$cache_filename = CACHE_DIR . "/simplepie/" . sha1($fetch_url) . ".xml";
+		$cache_filename = CACHE_DIR . "/simplepie/" . sha1($fetch_url) . ".feed";
 
 		// Ignore cache if new feed or manual update.
 		$cache_age = ($no_cache || is_null($last_updated) || $last_updated == '1970-01-01 00:00:00') ?
@@ -218,6 +217,9 @@
 
 		$cached_feed_data_hash = false;
 
+		$rss = false;
+		$rss_hash = false;
+
 		if (file_exists($cache_filename) &&
 			is_readable($cache_filename) &&
 			!$auth_login && !$auth_pass &&
@@ -227,44 +229,44 @@
 					_debug("update_rss_feed: using local cache.");
 				}
 
-				$feed_data = file_get_contents($cache_filename);
-				$cached_feed_data_hash = sha1($feed_data);
+				@$rss_data = file_get_contents($cache_filename);
+
+				if ($rss_data) {
+					$rss_hash = sha1($rss_data);
+					@$rss = unserialize($rss_data);
+				}
 		}
 
-		if (!$feed_data) {
-			if ($debug_enabled) {
-				_debug("update_rss_feed: fetching [$fetch_url]...");
-			}
+		if (!$rss) {
 
-			$feed_data = fetch_file_contents($fetch_url, false,
-				$auth_login, $auth_pass, false, $no_cache ? 15 : 45);
-		}
-
-		if (!$feed_data) {
-			global $fetch_last_error;
-
-			if ($debug_enabled) {
-				_debug("update_rss_feed: unable to fetch: $fetch_last_error");
-			}
-
-			$error_escaped = db_escape_string($link, $fetch_last_error);
-
-			db_query($link,
-				"UPDATE ttrss_feeds SET last_error = '$error_escaped',
-					last_updated = NOW() WHERE id = '$feed'");
-
-			return;
-		}
-
-		// cache data for later
-		if (!$auth_pass && !$auth_login && is_writable(CACHE_DIR . "/simplepie")) {
-			if (sha1($feed_data) != $cached_feed_data_hash) {
-
+			if (!$feed_data) {
 				if ($debug_enabled) {
-					_debug("update_rss_feed: saving $cache_filename");
+					_debug("update_rss_feed: fetching [$fetch_url]...");
 				}
 
-				@file_put_contents($cache_filename, $feed_data);
+				$feed_data = fetch_file_contents($fetch_url, false,
+					$auth_login, $auth_pass, false, $no_cache ? 15 : 45);
+
+				if ($debug_enabled) {
+					_debug("update_rss_feed: fetch done.");
+				}
+
+			}
+
+			if (!$feed_data) {
+				global $fetch_last_error;
+
+				if ($debug_enabled) {
+					_debug("update_rss_feed: unable to fetch: $fetch_last_error");
+				}
+
+				$error_escaped = db_escape_string($link, $fetch_last_error);
+
+				db_query($link,
+					"UPDATE ttrss_feeds SET last_error = '$error_escaped',
+						last_updated = NOW() WHERE id = '$feed'");
+
+				return;
 			}
 		}
 
@@ -280,26 +282,37 @@
 			$feed_data = $plugin->hook_feed_fetched($feed_data);
 		}
 
-		if ($debug_enabled) {
-			_debug("update_rss_feed: fetch done, parsing...");
+		if (!$rss) {
+			$rss = new SimplePie();
+			$rss->set_sanitize_class("SanitizeDummy");
+			// simplepie ignores the above and creates default sanitizer anyway,
+			// so let's override it...
+			$rss->sanitize = new SanitizeDummy();
+			$rss->set_output_encoding('UTF-8');
+			$rss->set_raw_data($feed_data);
+			$rss->enable_cache(false);
+
+			@$rss->init();
 		}
-
-		$rss = new SimplePie();
-		$rss->set_sanitize_class("SanitizeDummy");
-		// simplepie ignores the above and creates default sanitizer anyway,
-		// so let's override it...
-		$rss->sanitize = new SanitizeDummy();
-		$rss->set_output_encoding('UTF-8');
-		$rss->set_raw_data($feed_data);
-		$rss->enable_cache(false);
-
-		@$rss->init();
 
 //		print_r($rss);
 
 		$feed = db_escape_string($link, $feed);
 
 		if (!$rss->error()) {
+
+			// cache data for later
+			if (!$auth_pass && !$auth_login && is_writable(CACHE_DIR . "/simplepie")) {
+				$rss_data = serialize($rss);
+				$new_rss_hash = sha1($rss_data);
+
+				if ($new_rss_hash != $rss_hash) {
+					if ($debug_enabled) {
+						_debug("update_rss_feed: saving $cache_filename");
+					}
+					@file_put_contents($cache_filename, serialize($rss));
+				}
+			}
 
 			// We use local pluginhost here because we need to load different per-user feed plugins
 			$pluginhost->run_hooks($pluginhost::HOOK_FEED_PARSED, "hook_feed_parsed", $rss);
