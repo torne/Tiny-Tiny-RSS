@@ -365,15 +365,13 @@ class Handler_Public extends Handler {
 		}
 
 		header('Content-Type: text/html; charset=utf-8');
-		print "<html>
-				<head>
-					<title>Tiny Tiny RSS</title>
-					<link rel=\"stylesheet\" type=\"text/css\" href=\"utility.css\">
-					<script type=\"text/javascript\" src=\"lib/prototype.js\"></script>
-					<script type=\"text/javascript\" src=\"lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls\"></script>
-					<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
-				</head>
-				<body id='sharepopup'>";
+		print "<html><head><title>Tiny Tiny RSS</title>";
+
+		print stylesheet_tag("utility.css");
+		print javascript_tag("lib/prototype.js");
+		print javascript_tag("lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls");
+		print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
+			</head><body id='sharepopup'>";
 
 		$action = $_REQUEST["action"];
 
