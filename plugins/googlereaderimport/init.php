@@ -95,6 +95,7 @@ class GoogleReaderImport extends Plugin {
 					$link = '';
 					$content = '';
 					$author = db_escape_string($this->link, $item['author']);
+					$tags = array();
 
 					if (is_array($item['alternate'])) {
 						foreach ($item['alternate'] as $alt) {
@@ -109,10 +110,18 @@ class GoogleReaderImport extends Plugin {
 							$item['content']['content'], false);
 					}
 
+					if (is_array($item['categories'])) {
+						foreach ($item['categories'] as $cat) {
+							if (strstr($cat, "com.google/") === FALSE) {
+								array_push($tags, sanitize_tag($cat));
+							}
+						}
+					}
+
 					$processed++;
 
 					$imported += (int) $this->create_article($owner_uid, $guid, $title,
-						$updated, $link, $content, $author, $sql_set_marked);
+						$updated, $link, $content, $author, $sql_set_marked, $tags);
 
 				}
 
@@ -140,7 +149,7 @@ class GoogleReaderImport extends Plugin {
 	}
 
 	// expects ESCAPED data
-	private function create_article($owner_uid, $guid, $title, $updated, $link, $content, $author, $marked) {
+	private function create_article($owner_uid, $guid, $title, $updated, $link, $content, $author, $marked, $tags) {
 
 		if (!$guid) $guid = sha1($link);
 
@@ -173,10 +182,41 @@ class GoogleReaderImport extends Plugin {
 					VALUES
 					('$ref_id', '', NULL, NULL, $owner_uid, $marked, '', '', NOW(), '', false, NOW())");
 
-				if (count($labels) != 0) {
-					foreach ($labels as $label) {
-						label_add_article($link, $ref_id, trim($label), $owner_uid);
+				$result = db_query($this->link, "SELECT int_id FROM ttrss_user_entries, ttrss_entries
+					WHERE owner_uid = $owner_uid AND ref_id = id AND ref_id = $ref_id");
+
+				if (db_num_rows($result) != 0 && is_array($tags)) {
+
+					$entry_int_id = db_fetch_result($result, 0, "int_id");
+					$tags_to_cache = array();
+
+					foreach ($tags as $tag) {
+
+						$tag = db_escape_string($this->link, sanitize_tag($tag));
+
+						if (!tag_is_valid($tag)) continue;
+
+						$result = db_query($this->link, "SELECT id FROM ttrss_tags
+							WHERE tag_name = '$tag' AND post_int_id = '$entry_int_id' AND
+							owner_uid = '$owner_uid' LIMIT 1");
+
+							if ($result && db_num_rows($result) == 0) {
+								db_query($this->link, "INSERT INTO ttrss_tags
+									(owner_uid,tag_name,post_int_id)
+									VALUES ('$owner_uid','$tag', '$entry_int_id')");
+							}
+
+						array_push($tags_to_cache, $tag);
 					}
+
+					/* update the cache */
+
+					$tags_to_cache = array_unique($tags_to_cache);
+					$tags_str = db_escape_string($this->link, join(",", $tags_to_cache));
+
+					db_query($this->link, "UPDATE ttrss_user_entries
+						SET tag_cache = '$tags_str' WHERE ref_id = '$ref_id'
+						AND owner_uid = $owner_uid");
 				}
 
 				$rc = true;
