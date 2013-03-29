@@ -1410,6 +1410,7 @@ function cdmCollapseArticle(event, id) {
 		  	Element.hide(elem);
 			Element.show("CEXC-" + id);
 			Element.hide(collapse);
+			row.removeClassName("active");
 
 			markHeadline(id, false);
 
