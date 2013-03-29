@@ -293,11 +293,6 @@
 		$rss->set_raw_data($feed_data);
 		$rss->enable_cache(false);
 
-		if ($debug_enabled) {
-			_debug("feed update interval (sec): " .
-				get_feed_update_interval($link, $feed)*60);
-		}
-
 		@$rss->init();
 
 //		print_r($rss);
