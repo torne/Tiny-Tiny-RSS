@@ -165,7 +165,7 @@
 
 			if (db_num_rows($tmp_result) > 0) {
 				while ($tline = db_fetch_assoc($tmp_result)) {
-					if($debug) _debug(" => " . $tline["feed_url"] . ", " . $tline["last_updated"] . ", " . $tline["id"]);
+					if($debug) _debug(" => " . $tline["last_updated"] . ", " . $tline["id"]);
 					update_rss_feed($link, $tline["id"], true);
 				}
 			}
