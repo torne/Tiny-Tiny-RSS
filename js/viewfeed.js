@@ -635,12 +635,6 @@ function toggleUnread(id, cmode, effect) {
 				if (row.hasClassName("Unread")) {
 					row.removeClassName("Unread");
 
-					if (effect) {
-						new Effect.Highlight(row, {duration: 1, startcolor: "#fff7d5",
-							afterFinish: toggleUnread_afh,
-							queue: { position:'end', scope: 'TMRQ-' + id, limit: 1 } } );
-					}
-
 				} else {
 					row.addClassName("Unread");
 				}
@@ -648,12 +642,6 @@ function toggleUnread(id, cmode, effect) {
 			} else if (cmode == 0) {
 
 				row.removeClassName("Unread");
-
-				if (effect) {
-					new Effect.Highlight(row, {duration: 1, startcolor: "#fff7d5",
-						afterFinish: toggleUnread_afh,
-						queue: { position:'end', scope: 'TMRQ-' + id, limit: 1 } } );
-				}
 
 			} else if (cmode == 1) {
 				row.addClassName("Unread");
