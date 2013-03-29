@@ -3798,7 +3798,6 @@
 
 			if (count($ids) > 0) {
 				$ids = join(",", $ids);
-				print ".";
 
 				$tmp_result = db_query($link, "DELETE FROM ttrss_tags WHERE id IN ($ids)");
 				$tags_deleted += db_affected_rows($link, $tmp_result);
