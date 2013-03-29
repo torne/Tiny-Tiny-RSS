@@ -108,9 +108,7 @@
 		$random_qpart = sql_random_function();
 
 		// We search for feed needing update.
-		$result = db_query($link, "SELECT ttrss_feeds.feed_url,ttrss_feeds.id, ttrss_feeds.owner_uid,
-				".SUBSTRING_FOR_DATE."(ttrss_feeds.last_updated,1,19) AS last_updated,
-				ttrss_feeds.update_interval
+		$result = db_query($link, "SELECT DISTINCT ttrss_feeds.feed_url
 			FROM
 				ttrss_feeds, ttrss_users, ttrss_user_prefs
 			WHERE
@@ -118,8 +116,8 @@
 				AND ttrss_users.id = ttrss_user_prefs.owner_uid
 				AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
 				$login_thresh_qpart $update_limit_qpart
-			 $updstart_thresh_qpart
-			ORDER BY feed_url,$random_qpart $query_limit");
+				$updstart_thresh_qpart
+			ORDER BY feed_url $query_limit");
 
 		$user_prefs_cache = array();
 
@@ -128,27 +126,48 @@
 		// Here is a little cache magic in order to minimize risk of double feed updates.
 		$feeds_to_update = array();
 		while ($line = db_fetch_assoc($result)) {
-			$feeds_to_update[$line['id']] = $line;
+			array_push($feeds_to_update, db_escape_string($link, $line['feed_url']));
 		}
 
 		// We update the feed last update started date before anything else.
 		// There is no lag due to feed contents downloads
 		// It prevent an other process to update the same feed.
-		$feed_ids = array_keys($feeds_to_update);
-		if($feed_ids) {
+
+		if(count($feeds_to_update) > 0) {
+			$feeds_quoted = array();
+
+			foreach ($feeds_to_update as $feed) {
+				array_push($feeds_quoted, "'" . db_escape_string($link, $feed) . "'");
+			}
+
 			db_query($link, sprintf("UPDATE ttrss_feeds SET last_update_started = NOW()
-				WHERE id IN (%s)", implode(',', $feed_ids)));
+				WHERE feed_url IN (%s)", implode(',', $feeds_quoted)));
 		}
 
 		expire_cached_files($debug);
 		expire_lock_files($debug);
 
 		// For each feed, we call the feed update function.
-		while ($line = array_pop($feeds_to_update)) {
+		foreach ($feeds_to_update as $feed) {
+			if($debug) _debug("Base feed: $feed");
 
-			if($debug) _debug("Feed: " . $line["feed_url"] . ", " . $line["last_updated"]);
+			//update_rss_feed($link, $line["id"], true);
 
-			update_rss_feed($link, $line["id"], true);
+			// since we have the data cached, we can deal with other feeds with the same url
+
+			$tmp_result = db_query($link, "SELECT ttrss_feeds.feed_url,ttrss_feeds.id,last_updated
+			FROM ttrss_feeds, ttrss_users WHERE
+				ttrss_users.id = ttrss_feeds.owner_uid AND
+				feed_url = '".db_escape_string($link, $feed)."'
+				$login_thresh_qpart
+			ORDER BY feed_url $query_limit");
+
+			if (db_num_rows($tmp_result) > 0) {
+				while ($tline = db_fetch_assoc($tmp_result)) {
+					if($debug) _debug(" => " . $tline["feed_url"] . ", " . $tline["last_updated"] . ", " . $tline["id"]);
+					update_rss_feed($link, $tline["id"], true);
+				}
+			}
 		}
 
 		require_once "digest.php";
