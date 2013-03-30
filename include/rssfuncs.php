@@ -251,11 +251,18 @@
 					_debug("update_rss_feed: using local cache.");
 				}
 
-				@$rss_data = file_get_contents($cache_filename);
+				if ($cache_timestamp > $last_updated_timestamp) {
+					@$rss_data = file_get_contents($cache_filename);
 
-				if ($rss_data) {
-					$rss_hash = sha1($rss_data);
-					@$rss = unserialize($rss_data);
+					if ($rss_data) {
+						$rss_hash = sha1($rss_data);
+						@$rss = unserialize($rss_data);
+					}
+				} else {
+					if ($debug_enabled) {
+						_debug("update_rss_feed: local cache valid and older than last_updated, nothing to do.");
+					}
+					return;
 				}
 		}
 
