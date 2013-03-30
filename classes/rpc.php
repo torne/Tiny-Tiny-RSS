@@ -158,11 +158,58 @@ class RPC extends Handler_Protected {
 	}
 
 	function unarchive() {
-		$ids = db_escape_string($this->link, $_REQUEST["ids"]);
+		$ids = explode(",", $_REQUEST["ids"]);
 
-		$result = db_query($this->link, "UPDATE ttrss_user_entries
-					SET feed_id = orig_feed_id, orig_feed_id = NULL
-					WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
+		foreach ($ids as $id) {
+			$id = db_escape_string($this->link, trim($id));
+			db_query($this->link, "BEGIN");
+
+			$result = db_query($this->link, "SELECT feed_url,site_url,title FROM ttrss_archived_feeds
+				WHERE id = (SELECT orig_feed_id FROM ttrss_user_entries WHERE ref_id = $id
+				AND owner_uid = ".$_SESSION["uid"].")");
+
+			if (db_num_rows($result) != 0) {
+				$feed_url = db_escape_string($this->link, db_fetch_result($result, 0, "feed_url"));
+				$site_url = db_escape_string($this->link, db_fetch_result($result, 0, "site_url"));
+				$title = db_escape_string($this->link, db_fetch_result($result, 0, "title"));
+
+				$result = db_query($this->link, "SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_url'
+					AND owner_uid = " .$_SESSION["uid"]);
+
+				if (db_num_rows($result) == 0) {
+
+					if (!$title) $title = '[Unknown]';
+
+					$result = db_query($this->link,
+						"INSERT INTO ttrss_feeds
+							(owner_uid,feed_url,site_url,title,cat_id,auth_login,auth_pass,update_method)
+							VALUES (".$_SESSION["uid"].",
+							'$feed_url',
+							'$site_url',
+							'$title',
+							NULL, '', '', 0)");
+
+					$result = db_query($this->link,
+						"SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_url'
+						AND owner_uid = ".$_SESSION["uid"]);
+
+					if (db_num_rows($result) != 0) {
+						$feed_id = db_fetch_result($result, 0, "id");
+					}
+
+				} else {
+					$feed_id = db_fetch_result($result, 0, "id");
+				}
+
+				if ($feed_id) {
+					$result = db_query($this->link, "UPDATE ttrss_user_entries
+						SET feed_id = '$feed_id', orig_feed_id = NULL
+						WHERE ref_id = $id AND owner_uid = " . $_SESSION["uid"]);
+				}
+			}
+
+			db_query($this->link, "COMMIT");
+		}
 
 		print json_encode(array("message" => "UPDATE_COUNTERS"));
 	}

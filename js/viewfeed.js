@@ -1021,6 +1021,9 @@ function archiveSelection() {
 			op = "archive";
 		} else {
 			str = ngettext("Move %d archived article back?", "Move %d archived articles back?", rows.length);
+
+			str += " " + __("Please note that unstarred articles might get purged on next feed update.");
+
 			op = "unarchive";
 		}
 
