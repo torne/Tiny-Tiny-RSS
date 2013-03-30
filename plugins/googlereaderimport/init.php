@@ -248,7 +248,6 @@ class GoogleReaderImport extends Plugin {
 			}
 		}
 
-		// only check for our user data here, others might have shared this with different content etc
 		$result = db_query($this->link, "SELECT id FROM ttrss_entries, ttrss_user_entries WHERE
 			guid = '$guid' AND ref_id = id AND owner_uid = '$owner_uid' LIMIT 1");
 
