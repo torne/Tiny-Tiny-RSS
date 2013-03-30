@@ -726,9 +726,9 @@ function selectionAssignLabel(id, ids) {
 	}
 }
 
-function selectionToggleUnread(set_state, callback, no_error) {
+function selectionToggleUnread(set_state, callback, no_error, ids) {
 	try {
-		var rows = getSelectedArticleIds2();
+		var rows = ids ? ids : getSelectedArticleIds2();
 
 		if (rows.length == 0 && !no_error) {
 			alert(__("No articles are selected."));
@@ -787,12 +787,13 @@ function selectionToggleUnread(set_state, callback, no_error) {
 	}
 }
 
-function selectionToggleMarked() {
+// sel_state ignored
+function selectionToggleMarked(sel_state, callback, no_error, ids) {
 	try {
 
-		var rows = getSelectedArticleIds2();
+		var rows = ids ? ids : getSelectedArticleIds2();
 
-		if (rows.length == 0) {
+		if (rows.length == 0 && !no_error) {
 			alert(__("No articles are selected."));
 			return;
 		}
@@ -810,6 +811,7 @@ function selectionToggleMarked() {
 				parameters: query,
 				onComplete: function(transport) {
 					handle_rpc_json(transport);
+					if (callback) callback(transport);
 				} });
 
 		}
@@ -819,12 +821,13 @@ function selectionToggleMarked() {
 	}
 }
 
-function selectionTogglePublished() {
+// sel_state ignored
+function selectionTogglePublished(sel_state, callback, no_error, ids) {
 	try {
 
-		var rows = getSelectedArticleIds2();
+		var rows = ids ? ids : getSelectedArticleIds2();
 
-		if (rows.length == 0) {
+		if (rows.length == 0 && !no_error) {
 			alert(__("No articles are selected."));
 			return;
 		}
@@ -1885,6 +1888,41 @@ function initHeadlinesMenu() {
 			onClick: function(event) {
 				displayArticleUrl(this.getParent().callerRowId);
 			}}));
+
+		menu.addChild(new dijit.MenuSeparator());
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Toggle unread"),
+			onClick: function(event) {
+				var ids = getSelectedArticleIds2();
+				// cast to string
+				var id = this.getParent().callerRowId + "";
+				ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+
+				selectionToggleUnread(undefined, false, true, ids);
+				}}));
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Toggle marked"),
+			onClick: function(event) {
+				var ids = getSelectedArticleIds2();
+				// cast to string
+				var id = this.getParent().callerRowId + "";
+				ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+
+				selectionToggleMarked(undefined, false, true, ids);
+				}}));
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Toggle published"),
+			onClick: function(event) {
+				var ids = getSelectedArticleIds2();
+				// cast to string
+				var id = this.getParent().callerRowId + "";
+				ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+
+				selectionTogglePublished(undefined, false, true, ids);
+				}}));
 
 		menu.addChild(new dijit.MenuSeparator());
 
