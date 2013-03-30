@@ -244,15 +244,15 @@
 					}
 
 					// Call to the feed batch update function
-					// or regenerate feedbrowser cache
+					// and maybe regenerate feedbrowser cache
 
 					$nf = 0;
 
-					if (rand(0,100) > 30) {
-						_debug("Waiting before update..");
-						sleep(rand(5,15));
-						$nf = update_daemon_common($link);
-					} else {
+					_debug("Waiting before update..");
+					sleep(rand(5,15));
+					$nf = update_daemon_common($link);
+
+					if (rand(0,100) > 50) {
 						$count = update_feedbrowser_cache($link);
 						_debug("Feedbrowser updated, $count feeds processed.");
 
