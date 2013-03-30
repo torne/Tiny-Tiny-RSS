@@ -6,6 +6,7 @@
 	define('PLUGIN_FEED_BASE_INDEX', -128);
 
 	$fetch_last_error = false;
+	$fetch_last_error_code = false;
 	$pluginhost = false;
 
 	function __autoload($class) {
@@ -287,9 +288,10 @@
 		}
 	}
 
-	function fetch_file_contents($url, $type = false, $login = false, $pass = false, $post_query = false, $timeout = false) {
+	function fetch_file_contents($url, $type = false, $login = false, $pass = false, $post_query = false, $timeout = false, $timestamp = 0) {
 
 		global $fetch_last_error;
+		global $fetch_last_error_code;
 
 		if (function_exists('curl_init') && !ini_get("open_basedir")) {
 
@@ -297,6 +299,11 @@
 				$ch = curl_init(geturl($url));
 			} else {
 				$ch = curl_init($url);
+			}
+
+			if ($timestamp) {
+				curl_setopt($ch, CURLOPT_HTTPHEADER,
+					array("If-Modified-Since: ".gmdate('D, d M Y H:i:s \G\M\T', $timestamp)));
 			}
 
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout ? $timeout : 15);
@@ -334,6 +341,8 @@
 
 			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 			$content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+
+			$fetch_last_error_code = $http_code;
 
 			if ($http_code != 200 || $type && strpos($content_type, "$type") === false) {
 				if (curl_errno($ch) != 0) {

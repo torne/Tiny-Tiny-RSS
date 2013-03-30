@@ -239,6 +239,7 @@
 
 		$rss = false;
 		$rss_hash = false;
+		$cache_timestamp = file_exists($cache_filename) ? filemtime($cache_filename) : 0;
 
 		if (file_exists($cache_filename) &&
 			is_readable($cache_filename) &&
@@ -261,11 +262,11 @@
 
 			if (!$feed_data) {
 				if ($debug_enabled) {
-					_debug("update_rss_feed: fetching [$fetch_url]...");
+					_debug("update_rss_feed: fetching [$fetch_url] (ts: $cache_timestamp)");
 				}
 
 				$feed_data = fetch_file_contents($fetch_url, false,
-					$auth_login, $auth_pass, false, $no_cache ? 15 : 45);
+					$auth_login, $auth_pass, false, $no_cache ? 15 : 45, $cache_timestamp);
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: fetch done.");
@@ -275,12 +276,22 @@
 
 			if (!$feed_data) {
 				global $fetch_last_error;
+				global $fetch_last_error_code;
 
 				if ($debug_enabled) {
-					_debug("update_rss_feed: unable to fetch: $fetch_last_error");
+					_debug("update_rss_feed: unable to fetch: $fetch_last_error [$fetch_last_error_code]");
 				}
 
-				$error_escaped = db_escape_string($link, $fetch_last_error);
+				$error_escaped = '';
+
+				// If-Modified-Since
+				if ($fetch_last_error_code != 304) {
+					$error_escaped = db_escape_string($link, $fetch_last_error);
+				} else {
+					if ($debug_enabled) {
+						_debug("update_rss_feed: source claims data not modified, nothing to do.");
+					}
+				}
 
 				db_query($link,
 					"UPDATE ttrss_feeds SET last_error = '$error_escaped',
