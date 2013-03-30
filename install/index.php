@@ -114,6 +114,8 @@
 
 		$rv = "";
 
+		$finished = false;
+
 		foreach ($data as $line) {
 			if (preg_match("/define\('DB_TYPE'/", $line)) {
 				$rv .= "\tdefine('DB_TYPE', '$DB_TYPE');\n";
@@ -129,8 +131,12 @@
 				$rv .= "\tdefine('DB_PORT', '$DB_PORT');\n";
 			} else if (preg_match("/define\('SELF_URL_PATH'/", $line)) {
 				$rv .= "\tdefine('SELF_URL_PATH', '$SELF_URL_PATH');\n";
-			} else {
+			} else if (!$finished) {
 				$rv .= "$line\n";
+			}
+
+			if (preg_match("/\?\>/", $line)) {
+				$finished = true;
 			}
 		}
 
