@@ -153,7 +153,7 @@
 
 	if (isset($options["daemon-loop"])) {
 		if (!make_stampfile('update_daemon.stamp')) {
-			die("error: unable to create stampfile\n");
+			_debug("warning: unable to create stampfile\n");
 		}
 
 		// Call to the feed batch update function

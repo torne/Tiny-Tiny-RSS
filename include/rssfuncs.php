@@ -108,7 +108,7 @@
 		$random_qpart = sql_random_function();
 
 		// We search for feed needing update.
-		$result = db_query($link, "SELECT DISTINCT ttrss_feeds.feed_url
+		$result = db_query($link, "SELECT DISTINCT ttrss_feeds.feed_url,$random_qpart
 			FROM
 				ttrss_feeds, ttrss_users, ttrss_user_prefs
 			WHERE
@@ -117,7 +117,7 @@
 				AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
 				$login_thresh_qpart $update_limit_qpart
 				$updstart_thresh_qpart
-			ORDER BY feed_url $query_limit");
+			ORDER BY $random_qpart $query_limit");
 
 		$user_prefs_cache = array();
 
