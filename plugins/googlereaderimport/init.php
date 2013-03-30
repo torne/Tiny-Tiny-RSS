@@ -59,6 +59,8 @@ class GoogleReaderImport extends Plugin {
 
 	function import($file = false, $owner_uid = 0) {
 
+		purge_orphans($this->link);
+
 		if (!$file) {
 			header("Content-Type: text/html");
 
@@ -96,6 +98,7 @@ class GoogleReaderImport extends Plugin {
 					$content = '';
 					$author = db_escape_string($this->link, $item['author']);
 					$tags = array();
+					$orig_feed_data = array();
 
 					if (is_array($item['alternate'])) {
 						foreach ($item['alternate'] as $alt) {
@@ -118,11 +121,26 @@ class GoogleReaderImport extends Plugin {
 						}
 					}
 
+					if (is_array($item['origin'])) {
+						if (strpos($item['origin']['streamId'], 'feed/') === 0) {
+
+							$orig_feed_data['feed_url'] = db_escape_string($this->link,
+								preg_replace("/^feed\//",
+									"", $item['origin']['streamId']));
+
+							$orig_feed_data['title'] = db_escape_string($this->link,
+								$item['origin']['title']);
+
+							$orig_feed_data['site_url'] = db_escape_string($this->link,
+								$item['origin']['htmlUrl']);
+						}
+					}
+
 					$processed++;
 
 					$imported += (int) $this->create_article($owner_uid, $guid, $title,
-						$updated, $link, $content, $author, $sql_set_marked, $tags);
-
+						$updated, $link, $content, $author, $sql_set_marked, $tags,
+						$orig_feed_data);
 				}
 
 				if ($file) {
@@ -149,7 +167,7 @@ class GoogleReaderImport extends Plugin {
 	}
 
 	// expects ESCAPED data
-	private function create_article($owner_uid, $guid, $title, $updated, $link, $content, $author, $marked, $tags) {
+	private function create_article($owner_uid, $guid, $title, $updated, $link, $content, $author, $marked, $tags, $orig_feed_data) {
 
 		if (!$guid) $guid = sha1($link);
 
@@ -160,6 +178,75 @@ class GoogleReaderImport extends Plugin {
 		if (filter_var($link, FILTER_VALIDATE_URL) === FALSE) return false;
 
 		db_query($this->link, "BEGIN");
+
+		$feed_id = 'NULL';
+
+		// let's check for archived feed entry
+
+		$feed_inserted = false;
+
+		// before dealing with archived feeds we must check ttrss_feeds to maintain id consistency
+
+		if ($orig_feed_data['feed_url']) {
+				$result = db_query($this->link,
+					"SELECT id FROM ttrss_feeds WHERE feed_url = '".$orig_feed_data['feed_url']."'
+						AND owner_uid = $owner_uid");
+
+			if (db_num_rows($result) != 0) {
+				$feed_id = db_fetch_result($result, 0, "id");
+			} else {
+				// let's insert it
+
+				if (!$orig_feed_data['title']) $orig_feed_data['title'] = '[Unknown]';
+
+				$result = db_query($this->link,
+					"INSERT INTO ttrss_feeds
+						(owner_uid,feed_url,site_url,title,cat_id,auth_login,auth_pass,update_method)
+						VALUES ($owner_uid,
+						'".$orig_feed_data['feed_url']."',
+						'".$orig_feed_data['site_url']."',
+						'".$orig_feed_data['title']."',
+						NULL, '', '', 0)");
+
+				$result = db_query($this->link,
+					"SELECT id FROM ttrss_feeds WHERE feed_url = '".$orig_feed_data['feed_url']."'
+						AND owner_uid = $owner_uid");
+
+				if (db_num_rows($result) != 0) {
+					$feed_id = db_fetch_result($result, 0, "id");
+					$feed_inserted = true;
+				}
+			}
+		}
+
+		if ($feed_id) {
+			// locate archived entry to file entries in, we don't want to file them in actual feeds because of purging
+			// maybe file marked in real feeds because eh
+
+			$result = db_query($this->link, "SELECT id FROM ttrss_archived_feeds WHERE
+				feed_url = '".$orig_feed_data['feed_url']."' AND owner_uid = $owner_uid");
+
+			if (db_num_rows($result) != 0) {
+				$orig_feed_id = db_fetch_result($result, 0, "id");
+			} else {
+				db_query($this->link, "INSERT INTO ttrss_archived_feeds
+						(id, owner_uid, title, feed_url, site_url)
+						SELECT id, owner_uid, title, feed_url, site_url from ttrss_feeds
+							WHERE id = '$feed_id'");
+
+				$result = db_query($this->link, "SELECT id FROM ttrss_archived_feeds WHERE
+					feed_url = '".$orig_feed_data['feed_url']."' AND owner_uid = $owner_uid");
+
+				if (db_num_rows($result) != 0) {
+					$orig_feed_id = db_fetch_result($result, 0, "id");
+
+					// delete temporarily inserted feed
+					if ($feed_inserted) {
+						db_query($this->link, "DELETE FROM ttrss_feeds WHERE id = $feed_id");
+					}
+				}
+			}
+		}
 
 		// only check for our user data here, others might have shared this with different content etc
 		$result = db_query($this->link, "SELECT id FROM ttrss_entries, ttrss_user_entries WHERE
@@ -180,7 +267,7 @@ class GoogleReaderImport extends Plugin {
 					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, marked, tag_cache, label_cache,
 						last_read, note, unread, last_marked)
 					VALUES
-					('$ref_id', '', NULL, NULL, $owner_uid, $marked, '', '', NOW(), '', false, NOW())");
+					('$ref_id', '', NULL, $feed_id, $owner_uid, $marked, '', '', NOW(), '', false, NOW())");
 
 				$result = db_query($this->link, "SELECT int_id FROM ttrss_user_entries, ttrss_entries
 					WHERE owner_uid = $owner_uid AND ref_id = id AND ref_id = $ref_id");
