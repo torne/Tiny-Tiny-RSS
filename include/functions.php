@@ -582,7 +582,6 @@
 	function authenticate_user($link, $login, $password, $check_only = false) {
 
 		if (!SINGLE_USER_MODE) {
-
 			$user_id = false;
 
 			global $pluginhost;
@@ -597,6 +596,8 @@
 			}
 
 			if ($user_id && !$check_only) {
+				@session_start();
+
 				$_SESSION["uid"] = $user_id;
 
 				$result = db_query($link, "SELECT login,access_level,pwd_hash FROM ttrss_users
