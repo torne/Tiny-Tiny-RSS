@@ -1938,7 +1938,8 @@
 				"feed_debug_update" => __("Debug feed update"),
 				"catchup_all" => __("Mark all feeds as read"),
 				"cat_toggle_collapse" => __("Un/collapse current category"),
-				"toggle_combined_mode" => __("Toggle combined mode")),
+				"toggle_combined_mode" => __("Toggle combined mode"),
+				"toggle_cdm_expanded" => __("Toggle auto expand in combined mode")),
 			__("Go to") => array(
 				"goto_all" => __("All articles"),
 				"goto_fresh" => __("Fresh"),
@@ -2002,6 +2003,7 @@
 				"f x" => "feed_reverse",
 				"f *d" => "feed_debug_update",
 				"f *c" => "toggle_combined_mode",
+				"f c" => "toggle_cdm_expanded",
 				"*q" => "catchup_all",
 				"x" => "cat_toggle_collapse",
 //			"goto" => array(
