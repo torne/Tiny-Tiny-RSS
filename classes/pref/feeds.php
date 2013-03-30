@@ -1702,18 +1702,27 @@ class Pref_Feeds extends Handler_Protected {
 
 			/* prepare feed if necessary */
 
+			$result = db_query($link, "SELECT feed_url FROM ttrss_feeds WHERE id = $id
+				AND owner_uid = $owner_uid");
+
+			$feed_url = db_escape_string($link, db_fetch_result($result, 0, "feed_url"));
+
 			$result = db_query($link, "SELECT id FROM ttrss_archived_feeds
-				WHERE id = '$id'");
+				WHERE feed_url = '$feed_url' AND owner_uid = $owner_uid");
 
 			if (db_num_rows($result) == 0) {
 				db_query($link, "INSERT INTO ttrss_archived_feeds
 					(id, owner_uid, title, feed_url, site_url)
 				SELECT id, owner_uid, title, feed_url, site_url from ttrss_feeds
-			  	WHERE id = '$id'");
+				WHERE id = '$id'");
+
+				$archive_id = $id;
+			} else {
+				$archive_id = db_fetch_result($result, 0, "id");
 			}
 
 			db_query($link, "UPDATE ttrss_user_entries SET feed_id = NULL,
-				orig_feed_id = '$id' WHERE feed_id = '$id' AND
+				orig_feed_id = '$archive_id' WHERE feed_id = '$id' AND
 					marked = true AND owner_uid = $owner_uid");
 
 			/* Remove access key for the feed */
