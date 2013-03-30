@@ -233,9 +233,7 @@
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcDigest')"><?php echo __('Switch to digest...') ?></div>
 					<?php } ?>
 						<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcTagCloud')"><?php echo __('Show tag cloud...') ?></div>
-					<?php if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) { ?>
-							<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcToggleWidescreen')"><?php echo __('Toggle widescreen mode') ?></div>
-					<?php } ?>
+						<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcToggleWidescreen')"><?php echo __('Toggle widescreen mode') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcTagSelect')"><?php echo __('Select by tags...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddLabel')"><?php echo __('Create label...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddFilter')"><?php echo __('Create filter...') ?></div>
@@ -261,10 +259,8 @@
 			</div>
 		</div>
 
-		<?php if (!get_pref($link, 'COMBINED_DISPLAY_MODE')) { ?>
 		<div id="content-insert" dojoType="dijit.layout.ContentPane" region="bottom"
 			style="height : 50%" splitter="true"></div>
-		<?php } ?>
 
 	</div>
 </div>

@@ -480,8 +480,13 @@ function init() {
 				new Ajax.Request("backend.php",	{
 					parameters: query,
 					onComplete: function(transport) {
-						window.location.reload();
-					} });
+						setInitParam("combined_display_mode",
+								!getInitParam("combined_display_mode"));
+
+						closeArticlePanel();
+						viewCurrentFeed();
+
+								} });
 		};
 		hotkey_actions["toggle_cdm_expanded"] = function() {
 				notify_progress("Loading, please wait...");
