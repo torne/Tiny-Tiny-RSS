@@ -147,6 +147,8 @@
 		expire_cached_files($debug);
 		expire_lock_files($debug);
 
+		$nf = 0;
+
 		// For each feed, we call the feed update function.
 		foreach ($feeds_to_update as $feed) {
 			if($debug) _debug("Base feed: $feed");
@@ -167,6 +169,7 @@
 				while ($tline = db_fetch_assoc($tmp_result)) {
 					if($debug) _debug(" => " . $tline["last_updated"] . ", " . $tline["id"]);
 					update_rss_feed($link, $tline["id"], true);
+					++$nf;
 				}
 			}
 		}
@@ -175,6 +178,8 @@
 
 		// Send feed digests by email if needed.
 		send_headlines_digests($link, $debug);
+
+		return $nf;
 
 	} // function update_daemon_common
 

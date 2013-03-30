@@ -246,10 +246,12 @@
 					// Call to the feed batch update function
 					// or regenerate feedbrowser cache
 
+					$nf = 0;
+
 					if (rand(0,100) > 30) {
 						_debug("Waiting before update..");
 						sleep(rand(5,15));
-						update_daemon_common($link);
+						$nf = update_daemon_common($link);
 					} else {
 						$count = update_feedbrowser_cache($link);
 						_debug("Feedbrowser updated, $count feeds processed.");
@@ -265,6 +267,10 @@
 					}
 
 					_debug("Elapsed time: " . (time() - $start_timestamp) . " second(s)");
+
+					if ($nf > 0) {
+						_debug("Feeds processed: $nf; feeds/minute: " . sprintf("%.2d", $nf/((time()-$start_timestamp)/60)));
+					}
 
 					db_close($link);
 
