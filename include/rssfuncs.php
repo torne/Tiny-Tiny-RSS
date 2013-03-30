@@ -240,6 +240,7 @@
 		$rss = false;
 		$rss_hash = false;
 		$cache_timestamp = file_exists($cache_filename) ? filemtime($cache_filename) : 0;
+		$last_updated_timestamp = strtotime($last_updated);
 
 		if (file_exists($cache_filename) &&
 			is_readable($cache_filename) &&
@@ -262,11 +263,12 @@
 
 			if (!$feed_data) {
 				if ($debug_enabled) {
-					_debug("update_rss_feed: fetching [$fetch_url] (ts: $cache_timestamp)");
+					_debug("update_rss_feed: fetching [$fetch_url] (ts: $cache_timestamp/$last_updated_timestamp)");
 				}
 
 				$feed_data = fetch_file_contents($fetch_url, false,
-					$auth_login, $auth_pass, false, $no_cache ? 15 : 45, $cache_timestamp);
+					$auth_login, $auth_pass, false, $no_cache ? 15 : 45,
+					max($last_updated_timestamp, $cache_timestamp));
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: fetch done.");
