@@ -278,7 +278,7 @@
 
 				// We wait a little time before the next fork, in order to let the first fork
 				// mark the feeds it update :
-				sleep(1);
+				sleep(10);
 			}
 			$last_checkpoint = time();
 		}
