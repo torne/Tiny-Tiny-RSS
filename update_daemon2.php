@@ -247,6 +247,8 @@
 					// or regenerate feedbrowser cache
 
 					if (rand(0,100) > 30) {
+						_debug("Waiting before update..");
+						sleep(rand(5,15));
 						update_daemon_common($link);
 					} else {
 						$count = update_feedbrowser_cache($link);
@@ -275,10 +277,6 @@
 					// We exit in order to avoid fork bombing.
 					exit(0);
 				}
-
-				// We wait a little time before the next fork, in order to let the first fork
-				// mark the feeds it update :
-				sleep(10);
 			}
 			$last_checkpoint = time();
 		}
