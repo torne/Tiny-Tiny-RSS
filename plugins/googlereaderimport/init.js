@@ -15,7 +15,7 @@ function starredImportComplete(iframe) {
 
 		dialog = new dijit.Dialog({
 			id: "starredImportDlg",
-			title: __("OPML Import"),
+			title: __("Google Reader Import"),
 			style: "width: 600px",
 			onCancel: function() {
 				Element.hide(iframe);
