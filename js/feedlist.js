@@ -380,8 +380,20 @@ function getNextUnreadFeed(feed, is_cat) {
 	}
 }
 
-function catchupCurrentFeed() {
-	return catchupFeed(getActiveFeedId(), activeFeedIsCat());
+function catchupCurrentFeed(elem) {
+
+	if (elem) {
+		var toolbar = document.forms["main_toolbar_form"];
+		var catchup_feed = dijit.getEnclosingWidget(toolbar.catchup_feed);
+		var mode = catchup_feed.attr('value');
+
+		if (mode != 'default') {
+			catchupFeed(getActiveFeedId(), activeFeedIsCat(), mode);
+			catchup_feed.attr('value', 'default');
+		}
+	} else {
+		catchupFeed(getActiveFeedId(), activeFeedIsCat());
+	}
 }
 
 function catchupFeedInGroup(id) {
@@ -400,11 +412,26 @@ function catchupFeedInGroup(id) {
 	}
 }
 
-function catchupFeed(feed, is_cat) {
+function catchupFeed(feed, is_cat, mode) {
 	try {
 		if (is_cat == undefined) is_cat = false;
 
-		var str = __("Mark all articles in %s as read?");
+		var str = false;
+
+		switch (mode) {
+		case "1day":
+			str = __("Mark all articles in %s older than 1 day as read?");
+			break;
+		case "1week":
+			str = __("Mark all articles in %s older than 1 week as read?");
+			break;
+		case "2weeks":
+			str = __("Mark all articles in %s older than 2 weeks as read?");
+			break;
+		default:
+			str = __("Mark all articles in %s as read?");
+		}
+
 		var fn = getFeedName(feed, is_cat);
 
 		str = str.replace("%s", fn);
@@ -414,7 +441,7 @@ function catchupFeed(feed, is_cat) {
 		}
 
 		var catchup_query = "?op=rpc&method=catchupFeed&feed_id=" +
-			feed + "&is_cat=" + is_cat;
+			feed + "&is_cat=" + is_cat + "&mode=" + mode;
 
 		console.log(catchup_query);
 
@@ -425,15 +452,6 @@ function catchupFeed(feed, is_cat) {
 			onComplete: function(transport) {
 					handle_rpc_json(transport);
 
-					if (feed == getActiveFeedId() && is_cat == activeFeedIsCat()) {
-
-						$$("#headlines-frame > div[id*=RROW][class*=Unread]").each(
-							function(child) {
-								child.removeClassName("Unread");
-							}
-						);
-					}
-
 					var show_next_feed = getInitParam("on_catchup_show_next_feed") == "1";
 
 					if (show_next_feed) {
@@ -441,6 +459,10 @@ function catchupFeed(feed, is_cat) {
 
 						if (nuf) {
 							viewfeed(nuf, '', is_cat);
+						}
+					} else {
+						if (feed == getActiveFeedId() && is_cat == activeFeedIsCat()) {
+							viewCurrentFeed();
 						}
 					}
 

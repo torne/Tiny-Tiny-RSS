@@ -194,9 +194,15 @@
 			onclick="viewCurrentFeed()">
 			<?php echo __('Update') ?></button>
 
-		<button dojoType="dijit.form.Button"
-			onclick="catchupCurrentFeed()">
-			<?php echo __('Mark as read') ?></button>
+		<select title="<?php echo __('Mark feed as read') ?>"
+			onchange="catchupCurrentFeed(this)"
+			dojoType="dijit.form.Select" name="catchup_feed">
+			<option selected="selected" value="default"><?php echo __('Mark as read') ?></option>
+			<option value="all"><?php echo __('All articles') ?></option>
+			<option value="1day"><?php echo __('Older than one day') ?></option>
+			<option value="1week"><?php echo __('Older than one week') ?></option>
+			<option value="2weeks"><?php echo __('Older than two weeks') ?></option>
+		</select>
 
 		</form>
 
