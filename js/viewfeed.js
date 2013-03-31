@@ -941,23 +941,6 @@ function selectArticles(mode) {
 	}
 }
 
-function catchupPage() {
-
-	var fn = getFeedName(getActiveFeedId(), activeFeedIsCat());
-
-	var str = __("Mark all visible articles in %s as read?");
-
-	str = str.replace("%s", fn);
-
-	if (getInitParam("confirm_feed_catchup") == 1 && !confirm(str)) {
-		return;
-	}
-
-	selectArticles('all');
-	selectionToggleUnread(false, 'viewCurrentFeed()', true);
-	selectArticles('none');
-}
-
 function deleteSelection() {
 
 	try {
