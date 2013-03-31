@@ -315,7 +315,7 @@ class GoogleReaderImport extends Plugin {
 			}
 		}
 
-//		db_query($this->link, "COMMIT");
+		db_query($this->link, "COMMIT");
 
 		return $rc;
 	}
