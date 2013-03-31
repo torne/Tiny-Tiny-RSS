@@ -1563,6 +1563,24 @@ function clearArticleAccessKeys() {
 
 	return false;
 }
+
+function resetFilterOrder() {
+	try {
+		notify_progress("Loading, please wait...");
+
+		new Ajax.Request("backend.php", {
+			parameters: "?op=pref-filters&method=filtersortreset",
+			onComplete: function(transport) {
+		  		updateFilterList();
+			} });
+
+
+	} catch (e) {
+		exception_error("resetFilterOrder");
+	}
+}
+
+
 function resetFeedOrder() {
 	try {
 		notify_progress("Loading, please wait...");

@@ -3,10 +3,46 @@ class Pref_Filters extends Handler_Protected {
 
 	function csrf_ignore($method) {
 		$csrf_ignored = array("index", "getfiltertree", "edit", "newfilter", "newrule",
-			"newaction");
+			"newaction", "savefilterorder");
 
 		return array_search($method, $csrf_ignored) !== false;
 	}
+
+	function filtersortreset() {
+		db_query($this->link, "UPDATE ttrss_filters2
+				SET order_id = 0 WHERE owner_uid = " . $_SESSION["uid"]);
+		return;
+	}
+
+	function savefilterorder() {
+		$data = json_decode($_POST['payload'], true);
+
+		#file_put_contents("/tmp/saveorder.json", $_POST['payload']);
+		#$data = json_decode(file_get_contents("/tmp/saveorder.json"), true);
+
+		if (!is_array($data['items']))
+			$data['items'] = json_decode($data['items'], true);
+
+		$index = 0;
+
+		if (is_array($data) && is_array($data['items'])) {
+			foreach ($data['items'][0]['items'] as $item) {
+				$filter_id = (int) str_replace("FILTER:", "", $item['_reference']);
+
+				if ($filter_id > 0) {
+
+					db_query($this->link, "UPDATE ttrss_filters2 SET
+						order_id = $index WHERE id = '$filter_id' AND
+						owner_uid = " .$_SESSION["uid"]);
+
+					++$index;
+				}
+			}
+		}
+
+		return;
+	}
+
 
 	function testFilter() {
 		$filter = array();
@@ -623,6 +659,10 @@ class Pref_Filters extends Handler_Protected {
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return editSelectedFilter()\">".
 			__('Edit')."</button> ";
 
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return resetFilterOrder()\">".
+			__('Reset sort order')."</button> ";
+
+
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return removeSelectedFilters()\">".
 			__('Remove')."</button> ";
 
@@ -639,14 +679,16 @@ class Pref_Filters extends Handler_Protected {
 		<img src='images/indicator_tiny.gif'>".
 		 __("Loading, please wait...")."</div>";
 
-		print "<div dojoType=\"dojo.data.ItemFileWriteStore\" jsId=\"filterStore\"
+		print "<div dojoType=\"fox.PrefFilterStore\" jsId=\"filterStore\"
 			url=\"backend.php?op=pref-filters&method=getfiltertree\">
 		</div>
 		<div dojoType=\"lib.CheckBoxStoreModel\" jsId=\"filterModel\" store=\"filterStore\"
-		query=\"{id:'root'}\" rootId=\"root\" rootLabel=\"Feeds\"
+			query=\"{id:'root'}\" rootId=\"root\" rootLabel=\"Filters\"
 			childrenAttrs=\"items\" checkboxStrict=\"false\" checkboxAll=\"false\">
 		</div>
 		<div dojoType=\"fox.PrefFilterTree\" id=\"filterTree\"
+			dndController=\"dijit.tree.dndSource\"
+			betweenThreshold=\"5\"
 			model=\"filterModel\" openOnClick=\"true\">
 		<script type=\"dojo/method\" event=\"onLoad\" args=\"item\">
 			Element.hide(\"filterlistLoading\");
