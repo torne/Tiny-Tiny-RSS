@@ -178,7 +178,7 @@ class Pref_Filters extends Handler_Protected {
 					$fg_color = db_fetch_result($label_result, 0, "fg_color");
 					$bg_color = db_fetch_result($label_result, 0, "bg_color");
 
-					$name[1] = "<span class=\"labelColorIndicator\" id=\"label-editor-indicator\" style='color : $fg_color; background-color : $bg_color; margin-right : 4px'>&alpha;</span>" . $name[1];
+					if ($name[1]) $name[1] = "<span class=\"labelColorIndicator\" id=\"label-editor-indicator\" style='color : $fg_color; background-color : $bg_color; margin-right : 4px'>&alpha;</span>" . $name[1];
 				}
 			}
 
@@ -218,6 +218,7 @@ class Pref_Filters extends Handler_Protected {
 		$enabled = sql_bool_to_bool(db_fetch_result($result, 0, "enabled"));
 		$match_any_rule = sql_bool_to_bool(db_fetch_result($result, 0, "match_any_rule"));
 		$inverse = sql_bool_to_bool(db_fetch_result($result, 0, "inverse"));
+		$title = htmlspecialchars(db_fetch_result($result, 0, "title"));
 
 		print "<form id=\"filter_edit_form\" onsubmit='return false'>";
 
@@ -225,6 +226,12 @@ class Pref_Filters extends Handler_Protected {
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$filter_id\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"editSave\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"csrf_token\" value=\"".$_SESSION['csrf_token']."\">";
+
+		print "<div class=\"dlgSec\">".__("Caption")."</div>";
+
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"width : 20em;\" name=\"title\" value=\"$title\">";
+
+		print "</div>";
 
 		print "<div class=\"dlgSec\">".__("Match")."</div>";
 
@@ -422,10 +429,12 @@ class Pref_Filters extends Handler_Protected {
 		$enabled = checkbox_to_sql_bool(db_escape_string($this->link, $_REQUEST["enabled"]));
 		$match_any_rule = checkbox_to_sql_bool(db_escape_string($this->link, $_REQUEST["match_any_rule"]));
 		$inverse = checkbox_to_sql_bool(db_escape_string($this->link, $_REQUEST["inverse"]));
+		$title = db_escape_string($this->link, $_REQUEST["title"]);
 
 		$result = db_query($this->link, "UPDATE ttrss_filters2 SET enabled = $enabled,
 			match_any_rule = $match_any_rule,
-			inverse = $inverse
+			inverse = $inverse,
+			title = '$title'
 			WHERE id = '$filter_id'
 			AND owner_uid = ". $_SESSION["uid"]);
 
@@ -539,14 +548,15 @@ class Pref_Filters extends Handler_Protected {
 
 		$enabled = checkbox_to_sql_bool($_REQUEST["enabled"]);
 		$match_any_rule = checkbox_to_sql_bool($_REQUEST["match_any_rule"]);
+		$title = db_escape_string($this->link, $_REQUEST["title"]);
 
 		db_query($this->link, "BEGIN");
 
 		/* create base filter */
 
 		$result = db_query($this->link, "INSERT INTO ttrss_filters2
-			(owner_uid, match_any_rule, enabled) VALUES
-			(".$_SESSION["uid"].",$match_any_rule,$enabled)");
+			(owner_uid, match_any_rule, enabled, title) VALUES
+			(".$_SESSION["uid"].",$match_any_rule,$enabled, '$title')");
 
 		$result = db_query($this->link, "SELECT MAX(id) AS id FROM ttrss_filters2
 			WHERE owner_uid = ".$_SESSION["uid"]);
@@ -667,6 +677,10 @@ class Pref_Filters extends Handler_Protected {
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-filters\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"add\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"csrf_token\" value=\"".$_SESSION['csrf_token']."\">";
+
+		print "<div class=\"dlgSec\">".__("Caption")."</div>";
+
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"width : 20em;\" name=\"title\" value=\"\">";
 
 		print "<div class=\"dlgSec\">".__("Match")."</div>";
 
@@ -894,6 +908,16 @@ class Pref_Filters extends Handler_Protected {
 	}
 
 	private function getFilterName($id) {
+
+		$result = db_query($this->link,
+			"SELECT title FROM ttrss_filters2 WHERE id = '$id'");
+
+		$title = db_fetch_result($result, 0, "title");
+
+		if ($title) {
+			return array($title);
+		} else {
+
 		$result = db_query($this->link,
 			"SELECT * FROM ttrss_filters2_rules WHERE filter_id = '$id' ORDER BY id
 			LIMIT 3");
@@ -937,6 +961,8 @@ class Pref_Filters extends Handler_Protected {
 		}
 
 		return array(join(", ", $titles), join(", ", $actions));
+
+		}
 	}
 
 	function join() {
