@@ -107,8 +107,6 @@
 	</div>
 </div>
 
-<img id="piggie" src="images/piggie.png" style="display : none" alt="piggie"/>
-
 <div id="header" dojoType="dijit.layout.ContentPane" region="top">
 	<!-- <a href='#' onclick="showHelp()"><?php echo __("Keyboard shortcuts") ?></a> | -->
 	<a href="#" onclick="gotoMain()"><?php echo __('Exit preferences') ?></a>

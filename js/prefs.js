@@ -767,18 +767,6 @@ function editSelectedFeeds() {
 	}
 }
 
-function piggie(enable) {
-	if (enable) {
-		console.log("I LOVEDED IT!");
-		var piggie = $("piggie");
-
-		Element.show(piggie);
-		Position.Center(piggie);
-		Effect.Puff(piggie);
-
-	}
-}
-
 function opmlImportComplete(iframe) {
 	try {
 		if (!iframe.contentDocument.body.innerHTML) return false;
