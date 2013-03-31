@@ -248,8 +248,8 @@
 
 					$nf = 0;
 
-					_debug("Waiting before update..");
-					sleep(rand(1,15));
+					_debug("Waiting before update [$j]..");
+					sleep($j*5);
 					$nf = update_daemon_common($link);
 
 					if (rand(0,100) > 50) {
