@@ -77,6 +77,7 @@
 		if (DB_TYPE == "pgsql") {
 			$update_limit_qpart = "AND ((
 					ttrss_feeds.update_interval = 0
+					AND CAST(ttrss_user_prefs.value AS INTEGER) != -1
 					AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_user_prefs.value || ' minutes') AS INTERVAL)
 				) OR (
 					ttrss_feeds.update_interval > 0
@@ -86,6 +87,7 @@
 		} else {
 			$update_limit_qpart = "AND ((
 					ttrss_feeds.update_interval = 0
+					AND CONVERT(ttrss_user_prefs.value, SIGNED INTEGER) != -1
 					AND ttrss_feeds.last_updated < DATE_SUB(NOW(), INTERVAL CONVERT(ttrss_user_prefs.value, SIGNED INTEGER) MINUTE)
 				) OR (
 					ttrss_feeds.update_interval > 0
