@@ -31,14 +31,7 @@
 			$stamp = gmdate("D, d M Y H:i:s", filemtime($filename)). " GMT";
 			header("Last-Modified: $stamp", true);
 
-			$fp = fopen($filename, "r");
-
-			if ($fp) {
-				while ($data = fread($fp, 32768)) {
-					print $data;
-				}
-				fclose($fp);
-			}
+			readfile($filename);
 
 		} else {
 			header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
