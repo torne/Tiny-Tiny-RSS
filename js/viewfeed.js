@@ -1536,6 +1536,8 @@ function dismissArticle(id) {
 	try {
 		var elem = $("RROW-" + id);
 
+		if (!elem) return;
+
 		toggleUnread(id, 0, true);
 
 		new Effect.Fade(elem, {duration : 0.5});
