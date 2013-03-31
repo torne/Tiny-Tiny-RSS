@@ -65,7 +65,8 @@ class Handler_Public extends Handler {
 				if ($line['note']) {
 					$content = "<div style=\"$note_style\">Article note: " . $line['note'] . "</div>" .
 						$content;
-}
+					$tpl->setVariable('ARTICLE_NOTE', htmlspecialchars($line['note']), true);
+				}
 
 				$tpl->setVariable('ARTICLE_CONTENT', $content, true);
 
