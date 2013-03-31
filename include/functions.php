@@ -699,57 +699,6 @@
 		return $csrf_token == $_SESSION['csrf_token'];
 	}
 
-	function validate_session($link) {
-		if (SINGLE_USER_MODE) return true;
-
-		$check_ip = $_SESSION['ip_address'];
-
-		switch (SESSION_CHECK_ADDRESS) {
-		case 0:
-			$check_ip = '';
-			break;
-		case 1:
-			$check_ip = substr($check_ip, 0, strrpos($check_ip, '.')+1);
-			break;
-		case 2:
-			$check_ip = substr($check_ip, 0, strrpos($check_ip, '.'));
-			$check_ip = substr($check_ip, 0, strrpos($check_ip, '.')+1);
-			break;
-		};
-
-		if ($check_ip && strpos($_SERVER['REMOTE_ADDR'], $check_ip) !== 0) {
-			$_SESSION["login_error_msg"] =
-				__("Session failed to validate (incorrect IP)");
-			return false;
-		}
-
-		if ($_SESSION["ref_schema_version"] != get_schema_version($link, true))
-			return false;
-
-		if ($_SESSION["uid"]) {
-
-			$result = db_query($link,
-				"SELECT pwd_hash FROM ttrss_users WHERE id = '".$_SESSION["uid"]."'");
-
-			$pwd_hash = db_fetch_result($result, 0, "pwd_hash");
-
-			if ($pwd_hash != $_SESSION["pwd_hash"]) {
-				return false;
-			}
-		}
-
-/*		if ($_SESSION["cookie_lifetime"] && $_SESSION["uid"]) {
-
-			//print_r($_SESSION);
-
-			if (time() > $_SESSION["cookie_lifetime"]) {
-				return false;
-			}
-		} */
-
-		return true;
-	}
-
 	function load_user_plugins($link, $owner_uid) {
 		if ($owner_uid) {
 			$plugins = get_pref($link, "_ENABLED_PLUGINS", $owner_uid);
