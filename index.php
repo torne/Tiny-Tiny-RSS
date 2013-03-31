@@ -235,9 +235,9 @@
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcCatchupAll')"><?php echo __('Mark as read') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcShowOnlyUnread')"><?php echo __('(Un)hide read feeds') ?></div>
 					<div dojoType="dijit.MenuItem" disabled="1"><?php echo __('Other actions:') ?></div>
-					<?php if ($pluginhost->get_plugin("digest")) { ?>
+					<!-- <?php if ($pluginhost->get_plugin("digest")) { ?>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcDigest')"><?php echo __('Switch to digest...') ?></div>
-					<?php } ?>
+					<?php } ?> -->
 						<!-- <div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcTagCloud')"><?php echo __('Show tag cloud...') ?></div> -->
 						<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcToggleWidescreen')"><?php echo __('Toggle widescreen mode') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcTagSelect')"><?php echo __('Select by tags...') ?></div>
