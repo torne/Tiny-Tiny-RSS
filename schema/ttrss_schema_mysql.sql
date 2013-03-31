@@ -246,6 +246,9 @@ insert into ttrss_filter_actions (id,name,description) values (6, 'score',
 insert into ttrss_filter_actions (id,name,description) values (7, 'label',
 	'Assign label');
 
+insert into ttrss_filter_actions (id,name,description) values (8, 'stop',
+	'Stop / Do nothing');
+
 create table ttrss_filters2(id integer primary key auto_increment,
 	owner_uid integer not null,
 	match_any_rule boolean not null default false,
@@ -293,7 +296,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (112);
+insert into ttrss_version values (113);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,

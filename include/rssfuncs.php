@@ -283,9 +283,11 @@
 					_debug("update_rss_feed: fetching [$fetch_url] (ts: $cache_timestamp/$last_updated_timestamp)");
 				}
 
+				$force_refetch = isset($_REQUEST["force_refetch"]);
+
 				$feed_data = fetch_file_contents($fetch_url, false,
 					$auth_login, $auth_pass, false, $no_cache ? 15 : 45,
-					max($last_updated_timestamp, $cache_timestamp));
+					$force_refetch ? 0 : max($last_updated_timestamp, $cache_timestamp));
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: fetch done.");
@@ -1297,6 +1299,9 @@
 			if ($filter_match) {
 				foreach ($filter["actions"] AS $action) {
 					array_push($matches, $action);
+
+					// if Stop action encountered, perform no further processing
+					if ($action["type"] == "stop") return $matches;
 				}
 			}
 		}
