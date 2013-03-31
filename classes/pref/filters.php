@@ -133,7 +133,7 @@ class Pref_Filters extends Handler_Protected {
 			(SELECT reg_exp FROM ttrss_filters2_rules
 				WHERE filter_id = ttrss_filters2.id ORDER BY id LIMIT 1) AS reg_exp
 			FROM ttrss_filters2 WHERE
-			owner_uid = ".$_SESSION["uid"]." ORDER BY action_id,reg_exp");
+			owner_uid = ".$_SESSION["uid"]." ORDER BY order_id");
 
 
 		$action_id = -1;
@@ -142,7 +142,7 @@ class Pref_Filters extends Handler_Protected {
 
 		while ($line = db_fetch_assoc($result)) {
 
-			if ($action_id != $line["action_id"]) {
+			/* if ($action_id != $line["action_id"]) {
 				if (count($folder['items']) > 0) {
 					array_push($root['items'], $folder);
 				}
@@ -152,7 +152,7 @@ class Pref_Filters extends Handler_Protected {
 				$folder['name'] = __($line["action_name"]);
 				$folder['items'] = array();
 				$action_id = $line["action_id"];
-			}
+			} */
 
 			$name = $this->getFilterName($line["id"]);
 
@@ -178,7 +178,7 @@ class Pref_Filters extends Handler_Protected {
 					$fg_color = db_fetch_result($label_result, 0, "fg_color");
 					$bg_color = db_fetch_result($label_result, 0, "bg_color");
 
-					if ($name[1]) $name[1] = "<span class=\"labelColorIndicator\" id=\"label-editor-indicator\" style='color : $fg_color; background-color : $bg_color; margin-right : 4px'>&alpha;</span>" . $name[1];
+					$name[1] = "<span class=\"labelColorIndicator\" id=\"label-editor-indicator\" style='color : $fg_color; background-color : $bg_color; margin-right : 4px'>&alpha;</span>" . $name[1];
 				}
 			}
 
@@ -195,9 +195,11 @@ class Pref_Filters extends Handler_Protected {
 			}
 		}
 
-		if (count($folder['items']) > 0) {
+		/* if (count($folder['items']) > 0) {
 			array_push($root['items'], $folder);
-		}
+		} */
+
+		$root['items'] = $folder['items'];
 
 		$fl = array();
 		$fl['identifier'] = 'id';
@@ -914,34 +916,36 @@ class Pref_Filters extends Handler_Protected {
 
 		$title = db_fetch_result($result, 0, "title");
 
-		if ($title) {
-			return array($title);
-		} else {
+		if (!$title) {
 
-		$result = db_query($this->link,
-			"SELECT * FROM ttrss_filters2_rules WHERE filter_id = '$id' ORDER BY id
-			LIMIT 3");
+			$result = db_query($this->link,
+				"SELECT * FROM ttrss_filters2_rules WHERE filter_id = '$id' ORDER BY id
+				LIMIT 3");
 
-		$titles = array();
-		$count = 0;
+			$titles = array();
+			$count = 0;
 
-		while ($line = db_fetch_assoc($result)) {
+			while ($line = db_fetch_assoc($result)) {
 
-			if (sql_bool_to_bool($line["cat_filter"])) {
-				unset($line["cat_filter"]);
-				$line["feed_id"] = "CAT:" . (int)$line["cat_id"];
-				unset($line["cat_id"]);
+				if (sql_bool_to_bool($line["cat_filter"])) {
+					unset($line["cat_filter"]);
+					$line["feed_id"] = "CAT:" . (int)$line["cat_id"];
+					unset($line["cat_id"]);
+				}
+
+				if (!sql_bool_to_bool($line["inverse"])) unset($line["inverse"]);
+
+				if ($count < 2) {
+					array_push($titles, $this->getRuleName($line));
+				} else {
+					array_push($titles, "...");
+					break;
+				}
+				++$count;
 			}
 
-			if (!sql_bool_to_bool($line["inverse"])) unset($line["inverse"]);
+			$title = truncate_string(join(", ", $titles), 64, "...");
 
-			if ($count < 2) {
-				array_push($titles, $this->getRuleName($line));
-			} else {
-				array_push($titles, "...");
-				break;
-			}
-			++$count;
 		}
 
 		$result = db_query($this->link,
@@ -960,9 +964,7 @@ class Pref_Filters extends Handler_Protected {
 			++$count;
 		}
 
-		return array(join(", ", $titles), join(", ", $actions));
-
-		}
+		return array($title, join(", ", $actions));
 	}
 
 	function join() {
