@@ -1016,23 +1016,23 @@
 			switch ($mode) {
 			case "1day":
 				if (DB_TYPE == "pgsql") {
-					$date_qpart = "updated < NOW() - INTERVAL '1 day' ";
+					$date_qpart = "date_entered < NOW() - INTERVAL '1 day' ";
 				} else {
-					$date_qpart = "updated < DATE_SUB(NOW(), INTERVAL 1 WEEK) ";
+					$date_qpart = "date_entered < DATE_SUB(NOW(), INTERVAL 1 WEEK) ";
 				}
 				break;
 			case "1week":
 				if (DB_TYPE == "pgsql") {
-					$date_qpart = "updated < NOW() - INTERVAL '1 week' ";
+					$date_qpart = "date_entered < NOW() - INTERVAL '1 week' ";
 				} else {
-					$date_qpart = "updated < DATE_SUB(NOW(), INTERVAL 1 WEEK) ";
+					$date_qpart = "date_entered < DATE_SUB(NOW(), INTERVAL 1 WEEK) ";
 				}
 				break;
 			case "2weeks":
 				if (DB_TYPE == "pgsql") {
-					$date_qpart = "updated < NOW() - INTERVAL '2 week' ";
+					$date_qpart = "date_entered < NOW() - INTERVAL '2 week' ";
 				} else {
-					$date_qpart = "updated < DATE_SUB(NOW(), INTERVAL 2 WEEK) ";
+					$date_qpart = "date_entered < DATE_SUB(NOW(), INTERVAL 2 WEEK) ";
 				}
 				break;
 			default:
