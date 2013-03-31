@@ -141,6 +141,10 @@ class GoogleReaderImport extends Plugin {
 					$imported += (int) $this->create_article($owner_uid, $guid, $title,
 						$updated, $link, $content, $author, $sql_set_marked, $tags,
 						$orig_feed_data);
+
+					if ($file && $processed % 25 == 0) {
+						_debug("processed $processed articles...");
+					}
 				}
 
 				if ($file) {
@@ -171,7 +175,7 @@ class GoogleReaderImport extends Plugin {
 
 		if (!$guid) $guid = sha1($link);
 
-		$create_archived_feeds = false; // may cause SQL errors SOMEHOW, thus disabled for the time being
+		$create_archived_feeds = true;
 
 		$guid = "$owner_uid,$guid";
 
@@ -241,13 +245,13 @@ class GoogleReaderImport extends Plugin {
 
 				if (db_num_rows($result) != 0) {
 					$orig_feed_id = db_fetch_result($result, 0, "id");
-
-					// delete temporarily inserted feed
-					if ($feed_inserted) {
-						db_query($this->link, "DELETE FROM ttrss_feeds WHERE id = $feed_id");
-					}
 				}
 			}
+		}
+
+		// delete temporarily inserted feed
+		if ($feed_id && $feed_inserted) {
+				db_query($this->link, "DELETE FROM ttrss_feeds WHERE id = $feed_id");
 		}
 
 		$result = db_query($this->link, "SELECT id FROM ttrss_entries, ttrss_user_entries WHERE
@@ -268,7 +272,7 @@ class GoogleReaderImport extends Plugin {
 					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, marked, tag_cache, label_cache,
 						last_read, note, unread, last_marked)
 					VALUES
-					('$ref_id', '', NULL, $feed_id, $owner_uid, $marked, '', '', NOW(), '', false, NOW())");
+					('$ref_id', '', NULL, $orig_feed_id, $owner_uid, $marked, '', '', NOW(), '', false, NOW())");
 
 				$result = db_query($this->link, "SELECT int_id FROM ttrss_user_entries, ttrss_entries
 					WHERE owner_uid = $owner_uid AND ref_id = id AND ref_id = $ref_id");
@@ -311,7 +315,7 @@ class GoogleReaderImport extends Plugin {
 			}
 		}
 
-		db_query($this->link, "COMMIT");
+//		db_query($this->link, "COMMIT");
 
 		return $rc;
 	}
