@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 111);
+	define('SCHEMA_VERSION', 112);
 
 	define('LABEL_BASE_INDEX', -1024);
 	define('PLUGIN_FEED_BASE_INDEX', -128);
@@ -3192,7 +3192,7 @@
 		$cat_id = (int)getFeedCategory($link, $feed_id);
 
 		$result = db_query($link, "SELECT * FROM ttrss_filters2 WHERE
-			owner_uid = $owner_uid AND enabled = true");
+			owner_uid = $owner_uid AND enabled = true ORDER BY order_id, title");
 
 		$check_cats = join(",", array_merge(
 			getParentCategories($link, $cat_id, $owner_uid),
