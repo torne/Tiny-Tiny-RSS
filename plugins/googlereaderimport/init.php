@@ -171,6 +171,8 @@ class GoogleReaderImport extends Plugin {
 
 		if (!$guid) $guid = sha1($link);
 
+		$create_archived_feeds = false; // may cause SQL errors SOMEHOW, thus disabled for the time being
+
 		$guid = "$owner_uid,$guid";
 
 		$content_hash = sha1($content);
@@ -187,7 +189,7 @@ class GoogleReaderImport extends Plugin {
 
 		// before dealing with archived feeds we must check ttrss_feeds to maintain id consistency
 
-		if ($orig_feed_data['feed_url']) {
+		if ($orig_feed_data['feed_url'] && $create_archived_feeds) {
 				$result = db_query($this->link,
 					"SELECT id FROM ttrss_feeds WHERE feed_url = '".$orig_feed_data['feed_url']."'
 						AND owner_uid = $owner_uid");
