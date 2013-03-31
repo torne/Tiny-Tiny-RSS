@@ -77,7 +77,7 @@
 		if (DB_TYPE == "pgsql") {
 			$update_limit_qpart = "AND ((
 					ttrss_feeds.update_interval = 0
-					AND CAST(ttrss_user_prefs.value AS INTEGER) != -1
+					AND ttrss_user_prefs.value != '-1'
 					AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_user_prefs.value || ' minutes') AS INTERVAL)
 				) OR (
 					ttrss_feeds.update_interval > 0
@@ -87,7 +87,7 @@
 		} else {
 			$update_limit_qpart = "AND ((
 					ttrss_feeds.update_interval = 0
-					AND CONVERT(ttrss_user_prefs.value, SIGNED INTEGER) != -1
+					AND ttrss_user_prefs.value != '-1'
 					AND ttrss_feeds.last_updated < DATE_SUB(NOW(), INTERVAL CONVERT(ttrss_user_prefs.value, SIGNED INTEGER) MINUTE)
 				) OR (
 					ttrss_feeds.update_interval > 0
@@ -160,10 +160,13 @@
 			// since we have the data cached, we can deal with other feeds with the same url
 
 			$tmp_result = db_query($link, "SELECT ttrss_feeds.feed_url,ttrss_feeds.id,last_updated
-			FROM ttrss_feeds, ttrss_users WHERE
-				ttrss_users.id = ttrss_feeds.owner_uid AND
+			FROM ttrss_feeds, ttrss_users, ttrss_user_prefs WHERE
+				ttrss_user_prefs.owner_uid = ttrss_feeds.owner_uid AND
+				ttrss_users.id = ttrss_user_prefs.owner_uid AND
+				ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL' AND
 				feed_url = '".db_escape_string($link, $feed)."' AND
-				ttrss_feeds.update_interval != -1
+				(ttrss_feeds.update_interval > 0 OR
+					ttrss_user_prefs.value != '-1')
 				$login_thresh_qpart
 			ORDER BY feed_url $query_limit");
 
