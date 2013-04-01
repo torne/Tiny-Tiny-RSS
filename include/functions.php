@@ -63,6 +63,7 @@
 					"ru_RU" => "Русский",
 					"pt_BR" => "Portuguese/Brazil",
 					"zh_CN" => "Simplified Chinese",
+					"sv_SE" => "Svenska",
 					"fi_FI" => "Suomi");
 
 		return $tr;
