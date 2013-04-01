@@ -24,8 +24,6 @@
 	require_once "db.php";
 	require_once "db-prefs.php";
 
-	no_cache_incantation();
-
 	startup_gettext();
 
 	$script_started = microtime(true);
