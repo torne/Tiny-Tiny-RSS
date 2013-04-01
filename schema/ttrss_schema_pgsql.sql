@@ -56,6 +56,7 @@ create table ttrss_feed_categories(id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	collapsed boolean not null default false,
 	order_id integer not null default 0,
+	view_settings varchar(250) not null default '',
 	parent_cat integer references ttrss_feed_categories(id) on delete set null,
 	title varchar(200) not null);
 
@@ -88,6 +89,7 @@ create table ttrss_feeds (id serial not null primary key,
 	mark_unread_on_update boolean not null default false,
 	update_on_checksum_change boolean not null default false,
 	strip_images boolean not null default false,
+	view_settings varchar(250) not null default '',
 	pubsub_state integer not null default 0,
 	favicon_last_checked timestamp default null,
 	auth_pass_encrypted boolean not null default false);
@@ -254,7 +256,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (113);
+insert into ttrss_version values (114);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,

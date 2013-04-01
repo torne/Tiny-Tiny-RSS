@@ -62,6 +62,7 @@ create table ttrss_feed_categories(id integer not null primary key auto_incremen
 	collapsed bool not null default false,
 	order_id integer not null default 0,
 	parent_cat integer,
+	view_settings varchar(250) not null default '',
 	index(parent_cat),
 	foreign key (parent_cat) references ttrss_feed_categories(id) ON DELETE SET NULL,
 	index(owner_uid),
@@ -127,6 +128,7 @@ create table ttrss_feeds (id integer not null auto_increment primary key,
 	mark_unread_on_update boolean not null default false,
 	update_on_checksum_change boolean not null default false,
 	strip_images boolean not null default false,
+	view_settings varchar(250) not null default '',
 	pubsub_state integer not null default 0,
 	favicon_last_checked datetime default null,
 	index(owner_uid),
@@ -296,7 +298,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (113);
+insert into ttrss_version values (114);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,
