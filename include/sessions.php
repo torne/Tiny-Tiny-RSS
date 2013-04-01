@@ -57,6 +57,9 @@
 		if ($_SESSION["ref_schema_version"] != session_get_schema_version($link, true))
 			return false;
 
+		if (sha1($_SERVER['HTTP_USER_AGENT']) != $_SESSION["user_agent"])
+			return false;
+
 		if ($_SESSION["uid"]) {
 			$result = db_query($link,
 				"SELECT pwd_hash FROM ttrss_users WHERE id = '".$_SESSION["uid"]."'");
