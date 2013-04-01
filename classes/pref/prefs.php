@@ -2,7 +2,7 @@
 class Pref_Prefs extends Handler_Protected {
 
 	function csrf_ignore($method) {
-		$csrf_ignored = array("index", "updateself");
+		$csrf_ignored = array("index", "updateself", "customizecss");
 
 		return array_search($method, $csrf_ignored) !== false;
 	}
@@ -870,5 +870,33 @@ class Pref_Prefs extends Handler_Protected {
 		global $pluginhost;
 		$pluginhost->clear_data($pluginhost->get_plugin($name));
 	}
+
+	function customizeCSS() {
+		$value = get_pref($this->link, "USER_STYLESHEET");
+
+		$value = str_replace("<br/>", "\n", $value);
+
+		print_notice(T_sprintf("You can override colors, fonts and layout of your currently selected theme with custom CSS declarations here. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">This file</a> can be used as a baseline.", "tt-rss.css"));
+
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"setpref\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"key\" value=\"USER_STYLESHEET\">";
+
+		print "<table width='100%'><tr><td>";
+		print "<textarea dojoType=\"dijit.form.SimpleTextarea\"
+			style='font-size : 12px; width : 100%; height: 200px;'
+			placeHolder='body#ttrssMain { font-size : 14px; };'
+			name='value'>$value</textarea>";
+		print "</td></tr></table>";
+
+		print "<div class='dlgButtons'>";
+		print "<button dojoType=\"dijit.form.Button\"
+			onclick=\"dijit.byId('cssEditDlg').execute()\">".__('Save')."</button> ";
+		print "<button dojoType=\"dijit.form.Button\"
+			onclick=\"dijit.byId('cssEditDlg').hide()\">".__('Cancel')."</button>";
+		print "</div>";
+
+	}
+
 }
 ?>

@@ -383,33 +383,6 @@ class Dlg extends Handler_Protected {
 
 	}
 
-	function customizeCSS() {
-		$value = get_pref($this->link, "USER_STYLESHEET");
-
-		$value = str_replace("<br/>", "\n", $value);
-
-		print_notice(T_sprintf("You can override colors, fonts and layout of your currently selected theme with custom CSS declarations here. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">This file</a> can be used as a baseline.", "tt-rss.css"));
-
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"setpref\">";
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"key\" value=\"USER_STYLESHEET\">";
-
-		print "<table width='100%'><tr><td>";
-		print "<textarea dojoType=\"dijit.form.SimpleTextarea\"
-			style='font-size : 12px; width : 100%; height: 200px;'
-			placeHolder='body#ttrssMain { font-size : 14px; };'
-			name='value'>$value</textarea>";
-		print "</td></tr></table>";
-
-		print "<div class='dlgButtons'>";
-		print "<button dojoType=\"dijit.form.Button\"
-			onclick=\"dijit.byId('cssEditDlg').execute()\">".__('Save')."</button> ";
-		print "<button dojoType=\"dijit.form.Button\"
-			onclick=\"dijit.byId('cssEditDlg').hide()\">".__('Cancel')."</button>";
-		print "</div>";
-
-	}
-
 	function addInstance() {
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"op\" value=\"pref-instances\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"method\" value=\"add\">";

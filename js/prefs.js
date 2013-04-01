@@ -1715,7 +1715,7 @@ function editLabel(id, event) {
 
 function customizeCSS() {
 	try {
-		var query = "backend.php?op=dlg&method=customizeCSS";
+		var query = "backend.php?op=pref-prefs&method=customizeCSS";
 
 		if (dijit.byId("cssEditDlg"))
 			dijit.byId("cssEditDlg").destroyRecursive();
