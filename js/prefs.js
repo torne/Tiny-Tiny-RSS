@@ -91,7 +91,7 @@ function editUser(id, event) {
 		new Ajax.Request("backend.php",	{
 			parameters: query,
 			onComplete: function(transport) {
-					infobox_callback2(transport);
+					infobox_callback2(transport, __("User Editor"));
 					document.forms['user_edit_form'].login.focus();
 				} });
 
@@ -582,7 +582,7 @@ function selectedUserDetails() {
 		new Ajax.Request("backend.php",	{
 			parameters: query,
 			onComplete: function(transport) {
-					infobox_callback2(transport);
+					infobox_callback2(transport, __("User details"));
 				} });
 	} catch (e) {
 		exception_error("selectedUserDetails", e);

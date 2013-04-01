@@ -199,11 +199,14 @@
 			<option value="2weeks"><?php echo __('Older than two weeks') ?></option>
 		</select>
 
-		<button dojoType="dijit.form.Button"
-			onclick="viewCurrentFeed()">
-			<?php echo __('Refresh') ?></button>
-
 		</form>
+
+		<?php
+			global $pluginhost;
+			foreach ($pluginhost->get_hooks($pluginhost::HOOK_TOOLBAR_BUTTON) as $p) {
+				 echo $p->hook_toolbar_button();
+			}
+		?>
 
 		<div class="actionChooser">
 
@@ -243,6 +246,13 @@
 					<!-- <div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddLabel')"><?php echo __('Create label...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddFilter')"><?php echo __('Create filter...') ?></div> -->
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcHKhelp')"><?php echo __('Keyboard shortcuts help') ?></div>
+
+					<?php
+						foreach ($pluginhost->get_hooks($pluginhost::HOOK_ACTION_ITEM) as $p) {
+						 echo $p->hook_action_item();
+						}
+					?>
+
 					<?php if (!$_SESSION["hide_logout"]) { ?>
 						<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcLogout')"><?php echo __('Logout') ?></div>
 					<?php } ?>

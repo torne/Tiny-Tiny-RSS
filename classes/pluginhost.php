@@ -24,6 +24,9 @@ class PluginHost {
 	const HOOK_FEED_FETCHED = 12;
 	const HOOK_SANITIZE = 13;
 	const HOOK_RENDER_ARTICLE_API = 14;
+	const HOOK_TOOLBAR_BUTTON = 15;
+	const HOOK_ACTION_ITEM = 16;
+	const HOOK_HEADLINE_TOOLBAR_BUTTON = 17;
 
 	const KIND_ALL = 1;
 	const KIND_SYSTEM = 2;

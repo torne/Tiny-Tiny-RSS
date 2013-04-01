@@ -3,6 +3,8 @@
 
 	require_once "config.php";
 	require_once "db.php";
+	require_once "lib/accept-to-gettext.php";
+	require_once "lib/gettext/gettext.inc";
 
 	$session_expire = max(SESSION_COOKIE_LIFETIME, 86400);
 	$session_name = (!defined('TTRSS_SESSION_NAME')) ? "ttrss_sid" : TTRSS_SESSION_NAME;
@@ -55,6 +57,9 @@
 		}
 
 		if ($_SESSION["ref_schema_version"] != session_get_schema_version($link, true))
+			return false;
+
+		if (sha1($_SERVER['HTTP_USER_AGENT']) != $_SESSION["user_agent"])
 			return false;
 
 		if ($_SESSION["uid"]) {
