@@ -176,7 +176,9 @@
 	// It is unnecessary to start the fork loop if database is not ok.
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-	if (!init_connection($link)) return;
+	if (!init_connection($link)) die("Can't initialize db connection.\n");
+
+	$schema_version = get_schema_version($link);
 
 	db_close($link);
 
@@ -192,6 +194,19 @@
 		}
 
 		if ($last_checkpoint + $spawn_interval < time()) {
+
+			/* Check if schema version changed */
+
+			$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+			if (!init_connection($link)) die("Can't initialize db connection.\n");
+			$test_schema_version = get_schema_version($link);
+			db_close($link);
+
+			if ($test_schema_version != $schema_version) {
+				_debug("Expected schema version: $schema_version, got: $test_schema_version");
+				_debug("Schema version changed while we were running, bailing out");
+				exit(100);
+			}
 
 			check_ctimes();
 			reap_children();
