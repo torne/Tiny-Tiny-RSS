@@ -428,7 +428,7 @@ function init() {
 				viewfeed(-2);
 		};
 		hotkey_actions["goto_tagcloud"] = function() {
-				displayDlg("printTagCloud");
+				displayDlg(__("Tag cloud"), "printTagCloud");
 		};
 		hotkey_actions["goto_prefs"] = function() {
 				gotoPreferences();
@@ -581,10 +581,10 @@ function quickMenuGo(opid) {
 			gotoLogout();
 			break;
 		case "qmcTagCloud":
-			displayDlg("printTagCloud");
+			displayDlg(__("Tag cloud"), "printTagCloud");
 			break;
 		case "qmcTagSelect":
-			displayDlg("printTagSelect");
+			displayDlg(__("Select item(s) by tags"), "printTagSelect");
 			break;
 		case "qmcSearch":
 			search();

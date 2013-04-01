@@ -4,21 +4,15 @@ class Dlg extends Handler_Protected {
 
 	function before($method) {
 		if (parent::before($method)) {
-			header("Content-Type: text/xml; charset=utf-8");
+			header("Content-Type: text/html"); # required for iframe
+
 			$this->param = db_escape_string($this->link, $_REQUEST["param"]);
-			print "<dlg>";
 			return true;
 		}
 		return false;
 	}
 
-	function after() {
-		print "</dlg>";
-	}
-
 	function importOpml() {
-		header("Content-Type: text/html"); # required for iframe
-
 		print __("If you have imported labels and/or filters, you might need to reload preferences to see your new data.") . "</p>";
 
 		print "<div class=\"prefFeedOPMLHolder\">";
@@ -165,9 +159,6 @@ class Dlg extends Handler_Protected {
 	}
 
 	function pubOPMLUrl() {
-		print "<title>".__('Public OPML URL')."</title>";
-		print "<content><![CDATA[";
-
 		$url_path = Opml::opml_publish_url($this->link);
 
 		print __("Your Public OPML URL is:");
@@ -185,15 +176,11 @@ class Dlg extends Handler_Protected {
 			__('Close this window')."</button>";
 
 		print "</div>";
-		print "]]></content>";
 
 		//return;
 	}
 
 	function explainError() {
-		print "<title>".__('Notice')."</title>";
-		print "<content><![CDATA[";
-
 		print "<div class=\"errorExplained\">";
 
 		if ($this->param == 1) {
@@ -222,7 +209,6 @@ class Dlg extends Handler_Protected {
 			__('Close this window')."</button>";
 
 		print "</div>";
-		print "]]></content>";
 
 		//return;
 	}
@@ -442,9 +428,6 @@ class Dlg extends Handler_Protected {
 	}
 
 	function printTagCloud() {
-		print "<title>".__('Tag Cloud')."</title>";
-		print "<content><![CDATA[";
-
 		print "<div class=\"tagCloudContainer\">";
 
 		// from here: http://www.roscripts.com/Create_tag_cloud-71.html
@@ -506,13 +489,9 @@ class Dlg extends Handler_Protected {
 			__('Close this window')."</button>";
 		print "</div>";
 
-		print "]]></content>";
 	}
 
 	function printTagSelect() {
-
-		print "<title>" . __('Select item(s) by tags') . "</title>";
-		print "<content><![CDATA[";
 
 		print __("Match:"). "&nbsp;" .
 			"<input class=\"noborder\" dojoType=\"dijit.form.RadioButton\" type=\"radio\" checked value=\"any\" name=\"tag_mode\" id=\"tag_mode_any\">";
@@ -541,13 +520,9 @@ class Dlg extends Handler_Protected {
 			__('Close this window') . "</button>";
 		print "</div>";
 
-		print "]]></content>";
 	}
 
 	function generatedFeed() {
-
-		print "<title>".__('View as RSS')."</title>";
-		print "<content><![CDATA[";
 
 		$this->params = explode(":", $this->param, 3);
 		$feed_id = db_escape_string($this->link, $this->params[0]);
@@ -572,7 +547,6 @@ class Dlg extends Handler_Protected {
 			__('Close this window')."</button>";
 
 		print "</div>";
-		print "]]></content>";
 
 		//return;
 	}

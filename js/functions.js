@@ -415,7 +415,7 @@ function closeInfoBox(cleanup) {
 }
 
 
-function displayDlg(id, param, callback) {
+function displayDlg(title, id, param, callback) {
 
 	notify_progress("Loading, please wait...", true);
 
@@ -425,14 +425,14 @@ function displayDlg(id, param, callback) {
 	new Ajax.Request("backend.php", {
 		parameters: query,
 		onComplete: function (transport) {
-			infobox_callback2(transport);
+			infobox_callback2(transport, title);
 			if (callback) callback(transport);
 		} });
 
 	return false;
 }
 
-function infobox_callback2(transport) {
+function infobox_callback2(transport, title) {
 	try {
 		var dialog = false;
 
@@ -443,13 +443,7 @@ function infobox_callback2(transport) {
 		//console.log("infobox_callback2");
 		notify('');
 
-		var title = transport.responseXML.getElementsByTagName("title")[0];
-		if (title)
-			title = title.firstChild.nodeValue;
-
-		var content = transport.responseXML.getElementsByTagName("content")[0];
-
-		content = content.firstChild.nodeValue;
+		var content = transport.responseText;
 
 		if (!dialog) {
 			dialog = new dijit.Dialog({
@@ -639,7 +633,7 @@ function filterDlgCheckDate() {
 }
 
 function explainError(code) {
-	return displayDlg("explainError", code);
+	return displayDlg(__("Error explained"), "explainError", code);
 }
 
 function loading_set_progress(p) {
