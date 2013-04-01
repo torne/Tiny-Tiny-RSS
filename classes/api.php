@@ -727,12 +727,18 @@ class API extends Handler {
 
 	}
 
-	// only works for labels for the time being
+	// only works for labels or uncategorized for the time being
 	private function isCategoryEmpty($id) {
 
 		if ($id == -2) {
 			$result = db_query($this->link, "SELECT COUNT(*) AS count FROM ttrss_labels2
 				WHERE owner_uid = " . $_SESSION["uid"]);
+
+			return db_fetch_result($result, 0, "count") == 0;
+
+		} else if ($id == 0) {
+			$result = db_query($this->link, "SELECT COUNT(*) AS count FROM ttrss_feeds
+				WHERE cat_id IS NULL AND owner_uid = " . $_SESSION["uid"]);
 
 			return db_fetch_result($result, 0, "count") == 0;
 
