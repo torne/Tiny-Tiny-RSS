@@ -986,7 +986,7 @@ class Pref_Filters extends Handler_Protected {
 				++$count;
 			}
 
-			$title = truncate_string(join(", ", $titles), 64, "...");
+			$title = __("[No caption]") . " " . truncate_string(join(", ", $titles), 64, "...");
 
 		}
 
