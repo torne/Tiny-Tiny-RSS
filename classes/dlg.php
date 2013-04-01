@@ -67,7 +67,7 @@ class Dlg extends Handler_Protected {
 		$result = db_query($this->link, "SELECT title,id FROM ttrss_settings_profiles
 			WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY title");
 
-		print "<div class=\"prefFeedCatHolder\">";
+		print "<div class=\"prefProfileHolder\">";
 
 		print "<form id=\"profile_edit_form\" onsubmit=\"return false\">";
 
