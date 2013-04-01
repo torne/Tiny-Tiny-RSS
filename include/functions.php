@@ -1138,7 +1138,7 @@
 
 		array_push($ret_arr, $cv);
 
-		$result = db_query($link, "SELECT id AS cat_id, view_settings, value AS unread,
+		$result = db_query($link, "SELECT id AS cat_id, value AS unread,
 			(SELECT COUNT(id) FROM ttrss_feed_categories AS c2
 				WHERE c2.parent_cat = ttrss_feed_categories.id) AS num_children
 			FROM ttrss_feed_categories, ttrss_cat_counters_cache
@@ -1149,13 +1149,6 @@
 		while ($line = db_fetch_assoc($result)) {
 			$line["cat_id"] = (int) $line["cat_id"];
 
-			/* if ($line["view_settings"])
-				$view_settings = @json_decode($line["view_settings"]);
-			else
-				$view_settings = null; */
-
-			$view_settings = null;
-
 			if ($line["num_children"] > 0) {
 				$child_counter = getCategoryChildrenUnread($link, $line["cat_id"], $_SESSION["uid"]);
 			} else {
@@ -1163,7 +1156,6 @@
 			}
 
 			$cv = array("id" => $line["cat_id"], "kind" => "cat",
-				"vs" => $view_settings,
 				"counter" => $line["unread"] + $child_counter);
 
 			array_push($ret_arr, $cv);
@@ -1473,7 +1465,7 @@
 
 		$ret_arr = array();
 
-		$query = "SELECT ttrss_feeds.id, view_settings,
+		$query = "SELECT ttrss_feeds.id,
 				ttrss_feeds.title,
 				".SUBSTRING_FOR_DATE."(ttrss_feeds.last_updated,1,19) AS last_updated,
 				last_error, value AS count
@@ -1498,16 +1490,8 @@
 			if (date('Y') - date('Y', strtotime($line['last_updated'])) > 2)
 				$last_updated = '';
 
-			/* if ($line["view_settings"])
-				$view_settings = @json_decode($line["view_settings"]);
-			else
-				$view_settings = null; */
-
-			$view_settings = null;
-
 			$cv = array("id" => $id,
 				"updated" => $last_updated,
-				"vs" => $view_settings,
 				"counter" => (int) $count,
 				"has_img" => (int) $has_img);
 
