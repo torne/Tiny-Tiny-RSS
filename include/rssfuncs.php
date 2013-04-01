@@ -286,7 +286,8 @@
 				$force_refetch = isset($_REQUEST["force_refetch"]);
 
 				$feed_data = fetch_file_contents($fetch_url, false,
-					$auth_login, $auth_pass, false, $no_cache ? 15 : 45,
+					$auth_login, $auth_pass, false, 
+					$no_cache ? FEED_FETCH_NO_CACHE_TIMEOUT : FEED_FETCH_TIMEOUT,
 					$force_refetch ? 0 : max($last_updated_timestamp, $cache_timestamp));
 
 				if ($debug_enabled) {
