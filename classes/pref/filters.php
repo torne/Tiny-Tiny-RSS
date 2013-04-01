@@ -169,7 +169,7 @@ class Pref_Filters extends Handler_Protected {
 			(SELECT reg_exp FROM ttrss_filters2_rules
 				WHERE filter_id = ttrss_filters2.id ORDER BY id LIMIT 1) AS reg_exp
 			FROM ttrss_filters2 WHERE
-			owner_uid = ".$_SESSION["uid"]." ORDER BY order_id");
+			owner_uid = ".$_SESSION["uid"]." ORDER BY order_id, title");
 
 
 		$action_id = -1;
