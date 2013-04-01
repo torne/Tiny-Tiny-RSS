@@ -104,6 +104,9 @@
 	<?php
 		require 'lib/jshrink/Minifier.php';
 
+		print get_minified_js(array("tt-rss",
+			"functions", "feedlist", "viewfeed", "FeedTree"));
+
 		global $pluginhost;
 
 		foreach ($pluginhost->get_plugins() as $n => $p) {
@@ -111,9 +114,6 @@
 				echo JShrink\Minifier::minify($p->get_js());
 			}
 		}
-
-		print get_minified_js(array("tt-rss",
-			"functions", "feedlist", "viewfeed", "FeedTree"));
 
 		init_js_translations();
 	?>
