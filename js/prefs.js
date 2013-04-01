@@ -1400,7 +1400,7 @@ function editProfiles() {
 		if (dijit.byId("profileEditDlg"))
 			dijit.byId("profileEditDlg").destroyRecursive();
 
-		var query = "backend.php?op=dlg&method=editPrefProfiles";
+		var query = "backend.php?op=pref-prefs&method=editPrefProfiles";
 
 		dialog = new dijit.Dialog({
 			id: "profileEditDlg",
