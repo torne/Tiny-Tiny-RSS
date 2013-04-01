@@ -407,8 +407,8 @@ class RPC extends Handler_Protected {
 
 		if (!$tags_str_full) $tags_str_full = __("no tags");
 
-		print json_encode(array("tags_str" => array("id" => $id,
-				"content" => $tags_str, "content_full" => $tags_str_full)));
+		print json_encode(array("id" => (int)$id,
+				"content" => $tags_str, "content_full" => $tags_str_full));
 	}
 
 	function regenOPMLKey() {

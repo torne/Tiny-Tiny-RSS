@@ -4,7 +4,7 @@ require_once "colors.php";
 class Feeds extends Handler_Protected {
 
 	function csrf_ignore($method) {
-		$csrf_ignored = array("index");
+		$csrf_ignored = array("index", "feedbrowser", "quickaddfeed", "search");
 
 		return array_search($method, $csrf_ignored) !== false;
 	}
@@ -967,6 +967,189 @@ class Feeds extends Handler_Protected {
 
 		return $reply;
 	}
+
+	function quickAddFeed() {
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"addfeed\">";
+
+		print "<div class=\"dlgSec\">".__("Feed or site URL")."</div>";
+		print "<div class=\"dlgSecCont\">";
+
+		print "<div style='float : right'>
+			<img style='display : none'
+				id='feed_add_spinner' src='images/indicator_white.gif'></div>";
+
+		print "<input style=\"font-size : 16px; width : 20em;\"
+			placeHolder=\"".__("Feed or site URL")."\"
+			dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"feed\" id=\"feedDlg_feedUrl\">";
+
+		print "<hr/>";
+
+		if (get_pref($this->link, 'ENABLE_FEED_CATS')) {
+			print __('Place in category:') . " ";
+			print_feed_cat_select($this->link, "cat", false, 'dojoType="dijit.form.Select"');
+		}
+
+		print "</div>";
+
+		print '<div id="feedDlg_feedsContainer" style="display : none">
+
+				<div class="dlgSec">' . __('Available feeds') . '</div>
+				<div class="dlgSecCont">'.
+				'<select id="feedDlg_feedContainerSelect"
+					dojoType="dijit.form.Select" size="3">
+					<script type="dojo/method" event="onChange" args="value">
+						dijit.byId("feedDlg_feedUrl").attr("value", value);
+					</script>
+				</select>'.
+				'</div></div>';
+
+		print "<div id='feedDlg_loginContainer' style='display : none'>
+
+				<div class=\"dlgSec\">".__("Authentication")."</div>
+				<div class=\"dlgSecCont\">".
+
+				" <input dojoType=\"dijit.form.TextBox\" name='login'\"
+					placeHolder=\"".__("Login")."\"
+					style=\"width : 10em;\"> ".
+				" <input
+					placeHolder=\"".__("Password")."\"
+					dojoType=\"dijit.form.TextBox\" type='password'
+					style=\"width : 10em;\" name='pass'\">
+			</div></div>";
+
+
+		print "<div style=\"clear : both\">
+			<input type=\"checkbox\" name=\"need_auth\" dojoType=\"dijit.form.CheckBox\" id=\"feedDlg_loginCheck\"
+					onclick='checkboxToggleElement(this, \"feedDlg_loginContainer\")'>
+				<label for=\"feedDlg_loginCheck\">".
+				__('This feed requires authentication.')."</div>";
+
+		print "</form>";
+
+		print "<div class=\"dlgButtons\">
+			<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('feedAddDlg').execute()\">".__('Subscribe')."</button>";
+
+		if (!(defined('_DISABLE_FEED_BROWSER') && _DISABLE_FEED_BROWSER)) {
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return feedBrowser()\">".__('More feeds')."</button>";
+		}
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('feedAddDlg').hide()\">".__('Cancel')."</button>
+			</div>";
+
+		//return;
+	}
+
+	function feedBrowser() {
+		if (defined('_DISABLE_FEED_BROWSER') && _DISABLE_FEED_BROWSER) return;
+
+		$browser_search = db_escape_string($this->link, $_REQUEST["search"]);
+
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"updateFeedBrowser\">";
+
+		print "<div dojoType=\"dijit.Toolbar\">
+			<div style='float : right'>
+			<img style='display : none'
+				id='feed_browser_spinner' src='images/indicator_white.gif'>
+			<input name=\"search\" dojoType=\"dijit.form.TextBox\" size=\"20\" type=\"search\"
+				onchange=\"dijit.byId('feedBrowserDlg').update()\" value=\"$browser_search\">
+			<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('feedBrowserDlg').update()\">".__('Search')."</button>
+		</div>";
+
+		print " <select name=\"mode\" dojoType=\"dijit.form.Select\" onchange=\"dijit.byId('feedBrowserDlg').update()\">
+			<option value='1'>" . __('Popular feeds') . "</option>
+			<option value='2'>" . __('Feed archive') . "</option>
+			</select> ";
+
+		print __("limit:");
+
+		print " <select dojoType=\"dijit.form.Select\" name=\"limit\" onchange=\"dijit.byId('feedBrowserDlg').update()\">";
+
+		foreach (array(25, 50, 100, 200) as $l) {
+			$issel = ($l == $limit) ? "selected=\"1\"" : "";
+			print "<option $issel value=\"$l\">$l</option>";
+		}
+
+		print "</select> ";
+
+		print "</div>";
+
+		$owner_uid = $_SESSION["uid"];
+
+		require_once "feedbrowser.php";
+
+		print "<ul class='browseFeedList' id='browseFeedList'>";
+		print make_feed_browser($this->link, $search, 25);
+		print "</ul>";
+
+		print "<div align='center'>
+			<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('feedBrowserDlg').execute()\">".__('Subscribe')."</button>
+			<button dojoType=\"dijit.form.Button\" style='display : none' id='feed_archive_remove' onclick=\"dijit.byId('feedBrowserDlg').removeFromArchive()\">".__('Remove')."</button>
+			<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('feedBrowserDlg').hide()\" >".__('Cancel')."</button></div>";
+
+	}
+
+	function search() {
+		$this->params = explode(":", db_escape_string($this->link, $_REQUEST["param"]), 2);
+
+		$active_feed_id = sprintf("%d", $this->params[0]);
+		$is_cat = $this->params[1] != "false";
+
+		print "<div class=\"dlgSec\">".__('Look for')."</div>";
+
+		print "<div class=\"dlgSecCont\">";
+
+		print "<input dojoType=\"dijit.form.ValidationTextBox\"
+			style=\"font-size : 16px; width : 20em;\"
+			required=\"1\" name=\"query\" type=\"search\" value=''>";
+
+		print "<hr/>".__('Limit search to:')." ";
+
+		print "<select name=\"search_mode\" dojoType=\"dijit.form.Select\">
+			<option value=\"all_feeds\">".__('All feeds')."</option>";
+
+		$feed_title = getFeedTitle($this->link, $active_feed_id);
+
+		if (!$is_cat) {
+			$feed_cat_title = getFeedCatTitle($this->link, $active_feed_id);
+		} else {
+			$feed_cat_title = getCategoryTitle($this->link, $active_feed_id);
+		}
+
+		if ($active_feed_id && !$is_cat) {
+			print "<option selected=\"1\" value=\"this_feed\">$feed_title</option>";
+		} else {
+			print "<option disabled=\"1\" value=\"false\">".__('This feed')."</option>";
+		}
+
+		if ($is_cat) {
+		  	$cat_preselected = "selected=\"1\"";
+		}
+
+		if (get_pref($this->link, 'ENABLE_FEED_CATS') && ($active_feed_id > 0 || $is_cat)) {
+			print "<option $cat_preselected value=\"this_cat\">$feed_cat_title</option>";
+		} else {
+			//print "<option disabled>".__('This category')."</option>";
+		}
+
+		print "</select>";
+
+		print "</div>";
+
+		print "<div class=\"dlgButtons\">";
+
+		if (!SPHINX_ENABLED) {
+			print "<div style=\"float : left\">
+				<a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/wiki/SearchSyntax\">Search syntax</a>
+				</div>";
+		}
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('searchDlg').execute()\">".__('Search')."</button>
+		<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('searchDlg').hide()\">".__('Cancel')."</button>
+		</div>";
+	}
+
 
 }
 ?>

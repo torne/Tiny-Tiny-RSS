@@ -159,7 +159,7 @@ function timeout() {
 }
 
 function search() {
-	var query = "backend.php?op=dlg&method=search&param=" +
+	var query = "backend.php?op=feeds&method=search&param=" +
 		param_escape(getActiveFeedId() + ":" + activeFeedIsCat());
 
 	if (dijit.byId("searchDlg"))

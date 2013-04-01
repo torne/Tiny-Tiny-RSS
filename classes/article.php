@@ -2,7 +2,7 @@
 class Article extends Handler_Protected {
 
 	function csrf_ignore($method) {
-		$csrf_ignored = array("redirect");
+		$csrf_ignored = array("redirect", "editarticletags");
 
 		return array_search($method, $csrf_ignored) !== false;
 	}
@@ -174,6 +174,39 @@ class Article extends Handler_Protected {
 		return $rc;
 	}
 
+	function editArticleTags() {
+
+		print __("Tags for this article (separated by commas):")."<br>";
+
+		$param = db_escape_string($this->link, $_REQUEST['param']);
+
+		$tags = get_article_tags($this->link, db_escape_string($this->link, $param));
+
+		$tags_str = join(", ", $tags);
+
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$param\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"setArticleTags\">";
+
+		print "<table width='100%'><tr><td>";
+
+		print "<textarea dojoType=\"dijit.form.SimpleTextarea\" rows='4'
+			style='font-size : 12px; width : 100%' id=\"tags_str\"
+			name='tags_str'>$tags_str</textarea>
+		<div class=\"autocomplete\" id=\"tags_choices\"
+				style=\"display:none\"></div>";
+
+		print "</td></tr></table>";
+
+		print "<div class='dlgButtons'>";
+
+		print "<button dojoType=\"dijit.form.Button\"
+			onclick=\"dijit.byId('editTagsDlg').execute()\">".__('Save')."</button> ";
+		print "<button dojoType=\"dijit.form.Button\"
+			onclick=\"dijit.byId('editTagsDlg').hide()\">".__('Cancel')."</button>";
+		print "</div>";
+
+	}
 
 
 }

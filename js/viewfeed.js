@@ -1067,7 +1067,7 @@ function catchupSelection() {
 }
 
 function editArticleTags(id) {
-		var query = "backend.php?op=dlg&method=editArticleTags&param=" + param_escape(id);
+		var query = "backend.php?op=article&method=editArticleTags&param=" + param_escape(id);
 
 		if (dijit.byId("editTagsDlg"))
 			dijit.byId("editTagsDlg").destroyRecursive();
@@ -1085,22 +1085,25 @@ function editArticleTags(id) {
 					new Ajax.Request("backend.php",	{
 					parameters: query,
 					onComplete: function(transport) {
-						notify('');
-						dialog.hide();
+						try {
+							notify('');
+							dialog.hide();
 
-						var data = JSON.parse(transport.responseText);
+							var data = JSON.parse(transport.responseText);
 
-						if (data) {
-							var tags_str = article.tags;
-							var id = tags_str.id;
+							if (data) {
+								var id = data.id;
 
-							var tags = $("ATSTR-" + id);
-							var tooltip = dijit.byId("ATSTRTIP-" + id);
+								console.log(id);
 
-							if (tags) tags.innerHTML = tags_str.content;
-							if (tooltip) tooltip.attr('label', tags_str.content_full);
+								var tags = $("ATSTR-" + id);
+								var tooltip = dijit.byId("ATSTRTIP-" + id);
 
-							cache_delete("article:" + id);
+								if (tags) tags.innerHTML = data.content;
+								if (tooltip) tooltip.attr('label', data.content_full);
+							}
+						} catch (e) {
+							exception_error("editArticleTags/inner", e);
 						}
 
 					}});
