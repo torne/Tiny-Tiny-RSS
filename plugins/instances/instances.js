@@ -1,6 +1,6 @@
 function addInstance() {
 	try {
-		var query = "backend.php?op=dlg&method=addInstance";
+		var query = "backend.php?op=pluginhandler&plugin=instances&method=addInstance";
 
 		if (dijit.byId("instanceAddDlg"))
 			dijit.byId("instanceAddDlg").destroyRecursive();

@@ -392,6 +392,55 @@ class Instances extends Plugin implements IHandler {
 		}
 	}
 
+	function addInstance() {
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"op\" value=\"pref-instances\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"method\" value=\"add\">";
+
+		print "<div class=\"dlgSec\">".__("Instance")."</div>";
+
+		print "<div class=\"dlgSecCont\">";
+
+		/* URL */
+
+		print __("URL:") . " ";
+
+		print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
+			placeHolder=\"".__("Instance URL")."\"
+			regExp='^(http|https)://.*'
+			style=\"font-size : 16px; width: 20em\" name=\"access_url\">";
+
+		print "<hr/>";
+
+		$access_key = sha1(uniqid(rand(), true));
+
+		/* Access key */
+
+		print __("Access key:") . " ";
+
+		print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
+			placeHolder=\"".__("Access key")."\" regExp='\w{40}'
+			style=\"width: 20em\" name=\"access_key\" id=\"instance_add_key\"
+			value=\"$access_key\">";
+
+		print "<p class='insensitive'>" . __("Use one access key for both linked instances.");
+
+		print "</div>";
+
+		print "<div class=\"dlgButtons\">
+			<div style='float : left'>
+				<button dojoType=\"dijit.form.Button\"
+					onclick=\"return dijit.byId('instanceAddDlg').regenKey()\">".
+					__('Generate new key')."</button>
+			</div>
+			<button dojoType=\"dijit.form.Button\"
+				onclick=\"return dijit.byId('instanceAddDlg').execute()\">".
+				__('Create link')."</button>
+			<button dojoType=\"dijit.form.Button\"
+				onclick=\"return dijit.byId('instanceAddDlg').hide()\"\">".
+				__('Cancel')."</button></div>";
+
+		return;
+	}
 
 }
 ?>
