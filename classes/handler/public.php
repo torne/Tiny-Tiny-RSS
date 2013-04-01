@@ -12,7 +12,7 @@ class Handler_Public extends Handler {
 			"padding : 5px; border-style : dashed; border-color : #e7d796;".
 			"margin-bottom : 1em; color : #9a8c59;";
 
-		if (!$limit) $limit = 100;
+		if (!$limit) $limit = 60;
 
 		$date_sort_field = "date_entered DESC, updated DESC";
 
