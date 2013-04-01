@@ -1759,7 +1759,7 @@ function gotoExportOpml(filename, settings) {
 
 function batchSubscribe() {
 	try {
-		var query = "backend.php?op=dlg&method=batchSubscribe";
+		var query = "backend.php?op=pref-feeds&method=batchSubscribe";
 
 		// overlapping widgets
 		if (dijit.byId("batchSubDlg")) dijit.byId("batchSubDlg").destroyRecursive();
