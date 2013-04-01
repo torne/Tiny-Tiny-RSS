@@ -60,7 +60,7 @@
 					"nb_NO" => "Norwegian bokmål",
 					"nl_NL" => "Dutch",
 					"pl_PL" => "Polski",
-//					"ru_RU" => "Русский",
+					"ru_RU" => "Русский",
 					"pt_BR" => "Portuguese/Brazil",
 					"zh_CN" => "Simplified Chinese",
 					"fi_FI" => "Suomi");
