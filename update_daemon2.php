@@ -120,7 +120,7 @@
 
 	$longopts = array("log:",
 			"tasks:",
-			"interval",
+			"interval:",
 			"quiet",
 			"help");
 
@@ -142,14 +142,14 @@
 
 	if (isset($options["tasks"])) {
 		_debug("Set to spawn " . $options["tasks"] . " children.");
-		$max_jobs = $option["tasks"];
+		$max_jobs = $options["tasks"];
 	} else {
 		$max_jobs = MAX_JOBS;
 	}
 
 	if (isset($options["interval"])) {
 		_debug("Spawn interval: " . $options["interval"] . " seconds.");
-		$spawn_interval = $option["interval"];
+		$spawn_interval = $options["interval"];
 	} else {
 		$spawn_interval = SPAWN_INTERVAL;
 	}
