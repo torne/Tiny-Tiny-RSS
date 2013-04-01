@@ -30,6 +30,27 @@
 
 	require_once 'config.php';
 
+	/**
+	 * Define a constant if not already defined
+	 *
+	 * @param string $name The constant name.
+	 * @param mixed $value The constant value.
+	 * @access public
+	 * @return boolean True if defined successfully or not.
+	 */
+	function define_default($name, $value) {
+		// Note: performence freaks should define everything in 
+		// tunables.php in config.php becasue if will make defined() 
+		// run much faster, see 'tris+php at tfconsulting dot com dot 
+		// au' comment here: 
+		// http://www.php.net/manual/en/function.defined.php#89886
+		defined($name) or define($name, $value);
+	}
+
+	// Require tunables.php to define tunable constants (That may have 
+	// already been denied in config.php)
+	require_once 'tunables.php';
+
 	if (DB_TYPE == "pgsql") {
 		define('SUBSTRING_FOR_DATE', 'SUBSTRING_FOR_DATE');
 	} else {
