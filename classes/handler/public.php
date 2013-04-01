@@ -32,7 +32,7 @@ class Handler_Public extends Handler {
 			$ts = strtotime(db_fetch_result($result, 0, "date_entered"));
 
 			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) &&
-					strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $last_modified) {
+					strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $ts) {
 		      header('HTTP/1.0 304 Not Modified');
 		      return;
 			}
