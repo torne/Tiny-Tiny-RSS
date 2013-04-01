@@ -203,8 +203,8 @@
 			db_close($link);
 
 			if ($test_schema_version != $schema_version) {
-				_debug("Expected schema version: $schema_version, got: $test_schema_version");
-				_debug("Schema version changed while we were running, bailing out");
+				echo "Expected schema version: $schema_version, got: $test_schema_version\n";
+				echo "Schema version changed while we were running, bailing out\n";
 				exit(100);
 			}
 
