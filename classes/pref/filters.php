@@ -954,59 +954,36 @@ class Pref_Filters extends Handler_Protected {
 	private function getFilterName($id) {
 
 		$result = db_query($this->link,
-			"SELECT title FROM ttrss_filters2 WHERE id = '$id'");
+			"SELECT title,COUNT(DISTINCT r.id) AS num_rules,COUNT(DISTINCT a.id) AS num_actions
+				FROM ttrss_filters2 AS f LEFT JOIN ttrss_filters2_rules AS r
+					ON (r.filter_id = f.id)
+						LEFT JOIN ttrss_filters2_actions AS a
+							ON (a.filter_id = f.id) WHERE f.id = '$id' GROUP BY f.title");
 
 		$title = db_fetch_result($result, 0, "title");
+		$num_rules = db_fetch_result($result, 0, "num_rules");
+		$num_actions = db_fetch_result($result, 0, "num_actions");
 
-		if (!$title) {
+		if (!$title) $title = __("[No caption]");
 
-			$result = db_query($this->link,
-				"SELECT * FROM ttrss_filters2_rules WHERE filter_id = '$id' ORDER BY id
-				LIMIT 3");
-
-			$titles = array();
-			$count = 0;
-
-			while ($line = db_fetch_assoc($result)) {
-
-				if (sql_bool_to_bool($line["cat_filter"])) {
-					unset($line["cat_filter"]);
-					$line["feed_id"] = "CAT:" . (int)$line["cat_id"];
-					unset($line["cat_id"]);
-				}
-
-				if (!sql_bool_to_bool($line["inverse"])) unset($line["inverse"]);
-
-				if ($count < 2) {
-					array_push($titles, $this->getRuleName($line));
-				} else {
-					array_push($titles, "...");
-					break;
-				}
-				++$count;
-			}
-
-			$title = __("[No caption]") . " " . truncate_string(join(", ", $titles), 64, "...");
-
-		}
+		$title = sprintf(_ngettext("%s (%d rule)", "%s (%d rules)", $num_rules), $title, $num_rules);
 
 		$result = db_query($this->link,
-			"SELECT * FROM ttrss_filters2_actions WHERE filter_id = '$id' ORDER BY id LIMIT 3");
+			"SELECT * FROM ttrss_filters2_actions WHERE filter_id = '$id' ORDER BY id LIMIT 1");
 
-		$actions = array();
-		$count = 0;
+		$actions = "";
 
-		while ($line = db_fetch_assoc($result)) {
-			if ($count < 2) {
-				array_push($actions, $this->getActionName($line));
-			} else {
-				array_push($actions, "...");
-				break;
-			}
-			++$count;
+		if (db_num_rows($result) > 0) {
+			$line = db_fetch_assoc($result);
+			$actions = $this->getActionName($line);
+
+			$num_actions -= 1;
 		}
 
-		return array($title, join(", ", $actions));
+		if ($num_actions > 0)
+			$actions = sprintf(_ngettext("%s (+%d action)", "%s (+%d actions)", $num_actions), $actions, $num_actions);
+
+		return array($title, $actions);
 	}
 
 	function join() {
