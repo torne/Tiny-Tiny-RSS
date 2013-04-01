@@ -62,7 +62,8 @@
 					"pl_PL" => "Polski",
 					"ru_RU" => "Русский",
 					"pt_BR" => "Portuguese/Brazil",
-					"zh_CN" => "Simplified Chinese");
+					"zh_CN" => "Simplified Chinese",
+					"fi_FI" => "Suomi");
 
 		return $tr;
 	}
