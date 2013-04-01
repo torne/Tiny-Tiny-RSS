@@ -165,12 +165,14 @@ class API extends Handler {
 		}
 
 		foreach (array(-2,-1,0) as $cat_id) {
-			$unread = getFeedUnread($this->link, $cat_id, true);
+			if ($include_empty || !$this->isCategoryEmpty($cat_id)) {
+				$unread = getFeedUnread($this->link, $cat_id, true);
 
-			if ($unread || !$unread_only) {
-				array_push($cats, array("id" => $cat_id,
-					"title" => getCategoryTitle($this->link, $cat_id),
-					"unread" => $unread));
+				if ($unread || !$unread_only) {
+					array_push($cats, array("id" => $cat_id,
+						"title" => getCategoryTitle($this->link, $cat_id),
+						"unread" => $unread));
+				}
 			}
 		}
 
@@ -724,6 +726,22 @@ class API extends Handler {
 		}
 
 	}
+
+	// only works for labels for the time being
+	private function isCategoryEmpty($id) {
+
+		if ($id == -2) {
+			$result = db_query($this->link, "SELECT COUNT(*) AS count FROM ttrss_labels2
+				WHERE owner_uid = " . $_SESSION["uid"]);
+
+			return db_fetch_result($result, 0, "count") == 0;
+
+		}
+
+		return false;
+	}
+
+
 }
 
 ?>
