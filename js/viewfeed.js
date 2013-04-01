@@ -52,9 +52,9 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 			setActiveFeedId(feed_id, is_cat);
 
-			dijit.getEnclosingWidget(
+			/* dijit.getEnclosingWidget(
 				document.forms["main_toolbar_form"].update).attr('disabled',
-					is_cat || feed_id <= 0);
+					is_cat || feed_id <= 0); */
 
 			try {
 				if (infscroll_req == false) {

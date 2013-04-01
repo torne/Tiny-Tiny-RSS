@@ -2,6 +2,7 @@ var _infscroll_disable = 0;
 var _infscroll_request_sent = 0;
 var _search_query = false;
 var _viewfeed_last = 0;
+var view_settings = [];
 
 var counters_last_request = 0;
 
@@ -91,6 +92,37 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 		}
 
 		Form.enable("main_toolbar_form");
+
+		/* var toolbar = document.forms["main_toolbar_form"];
+		var ft = is_cat ? 'C' : 'F';
+
+		_viewmode_disabled = Math.round(new Date().getTime());
+
+		if (feed != getActiveFeedId() || is_cat != activeFeedIsCat()) {
+			var vs = view_settings[ft + ':' + feed];
+			if (vs) {
+				dijit.getEnclosingWidget(toolbar.view_mode).attr('value',
+					vs.view_mode);
+
+				dijit.getEnclosingWidget(toolbar.order_by).attr('value',
+					vs.order_by);
+			} else {
+				dijit.getEnclosingWidget(toolbar.view_mode).attr('value',
+					getInitParam("default_view_mode"));
+
+				dijit.getEnclosingWidget(toolbar.order_by).attr('value',
+					getInitParam("default_view_order_by"));
+			}
+
+		} else if (parseInt(feed) > 0) {
+			var ft = is_cat ? 'C' : 'F';
+
+			var view_mode = dijit.getEnclosingWidget(toolbar.view_mode).attr('value');
+			var order_by = dijit.getEnclosingWidget(toolbar.order_by).attr('value');
+
+			view_settings[ft + ':' + feed] = {'view_mode': view_mode,
+				'order_by': order_by};
+		} */
 
 		var toolbar_query = Form.serialize("main_toolbar_form");
 
@@ -214,6 +246,12 @@ function parse_counters(elems, scheduled_call) {
 			var error = elems[l].error;
 			var has_img = elems[l].has_img;
 			var updated = elems[l].updated;
+			var vs = elems[l].vs;
+
+			if (vs) {
+				var ft = (kind == "cat") ? "C" : "F";
+				view_settings[ft + ":" + id] = vs;
+			}
 
 			if (id == "global-unread") {
 				global_unread = ctr;

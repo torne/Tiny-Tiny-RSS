@@ -835,8 +835,20 @@ class Feeds extends Handler_Protected {
 			ccache_update($this->link, $feed, $_SESSION["uid"], $cat_view);
 		}
 
+/*		if (is_numeric($feed) && $feed > 0) {
+			$view_settings = db_escape_string($this->link, json_encode(array(
+				"view_mode" => $view_mode, "order_by" => $order_by)));
+
+			$table = $cat_view ? "ttrss_feed_categories" : "ttrss_feeds";
+
+			db_query($this->link, "UPDATE $table SET view_settings = '$view_settings'
+				WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
+		} else {
+			set_pref($this->link, "_DEFAULT_VIEW_MODE", $view_mode);
+			set_pref($this->link, "_DEFAULT_VIEW_ORDER_BY", $order_by);
+		} */
+
 		set_pref($this->link, "_DEFAULT_VIEW_MODE", $view_mode);
-		set_pref($this->link, "_DEFAULT_VIEW_LIMIT", $limit);
 		set_pref($this->link, "_DEFAULT_VIEW_ORDER_BY", $order_by);
 
 		/* bump login timestamp if needed */

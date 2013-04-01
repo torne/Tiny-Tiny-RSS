@@ -752,10 +752,6 @@ function viewModeChanged() {
 	return viewCurrentFeed('');
 }
 
-function viewLimitChanged() {
-	return viewCurrentFeed('');
-}
-
 function rescoreCurrentFeed() {
 
 	var actid = getActiveFeedId();

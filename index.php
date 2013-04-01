@@ -169,7 +169,7 @@
 			&lt;&lt;</button>
 
 		<select name="view_mode" title="<?php echo __('Show articles') ?>"
-			onchange="viewModeChanged()"
+			onchange="viewModeChanged(event)"
 			dojoType="dijit.form.Select">
 			<option selected="selected" value="adaptive"><?php echo __('Adaptive') ?></option>
 			<option value="all_articles"><?php echo __('All Articles') ?></option>
@@ -182,20 +182,15 @@
 		</select>
 
 		<select title="<?php echo __('Sort articles') ?>"
-			onchange="viewModeChanged()"
+			onchange="viewModeChanged(event)"
 			dojoType="dijit.form.Select" name="order_by">
 			<option selected="selected" value="default"><?php echo __('Default') ?></option>
 			<option value="feed_dates"><?php echo __('Newest first') ?></option>
 			<option value="date_reverse"><?php echo __('Oldest first') ?></option>
 		</select>
 
-		<!-- deprecated -->
-		<button dojoType="dijit.form.Button" name="update" style="display : none"
-			onclick="viewCurrentFeed()">
-			<?php echo __('Update') ?></button>
-
 		<select title="<?php echo __('Mark feed as read') ?>"
-			onchange="catchupCurrentFeed(this)"
+			onchange="catchupCurrentFeed(event)"
 			dojoType="dijit.form.Select" name="catchup_feed">
 			<option selected="selected" value="default"><?php echo __('Mark as read') ?></option>
 			<option value="all"><?php echo __('All articles') ?></option>
@@ -203,6 +198,10 @@
 			<option value="1week"><?php echo __('Older than one week') ?></option>
 			<option value="2weeks"><?php echo __('Older than two weeks') ?></option>
 		</select>
+
+		<button dojoType="dijit.form.Button"
+			onclick="viewCurrentFeed()">
+			<?php echo __('Refresh') ?></button>
 
 		</form>
 
