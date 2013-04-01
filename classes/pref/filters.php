@@ -267,7 +267,7 @@ class Pref_Filters extends Handler_Protected {
 
 		print "<div class=\"dlgSec\">".__("Caption")."</div>";
 
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"width : 20em;\" name=\"title\" value=\"$title\">";
+		print "<input required dojoType=\"dijit.form.TextBox\" style=\"width : 20em;\" name=\"title\" value=\"$title\">";
 
 		print "</div>";
 
@@ -724,7 +724,7 @@ class Pref_Filters extends Handler_Protected {
 
 		print "<div class=\"dlgSec\">".__("Caption")."</div>";
 
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"width : 20em;\" name=\"title\" value=\"\">";
+		print "<input required dojoType=\"dijit.form.TextBox\" style=\"width : 20em;\" name=\"title\" value=\"\">";
 
 		print "<div class=\"dlgSec\">".__("Match")."</div>";
 
