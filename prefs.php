@@ -57,6 +57,7 @@
 				"lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls",
 				"lib/dojo/dojo.js",
 				"lib/dijit/dijit.js",
+				"lib/CheckBoxTree.js",
 				"lib/dojo/tt-rss-layer.js",
 				"errors.php?mode=js") as $jsfile) {
 
@@ -76,7 +77,7 @@
 			}
 		}
 
-		print get_minified_js(array("functions", "deprecated", "prefs"));
+		print get_minified_js(array("functions", "deprecated", "prefs", "PrefFeedTree", "PrefFilterTree", "PrefLabelTree"));
 
 		init_js_translations();
 	?>
