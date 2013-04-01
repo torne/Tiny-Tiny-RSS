@@ -145,7 +145,9 @@
 
 	if (isset($options["daemon"])) {
 		while (true) {
-			passthru(PHP_EXECUTABLE . " " . $argv[0] ." --daemon-loop");
+			$quiet = (isset($options["quiet"])) ? "--quiet" : "";
+
+			passthru(PHP_EXECUTABLE . " " . $argv[0] ." --daemon-loop $quiet");
 			_debug("Sleeping for " . DAEMON_SLEEP_INTERVAL . " seconds...");
 			sleep(DAEMON_SLEEP_INTERVAL);
 		}
