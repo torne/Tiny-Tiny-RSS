@@ -1834,5 +1834,54 @@ class Pref_Feeds extends Handler_Protected {
 		}
 	}
 
+	function regenOPMLKey() {
+		$this->update_feed_access_key($this->link, 'OPML:Publish',
+		false, $_SESSION["uid"]);
+
+		$new_link = Opml::opml_publish_url($this->link);
+
+		print json_encode(array("link" => $new_link));
+	}
+
+	function regenFeedKey() {
+		$feed_id = db_escape_string($this->link, $_REQUEST['id']);
+		$is_cat = db_escape_string($this->link, $_REQUEST['is_cat']) == "true";
+
+		$new_key = $this->update_feed_access_key($this->link, $feed_id, $is_cat);
+
+		print json_encode(array("link" => $new_key));
+	}
+
+
+	private function update_feed_access_key($link, $feed_id, $is_cat, $owner_uid = false) {
+		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
+
+		$sql_is_cat = bool_to_sql_bool($is_cat);
+
+		$result = db_query($link, "SELECT access_key FROM ttrss_access_keys
+			WHERE feed_id = '$feed_id'	AND is_cat = $sql_is_cat
+			AND owner_uid = " . $owner_uid);
+
+		if (db_num_rows($result) == 1) {
+			$key = db_escape_string($this->link, sha1(uniqid(rand(), true)));
+
+			db_query($link, "UPDATE ttrss_access_keys SET access_key = '$key'
+				WHERE feed_id = '$feed_id' AND is_cat = $sql_is_cat
+				AND owner_uid = " . $owner_uid);
+
+			return $key;
+
+		} else {
+			return get_feed_access_key($link, $feed_id, $is_cat, $owner_uid);
+		}
+	}
+
+	// Silent
+	function clearKeys() {
+		db_query($this->link, "DELETE FROM ttrss_access_keys WHERE
+			owner_uid = " . $_SESSION["uid"]);
+	}
+
+
 }
 ?>

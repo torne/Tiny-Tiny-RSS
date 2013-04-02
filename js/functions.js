@@ -1357,7 +1357,7 @@ function genUrlChangeKey(feed, is_cat) {
 
 			notify_progress("Trying to change address...", true);
 
-			var query = "?op=rpc&method=regenFeedKey&id=" + param_escape(feed) +
+			var query = "?op=pref-feeds&method=regenFeedKey&id=" + param_escape(feed) +
 				"&is_cat=" + param_escape(is_cat);
 
 			new Ajax.Request("backend.php", {
