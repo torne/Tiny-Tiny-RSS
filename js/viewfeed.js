@@ -678,7 +678,7 @@ function selectionRemoveLabel(id, ids) {
 			return;
 		}
 
-		var query = "?op=rpc&method=removeFromLabel&ids=" +
+		var query = "?op=article&method=removeFromLabel&ids=" +
 			param_escape(ids.toString()) + "&lid=" + param_escape(id);
 
 		console.log(query);
@@ -706,7 +706,7 @@ function selectionAssignLabel(id, ids) {
 			return;
 		}
 
-		var query = "?op=rpc&method=assignToLabel&ids=" +
+		var query = "?op=article&method=assignToLabel&ids=" +
 			param_escape(ids.toString()) + "&lid=" + param_escape(id);
 
 		console.log(query);

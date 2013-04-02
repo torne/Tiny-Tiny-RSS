@@ -300,5 +300,47 @@ class Article extends Handler_Protected {
 		print "</ul>";
 	}
 
+	function assigntolabel() {
+		return $this->labelops(true);
+	}
+
+	function removefromlabel() {
+		return $this->labelops(false);
+	}
+
+	private function labelops($assign) {
+		$reply = array();
+
+		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
+		$label_id = db_escape_string($this->link, $_REQUEST["lid"]);
+
+		$label = db_escape_string($this->link, label_find_caption($this->link, $label_id,
+		$_SESSION["uid"]));
+
+		$reply["info-for-headlines"] = array();
+
+		if ($label) {
+
+			foreach ($ids as $id) {
+
+				if ($assign)
+					label_add_article($this->link, $id, $label, $_SESSION["uid"]);
+				else
+					label_remove_article($this->link, $id, $label, $_SESSION["uid"]);
+
+				$labels = get_article_labels($this->link, $id, $_SESSION["uid"]);
+
+				array_push($reply["info-for-headlines"],
+				array("id" => $id, "labels" => format_article_labels($labels, $id)));
+
+			}
+		}
+
+		$reply["message"] = "UPDATE_COUNTERS";
+
+		print json_encode($reply);
+	}
+
+
 
 }
