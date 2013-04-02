@@ -480,14 +480,6 @@ class RPC extends Handler_Protected {
 		print json_encode($articles);
 	}
 
-	function checkDate() {
-		$date = db_escape_string($this->link, $_REQUEST["date"]);
-		$date_parsed = strtotime($date);
-
-		print json_encode(array("result" => (bool)$date_parsed,
-			"date" => date("c", $date_parsed)));
-	}
-
 	function assigntolabel() {
 		return $this->labelops(true);
 	}
