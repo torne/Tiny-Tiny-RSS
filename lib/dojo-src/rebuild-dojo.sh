@@ -18,6 +18,11 @@ if [ -d util/buildscripts/ ]; then
 		rm -rf ../dojo ../dijit
 		cp -r release/dojo/dojo ..
 		cp -r release/dojo/dijit ..
+
+		cd ..
+
+		find dojo -name '*uncompressed*' -exec rm -- {} \;
+		find dijit -name '*uncompressed*' -exec rm -- {} \;
 	else
 		echo $0: ERROR: Dojo build seems to have failed.
 	fi

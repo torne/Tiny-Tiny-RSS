@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 114);
+	define('SCHEMA_VERSION', 115);
 
 	define('LABEL_BASE_INDEX', -1024);
 	define('PLUGIN_FEED_BASE_INDEX', -128);
@@ -84,6 +84,7 @@
 					"ru_RU" => "Русский",
 					"pt_BR" => "Portuguese/Brazil",
 					"zh_CN" => "Simplified Chinese",
+					"sv_SE" => "Svenska",
 					"fi_FI" => "Suomi");
 
 		return $tr;
@@ -1860,7 +1861,7 @@
 
 		foreach (array("ON_CATCHUP_SHOW_NEXT_FEED", "HIDE_READ_FEEDS",
 			"ENABLE_FEED_CATS", "FEEDS_SORT_BY_UNREAD", "CONFIRM_FEED_CATCHUP",
-			"CDM_AUTO_CATCHUP", "FRESH_ARTICLE_MAX_AGE", "DEFAULT_ARTICLE_LIMIT",
+			"CDM_AUTO_CATCHUP", "FRESH_ARTICLE_MAX_AGE",
 			"HIDE_READ_SHOWS_SPECIAL", "COMBINED_DISPLAY_MODE") as $param) {
 
 				 $params[strtolower($param)] = (int) get_pref($link, $param);
@@ -1953,6 +1954,11 @@
 				"collapse_sidebar" => __("Un/collapse sidebar"),
 				"help_dialog" => __("Show help dialog"))
 			);
+
+		global $pluginhost;
+		foreach ($pluginhost->get_hooks($pluginhost::HOOK_HOTKEY_INFO) as $plugin) {
+			$hotkeys = $plugin->hook_hotkey_info($hotkeys);
+		}
 
 		return $hotkeys;
 	}
@@ -3425,6 +3431,8 @@
 			$parent_qpart = "parent_cat IS NULL";
 			$parent_insert = "NULL";
 		}
+
+		$feed_cat = mb_substr($feed_cat, 0, 250);
 
 		$result = db_query($link,
 			"SELECT id FROM ttrss_feed_categories

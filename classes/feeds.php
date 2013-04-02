@@ -739,7 +739,7 @@ class Feeds extends Handler_Protected {
 					break;
 				default:
 					if ($feed < LABEL_BASE_INDEX) {
-						$message = __("No articles found to display. You can assign articles to labels manually (see the Actions menu above) or use a filter.");
+						$message = __("No articles found to display. You can assign articles to labels manually from article header context menu (applies to all selected articles) or use a filter.");
 					} else {
 						$message = __("No articles found to display.");
 					}
@@ -796,7 +796,7 @@ class Feeds extends Handler_Protected {
 		$feed = db_escape_string($this->link, $_REQUEST["feed"]);
 		$method = db_escape_string($this->link, $_REQUEST["m"]);
 		$view_mode = db_escape_string($this->link, $_REQUEST["view_mode"]);
-		$limit = (int) get_pref($this->link, "DEFAULT_ARTICLE_LIMIT");
+		$limit = 30;
 		@$cat_view = $_REQUEST["cat"] == "true";
 		@$next_unread_feed = db_escape_string($this->link, $_REQUEST["nuf"]);
 		@$offset = db_escape_string($this->link, $_REQUEST["skip"]);

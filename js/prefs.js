@@ -1221,7 +1221,7 @@ function opmlRegenKey() {
 
 			notify_progress("Trying to change address...", true);
 
-			var query = "?op=rpc&method=regenOPMLKey";
+			var query = "?op=pref-feeds&method=regenOPMLKey";
 
 			new Ajax.Request("backend.php", {
 				parameters: query,
@@ -1521,7 +1521,7 @@ function clearFeedAccessKeys() {
 	if (ok) {
 		notify_progress("Clearing URLs...");
 
-		var query = "?op=rpc&method=clearKeys";
+		var query = "?op=pref-feeds&method=clearKeys";
 
 		new Ajax.Request("backend.php", {
 			parameters: query,

@@ -283,9 +283,27 @@
 			exit;
 		}
 
-	?>
+		$notices = array();
 
-	<?php print_notice("Configuration check succeeded."); ?>
+		if (!function_exists("curl_init")) {
+			array_push($notices, "It is highly recommended to enable support for CURL in PHP.");
+		}
+
+		if (count($notices) > 0) {
+			print_notice("Configuration check succeeded with minor problems:");
+
+			print "<ul>";
+
+			foreach ($notices as $notice) {
+				print "<li>$notice</li>";
+			}
+
+			print "</ul>";
+		} else {
+			print_notice("Configuration check succeeded.");
+		}
+
+	?>
 
 	<h2>Checking database</h2>
 

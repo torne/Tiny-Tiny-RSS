@@ -104,6 +104,9 @@
 	<?php
 		require 'lib/jshrink/Minifier.php';
 
+		print get_minified_js(array("tt-rss",
+			"functions", "feedlist", "viewfeed", "FeedTree"));
+
 		global $pluginhost;
 
 		foreach ($pluginhost->get_plugins() as $n => $p) {
@@ -111,9 +114,6 @@
 				echo JShrink\Minifier::minify($p->get_js());
 			}
 		}
-
-		print get_minified_js(array("tt-rss",
-			"functions", "feedlist", "viewfeed", "FeedTree"));
 
 		init_js_translations();
 	?>
@@ -139,8 +139,6 @@
 		<noscript><br/><?php print_error('Javascript is disabled. Please enable it.') ?></noscript>
 	</div>
 </div>
-
-<div style="display : none" onclick="Element.hide(this)" id="small_article_preview"></div>
 
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 <div id="cmdline" style="display : none"></div>
@@ -190,7 +188,7 @@
 		</select>
 
 		<select title="<?php echo __('Mark feed as read') ?>"
-			onchange="catchupCurrentFeed(event)"
+			onchange="catchupCurrentFeed(this)"
 			dojoType="dijit.form.Select" name="catchup_feed">
 			<option selected="selected" value="default"><?php echo __('Mark as read') ?></option>
 			<option value="all"><?php echo __('All articles') ?></option>
@@ -201,14 +199,14 @@
 
 		</form>
 
-		<?php
-			global $pluginhost;
-			foreach ($pluginhost->get_hooks($pluginhost::HOOK_TOOLBAR_BUTTON) as $p) {
-				 echo $p->hook_toolbar_button();
-			}
-		?>
-
 		<div class="actionChooser">
+
+			<?php
+				global $pluginhost;
+				foreach ($pluginhost->get_hooks($pluginhost::HOOK_TOOLBAR_BUTTON) as $p) {
+					 echo $p->hook_toolbar_button();
+				}
+			?>
 
 			<button id="net-alert" dojoType="dijit.form.Button" style="display : none" disabled="true"
 				title="<?php echo __("Communication problem with server.") ?>">

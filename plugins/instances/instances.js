@@ -11,7 +11,7 @@ function addInstance() {
 			style: "width: 600px",
 			regenKey: function() {
 				new Ajax.Request("backend.php", {
-					parameters: "?op=rpc&method=genHash",
+					parameters: "op=pluginhandler&plugin=instances&method=genHash",
 					onComplete: function(transport) {
 						var reply = JSON.parse(transport.responseText);
 						if (reply)
@@ -47,7 +47,7 @@ function addInstance() {
 
 function updateInstanceList(sort_key) {
 	new Ajax.Request("backend.php", {
-		parameters: "?op=pref-instances&sort=" + param_escape(sort_key),
+		parameters: "op=pluginhandler&plugin=instances&sort=" + param_escape(sort_key),
 		onComplete: function(transport) {
 			dijit.byId('instanceConfigTab').attr('content', transport.responseText);
 			selectTab("instanceConfig", true);
@@ -62,7 +62,7 @@ function editInstance(id, event) {
 		selectTableRows('prefInstanceList', 'none');
 		selectTableRowById('LIRR-'+id, 'LICHK-'+id, true);
 
-		var query = "backend.php?op=pref-instances&method=edit&id=" +
+		var query = "backend.php?op=pluginhandler&plugin=instances&method=edit&id=" +
 			param_escape(id);
 
 		if (dijit.byId("instanceEditDlg"))
@@ -74,7 +74,7 @@ function editInstance(id, event) {
 			style: "width: 600px",
 			regenKey: function() {
 				new Ajax.Request("backend.php", {
-					parameters: "?op=rpc&method=genHash",
+					parameters: "op=pluginhandler&plugin=instances&method=genHash",
 					onComplete: function(transport) {
 						var reply = JSON.parse(transport.responseText);
 						if (reply)
@@ -124,7 +124,7 @@ function removeSelectedInstances() {
 			if (ok) {
 				notify_progress("Removing selected instances...");
 
-				var query = "?op=pref-instances&method=remove&ids="+
+				var query = "op=pluginhandler&plugin=instances&method=remove&ids="+
 					param_escape(sel_rows.toString());
 
 				new Ajax.Request("backend.php", {

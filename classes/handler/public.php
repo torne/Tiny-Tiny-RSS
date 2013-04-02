@@ -12,7 +12,7 @@ class Handler_Public extends Handler {
 			"padding : 5px; border-style : dashed; border-color : #e7d796;".
 			"margin-bottom : 1em; color : #9a8c59;";
 
-		if (!$limit) $limit = 100;
+		if (!$limit) $limit = 60;
 
 		$date_sort_field = "date_entered DESC, updated DESC";
 
@@ -22,9 +22,30 @@ class Handler_Public extends Handler {
 			$date_sort_field = "last_marked DESC";
 
 		$qfh_ret = queryFeedHeadlines($this->link, $feed,
+			1, $view_mode, $is_cat, $search, $search_mode,
+			$date_sort_field, $offset, $owner_uid,
+			false, 0, false, true);
+
+		$result = $qfh_ret[0];
+
+		if (db_num_rows($result) != 0) {
+			$ts = strtotime(db_fetch_result($result, 0, "date_entered"));
+
+			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) &&
+					strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $ts) {
+		      header('HTTP/1.0 304 Not Modified');
+		      return;
+			}
+
+			$last_modified = gmdate("D, d M Y H:i:s", $ts) . " GMT";
+			header("Last-Modified: $last_modified", true);
+		}
+
+		$qfh_ret = queryFeedHeadlines($this->link, $feed,
 			$limit, $view_mode, $is_cat, $search, $search_mode,
 			$date_sort_field, $offset, $owner_uid,
 			false, 0, false, true);
+
 
 		$result = $qfh_ret[0];
 		$feed_title = htmlspecialchars($qfh_ret[1]);
@@ -53,7 +74,8 @@ class Handler_Public extends Handler {
 
 			$tpl->setVariable('SELF_URL', htmlspecialchars(get_self_url_prefix()), true);
 
-	 		while ($line = db_fetch_assoc($result)) {
+			while ($line = db_fetch_assoc($result)) {
+
 				$tpl->setVariable('ARTICLE_ID', htmlspecialchars($line['link']), true);
 				$tpl->setVariable('ARTICLE_LINK', htmlspecialchars($line['link']), true);
 				$tpl->setVariable('ARTICLE_TITLE', htmlspecialchars($line['title']), true);
