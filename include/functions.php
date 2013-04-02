@@ -30,6 +30,36 @@
 
 	require_once 'config.php';
 
+	/**
+	 * Define a constant if not already defined
+	 *
+	 * @param string $name The constant name.
+	 * @param mixed $value The constant value.
+	 * @access public
+	 * @return boolean True if defined successfully or not.
+	 */
+	function define_default($name, $value) {
+		// Note: performence freaks should define everything in 
+		// config.php becasue if will make defined() run much faster, 
+		// see comment by 'tris+php at tfconsulting dot com dot au' 
+		// here: 
+		// http://www.php.net/manual/en/function.defined.php#89886
+		defined($name) or define($name, $value);
+	}
+
+	///// Some defaults that you can override in config.php //////
+
+	define_default('FEED_FETCH_TIMEOUT', 45);
+	// How may seconds to wait for response when requesting feed from a site
+	define_default('FEED_FETCH_NO_CACHE_TIMEOUT', 15);
+	// How may seconds to wait for response when requesting feed from a
+	// site when that feed wasn't cached before
+	define_default('FILE_FETCH_TIMEOUT', 45);
+	// Default timeout when fetching files from remote sites
+	define_default('FILE_FETCH_CONNECT_TIMEOUT', 15);
+	// How many seconds to wait for initial response from website when
+	// fetching files from remote sites
+
 	if (DB_TYPE == "pgsql") {
 		define('SUBSTRING_FOR_DATE', 'SUBSTRING_FOR_DATE');
 	} else {
@@ -308,8 +338,8 @@
 					array("If-Modified-Since: ".gmdate('D, d M Y H:i:s \G\M\T', $timestamp)));
 			}
 
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout ? $timeout : 15);
-			curl_setopt($ch, CURLOPT_TIMEOUT, $timeout ? $timeout : 45);
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout ? $timeout : FILE_FETCH_CONNECT_TIMEOUT);
+			curl_setopt($ch, CURLOPT_TIMEOUT, $timeout ? $timeout : FILE_FETCH_TIMEOUT);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, !ini_get("safe_mode"));
 			curl_setopt($ch, CURLOPT_MAXREDIRS, 20);
 			curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
