@@ -22,24 +22,24 @@ class Pref_Prefs extends Handler_Protected {
 		);
 
 		$this->pref_help = array(
-			"ALLOW_DUPLICATE_POSTS" => array(__("Allow duplicate articles")),
+			"ALLOW_DUPLICATE_POSTS" => array(__("Allow duplicate articles"), ""),
 			"AUTO_ASSIGN_LABELS" => array(__("Assign articles to labels automatically"), ""),
-			"BLACKLISTED_TAGS" => array(__("Blacklisted tags"), __("When auto-detecting tags in articles these tags will not be applied (comma-separated list)")),
-			"CDM_AUTO_CATCHUP" => array(__("Automatically mark articles as read"), __("Mark articles as read automatically while you scroll article list.")),
+			"BLACKLISTED_TAGS" => array(__("Blacklisted tags"), __("When auto-detecting tags in articles these tags will not be applied (comma-separated list).")),
+			"CDM_AUTO_CATCHUP" => array(__("Automatically mark articles as read"), __("This option enables marking articles as read automatically while you scroll article list.")),
 			"CDM_EXPANDED" => array(__("Automatically expand articles in combined mode"), ""),
 			"COMBINED_DISPLAY_MODE" => array(__("Combined feed display"), __("Display expanded list of feed articles, instead of separate displays for headlines and article content")),
 			"CONFIRM_FEED_CATCHUP" => array(__("Confirm marking feed as read"), ""),
 			"DEFAULT_ARTICLE_LIMIT" => array(__("Amount of articles to display at once"), ""),
-			"DEFAULT_UPDATE_INTERVAL" => array(__("Default feed update interval"), ""),
+			"DEFAULT_UPDATE_INTERVAL" => array(__("Default interval between feed updates"), ""),
 			"DIGEST_CATCHUP" => array(__("Mark articles in e-mail digest as read"), ""),
-			"DIGEST_ENABLE" => array(__("Enable email digest"), __("This option enables sending daily digest of new (and unread) headlines on your configured e-mail address")),
+			"DIGEST_ENABLE" => array(__("Enable e-mail digest"), __("This option enables sending daily digest of new (and unread) headlines on your configured e-mail address")),
 			"DIGEST_PREFERRED_TIME" => array(__("Try to send digests around specified time"), __("Uses UTC timezone")),
-			"ENABLE_API_ACCESS" => array(__("Enable external API"), ""),
+			"ENABLE_API_ACCESS" => array(__("Enable API access"), __("Allows external clients to access this account through the API")),
 			"ENABLE_FEED_CATS" => array(__("Enable feed categories"), ""),
 			"FEEDS_SORT_BY_UNREAD" => array(__("Sort feeds by unread articles count"), ""),
 			"FRESH_ARTICLE_MAX_AGE" => array(__("Maximum age of fresh articles (in hours)"), ""),
 			"HIDE_READ_FEEDS" => array(__("Hide feeds with no unread articles"), ""),
-			"HIDE_READ_SHOWS_SPECIAL" => array(__("Show special feeds and labels when hiding read feeds"), ""),
+			"HIDE_READ_SHOWS_SPECIAL" => array(__("Show special feeds when hiding read feeds"), ""),
 			"LONG_DATE_FORMAT" => array(__("Long date format"), ""),
 			"ON_CATCHUP_SHOW_NEXT_FEED" => array(__("On catchup show next feed"), __("Automatically open next feed with unread articles after marking one as read")),
 			"PURGE_OLD_DAYS" => array(__("Purge articles after this number of days (0 - disables)"), ""),
@@ -51,10 +51,9 @@ class Pref_Prefs extends Handler_Protected {
 			"SSL_CERT_SERIAL" => array(__("Login with an SSL certificate"), __("Click to register your SSL client certificate with tt-rss")),
 			"STRIP_IMAGES" => array(__("Do not embed images in articles"), ""),
 			"STRIP_UNSAFE_TAGS" => array(__("Strip unsafe tags from articles"), __("Strip all but most common HTML tags when reading articles.")),
-			"USER_CSS_THEME" => array(__("Select theme"), __("Select one of the available CSS themes")),
 			"USER_STYLESHEET" => array(__("Customize stylesheet"), __("Customize CSS stylesheet to your liking")),
 			"USER_TIMEZONE" => array(__("User timezone"), ""),
-			"VFEED_GROUP_BY_FEED" => array(__("Group headlines in virtual feeds"), __("When this option is enabled, headlines in Special feeds and Labels are grouped by feeds"))
+			"VFEED_GROUP_BY_FEED" => array(__("Group headlines in virtual feeds"), __("Special feeds, labels, and categories are grouped by originating feeds"))
 		);
 	}
 
