@@ -253,13 +253,13 @@ class Opml extends Handler_Protected {
 	private function opml_import_feed($doc, $node, $cat_id, $owner_uid) {
 		$attrs = $node->attributes;
 
-		$feed_title = db_escape_string($this->link, $attrs->getNamedItem('text')->nodeValue);
-		if (!$feed_title) $feed_title = db_escape_string($this->link, $attrs->getNamedItem('title')->nodeValue);
+		$feed_title = db_escape_string($this->link, mb_substr($attrs->getNamedItem('text')->nodeValue, 0, 250));
+		if (!$feed_title) $feed_title = db_escape_string($this->link, mb_substr($attrs->getNamedItem('title')->nodeValue, 0, 250));
 
-		$feed_url = db_escape_string($this->link, $attrs->getNamedItem('xmlUrl')->nodeValue);
-		if (!$feed_url) $feed_url = db_escape_string($this->link, $attrs->getNamedItem('xmlURL')->nodeValue);
+		$feed_url = db_escape_string($this->link, mb_substr($attrs->getNamedItem('xmlUrl')->nodeValue, 0, 250));
+		if (!$feed_url) $feed_url = db_escape_string($this->link, mb_substr($attrs->getNamedItem('xmlURL')->nodeValue, 0, 250));
 
-		$site_url = db_escape_string($this->link, $attrs->getNamedItem('htmlUrl')->nodeValue);
+		$site_url = db_escape_string($this->link, mb_substr($attrs->getNamedItem('htmlUrl')->nodeValue, 0, 250));
 
 		if ($feed_url && $feed_title) {
 			$result = db_query($this->link, "SELECT id FROM ttrss_feeds WHERE
@@ -386,10 +386,10 @@ class Opml extends Handler_Protected {
 		$default_cat_id = (int) get_feed_category($this->link, 'Imported feeds', false);
 
 		if ($root_node) {
-			$cat_title = db_escape_string($this->link, $root_node->attributes->getNamedItem('text')->nodeValue);
+			$cat_title = db_escape_string($this->link, mb_substr($root_node->attributes->getNamedItem('text')->nodeValue, 0, 250));
 
 			if (!$cat_title)
-				$cat_title = db_escape_string($this->link, $root_node->attributes->getNamedItem('title')->nodeValue);
+				$cat_title = db_escape_string($this->link, mb_substr($root_node->attributes->getNamedItem('title')->nodeValue, 0, 250));
 
 			if (!in_array($cat_title, array("tt-rss-filters", "tt-rss-labels", "tt-rss-prefs"))) {
 				$cat_id = get_feed_category($this->link, $cat_title, $parent_id);

@@ -3406,6 +3406,8 @@
 			$parent_insert = "NULL";
 		}
 
+		$feed_cat = mb_substr($feed_cat, 0, 250);
+
 		$result = db_query($link,
 			"SELECT id FROM ttrss_feed_categories
 			WHERE $parent_qpart AND title = '$feed_cat' AND owner_uid = ".$_SESSION["uid"]);
