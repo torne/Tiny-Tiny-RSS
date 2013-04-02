@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-02 16:38+0400\n"
+"POT-Creation-Date: 2013-04-02 16:46+0400\n"
 "PO-Revision-Date: 2013-03-31 18:03+0200\n"
 "Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -475,7 +475,7 @@ msgstr "Odhlásit se"
 #: prefs.php:36
 #: prefs.php:121
 #: include/functions.php:1929
-#: classes/pref/prefs.php:428
+#: classes/pref/prefs.php:427
 msgid "Preferences"
 msgstr "Nastavení"
 
@@ -892,7 +892,7 @@ msgstr "URL kanálu"
 #: classes/backend.php:105
 #: classes/pref/users.php:99
 #: classes/pref/filters.php:147
-#: classes/pref/prefs.php:1059
+#: classes/pref/prefs.php:1058
 #: classes/pref/feeds.php:1588
 #: classes/pref/feeds.php:1660
 #: plugins/import_export/init.php:406
@@ -944,7 +944,7 @@ msgstr "Profil:"
 #: include/login_form.php:213
 #: classes/handler/public.php:233
 #: classes/rpc.php:64
-#: classes/pref/prefs.php:995
+#: classes/pref/prefs.php:994
 msgid "Default profile"
 msgstr "Výchozí profil"
 
@@ -978,7 +978,7 @@ msgstr "Značky článku (oddělené čárkami):"
 #: classes/pref/users.php:176
 #: classes/pref/labels.php:79
 #: classes/pref/filters.php:405
-#: classes/pref/prefs.php:941
+#: classes/pref/prefs.php:940
 #: classes/pref/feeds.php:733
 #: classes/pref/feeds.php:881
 #: plugins/nsfw/init.php:86
@@ -999,7 +999,7 @@ msgstr "Uložit"
 #: classes/pref/filters.php:804
 #: classes/pref/filters.php:880
 #: classes/pref/filters.php:947
-#: classes/pref/prefs.php:943
+#: classes/pref/prefs.php:942
 #: classes/pref/feeds.php:734
 #: classes/pref/feeds.php:884
 #: classes/pref/feeds.php:1797
@@ -1222,7 +1222,7 @@ msgstr "Vybrat:"
 #: classes/pref/filters.php:648
 #: classes/pref/filters.php:737
 #: classes/pref/filters.php:764
-#: classes/pref/prefs.php:955
+#: classes/pref/prefs.php:954
 #: classes/pref/feeds.php:1266
 #: classes/pref/feeds.php:1536
 #: classes/pref/feeds.php:1606
@@ -1242,7 +1242,7 @@ msgstr "Invertovat"
 #: classes/pref/filters.php:650
 #: classes/pref/filters.php:739
 #: classes/pref/filters.php:766
-#: classes/pref/prefs.php:957
+#: classes/pref/prefs.php:956
 #: classes/pref/feeds.php:1268
 #: classes/pref/feeds.php:1538
 #: classes/pref/feeds.php:1608
@@ -1378,7 +1378,7 @@ msgid "Login"
 msgstr "Přihlášení"
 
 #: classes/feeds.php:1007
-#: classes/pref/prefs.php:253
+#: classes/pref/prefs.php:252
 #: classes/pref/feeds.php:602
 #: classes/pref/feeds.php:828
 #: classes/pref/feeds.php:1778
@@ -1598,7 +1598,7 @@ msgstr "[tt-rss] Oznámení o změně hesla"
 #: classes/pref/filters.php:645
 #: classes/pref/filters.php:734
 #: classes/pref/filters.php:761
-#: classes/pref/prefs.php:952
+#: classes/pref/prefs.php:951
 #: classes/pref/feeds.php:1263
 #: classes/pref/feeds.php:1533
 #: classes/pref/feeds.php:1603
@@ -1821,7 +1821,7 @@ msgid "Blacklisted tags"
 msgstr "Zakázané značky"
 
 #: classes/pref/prefs.php:27
-msgid "When auto-detecting tags in articles these tags will not be applied (comma-separated list)"
+msgid "When auto-detecting tags in articles these tags will not be applied (comma-separated list)."
 msgstr ""
 
 #: classes/pref/prefs.php:28
@@ -1829,7 +1829,7 @@ msgid "Automatically mark articles as read"
 msgstr "Automaticky označit články jako přečtené"
 
 #: classes/pref/prefs.php:28
-msgid "Mark articles as read automatically while you scroll article list."
+msgid "This option enables marking articles as read automatically while you scroll article list."
 msgstr ""
 
 #: classes/pref/prefs.php:29
@@ -1853,9 +1853,8 @@ msgid "Amount of articles to display at once"
 msgstr "Počet naráz zobrazovaných článků"
 
 #: classes/pref/prefs.php:33
-#, fuzzy
-msgid "Default feed update interval"
-msgstr "Výchozí interval"
+msgid "Default interval between feed updates"
+msgstr "Výchozí interval mezi aktualizacemi kanálů"
 
 #: classes/pref/prefs.php:34
 msgid "Mark articles in e-mail digest as read"
@@ -1863,7 +1862,7 @@ msgstr "Označit články v e-mailovém souhrnu jako přečtené"
 
 #: classes/pref/prefs.php:35
 #, fuzzy
-msgid "Enable email digest"
+msgid "Enable e-mail digest"
 msgstr "Povolit e-mailový souhrn"
 
 #: classes/pref/prefs.php:35
@@ -1879,8 +1878,12 @@ msgid "Uses UTC timezone"
 msgstr "Používá časovou zónu UTC"
 
 #: classes/pref/prefs.php:37
-msgid "Enable external API"
-msgstr "Povolit externí API"
+msgid "Enable API access"
+msgstr ""
+
+#: classes/pref/prefs.php:37
+msgid "Allows external clients to access this account through the API"
+msgstr ""
 
 #: classes/pref/prefs.php:38
 msgid "Enable feed categories"
@@ -1899,7 +1902,7 @@ msgid "Hide feeds with no unread articles"
 msgstr "Skrýt kanály bez nepřečtených článků"
 
 #: classes/pref/prefs.php:42
-msgid "Show special feeds and labels when hiding read feeds"
+msgid "Show special feeds when hiding read feeds"
 msgstr ""
 
 #: classes/pref/prefs.php:43
@@ -1964,256 +1967,248 @@ msgid "Strip all but most common HTML tags when reading articles."
 msgstr ""
 
 #: classes/pref/prefs.php:54
-msgid "Select theme"
-msgstr "Zvolit motiv"
-
-#: classes/pref/prefs.php:54
-msgid "Select one of the available CSS themes"
-msgstr "Vybrat jeden z dostupných motivů CSS"
-
-#: classes/pref/prefs.php:55
 #: js/prefs.js:1725
 msgid "Customize stylesheet"
 msgstr "Upravit soubor motivu"
 
-#: classes/pref/prefs.php:55
+#: classes/pref/prefs.php:54
 msgid "Customize CSS stylesheet to your liking"
 msgstr ""
 
-#: classes/pref/prefs.php:56
+#: classes/pref/prefs.php:55
 msgid "User timezone"
 msgstr "Časová zóna uživatele"
 
-#: classes/pref/prefs.php:57
+#: classes/pref/prefs.php:56
 msgid "Group headlines in virtual feeds"
 msgstr ""
 
-#: classes/pref/prefs.php:57
-msgid "When this option is enabled, headlines in Special feeds and Labels are grouped by feeds"
+#: classes/pref/prefs.php:56
+msgid "Special feeds, labels, and categories are grouped by originating feeds"
 msgstr ""
 
-#: classes/pref/prefs.php:68
+#: classes/pref/prefs.php:67
 msgid "Old password cannot be blank."
 msgstr "Staré heslo nemůže být prázdné."
 
-#: classes/pref/prefs.php:73
+#: classes/pref/prefs.php:72
 msgid "New password cannot be blank."
 msgstr "Nové heslo nemůže být prázdné."
 
-#: classes/pref/prefs.php:78
+#: classes/pref/prefs.php:77
 msgid "Entered passwords do not match."
 msgstr "Zadaná hesla nejsou shodná."
 
-#: classes/pref/prefs.php:88
+#: classes/pref/prefs.php:87
 msgid "Function not supported by authentication module."
 msgstr ""
 
-#: classes/pref/prefs.php:120
+#: classes/pref/prefs.php:119
 msgid "The configuration was saved."
 msgstr "Nastavení bylo uloženo."
 
-#: classes/pref/prefs.php:134
+#: classes/pref/prefs.php:133
 #, php-format
 msgid "Unknown option: %s"
 msgstr "Neznámá možnost: %s"
 
-#: classes/pref/prefs.php:148
+#: classes/pref/prefs.php:147
 msgid "Your personal data has been saved."
 msgstr "Vaše osobní data byla uložena."
 
-#: classes/pref/prefs.php:188
+#: classes/pref/prefs.php:187
 msgid "Personal data / Authentication"
 msgstr "Osobní data / ověření"
 
-#: classes/pref/prefs.php:208
+#: classes/pref/prefs.php:207
 msgid "Personal data"
 msgstr "Osobní informace"
 
-#: classes/pref/prefs.php:218
+#: classes/pref/prefs.php:217
 msgid "Full name"
 msgstr "Celé jméno"
 
-#: classes/pref/prefs.php:222
+#: classes/pref/prefs.php:221
 msgid "E-mail"
 msgstr "E-mail"
 
-#: classes/pref/prefs.php:228
+#: classes/pref/prefs.php:227
 msgid "Access level"
 msgstr "Úroveň přístupu"
 
-#: classes/pref/prefs.php:238
+#: classes/pref/prefs.php:237
 msgid "Save data"
 msgstr "Uložit data"
 
-#: classes/pref/prefs.php:260
+#: classes/pref/prefs.php:259
 msgid "Your password is at default value, please change it."
 msgstr "Vaše heslo má výchozí hodnotu, změňte jej prosím."
 
-#: classes/pref/prefs.php:287
+#: classes/pref/prefs.php:286
 msgid "Changing your current password will disable OTP."
 msgstr "Změněna hesla zakáže heslo na jedno použití."
 
-#: classes/pref/prefs.php:292
+#: classes/pref/prefs.php:291
 msgid "Old password"
 msgstr "Staré heslo"
 
-#: classes/pref/prefs.php:295
+#: classes/pref/prefs.php:294
 msgid "New password"
 msgstr "Nové heslo"
 
-#: classes/pref/prefs.php:300
+#: classes/pref/prefs.php:299
 msgid "Confirm password"
 msgstr "Potvrdit heslo"
 
-#: classes/pref/prefs.php:310
+#: classes/pref/prefs.php:309
 msgid "Change password"
 msgstr "Změnit heslo"
 
-#: classes/pref/prefs.php:316
+#: classes/pref/prefs.php:315
 msgid "One time passwords / Authenticator"
 msgstr "Heslo na jedno použití / Ověření"
 
-#: classes/pref/prefs.php:320
+#: classes/pref/prefs.php:319
 msgid "One time passwords are currently enabled. Enter your current password below to disable."
 msgstr "Hesla na jedno použití jsou povolena. Zadejte své současné heslo pro zakázání."
 
-#: classes/pref/prefs.php:345
-#: classes/pref/prefs.php:396
+#: classes/pref/prefs.php:344
+#: classes/pref/prefs.php:395
 msgid "Enter your password"
 msgstr "Zadejte své heslo"
 
-#: classes/pref/prefs.php:356
+#: classes/pref/prefs.php:355
 msgid "Disable OTP"
 msgstr "Zakázat HJP"
 
-#: classes/pref/prefs.php:362
+#: classes/pref/prefs.php:361
 msgid "You will need a compatible Authenticator to use this. Changing your password would automatically disable OTP."
 msgstr ""
 
-#: classes/pref/prefs.php:364
+#: classes/pref/prefs.php:363
 msgid "Scan the following code by the Authenticator application:"
 msgstr ""
 
-#: classes/pref/prefs.php:405
+#: classes/pref/prefs.php:404
 msgid "I have scanned the code and would like to enable OTP"
 msgstr ""
 
-#: classes/pref/prefs.php:413
+#: classes/pref/prefs.php:412
 msgid "Enable OTP"
 msgstr "Povolit HJP"
 
-#: classes/pref/prefs.php:451
+#: classes/pref/prefs.php:450
 msgid "Some preferences are only available in default profile."
 msgstr ""
 
-#: classes/pref/prefs.php:545
+#: classes/pref/prefs.php:544
 msgid "Customize"
 msgstr "Přizpůsobit"
 
-#: classes/pref/prefs.php:605
+#: classes/pref/prefs.php:604
 msgid "Register"
 msgstr "Registrovat"
 
-#: classes/pref/prefs.php:609
+#: classes/pref/prefs.php:608
 msgid "Clear"
 msgstr "Vyčistit"
 
-#: classes/pref/prefs.php:615
+#: classes/pref/prefs.php:614
 #, php-format
 msgid "Current server time: %s (UTC)"
 msgstr "Aktuální čas na serveru: %s (UTC)"
 
-#: classes/pref/prefs.php:648
+#: classes/pref/prefs.php:647
 msgid "Save configuration"
 msgstr "Uložit nastavení"
 
-#: classes/pref/prefs.php:651
+#: classes/pref/prefs.php:650
 msgid "Manage profiles"
 msgstr "Spravovat profily"
 
-#: classes/pref/prefs.php:654
+#: classes/pref/prefs.php:653
 msgid "Reset to defaults"
 msgstr "Obnovit výchozí hodnoty"
 
-#: classes/pref/prefs.php:678
-#: classes/pref/prefs.php:680
+#: classes/pref/prefs.php:677
+#: classes/pref/prefs.php:679
 msgid "Plugins"
 msgstr "Moduly"
 
-#: classes/pref/prefs.php:682
+#: classes/pref/prefs.php:681
 msgid "You will need to reload Tiny Tiny RSS for plugin changes to take effect."
 msgstr ""
 
-#: classes/pref/prefs.php:684
+#: classes/pref/prefs.php:683
 msgid "Download more plugins at tt-rss.org <a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/forum/viewforum.php?f=22\">forums</a> or <a target=\"_blank\" class=\"visibleLink\" href=\"http://tt-rss.org/wiki/Plugins\">wiki</a>."
 msgstr ""
 
-#: classes/pref/prefs.php:710
+#: classes/pref/prefs.php:709
 msgid "System plugins"
 msgstr "Systémové moduly"
 
-#: classes/pref/prefs.php:714
-#: classes/pref/prefs.php:768
+#: classes/pref/prefs.php:713
+#: classes/pref/prefs.php:767
 msgid "Plugin"
 msgstr "Modul"
 
-#: classes/pref/prefs.php:715
-#: classes/pref/prefs.php:769
+#: classes/pref/prefs.php:714
+#: classes/pref/prefs.php:768
 msgid "Description"
 msgstr "Popis"
 
-#: classes/pref/prefs.php:716
-#: classes/pref/prefs.php:770
+#: classes/pref/prefs.php:715
+#: classes/pref/prefs.php:769
 msgid "Version"
 msgstr "Verze"
 
-#: classes/pref/prefs.php:717
-#: classes/pref/prefs.php:771
+#: classes/pref/prefs.php:716
+#: classes/pref/prefs.php:770
 msgid "Author"
 msgstr "Autor"
 
-#: classes/pref/prefs.php:746
-#: classes/pref/prefs.php:803
+#: classes/pref/prefs.php:745
+#: classes/pref/prefs.php:802
 msgid "more info"
 msgstr "více informací"
 
-#: classes/pref/prefs.php:755
-#: classes/pref/prefs.php:812
+#: classes/pref/prefs.php:754
+#: classes/pref/prefs.php:811
 msgid "Clear data"
 msgstr "Smazat data"
 
-#: classes/pref/prefs.php:764
+#: classes/pref/prefs.php:763
 msgid "User plugins"
 msgstr "Uživatelské moduly"
 
-#: classes/pref/prefs.php:827
+#: classes/pref/prefs.php:826
 msgid "Enable selected plugins"
 msgstr "Povolit vybrané moduly"
 
-#: classes/pref/prefs.php:882
-#: classes/pref/prefs.php:900
+#: classes/pref/prefs.php:881
+#: classes/pref/prefs.php:899
 msgid "Incorrect password"
 msgstr "Špatné heslo"
 
-#: classes/pref/prefs.php:926
+#: classes/pref/prefs.php:925
 #, php-format
 msgid "You can override colors, fonts and layout of your currently selected theme with custom CSS declarations here. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">This file</a> can be used as a baseline."
 msgstr ""
 
-#: classes/pref/prefs.php:966
+#: classes/pref/prefs.php:965
 msgid "Create profile"
 msgstr "Vytvořit profil"
 
-#: classes/pref/prefs.php:989
-#: classes/pref/prefs.php:1019
+#: classes/pref/prefs.php:988
+#: classes/pref/prefs.php:1018
 msgid "(active)"
 msgstr "(aktivní)"
 
-#: classes/pref/prefs.php:1053
+#: classes/pref/prefs.php:1052
 msgid "Remove selected profiles"
 msgstr "Odstranit vybrané profily"
 
-#: classes/pref/prefs.php:1055
+#: classes/pref/prefs.php:1054
 msgid "Activate profile"
 msgstr "Aktivovat profil"
 
@@ -3595,6 +3590,19 @@ msgstr "Sdílet článek pomocí URL"
 msgid "Live updating is considered experimental. Backup your tt-rss directory before continuing. Please type 'yes' to continue."
 msgstr ""
 
+#, fuzzy
+#~ msgid "Default feed update interval"
+#~ msgstr "Výchozí interval"
+
+#~ msgid "Enable external API"
+#~ msgstr "Povolit externí API"
+
+#~ msgid "Select theme"
+#~ msgstr "Zvolit motiv"
+
+#~ msgid "Select one of the available CSS themes"
+#~ msgstr "Vybrat jeden z dostupných motivů CSS"
+
 #~ msgid "Title"
 #~ msgstr "Název"
 
@@ -3624,9 +3632,6 @@ msgstr ""
 
 #~ msgid "This option is useful when you are reading several planet-type aggregators with partially colliding userbase. When disabled, it forces same posts from different feeds to appear only once."
 #~ msgstr "Tato volba je užitečná pro sledování několika agregátorů s částečně prolínající databází uživatelů. Pokud je vypnuta, sloučí stejné příspěvky z různých zdrojů a zobrazí je jako jeden."
-
-#~ msgid "Default interval between feed updates"
-#~ msgstr "Výchozí interval mezi aktualizacemi kanálů"
 
 #, fuzzy
 #~ msgid "Refresh"

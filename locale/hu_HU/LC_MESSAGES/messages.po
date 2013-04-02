@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-02 16:38+0400\n"
+"POT-Creation-Date: 2013-04-02 16:46+0400\n"
 "PO-Revision-Date: 2013-03-26 12:00+0100\n"
 "Last-Translator: Zoltan Faludi <zoltan.faludi@gmail.com>\n"
 "Language-Team: HUNGARIAN\n"
@@ -478,7 +478,7 @@ msgstr "Kijelentkezés"
 #: prefs.php:36
 #: prefs.php:121
 #: include/functions.php:1929
-#: classes/pref/prefs.php:428
+#: classes/pref/prefs.php:427
 msgid "Preferences"
 msgstr "Beállítások"
 
@@ -897,7 +897,7 @@ msgstr "Hírcsatorna URL"
 #: classes/backend.php:105
 #: classes/pref/users.php:99
 #: classes/pref/filters.php:147
-#: classes/pref/prefs.php:1059
+#: classes/pref/prefs.php:1058
 #: classes/pref/feeds.php:1588
 #: classes/pref/feeds.php:1660
 #: plugins/import_export/init.php:406
@@ -950,7 +950,7 @@ msgstr "Profil:"
 #: include/login_form.php:213
 #: classes/handler/public.php:233
 #: classes/rpc.php:64
-#: classes/pref/prefs.php:995
+#: classes/pref/prefs.php:994
 msgid "Default profile"
 msgstr "Alapértelmezett profil"
 
@@ -984,7 +984,7 @@ msgstr "A hír címkéi (vesszőkkel elválasztva):"
 #: classes/pref/users.php:176
 #: classes/pref/labels.php:79
 #: classes/pref/filters.php:405
-#: classes/pref/prefs.php:941
+#: classes/pref/prefs.php:940
 #: classes/pref/feeds.php:733
 #: classes/pref/feeds.php:881
 #: plugins/nsfw/init.php:86
@@ -1005,7 +1005,7 @@ msgstr "Mentés"
 #: classes/pref/filters.php:804
 #: classes/pref/filters.php:880
 #: classes/pref/filters.php:947
-#: classes/pref/prefs.php:943
+#: classes/pref/prefs.php:942
 #: classes/pref/feeds.php:734
 #: classes/pref/feeds.php:884
 #: classes/pref/feeds.php:1797
@@ -1230,7 +1230,7 @@ msgstr "Kiválasztás:"
 #: classes/pref/filters.php:648
 #: classes/pref/filters.php:737
 #: classes/pref/filters.php:764
-#: classes/pref/prefs.php:955
+#: classes/pref/prefs.php:954
 #: classes/pref/feeds.php:1266
 #: classes/pref/feeds.php:1536
 #: classes/pref/feeds.php:1606
@@ -1250,7 +1250,7 @@ msgstr "Fordított"
 #: classes/pref/filters.php:650
 #: classes/pref/filters.php:739
 #: classes/pref/filters.php:766
-#: classes/pref/prefs.php:957
+#: classes/pref/prefs.php:956
 #: classes/pref/feeds.php:1268
 #: classes/pref/feeds.php:1538
 #: classes/pref/feeds.php:1608
@@ -1389,7 +1389,7 @@ msgid "Login"
 msgstr "Belépés"
 
 #: classes/feeds.php:1007
-#: classes/pref/prefs.php:253
+#: classes/pref/prefs.php:252
 #: classes/pref/feeds.php:602
 #: classes/pref/feeds.php:828
 #: classes/pref/feeds.php:1778
@@ -1613,7 +1613,7 @@ msgstr "[tt-rss] Értesítés jelszó megváltoztatásáról."
 #: classes/pref/filters.php:645
 #: classes/pref/filters.php:734
 #: classes/pref/filters.php:761
-#: classes/pref/prefs.php:952
+#: classes/pref/prefs.php:951
 #: classes/pref/feeds.php:1263
 #: classes/pref/feeds.php:1533
 #: classes/pref/feeds.php:1603
@@ -1839,7 +1839,7 @@ msgstr "Feketelistás címkék"
 
 #: classes/pref/prefs.php:27
 #, fuzzy
-msgid "When auto-detecting tags in articles these tags will not be applied (comma-separated list)"
+msgid "When auto-detecting tags in articles these tags will not be applied (comma-separated list)."
 msgstr "Ha a program megtalája ezeket a címkéket a hírekben, kihagyja őket (lista, elemek vesszővel elválasztva)"
 
 #: classes/pref/prefs.php:28
@@ -1848,7 +1848,7 @@ msgstr "Hírek megjelölése olvasottként automatikusan"
 
 #: classes/pref/prefs.php:28
 #, fuzzy
-msgid "Mark articles as read automatically while you scroll article list."
+msgid "This option enables marking articles as read automatically while you scroll article list."
 msgstr "Ez a beállítás lehetővé teszi a hírek automatikus olvasottnak jelölését a hír lista görgetése közben."
 
 #: classes/pref/prefs.php:29
@@ -1872,9 +1872,8 @@ msgid "Amount of articles to display at once"
 msgstr "Ennyi hír jelenjen meg egyszerre"
 
 #: classes/pref/prefs.php:33
-#, fuzzy
-msgid "Default feed update interval"
-msgstr "Frissítési intervallum:"
+msgid "Default interval between feed updates"
+msgstr "Hírcsatorna frissítések közti idő"
 
 #: classes/pref/prefs.php:34
 msgid "Mark articles in e-mail digest as read"
@@ -1882,7 +1881,7 @@ msgstr "Az email összefoglalóban elküldött hírek megjelölése hírek olvas
 
 #: classes/pref/prefs.php:35
 #, fuzzy
-msgid "Enable email digest"
+msgid "Enable e-mail digest"
 msgstr "Hírösszefoglaló e-mail elküldésének engedélyezése"
 
 #: classes/pref/prefs.php:35
@@ -1898,8 +1897,12 @@ msgid "Uses UTC timezone"
 msgstr "UTC időzónát használ"
 
 #: classes/pref/prefs.php:37
-msgid "Enable external API"
-msgstr "Külső API engedélyezése"
+msgid "Enable API access"
+msgstr ""
+
+#: classes/pref/prefs.php:37
+msgid "Allows external clients to access this account through the API"
+msgstr ""
 
 #: classes/pref/prefs.php:38
 msgid "Enable feed categories"
@@ -1920,7 +1923,7 @@ msgstr "Olvasatlan hírekkel nem rendelkező hírcsatorna elrejtése"
 
 #: classes/pref/prefs.php:42
 #, fuzzy
-msgid "Show special feeds and labels when hiding read feeds"
+msgid "Show special feeds when hiding read feeds"
 msgstr "Különleges hírcsatornák mutatása olvasott hírcsatornák rejtésekor"
 
 #: classes/pref/prefs.php:43
@@ -1985,256 +1988,248 @@ msgid "Strip all but most common HTML tags when reading articles."
 msgstr "Hírek olvasásakor távolítsa el a a HTML kódokat a leggyakrabban használtak kivételével."
 
 #: classes/pref/prefs.php:54
-msgid "Select theme"
-msgstr "Stílusválasztó"
-
-#: classes/pref/prefs.php:54
-msgid "Select one of the available CSS themes"
-msgstr ""
-
-#: classes/pref/prefs.php:55
 #: js/prefs.js:1725
 msgid "Customize stylesheet"
 msgstr "Stíluslap testreszabása"
 
-#: classes/pref/prefs.php:55
+#: classes/pref/prefs.php:54
 msgid "Customize CSS stylesheet to your liking"
 msgstr "Saját ízlése szerint testreszabhatja a CSS stíluslapot"
 
-#: classes/pref/prefs.php:56
+#: classes/pref/prefs.php:55
 msgid "User timezone"
 msgstr "Felhasználó időzónája"
 
-#: classes/pref/prefs.php:57
+#: classes/pref/prefs.php:56
 msgid "Group headlines in virtual feeds"
 msgstr "Hírcímek csoportosítása virtuális hírcsatornákba"
 
-#: classes/pref/prefs.php:57
-msgid "When this option is enabled, headlines in Special feeds and Labels are grouped by feeds"
-msgstr "Ha ezt a beállítást engedélyezi, a Kiemelt hírcsatornákban és a Címkékben szereplő címeket a program hírcsatornák alapján csoportosítja."
+#: classes/pref/prefs.php:56
+msgid "Special feeds, labels, and categories are grouped by originating feeds"
+msgstr ""
 
-#: classes/pref/prefs.php:68
+#: classes/pref/prefs.php:67
 msgid "Old password cannot be blank."
 msgstr "A régi jelszó mező nem maradhat üresen."
 
-#: classes/pref/prefs.php:73
+#: classes/pref/prefs.php:72
 msgid "New password cannot be blank."
 msgstr "Az új jelszó mező nem maradhat üresen."
 
-#: classes/pref/prefs.php:78
+#: classes/pref/prefs.php:77
 msgid "Entered passwords do not match."
 msgstr "A megadott jelszavak nem egyeznek."
 
-#: classes/pref/prefs.php:88
+#: classes/pref/prefs.php:87
 msgid "Function not supported by authentication module."
 msgstr "A hitelesítési modul nem támogatja ezt a funkciót."
 
-#: classes/pref/prefs.php:120
+#: classes/pref/prefs.php:119
 msgid "The configuration was saved."
 msgstr "Beállítások elmentve."
 
-#: classes/pref/prefs.php:134
+#: classes/pref/prefs.php:133
 #, php-format
 msgid "Unknown option: %s"
 msgstr "Ismeretlen beállítás: %s"
 
-#: classes/pref/prefs.php:148
+#: classes/pref/prefs.php:147
 msgid "Your personal data has been saved."
 msgstr "A személyes adatai el lettek mentve."
 
-#: classes/pref/prefs.php:188
+#: classes/pref/prefs.php:187
 msgid "Personal data / Authentication"
 msgstr "Személyes adatok / Azonosítás"
 
-#: classes/pref/prefs.php:208
+#: classes/pref/prefs.php:207
 msgid "Personal data"
 msgstr "Személyes adatok"
 
-#: classes/pref/prefs.php:218
+#: classes/pref/prefs.php:217
 msgid "Full name"
 msgstr "Teljes név"
 
-#: classes/pref/prefs.php:222
+#: classes/pref/prefs.php:221
 msgid "E-mail"
 msgstr "E-mail"
 
-#: classes/pref/prefs.php:228
+#: classes/pref/prefs.php:227
 msgid "Access level"
 msgstr "Hozzáférési szint"
 
-#: classes/pref/prefs.php:238
+#: classes/pref/prefs.php:237
 msgid "Save data"
 msgstr "Adatok mentése"
 
-#: classes/pref/prefs.php:260
+#: classes/pref/prefs.php:259
 msgid "Your password is at default value, please change it."
 msgstr "A jelszava még az alapértelmezett, kérem változtassa meg."
 
-#: classes/pref/prefs.php:287
+#: classes/pref/prefs.php:286
 msgid "Changing your current password will disable OTP."
 msgstr ""
 
-#: classes/pref/prefs.php:292
+#: classes/pref/prefs.php:291
 msgid "Old password"
 msgstr "Régi jelszó"
 
-#: classes/pref/prefs.php:295
+#: classes/pref/prefs.php:294
 msgid "New password"
 msgstr "Új jelszó"
 
-#: classes/pref/prefs.php:300
+#: classes/pref/prefs.php:299
 msgid "Confirm password"
 msgstr "Jelszó még egyszer"
 
-#: classes/pref/prefs.php:310
+#: classes/pref/prefs.php:309
 msgid "Change password"
 msgstr "Jelszó megváltoztatása"
 
-#: classes/pref/prefs.php:316
+#: classes/pref/prefs.php:315
 msgid "One time passwords / Authenticator"
 msgstr "Egyszer használatos jelszavak / Hitelesítő"
 
-#: classes/pref/prefs.php:320
+#: classes/pref/prefs.php:319
 msgid "One time passwords are currently enabled. Enter your current password below to disable."
 msgstr ""
 
-#: classes/pref/prefs.php:345
-#: classes/pref/prefs.php:396
+#: classes/pref/prefs.php:344
+#: classes/pref/prefs.php:395
 msgid "Enter your password"
 msgstr "Adja meg a jelszavát"
 
-#: classes/pref/prefs.php:356
+#: classes/pref/prefs.php:355
 msgid "Disable OTP"
 msgstr "OTP letiltása"
 
-#: classes/pref/prefs.php:362
+#: classes/pref/prefs.php:361
 msgid "You will need a compatible Authenticator to use this. Changing your password would automatically disable OTP."
 msgstr "Ennek a használatához egy kompatibilis Hitelesítőre van szükség. A jelszó módosítása automatikusan letiltja az OTP-t."
 
-#: classes/pref/prefs.php:364
+#: classes/pref/prefs.php:363
 msgid "Scan the following code by the Authenticator application:"
 msgstr "Szkennelje be a következő kódot a Hitelesítő alkalmazással:"
 
-#: classes/pref/prefs.php:405
+#: classes/pref/prefs.php:404
 msgid "I have scanned the code and would like to enable OTP"
 msgstr "Beszkenneltem a kódot és be szeretném kapcsolni az OTP-t"
 
-#: classes/pref/prefs.php:413
+#: classes/pref/prefs.php:412
 msgid "Enable OTP"
 msgstr "OTP engedélyezése"
 
-#: classes/pref/prefs.php:451
+#: classes/pref/prefs.php:450
 msgid "Some preferences are only available in default profile."
 msgstr ""
 
-#: classes/pref/prefs.php:545
+#: classes/pref/prefs.php:544
 msgid "Customize"
 msgstr "Testreszabás"
 
-#: classes/pref/prefs.php:605
+#: classes/pref/prefs.php:604
 msgid "Register"
 msgstr "Regisztráció"
 
-#: classes/pref/prefs.php:609
+#: classes/pref/prefs.php:608
 msgid "Clear"
 msgstr "Töröl"
 
-#: classes/pref/prefs.php:615
+#: classes/pref/prefs.php:614
 #, php-format
 msgid "Current server time: %s (UTC)"
 msgstr "Aktuális szerveridő: %s (UTC)"
 
-#: classes/pref/prefs.php:648
+#: classes/pref/prefs.php:647
 msgid "Save configuration"
 msgstr "Beállítások mentése"
 
-#: classes/pref/prefs.php:651
+#: classes/pref/prefs.php:650
 msgid "Manage profiles"
 msgstr "Profilok kezelése"
 
-#: classes/pref/prefs.php:654
+#: classes/pref/prefs.php:653
 msgid "Reset to defaults"
 msgstr "Alapértelmezett beállítások"
 
-#: classes/pref/prefs.php:678
-#: classes/pref/prefs.php:680
+#: classes/pref/prefs.php:677
+#: classes/pref/prefs.php:679
 msgid "Plugins"
 msgstr "Beépülők"
 
-#: classes/pref/prefs.php:682
+#: classes/pref/prefs.php:681
 msgid "You will need to reload Tiny Tiny RSS for plugin changes to take effect."
 msgstr ""
 
-#: classes/pref/prefs.php:684
+#: classes/pref/prefs.php:683
 msgid "Download more plugins at tt-rss.org <a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/forum/viewforum.php?f=22\">forums</a> or <a target=\"_blank\" class=\"visibleLink\" href=\"http://tt-rss.org/wiki/Plugins\">wiki</a>."
 msgstr ""
 
-#: classes/pref/prefs.php:710
+#: classes/pref/prefs.php:709
 msgid "System plugins"
 msgstr "Rendszer beépülők"
 
-#: classes/pref/prefs.php:714
-#: classes/pref/prefs.php:768
+#: classes/pref/prefs.php:713
+#: classes/pref/prefs.php:767
 msgid "Plugin"
 msgstr "Beépülő"
 
-#: classes/pref/prefs.php:715
-#: classes/pref/prefs.php:769
+#: classes/pref/prefs.php:714
+#: classes/pref/prefs.php:768
 msgid "Description"
 msgstr "Leírás"
 
-#: classes/pref/prefs.php:716
-#: classes/pref/prefs.php:770
+#: classes/pref/prefs.php:715
+#: classes/pref/prefs.php:769
 msgid "Version"
 msgstr "Verzió"
 
-#: classes/pref/prefs.php:717
-#: classes/pref/prefs.php:771
+#: classes/pref/prefs.php:716
+#: classes/pref/prefs.php:770
 msgid "Author"
 msgstr "Szerző"
 
-#: classes/pref/prefs.php:746
-#: classes/pref/prefs.php:803
+#: classes/pref/prefs.php:745
+#: classes/pref/prefs.php:802
 msgid "more info"
 msgstr ""
 
-#: classes/pref/prefs.php:755
-#: classes/pref/prefs.php:812
+#: classes/pref/prefs.php:754
+#: classes/pref/prefs.php:811
 msgid "Clear data"
 msgstr "Adatok törlése"
 
-#: classes/pref/prefs.php:764
+#: classes/pref/prefs.php:763
 msgid "User plugins"
 msgstr "Felhasználói beépülők"
 
-#: classes/pref/prefs.php:827
+#: classes/pref/prefs.php:826
 msgid "Enable selected plugins"
 msgstr "Kiválasztott beépülők engedélyezése"
 
-#: classes/pref/prefs.php:882
-#: classes/pref/prefs.php:900
+#: classes/pref/prefs.php:881
+#: classes/pref/prefs.php:899
 msgid "Incorrect password"
 msgstr "Érvénytelen jelszó"
 
-#: classes/pref/prefs.php:926
+#: classes/pref/prefs.php:925
 #, php-format
 msgid "You can override colors, fonts and layout of your currently selected theme with custom CSS declarations here. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">This file</a> can be used as a baseline."
 msgstr "Egyéni CSS deklarációkkal itt felülbírálhatja a kiválasztott téma színeit, betűtípusait és elrendezését. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">Ez a fájl</a> használható kiindulásként."
 
-#: classes/pref/prefs.php:966
+#: classes/pref/prefs.php:965
 msgid "Create profile"
 msgstr "Profil létrehozás"
 
-#: classes/pref/prefs.php:989
-#: classes/pref/prefs.php:1019
+#: classes/pref/prefs.php:988
+#: classes/pref/prefs.php:1018
 msgid "(active)"
 msgstr "(aktív)"
 
-#: classes/pref/prefs.php:1053
+#: classes/pref/prefs.php:1052
 msgid "Remove selected profiles"
 msgstr "Eltávolítja a kiválasztott profilokat?"
 
-#: classes/pref/prefs.php:1055
+#: classes/pref/prefs.php:1054
 msgid "Activate profile"
 msgstr "Profil aktiválás"
 
@@ -3656,6 +3651,19 @@ msgstr "Megosztás URL-el"
 msgid "Live updating is considered experimental. Backup your tt-rss directory before continuing. Please type 'yes' to continue."
 msgstr "Az élő frissítés még kisérleti fázisban van. A folytatás előtt mentse el a tt-rss könyvtárának tartalmát. A folytatáshoz írja be a 'yes' szót."
 
+#, fuzzy
+#~ msgid "Default feed update interval"
+#~ msgstr "Frissítési intervallum:"
+
+#~ msgid "Enable external API"
+#~ msgstr "Külső API engedélyezése"
+
+#~ msgid "Select theme"
+#~ msgstr "Stílusválasztó"
+
+#~ msgid "When this option is enabled, headlines in Special feeds and Labels are grouped by feeds"
+#~ msgstr "Ha ezt a beállítást engedélyezi, a Kiemelt hírcsatornákban és a Címkékben szereplő címeket a program hírcsatornák alapján csoportosítja."
+
 #~ msgid "Title"
 #~ msgstr "Cím"
 
@@ -3685,9 +3693,6 @@ msgstr "Az élő frissítés még kisérleti fázisban van. A folytatás előtt 
 
 #~ msgid "This option is useful when you are reading several planet-type aggregators with partially colliding userbase. When disabled, it forces same posts from different feeds to appear only once."
 #~ msgstr "Ez az opció akkor hasznos, amikor sok planet típusú hírgyűjtőt olvas részben átfedő felhasználó bázissal. Ha ki van kapcsolva, akkor arra törekszik, hogy ugyanaz a hír csak egyszer jelenjen meg."
-
-#~ msgid "Default interval between feed updates"
-#~ msgstr "Hírcsatorna frissítések közti idő"
 
 #~ msgid "Date syntax appears to be correct:"
 #~ msgstr "A dátum szintaxisa helyesnek tűnik:"

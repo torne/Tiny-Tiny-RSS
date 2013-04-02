@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-02 16:38+0400\n"
+"POT-Creation-Date: 2013-04-02 16:46+0400\n"
 "PO-Revision-Date: 2013-03-25 13:25+0100\n"
 "Last-Translator: Mirosław Lach <m.wordpress@lach.waw.pl>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/tt-rss/language/pl/)\n"
@@ -477,7 +477,7 @@ msgstr "Wyloguj"
 #: prefs.php:36
 #: prefs.php:121
 #: include/functions.php:1929
-#: classes/pref/prefs.php:428
+#: classes/pref/prefs.php:427
 msgid "Preferences"
 msgstr "Ustawienia"
 
@@ -895,7 +895,7 @@ msgstr "Adres kanału"
 #: classes/backend.php:105
 #: classes/pref/users.php:99
 #: classes/pref/filters.php:147
-#: classes/pref/prefs.php:1059
+#: classes/pref/prefs.php:1058
 #: classes/pref/feeds.php:1588
 #: classes/pref/feeds.php:1660
 #: plugins/import_export/init.php:406
@@ -947,7 +947,7 @@ msgstr "Profil:"
 #: include/login_form.php:213
 #: classes/handler/public.php:233
 #: classes/rpc.php:64
-#: classes/pref/prefs.php:995
+#: classes/pref/prefs.php:994
 msgid "Default profile"
 msgstr "Domyślny profil"
 
@@ -981,7 +981,7 @@ msgstr "Tagi dla tego artykułu (oddzielone przecinkami):"
 #: classes/pref/users.php:176
 #: classes/pref/labels.php:79
 #: classes/pref/filters.php:405
-#: classes/pref/prefs.php:941
+#: classes/pref/prefs.php:940
 #: classes/pref/feeds.php:733
 #: classes/pref/feeds.php:881
 #: plugins/nsfw/init.php:86
@@ -1002,7 +1002,7 @@ msgstr "Zapisz"
 #: classes/pref/filters.php:804
 #: classes/pref/filters.php:880
 #: classes/pref/filters.php:947
-#: classes/pref/prefs.php:943
+#: classes/pref/prefs.php:942
 #: classes/pref/feeds.php:734
 #: classes/pref/feeds.php:884
 #: classes/pref/feeds.php:1797
@@ -1226,7 +1226,7 @@ msgstr "Wybierz: "
 #: classes/pref/filters.php:648
 #: classes/pref/filters.php:737
 #: classes/pref/filters.php:764
-#: classes/pref/prefs.php:955
+#: classes/pref/prefs.php:954
 #: classes/pref/feeds.php:1266
 #: classes/pref/feeds.php:1536
 #: classes/pref/feeds.php:1606
@@ -1246,7 +1246,7 @@ msgstr "Odwróć"
 #: classes/pref/filters.php:650
 #: classes/pref/filters.php:739
 #: classes/pref/filters.php:766
-#: classes/pref/prefs.php:957
+#: classes/pref/prefs.php:956
 #: classes/pref/feeds.php:1268
 #: classes/pref/feeds.php:1538
 #: classes/pref/feeds.php:1608
@@ -1383,7 +1383,7 @@ msgid "Login"
 msgstr "Nazwa użytkownika"
 
 #: classes/feeds.php:1007
-#: classes/pref/prefs.php:253
+#: classes/pref/prefs.php:252
 #: classes/pref/feeds.php:602
 #: classes/pref/feeds.php:828
 #: classes/pref/feeds.php:1778
@@ -1603,7 +1603,7 @@ msgstr "[tt-rss] Informacja o zmianie hasła"
 #: classes/pref/filters.php:645
 #: classes/pref/filters.php:734
 #: classes/pref/filters.php:761
-#: classes/pref/prefs.php:952
+#: classes/pref/prefs.php:951
 #: classes/pref/feeds.php:1263
 #: classes/pref/feeds.php:1533
 #: classes/pref/feeds.php:1603
@@ -1830,7 +1830,7 @@ msgstr "Czarna lista tagów"
 
 #: classes/pref/prefs.php:27
 #, fuzzy
-msgid "When auto-detecting tags in articles these tags will not be applied (comma-separated list)"
+msgid "When auto-detecting tags in articles these tags will not be applied (comma-separated list)."
 msgstr "Podczas automatycznego wykrywania tagów wymienione obok tagi nie zostaną zastosowane (kolejne tagi oddzielaj przecinkiem)."
 
 #: classes/pref/prefs.php:28
@@ -1839,7 +1839,7 @@ msgstr "Automatycznie oznacz artykuły jako przeczytane"
 
 #: classes/pref/prefs.php:28
 #, fuzzy
-msgid "Mark articles as read automatically while you scroll article list."
+msgid "This option enables marking articles as read automatically while you scroll article list."
 msgstr "Opcja uruchamia automatyczne oznaczanie artykułów jako przeczytanych podczas przewijania listy artykułów."
 
 #: classes/pref/prefs.php:29
@@ -1863,9 +1863,8 @@ msgid "Amount of articles to display at once"
 msgstr "Ilość artykułów do wyświetlenia za jednym razem"
 
 #: classes/pref/prefs.php:33
-#, fuzzy
-msgid "Default feed update interval"
-msgstr "Domyślna częstotliwość"
+msgid "Default interval between feed updates"
+msgstr "Domyślny czas pomiędzy aktualizacjami kanału"
 
 #: classes/pref/prefs.php:34
 msgid "Mark articles in e-mail digest as read"
@@ -1873,7 +1872,7 @@ msgstr "Oznacz jako przeczytane artykuły przesłane emailem jako przegląd"
 
 #: classes/pref/prefs.php:35
 #, fuzzy
-msgid "Enable email digest"
+msgid "Enable e-mail digest"
 msgstr "Włącz przegląd artykułów wysyłany emailem"
 
 #: classes/pref/prefs.php:35
@@ -1889,8 +1888,12 @@ msgid "Uses UTC timezone"
 msgstr "Używa strefy UTC"
 
 #: classes/pref/prefs.php:37
-msgid "Enable external API"
-msgstr "Włącz zewnętrzne API"
+msgid "Enable API access"
+msgstr ""
+
+#: classes/pref/prefs.php:37
+msgid "Allows external clients to access this account through the API"
+msgstr ""
 
 #: classes/pref/prefs.php:38
 msgid "Enable feed categories"
@@ -1911,7 +1914,7 @@ msgstr "Ukryj kanały nie zawierające nieprzeczytanych artykułów"
 
 #: classes/pref/prefs.php:42
 #, fuzzy
-msgid "Show special feeds and labels when hiding read feeds"
+msgid "Show special feeds when hiding read feeds"
 msgstr "Pokaż kanały specjalne gdy włączone ukrywanie przeczytanych kanałów."
 
 #: classes/pref/prefs.php:43
@@ -1976,256 +1979,248 @@ msgid "Strip all but most common HTML tags when reading articles."
 msgstr "Podczas czytania artykułu usuń wszystkie poza najpopularniejszymi znaczniki HTML."
 
 #: classes/pref/prefs.php:54
-msgid "Select theme"
-msgstr "Wybierz styl"
-
-#: classes/pref/prefs.php:54
-msgid "Select one of the available CSS themes"
-msgstr ""
-
-#: classes/pref/prefs.php:55
 #: js/prefs.js:1725
 msgid "Customize stylesheet"
 msgstr "Dostosuj arkusz styli"
 
-#: classes/pref/prefs.php:55
+#: classes/pref/prefs.php:54
 msgid "Customize CSS stylesheet to your liking"
 msgstr "Dostosuj arkusz styli CSS wedle swojego uznania"
 
-#: classes/pref/prefs.php:56
+#: classes/pref/prefs.php:55
 msgid "User timezone"
 msgstr "Strefa czasowa użytkownika"
 
-#: classes/pref/prefs.php:57
+#: classes/pref/prefs.php:56
 msgid "Group headlines in virtual feeds"
 msgstr "Grupuj nagłówki w wirtualnych kanałach"
 
-#: classes/pref/prefs.php:57
-msgid "When this option is enabled, headlines in Special feeds and Labels are grouped by feeds"
-msgstr "Gdy ta opcja jest zaznaczona, nagłówki w kanałach specjalnych i widoku etykiet grupowane są według kanałów."
+#: classes/pref/prefs.php:56
+msgid "Special feeds, labels, and categories are grouped by originating feeds"
+msgstr ""
 
-#: classes/pref/prefs.php:68
+#: classes/pref/prefs.php:67
 msgid "Old password cannot be blank."
 msgstr "Stare hasło nie może być puste."
 
-#: classes/pref/prefs.php:73
+#: classes/pref/prefs.php:72
 msgid "New password cannot be blank."
 msgstr "Nowe hasło nie może być puste."
 
-#: classes/pref/prefs.php:78
+#: classes/pref/prefs.php:77
 msgid "Entered passwords do not match."
 msgstr "Wprowadzone hasła są różne."
 
-#: classes/pref/prefs.php:88
+#: classes/pref/prefs.php:87
 msgid "Function not supported by authentication module."
 msgstr "Metoda nie wspierana przez mechanizm uwierzytelniający."
 
-#: classes/pref/prefs.php:120
+#: classes/pref/prefs.php:119
 msgid "The configuration was saved."
 msgstr "Konfiguracja została zapisana."
 
-#: classes/pref/prefs.php:134
+#: classes/pref/prefs.php:133
 #, php-format
 msgid "Unknown option: %s"
 msgstr "Nieznana opcja: %s"
 
-#: classes/pref/prefs.php:148
+#: classes/pref/prefs.php:147
 msgid "Your personal data has been saved."
 msgstr "Dwoje dane osobiste zostały zapisane."
 
-#: classes/pref/prefs.php:188
+#: classes/pref/prefs.php:187
 msgid "Personal data / Authentication"
 msgstr "Dane osobiste / Uwierzytelnianie"
 
-#: classes/pref/prefs.php:208
+#: classes/pref/prefs.php:207
 msgid "Personal data"
 msgstr "Informacje osobiste"
 
-#: classes/pref/prefs.php:218
+#: classes/pref/prefs.php:217
 msgid "Full name"
 msgstr "Nazwa"
 
-#: classes/pref/prefs.php:222
+#: classes/pref/prefs.php:221
 msgid "E-mail"
 msgstr "E-mail"
 
-#: classes/pref/prefs.php:228
+#: classes/pref/prefs.php:227
 msgid "Access level"
 msgstr "Poziom dostępu"
 
-#: classes/pref/prefs.php:238
+#: classes/pref/prefs.php:237
 msgid "Save data"
 msgstr "Zapisz dane"
 
-#: classes/pref/prefs.php:260
+#: classes/pref/prefs.php:259
 msgid "Your password is at default value, please change it."
 msgstr "Używasz domyślnego hasła, zmień je proszę."
 
-#: classes/pref/prefs.php:287
+#: classes/pref/prefs.php:286
 msgid "Changing your current password will disable OTP."
 msgstr "Zmiana Twojego bieżącego hasła spowoduje wyłączenie mechanizmu OTP."
 
-#: classes/pref/prefs.php:292
+#: classes/pref/prefs.php:291
 msgid "Old password"
 msgstr "Stare hasło"
 
-#: classes/pref/prefs.php:295
+#: classes/pref/prefs.php:294
 msgid "New password"
 msgstr "Nowe hasło"
 
-#: classes/pref/prefs.php:300
+#: classes/pref/prefs.php:299
 msgid "Confirm password"
 msgstr "Potwierdź hasło"
 
-#: classes/pref/prefs.php:310
+#: classes/pref/prefs.php:309
 msgid "Change password"
 msgstr "Zmień hasło"
 
-#: classes/pref/prefs.php:316
+#: classes/pref/prefs.php:315
 msgid "One time passwords / Authenticator"
 msgstr "Hasło jednorazowe / Uwierzytelnianie"
 
-#: classes/pref/prefs.php:320
+#: classes/pref/prefs.php:319
 msgid "One time passwords are currently enabled. Enter your current password below to disable."
 msgstr "Hasła jednorazowe są obecnie włączone. Wprowadź swoje obecne hasło aby je wyłączyć."
 
-#: classes/pref/prefs.php:345
-#: classes/pref/prefs.php:396
+#: classes/pref/prefs.php:344
+#: classes/pref/prefs.php:395
 msgid "Enter your password"
 msgstr "Wprowadź hasło"
 
-#: classes/pref/prefs.php:356
+#: classes/pref/prefs.php:355
 msgid "Disable OTP"
 msgstr "Wyłącz hasła jednorazowe"
 
-#: classes/pref/prefs.php:362
+#: classes/pref/prefs.php:361
 msgid "You will need a compatible Authenticator to use this. Changing your password would automatically disable OTP."
 msgstr "Potrzebujesz właściwego modułu uwierzytelniającego aby użyć tej funkcji. Zmiana hasła spowoduje automatyczne wyłączenie OTP."
 
-#: classes/pref/prefs.php:364
+#: classes/pref/prefs.php:363
 msgid "Scan the following code by the Authenticator application:"
 msgstr "Zeskanuj poniższy kod przy użyciu aplikacji uwierzytelniającej:"
 
-#: classes/pref/prefs.php:405
+#: classes/pref/prefs.php:404
 msgid "I have scanned the code and would like to enable OTP"
 msgstr "Zeskanowałem kod i chciałbym włączyć OTP."
 
-#: classes/pref/prefs.php:413
+#: classes/pref/prefs.php:412
 msgid "Enable OTP"
 msgstr "Włącz hasła jednorazowe"
 
-#: classes/pref/prefs.php:451
+#: classes/pref/prefs.php:450
 msgid "Some preferences are only available in default profile."
 msgstr "Niektóre ustawienia dostępne są jedynie dla domyślnego profilu."
 
-#: classes/pref/prefs.php:545
+#: classes/pref/prefs.php:544
 msgid "Customize"
 msgstr "Dostosuj"
 
-#: classes/pref/prefs.php:605
+#: classes/pref/prefs.php:604
 msgid "Register"
 msgstr "Zarejestruj"
 
-#: classes/pref/prefs.php:609
+#: classes/pref/prefs.php:608
 msgid "Clear"
 msgstr "Wyczyść"
 
-#: classes/pref/prefs.php:615
+#: classes/pref/prefs.php:614
 #, php-format
 msgid "Current server time: %s (UTC)"
 msgstr "Czas serwera to: %s (UTC)"
 
-#: classes/pref/prefs.php:648
+#: classes/pref/prefs.php:647
 msgid "Save configuration"
 msgstr "Zapisz konfigurację"
 
-#: classes/pref/prefs.php:651
+#: classes/pref/prefs.php:650
 msgid "Manage profiles"
 msgstr "Zarządzaj profilami"
 
-#: classes/pref/prefs.php:654
+#: classes/pref/prefs.php:653
 msgid "Reset to defaults"
 msgstr "Przywróć domyślne"
 
-#: classes/pref/prefs.php:678
-#: classes/pref/prefs.php:680
+#: classes/pref/prefs.php:677
+#: classes/pref/prefs.php:679
 msgid "Plugins"
 msgstr "Wtyczki"
 
-#: classes/pref/prefs.php:682
+#: classes/pref/prefs.php:681
 msgid "You will need to reload Tiny Tiny RSS for plugin changes to take effect."
 msgstr "Musisz przeładować Tiny Tiny RSS aby zastosować zmiany we wtyczkach."
 
-#: classes/pref/prefs.php:684
+#: classes/pref/prefs.php:683
 msgid "Download more plugins at tt-rss.org <a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/forum/viewforum.php?f=22\">forums</a> or <a target=\"_blank\" class=\"visibleLink\" href=\"http://tt-rss.org/wiki/Plugins\">wiki</a>."
 msgstr ""
 
-#: classes/pref/prefs.php:710
+#: classes/pref/prefs.php:709
 msgid "System plugins"
 msgstr "Wtyczki systemowe"
 
-#: classes/pref/prefs.php:714
-#: classes/pref/prefs.php:768
+#: classes/pref/prefs.php:713
+#: classes/pref/prefs.php:767
 msgid "Plugin"
 msgstr "Wtyczka"
 
-#: classes/pref/prefs.php:715
-#: classes/pref/prefs.php:769
+#: classes/pref/prefs.php:714
+#: classes/pref/prefs.php:768
 msgid "Description"
 msgstr "Opis"
 
-#: classes/pref/prefs.php:716
-#: classes/pref/prefs.php:770
+#: classes/pref/prefs.php:715
+#: classes/pref/prefs.php:769
 msgid "Version"
 msgstr "Wersja"
 
-#: classes/pref/prefs.php:717
-#: classes/pref/prefs.php:771
+#: classes/pref/prefs.php:716
+#: classes/pref/prefs.php:770
 msgid "Author"
 msgstr "Autor"
 
-#: classes/pref/prefs.php:746
-#: classes/pref/prefs.php:803
+#: classes/pref/prefs.php:745
+#: classes/pref/prefs.php:802
 msgid "more info"
 msgstr ""
 
-#: classes/pref/prefs.php:755
-#: classes/pref/prefs.php:812
+#: classes/pref/prefs.php:754
+#: classes/pref/prefs.php:811
 msgid "Clear data"
 msgstr "Wyczyść dane"
 
-#: classes/pref/prefs.php:764
+#: classes/pref/prefs.php:763
 msgid "User plugins"
 msgstr "Wtyczki użytkowników"
 
-#: classes/pref/prefs.php:827
+#: classes/pref/prefs.php:826
 msgid "Enable selected plugins"
 msgstr "Włącz wybrane wtyczki"
 
-#: classes/pref/prefs.php:882
-#: classes/pref/prefs.php:900
+#: classes/pref/prefs.php:881
+#: classes/pref/prefs.php:899
 msgid "Incorrect password"
 msgstr "Nieprawidłowe hasło"
 
-#: classes/pref/prefs.php:926
+#: classes/pref/prefs.php:925
 #, php-format
 msgid "You can override colors, fonts and layout of your currently selected theme with custom CSS declarations here. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">This file</a> can be used as a baseline."
 msgstr "Możesz nadpisać ustawienia kolorów, czcionek i układu wybranego stylu przy użyciu własnych deklaracji CSS. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">Ten plik</a> może posłużyć jako przykład."
 
-#: classes/pref/prefs.php:966
+#: classes/pref/prefs.php:965
 msgid "Create profile"
 msgstr "Utwórz profil"
 
-#: classes/pref/prefs.php:989
-#: classes/pref/prefs.php:1019
+#: classes/pref/prefs.php:988
+#: classes/pref/prefs.php:1018
 msgid "(active)"
 msgstr "(aktywny)"
 
-#: classes/pref/prefs.php:1053
+#: classes/pref/prefs.php:1052
 msgid "Remove selected profiles"
 msgstr "Usuń wybrane profile"
 
-#: classes/pref/prefs.php:1055
+#: classes/pref/prefs.php:1054
 msgid "Activate profile"
 msgstr "Aktywuj profil"
 
@@ -3612,6 +3607,19 @@ msgstr "Udostępnij artykuł"
 msgid "Live updating is considered experimental. Backup your tt-rss directory before continuing. Please type 'yes' to continue."
 msgstr "Aktualizacja \"na żywo\" jest uznawana za funkcję eksperymentalną. Wykonaj kopię swojego katalogu tt-rss przed kontynuowaniem. Wpisz 'yes' aby kontynuować."
 
+#, fuzzy
+#~ msgid "Default feed update interval"
+#~ msgstr "Domyślna częstotliwość"
+
+#~ msgid "Enable external API"
+#~ msgstr "Włącz zewnętrzne API"
+
+#~ msgid "Select theme"
+#~ msgstr "Wybierz styl"
+
+#~ msgid "When this option is enabled, headlines in Special feeds and Labels are grouped by feeds"
+#~ msgstr "Gdy ta opcja jest zaznaczona, nagłówki w kanałach specjalnych i widoku etykiet grupowane są według kanałów."
+
 #~ msgid "Title"
 #~ msgstr "Tytuł"
 
@@ -3641,9 +3649,6 @@ msgstr "Aktualizacja \"na żywo\" jest uznawana za funkcję eksperymentalną. Wy
 
 #~ msgid "This option is useful when you are reading several planet-type aggregators with partially colliding userbase. When disabled, it forces same posts from different feeds to appear only once."
 #~ msgstr "Opcja ta jest przydatna gdy czytasz kilka globalnych, grupujących artykuły z różnych źródeł, kanałów RSS mających częściowo pokrywającą się grupę użytkowników. Gdy wyłączona, powoduje iż ten sam artykuł pochodzący z różnych kanałów będzie wyświetlony tylko raz."
-
-#~ msgid "Default interval between feed updates"
-#~ msgstr "Domyślny czas pomiędzy aktualizacjami kanału"
 
 #~ msgid "Date syntax appears to be correct:"
 #~ msgstr "Format daty wygląda na poprawną:"
