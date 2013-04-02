@@ -9,7 +9,7 @@ class Import_Export extends Plugin implements IHandler {
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_PREFS_TAB, $this);
-		$host->add_command("xml-import", "USER FILE: import articles from XML", $this);
+		$host->add_command("xml-import", "import articles from XML", $this, ":", "FILE");
 	}
 
 	function about() {
@@ -19,20 +19,17 @@ class Import_Export extends Plugin implements IHandler {
 	}
 
 	function xml_import($args) {
-		array_shift($args);
 
-		$username = $args[count($args) - 2];
-		$filename = $args[count($args) - 1];
-
-		if (!$username) {
-			print "error: please specify username.\n";
-			return;
-		}
+		$filename = $args['xml_import'];
 
 		if (!is_file($filename)) {
 			print "error: input filename ($filename) doesn't exist.\n";
 			return;
 		}
+
+		_debug("please enter your username:");
+
+		$username = db_escape_string($this->link, trim(read_stdin()));
 
 		_debug("importing $filename for user $username...\n");
 
@@ -382,7 +379,7 @@ class Import_Export extends Plugin implements IHandler {
 			}
 
 			print "<p>" .
-				vsprintf(__("Finished: ")).
+				__("Finished: ").
 				vsprintf(ngettext("%d article processed, ", "%d articles processed, ", $num_processed), $num_processed).
 				vsprintf(ngettext("%d imported, ", "%d imported, ", $num_imported), $num_imported).
 				vsprintf(ngettext("%d feed created.", "%d feeds created.", $num_feeds_created), $num_feeds_created).
