@@ -1,8 +1,6 @@
 #!/bin/sh
 TEMPLATE=messages.pot
 
-./utils/update-schema-translations.sh
-
 xgettext -kT_js_decl -kT_sprintf -kT_ngettext:1,2 -k__ -L PHP -o $TEMPLATE *.php include/*.php `find classes -iname '*.php'` `find plugins -iname '*.php'`
 
 xgettext --from-code utf-8 -k__ -knotify_info -knotify_progress -kngettext -L Java -j -o $TEMPLATE js/*.js `find plugins -iname '*.js'`

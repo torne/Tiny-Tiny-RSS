@@ -1,10 +1,61 @@
 <?php
+
 class Pref_Prefs extends Handler_Protected {
+
+	private $pref_help = array();
+	private $pref_sections = array();
 
 	function csrf_ignore($method) {
 		$csrf_ignored = array("index", "updateself", "customizecss", "editprefprofiles");
 
 		return array_search($method, $csrf_ignored) !== false;
+	}
+
+	function __construct($link, $args) {
+		parent::__construct($link, $args);
+
+		$this->pref_sections = array(
+			1 => __('General'),
+			2 => __('Interface'),
+			3 => __('Advanced'),
+			4 => __('Digest')
+		);
+
+		$this->pref_help = array(
+			"ALLOW_DUPLICATE_POSTS" => array(__("Allow duplicate posts")),
+			"AUTO_ASSIGN_LABELS" => array(__("Assign articles to labels automatically"), __("")),
+			"BLACKLISTED_TAGS" => array(__("Blacklisted tags"), __("When auto-detecting tags in articles these tags will not be applied (comma-separated list)")),
+			"CDM_AUTO_CATCHUP" => array(__("Automatically mark articles as read"), __("Mark articles as read automatically while you scroll article list.")),
+			"CDM_EXPANDED" => array(__("Automatically expand articles in combined mode"), __("")),
+			"COMBINED_DISPLAY_MODE" => array(__("Combined feed display"), __("Display expanded list of feed articles, instead of separate displays for headlines and article content")),
+			"CONFIRM_FEED_CATCHUP" => array(__("Confirm marking feed as read"), __("")),
+			"DEFAULT_ARTICLE_LIMIT" => array(__("Amount of articles to display at once"), __("")),
+			"DEFAULT_UPDATE_INTERVAL" => array(__("Default feed update interval"), __("")),
+			"DIGEST_CATCHUP" => array(__("Mark articles in e-mail digest as read"), __("")),
+			"DIGEST_ENABLE" => array(__("Enable email digest"), __("This option enables sending daily digest of new (and unread) headlines on your configured e-mail address")),
+			"DIGEST_PREFERRED_TIME" => array(__("Try to send digests around specified time"), __("Uses UTC timezone")),
+			"ENABLE_API_ACCESS" => array(__("Enable external API"), __("")),
+			"ENABLE_FEED_CATS" => array(__("Enable feed categories"), __("")),
+			"FEEDS_SORT_BY_UNREAD" => array(__("Sort feeds by unread articles count"), __("")),
+			"FRESH_ARTICLE_MAX_AGE" => array(__("Maximum age of fresh articles (in hours)"), __("")),
+			"HIDE_READ_FEEDS" => array(__("Hide feeds with no unread articles"), __("")),
+			"HIDE_READ_SHOWS_SPECIAL" => array(__("Show special feeds and labels when hiding read feeds"), __("")),
+			"LONG_DATE_FORMAT" => array(__("Long date format"), __("")),
+			"ON_CATCHUP_SHOW_NEXT_FEED" => array(__("On catchup show next feed"), __("Automatically open next feed with unread articles after marking one as read")),
+			"PURGE_OLD_DAYS" => array(__("Purge articles after this number of days (0 - disables)"), __("")),
+			"PURGE_UNREAD_ARTICLES" => array(__("Purge unread articles"), __("")),
+			"REVERSE_HEADLINES" => array(__("Reverse headline order (oldest first)"), __("")),
+			"SHORT_DATE_FORMAT" => array(__("Short date format"), __("")),
+			"SHOW_CONTENT_PREVIEW" => array(__("Show content preview in headlines list"), __("")),
+			"SORT_HEADLINES_BY_FEED_DATE" => array(__("Sort headlines by feed date"), __("Use feed-specified date to sort headlines instead of local import date.")),
+			"SSL_CERT_SERIAL" => array(__("Login with an SSL certificate"), __("Click to register your SSL client certificate with tt-rss")),
+			"STRIP_IMAGES" => array(__("Do not embed images in articles"), __("")),
+			"STRIP_UNSAFE_TAGS" => array(__("Strip unsafe tags from articles"), __("Strip all but most common HTML tags when reading articles.")),
+			"USER_CSS_THEME" => array(__("Select theme"), __("Select one of the available CSS themes")),
+			"USER_STYLESHEET" => array(__("Customize stylesheet"), __("Customize CSS stylesheet to your liking")),
+			"USER_TIMEZONE" => array(__("User timezone"), __("")),
+			"VFEED_GROUP_BY_FEED" => array(__("Group headlines in virtual feeds"), __("When this option is enabled, headlines in Special feeds and Labels are grouped by feeds"))
+		);
 	}
 
 	function changepassword() {
@@ -416,18 +467,17 @@ class Pref_Prefs extends Handler_Protected {
 		$access_query = 'true';
 
 		$result = db_query($this->link, "SELECT DISTINCT
-			ttrss_user_prefs.pref_name,short_desc,help_text,value,type_name,
+			ttrss_user_prefs.pref_name,value,type_name,
 			ttrss_prefs_sections.order_id,
-			section_name,def_value,section_id
+			def_value,section_id
 			FROM ttrss_prefs,ttrss_prefs_types,ttrss_prefs_sections,ttrss_user_prefs
 			WHERE type_id = ttrss_prefs_types.id AND
 				$profile_qpart AND
 				section_id = ttrss_prefs_sections.id AND
 				ttrss_user_prefs.pref_name = ttrss_prefs.pref_name AND
 				$access_query AND
-				short_desc != '' AND
 				owner_uid = ".$_SESSION["uid"]."
-			ORDER BY ttrss_prefs_sections.order_id,short_desc");
+			ORDER BY ttrss_prefs_sections.order_id,pref_name");
 
 		$lnum = 0;
 
@@ -441,12 +491,22 @@ class Pref_Prefs extends Handler_Protected {
 				continue;
 			}
 
+			$type_name = $line["type_name"];
+			$pref_name = $line["pref_name"];
+			$section_name = $this->getSectionName($line["section_id"]);
+			$value = $line["value"];
+
+			$short_desc = $this->getShortDesc($pref_name);
+			$help_text = $this->getHelpText($pref_name);
+
+			if (!$short_desc) continue;
+
 			if ($_SESSION["profile"] && in_array($line["pref_name"],
 					$profile_blacklist)) {
 				continue;
 			}
 
-			if ($active_section != $line["section_name"]) {
+			if ($active_section != $line["section_id"]) {
 
 				if ($active_section != "") {
 					print "</table>";
@@ -454,24 +514,18 @@ class Pref_Prefs extends Handler_Protected {
 
 				print "<table width=\"100%\" class=\"prefPrefsList\">";
 
-				$active_section = $line["section_name"];
+				$active_section = $line["section_id"];
 
-				print "<tr><td colspan=\"3\"><h3>".__($active_section)."</h3></td></tr>";
+				print "<tr><td colspan=\"3\"><h3>".$section_name."</h3></td></tr>";
 
 				$lnum = 0;
 			}
 
 			print "<tr>";
 
-			$type_name = $line["type_name"];
-			$pref_name = $line["pref_name"];
-			$value = $line["value"];
-			$def_value = $line["def_value"];
-			$help_text = $line["help_text"];
-
 			print "<td width=\"40%\" class=\"prefName\" id=\"$pref_name\">";
 			print "<label for='CB_$pref_name'>";
-			print __($line["short_desc"]);
+			print $short_desc;
 			print "</label>";
 
 			if ($help_text) print "<div class=\"prefHelp\">".__($help_text)."</div>";
@@ -1007,6 +1061,26 @@ class Pref_Prefs extends Handler_Protected {
 
 	}
 
+	private function getShortDesc($pref_name) {
+		if (isset($this->pref_help[$pref_name])) {
+			return $this->pref_help[$pref_name][0];
+		}
+		return "";
+	}
 
+	private function getHelpText($pref_name) {
+		if (isset($this->pref_help[$pref_name])) {
+			return $this->pref_help[$pref_name][1];
+		}
+		return "";
+	}
+
+	private function getSectionName($id) {
+		if (isset($this->pref_sections[$id])) {
+			return $this->pref_sections[$id];
+		}
+
+		return "";
+	}
 }
 ?>
