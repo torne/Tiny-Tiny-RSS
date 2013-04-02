@@ -188,7 +188,7 @@
 		</select>
 
 		<select title="<?php echo __('Mark feed as read') ?>"
-			onchange="catchupCurrentFeed(event)"
+			onchange="catchupCurrentFeed(this)"
 			dojoType="dijit.form.Select" name="catchup_feed">
 			<option selected="selected" value="default"><?php echo __('Mark as read') ?></option>
 			<option value="all"><?php echo __('All articles') ?></option>
