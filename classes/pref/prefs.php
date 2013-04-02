@@ -53,7 +53,8 @@ class Pref_Prefs extends Handler_Protected {
 			"STRIP_UNSAFE_TAGS" => array(__("Strip unsafe tags from articles"), __("Strip all but most common HTML tags when reading articles.")),
 			"USER_STYLESHEET" => array(__("Customize stylesheet"), __("Customize CSS stylesheet to your liking")),
 			"USER_TIMEZONE" => array(__("User timezone"), ""),
-			"VFEED_GROUP_BY_FEED" => array(__("Group headlines in virtual feeds"), __("Special feeds, labels, and categories are grouped by originating feeds"))
+			"VFEED_GROUP_BY_FEED" => array(__("Group headlines in virtual feeds"), __("Special feeds, labels, and categories are grouped by originating feeds")),
+			"USER_CSS_THEME" => array(__("Select theme"), __("Select one of the available CSS themes"))
 		);
 	}
 
