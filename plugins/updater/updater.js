@@ -16,7 +16,7 @@ function updateSelf() {
 
 				notify_progress("Loading, please wait...", true);
 				new Ajax.Request("backend.php", {
-				parameters: "?op=pluginhandler&plugin=updater&method=performUpdate&step=" + step +
+				parameters: "op=pluginhandler&plugin=updater&method=performUpdate&step=" + step +
 					"&params=" + param_escape(JSON.stringify(dialog.attr("update-params"))),
 				onComplete: function(transport) {
 					try {

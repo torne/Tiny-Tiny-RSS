@@ -29,7 +29,7 @@ function catchup_feed(feed_id, callback) {
 
 			if (feed_id < 0) is_cat = "true"; // KLUDGE
 
-			var query = "?op=rpc&method=catchupFeed&feed_id=" +
+			var query = "op=rpc&method=catchupFeed&feed_id=" +
 				feed_id + "&is_cat=" + is_cat;
 
 			new Ajax.Request("backend.php",	{
@@ -71,7 +71,7 @@ function catchup_visible_articles(callback) {
 
 		if (confirm(ngettext("Mark %d displayed article as read?", "Mark %d displayed articles as read?", ids.length).replace("%d", ids.length))) {
 
-			var query = "?op=rpc&method=catchupSelected" +
+			var query = "op=rpc&method=catchupSelected" +
 				"&cmode=0&ids=" + param_escape(ids);
 
 			new Ajax.Request("backend.php",	{
@@ -91,7 +91,7 @@ function catchup_visible_articles(callback) {
 
 function catchup_article(article_id, callback) {
 	try {
-		var query = "?op=rpc&method=catchupSelected" +
+		var query = "op=rpc&method=catchupSelected" +
 			"&cmode=0&ids=" + article_id;
 
 		new Ajax.Request("backend.php",	{
@@ -172,7 +172,7 @@ function update(callback) {
 		window.clearTimeout(_update_timeout);
 
 		new Ajax.Request("backend.php",	{
-			parameters: "?op=digest&method=digestinit",
+			parameters: "op=digest&method=digestinit",
 			onComplete: function(transport) {
 				fatal_error_check(transport);
 				parse_feeds(transport);
@@ -223,7 +223,7 @@ function view(article_id) {
 			}, 500);
 
 		new Ajax.Request("backend.php",	{
-			parameters: "?op=digest&method=digestgetcontents&article_id=" +
+			parameters: "op=digest&method=digestgetcontents&article_id=" +
 				article_id,
 			onComplete: function(transport) {
 				fatal_error_check(transport);
@@ -331,7 +331,7 @@ function viewfeed(feed_id, offset, replace, no_effects, no_indicator, callback) 
 
 		if (!offset) $("headlines").scrollTop = 0;
 
-		var query = "backend.php?op=digest&method=digestupdate&feed_id=" +
+		var query = "op=digest&method=digestupdate&feed_id=" +
 				param_escape(feed_id) +	"&offset=" + offset +
 				"&seq=" + _update_seq;
 
@@ -669,7 +669,7 @@ function parse_headlines(transport, replace, no_effects) {
 function init_second_stage() {
 	try {
 		new Ajax.Request("backend.php",	{
-			parameters: "backend.php?op=digest&method=digestinit&init=1",
+			parameters: "op=digest&method=digestinit&init=1",
 			onComplete: function(transport) {
 				parse_feeds(transport);
 				Element.hide("overlay");
@@ -705,7 +705,7 @@ function toggle_mark(img, id) {
 
 	try {
 
-		var query = "?op=rpc&id=" + id + "&method=mark";
+		var query = "op=rpc&id=" + id + "&method=mark";
 
 		if (!img) return;
 
@@ -734,7 +734,7 @@ function toggle_pub(img, id, note) {
 
 	try {
 
-		var query = "?op=rpc&id=" + id + "&method=publ";
+		var query = "op=rpc&id=" + id + "&method=publ";
 
 		if (note != undefined) {
 			query = query + "&note=" + param_escape(note);

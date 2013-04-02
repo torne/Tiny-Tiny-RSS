@@ -17,7 +17,7 @@ function exportData() {
 				notify_progress("Loading, please wait...");
 
 				new Ajax.Request("backend.php", {
-					parameters: "?op=pluginhandler&plugin=import_export&method=exportrun&offset=" + exported,
+					parameters: "op=pluginhandler&plugin=import_export&method=exportrun&offset=" + exported,
 					onComplete: function(transport) {
 						try {
 							var rv = JSON.parse(transport.responseText);
