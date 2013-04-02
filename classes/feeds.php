@@ -796,7 +796,7 @@ class Feeds extends Handler_Protected {
 		$feed = db_escape_string($this->link, $_REQUEST["feed"]);
 		$method = db_escape_string($this->link, $_REQUEST["m"]);
 		$view_mode = db_escape_string($this->link, $_REQUEST["view_mode"]);
-		$limit = (int) get_pref($this->link, "DEFAULT_ARTICLE_LIMIT");
+		$limit = 30;
 		@$cat_view = $_REQUEST["cat"] == "true";
 		@$next_unread_feed = db_escape_string($this->link, $_REQUEST["nuf"]);
 		@$offset = db_escape_string($this->link, $_REQUEST["skip"]);

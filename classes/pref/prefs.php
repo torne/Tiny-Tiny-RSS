@@ -120,7 +120,7 @@ class Pref_Prefs extends Handler_Protected {
 		global $access_level_names;
 
 		$prefs_blacklist = array("STRIP_UNSAFE_TAGS", "REVERSE_HEADLINES",
-			"SORT_HEADLINES_BY_FEED_DATE");
+			"SORT_HEADLINES_BY_FEED_DATE", "DEFAULT_ARTICLE_LIMIT");
 
 		/* "FEEDS_SORT_BY_UNREAD", "HIDE_READ_FEEDS", "REVERSE_HEADLINES" */
 
@@ -498,13 +498,6 @@ class Pref_Prefs extends Handler_Protected {
 					'dojoType="dijit.form.Select"');
 
 
-			} else if ($pref_name == "DEFAULT_ARTICLE_LIMIT") {
-
-				$limits = array(15, 30, 45, 60);
-
-				print_select($pref_name, $value, $limits,
-					'dojoType="dijit.form.Select"');
-
 			} else if ($pref_name == "DEFAULT_UPDATE_INTERVAL") {
 
 				global $update_intervals_nodefault;
@@ -528,7 +521,7 @@ class Pref_Prefs extends Handler_Protected {
 				print "<input type='checkbox' name='$pref_name' $checked $disabled
 					dojoType='dijit.form.CheckBox' id='CB_$pref_name' value='1'>";
 
-			} else if (array_search($pref_name, array('FRESH_ARTICLE_MAX_AGE', 'DEFAULT_ARTICLE_LIMIT',
+			} else if (array_search($pref_name, array('FRESH_ARTICLE_MAX_AGE',
 					'PURGE_OLD_DAYS', 'LONG_DATE_FORMAT', 'SHORT_DATE_FORMAT')) !== false) {
 
 				$regexp = ($type_name == 'integer') ? 'regexp="^\d*$"' : '';

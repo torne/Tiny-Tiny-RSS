@@ -166,10 +166,6 @@
 				$value = sprintf("%d", $value);
 			}
 
-			if ($pref_name == 'DEFAULT_ARTICLE_LIMIT' && $value == 0) {
-				$value = 30;
-			}
-
 			if ($pref_name == 'USER_TIMEZONE' && $value == '') {
 				$value = 'UTC';
 			}
