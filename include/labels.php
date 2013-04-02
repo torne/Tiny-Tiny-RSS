@@ -173,7 +173,7 @@
 		db_query($link, "COMMIT");
 	}
 
-	function label_create($link, $caption, $fg_color = '', $bg_color = '', $owner_uid) {
+	function label_create($link, $caption, $fg_color = '', $bg_color = '', $owner_uid = false) {
 
 		if (!$owner_uid) $owner_uid = $_SESSION['uid'];
 
