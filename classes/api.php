@@ -198,14 +198,22 @@ class API extends Handler {
 			$since_id = (int)db_escape_string($this->link, $_REQUEST["since_id"]);
 			$include_nested = sql_bool_to_bool($_REQUEST["include_nested"]);
 			$sanitize_content = true;
-
+			$override_order = false;
+			switch ($_REQUEST["order_by"]) {
+				case "date_reverse":
+					$override_order = "date_entered, updated";
+					break;
+				case "feed_dates":
+					$override_order = "updated DESC";
+					break;
+			}
 			/* do not rely on params below */
 
 			$search = db_escape_string($this->link, $_REQUEST["search"]);
 			$search_mode = db_escape_string($this->link, $_REQUEST["search_mode"]);
 
 			$headlines = $this->api_get_headlines($this->link, $feed_id, $limit, $offset,
-				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, false,
+				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $override_order,
 				$include_attachments, $since_id, $search, $search_mode,
 				$include_nested, $sanitize_content);
 
