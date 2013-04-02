@@ -39,10 +39,10 @@
 	 * @return boolean True if defined successfully or not.
 	 */
 	function define_default($name, $value) {
-		// Note: performence freaks should define everything in 
-		// config.php becasue if will make defined() run much faster, 
-		// see comment by 'tris+php at tfconsulting dot com dot au' 
-		// here: 
+		// Note: performence freaks should define everything in
+		// config.php becasue if will make defined() run much faster,
+		// see comment by 'tris+php at tfconsulting dot com dot au'
+		// here:
 		// http://www.php.net/manual/en/function.defined.php#89886
 		defined($name) or define($name, $value);
 	}
@@ -65,8 +65,6 @@
 	} else {
 		define('SUBSTRING_FOR_DATE', 'SUBSTRING');
 	}
-
-	define('THEME_VERSION_REQUIRED', 1.1);
 
 	/**
 	 * Return available translations names.
