@@ -442,5 +442,12 @@ class Instances extends Plugin implements IHandler {
 		return;
 	}
 
+	function genHash() {
+		$hash = sha1(uniqid(rand(), true));
+
+		print json_encode(array("hash" => $hash));
+	}
+
+
 }
 ?>

@@ -640,32 +640,6 @@ class RPC extends Handler_Protected {
 		return;
 	}
 
-	function verifyRegexp() {
-		$reg_exp = $_REQUEST["reg_exp"];
-
-		$status = @preg_match("/$reg_exp/i", "TEST") !== false;
-
-		print json_encode(array("status" => $status));
-	}
-
-	/* function buttonPlugin() {
-		$pclass = "button_" . basename($_REQUEST['plugin']);
-		$method = $_REQUEST['plugin_method'];
-
-		if (class_exists($pclass)) {
-			$plugin = new $pclass($this->link);
-			if (method_exists($plugin, $method)) {
-				return $plugin->$method();
-			}
-		}
-	} */
-
-	function genHash() {
-		$hash = sha1(uniqid(rand(), true));
-
-		print json_encode(array("hash" => $hash));
-	}
-
 	function batchAddFeeds() {
 		$cat_id = db_escape_string($this->link, $_REQUEST['cat']);
 		$feeds = explode("\n", db_escape_string($this->link, $_REQUEST['feeds']));
