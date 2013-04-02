@@ -1751,7 +1751,7 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function batchSubscribe() {
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-feeds\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"batchaddfeeds\">";
 
 		print "<table width='100%'><tr><td>
@@ -1798,6 +1798,41 @@ class Pref_Feeds extends Handler_Protected {
 			</div>";
 	}
 
+	function batchAddFeeds() {
+		$cat_id = db_escape_string($this->link, $_REQUEST['cat']);
+		$feeds = explode("\n", db_escape_string($this->link, $_REQUEST['feeds']));
+		$login = db_escape_string($this->link, $_REQUEST['login']);
+		$pass = db_escape_string($this->link, $_REQUEST['pass']);
+
+		foreach ($feeds as $feed) {
+			$feed = trim($feed);
+
+			if (validate_feed_url($feed)) {
+
+				db_query($this->link, "BEGIN");
+
+				if ($cat_id == "0" || !$cat_id) {
+					$cat_qpart = "NULL";
+				} else {
+					$cat_qpart = "'$cat_id'";
+				}
+
+				$result = db_query($this->link,
+					"SELECT id FROM ttrss_feeds
+					WHERE feed_url = '$feed' AND owner_uid = ".$_SESSION["uid"]);
+
+				if (db_num_rows($result) == 0) {
+					$result = db_query($this->link,
+						"INSERT INTO ttrss_feeds
+							(owner_uid,feed_url,title,cat_id,auth_login,auth_pass,update_method)
+						VALUES ('".$_SESSION["uid"]."', '$feed',
+							'[Unknown]', $cat_qpart, '$login', '$pass', 0)");
+				}
+
+				db_query($this->link, "COMMIT");
+			}
+		}
+	}
 
 }
 ?>
