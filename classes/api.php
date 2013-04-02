@@ -198,6 +198,7 @@ class API extends Handler {
 			$since_id = (int)db_escape_string($this->link, $_REQUEST["since_id"]);
 			$include_nested = sql_bool_to_bool($_REQUEST["include_nested"]);
 			$sanitize_content = true;
+
 			$override_order = false;
 			switch ($_REQUEST["order_by"]) {
 				case "date_reverse":
@@ -207,6 +208,7 @@ class API extends Handler {
 					$override_order = "updated DESC";
 					break;
 			}
+
 			/* do not rely on params below */
 
 			$search = db_escape_string($this->link, $_REQUEST["search"]);
