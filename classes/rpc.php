@@ -378,19 +378,6 @@ class RPC extends Handler_Protected {
 		}
 	}
 
-	function getArticles() {
-		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
-		$articles = array();
-
-		foreach ($ids as $id) {
-			if ($id) {
-				array_push($articles, format_article($this->link, $id, 0, false));
-			}
-		}
-
-		print json_encode($articles);
-	}
-
 	function assigntolabel() {
 		return $this->labelops(true);
 	}
