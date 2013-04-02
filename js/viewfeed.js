@@ -1114,7 +1114,7 @@ function editArticleTags(id) {
 	   	dojo.disconnect(tmph);
 
 			new Ajax.Autocompleter('tags_str', 'tags_choices',
-			   "backend.php?op=rpc&method=completeTags",
+			   "backend.php?op=article&method=completeTags",
 			   { tokens: ',', paramName: "search" });
 		});
 

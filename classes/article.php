@@ -284,4 +284,21 @@ class Article extends Handler_Protected {
 				"content" => $tags_str, "content_full" => $tags_str_full));
 	}
 
+
+	function completeTags() {
+		$search = db_escape_string($this->link, $_REQUEST["search"]);
+
+		$result = db_query($this->link, "SELECT DISTINCT tag_name FROM ttrss_tags
+				WHERE owner_uid = '".$_SESSION["uid"]."' AND
+				tag_name LIKE '$search%' ORDER BY tag_name
+				LIMIT 10");
+
+		print "<ul>";
+		while ($line = db_fetch_assoc($result)) {
+			print "<li>" . $line["tag_name"] . "</li>";
+		}
+		print "</ul>";
+	}
+
+
 }
