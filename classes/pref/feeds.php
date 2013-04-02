@@ -1279,6 +1279,8 @@ class Pref_Feeds extends Handler_Protected {
 			dojoType=\"dijit.MenuItem\">".__('Reset sort order')."</div>";
 		print "<div onclick=\"batchSubscribe()\"
 			dojoType=\"dijit.MenuItem\">".__('Batch subscribe')."</div>";
+		print "<div dojoType=\"dijit.MenuItem\" onclick=\"removeSelectedFeeds()\">"
+			.__('Unsubscribe')."</div> ";
 		print "</div></div>";
 
 		if (get_pref($this->link, 'ENABLE_FEED_CATS')) {
@@ -1287,8 +1289,6 @@ class Pref_Feeds extends Handler_Protected {
 			print "<div dojoType=\"dijit.Menu\" style=\"display: none;\">";
 			print "<div onclick=\"createCategory()\"
 				dojoType=\"dijit.MenuItem\">".__('Add category')."</div>";
-			print "<div onclick=\"toggleHiddenFeedCats()\"
-				dojoType=\"dijit.MenuItem\">".__('(Un)hide empty categories')."</div>";
 			print "<div onclick=\"resetCatOrder()\"
 				dojoType=\"dijit.MenuItem\">".__('Reset sort order')."</div>";
 			print "<div onclick=\"removeSelectedCategories()\"
@@ -1300,8 +1300,8 @@ class Pref_Feeds extends Handler_Protected {
 		print $error_button;
 		print $inactive_button;
 
-		print "<button dojoType=\"dijit.form.Button\" onclick=\"removeSelectedFeeds()\">"
-			.__('Unsubscribe')."</button dojoType=\"dijit.form.Button\"> ";
+		print "<button onclick=\"toggleHiddenFeedCats()\"
+			dojoType=\"dijit.form.Button\">".__('(Un)hide empty categories')."</button>";
 
 		if (defined('_ENABLE_FEED_DEBUGGING')) {
 
