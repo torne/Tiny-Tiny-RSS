@@ -201,14 +201,14 @@
 
 		</form>
 
-		<?php
-			global $pluginhost;
-			foreach ($pluginhost->get_hooks($pluginhost::HOOK_TOOLBAR_BUTTON) as $p) {
-				 echo $p->hook_toolbar_button();
-			}
-		?>
-
 		<div class="actionChooser">
+
+			<?php
+				global $pluginhost;
+				foreach ($pluginhost->get_hooks($pluginhost::HOOK_TOOLBAR_BUTTON) as $p) {
+					 echo $p->hook_toolbar_button();
+				}
+			?>
 
 			<button id="net-alert" dojoType="dijit.form.Button" style="display : none" disabled="true"
 				title="<?php echo __("Communication problem with server.") ?>">
