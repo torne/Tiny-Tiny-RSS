@@ -1934,6 +1934,11 @@
 				"help_dialog" => __("Show help dialog"))
 			);
 
+		global $pluginhost;
+		foreach ($pluginhost->get_hooks($pluginhost::HOOK_HOTKEY_INFO) as $plugin) {
+			$hotkeys = $plugin->hook_hotkey_info($hotkeys);
+		}
+
 		return $hotkeys;
 	}
 
