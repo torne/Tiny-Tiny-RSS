@@ -2020,7 +2020,7 @@ function setSelectionScore() {
 			var score = prompt(__("Please enter new score for selected articles:"), score);
 
 			if (score != undefined) {
-				var query = "op=rpc&method=setScore&id=" + param_escape(ids.toString()) +
+				var query = "op=article&method=setScore&id=" + param_escape(ids.toString()) +
 					"&score=" + param_escape(score);
 
 				new Ajax.Request("backend.php", {
@@ -2063,7 +2063,7 @@ function changeScore(id, pic) {
 
 		if (new_score != undefined) {
 
-			var query = "op=rpc&method=setScore&id=" + param_escape(id) +
+			var query = "op=article&method=setScore&id=" + param_escape(id) +
 				"&score=" + param_escape(new_score);
 
 			new Ajax.Request("backend.php", {

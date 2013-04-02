@@ -632,17 +632,6 @@ class RPC extends Handler_Protected {
 		return;
 	}
 
-	function setScore() {
-		$ids = db_escape_string($this->link, $_REQUEST['id']);
-		$score = (int)db_escape_string($this->link, $_REQUEST['score']);
-
-		db_query($this->link, "UPDATE ttrss_user_entries SET
-			score = '$score' WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
-
-		print json_encode(array("id" => $id,
-			"score_pic" => get_score_pic($score)));
-	}
-
 	function setpanelmode() {
 		$wide = (int) $_REQUEST["wide"];
 
