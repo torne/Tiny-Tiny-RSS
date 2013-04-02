@@ -185,7 +185,7 @@ class Article extends Handler_Protected {
 		$tags_str = join(", ", $tags);
 
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$param\">";
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"article\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"setArticleTags\">";
 
 		print "<table width='100%'><tr><td>";
@@ -207,6 +207,140 @@ class Article extends Handler_Protected {
 		print "</div>";
 
 	}
+
+	function setScore() {
+		$ids = db_escape_string($this->link, $_REQUEST['id']);
+		$score = (int)db_escape_string($this->link, $_REQUEST['score']);
+
+		db_query($this->link, "UPDATE ttrss_user_entries SET
+			score = '$score' WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
+
+		print json_encode(array("id" => $id,
+			"score_pic" => get_score_pic($score)));
+	}
+
+
+	function setArticleTags() {
+
+		$id = db_escape_string($this->link, $_REQUEST["id"]);
+
+		$tags_str = db_escape_string($this->link, $_REQUEST["tags_str"]);
+		$tags = array_unique(trim_array(explode(",", $tags_str)));
+
+		db_query($this->link, "BEGIN");
+
+		$result = db_query($this->link, "SELECT int_id FROM ttrss_user_entries WHERE
+				ref_id = '$id' AND owner_uid = '".$_SESSION["uid"]."' LIMIT 1");
+
+		if (db_num_rows($result) == 1) {
+
+			$tags_to_cache = array();
+
+			$int_id = db_fetch_result($result, 0, "int_id");
+
+			db_query($this->link, "DELETE FROM ttrss_tags WHERE
+				post_int_id = $int_id AND owner_uid = '".$_SESSION["uid"]."'");
+
+			foreach ($tags as $tag) {
+				$tag = sanitize_tag($tag);
+
+				if (!tag_is_valid($tag)) {
+					continue;
+				}
+
+				if (preg_match("/^[0-9]*$/", $tag)) {
+					continue;
+				}
+
+				//					print "<!-- $id : $int_id : $tag -->";
+
+				if ($tag != '') {
+					db_query($this->link, "INSERT INTO ttrss_tags
+								(post_int_id, owner_uid, tag_name) VALUES ('$int_id', '".$_SESSION["uid"]."', '$tag')");
+				}
+
+				array_push($tags_to_cache, $tag);
+			}
+
+			/* update tag cache */
+
+			sort($tags_to_cache);
+			$tags_str = join(",", $tags_to_cache);
+
+			db_query($this->link, "UPDATE ttrss_user_entries
+				SET tag_cache = '$tags_str' WHERE ref_id = '$id'
+						AND owner_uid = " . $_SESSION["uid"]);
+		}
+
+		db_query($this->link, "COMMIT");
+
+		$tags = get_article_tags($this->link, $id);
+		$tags_str = format_tags_string($tags, $id);
+		$tags_str_full = join(", ", $tags);
+
+		if (!$tags_str_full) $tags_str_full = __("no tags");
+
+		print json_encode(array("id" => (int)$id,
+				"content" => $tags_str, "content_full" => $tags_str_full));
+	}
+
+
+	function completeTags() {
+		$search = db_escape_string($this->link, $_REQUEST["search"]);
+
+		$result = db_query($this->link, "SELECT DISTINCT tag_name FROM ttrss_tags
+				WHERE owner_uid = '".$_SESSION["uid"]."' AND
+				tag_name LIKE '$search%' ORDER BY tag_name
+				LIMIT 10");
+
+		print "<ul>";
+		while ($line = db_fetch_assoc($result)) {
+			print "<li>" . $line["tag_name"] . "</li>";
+		}
+		print "</ul>";
+	}
+
+	function assigntolabel() {
+		return $this->labelops(true);
+	}
+
+	function removefromlabel() {
+		return $this->labelops(false);
+	}
+
+	private function labelops($assign) {
+		$reply = array();
+
+		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
+		$label_id = db_escape_string($this->link, $_REQUEST["lid"]);
+
+		$label = db_escape_string($this->link, label_find_caption($this->link, $label_id,
+		$_SESSION["uid"]));
+
+		$reply["info-for-headlines"] = array();
+
+		if ($label) {
+
+			foreach ($ids as $id) {
+
+				if ($assign)
+					label_add_article($this->link, $id, $label, $_SESSION["uid"]);
+				else
+					label_remove_article($this->link, $id, $label, $_SESSION["uid"]);
+
+				$labels = get_article_labels($this->link, $id, $_SESSION["uid"]);
+
+				array_push($reply["info-for-headlines"],
+				array("id" => $id, "labels" => format_article_labels($labels, $id)));
+
+			}
+		}
+
+		$reply["message"] = "UPDATE_COUNTERS";
+
+		print json_encode($reply);
+	}
+
 
 
 }

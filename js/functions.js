@@ -548,28 +548,6 @@ function fatalError(code, msg, ext_info) {
 	}
 }
 
-/* function filterDlgCheckType(sender) {
-
-	try {
-
-		var ftype = sender.value;
-
-		// if selected filter type is 5 (Date) enable the modifier dropbox
-		if (ftype == 5) {
-			Element.show("filterDlg_dateModBox");
-			Element.show("filterDlg_dateChkBox");
-		} else {
-			Element.hide("filterDlg_dateModBox");
-			Element.hide("filterDlg_dateChkBox");
-
-		}
-
-	} catch (e) {
-		exception_error("filterDlgCheckType", e);
-	}
-
-} */
-
 function filterDlgCheckAction(sender) {
 
 	try {
@@ -603,34 +581,6 @@ function filterDlgCheckAction(sender) {
 
 }
 
-function filterDlgCheckDate() {
-	try {
-		var dialog = dijit.byId("filterEditDlg");
-
-		var reg_exp = dialog.attr('value').reg_exp;
-
-		var query = "?op=rpc&method=checkDate&date=" + reg_exp;
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) {
-
-				var reply = JSON.parse(transport.responseText);
-
-				if (reply['result'] == true) {
-					alert(__("Date syntax appears to be correct:") + " " + reply['date']);
-					return;
-				} else {
-					alert(__("Date syntax is incorrect."));
-				}
-
-			} });
-
-
-	} catch (e) {
-		exception_error("filterDlgCheckDate", e);
-	}
-}
 
 function explainError(code) {
 	return displayDlg(__("Error explained"), "explainError", code);
@@ -1407,7 +1357,7 @@ function genUrlChangeKey(feed, is_cat) {
 
 			notify_progress("Trying to change address...", true);
 
-			var query = "?op=rpc&method=regenFeedKey&id=" + param_escape(feed) +
+			var query = "?op=pref-feeds&method=regenFeedKey&id=" + param_escape(feed) +
 				"&is_cat=" + param_escape(is_cat);
 
 			new Ajax.Request("backend.php", {

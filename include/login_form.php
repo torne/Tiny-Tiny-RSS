@@ -122,7 +122,7 @@ function init() {
 
 function fetchProfiles() {
 	try {
-		var query = "?op=getProfiles&login=" + param_escape(document.forms["loginForm"].login.value);
+		var query = "op=getProfiles&login=" + param_escape(document.forms["loginForm"].login.value);
 
 		if (query) {
 			new Ajax.Request("public.php",	{
