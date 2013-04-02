@@ -739,7 +739,7 @@ class Feeds extends Handler_Protected {
 					break;
 				default:
 					if ($feed < LABEL_BASE_INDEX) {
-						$message = __("No articles found to display. You can assign articles to labels manually (see the Actions menu above) or use a filter.");
+						$message = __("No articles found to display. You can assign articles to labels manually from article header context menu (applies to all selected articles) or use a filter.");
 					} else {
 						$message = __("No articles found to display.");
 					}
