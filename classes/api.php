@@ -340,6 +340,12 @@ class API extends Handler {
 					"attachments" => $attachments
 				);
 
+				global $pluginhost;
+				foreach ($pluginhost->get_hooks($pluginhost::HOOK_RENDER_ARTICLE_API) as $p) {
+					$article = $p->hook_render_article_api(array("article" => $article));
+				}
+
+
 				array_push($articles, $article);
 
 			}
@@ -680,7 +686,7 @@ class API extends Handler {
 
 				global $pluginhost;
 				foreach ($pluginhost->get_hooks($pluginhost::HOOK_RENDER_ARTICLE_API) as $p) {
-					$headline_row = $p->hook_render_article_api($headline_row);
+					$headline_row = $p->hook_render_article_api(array("headline" => $headline_row));
 				}
 
 				array_push($headlines, $headline_row);
