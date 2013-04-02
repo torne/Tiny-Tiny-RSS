@@ -21,8 +21,6 @@
 
 	global $session_connection;
 
-	$session_connection = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
 	function session_get_schema_version($link, $nocache = false) {
 		global $schema_version;
 
@@ -97,8 +95,9 @@
 
 
 	function ttrss_open ($s, $n) {
-
 		global $session_connection;
+
+		$session_connection = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 		return true;
 	}
