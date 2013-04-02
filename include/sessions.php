@@ -19,6 +19,10 @@
 	ini_set("session.use_only_cookies", true);
 	ini_set("session.gc_maxlifetime", $session_expire);
 
+	global $session_connection;
+
+	$session_connection = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
 	function session_get_schema_version($link, $nocache = false) {
 		global $schema_version;
 
@@ -34,6 +38,7 @@
 
 	function validate_session($link) {
 		if (SINGLE_USER_MODE) return true;
+		if (!$link) return false;
 
 		$check_ip = $_SESSION['ip_address'];
 
@@ -94,8 +99,6 @@
 	function ttrss_open ($s, $n) {
 
 		global $session_connection;
-
-		$session_connection = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 		return true;
 	}
