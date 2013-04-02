@@ -140,8 +140,6 @@
 	</div>
 </div>
 
-<div style="display : none" onclick="Element.hide(this)" id="small_article_preview"></div>
-
 <div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
 <div id="cmdline" style="display : none"></div>
 <div id="headlines-tmp" style="display : none"></div>

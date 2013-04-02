@@ -834,32 +834,5 @@ class RPC extends Handler_Protected {
 		}
 	}
 
-	function cdmArticlePreview() {
-		$id = db_escape_string($this->link, $_REQUEST['id']);
-
-		$result = db_query($this->link, "SELECT link,
-			ttrss_entries.title, content, feed_url
-			FROM
-			ttrss_entries, ttrss_user_entries
-				LEFT JOIN ttrss_feeds ON (ttrss_user_entries.feed_id = ttrss_feeds.id)
-			WHERE ref_id = '$id' AND ref_id = ttrss_entries.id AND
-				ttrss_user_entries.owner_uid = ". $_SESSION["uid"]);
-
-		if (db_num_rows($result) != 0) {
-			$link = db_fetch_result($result, 0, "link");
-			$title = db_fetch_result($result, 0, "title");
-			$feed_url = db_fetch_result($result, 0, "feed_url");
-
-			$content = sanitize($this->link,
-				db_fetch_result($result, 0, "content"), false, false, $feed_url);
-
-			print "<div class='content'>".$content."</content>";
-
-		} else {
-			print "Article not found.";
-		}
-
-	}
-
 }
 ?>

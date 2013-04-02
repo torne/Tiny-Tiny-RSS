@@ -13,8 +13,6 @@ var catchup_timeout_id = false;
 var cids_requested = [];
 var loaded_article_ids = [];
 
-var _post_preview_timeout = false;
-
 var has_storage = 'sessionStorage' in window && window['sessionStorage'] !== null;
 
 function headlines_callback2(transport, offset, background, infscroll_req) {
@@ -1153,53 +1151,10 @@ function getActiveArticleId() {
 
 function postMouseIn(e, id) {
 	post_under_pointer = id;
-
-	if (_post_preview_timeout) window.clearTimeout(_post_preview_timeout);
-
-	/* if (!isCdmMode() || !getInitParam("cdm_expanded")) {
-		_post_preview_timeout = window.setTimeout(function() {
-			displaySmallArticlePreview(e, id);
-		}, 1000);
-	} */
-}
-
-function displaySmallArticlePreview(e, id) {
-	try {
-		var query = "?op=rpc&method=cdmarticlepreview&id=" + id;
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) {
-				cexc = $("CEXC-" + id);
-				preview = $("small_article_preview");
-				row = $("RROW-" + id);
-				ctr = $("headlines-frame");
-
-				if (id != getActiveArticleId() && (!isCdmMode() || (cexc && Element.visible(cexc))) && row && preview) {
-					preview.innerHTML = transport.responseText;
-					new Effect.Appear(preview, {duration:0.2});
-
-					preview.setStyle({
-						left: (e.clientX + 20) + 'px',
-						top: (row.offsetTop + row.offsetHeight*2 + 20 - ctr.scrollTop) + 'px' });
-
-				}
-
-			} });
-
-
-	} catch (e) {
-		exception_error("displaySmallArticlePreview", e);
-	}
 }
 
 function postMouseOut(id) {
 	post_under_pointer = false;
-
-	if (_post_preview_timeout) window.clearTimeout(_post_preview_timeout);
-
-	if (Element.visible("small_article_preview"))
-		Element.hide("small_article_preview");
 }
 
 function unpackVisibleHeadlines() {
