@@ -59,6 +59,10 @@ class Updater extends Plugin {
 					$stop = true; break;
 				}
 
+				// bah, also humbug
+				putenv("PATH=" . getenv("PATH") . PATH_SEPARATOR . "/bin" .
+					PATH_SEPARATOR . "/usr/bin");
+
 				array_push($log, "Checking for tar...");
 
 				$system_rc = 0;
