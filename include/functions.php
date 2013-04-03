@@ -744,7 +744,9 @@
 			cache_prefs($link);
 			load_user_plugins($link, $_SESSION["uid"]);
 		} else {
-			if (!$_SESSION["uid"] || !validate_session($link)) {
+			if (!validate_session($link)) $_SESSION["uid"] = false;
+
+			if (!$_SESSION["uid"]) {
 
 				if (AUTH_AUTO_LOGIN && authenticate_user($link, null, null)) {
 				    $_SESSION["ref_schema_version"] = get_schema_version($link, true);
@@ -752,12 +754,12 @@
 					 authenticate_user($link, null, null, true);
 				}
 
-				if (!$_SESSION["uid"]) render_login_form($link);
-
-				@session_destroy();
-				setcookie(session_name(), '', time()-42000, '/');
-
-				exit;
+				if (!$_SESSION["uid"]) {
+					render_login_form($link);
+					@session_destroy();
+					setcookie(session_name(), '', time()-42000, '/');
+					exit;
+				}
 
 			} else {
 				/* bump login timestamp */
