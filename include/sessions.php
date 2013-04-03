@@ -181,11 +181,6 @@
 	if (!defined('TTRSS_SESSION_NAME') || TTRSS_SESSION_NAME != 'ttrss_api_sid') {
 		if (isset($_COOKIE[$session_name])) {
 			@session_start();
-
-			if (!isset($_SESSION["uid"]) || !$_SESSION["uid"] || !validate_session($session_connection)) {
-				session_destroy();
-			   setcookie(session_name(), '', time()-42000, '/');
-			}
 		}
 	}
 ?>
