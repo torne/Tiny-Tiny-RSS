@@ -2422,13 +2422,7 @@
 				$query_strategy_part = "true";
 			}
 
-			if (get_pref($link, "SORT_HEADLINES_BY_FEED_DATE", $owner_uid)) {
-				$date_sort_field = "updated";
-			} else {
-				$date_sort_field = "date_entered";
-			}
-
-			$order_by = "$date_sort_field DESC, updated DESC";
+			$order_by = "score DESC, date_entered DESC, updated DESC";
 
 			if ($view_mode == "unread_first") {
 				$order_by = "unread DESC, $order_by";
