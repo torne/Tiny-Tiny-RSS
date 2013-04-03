@@ -754,6 +754,11 @@
 
 				if (!$_SESSION["uid"]) render_login_form($link);
 
+				@session_destroy();
+				setcookie(session_name(), '', time()-42000, '/');
+
+				exit;
+
 			} else {
 				/* bump login timestamp */
 				db_query($link, "UPDATE ttrss_users SET last_login = NOW() WHERE id = " .
