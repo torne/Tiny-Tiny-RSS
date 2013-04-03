@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<?
+<?php
 	function sanity_check($db_type) {
 		$errors = array();
 
