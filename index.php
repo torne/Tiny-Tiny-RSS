@@ -187,15 +187,20 @@
 			<option value="date_reverse"><?php echo __('Oldest first') ?></option>
 		</select>
 
-		<select title="<?php echo __('Mark feed as read') ?>"
-			onchange="catchupCurrentFeed(this)"
-			dojoType="dijit.form.Select" name="catchup_feed">
-			<option selected="selected" value="default"><?php echo __('Mark as read') ?></option>
-			<option value="all"><?php echo __('All articles') ?></option>
-			<option value="1day"><?php echo __('Older than one day') ?></option>
-			<option value="1week"><?php echo __('Older than one week') ?></option>
-			<option value="2weeks"><?php echo __('Older than two weeks') ?></option>
-		</select>
+		<div dojoType="dijit.form.ComboButton" onclick="catchupCurrentFeed()">
+			<span><?php echo __('Mark as read') ?></span>
+			<div dojoType="dijit.DropDownMenu">
+				<div dojoType="dijit.MenuItem" onclick="catchupCurrentFeed('1day')">
+					<?php echo __('Older than one day') ?>
+				</div>
+				<div dojoType="dijit.MenuItem" onclick="catchupCurrentFeed('1week')">
+					<?php echo __('Older than one week') ?>
+				</div>
+				<div dojoType="dijit.MenuItem" onclick="catchupCurrentFeed('2week')">
+					<?php echo __('Older than two weeks') ?>
+				</div>
+			</div>
+		</div>
 
 		</form>
 
