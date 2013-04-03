@@ -318,7 +318,7 @@
 		global $fetch_last_error;
 		global $fetch_last_error_code;
 
-		if (function_exists('curl_init') && !ini_get("open_basedir")) {
+		if (!defined('NO_CURL') && !function_exists('curl_init') && !ini_get("open_basedir")) {
 
 			if (ini_get("safe_mode")) {
 				$ch = curl_init(geturl($url));
@@ -396,9 +396,6 @@
 			}
 
 			$data = @file_get_contents($url);
-
-			@$gzdecoded = gzdecode($data);
-			if ($gzdecoded) $data = $gzdecoded;
 
 			if (!$data && function_exists('error_get_last')) {
 				$error = error_get_last();
