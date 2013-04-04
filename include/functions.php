@@ -2412,6 +2412,7 @@
 
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 			} else if ($feed == -4) { // all articles virtual feed
+				$allow_archived = true;
 				$query_strategy_part = "true";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 			} else if ($feed <= LABEL_BASE_INDEX) { // labels
