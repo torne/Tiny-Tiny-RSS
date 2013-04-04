@@ -756,9 +756,10 @@
 				}
 
 				if (!$_SESSION["uid"]) {
-					render_login_form($link);
 					@session_destroy();
 					setcookie(session_name(), '', time()-42000, '/');
+
+					render_login_form($link);
 					exit;
 				}
 

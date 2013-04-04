@@ -221,7 +221,7 @@ function bwLimitChange(elem) {
 			<label style='display : inline' for="bw_limit"><?php echo __("Use less traffic") ?></label>
 		</div>
 
-		<?php if (SESSION_COOKIE_LIFETIME > 0) { ?>
+		<?php if (false && SESSION_COOKIE_LIFETIME > 0) { /* disabled for now */ ?>
 
 		<div class="row">
 			<label>&nbsp;</label>
