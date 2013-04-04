@@ -125,14 +125,14 @@ class GoogleReaderImport extends Plugin {
 						if (strpos($item['origin']['streamId'], 'feed/') === 0) {
 
 							$orig_feed_data['feed_url'] = db_escape_string($this->link,
-								preg_replace("/^feed\//",
-									"", $item['origin']['streamId']));
+								mb_substr(preg_replace("/^feed\//",
+									"", $item['origin']['streamId']), 0, 200));
 
 							$orig_feed_data['title'] = db_escape_string($this->link,
-								$item['origin']['title']);
+								mb_substr($item['origin']['title'], 0, 200));
 
 							$orig_feed_data['site_url'] = db_escape_string($this->link,
-								$item['origin']['htmlUrl']);
+								mb_substr($item['origin']['htmlUrl'], 0, 200));
 						}
 					}
 
@@ -225,7 +225,7 @@ class GoogleReaderImport extends Plugin {
 			}
 		}
 
-		if ($feed_id) {
+		if ($feed_id && $feed_id != 'NULL') {
 			// locate archived entry to file entries in, we don't want to file them in actual feeds because of purging
 			// maybe file marked in real feeds because eh
 
@@ -253,6 +253,8 @@ class GoogleReaderImport extends Plugin {
 		if ($feed_id && $feed_inserted) {
 				db_query($this->link, "DELETE FROM ttrss_feeds WHERE id = $feed_id");
 		}
+
+		if (!$orig_feed_id) $orig_feed_id = 'NULL';
 
 		$result = db_query($this->link, "SELECT id FROM ttrss_entries, ttrss_user_entries WHERE
 			guid = '$guid' AND ref_id = id AND owner_uid = '$owner_uid' LIMIT 1");
