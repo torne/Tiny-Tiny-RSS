@@ -159,7 +159,7 @@
 
 			// since we have the data cached, we can deal with other feeds with the same url
 
-			$tmp_result = db_query($link, "SELECT ttrss_feeds.feed_url,ttrss_feeds.id,last_updated
+			$tmp_result = db_query($link, "SELECT DISTINCT ttrss_feeds.id,last_updated
 			FROM ttrss_feeds, ttrss_users, ttrss_user_prefs WHERE
 				ttrss_user_prefs.owner_uid = ttrss_feeds.owner_uid AND
 				ttrss_users.id = ttrss_user_prefs.owner_uid AND
@@ -168,7 +168,7 @@
 				(ttrss_feeds.update_interval > 0 OR
 					ttrss_user_prefs.value != '-1')
 				$login_thresh_qpart
-			ORDER BY feed_url $query_limit");
+			ORDER BY ttrss_feeds.id $query_limit");
 
 			if (db_num_rows($tmp_result) > 0) {
 				while ($tline = db_fetch_assoc($tmp_result)) {
@@ -286,7 +286,7 @@
 				$force_refetch = isset($_REQUEST["force_refetch"]);
 
 				$feed_data = fetch_file_contents($fetch_url, false,
-					$auth_login, $auth_pass, false, 
+					$auth_login, $auth_pass, false,
 					$no_cache ? FEED_FETCH_NO_CACHE_TIMEOUT : FEED_FETCH_TIMEOUT,
 					$force_refetch ? 0 : max($last_updated_timestamp, $cache_timestamp));
 
