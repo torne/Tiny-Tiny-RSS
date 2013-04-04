@@ -515,7 +515,7 @@ class Handler_Public extends Handler {
 
 			$login = db_escape_string($this->link, $_POST["login"]);
 			$password = $_POST["password"];
-			/* $remember_me = $_POST["remember_me"];
+			$remember_me = $_POST["remember_me"];
 
 			if ($remember_me) {
 				session_set_cookie_params(SESSION_COOKIE_LIFETIME);
@@ -523,7 +523,7 @@ class Handler_Public extends Handler {
 				session_set_cookie_params(0);
 			}
 
-			@session_start(); */
+			@session_start();
 
 			if (authenticate_user($this->link, $login, $password)) {
 				$_POST["password"] = "";
