@@ -132,6 +132,8 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 
 		console.log(query);
 
+		setActiveFeedId(feed, is_cat);
+
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) {

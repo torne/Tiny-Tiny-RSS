@@ -49,7 +49,8 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 				return;
 			}
 
-			setActiveFeedId(feed_id, is_cat);
+			if (feed_id != getActiveFeedId() || is_cat != activeFeedIsCat())
+				return;
 
 			/* dijit.getEnclosingWidget(
 				document.forms["main_toolbar_form"].update).attr('disabled',
