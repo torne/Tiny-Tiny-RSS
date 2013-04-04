@@ -99,6 +99,8 @@ class Pref_Prefs extends Handler_Protected {
 			if (!isset($_POST[$pref])) $_POST[$pref] = 'false';
 		}
 
+		$need_reload = false;
+
 		foreach (array_keys($_POST) as $pref_name) {
 
 			$pref_name = db_escape_string($this->link, $pref_name);
@@ -113,11 +115,25 @@ class Pref_Prefs extends Handler_Protected {
 				}
 			}
 
-			set_pref($this->link, $pref_name, $value);
+			if ($pref_name == "language") {
+				if ($_SESSION["language"] != $value) {
+					setcookie("ttrss_lang", $value,
+						time() + SESSION_COOKIE_LIFETIME);
+					$_SESSION["language"] = $value;
+
+					$need_reload = true;
+				}
+			} else {
+				set_pref($this->link, $pref_name, $value);
+			}
 
 		}
 
-		print __("The configuration was saved.");
+		if ($need_reload) {
+			print "PREFS_NEED_RELOAD";
+		} else {
+			print __("The configuration was saved.");
+		}
 	}
 
 	function getHelp() {
@@ -438,8 +454,15 @@ class Pref_Prefs extends Handler_Protected {
 				parameters: dojo.objectToQuery(this.getValues()),
 				onComplete: function(transport) {
 					var msg = transport.responseText;
-					notify_info(msg);
-					if (quit) gotoMain();
+					if (quit) {
+						gotoMain();
+					} else {
+						if (msg == 'PREFS_NEED_RELOAD') {
+							window.location.reload();
+						} else {
+							notify_info(msg);
+						}
+					}
 			} });
 		}
 		</script>";
@@ -520,6 +543,22 @@ class Pref_Prefs extends Handler_Protected {
 				print "<tr><td colspan=\"3\"><h3>".$section_name."</h3></td></tr>";
 
 				$lnum = 0;
+
+				if ($active_section == 2) {
+					print "<tr>";
+
+					print "<td width=\"40%\" class=\"prefName\">";
+					print "<label>";
+					print __("Language:");
+					print "</label>";
+
+					print "<td>";
+					print_select_hash("language", $_COOKIE["ttrss_lang"], get_translations(),
+						"style='width : 220px; margin : 0px' dojoType='dijit.form.Select'");
+					print "</td>";
+					print "</tr>";
+				}
+
 			}
 
 			print "<tr>";
