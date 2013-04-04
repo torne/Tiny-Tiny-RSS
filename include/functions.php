@@ -2136,8 +2136,11 @@
 
 				if ($commandpair[1] == "true")
 					array_push($query_keywords, "($not (note IS NOT NULL AND note != ''))");
-				else
+				else if ($commandpair[1] == "false")
 					array_push($query_keywords, "($not (note IS NULL OR note = ''))");
+				else
+					array_push($query_keywords, "($not (note LIKE '%".
+						db_escape_string($link, $commandpair[1])."%'))");
 
 			} else if ($commandpair[0] == "star" && $commandpair[1]) {
 
