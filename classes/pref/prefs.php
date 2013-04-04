@@ -429,8 +429,8 @@ class Pref_Prefs extends Handler_Protected {
 
 		print "<form dojoType=\"dijit.form.Form\" id=\"changeSettingsForm\">";
 
-		print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
-		evt.preventDefault();
+		print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt, quit\">
+		if (evt) evt.preventDefault();
 		if (this.validate()) {
 			console.log(dojo.objectToQuery(this.getValues()));
 
@@ -439,6 +439,7 @@ class Pref_Prefs extends Handler_Protected {
 				onComplete: function(transport) {
 					var msg = transport.responseText;
 					notify_info(msg);
+					if (quit) gotoMain();
 			} });
 		}
 		</script>";
@@ -644,8 +645,14 @@ class Pref_Prefs extends Handler_Protected {
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-prefs\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"saveconfig\">";
 
-		print "<button dojoType=\"dijit.form.Button\" type=\"submit\">".
-			__('Save configuration')."</button> ";
+		print "<div dojoType=\"dijit.form.ComboButton\" type=\"submit\">
+			<span>".__('Save configuration')."</span>
+			<div dojoType=\"dijit.DropDownMenu\">
+				<div dojoType=\"dijit.MenuItem\"
+					onclick=\"dijit.byId('changeSettingsForm').onSubmit(null, true)\">".
+				__("Save and exit preferences")."</div>
+			</div>
+			</div>";
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return editProfiles()\">".
 			__('Manage profiles')."</button> ";
