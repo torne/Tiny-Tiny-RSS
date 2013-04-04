@@ -866,12 +866,15 @@ class Feeds extends Handler_Protected {
 		$override_order = false;
 
 		switch ($order_by) {
-			case "date_reverse":
-				$override_order = "date_entered, updated";
-				break;
-			case "feed_dates":
-				$override_order = "updated DESC";
-				break;
+		case "title":
+			$override_order = "ttrss_entries.title";
+			break;
+		case "date_reverse":
+			$override_order = "date_entered, updated";
+			break;
+		case "feed_dates":
+			$override_order = "updated DESC";
+			break;
 		}
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("04", $timing_info);

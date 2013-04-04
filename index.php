@@ -185,6 +185,7 @@
 			<option selected="selected" value="default"><?php echo __('Default') ?></option>
 			<option value="feed_dates"><?php echo __('Newest first') ?></option>
 			<option value="date_reverse"><?php echo __('Oldest first') ?></option>
+			<option value="title"><?php echo __('Title') ?></option>
 		</select>
 
 		<div dojoType="dijit.form.ComboButton" onclick="catchupCurrentFeed()">
