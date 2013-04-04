@@ -259,12 +259,12 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 						if (String(root.items[i].id) == test_id) {
 							this.expandParentNodes(feed, is_cat, parents);
 						} else {
-							this.findNodeParentsAndExpandThem(feed, is_cat, root.items[i], parents);
+							this.findNodeParentsAndExpandThem(feed, is_cat, root.items[i], parents.slice(0));
 						}
 					}
 				} else {
 					if (String(root.id) == test_id) {
-						this.expandParentNodes(feed, is_cat, parents);
+						this.expandParentNodes(feed, is_cat, parents.slice(0));
 					}
 				}
 			}
