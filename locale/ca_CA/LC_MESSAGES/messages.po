@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-04 09:06+0400\n"
+"POT-Creation-Date: 2013-04-04 21:31+0400\n"
 "PO-Revision-Date: 2009-11-19 09:40+0100\n"
 "Last-Translator: Alfred Galitó <bratac@bratac.cat>\n"
 "Language-Team: Català <bratac@bratac.cat>\n"
@@ -102,101 +102,6 @@ msgstr "Súper usuari"
 msgid "Administrator"
 msgstr "Administrador"
 
-#: db-updater.php:19
-msgid "Your access level is insufficient to run this script."
-msgstr "No teniu prou permisos per a executar aquest script."
-
-#: db-updater.php:44
-msgid "Database Updater"
-msgstr "Eina d'actualització de la base de dades"
-
-#: db-updater.php:87
-msgid "Could not update database"
-msgstr "No s'ha pogut actualitzar la base de dades"
-
-#: db-updater.php:90
-msgid "Could not find necessary schema file, need version:"
-msgstr "No s'ha pogut trobar el fitxer d'esquema necessari, es necessita la versió:"
-
-#: db-updater.php:91
-msgid ", found: "
-msgstr ", trobats:"
-
-#: db-updater.php:94
-msgid "Tiny Tiny RSS database is up to date."
-msgstr "La base de dades de Tiny Tiny RSS està actualitzada."
-
-#: db-updater.php:96
-#: db-updater.php:165
-#: db-updater.php:178
-#: register.php:196
-#: register.php:241
-#: register.php:254
-#: register.php:269
-#: register.php:288
-#: register.php:336
-#: register.php:346
-#: register.php:358
-#: classes/handler/public.php:648
-#: classes/handler/public.php:736
-#: classes/handler/public.php:818
-msgid "Return to Tiny Tiny RSS"
-msgstr "Torna a Tiny Tiny RSS"
-
-#: db-updater.php:102
-msgid "Please backup your database before proceeding."
-msgstr "Si us plau feu una còpia de seguretat de la base de dades abans de continuar."
-
-#: db-updater.php:104
-#, php-format
-msgid "Your Tiny Tiny RSS database needs update to the latest version (<b>%d</b> to <b>%d</b>)."
-msgstr "La base de dades de Tiny Tiny RSS s'ha d'actualitzar ( de la versió <b>%d</b> a la <b>%d</b>)."
-
-#: db-updater.php:118
-msgid "Perform updates"
-msgstr "Aplica les actualitzacions"
-
-#: db-updater.php:123
-msgid "Performing updates..."
-msgstr "S'estan realitzant les actualitzacions..."
-
-#: db-updater.php:129
-#, php-format
-msgid "Updating to version %d..."
-msgstr "S'està actualitzant a la versió %d..."
-
-#: db-updater.php:144
-msgid "Checking version... "
-msgstr "S'està comprovant la versió..."
-
-#: db-updater.php:150
-msgid "OK!"
-msgstr "D'acord!"
-
-#: db-updater.php:152
-msgid "ERROR!"
-msgstr "Error!"
-
-#: db-updater.php:160
-#, fuzzy, php-format
-msgid "Finished. Performed <b>%d</b> update up to schema version <b>%d</b>."
-msgid_plural "Finished. Performed <b>%d</b> updates up to schema version <b>%d</b>."
-msgstr[0] "Fet. S'ha actualitzat l'esquema de la versió <b>%d</b> a <b>%d</b>."
-msgstr[1] "Fet. S'ha actualitzat l'esquema de la versió <b>%d</b> a <b>%d</b>."
-
-#: db-updater.php:170
-msgid "Your database schema is from a newer version of Tiny Tiny RSS."
-msgstr ""
-
-#: db-updater.php:172
-#, php-format
-msgid "Found schema version: <b>%d</b>, required: <b>%d</b>."
-msgstr ""
-
-#: db-updater.php:174
-msgid "Schema upgrade impossible. Please update Tiny Tiny RSS files to the newer version and continue."
-msgstr ""
-
 #: errors.php:9
 msgid "This program requires XmlHttpRequest to function properly. Your browser doesn't seem to support it."
 msgstr "Aquest programa necessita XmlHttpRequest per funcionar correctament. Sembla que el vostre navegador no n'és compatible."
@@ -252,7 +157,7 @@ msgstr "Ha fallat la sortida de prova de SQL, reviseu la base configuració de l
 
 #: index.php:135
 #: index.php:152
-#: index.php:276
+#: index.php:277
 #: prefs.php:103
 #: classes/backend.php:5
 #: classes/pref/labels.php:296
@@ -260,7 +165,7 @@ msgstr "Ha fallat la sortida de prova de SQL, reviseu la base configuració de l
 #: classes/pref/feeds.php:1331
 #: plugins/digest/digest_body.php:63
 #: js/feedlist.js:128
-#: js/feedlist.js:436
+#: js/feedlist.js:438
 #: js/functions.js:420
 #: js/functions.js:758
 #: js/functions.js:1194
@@ -281,8 +186,8 @@ msgstr "Ha fallat la sortida de prova de SQL, reviseu la base configuració de l
 #: js/prefs.js:1814
 #: js/tt-rss.js:475
 #: js/tt-rss.js:492
-#: js/viewfeed.js:772
-#: js/viewfeed.js:1200
+#: js/viewfeed.js:775
+#: js/viewfeed.js:1201
 #: plugins/import_export/import_export.js:17
 #: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
@@ -306,13 +211,13 @@ msgid "All Articles"
 msgstr "Tots els articles"
 
 #: index.php:174
-#: include/functions.php:1953
+#: include/functions.php:1955
 #: classes/feeds.php:106
 msgid "Starred"
 msgstr "Marcats"
 
 #: index.php:175
-#: include/functions.php:1954
+#: include/functions.php:1956
 #: classes/feeds.php:107
 msgid "Published"
 msgstr "Publicats"
@@ -353,9 +258,13 @@ msgstr ""
 msgid "Oldest first"
 msgstr ""
 
-#: index.php:191
-#: index.php:240
-#: include/functions.php:1943
+#: index.php:188
+msgid "Title"
+msgstr "Títol"
+
+#: index.php:192
+#: index.php:241
+#: include/functions.php:1945
 #: classes/feeds.php:111
 #: classes/feeds.php:441
 #: js/FeedTree.js:128
@@ -364,108 +273,108 @@ msgstr ""
 msgid "Mark as read"
 msgstr "Marca'l com a llegit"
 
-#: index.php:194
+#: index.php:195
 msgid "Older than one day"
 msgstr ""
 
-#: index.php:197
+#: index.php:198
 msgid "Older than one week"
 msgstr ""
 
-#: index.php:200
+#: index.php:201
 msgid "Older than two weeks"
 msgstr ""
 
-#: index.php:217
+#: index.php:218
 msgid "Communication problem with server."
 msgstr ""
 
-#: index.php:225
+#: index.php:226
 msgid "New version of Tiny Tiny RSS is available!"
 msgstr "Hi ha una nova versió de Tiny Tiny RSS!"
 
-#: index.php:230
+#: index.php:231
 msgid "Actions..."
 msgstr "Accions..."
 
-#: index.php:232
+#: index.php:233
 #, fuzzy
 msgid "Preferences..."
 msgstr "Preferències"
 
-#: index.php:233
+#: index.php:234
 msgid "Search..."
 msgstr "Cerca..."
 
-#: index.php:234
+#: index.php:235
 msgid "Feed actions:"
 msgstr "Accions sobre els canals:"
 
-#: index.php:235
+#: index.php:236
 #: classes/handler/public.php:578
 msgid "Subscribe to feed..."
 msgstr "Subscriviu-vos al canal"
 
-#: index.php:236
+#: index.php:237
 msgid "Edit this feed..."
 msgstr "Edita aquest canal..."
 
-#: index.php:237
+#: index.php:238
 msgid "Rescore feed"
 msgstr "Canvia la puntuació del canal"
 
-#: index.php:238
+#: index.php:239
 #: classes/pref/feeds.php:717
 #: classes/pref/feeds.php:1283
 #: js/PrefFeedTree.js:73
 msgid "Unsubscribe"
 msgstr "Dóna't de baixa"
 
-#: index.php:239
+#: index.php:240
 msgid "All feeds:"
 msgstr "Tots els canals"
 
-#: index.php:241
+#: index.php:242
 msgid "(Un)hide read feeds"
 msgstr "Mostra/amaga els canals llegits"
 
-#: index.php:242
+#: index.php:243
 msgid "Other actions:"
 msgstr "Altres accions:"
 
-#: index.php:244
+#: index.php:245
 msgid "Switch to digest..."
 msgstr ""
 
-#: index.php:246
+#: index.php:247
 #, fuzzy
 msgid "Show tag cloud..."
 msgstr "Núvol d'etiquetes"
 
-#: index.php:247
-#: include/functions.php:1929
+#: index.php:248
+#: include/functions.php:1931
 #, fuzzy
 msgid "Toggle widescreen mode"
 msgstr "Canvia al mode de reordenació de categories"
 
-#: index.php:248
+#: index.php:249
 msgid "Select by tags..."
 msgstr ""
 
-#: index.php:249
+#: index.php:250
 msgid "Create label..."
 msgstr "Crea una etiqueta"
 
-#: index.php:250
+#: index.php:251
 msgid "Create filter..."
 msgstr "Crea un filtre..."
 
-#: index.php:251
+#: index.php:252
 #, fuzzy
 msgid "Keyboard shortcuts help"
 msgstr "Dreceres de teclat"
 
-#: index.php:260
+#: index.php:261
 #: plugins/digest/digest_body.php:77
 #: plugins/mobile/mobile-functions.php:62
 #: plugins/mobile/mobile-functions.php:237
@@ -474,8 +383,8 @@ msgstr "Surt"
 
 #: prefs.php:36
 #: prefs.php:121
-#: include/functions.php:1956
-#: classes/pref/prefs.php:428
+#: include/functions.php:1958
+#: classes/pref/prefs.php:444
 msgid "Preferences"
 msgstr "Preferències"
 
@@ -500,8 +409,8 @@ msgid "Filters"
 msgstr "Filtres"
 
 #: prefs.php:130
-#: include/functions.php:1146
-#: include/functions.php:1782
+#: include/functions.php:1148
+#: include/functions.php:1784
 #: classes/pref/labels.php:90
 #: plugins/mobile/mobile-functions.php:198
 msgid "Labels"
@@ -519,6 +428,24 @@ msgstr "Creeu un compte nou"
 #: register.php:192
 msgid "New user registrations are administratively disabled."
 msgstr "L'administrador ha deshabilitat els registres de nous usuaris."
+
+#: register.php:196
+#: register.php:241
+#: register.php:254
+#: register.php:269
+#: register.php:288
+#: register.php:336
+#: register.php:346
+#: register.php:358
+#: classes/handler/public.php:648
+#: classes/handler/public.php:736
+#: classes/handler/public.php:818
+#: classes/handler/public.php:893
+#: classes/handler/public.php:907
+#: classes/handler/public.php:914
+#: classes/handler/public.php:939
+msgid "Return to Tiny Tiny RSS"
+msgstr "Torna a Tiny Tiny RSS"
 
 #: register.php:217
 msgid "Your temporary password will be sent to the specified email. Accounts, which were not logged in once, are erased automatically 24 hours after temporary password is sent."
@@ -566,16 +493,16 @@ msgstr "S'ha creat el compte."
 msgid "New user registrations are currently closed."
 msgstr "Actualment no es permet el registre de nous usuaris."
 
-#: update.php:55
+#: update.php:56
 #, fuzzy
 msgid "Tiny Tiny RSS data update script."
 msgstr "La base de dades de Tiny Tiny RSS està actualitzada."
 
 #: include/digest.php:109
-#: include/functions.php:1155
-#: include/functions.php:1683
-#: include/functions.php:1768
-#: include/functions.php:1790
+#: include/functions.php:1157
+#: include/functions.php:1685
+#: include/functions.php:1770
+#: include/functions.php:1792
 #: classes/opml.php:416
 #: classes/pref/feeds.php:222
 msgid "Uncategorized"
@@ -592,337 +519,337 @@ msgstr[1] "Articles marcats"
 msgid "No feeds found."
 msgstr "No s'ha trobat cap canal."
 
-#: include/functions.php:1144
-#: include/functions.php:1780
+#: include/functions.php:1146
+#: include/functions.php:1782
 #: plugins/mobile/mobile-functions.php:171
 msgid "Special"
 msgstr "Especial"
 
-#: include/functions.php:1632
-#: classes/feeds.php:1101
+#: include/functions.php:1634
+#: classes/feeds.php:1104
 #: classes/pref/filters.php:427
 msgid "All feeds"
 msgstr "Tots els canals"
 
-#: include/functions.php:1833
+#: include/functions.php:1835
 msgid "Starred articles"
 msgstr "Articles marcats"
 
-#: include/functions.php:1835
+#: include/functions.php:1837
 msgid "Published articles"
 msgstr "Articles publicats"
 
-#: include/functions.php:1837
+#: include/functions.php:1839
 msgid "Fresh articles"
 msgstr "Articles nous"
 
-#: include/functions.php:1839
-#: include/functions.php:1951
+#: include/functions.php:1841
+#: include/functions.php:1953
 msgid "All articles"
 msgstr "Tots els articles"
 
-#: include/functions.php:1841
+#: include/functions.php:1843
 #, fuzzy
 msgid "Archived articles"
 msgstr "Articles mémorisés"
 
-#: include/functions.php:1843
+#: include/functions.php:1845
 msgid "Recently read"
 msgstr ""
 
-#: include/functions.php:1906
+#: include/functions.php:1908
 msgid "Navigation"
 msgstr "Navegació"
 
-#: include/functions.php:1907
+#: include/functions.php:1909
 #, fuzzy
 msgid "Open next feed"
 msgstr "Canals generats"
 
-#: include/functions.php:1908
+#: include/functions.php:1910
 msgid "Open previous feed"
 msgstr ""
 
-#: include/functions.php:1909
+#: include/functions.php:1911
 #, fuzzy
 msgid "Open next article"
 msgstr "Mostra el contingut original de l'article"
 
-#: include/functions.php:1910
+#: include/functions.php:1912
 #, fuzzy
 msgid "Open previous article"
 msgstr "Mostra el contingut original de l'article"
 
-#: include/functions.php:1911
+#: include/functions.php:1913
 msgid "Open next article (don't scroll long articles)"
 msgstr ""
 
-#: include/functions.php:1912
+#: include/functions.php:1914
 msgid "Open previous article (don't scroll long articles)"
 msgstr ""
 
-#: include/functions.php:1913
+#: include/functions.php:1915
 msgid "Show search dialog"
 msgstr "Mostra el diàleg de cerca"
 
-#: include/functions.php:1914
+#: include/functions.php:1916
 #, fuzzy
 msgid "Article"
 msgstr "Tots els articles"
 
-#: include/functions.php:1915
+#: include/functions.php:1917
 msgid "Toggle starred"
 msgstr "Commuta els marcats"
 
-#: include/functions.php:1916
-#: js/viewfeed.js:1863
+#: include/functions.php:1918
+#: js/viewfeed.js:1872
 msgid "Toggle published"
 msgstr "Commuta els publicats"
 
-#: include/functions.php:1917
-#: js/viewfeed.js:1841
+#: include/functions.php:1919
+#: js/viewfeed.js:1850
 msgid "Toggle unread"
 msgstr "Commuta els no llegits"
 
-#: include/functions.php:1918
+#: include/functions.php:1920
 msgid "Edit tags"
 msgstr "Edita les etiquetes"
 
-#: include/functions.php:1919
+#: include/functions.php:1921
 #, fuzzy
 msgid "Dismiss selected"
 msgstr "Esteu segur que voleu eliminar els articles seleccionats de l'etiqueta?"
 
-#: include/functions.php:1920
+#: include/functions.php:1922
 #, fuzzy
 msgid "Dismiss read"
 msgstr "Publica l'article"
 
-#: include/functions.php:1921
+#: include/functions.php:1923
 #, fuzzy
 msgid "Open in new window"
 msgstr "Obre l'article en una finestra nova"
 
-#: include/functions.php:1922
-#: js/viewfeed.js:1882
+#: include/functions.php:1924
+#: js/viewfeed.js:1891
 #, fuzzy
 msgid "Mark below as read"
 msgstr "Marca'l com a llegit"
 
-#: include/functions.php:1923
-#: js/viewfeed.js:1876
+#: include/functions.php:1925
+#: js/viewfeed.js:1885
 #, fuzzy
 msgid "Mark above as read"
 msgstr "Marca'l com a llegit"
 
-#: include/functions.php:1924
+#: include/functions.php:1926
 #, fuzzy
 msgid "Scroll down"
 msgstr "Fet!"
 
-#: include/functions.php:1925
+#: include/functions.php:1927
 msgid "Scroll up"
 msgstr ""
 
-#: include/functions.php:1926
+#: include/functions.php:1928
 #, fuzzy
 msgid "Select article under cursor"
 msgstr "Seleccioneu un article mitjançant el ratolí."
 
-#: include/functions.php:1927
+#: include/functions.php:1929
 #, fuzzy
 msgid "Email article"
 msgstr "Tots els articles"
 
-#: include/functions.php:1928
+#: include/functions.php:1930
 #, fuzzy
 msgid "Close/collapse article"
 msgstr "Buida els articles"
 
-#: include/functions.php:1930
+#: include/functions.php:1932
 #: plugins/embed_original/init.php:33
 #, fuzzy
 msgid "Toggle embed original"
 msgstr "Canvia al mode de reordenació de categories"
 
-#: include/functions.php:1931
+#: include/functions.php:1933
 #, fuzzy
 msgid "Article selection"
 msgstr "Accions actives de l'article"
 
-#: include/functions.php:1932
+#: include/functions.php:1934
 #, fuzzy
 msgid "Select all articles"
 msgstr "Buida els articles"
 
-#: include/functions.php:1933
+#: include/functions.php:1935
 #, fuzzy
 msgid "Select unread"
 msgstr "Purga els articles per llegir"
 
-#: include/functions.php:1934
+#: include/functions.php:1936
 #, fuzzy
 msgid "Select starred"
 msgstr "Marca'l com a destacat"
 
-#: include/functions.php:1935
+#: include/functions.php:1937
 #, fuzzy
 msgid "Select published"
 msgstr "Purga els articles per llegir"
 
-#: include/functions.php:1936
+#: include/functions.php:1938
 #, fuzzy
 msgid "Invert selection"
 msgstr "Accions actives de l'article"
 
-#: include/functions.php:1937
+#: include/functions.php:1939
 #, fuzzy
 msgid "Deselect everything"
 msgstr "Buida els articles"
 
-#: include/functions.php:1938
+#: include/functions.php:1940
 #: classes/pref/feeds.php:521
 #: classes/pref/feeds.php:754
 msgid "Feed"
 msgstr "Canal"
 
-#: include/functions.php:1939
+#: include/functions.php:1941
 #, fuzzy
 msgid "Refresh current feed"
 msgstr "Actualitza els canals actius"
 
-#: include/functions.php:1940
+#: include/functions.php:1942
 #, fuzzy
 msgid "Un/hide read feeds"
 msgstr "Mostra/amaga els canals llegits"
 
-#: include/functions.php:1941
+#: include/functions.php:1943
 #: classes/pref/feeds.php:1275
 msgid "Subscribe to feed"
 msgstr "Subscriu-te al canal"
 
-#: include/functions.php:1942
+#: include/functions.php:1944
 #: js/FeedTree.js:135
 #: js/PrefFeedTree.js:67
 msgid "Edit feed"
 msgstr "Edita el canal"
 
-#: include/functions.php:1944
+#: include/functions.php:1946
 #, fuzzy
 msgid "Reverse headlines"
 msgstr "Inverteix l'ordre de les capçaleres (les més antigues les primeres)"
 
-#: include/functions.php:1945
+#: include/functions.php:1947
 #, fuzzy
 msgid "Debug feed update"
 msgstr "S'ha acabat l'actualització dels canals."
 
-#: include/functions.php:1946
+#: include/functions.php:1948
 #: js/FeedTree.js:178
 msgid "Mark all feeds as read"
 msgstr "Marca tots els canals com a llegits"
 
-#: include/functions.php:1947
+#: include/functions.php:1949
 #, fuzzy
 msgid "Un/collapse current category"
 msgstr "Clica-hi per a reduir la categoria"
 
-#: include/functions.php:1948
+#: include/functions.php:1950
 #, fuzzy
 msgid "Toggle combined mode"
 msgstr "Canvia al mode de reordenació de categories"
 
-#: include/functions.php:1949
+#: include/functions.php:1951
 #, fuzzy
 msgid "Toggle auto expand in combined mode"
 msgstr "Canvia al mode de reordenació de categories"
 
-#: include/functions.php:1950
+#: include/functions.php:1952
 #, fuzzy
 msgid "Go to"
 msgstr "Vés a..."
 
-#: include/functions.php:1952
+#: include/functions.php:1954
 #, fuzzy
 msgid "Fresh"
 msgstr "Actualitza"
 
-#: include/functions.php:1955
+#: include/functions.php:1957
 #: js/tt-rss.js:431
 #: js/tt-rss.js:584
 msgid "Tag cloud"
 msgstr "Núvol d'etiquetes"
 
-#: include/functions.php:1957
+#: include/functions.php:1959
 #, fuzzy
 msgid "Other"
 msgstr "Altres:"
 
-#: include/functions.php:1958
+#: include/functions.php:1960
 #: classes/pref/labels.php:281
 msgid "Create label"
 msgstr "Crea una etiqueta"
 
-#: include/functions.php:1959
+#: include/functions.php:1961
 #: classes/pref/filters.php:654
 msgid "Create filter"
 msgstr "Crea un filtre"
 
-#: include/functions.php:1960
+#: include/functions.php:1962
 #, fuzzy
 msgid "Un/collapse sidebar"
 msgstr "Redueix la barra lateral"
 
-#: include/functions.php:1961
+#: include/functions.php:1963
 #, fuzzy
 msgid "Show help dialog"
 msgstr "Mostra el diàleg de cerca"
 
-#: include/functions.php:2446
+#: include/functions.php:2471
 #, fuzzy, php-format
 msgid "Search results: %s"
 msgstr "Resultats de la cerca"
 
-#: include/functions.php:2937
-#: js/viewfeed.js:1969
+#: include/functions.php:2962
+#: js/viewfeed.js:1978
 #, fuzzy
 msgid "Click to play"
 msgstr "Feu clic per editar"
 
-#: include/functions.php:2938
-#: js/viewfeed.js:1968
+#: include/functions.php:2963
+#: js/viewfeed.js:1977
 msgid "Play"
 msgstr ""
 
-#: include/functions.php:3055
+#: include/functions.php:3080
 msgid " - "
 msgstr " - "
 
-#: include/functions.php:3077
-#: include/functions.php:3371
+#: include/functions.php:3102
+#: include/functions.php:3396
 #: classes/article.php:281
 msgid "no tags"
 msgstr "sense etiqueta"
 
-#: include/functions.php:3087
+#: include/functions.php:3112
 #: classes/feeds.php:686
 msgid "Edit tags for this article"
 msgstr "Edita les etiquetes d'aquest article"
 
-#: include/functions.php:3116
+#: include/functions.php:3141
 #: classes/feeds.php:642
 #, fuzzy
 msgid "Originally from:"
 msgstr "Mostra el contingut original de l'article"
 
-#: include/functions.php:3129
+#: include/functions.php:3154
 #: classes/feeds.php:655
 #: classes/pref/feeds.php:540
 #, fuzzy
 msgid "Feed URL"
 msgstr "Canal"
 
-#: include/functions.php:3160
+#: include/functions.php:3185
 #: classes/dlg.php:37
 #: classes/dlg.php:60
 #: classes/dlg.php:93
@@ -934,7 +861,7 @@ msgstr "Canal"
 #: classes/backend.php:105
 #: classes/pref/users.php:99
 #: classes/pref/filters.php:147
-#: classes/pref/prefs.php:1059
+#: classes/pref/prefs.php:1105
 #: classes/pref/feeds.php:1588
 #: classes/pref/feeds.php:1660
 #: plugins/import_export/init.php:406
@@ -945,16 +872,16 @@ msgstr "Canal"
 msgid "Close this window"
 msgstr "Tanca la finestra"
 
-#: include/functions.php:3396
+#: include/functions.php:3421
 #, fuzzy
 msgid "(edit note)"
 msgstr "edita la nota"
 
-#: include/functions.php:3631
+#: include/functions.php:3656
 msgid "unknown type"
 msgstr "tipus desconegut"
 
-#: include/functions.php:3687
+#: include/functions.php:3712
 #, fuzzy
 msgid "Attachments"
 msgstr "Adjuncions:"
@@ -979,6 +906,7 @@ msgstr "El nom d'usuari o la contrasenya és incorrecte"
 
 #: include/login_form.php:201
 #: classes/handler/public.php:489
+#: classes/pref/prefs.php:552
 msgid "Language:"
 msgstr "Idioma:"
 
@@ -990,7 +918,7 @@ msgstr "Fitxer:"
 #: include/login_form.php:213
 #: classes/handler/public.php:233
 #: classes/rpc.php:64
-#: classes/pref/prefs.php:995
+#: classes/pref/prefs.php:1041
 #, fuzzy
 msgid "Default profile"
 msgstr "Nombre maximal d'articles par défaut"
@@ -1009,7 +937,7 @@ msgstr ""
 msgid "Log in"
 msgstr "Registreu-vos"
 
-#: include/sessions.php:58
+#: include/sessions.php:62
 msgid "Session failed to validate (incorrect IP)"
 msgstr "No s'ha pogut validar la sessió (IP incorrecta)"
 
@@ -1026,7 +954,7 @@ msgstr "Etiquetes per aquest article (separades per comes):"
 #: classes/pref/users.php:176
 #: classes/pref/labels.php:79
 #: classes/pref/filters.php:405
-#: classes/pref/prefs.php:941
+#: classes/pref/prefs.php:987
 #: classes/pref/feeds.php:733
 #: classes/pref/feeds.php:881
 #: plugins/nsfw/init.php:86
@@ -1038,16 +966,16 @@ msgstr "Desa"
 #: classes/article.php:206
 #: classes/handler/public.php:460
 #: classes/handler/public.php:502
-#: classes/feeds.php:1028
-#: classes/feeds.php:1080
-#: classes/feeds.php:1140
+#: classes/feeds.php:1031
+#: classes/feeds.php:1083
+#: classes/feeds.php:1143
 #: classes/pref/users.php:178
 #: classes/pref/labels.php:81
 #: classes/pref/filters.php:408
 #: classes/pref/filters.php:804
 #: classes/pref/filters.php:880
 #: classes/pref/filters.php:947
-#: classes/pref/prefs.php:943
+#: classes/pref/prefs.php:989
 #: classes/pref/feeds.php:734
 #: classes/pref/feeds.php:884
 #: classes/pref/feeds.php:1797
@@ -1179,6 +1107,18 @@ msgstr "Vés enrere"
 msgid "Sorry, login and email combination not found."
 msgstr ""
 
+#: classes/handler/public.php:842
+msgid "Your access level is insufficient to run this script."
+msgstr "No teniu prou permisos per a executar aquest script."
+
+#: classes/handler/public.php:866
+msgid "Database Updater"
+msgstr "Eina d'actualització de la base de dades"
+
+#: classes/handler/public.php:931
+msgid "Perform updates"
+msgstr "Aplica les actualitzacions"
+
 #: classes/dlg.php:16
 msgid "If you have imported labels and/or filters, you might need to reload preferences to see your new data."
 msgstr ""
@@ -1285,7 +1225,7 @@ msgstr "Selecciona:"
 #: classes/pref/filters.php:648
 #: classes/pref/filters.php:737
 #: classes/pref/filters.php:764
-#: classes/pref/prefs.php:955
+#: classes/pref/prefs.php:1001
 #: classes/pref/feeds.php:1266
 #: classes/pref/feeds.php:1536
 #: classes/pref/feeds.php:1606
@@ -1305,7 +1245,7 @@ msgstr "Inverteix"
 #: classes/pref/filters.php:650
 #: classes/pref/filters.php:739
 #: classes/pref/filters.php:766
-#: classes/pref/prefs.php:957
+#: classes/pref/prefs.php:1003
 #: classes/pref/feeds.php:1268
 #: classes/pref/feeds.php:1538
 #: classes/pref/feeds.php:1608
@@ -1403,46 +1343,46 @@ msgid "No articles found to display."
 msgstr "No s'han trobat articles per a mostrar."
 
 #: classes/feeds.php:759
-#: classes/feeds.php:923
+#: classes/feeds.php:926
 #, fuzzy, php-format
 msgid "Feeds last updated at %s"
 msgstr "Erreurs de mise à jour"
 
 #: classes/feeds.php:769
-#: classes/feeds.php:933
+#: classes/feeds.php:936
 msgid "Some feeds have update errors (click for details)"
 msgstr "S'han detectat errors en alguns canals (feu clic aquí per veure'n els detalls)"
 
-#: classes/feeds.php:913
+#: classes/feeds.php:916
 msgid "No feed selected."
 msgstr "No heu seleccionat cap canal."
 
-#: classes/feeds.php:966
-#: classes/feeds.php:974
+#: classes/feeds.php:969
+#: classes/feeds.php:977
 #, fuzzy
 msgid "Feed or site URL"
 msgstr "Canal"
 
-#: classes/feeds.php:980
+#: classes/feeds.php:983
 #: classes/pref/feeds.php:560
 #: classes/pref/feeds.php:782
 #: classes/pref/feeds.php:1761
 msgid "Place in category:"
 msgstr "Posa'l a la categoria:"
 
-#: classes/feeds.php:988
+#: classes/feeds.php:991
 #, fuzzy
 msgid "Available feeds"
 msgstr "Tots els canals"
 
-#: classes/feeds.php:1000
+#: classes/feeds.php:1003
 #: classes/pref/users.php:139
 #: classes/pref/feeds.php:590
 #: classes/pref/feeds.php:818
 msgid "Authentication"
 msgstr "Autenticació"
 
-#: classes/feeds.php:1004
+#: classes/feeds.php:1007
 #: classes/pref/users.php:402
 #: classes/pref/feeds.php:596
 #: classes/pref/feeds.php:822
@@ -1450,8 +1390,8 @@ msgstr "Autenticació"
 msgid "Login"
 msgstr "Entra"
 
-#: classes/feeds.php:1007
-#: classes/pref/prefs.php:253
+#: classes/feeds.php:1010
+#: classes/pref/prefs.php:269
 #: classes/pref/feeds.php:602
 #: classes/pref/feeds.php:828
 #: classes/pref/feeds.php:1778
@@ -1459,23 +1399,23 @@ msgstr "Entra"
 msgid "Password"
 msgstr "Contrasenya:"
 
-#: classes/feeds.php:1017
+#: classes/feeds.php:1020
 msgid "This feed requires authentication."
 msgstr "Aquest canal requereix autenticació."
 
-#: classes/feeds.php:1022
-#: classes/feeds.php:1078
+#: classes/feeds.php:1025
+#: classes/feeds.php:1081
 #: classes/pref/feeds.php:1796
 msgid "Subscribe"
 msgstr "Subscriu-t'hi"
 
-#: classes/feeds.php:1025
+#: classes/feeds.php:1028
 #, fuzzy
 msgid "More feeds"
 msgstr "Més canals"
 
-#: classes/feeds.php:1048
-#: classes/feeds.php:1139
+#: classes/feeds.php:1051
+#: classes/feeds.php:1142
 #: classes/pref/users.php:332
 #: classes/pref/filters.php:641
 #: classes/pref/feeds.php:1259
@@ -1483,22 +1423,22 @@ msgstr "Més canals"
 msgid "Search"
 msgstr "Cerca"
 
-#: classes/feeds.php:1052
+#: classes/feeds.php:1055
 #, fuzzy
 msgid "Popular feeds"
 msgstr "mostra els canals"
 
-#: classes/feeds.php:1053
+#: classes/feeds.php:1056
 #, fuzzy
 msgid "Feed archive"
 msgstr "Accions dels canals"
 
-#: classes/feeds.php:1056
+#: classes/feeds.php:1059
 #, fuzzy
 msgid "limit:"
 msgstr "Límit:"
 
-#: classes/feeds.php:1079
+#: classes/feeds.php:1082
 #: classes/pref/users.php:358
 #: classes/pref/labels.php:284
 #: classes/pref/filters.php:398
@@ -1508,15 +1448,15 @@ msgstr "Límit:"
 msgid "Remove"
 msgstr "Suprimeix"
 
-#: classes/feeds.php:1090
+#: classes/feeds.php:1093
 msgid "Look for"
 msgstr "Mirar-ho per"
 
-#: classes/feeds.php:1098
+#: classes/feeds.php:1101
 msgid "Limit search to:"
 msgstr "Limita la cerca a:"
 
-#: classes/feeds.php:1114
+#: classes/feeds.php:1117
 msgid "This feed"
 msgstr "Aquest canal"
 
@@ -1682,7 +1622,7 @@ msgstr "[tt-rss] Notificació de canvi de contrasenya"
 #: classes/pref/filters.php:645
 #: classes/pref/filters.php:734
 #: classes/pref/filters.php:761
-#: classes/pref/prefs.php:952
+#: classes/pref/prefs.php:998
 #: classes/pref/feeds.php:1263
 #: classes/pref/feeds.php:1533
 #: classes/pref/feeds.php:1603
@@ -2124,231 +2064,236 @@ msgstr "Les contrasenyes no coincideixen."
 msgid "Function not supported by authentication module."
 msgstr ""
 
-#: classes/pref/prefs.php:120
+#: classes/pref/prefs.php:135
 msgid "The configuration was saved."
 msgstr "S'ha desat la configuració"
 
-#: classes/pref/prefs.php:134
+#: classes/pref/prefs.php:150
 #, php-format
 msgid "Unknown option: %s"
 msgstr "Es desconeix l'opció %s"
 
-#: classes/pref/prefs.php:148
+#: classes/pref/prefs.php:164
 #, fuzzy
 msgid "Your personal data has been saved."
 msgstr "S'ha modificat la contrasenya."
 
-#: classes/pref/prefs.php:188
+#: classes/pref/prefs.php:204
 #, fuzzy
 msgid "Personal data / Authentication"
 msgstr "Autenticació"
 
-#: classes/pref/prefs.php:208
+#: classes/pref/prefs.php:224
 msgid "Personal data"
 msgstr "Dades personals"
 
-#: classes/pref/prefs.php:218
+#: classes/pref/prefs.php:234
 msgid "Full name"
 msgstr ""
 
-#: classes/pref/prefs.php:222
+#: classes/pref/prefs.php:238
 msgid "E-mail"
 msgstr "Adreça electrònica"
 
-#: classes/pref/prefs.php:228
+#: classes/pref/prefs.php:244
 msgid "Access level"
 msgstr "Nivell d'accés"
 
-#: classes/pref/prefs.php:238
+#: classes/pref/prefs.php:254
 #, fuzzy
 msgid "Save data"
 msgstr "Desa"
 
-#: classes/pref/prefs.php:260
+#: classes/pref/prefs.php:276
 #, fuzzy
 msgid "Your password is at default value, please change it."
 msgstr ""
 "La contrasenya actual és la predeterminada,\n"
 "\t\t\t\t\t\t penseu en modificar-la."
 
-#: classes/pref/prefs.php:287
+#: classes/pref/prefs.php:303
 msgid "Changing your current password will disable OTP."
 msgstr ""
 
-#: classes/pref/prefs.php:292
+#: classes/pref/prefs.php:308
 msgid "Old password"
 msgstr "Contrasenya antiga"
 
-#: classes/pref/prefs.php:295
+#: classes/pref/prefs.php:311
 msgid "New password"
 msgstr "Nova contrasenya"
 
-#: classes/pref/prefs.php:300
+#: classes/pref/prefs.php:316
 msgid "Confirm password"
 msgstr "Confirmeu la contrasenya"
 
-#: classes/pref/prefs.php:310
+#: classes/pref/prefs.php:326
 msgid "Change password"
 msgstr "Canvia la contrasenya"
 
-#: classes/pref/prefs.php:316
+#: classes/pref/prefs.php:332
 msgid "One time passwords / Authenticator"
 msgstr ""
 
-#: classes/pref/prefs.php:320
+#: classes/pref/prefs.php:336
 msgid "One time passwords are currently enabled. Enter your current password below to disable."
 msgstr ""
 
-#: classes/pref/prefs.php:345
-#: classes/pref/prefs.php:396
+#: classes/pref/prefs.php:361
+#: classes/pref/prefs.php:412
 #, fuzzy
 msgid "Enter your password"
 msgstr "El nom d'usuari o la contrasenya és incorrecte"
 
-#: classes/pref/prefs.php:356
+#: classes/pref/prefs.php:372
 #, fuzzy
 msgid "Disable OTP"
 msgstr "(Desactivat)"
 
-#: classes/pref/prefs.php:362
+#: classes/pref/prefs.php:378
 msgid "You will need a compatible Authenticator to use this. Changing your password would automatically disable OTP."
 msgstr ""
 
-#: classes/pref/prefs.php:364
+#: classes/pref/prefs.php:380
 msgid "Scan the following code by the Authenticator application:"
 msgstr ""
 
-#: classes/pref/prefs.php:405
+#: classes/pref/prefs.php:421
 msgid "I have scanned the code and would like to enable OTP"
 msgstr ""
 
-#: classes/pref/prefs.php:413
+#: classes/pref/prefs.php:429
 #, fuzzy
 msgid "Enable OTP"
 msgstr "Activat"
 
-#: classes/pref/prefs.php:451
+#: classes/pref/prefs.php:475
 msgid "Some preferences are only available in default profile."
 msgstr ""
 
-#: classes/pref/prefs.php:545
+#: classes/pref/prefs.php:585
 #, fuzzy
 msgid "Customize"
 msgstr "URL de la fulla d'estils personalitzada."
 
-#: classes/pref/prefs.php:605
+#: classes/pref/prefs.php:645
 #, fuzzy
 msgid "Register"
 msgstr "Registrat"
 
-#: classes/pref/prefs.php:609
+#: classes/pref/prefs.php:649
 msgid "Clear"
 msgstr ""
 
-#: classes/pref/prefs.php:615
+#: classes/pref/prefs.php:655
 #, php-format
 msgid "Current server time: %s (UTC)"
 msgstr ""
 
-#: classes/pref/prefs.php:648
+#: classes/pref/prefs.php:688
 msgid "Save configuration"
 msgstr "Desa la configuració"
 
-#: classes/pref/prefs.php:651
+#: classes/pref/prefs.php:692
+#, fuzzy
+msgid "Save and exit preferences"
+msgstr "Surt de les preferències"
+
+#: classes/pref/prefs.php:697
 #, fuzzy
 msgid "Manage profiles"
 msgstr "Crea un filtre"
 
-#: classes/pref/prefs.php:654
+#: classes/pref/prefs.php:700
 msgid "Reset to defaults"
 msgstr "Torna als paràmetres per defecte"
 
-#: classes/pref/prefs.php:678
-#: classes/pref/prefs.php:680
+#: classes/pref/prefs.php:724
+#: classes/pref/prefs.php:726
 msgid "Plugins"
 msgstr ""
 
-#: classes/pref/prefs.php:682
+#: classes/pref/prefs.php:728
 msgid "You will need to reload Tiny Tiny RSS for plugin changes to take effect."
 msgstr ""
 
-#: classes/pref/prefs.php:684
+#: classes/pref/prefs.php:730
 msgid "Download more plugins at tt-rss.org <a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/forum/viewforum.php?f=22\">forums</a> or <a target=\"_blank\" class=\"visibleLink\" href=\"http://tt-rss.org/wiki/Plugins\">wiki</a>."
 msgstr ""
 
-#: classes/pref/prefs.php:710
+#: classes/pref/prefs.php:756
 msgid "System plugins"
 msgstr ""
 
-#: classes/pref/prefs.php:714
-#: classes/pref/prefs.php:768
+#: classes/pref/prefs.php:760
+#: classes/pref/prefs.php:814
 msgid "Plugin"
 msgstr ""
 
-#: classes/pref/prefs.php:715
-#: classes/pref/prefs.php:769
+#: classes/pref/prefs.php:761
+#: classes/pref/prefs.php:815
 #, fuzzy
 msgid "Description"
 msgstr "description"
 
-#: classes/pref/prefs.php:716
-#: classes/pref/prefs.php:770
+#: classes/pref/prefs.php:762
+#: classes/pref/prefs.php:816
 msgid "Version"
 msgstr ""
 
-#: classes/pref/prefs.php:717
-#: classes/pref/prefs.php:771
+#: classes/pref/prefs.php:763
+#: classes/pref/prefs.php:817
 msgid "Author"
 msgstr ""
 
-#: classes/pref/prefs.php:746
-#: classes/pref/prefs.php:803
+#: classes/pref/prefs.php:792
+#: classes/pref/prefs.php:849
 msgid "more info"
 msgstr ""
 
-#: classes/pref/prefs.php:755
-#: classes/pref/prefs.php:812
+#: classes/pref/prefs.php:801
+#: classes/pref/prefs.php:858
 #, fuzzy
 msgid "Clear data"
 msgstr "Esborra les dades del canal"
 
-#: classes/pref/prefs.php:764
+#: classes/pref/prefs.php:810
 msgid "User plugins"
 msgstr ""
 
-#: classes/pref/prefs.php:827
+#: classes/pref/prefs.php:873
 #, fuzzy
 msgid "Enable selected plugins"
 msgstr "Habilita les icones dels canals."
 
-#: classes/pref/prefs.php:882
-#: classes/pref/prefs.php:900
+#: classes/pref/prefs.php:928
+#: classes/pref/prefs.php:946
 #, fuzzy
 msgid "Incorrect password"
 msgstr "El nom d'usuari o la contrasenya és incorrecte"
 
-#: classes/pref/prefs.php:926
+#: classes/pref/prefs.php:972
 #, php-format
 msgid "You can override colors, fonts and layout of your currently selected theme with custom CSS declarations here. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">This file</a> can be used as a baseline."
 msgstr ""
 
-#: classes/pref/prefs.php:966
+#: classes/pref/prefs.php:1012
 #, fuzzy
 msgid "Create profile"
 msgstr "Crea un filtre"
 
-#: classes/pref/prefs.php:989
-#: classes/pref/prefs.php:1019
+#: classes/pref/prefs.php:1035
+#: classes/pref/prefs.php:1065
 #, fuzzy
 msgid "(active)"
 msgstr "Adaptatiu"
 
-#: classes/pref/prefs.php:1053
+#: classes/pref/prefs.php:1099
 #, fuzzy
 msgid "Remove selected profiles"
 msgstr "Esteu segur que voleu suprimir els filtres seleccionats?"
 
-#: classes/pref/prefs.php:1055
+#: classes/pref/prefs.php:1101
 #, fuzzy
 msgid "Activate profile"
 msgstr "Esteu segur que voleu suprimir els filtres seleccionats?"
@@ -2905,15 +2850,15 @@ msgstr ""
 msgid "The document has incorrect format."
 msgstr ""
 
-#: plugins/googlereaderimport/init.php:326
+#: plugins/googlereaderimport/init.php:328
 msgid "Import starred or shared items from Google Reader"
 msgstr ""
 
-#: plugins/googlereaderimport/init.php:330
+#: plugins/googlereaderimport/init.php:332
 msgid "Paste your starred.json or shared.json into the form below."
 msgstr ""
 
-#: plugins/googlereaderimport/init.php:344
+#: plugins/googlereaderimport/init.php:346
 msgid "Import my Starred items"
 msgstr ""
 
@@ -3019,23 +2964,23 @@ msgstr "Última actualització:"
 msgid "Start update"
 msgstr "Última actualització:"
 
-#: js/feedlist.js:392
-#: js/feedlist.js:420
+#: js/feedlist.js:394
+#: js/feedlist.js:422
 #: plugins/digest/digest.js:26
 msgid "Mark all articles in %s as read?"
 msgstr "Esteu segur que voleu marcar tots els articles de %s com a llegits?"
 
-#: js/feedlist.js:411
+#: js/feedlist.js:413
 #, fuzzy
 msgid "Mark all articles in %s older than 1 day as read?"
 msgstr "Esteu segur que voleu marcar tots els articles de %s com a llegits?"
 
-#: js/feedlist.js:414
+#: js/feedlist.js:416
 #, fuzzy
 msgid "Mark all articles in %s older than 1 week as read?"
 msgstr "Esteu segur que voleu marcar tots els articles de %s com a llegits?"
 
-#: js/feedlist.js:417
+#: js/feedlist.js:419
 #, fuzzy
 msgid "Mark all articles in %s older than 2 weeks as read?"
 msgstr "Esteu segur que voleu marcar tots els articles de %s com a llegits?"
@@ -3600,157 +3545,157 @@ msgstr "S'estan canviant la puntuació dels articles"
 msgid "New version available!"
 msgstr "Hi ha una nova versió de Tiny Tiny RSS!"
 
-#: js/viewfeed.js:104
+#: js/viewfeed.js:106
 #, fuzzy
 msgid "Cancel search"
 msgstr "Cancel·la"
 
-#: js/viewfeed.js:438
+#: js/viewfeed.js:441
 #: plugins/digest/digest.js:258
 #: plugins/digest/digest.js:714
 msgid "Unstar article"
 msgstr "Treu la marca de l'article"
 
-#: js/viewfeed.js:443
+#: js/viewfeed.js:446
 #: plugins/digest/digest.js:260
 #: plugins/digest/digest.js:718
 msgid "Star article"
 msgstr "Marca l'article"
 
-#: js/viewfeed.js:476
+#: js/viewfeed.js:479
 #: plugins/digest/digest.js:263
 #: plugins/digest/digest.js:749
 msgid "Unpublish article"
 msgstr "Deixa de publicar l'article"
 
-#: js/viewfeed.js:481
+#: js/viewfeed.js:484
 #: plugins/digest/digest.js:265
 #: plugins/digest/digest.js:754
 msgid "Publish article"
 msgstr "Publica l'article"
 
-#: js/viewfeed.js:677
-#: js/viewfeed.js:705
-#: js/viewfeed.js:732
-#: js/viewfeed.js:795
-#: js/viewfeed.js:829
-#: js/viewfeed.js:949
-#: js/viewfeed.js:992
-#: js/viewfeed.js:1045
-#: js/viewfeed.js:2051
+#: js/viewfeed.js:680
+#: js/viewfeed.js:708
+#: js/viewfeed.js:735
+#: js/viewfeed.js:798
+#: js/viewfeed.js:832
+#: js/viewfeed.js:952
+#: js/viewfeed.js:995
+#: js/viewfeed.js:1048
+#: js/viewfeed.js:2060
 #: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "No hi ha cap article seleccionat."
 
-#: js/viewfeed.js:957
+#: js/viewfeed.js:960
 #, fuzzy
 msgid "Delete %d selected article in %s?"
 msgid_plural "Delete %d selected articles in %s?"
 msgstr[0] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 msgstr[1] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 
-#: js/viewfeed.js:959
+#: js/viewfeed.js:962
 #, fuzzy
 msgid "Delete %d selected article?"
 msgid_plural "Delete %d selected articles?"
 msgstr[0] "Esteu segur que voleu eliminar els articles seleccionats de l'etiqueta?"
 msgstr[1] "Esteu segur que voleu eliminar els articles seleccionats de l'etiqueta?"
 
-#: js/viewfeed.js:1001
+#: js/viewfeed.js:1004
 #, fuzzy
 msgid "Archive %d selected article in %s?"
 msgid_plural "Archive %d selected articles in %s?"
 msgstr[0] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 msgstr[1] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 
-#: js/viewfeed.js:1004
+#: js/viewfeed.js:1007
 #, fuzzy
 msgid "Move %d archived article back?"
 msgid_plural "Move %d archived articles back?"
 msgstr[0] "Articles marcats"
 msgstr[1] "Articles marcats"
 
-#: js/viewfeed.js:1006
+#: js/viewfeed.js:1009
 msgid "Please note that unstarred articles might get purged on next feed update."
 msgstr ""
 
-#: js/viewfeed.js:1051
+#: js/viewfeed.js:1054
 #, fuzzy
 msgid "Mark %d selected article in %s as read?"
 msgid_plural "Mark %d selected articles in %s as read?"
 msgstr[0] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 msgstr[1] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 
-#: js/viewfeed.js:1075
+#: js/viewfeed.js:1078
 #, fuzzy
 msgid "Edit article Tags"
 msgstr "Edita les etiquetes"
 
-#: js/viewfeed.js:1081
+#: js/viewfeed.js:1084
 msgid "Saving article tags..."
 msgstr "S'estan desant les etiquetes de l'article"
 
-#: js/viewfeed.js:1278
+#: js/viewfeed.js:1287
 msgid "No article is selected."
 msgstr "No hi ha cap article seleccionat."
 
-#: js/viewfeed.js:1313
+#: js/viewfeed.js:1322
 msgid "No articles found to mark"
 msgstr "No s'han trobat articles per a marcar."
 
-#: js/viewfeed.js:1315
+#: js/viewfeed.js:1324
 #, fuzzy
 msgid "Mark %d article as read?"
 msgid_plural "Mark %d articles as read?"
 msgstr[0] "Esteu segur que voleu marcar  %d article(s) com a llegit(s) ?"
 msgstr[1] "Esteu segur que voleu marcar  %d article(s) com a llegit(s) ?"
 
-#: js/viewfeed.js:1827
+#: js/viewfeed.js:1836
 #, fuzzy
 msgid "Open original article"
 msgstr "Mostra el contingut original de l'article"
 
-#: js/viewfeed.js:1833
+#: js/viewfeed.js:1842
 #, fuzzy
 msgid "Display article URL"
 msgstr "afficher les étiquettes"
 
-#: js/viewfeed.js:1852
+#: js/viewfeed.js:1861
 #, fuzzy
 msgid "Toggle marked"
 msgstr "Commuta els marcats"
 
-#: js/viewfeed.js:1933
+#: js/viewfeed.js:1942
 msgid "Assign label"
 msgstr "Assigna-li l'etiqueta"
 
-#: js/viewfeed.js:1938
+#: js/viewfeed.js:1947
 #, fuzzy
 msgid "Remove label"
 msgstr "Esteu segur que voleu suprimir les etiquetes seleccionades?"
 
-#: js/viewfeed.js:1962
+#: js/viewfeed.js:1971
 #, fuzzy
 msgid "Playing..."
 msgstr "S'està carregant la llista de canals..."
 
-#: js/viewfeed.js:1963
+#: js/viewfeed.js:1972
 #, fuzzy
 msgid "Click to pause"
 msgstr "Feu clic per editar"
 
-#: js/viewfeed.js:2020
+#: js/viewfeed.js:2029
 #, fuzzy
 msgid "Please enter new score for selected articles:"
 msgstr "Si us plau, escriviu una nota per aquest article:"
 
-#: js/viewfeed.js:2062
+#: js/viewfeed.js:2071
 #, fuzzy
 msgid "Please enter new score for this article:"
 msgstr "Si us plau, escriviu una nota per aquest article:"
 
-#: js/viewfeed.js:2095
+#: js/viewfeed.js:2104
 #, fuzzy
 msgid "Article URL:"
 msgstr "Tots els articles"
@@ -3874,6 +3819,45 @@ msgstr "Marca l'article"
 msgid "Live updating is considered experimental. Backup your tt-rss directory before continuing. Please type 'yes' to continue."
 msgstr ""
 
+#~ msgid "Could not update database"
+#~ msgstr "No s'ha pogut actualitzar la base de dades"
+
+#~ msgid "Could not find necessary schema file, need version:"
+#~ msgstr "No s'ha pogut trobar el fitxer d'esquema necessari, es necessita la versió:"
+
+#~ msgid ", found: "
+#~ msgstr ", trobats:"
+
+#~ msgid "Tiny Tiny RSS database is up to date."
+#~ msgstr "La base de dades de Tiny Tiny RSS està actualitzada."
+
+#~ msgid "Please backup your database before proceeding."
+#~ msgstr "Si us plau feu una còpia de seguretat de la base de dades abans de continuar."
+
+#~ msgid "Your Tiny Tiny RSS database needs update to the latest version (<b>%d</b> to <b>%d</b>)."
+#~ msgstr "La base de dades de Tiny Tiny RSS s'ha d'actualitzar ( de la versió <b>%d</b> a la <b>%d</b>)."
+
+#~ msgid "Performing updates..."
+#~ msgstr "S'estan realitzant les actualitzacions..."
+
+#~ msgid "Updating to version %d..."
+#~ msgstr "S'està actualitzant a la versió %d..."
+
+#~ msgid "Checking version... "
+#~ msgstr "S'està comprovant la versió..."
+
+#~ msgid "OK!"
+#~ msgstr "D'acord!"
+
+#~ msgid "ERROR!"
+#~ msgstr "Error!"
+
+#, fuzzy
+#~ msgid "Finished. Performed <b>%d</b> update up to schema version <b>%d</b>."
+#~ msgid_plural "Finished. Performed <b>%d</b> updates up to schema version <b>%d</b>."
+#~ msgstr[0] "Fet. S'ha actualitzat l'esquema de la versió <b>%d</b> a <b>%d</b>."
+#~ msgstr[1] "Fet. S'ha actualitzat l'esquema de la versió <b>%d</b> a <b>%d</b>."
+
 #~ msgid "Mark feed as read"
 #~ msgstr "Marca el canal com a llegit"
 
@@ -3883,9 +3867,6 @@ msgstr ""
 
 #~ msgid "When this option is enabled, headlines in Special feeds and Labels are grouped by feeds"
 #~ msgstr "Quan aquesta habiliteu aquesta opció, s'agruparan les capçaleres i etiquetes per canals."
-
-#~ msgid "Title"
-#~ msgstr "Títol"
 
 #~ msgid "Title or Content"
 #~ msgstr "Títol o contingut"
