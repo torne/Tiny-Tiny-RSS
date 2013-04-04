@@ -31,6 +31,7 @@
 			"quiet",
 			"log:",
 			"indexes",
+			"update-schema",
 			"convert-filters",
 			"force-update",
 			"list-plugins",
@@ -72,6 +73,7 @@
 		print "  --quiet              - don't output messages to stdout\n";
 		print "  --log FILE           - log messages to FILE\n";
 		print "  --indexes            - recreate missing schema indexes\n";
+		print "  --update-schema      - update database schema\n";
 		print "  --convert-filters    - convert type1 filters to type2\n";
 		print "  --force-update       - force update of all feeds\n";
 		print "  --list-plugins       - list all available plugins\n";
@@ -290,6 +292,35 @@
 
 	}
 
+	if (isset($options["update-schema"])) {
+		_debug("checking for updates (" . DB_TYPE . ")...");
+
+		$updater = new DbUpdater($link, DB_TYPE, SCHEMA_VERSION);
+
+		if ($updater->isUpdateRequired()) {
+			_debug("schema update required, version " . $updater->getSchemaVersion() . " to " . SCHEMA_VERSION);
+			_debug("WARNING: please backup your database before continuing.");
+			_debug("Type 'yes' to continue.");
+
+			if (read_stdin() != 'yes')
+				exit;
+
+			for ($i = $updater->getSchemaVersion() + 1; $i <= SCHEMA_VERSION; $i++) {
+				_debug("performing update up to version $i...");
+
+				$result = $updater->performUpdateTo($i);
+
+				_debug($result ? "OK!" : "FAILED!");
+
+				if (!$result) return;
+
+			}
+		} else {
+			_debug("update not required.");
+		}
+
+	}
+
 	if (isset($options["list-plugins"])) {
 		$tmppluginhost = new PluginHost($link);
 		$tmppluginhost->load_all($tmppluginhost::KIND_ALL);
@@ -322,4 +353,4 @@
 
 	if (file_exists(LOCK_DIRECTORY . "/$lock_filename"))
 		unlink(LOCK_DIRECTORY . "/$lock_filename");
-?>
+g?>

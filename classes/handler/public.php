@@ -837,5 +837,14 @@ class Handler_Public extends Handler {
 
 	}
 
+	function dbupdate() {
+
+
+
+
+
+
+	}
+
 }
 ?>
