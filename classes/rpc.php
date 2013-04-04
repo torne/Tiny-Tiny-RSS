@@ -310,7 +310,7 @@ class RPC extends Handler_Protected {
 
 		catchupArticlesById($this->link, $ids, $cmode);
 
-		print json_encode(array("message" => "UPDATE_COUNTERS"));
+		print json_encode(array("message" => "UPDATE_COUNTERS", "ids" => $ids));
 	}
 
 	function markSelected() {

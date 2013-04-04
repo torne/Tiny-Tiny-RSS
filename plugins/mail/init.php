@@ -32,11 +32,6 @@ class Mail extends Plugin {
 
 		$param = db_escape_string($this->link, $_REQUEST['param']);
 
-		$secretkey = sha1(uniqid(rand(), true));
-
-		$_SESSION['email_secretkey'] = $secretkey;
-
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"secretkey\" value=\"$secretkey\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pluginhandler\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"plugin\" value=\"mail\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"sendEmail\">";
@@ -135,41 +130,32 @@ class Mail extends Plugin {
 	}
 
 	function sendEmail() {
-		$secretkey = $_REQUEST['secretkey'];
-
 		require_once 'classes/ttrssmailer.php';
 
 		$reply = array();
 
-		if ($_SESSION['email_secretkey'] &&
-		$secretkey == $_SESSION['email_secretkey']) {
+		$_SESSION['email_secretkey'] = '';
 
-			$_SESSION['email_secretkey'] = '';
+		$replyto = strip_tags($_SESSION['email_replyto']);
+		$fromname = strip_tags($_SESSION['email_fromname']);
 
-			$replyto = strip_tags($_SESSION['email_replyto']);
-			$fromname = strip_tags($_SESSION['email_fromname']);
+		$mail = new ttrssMailer();
 
-			$mail = new ttrssMailer();
+		$mail->From = $replyto;
+		$mail->FromName = $fromname;
+		$mail->AddAddress($_REQUEST['destination']);
 
-			$mail->From = $replyto;
-			$mail->FromName = $fromname;
-			$mail->AddAddress($_REQUEST['destination']);
+		$mail->IsHTML(false);
+		$mail->Subject = $_REQUEST['subject'];
+		$mail->Body = $_REQUEST['content'];
 
-			$mail->IsHTML(false);
-			$mail->Subject = $_REQUEST['subject'];
-			$mail->Body = $_REQUEST['content'];
+		$rc = $mail->Send();
 
-			$rc = $mail->Send();
-
-			if (!$rc) {
-				$reply['error'] =  $mail->ErrorInfo;
-			} else {
-				save_email_address($this->link, db_escape_string($this->link, $destination));
-				$reply['message'] = "UPDATE_COUNTERS";
-			}
-
+		if (!$rc) {
+			$reply['error'] =  $mail->ErrorInfo;
 		} else {
-			$reply['error'] = "Not authorized.";
+			save_email_address($this->link, db_escape_string($this->link, $destination));
+			$reply['message'] = "UPDATE_COUNTERS";
 		}
 
 		print json_encode($reply);

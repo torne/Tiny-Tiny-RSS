@@ -318,7 +318,7 @@
 		global $fetch_last_error;
 		global $fetch_last_error_code;
 
-		if (!defined('NO_CURL') && !function_exists('curl_init') && !ini_get("open_basedir")) {
+		if (!defined('NO_CURL') && function_exists('curl_init') && !ini_get("open_basedir")) {
 
 			if (ini_get("safe_mode")) {
 				$ch = curl_init(geturl($url));
@@ -630,6 +630,7 @@
 				@session_start();
 
 				$_SESSION["uid"] = $user_id;
+				$_SESSION["version"] = VERSION;
 
 				$result = db_query($link, "SELECT login,access_level,pwd_hash FROM ttrss_users
 					WHERE id = '$user_id'");
@@ -2412,6 +2413,7 @@
 
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 			} else if ($feed == -4) { // all articles virtual feed
+				$allow_archived = true;
 				$query_strategy_part = "true";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 			} else if ($feed <= LABEL_BASE_INDEX) { // labels
