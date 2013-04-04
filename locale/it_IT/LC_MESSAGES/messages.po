@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-03 08:42+0400\n"
+"POT-Creation-Date: 2013-04-04 09:06+0400\n"
 "PO-Revision-Date: 2012-02-14 08:31+0000\n"
 "Last-Translator: gothfox <cthulhoo@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -256,7 +256,7 @@ msgstr "Test di sanitizzazione dell&apos;SQL fallito; controllare il database e 
 
 #: index.php:135
 #: index.php:152
-#: index.php:271
+#: index.php:276
 #: prefs.php:103
 #: classes/backend.php:5
 #: classes/pref/labels.php:296
@@ -264,7 +264,7 @@ msgstr "Test di sanitizzazione dell&apos;SQL fallito; controllare il database e 
 #: classes/pref/feeds.php:1331
 #: plugins/digest/digest_body.php:63
 #: js/feedlist.js:128
-#: js/feedlist.js:448
+#: js/feedlist.js:436
 #: js/functions.js:420
 #: js/functions.js:758
 #: js/functions.js:1194
@@ -309,13 +309,13 @@ msgid "All Articles"
 msgstr "Tutti gli articoli"
 
 #: index.php:174
-#: include/functions.php:1949
+#: include/functions.php:1953
 #: classes/feeds.php:106
 msgid "Starred"
 msgstr "Con stella"
 
 #: index.php:175
-#: include/functions.php:1950
+#: include/functions.php:1954
 #: classes/feeds.php:107
 msgid "Published"
 msgstr "Pubblicati"
@@ -355,13 +355,9 @@ msgstr ""
 msgid "Oldest first"
 msgstr ""
 
-#: index.php:190
-msgid "Mark feed as read"
-msgstr "Segna notiziario come letto"
-
-#: index.php:193
-#: index.php:235
-#: include/functions.php:1939
+#: index.php:191
+#: index.php:240
+#: include/functions.php:1943
 #: classes/feeds.php:111
 #: classes/feeds.php:441
 #: js/FeedTree.js:128
@@ -371,111 +367,105 @@ msgid "Mark as read"
 msgstr "Segna come letto"
 
 #: index.php:194
-#: include/functions.php:1835
-#: include/functions.php:1947
-msgid "All articles"
-msgstr "Tutti gli articoli"
-
-#: index.php:195
 msgid "Older than one day"
 msgstr ""
 
-#: index.php:196
+#: index.php:197
 msgid "Older than one week"
 msgstr ""
 
-#: index.php:197
+#: index.php:200
 msgid "Older than two weeks"
 msgstr ""
 
-#: index.php:212
+#: index.php:217
 msgid "Communication problem with server."
 msgstr ""
 
-#: index.php:220
+#: index.php:225
 msgid "New version of Tiny Tiny RSS is available!"
 msgstr "È disponibile la nuova versione di Tiny Tiny RSS."
 
-#: index.php:225
+#: index.php:230
 msgid "Actions..."
 msgstr "Azioni..."
 
-#: index.php:227
+#: index.php:232
 #, fuzzy
 msgid "Preferences..."
 msgstr "Preferenze"
 
-#: index.php:228
+#: index.php:233
 msgid "Search..."
 msgstr "Cerca..."
 
-#: index.php:229
+#: index.php:234
 msgid "Feed actions:"
 msgstr "Azioni notiziari:"
 
-#: index.php:230
+#: index.php:235
 #: classes/handler/public.php:578
 msgid "Subscribe to feed..."
 msgstr "Sottoscrivi il notiziario..."
 
-#: index.php:231
+#: index.php:236
 msgid "Edit this feed..."
 msgstr "Modifica questo notiziario..."
 
-#: index.php:232
+#: index.php:237
 msgid "Rescore feed"
 msgstr "Cambia punteggio notiziario"
 
-#: index.php:233
+#: index.php:238
 #: classes/pref/feeds.php:717
 #: classes/pref/feeds.php:1283
 #: js/PrefFeedTree.js:73
 msgid "Unsubscribe"
 msgstr "Annulla sottoscrizione"
 
-#: index.php:234
+#: index.php:239
 msgid "All feeds:"
 msgstr "Tutti i notiziari:"
 
-#: index.php:236
+#: index.php:241
 msgid "(Un)hide read feeds"
 msgstr "Visualizza/Nascondi notiziari letti"
 
-#: index.php:237
+#: index.php:242
 msgid "Other actions:"
 msgstr "Altre azioni:"
 
-#: index.php:239
+#: index.php:244
 msgid "Switch to digest..."
 msgstr "Passa al sommario..."
 
-#: index.php:241
+#: index.php:246
 msgid "Show tag cloud..."
 msgstr "Mostra nuvola etichette..."
 
-#: index.php:242
-#: include/functions.php:1925
+#: index.php:247
+#: include/functions.php:1929
 #, fuzzy
 msgid "Toggle widescreen mode"
 msgstr "Inverti con stella"
 
-#: index.php:243
+#: index.php:248
 msgid "Select by tags..."
 msgstr ""
 
-#: index.php:244
+#: index.php:249
 msgid "Create label..."
 msgstr "Crea etichetta..."
 
-#: index.php:245
+#: index.php:250
 msgid "Create filter..."
 msgstr "Crea filtro..."
 
-#: index.php:246
+#: index.php:251
 msgid "Keyboard shortcuts help"
 msgstr "Aiuto scorciatoie da tastiera"
 
-#: index.php:255
+#: index.php:260
 #: plugins/digest/digest_body.php:77
 #: plugins/mobile/mobile-functions.php:62
 #: plugins/mobile/mobile-functions.php:237
@@ -484,7 +474,7 @@ msgstr "Esci"
 
 #: prefs.php:36
 #: prefs.php:121
-#: include/functions.php:1952
+#: include/functions.php:1956
 #: classes/pref/prefs.php:428
 msgid "Preferences"
 msgstr "Preferenze"
@@ -510,8 +500,8 @@ msgid "Filters"
 msgstr "Filtri"
 
 #: prefs.php:130
-#: include/functions.php:1142
-#: include/functions.php:1778
+#: include/functions.php:1146
+#: include/functions.php:1782
 #: classes/pref/labels.php:90
 #: plugins/mobile/mobile-functions.php:198
 msgid "Labels"
@@ -582,10 +572,10 @@ msgid "Tiny Tiny RSS data update script."
 msgstr "Il database di Tiny Tiny RSS è aggiornato."
 
 #: include/digest.php:109
-#: include/functions.php:1151
-#: include/functions.php:1679
-#: include/functions.php:1764
-#: include/functions.php:1786
+#: include/functions.php:1155
+#: include/functions.php:1683
+#: include/functions.php:1768
+#: include/functions.php:1790
 #: classes/opml.php:416
 #: classes/pref/feeds.php:222
 msgid "Uncategorized"
@@ -602,322 +592,327 @@ msgstr[1] "%d articoli archiviati"
 msgid "No feeds found."
 msgstr "Nessun notiziario trovato."
 
-#: include/functions.php:1140
-#: include/functions.php:1776
+#: include/functions.php:1144
+#: include/functions.php:1780
 #: plugins/mobile/mobile-functions.php:171
 msgid "Special"
 msgstr "Speciale"
 
-#: include/functions.php:1628
+#: include/functions.php:1632
 #: classes/feeds.php:1101
 #: classes/pref/filters.php:427
 msgid "All feeds"
 msgstr "Tutti i notiziari"
 
-#: include/functions.php:1829
+#: include/functions.php:1833
 msgid "Starred articles"
 msgstr "Articoli con stella"
 
-#: include/functions.php:1831
+#: include/functions.php:1835
 msgid "Published articles"
 msgstr "Articoli pubblicati"
 
-#: include/functions.php:1833
+#: include/functions.php:1837
 msgid "Fresh articles"
 msgstr "Articoli nuovi"
 
-#: include/functions.php:1837
+#: include/functions.php:1839
+#: include/functions.php:1951
+msgid "All articles"
+msgstr "Tutti gli articoli"
+
+#: include/functions.php:1841
 msgid "Archived articles"
 msgstr "Articoli archiviati"
 
-#: include/functions.php:1839
+#: include/functions.php:1843
 msgid "Recently read"
 msgstr ""
 
-#: include/functions.php:1902
+#: include/functions.php:1906
 msgid "Navigation"
 msgstr "Navigazione"
 
-#: include/functions.php:1903
+#: include/functions.php:1907
 #, fuzzy
 msgid "Open next feed"
 msgstr "Su lettura passare al prossimo notiziario"
 
-#: include/functions.php:1904
+#: include/functions.php:1908
 msgid "Open previous feed"
 msgstr ""
 
-#: include/functions.php:1905
+#: include/functions.php:1909
 #, fuzzy
 msgid "Open next article"
 msgstr "Apri articolo di origine"
 
-#: include/functions.php:1906
+#: include/functions.php:1910
 #, fuzzy
 msgid "Open previous article"
 msgstr "Apri articolo di origine"
 
-#: include/functions.php:1907
+#: include/functions.php:1911
 msgid "Open next article (don't scroll long articles)"
 msgstr ""
 
-#: include/functions.php:1908
+#: include/functions.php:1912
 msgid "Open previous article (don't scroll long articles)"
 msgstr ""
 
-#: include/functions.php:1909
+#: include/functions.php:1913
 msgid "Show search dialog"
 msgstr "Mostra il dialogo di ricerca"
 
-#: include/functions.php:1910
+#: include/functions.php:1914
 #, fuzzy
 msgid "Article"
 msgstr "Tutti gli articoli"
 
-#: include/functions.php:1911
+#: include/functions.php:1915
 msgid "Toggle starred"
 msgstr "Inverti con stella"
 
-#: include/functions.php:1912
+#: include/functions.php:1916
 #: js/viewfeed.js:1863
 msgid "Toggle published"
 msgstr "Inverti pubblicati"
 
-#: include/functions.php:1913
+#: include/functions.php:1917
 #: js/viewfeed.js:1841
 msgid "Toggle unread"
 msgstr "Inverti non letti"
 
-#: include/functions.php:1914
+#: include/functions.php:1918
 msgid "Edit tags"
 msgstr "Modifica etichette"
 
-#: include/functions.php:1915
+#: include/functions.php:1919
 #, fuzzy
 msgid "Dismiss selected"
 msgstr "Rimuovi gli articoli selezionati"
 
-#: include/functions.php:1916
+#: include/functions.php:1920
 #, fuzzy
 msgid "Dismiss read"
 msgstr "Rimuovi articoli letti"
 
-#: include/functions.php:1917
+#: include/functions.php:1921
 #, fuzzy
 msgid "Open in new window"
 msgstr "Aprire gli articoli in una nuova finestra"
 
-#: include/functions.php:1918
+#: include/functions.php:1922
 #: js/viewfeed.js:1882
 msgid "Mark below as read"
 msgstr ""
 
-#: include/functions.php:1919
+#: include/functions.php:1923
 #: js/viewfeed.js:1876
 msgid "Mark above as read"
 msgstr ""
 
-#: include/functions.php:1920
+#: include/functions.php:1924
 #, fuzzy
 msgid "Scroll down"
 msgstr "Fatto tutto."
 
-#: include/functions.php:1921
+#: include/functions.php:1925
 msgid "Scroll up"
 msgstr ""
 
-#: include/functions.php:1922
+#: include/functions.php:1926
 #, fuzzy
 msgid "Select article under cursor"
 msgstr "Seleziona l&apos;articolo sotto il cursore del mouse"
 
-#: include/functions.php:1923
+#: include/functions.php:1927
 msgid "Email article"
 msgstr ""
 
-#: include/functions.php:1924
+#: include/functions.php:1928
 #, fuzzy
 msgid "Close/collapse article"
 msgstr "Cambio punteggio degli articoli"
 
-#: include/functions.php:1926
+#: include/functions.php:1930
 #: plugins/embed_original/init.php:33
 #, fuzzy
 msgid "Toggle embed original"
 msgstr "Inverti pubblicati"
 
-#: include/functions.php:1927
+#: include/functions.php:1931
 #, fuzzy
 msgid "Article selection"
 msgstr "Azioni sull&apos;articolo attivo"
 
-#: include/functions.php:1928
+#: include/functions.php:1932
 msgid "Select all articles"
 msgstr ""
 
-#: include/functions.php:1929
+#: include/functions.php:1933
 #, fuzzy
 msgid "Select unread"
 msgstr "Inverti non letti"
 
-#: include/functions.php:1930
+#: include/functions.php:1934
 #, fuzzy
 msgid "Select starred"
 msgstr "Imposta con stella"
 
-#: include/functions.php:1931
+#: include/functions.php:1935
 #, fuzzy
 msgid "Select published"
 msgstr "Articoli pubblicati"
 
-#: include/functions.php:1932
+#: include/functions.php:1936
 #, fuzzy
 msgid "Invert selection"
 msgstr "Selezione:"
 
-#: include/functions.php:1933
+#: include/functions.php:1937
 msgid "Deselect everything"
 msgstr ""
 
-#: include/functions.php:1934
+#: include/functions.php:1938
 #: classes/pref/feeds.php:521
 #: classes/pref/feeds.php:754
 msgid "Feed"
 msgstr "Notiziario"
 
-#: include/functions.php:1935
+#: include/functions.php:1939
 #, fuzzy
 msgid "Refresh current feed"
 msgstr "Aggiorna notiziario attivo"
 
-#: include/functions.php:1936
+#: include/functions.php:1940
 #, fuzzy
 msgid "Un/hide read feeds"
 msgstr "Visualizza/Nascondi notiziari letti"
 
-#: include/functions.php:1937
+#: include/functions.php:1941
 #: classes/pref/feeds.php:1275
 msgid "Subscribe to feed"
 msgstr "Sottoscrivi il notiziario"
 
-#: include/functions.php:1938
+#: include/functions.php:1942
 #: js/FeedTree.js:135
 #: js/PrefFeedTree.js:67
 msgid "Edit feed"
 msgstr "Modifica notiziario"
 
-#: include/functions.php:1940
+#: include/functions.php:1944
 #, fuzzy
 msgid "Reverse headlines"
 msgstr "Invertire l&apos;ordine dei sommari"
 
-#: include/functions.php:1941
+#: include/functions.php:1945
 #, fuzzy
 msgid "Debug feed update"
 msgstr "Disabilitare aggiornamenti"
 
-#: include/functions.php:1942
+#: include/functions.php:1946
 #: js/FeedTree.js:178
 msgid "Mark all feeds as read"
 msgstr "Segna tutti i notiziari come letti"
 
-#: include/functions.php:1943
+#: include/functions.php:1947
 #, fuzzy
 msgid "Un/collapse current category"
 msgstr "Mettere nella categoria:"
 
-#: include/functions.php:1944
+#: include/functions.php:1948
 #, fuzzy
 msgid "Toggle combined mode"
 msgstr "Inverti pubblicati"
 
-#: include/functions.php:1945
+#: include/functions.php:1949
 #, fuzzy
 msgid "Toggle auto expand in combined mode"
 msgstr "Inverti pubblicati"
 
-#: include/functions.php:1946
+#: include/functions.php:1950
 #, fuzzy
 msgid "Go to"
 msgstr "Vai a..."
 
-#: include/functions.php:1948
+#: include/functions.php:1952
 msgid "Fresh"
 msgstr ""
 
-#: include/functions.php:1951
+#: include/functions.php:1955
 #: js/tt-rss.js:431
 #: js/tt-rss.js:584
 msgid "Tag cloud"
 msgstr "Nuvola etichette"
 
-#: include/functions.php:1953
+#: include/functions.php:1957
 #, fuzzy
 msgid "Other"
 msgstr "Altri notiziari"
 
-#: include/functions.php:1954
+#: include/functions.php:1958
 #: classes/pref/labels.php:281
 msgid "Create label"
 msgstr "Crea etichetta"
 
-#: include/functions.php:1955
+#: include/functions.php:1959
 #: classes/pref/filters.php:654
 msgid "Create filter"
 msgstr "Crea filtro"
 
-#: include/functions.php:1956
+#: include/functions.php:1960
 #, fuzzy
 msgid "Un/collapse sidebar"
 msgstr "Contrai la barra laterale"
 
-#: include/functions.php:1957
+#: include/functions.php:1961
 #, fuzzy
 msgid "Show help dialog"
 msgstr "Mostra il dialogo di ricerca"
 
-#: include/functions.php:2447
+#: include/functions.php:2446
 #, php-format
 msgid "Search results: %s"
 msgstr ""
 
-#: include/functions.php:2938
+#: include/functions.php:2937
 #: js/viewfeed.js:1969
 msgid "Click to play"
 msgstr "Fare clic per riprodurre"
 
-#: include/functions.php:2939
+#: include/functions.php:2938
 #: js/viewfeed.js:1968
 msgid "Play"
 msgstr "Riproduci"
 
-#: include/functions.php:3056
+#: include/functions.php:3055
 msgid " - "
 msgstr " - "
 
-#: include/functions.php:3078
-#: include/functions.php:3372
+#: include/functions.php:3077
+#: include/functions.php:3371
 #: classes/article.php:281
 msgid "no tags"
 msgstr "nessuna etichetta"
 
-#: include/functions.php:3088
+#: include/functions.php:3087
 #: classes/feeds.php:686
 msgid "Edit tags for this article"
 msgstr "Modifica le etichette per questo articolo"
 
-#: include/functions.php:3117
+#: include/functions.php:3116
 #: classes/feeds.php:642
 msgid "Originally from:"
 msgstr "Originariamente da:"
 
-#: include/functions.php:3130
+#: include/functions.php:3129
 #: classes/feeds.php:655
 #: classes/pref/feeds.php:540
 msgid "Feed URL"
 msgstr "URL del notiziario"
 
-#: include/functions.php:3161
+#: include/functions.php:3160
 #: classes/dlg.php:37
 #: classes/dlg.php:60
 #: classes/dlg.php:93
@@ -936,19 +931,19 @@ msgstr "URL del notiziario"
 #: plugins/import_export/init.php:429
 #: plugins/googlereaderimport/init.php:168
 #: plugins/share/init.php:67
-#: plugins/updater/init.php:357
+#: plugins/updater/init.php:361
 msgid "Close this window"
 msgstr "Chiudi questa finestra"
 
-#: include/functions.php:3397
+#: include/functions.php:3396
 msgid "(edit note)"
 msgstr "(modifica note)"
 
-#: include/functions.php:3632
+#: include/functions.php:3631
 msgid "unknown type"
 msgstr "tipo sconosciuto"
 
-#: include/functions.php:3688
+#: include/functions.php:3687
 #, fuzzy
 msgid "Attachments"
 msgstr "Allegati:"
@@ -1042,7 +1037,7 @@ msgstr "Salva"
 #: classes/pref/feeds.php:734
 #: classes/pref/feeds.php:884
 #: classes/pref/feeds.php:1797
-#: plugins/mail/init.php:131
+#: plugins/mail/init.php:126
 #: plugins/note/init.php:55
 #: plugins/instances/init.php:251
 #: plugins/instances/init.php:440
@@ -1222,7 +1217,7 @@ msgid "You can view this feed as RSS using the following URL:"
 msgstr "È possibile vedere questo notiziario come RSS utilizzando il seguente URL:"
 
 #: classes/dlg.php:233
-#: plugins/updater/init.php:327
+#: plugins/updater/init.php:331
 #, php-format
 msgid "New version of Tiny Tiny RSS is available (%s)."
 msgstr "È disponibile una nuova versione di Tiny Tiny RSS (%s)."
@@ -1232,7 +1227,7 @@ msgid "You can update using built-in updater in the Preferences or by using upda
 msgstr ""
 
 #: classes/dlg.php:245
-#: plugins/updater/init.php:331
+#: plugins/updater/init.php:335
 msgid "See the release notes"
 msgstr ""
 
@@ -2653,13 +2648,13 @@ msgstr "Ordinare i notiziari per numero di non letti"
 
 #: plugins/mailto/init.php:52
 #: plugins/mailto/init.php:58
-#: plugins/mail/init.php:71
-#: plugins/mail/init.php:77
+#: plugins/mail/init.php:66
+#: plugins/mail/init.php:72
 msgid "[Forwarded]"
 msgstr "[Inoltrato]"
 
 #: plugins/mailto/init.php:52
-#: plugins/mail/init.php:71
+#: plugins/mail/init.php:66
 msgid "Multiple articles"
 msgstr "Articoli multipli"
 
@@ -2769,19 +2764,19 @@ msgstr ""
 msgid "Could not upload file. You might need to adjust upload_max_filesize in PHP.ini (current value = %s)"
 msgstr ""
 
-#: plugins/mail/init.php:92
+#: plugins/mail/init.php:87
 msgid "From:"
 msgstr "Da:"
 
-#: plugins/mail/init.php:101
+#: plugins/mail/init.php:96
 msgid "To:"
 msgstr "A:"
 
-#: plugins/mail/init.php:114
+#: plugins/mail/init.php:109
 msgid "Subject:"
 msgstr "Oggetto:"
 
-#: plugins/mail/init.php:130
+#: plugins/mail/init.php:125
 msgid "Send e-mail"
 msgstr "Invia email"
 
@@ -2897,49 +2892,49 @@ msgstr ""
 msgid "You can share this article by the following unique URL:"
 msgstr "È possibile vedere questo notiziario come RSS utilizzando il seguente URL:"
 
-#: plugins/updater/init.php:317
-#: plugins/updater/init.php:334
+#: plugins/updater/init.php:321
+#: plugins/updater/init.php:338
 #: plugins/updater/updater.js:10
 #, fuzzy
 msgid "Update Tiny Tiny RSS"
 msgstr "Ritorna a Tiny Tiny RSS"
 
-#: plugins/updater/init.php:337
+#: plugins/updater/init.php:341
 #, fuzzy
 msgid "Your Tiny Tiny RSS installation is up to date."
 msgstr "Il database di Tiny Tiny RSS è aggiornato."
 
-#: plugins/updater/init.php:347
+#: plugins/updater/init.php:351
 msgid "Do not close this dialog until updating is finished. Backup your tt-rss directory before continuing."
 msgstr ""
 
-#: plugins/updater/init.php:350
+#: plugins/updater/init.php:354
 #, fuzzy
 msgid "Ready to update."
 msgstr "Ultimo aggiornamento:"
 
-#: plugins/updater/init.php:355
+#: plugins/updater/init.php:359
 #, fuzzy
 msgid "Start update"
 msgstr "Ultimo aggiornamento:"
 
-#: js/feedlist.js:404
-#: js/feedlist.js:432
+#: js/feedlist.js:392
+#: js/feedlist.js:420
 #: plugins/digest/digest.js:26
 msgid "Mark all articles in %s as read?"
 msgstr "Segnare tutti gli articoli in «%s» come letti?"
 
-#: js/feedlist.js:423
+#: js/feedlist.js:411
 #, fuzzy
 msgid "Mark all articles in %s older than 1 day as read?"
 msgstr "Segnare tutti gli articoli in «%s» come letti?"
 
-#: js/feedlist.js:426
+#: js/feedlist.js:414
 #, fuzzy
 msgid "Mark all articles in %s older than 1 week as read?"
 msgstr "Segnare tutti gli articoli in «%s» come letti?"
 
-#: js/feedlist.js:429
+#: js/feedlist.js:417
 #, fuzzy
 msgid "Mark all articles in %s older than 2 weeks as read?"
 msgstr "Segnare tutti gli articoli in «%s» come letti?"
@@ -3749,6 +3744,9 @@ msgstr "Metti la stella all&apos;articolo"
 #: plugins/updater/updater.js:58
 msgid "Live updating is considered experimental. Backup your tt-rss directory before continuing. Please type 'yes' to continue."
 msgstr ""
+
+#~ msgid "Mark feed as read"
+#~ msgstr "Segna notiziario come letto"
 
 #, fuzzy
 #~ msgid "Default feed update interval"
