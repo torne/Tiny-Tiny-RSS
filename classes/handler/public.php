@@ -838,12 +838,115 @@ class Handler_Public extends Handler {
 	}
 
 	function dbupdate() {
+		if (!SINGLE_USER_MODE && $_SESSION["access_level"] < 10) {
+			$_SESSION["login_error_msg"] = __("Your access level is insufficient to run this script.");
+			render_login_form($link);
+			exit;
+		}
 
+		?><html>
+			<head>
+			<title>Database Updater</title>
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+			<link rel="stylesheet" type="text/css" href="utility.css"/>
+			</head>
+			<style type="text/css">
+				span.ok { color : #009000; font-weight : bold; }
+				span.err { color : #ff0000; font-weight : bold; }
+			</style>
+		<body>
+			<script type='text/javascript'>
+			function confirmOP() {
+				return confirm("Update the database?");
+			}
+			</script>
 
+			<div class="floatingLogo"><img src="images/logo_small.png"></div>
 
+			<h1><?php echo __("Database Updater") ?></h1>
 
+			<div class="content">
 
+			<?php
+				@$op = $_REQUEST["subop"];
+				$updater = new DbUpdater($this->link, DB_TYPE, SCHEMA_VERSION);
 
+				if ($op == "performupdate") {
+					if ($updater->isUpdateRequired()) {
+
+						print "<h2>Performing updates</h2>";
+
+						print "<h3>Updating to schema version " . SCHEMA_VERSION . "</h3>";
+
+						print "<ul>";
+
+						for ($i = $updater->getSchemaVersion() + 1; $i <= SCHEMA_VERSION; $i++) {
+							print "<li>Performing update up to version $i...";
+
+							$result = $updater->performUpdateTo($i);
+
+							if (!$result) {
+								print "<span class='err'>FAILED!</span></li></ul>";
+
+								print_warning("One of the updates failed. Either retry the process or perform updates manually.");
+								print "<p><form method=\"GET\" action=\"index.php\">
+								<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
+								</form>";
+
+								break;
+							} else {
+								print "<span class='ok'>OK!</span></li>";
+							}
+						}
+
+						print "</ul>";
+
+						print_notice("Your Tiny Tiny RSS database is now updated to the latest version.");
+
+						print "<p><form method=\"GET\" action=\"index.php\">
+						<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
+						</form>";
+
+					} else {
+						print "<h2>Your database is up to date.</h2>";
+
+						print "<p><form method=\"GET\" action=\"index.php\">
+						<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
+						</form>";
+					}
+				} else {
+					if ($updater->isUpdateRequired()) {
+
+						print "<h2>Database update required</h2>";
+
+						print "<h3>";
+						printf("Your Tiny Tiny RSS database needs update to the latest version: %d to %d.",
+							$updater->getSchemaVersion(), SCHEMA_VERSION);
+						print "</h3>";
+
+						print_warning("Please backup your database before proceeding.");
+
+						print "<form method='POST'>
+							<input type='hidden' name='subop' value='performupdate'>
+							<input type='submit' onclick='return confirmOP()' value='".__("Perform updates")."'>
+						</form>";
+
+					} else {
+
+						print "<h2>" . "Tiny Tiny RSS database is up to date." . "</h2>";
+
+						print "<p><form method=\"GET\" action=\"index.php\">
+							<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
+						</form>";
+
+					}
+				}
+			?>
+
+			</div>
+			</body>
+			</html>
+		<?php
 	}
 
 }

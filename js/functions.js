@@ -508,7 +508,7 @@ function fatalError(code, msg, ext_info) {
 		if (code == 6) {
 			window.location.href = "index.php";
 		} else if (code == 5) {
-			window.location.href = "db-updater.php";
+			window.location.href = "public.php?op=dbupdate";
 		} else {
 
 			if (msg == "") msg = "Unknown error";
