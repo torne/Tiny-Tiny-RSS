@@ -12,6 +12,7 @@ var catchup_timeout_id = false;
 
 var cids_requested = [];
 var loaded_article_ids = [];
+var _last_headlines_update = 0;
 
 var has_storage = 'sessionStorage' in window && window['sessionStorage'] !== null;
 
@@ -204,6 +205,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 		}
 
 		_infscroll_request_sent = 0;
+		_last_headlines_update = new Date().getTime() / 1000;
 
 		unpackVisibleHeadlines();
 
@@ -1159,7 +1161,6 @@ function postMouseOut(id) {
 
 function unpackVisibleHeadlines() {
 	try {
-
 		if (!isCdmMode()) return;
 
 		$$("#headlines-frame > div[id*=RROW]").each(
@@ -1177,7 +1178,6 @@ function unpackVisibleHeadlines() {
 				}
 			}
 		);
-
 
 	} catch (e) {
 		exception_error("unpackVisibleHeadlines", e);
@@ -1208,6 +1208,11 @@ function headlines_scroll_handler(e) {
 		}
 
 		if (getInitParam("cdm_auto_catchup") == 1) {
+
+			// let's get DOM some time to settle down
+			var ts = new Date().getTime() / 1000;
+
+			if (ts - _last_headlines_update < 3) return;
 
 			$$("#headlines-frame > div[id*=RROW][class*=Unread]").each(
 				function(child) {
