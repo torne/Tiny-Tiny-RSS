@@ -5,6 +5,7 @@
 	require_once "db.php";
 	require_once "lib/accept-to-gettext.php";
 	require_once "lib/gettext/gettext.inc";
+	require_once "version.php";
 
 	$session_expire = max(SESSION_COOKIE_LIFETIME, 86400);
 	$session_name = (!defined('TTRSS_SESSION_NAME')) ? "ttrss_sid" : TTRSS_SESSION_NAME;
@@ -37,6 +38,8 @@
 	function validate_session($link) {
 		if (SINGLE_USER_MODE) return true;
 		if (!$link) return false;
+
+		if (VERSION != $_SESSION["version"]) return false;
 
 		$check_ip = $_SESSION['ip_address'];
 

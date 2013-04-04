@@ -630,6 +630,7 @@
 				@session_start();
 
 				$_SESSION["uid"] = $user_id;
+				$_SESSION["version"] = VERSION;
 
 				$result = db_query($link, "SELECT login,access_level,pwd_hash FROM ttrss_users
 					WHERE id = '$user_id'");
