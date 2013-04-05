@@ -284,7 +284,11 @@
 					_debug("Elapsed time: " . (time() - $start_timestamp) . " second(s)");
 
 					if ($nf > 0) {
-						_debug("Feeds processed: $nf; feeds/minute: " . sprintf("%.2d", $nf/((time()-$start_timestamp)/60)));
+						_debug("Feeds processed: $nf");
+
+						if (time() - $start_timestamp > 0) {
+							_debug("Feeds/minute: " . sprintf("%.2d", $nf/((time()-$start_timestamp)/60)));
+						}
 					}
 
 					db_close($link);
