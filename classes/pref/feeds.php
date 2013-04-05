@@ -1800,12 +1800,12 @@ class Pref_Feeds extends Handler_Protected {
 
 	function batchAddFeeds() {
 		$cat_id = db_escape_string($this->link, $_REQUEST['cat']);
-		$feeds = explode("\n", db_escape_string($this->link, $_REQUEST['feeds']));
+		$feeds = explode("\n", $_REQUEST['feeds']);
 		$login = db_escape_string($this->link, $_REQUEST['login']);
 		$pass = db_escape_string($this->link, $_REQUEST['pass']);
 
 		foreach ($feeds as $feed) {
-			$feed = trim($feed);
+			$feed = db_escape_string($this->link, trim($feed));
 
 			if (validate_feed_url($feed)) {
 
