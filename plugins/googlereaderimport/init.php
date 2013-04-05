@@ -108,6 +108,11 @@ class GoogleReaderImport extends Plugin {
 						}
 					}
 
+					if (is_array($item['summary'])) {
+						$content = db_escape_string($this->link,
+							$item['summary']['content'], false);
+					}
+
 					if (is_array($item['content'])) {
 						$content = db_escape_string($this->link,
 							$item['content']['content'], false);
