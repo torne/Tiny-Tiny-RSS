@@ -180,6 +180,8 @@ class Pref_Prefs extends Handler_Protected {
 			WHERE $profile_qpart AND owner_uid = ".$_SESSION["uid"]);
 
 		initialize_user_prefs($this->link, $_SESSION["uid"], $_SESSION["profile"]);
+
+		echo __("Your preferences are now set to default values.");
 	}
 
 	function index() {

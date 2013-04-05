@@ -975,13 +975,8 @@ function validatePrefsReset() {
 			new Ajax.Request("backend.php", {
 				parameters: query,
 				onComplete: function(transport) {
-					var msg = transport.responseText;
-					if (msg.match("PREFS_THEME_CHANGED")) {
-						window.location.reload();
-					} else {
-						notify_info(msg);
-						selectTab();
-					}
+					updatePrefsList();
+					notify_info(transport.responseText);
 				} });
 
 		}
