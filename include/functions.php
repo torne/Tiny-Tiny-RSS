@@ -2700,14 +2700,16 @@
 
 		}
 
-		$allowed_elements = array('a', 'address', 'audio', 'article',
-			'b', 'big', 'blockquote', 'body', 'br', 'cite', 'center',
-			'code', 'dd', 'del', 'details', 'div', 'dl', 'font',
-			'dt', 'em', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-			'header', 'html', 'i', 'img', 'ins', 'kbd',
-			'li', 'nav', 'noscript', 'ol', 'p', 'pre', 'q', 's','small',
+		$allowed_elements = array('a', 'address', 'audio', 'article', 'aside',
+			'b', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br',
+			'caption', 'cite', 'center', 'code', 'col', 'colgroup',
+			'data', 'dd', 'del', 'details', 'div', 'dl', 'font',
+			'dt', 'em', 'footer', 'figure', 'figcaption',
+			'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'html', 'i',
+			'img', 'ins', 'kbd', 'li', 'main', 'mark', 'nav', 'noscript',
+			'ol', 'p', 'pre', 'q', 'ruby', 'rp', 'rt', 's', 'samp', 'small',
 			'source', 'span', 'strike', 'strong', 'sub', 'summary',
-			'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead',
+			'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'time',
 			'tr', 'track', 'tt', 'u', 'ul', 'var', 'wbr', 'video' );
 
 		if ($_SESSION['hasSandbox']) $allowed_elements[] = 'iframe';
