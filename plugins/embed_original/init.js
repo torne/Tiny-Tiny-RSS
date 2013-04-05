@@ -19,11 +19,11 @@ function embedOriginalArticle(id) {
 		}
 
 		if (c) {
-			var iframe = c.getElementsByClassName("embeddedContent")[0];
+			var iframe = c.parentNode.getElementsByClassName("embeddedContent")[0];
 
 			if (iframe) {
-				Element.show(c.firstChild);
-				c.removeChild(iframe);
+				Element.show(c);
+				c.parentNode.removeChild(iframe);
 
 				if (isCdmMode()) {
 					cdmScrollToArticleId(id, true);
@@ -43,16 +43,15 @@ function embedOriginalArticle(id) {
 					var iframe = new Element("iframe", {
 						class: "embeddedContent",
 						src: ti.url,
+						width: (c.parentNode.offsetWidth-5)+'px',
+						height: (c.parentNode.parentNode.offsetHeight-c.parentNode.firstChild.offsetHeight-5)+'px',
+						style: "overflow: auto; border: none; min-height: "+(document.body.clientHeight/2)+"px;",
 						sandbox: 'allow-scripts',
 					});
 
 					if (c) {
-						Element.hide(c.firstChild);
-
-						if (c.firstChild.nextSibling)
-							c.insertBefore(iframe, c.firstChild.nextSibling);
-						else
-							c.appendChild(iframe);
+						Element.hide(c);
+						c.parentNode.insertBefore(iframe,c);
 
 						if (isCdmMode()) {
 							cdmScrollToArticleId(id, true);
