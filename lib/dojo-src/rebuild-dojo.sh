@@ -7,11 +7,24 @@
 # Dojo requires Java runtime to build. Further information on rebuilding Dojo
 # is available here: http://dojotoolkit.org/reference-guide/build/index.html
 
+VERSION=1.8.3
+
+# Download and extract dojo src code if it doesn't already exist
+if [ ! -d "dojo" ]; then
+    TARBALL=dojo-release-$VERSION-src.tar.gz
+    if [ ! -f $TARBALL ]; then
+        wget -q http://download.dojotoolkit.org/release-$VERSION/$TARBALL
+    fi
+    tar -zxf $TARBALL
+    mv dojo-release-$VERSION-src/* .
+    rm -rf dojo-release-$VERSION-src
+fi
+
 if [ -d util/buildscripts/ ]; then
 	rm -rf release/dojo
 
 	pushd util/buildscripts
-	./build.sh profile=../../tt-rss action=clean,release optimize=shrinksafe
+	    ./build.sh profile=../../tt-rss action=release optimize=shrinksafe cssOptimize=comments
 	popd
 
 	if [ -d release/dojo ]; then
