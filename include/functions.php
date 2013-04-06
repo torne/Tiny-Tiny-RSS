@@ -317,6 +317,8 @@
 
 		global $fetch_last_error;
 		global $fetch_last_error_code;
+		
+		$url = str_replace(' ', '%20', $url);
 
 		if (!defined('NO_CURL') && function_exists('curl_init') && !ini_get("open_basedir")) {
 
