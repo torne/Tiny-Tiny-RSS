@@ -1912,6 +1912,8 @@
 				"prev_article" => __("Open previous article"),
 				"next_article_noscroll" => __("Open next article (don't scroll long articles)"),
 				"prev_article_noscroll" => __("Open previous article (don't scroll long articles)"),
+				"next_article_noexpand" => __("Move to next article (don't expand or mark read)"),
+				"prev_article_noexpand" => __("Move to previous article (don't expand or mark read)"),
 				"search_dialog" => __("Show search dialog")),
 			__("Article") => array(
 				"toggle_mark" => __("Toggle starred"),
@@ -1928,6 +1930,7 @@
 				"select_article_cursor" => __("Select article under cursor"),
 				"email_article" => __("Email article"),
 				"close_article" => __("Close/collapse article"),
+				"toggle_expand" => __("Toggle article expansion (combined mode)"),
 				"toggle_widescreen" => __("Toggle widescreen mode"),
 				"toggle_embed_original" => __("Toggle embed original")),
 			__("Article selection") => array(
