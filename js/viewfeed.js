@@ -1836,7 +1836,7 @@ function initHeadlinesMenu() {
 		if (!isCdmMode()) {
 			nodes = $$("#headlines-frame > div[id*=RROW]");
 		} else {
-			nodes = $$("#headlines-frame span[className='hlTitle']");
+			nodes = $$("#headlines-frame span[id*=RTITLE]");
 		}
 
 		nodes.each(function(node) {
