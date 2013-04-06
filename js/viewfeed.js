@@ -210,6 +210,16 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 		unpackVisibleHeadlines();
 
+		// if we have some more space in the buffer, why not try to fill it
+
+		if (!_infscroll_disable && $("headlines-spacer").offsetTop <
+				$("headlines-frame").offsetHeight) {
+
+			window.setTimeout(function() {
+				loadMoreHeadlines();
+			}, 250);
+		}
+
 		notify("");
 
 	} catch (e) {
