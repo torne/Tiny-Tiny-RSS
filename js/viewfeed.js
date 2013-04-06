@@ -160,16 +160,10 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					initHeadlinesMenu();
 
 					new_elems.each(function(child) {
-						var cb = dijit.byId(child.id.replace("RROW-", "RCHK-"));
+						dojo.parser.parse(child);
 
-						if (!cb) {
-							dojo.parser.parse(child);
-
-							if (!Element.visible(child))
-								new Effect.Appear(child, { duration : 0.5 });
-						} else {
-							c.domNode.removeChild(child);
-						}
+						if (!Element.visible(child))
+							new Effect.Appear(child, { duration : 0.5 });
 					});
 
 				} else {
@@ -617,11 +611,12 @@ function moveToPost(mode, noscroll, noexpand) {
 
 function toggleSelected(id, force_on) {
 	try {
-
-		var cb = dijit.byId("RCHK-" + id);
 		var row = $("RROW-" + id);
 
 		if (row) {
+			var cb = dijit.getEnclosingWidget(
+					row.getElementsByClassName("rchk")[0]);
+
 			if (row.hasClassName('Selected') && !force_on) {
 				row.removeClassName('Selected');
 				if (cb) cb.attr("checked", false);
@@ -904,7 +899,9 @@ function selectArticles(mode) {
 
 		children.each(function(child) {
 			var id = child.id.replace("RROW-", "");
-			var cb = dijit.byId("RCHK-" + id);
+
+			var cb = dijit.getEnclosingWidget(
+					child.getElementsByClassName("rchk")[0]);
 
 			if (mode == "all") {
 				child.addClassName("Selected");
@@ -1739,7 +1736,8 @@ function markHeadline(id, marked) {
 
 	var row = $("RROW-" + id);
 	if (row) {
-		var check = dijit.byId("RCHK-" + id);
+		var check = dijit.getEnclosingWidget(
+				row.getElementsByClassName("rchk")[0]);
 
 		if (check) {
 			check.attr("checked", marked);
