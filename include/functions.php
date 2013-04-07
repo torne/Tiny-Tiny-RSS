@@ -317,7 +317,7 @@
 
 		global $fetch_last_error;
 		global $fetch_last_error_code;
-		
+
 		$url = str_replace(' ', '%20', $url);
 
 		if (!defined('NO_CURL') && function_exists('curl_init') && !ini_get("open_basedir")) {
@@ -1469,7 +1469,8 @@
 		$result = db_query($link, "SELECT id,caption,COUNT(unread) AS unread
 			FROM ttrss_labels2 LEFT JOIN ttrss_user_labels2 ON
 				(ttrss_labels2.id = label_id)
-					LEFT JOIN ttrss_user_entries ON (ref_id = article_id AND unread = true)
+				LEFT JOIN ttrss_user_entries ON (ref_id = article_id AND unread = true
+					AND ttrss_user_entries.owner_uid = $owner_uid)
 				WHERE ttrss_labels2.owner_uid = $owner_uid GROUP BY ttrss_labels2.id,
 					ttrss_labels2.caption");
 
