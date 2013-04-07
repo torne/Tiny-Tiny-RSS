@@ -55,7 +55,7 @@ function updateSelf() {
 				}
 			},
 			start: function() {
-				if (prompt(__("Live updating is considered experimental. Backup your tt-rss directory before continuing. Please type 'yes' to continue.")) == 'yes') {
+				if (prompt(__("Backup your tt-rss directory before continuing. Please type 'yes' to continue.")) == 'yes') {
 					dialog.performUpdate(0);
 				}
 			},
