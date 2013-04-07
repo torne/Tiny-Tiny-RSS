@@ -26,7 +26,8 @@
 
 	define('SINGLE_USER_MODE', false);
 	// Operate in single user mode, disables all functionality related to
-	// multiple users.
+	// multiple users and authentication. Enabling this assumes you have
+	// your tt-rss directory protected by other means (e.g. http auth).
 
 	define('SIMPLE_UPDATE_MODE', false);
 	// Enables fallback update mode where tt-rss tries to update feeds in
