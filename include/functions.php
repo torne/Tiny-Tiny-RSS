@@ -3027,6 +3027,7 @@
 			".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 			(SELECT site_url FROM ttrss_feeds WHERE id = feed_id) as site_url,
 			(SELECT hide_images FROM ttrss_feeds WHERE id = feed_id) as hide_images,
+			(SELECT always_display_enclosures FROM ttrss_feeds WHERE id = feed_id) as always_display_enclosures,
 			num_comments,
 			tag_cache,
 			author,
@@ -3176,9 +3177,10 @@
 			$rv['content'] .= "<div class=\"postContent\">";
 
 			$rv['content'] .= $line["content"];
-
 			$rv['content'] .= format_article_enclosures($link, $id,
-				$always_display_enclosures, $line["content"], $line["hide_images"]);
+				sql_bool_to_bool($line["always_display_enclosures"]),
+				$line["content"],
+				sql_bool_to_bool($line["hide_images"]));
 
 			$rv['content'] .= "</div>";
 
