@@ -1712,12 +1712,15 @@ class Pref_Feeds extends Handler_Protected {
 				WHERE feed_url = '$feed_url' AND owner_uid = $owner_uid");
 
 			if (db_num_rows($result) == 0) {
+				$result = db_query($link, "SELECT MAX(id) AS id FROM ttrss_archived_feeds");
+				$new_feed_id = (int)db_fetch_result($result, 0, "id") + 1;
+
 				db_query($link, "INSERT INTO ttrss_archived_feeds
 					(id, owner_uid, title, feed_url, site_url)
-				SELECT id, owner_uid, title, feed_url, site_url from ttrss_feeds
+				SELECT $new_feed_id, owner_uid, title, feed_url, site_url from ttrss_feeds
 				WHERE id = '$id'");
 
-				$archive_id = $id;
+				$archive_id = $new_feed_id;
 			} else {
 				$archive_id = db_fetch_result($result, 0, "id");
 			}
