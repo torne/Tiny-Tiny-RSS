@@ -256,7 +256,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (115);
+insert into ttrss_version values (116);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -298,7 +298,7 @@ create index ttrss_prefs_pref_name_idx on ttrss_prefs(pref_name);
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('PURGE_OLD_DAYS', 3, '60', 1);
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('DEFAULT_UPDATE_INTERVAL', 3, '30', 1);
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('DEFAULT_ARTICLE_LIMIT', 3, '30', 2);
-insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('ALLOW_DUPLICATE_POSTS', 1, 'true', 1);
+insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('ALLOW_DUPLICATE_POSTS', 1, 'false', 1);
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('ENABLE_FEED_CATS', 1, 'true', 2);
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('SHOW_CONTENT_PREVIEW', 1, 'true', 2);
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('SHORT_DATE_FORMAT', 2, 'M d, G:i', 3);
