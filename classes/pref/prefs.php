@@ -30,7 +30,7 @@ class Pref_Prefs extends Handler_Protected {
 			"COMBINED_DISPLAY_MODE" => array(__("Combined feed display"), __("Display expanded list of feed articles, instead of separate displays for headlines and article content")),
 			"CONFIRM_FEED_CATCHUP" => array(__("Confirm marking feed as read"), ""),
 			"DEFAULT_ARTICLE_LIMIT" => array(__("Amount of articles to display at once"), ""),
-			"DEFAULT_UPDATE_INTERVAL" => array(__("Default feed update interval"), __("Specifies how often each feed gets updated")),
+			"DEFAULT_UPDATE_INTERVAL" => array(__("Default feed update interval"), __("Shortest interval at which a feed will be checked for updates regardless of update method")),
 			"DIGEST_CATCHUP" => array(__("Mark articles in e-mail digest as read"), ""),
 			"DIGEST_ENABLE" => array(__("Enable e-mail digest"), __("This option enables sending daily digest of new (and unread) headlines on your configured e-mail address")),
 			"DIGEST_PREFERRED_TIME" => array(__("Try to send digests around specified time"), __("Uses UTC timezone")),
