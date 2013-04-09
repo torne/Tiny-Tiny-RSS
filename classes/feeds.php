@@ -343,34 +343,33 @@ class Feeds extends Handler_Protected {
 					array_push($topmost_article_ids, $id);
 				}
 
-				if ($line["unread"] == "t" || $line["unread"] == "1") {
+				if (sql_bool_to_bool($line["unread"])) {
 					$class .= " Unread";
 					++$num_unread;
-					$is_unread = true;
-				} else {
-					$is_unread = false;
 				}
 
-				if ($line["marked"] == "t" || $line["marked"] == "1") {
-					$marked_pic = "<img id=\"FMPIC-$id\"
+				if (sql_bool_to_bool($line["marked"])) {
+					$marked_pic = "<img
 						src=\"images/mark_set.svg\"
 						class=\"markedPic\" alt=\"Unstar article\"
-						onclick='javascript:toggleMark($id)'>";
+						onclick='toggleMark($id)'>";
+					$class .= " marked";
 				} else {
-					$marked_pic = "<img id=\"FMPIC-$id\"
+					$marked_pic = "<img
 						src=\"images/mark_unset.svg\"
 						class=\"markedPic\" alt=\"Star article\"
-						onclick='javascript:toggleMark($id)'>";
+						onclick='toggleMark($id)'>";
 				}
 
-				if ($line["published"] == "t" || $line["published"] == "1") {
-					$published_pic = "<img id=\"FPPIC-$id\" src=\"images/pub_set.svg\"
-						class=\"markedPic\"
-						alt=\"Unpublish article\" onclick='javascript:togglePub($id)'>";
+				if (sql_bool_to_bool($line["published"])) {
+					$published_pic = "<img src=\"images/pub_set.svg\"
+						class=\"pubPic\"
+							alt=\"Unpublish article\" onclick='togglePub($id)'>";
+					$class .= " published";
 				} else {
-					$published_pic = "<img id=\"FPPIC-$id\" src=\"images/pub_unset.svg\"
-						class=\"markedPic\"
-						alt=\"Publish article\" onclick='javascript:togglePub($id)'>";
+					$published_pic = "<img src=\"images/pub_unset.svg\"
+						class=\"pubPic\"
+						alt=\"Publish article\" onclick='togglePub($id)'>";
 				}
 
 #				$content_link = "<a target=\"_blank\" href=\"".$line["link"]."\">" .
@@ -705,6 +704,9 @@ class Feeds extends Handler_Protected {
 					if ($entry_comments) $reply['content'] .= "&nbsp;($entry_comments)";
 
 					$reply['content'] .= "<div style=\"float : right\">";
+
+//					$reply['content'] .= "$marked_pic";
+//					$reply['content'] .= "$published_pic";
 
 					foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_BUTTON) as $p) {
 						$reply['content'] .= $p->hook_article_button($line);

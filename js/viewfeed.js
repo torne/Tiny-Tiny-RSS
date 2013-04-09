@@ -442,20 +442,26 @@ function toggleMark(id, client_only) {
 	try {
 		var query = "?op=rpc&id=" + id + "&method=mark";
 
-		var img = $("FMPIC-" + id);
+		var row = $("RROW-" + id);
+		if (!row) return;
 
-		if (!img) return;
+		var imgs = row.getElementsByClassName("markedPic");
 
-		if (img.src.match("mark_unset")) {
-			img.src = img.src.replace("mark_unset", "mark_set");
-			img.alt = __("Unstar article");
-			query = query + "&mark=1";
+		for (i = 0; i < imgs.length; i++) {
+			var img = imgs[i];
 
-		} else {
-			img.src = img.src.replace("mark_set", "mark_unset");
-			img.alt = __("Star article");
-			query = query + "&mark=0";
+			if (!row.hasClassName("marked")) {
+				img.src = img.src.replace("mark_unset", "mark_set");
+				img.alt = __("Unstar article");
+				query = query + "&mark=1";
+			} else {
+				img.src = img.src.replace("mark_set", "mark_unset");
+				img.alt = __("Star article");
+				query = query + "&mark=0";
+			}
 		}
+
+		row.toggleClassName("marked");
 
 		if (!client_only) {
 			new Ajax.Request("backend.php", {
@@ -480,21 +486,29 @@ function togglePub(id, client_only, no_effects, note) {
 			query = query + "&note=undefined";
 		}
 
-		var img = $("FPPIC-" + id);
+		var row = $("RROW-" + id);
+		if (!row) return;
 
-		if (!img) return;
+		var imgs = row.getElementsByClassName("pubPic");
 
-		if (img.src.match("pub_unset") || note != undefined) {
-			img.src = img.src.replace("pub_unset", "pub_set");
-			img.alt = __("Unpublish article");
-			query = query + "&pub=1";
+		for (i = 0; i < imgs.length; i++) {
+			var img = imgs[i];
 
-		} else {
-			img.src = img.src.replace("pub_set", "pub_unset");
-			img.alt = __("Publish article");
-
-			query = query + "&pub=0";
+			if (!row.hasClassName("published") || note != undefined) {
+				img.src = img.src.replace("pub_unset", "pub_set");
+				img.alt = __("Unpublish article");
+				query = query + "&pub=1";
+			} else {
+				img.src = img.src.replace("pub_set", "pub_unset");
+				img.alt = __("Publish article");
+				query = query + "&pub=0";
+			}
 		}
+
+		if (note != undefined)
+			row.addClassName("published");
+		else
+			row.toggleClassName("published");
 
 		if (!client_only) {
 			new Ajax.Request("backend.php", {
@@ -915,9 +929,7 @@ function selectArticles(mode) {
 					if (cb) cb.attr("checked", false);
 				}
 			} else if (mode == "marked") {
-				var img = $("FMPIC-" + child.id.replace("RROW-", ""));
-
-				if (img && img.src.match("mark_set")) {
+				if (child.hasClassName("marked")) {
 					child.addClassName("Selected");
 					if (cb) cb.attr("checked", true);
 				} else {
@@ -925,9 +937,7 @@ function selectArticles(mode) {
 					if (cb) cb.attr("checked", false);
 				}
 			} else if (mode == "published") {
-				var img = $("FPPIC-" + child.id.replace("RROW-", ""));
-
-				if (img && img.src.match("pub_set")) {
+				if (child.hasClassName("published")) {
 					child.addClassName("Selected");
 					if (cb) cb.attr("checked", true);
 				} else {
