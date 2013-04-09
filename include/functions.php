@@ -3141,18 +3141,23 @@
 					position=\"below\">$tags_str_full</div>";
 
 				global $pluginhost;
-
 				foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_BUTTON) as $p) {
 					$rv['content'] .= $p->hook_article_button($line);
 				}
-
 
 			} else {
 				$tags_str = strip_tags($tags_str);
 				$rv['content'] .= "<span id=\"ATSTR-$id\">$tags_str</span>";
 			}
 			$rv['content'] .= "</div>";
-			$rv['content'] .= "<div clear='both'>$entry_comments</div>";
+			$rv['content'] .= "<div clear='both'>";
+
+			global $pluginhost;
+			foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_LEFT_BUTTON) as $p) {
+				$rv['content'] .= $p->hook_article_left_button($line);
+			}
+
+			$rv['content'] .= "$entry_comments</div>";
 
 			if ($line["orig_feed_id"]) {
 

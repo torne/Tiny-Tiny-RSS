@@ -678,6 +678,10 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= "<div class=\"cdmFooter\">";
 
+					foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_LEFT_BUTTON) as $p) {
+						$reply['content'] .= $p->hook_article_left_button($line);
+					}
+
 					$tags_str = format_tags_string($line["tags"], $id);
 
 					$reply['content'] .= "<img src='images/tag.png' alt='Tags' title='Tags'>
