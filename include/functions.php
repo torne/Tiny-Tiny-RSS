@@ -2143,12 +2143,18 @@
 				if ($commandpair[1]) {
 					array_push($query_keywords, "($not (LOWER(ttrss_entries.title) LIKE '%".
 						db_escape_string($link, mb_strtolower($commandpair[1]))."%'))");
+				} else {
+					array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
+							OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
 				}
 				break;
 			case "author":
 				if ($commandpair[1]) {
 					array_push($query_keywords, "($not (LOWER(author) LIKE '%".
 						db_escape_string($link, mb_strtolower($commandpair[1]))."%'))");
+				} else {
+					array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
+							OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
 				}
 				break;
 			case "note":
@@ -2160,6 +2166,9 @@
 					else
 						array_push($query_keywords, "($not (LOWER(note) LIKE '%".
 							db_escape_string($link, mb_strtolower($commandpair[1]))."%'))");
+				} else {
+					array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
+							OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
 				}
 				break;
 			case "star":
@@ -2169,6 +2178,9 @@
 						array_push($query_keywords, "($not (marked = true))");
 					else
 						array_push($query_keywords, "($not (marked = false))");
+				} else {
+					array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
+							OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
 				}
 				break;
 			case "pub":
@@ -2178,6 +2190,9 @@
 					else
 						array_push($query_keywords, "($not (published = false))");
 
+				} else {
+					array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
+							OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
 				}
 				break;
 			default:
