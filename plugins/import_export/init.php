@@ -162,6 +162,7 @@ class Import_Export extends Plugin implements IHandler {
 					fputs($fp, "<article>");
 
 					foreach ($line as $k => $v) {
+						$v = str_replace("]]>", "]]]]><![CDATA[>", $v);
 						fputs($fp, "<$k><![CDATA[$v]]></$k>");
 					}
 
