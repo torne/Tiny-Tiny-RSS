@@ -1012,3 +1012,22 @@ div.hl.active a.title {
 	color : #4684ff;
 }
 
+#feedTree .dijitTreeRow span.counterNode {
+	display : none;
+}
+
+#feedTree .dijitTreeRow.Unread span.counterNode {
+	display : inline;
+}
+
+#feedTree span.counterNode:before {
+	content: "(";
+}
+
+#feedTree span.counterNode:after {
+	content: ")";
+}
+
+#feedTree span.counterNode {
+	font-weight : bold;
+}

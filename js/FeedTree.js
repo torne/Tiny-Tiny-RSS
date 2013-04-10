@@ -184,6 +184,11 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 			tnode._menu = menu;
 		}
 
+		ctr = dojo.doc.createElement('span');
+		ctr.className = 'counterNode';
+		ctr.innerHTML = '0';
+		dojo.place(ctr, tnode.labelNode, 'after');
+		tnode.counterNode = ctr;
 
 		//tnode.labelNode.innerHTML = args.label;
 		return tnode;
@@ -195,8 +200,12 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		return (item.unread == 0) ? "dijitTreeLabel" : "dijitTreeLabel Unread";
 	},
 	getRowClass: function (item, opened) {
-		return (!item.error || item.error == '') ? "dijitTreeRow" :
+		var rc = (!item.error || item.error == '') ? "dijitTreeRow" :
 			"dijitTreeRow Error";
+
+		if (item.unread > 0) rc += " Unread";
+
+		return rc;
 	},
 	getLabel: function(item) {
 		var name = String(item.name);
@@ -208,15 +217,15 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		name = name.replace(/&lt;/g, "<");
 		name = name.replace(/&gt;/g, ">");
 
-		var label;
+		/* var label;
 
 		if (item.unread > 0) {
 			label = name + " (" + item.unread + ")";
 		} else {
 			label = name;
-		}
+		} */
 
-		return label;
+		return name;
 	},
 	expandParentNodes: function(feed, is_cat, list) {
 		try {
