@@ -374,6 +374,7 @@ class GoogleReaderImport extends Plugin {
 			<button dojoType=\"dijit.form.Button\" onclick=\"return starredImport();\" type=\"submit\">" .
 			__('Import my Starred items') . "</button>";
 
+		print "</form>";
 
 		print "</div>"; #pane
 	}

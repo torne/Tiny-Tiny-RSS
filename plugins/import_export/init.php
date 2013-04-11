@@ -83,6 +83,7 @@ class Import_Export extends Plugin implements IHandler {
 			<button dojoType=\"dijit.form.Button\" onclick=\"return importData();\" type=\"submit\">" .
 			__('Import') . "</button>";
 
+		print "</form>";
 
 		print "</div>"; # pane
 	}
@@ -416,13 +417,35 @@ class Import_Export extends Plugin implements IHandler {
 
 		print "<div style='text-align : center'>";
 
-		if (is_file($_FILES['export_file']['tmp_name'])) {
+		if ($_FILES['export_file']['error'] != 0) {
+			print_error(T_sprintf("Upload failed with error code %d",
+				$_FILES['export_file']['error']));
+			return;
+		}
 
-			$this->perform_data_import($this->link, $_FILES['export_file']['tmp_name'], $_SESSION['uid']);
+		$tmp_file = false;
 
+		if (is_uploaded_file($_FILES['export_file']['tmp_name'])) {
+			$tmp_file = tempnam(CACHE_DIR . '/upload', 'export');
+
+			$result = move_uploaded_file($_FILES['export_file']['tmp_name'],
+				$tmp_file);
+
+			if (!$result) {
+				print_error(__("Unable to move uploaded file."));
+				return;
+			}
 		} else {
-			print "<p>" . T_sprintf("Could not upload file. You might need to adjust upload_max_filesize in PHP.ini (current value = %s)", ini_get("upload_max_filesize")) . " or use CLI import tool.</p>";
+			print_error(__('Error: please upload OPML file.'));
+			return;
+		}
 
+		if (is_file($tmp_file)) {
+			$this->perform_data_import($this->link, $tmp_file, $_SESSION['uid']);
+			unlink($tmp_file);
+		} else {
+			print_error(__('No file uploaded.'));
+			return;
 		}
 
 		print "<button dojoType=\"dijit.form.Button\"
