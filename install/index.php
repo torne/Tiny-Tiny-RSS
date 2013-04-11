@@ -17,10 +17,6 @@
 			array_push($errors, "PHP version 5.3.0 or newer required.");
 		}
 
-		if (ini_get("open_basedir")) {
-			array_push($errors, "PHP configuration option open_basedir is not supported. Please disable this in PHP settings file (php.ini).");
-		}
-
 		if (!function_exists("curl_init") && !ini_get("allow_url_fopen")) {
 			array_push($errors, "PHP configuration option allow_url_fopen is disabled, and CURL functions are not present. Either enable allow_url_fopen or install PHP extension for CURL.");
 		}

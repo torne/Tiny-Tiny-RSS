@@ -463,7 +463,7 @@ class Pref_Feeds extends Handler_Protected {
 			WHERE id = '$feed_id' AND owner_uid = ". $_SESSION["uid"]);
 
 		if (db_num_rows($result) != 0) {
-			unlink(ICONS_DIR . "/$feed_id.ico");
+			@unlink(ICONS_DIR . "/$feed_id.ico");
 		}
 
 		return;
@@ -472,7 +472,22 @@ class Pref_Feeds extends Handler_Protected {
 	function uploadicon() {
 		header("Content-type: text/html");
 
-		$icon_file = $_FILES['icon_file']['tmp_name'];
+		$tmp_file = false;
+
+		if (is_uploaded_file($_FILES['icon_file']['tmp_name'])) {
+			$tmp_file = tempnam(CACHE_DIR . '/upload', 'icon');
+
+			$result = move_uploaded_file($_FILES['icon_file']['tmp_name'],
+				$tmp_file);
+
+			if (!$result) {
+				return;
+			}
+		} else {
+			return;
+		}
+
+		$icon_file = $tmp_file;
 		$feed_id = db_escape_string($this->link, $_REQUEST["feed_id"]);
 
 		if (is_file($icon_file) && $feed_id) {
@@ -482,8 +497,8 @@ class Pref_Feeds extends Handler_Protected {
 					WHERE id = '$feed_id' AND owner_uid = ". $_SESSION["uid"]);
 
 				if (db_num_rows($result) != 0) {
-					unlink(ICONS_DIR . "/$feed_id.ico");
-					move_uploaded_file($icon_file, ICONS_DIR . "/$feed_id.ico");
+					@unlink(ICONS_DIR . "/$feed_id.ico");
+					rename($icon_file, ICONS_DIR . "/$feed_id.ico");
 					$rc = 0;
 				} else {
 					$rc = 2;
@@ -494,6 +509,8 @@ class Pref_Feeds extends Handler_Protected {
 		} else {
 			$rc = 2;
 		}
+
+		@unlink($icon_file);
 
 		print "<script type=\"text/javascript\">";
 		print "parent.uploadIconHandler($rc);";

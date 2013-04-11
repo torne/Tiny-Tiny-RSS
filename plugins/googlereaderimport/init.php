@@ -66,8 +66,32 @@ class GoogleReaderImport extends Plugin {
 
 			$owner_uid = $_SESSION["uid"];
 
-			if (is_file($_FILES['starred_file']['tmp_name'])) {
-				$doc = json_decode(file_get_contents($_FILES['starred_file']['tmp_name']), true);
+			if ($_FILES['starred_file']['error'] != 0) {
+				print_error(T_sprintf("Upload failed with error code %d",
+					$_FILES['starred_file']['error']));
+				return;
+			}
+
+			$tmp_file = false;
+
+			if (is_uploaded_file($_FILES['starred_file']['tmp_name'])) {
+				$tmp_file = tempnam(CACHE_DIR . '/upload', 'starred');
+
+				$result = move_uploaded_file($_FILES['starred_file']['tmp_name'],
+					$tmp_file);
+
+				if (!$result) {
+					print_error(__("Unable to move uploaded file."));
+					return;
+				}
+			} else {
+				print_error(__('Error: please upload OPML file.'));
+				return;
+			}
+
+			if (is_file($tmp_file)) {
+				$doc = json_decode(file_get_contents($tmp_file), true);
+				unlink($tmp_file);
 			} else {
 				print_error(__('No file uploaded.'));
 				return;

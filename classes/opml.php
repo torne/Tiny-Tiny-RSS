@@ -461,11 +461,35 @@ class Opml extends Handler_Protected {
 
 #		if ($debug) $doc = DOMDocument::load("/tmp/test.opml");
 
-		if (is_file($_FILES['opml_file']['tmp_name'])) {
-			$doc = new DOMDocument();
-			$doc->load($_FILES['opml_file']['tmp_name']);
-		} else if (!$doc) {
+		if ($_FILES['opml_file']['error'] != 0) {
+			print_error(T_sprintf("Upload failed with error code %d",
+				$_FILES['opml_file']['error']));
+			return;
+		}
+
+		$tmp_file = false;
+
+		if (is_uploaded_file($_FILES['opml_file']['tmp_name'])) {
+			$tmp_file = tempnam(CACHE_DIR . '/upload', 'opml');
+
+			$result = move_uploaded_file($_FILES['opml_file']['tmp_name'],
+				$tmp_file);
+
+			if (!$result) {
+				print_error(__("Unable to move uploaded file."));
+				return;
+			}
+		} else {
 			print_error(__('Error: please upload OPML file.'));
+			return;
+		}
+
+		if (is_file($tmp_file)) {
+			$doc = new DOMDocument();
+			$doc->load($tmp_file);
+			unlink($tmp_file);
+		} else if (!$doc) {
+			print_error(__('Error: unable to find moved OPML file.'));
 			return;
 		}
 
