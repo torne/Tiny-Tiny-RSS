@@ -524,7 +524,7 @@
 					_debug("update_rss_feed: date $entry_timestamp [$entry_timestamp_fmt]");
 				}
 
-				$entry_title = $item->get_title();
+				$entry_title = html_entity_decode($item->get_title());
 
 				$entry_link = rewrite_relative_url($site_url, $item->get_link());
 
