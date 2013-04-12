@@ -464,8 +464,19 @@ class API extends Handler {
 
 	}
 
-	function index() {
-		print $this->wrap(self::STATUS_ERR, array("error" => 'UNKNOWN_METHOD'));
+	function index($method) {
+		global $pluginhost;
+
+		$plugin = $pluginhost->get_api_method(strtolower($method));
+
+		if ($plugin && method_exists($plugin, $method)) {
+			$reply = $plugin->$method();
+
+			print $this->wrap($reply[0], $reply[1]);
+
+		} else {
+			print $this->wrap(self::STATUS_ERR, array("error" => 'UNKNOWN_METHOD', "method" => $method));
+		}
 	}
 
 	function shareToPublished() {

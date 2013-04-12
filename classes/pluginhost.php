@@ -7,6 +7,7 @@ class PluginHost {
 	private $commands = array();
 	private $storage = array();
 	private $feeds = array();
+	private $api_methods = array();
 	private $owner_uid;
 	private $debug;
 
@@ -347,5 +348,14 @@ class PluginHost {
 		return PLUGIN_FEED_BASE_INDEX - 1 + abs($feed);
 	}
 
+	function add_api_method($name, $sender) {
+		if ($this->is_system($sender)) {
+			$this->api_methods[strtolower($name)] = $sender;
+		}
+	}
+
+	function get_api_method($name) {
+		return $this->api_methods[$name];
+	}
 }
 ?>
