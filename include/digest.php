@@ -33,7 +33,7 @@
 				if ($preferred_ts && time() >= $preferred_ts &&
 						time() - $preferred_ts <= 7200) {
 
-					if ($debug) print "Sending digest for UID:" . $line['id'] . " - " . $line["email"] . " ... ";
+					if ($debug) _debug("Sending digest for UID:" . $line['id'] . " - " . $line["email"]);
 
 					$do_catchup = get_pref($link, 'DIGEST_CATCHUP', $line['id'], false);
 
@@ -54,16 +54,16 @@
 
 						$rc = $mail->quickMail($line["email"], $line["login"] , DIGEST_SUBJECT, $digest, $digest_text);
 
-						if (!$rc && $debug) print "ERROR: " . $mail->ErrorInfo;
+						if (!$rc && $debug) _debug("ERROR: " . $mail->ErrorInfo);
 
-						if ($debug) print "RC=$rc\n";
+						if ($debug) _debug("RC=$rc");
 
 						if ($rc && $do_catchup) {
-							if ($debug) print "Marking affected articles as read...\n";
+							if ($debug) _debug("Marking affected articles as read...");
 							catchupArticlesById($link, $affected_ids, 0, $line["id"]);
 						}
 					} else {
-						if ($debug) print "No headlines\n";
+						if ($debug) _debug("No headlines");
 					}
 
 					db_query($link, "UPDATE ttrss_users SET last_digest_sent = NOW()

@@ -353,4 +353,4 @@
 
 	if (file_exists(LOCK_DIRECTORY . "/$lock_filename"))
 		unlink(LOCK_DIRECTORY . "/$lock_filename");
-g?>
+?>
