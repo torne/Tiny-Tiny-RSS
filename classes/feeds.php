@@ -9,18 +9,6 @@ class Feeds extends Handler_Protected {
 		return array_search($method, $csrf_ignored) !== false;
 	}
 
-	private function make_gradient($end, $class) {
-		$start = $class == "even" ? "#f0f0f0" : "#ffffff";
-
-		return "style='background: linear-gradient(left , $start 6%, $end 100%);
-			background: -o-linear-gradient(left , $start 6%, $end 100%);
-			background: -moz-linear-gradient(left , $start 6%, $end 100%);
-			background: -webkit-linear-gradient(left , $start 6%, $end 100%);
-			background: -ms-linear-gradient(left , $start 6%, $end 100%);
-			background: -webkit-gradient(linear, left top, right top,
-				color-stop(0.06, $start), color-stop(1, $end));'";
-	}
-
 	private function format_headline_subtoolbar($feed_site_url, $feed_title,
 			$feed_id, $is_cat, $search,
 			$search_mode, $view_mode, $error) {
@@ -304,7 +292,6 @@ class Feeds extends Handler_Protected {
 				$feed_id = $line["feed_id"];
 				$label_cache = $line["label_cache"];
 				$labels = false;
-				$label_row_style = "";
 
 				if ($label_cache) {
 					$label_cache = json_decode($label_cache, true);
@@ -318,22 +305,6 @@ class Feeds extends Handler_Protected {
 				}
 
 				if (!is_array($labels)) $labels = get_article_labels($this->link, $id);
-
-				if (count($labels) > 0) {
-					for ($i = 0; $i < min(4, count($labels)); $i++) {
-						$bg = rgb2hsl(_color_unpack($labels[$i][3]));
-
-						if ($bg && $bg[1] > 0) {
-							$bg[1] = 0.1;
-							$bg[2] = 1;
-
-							$bg = _color_pack(hsl2rgb($bg));
-							$label_row_style = $this->make_gradient($bg, $class);;
-
-							break;
-						}
-					}
-				}
 
 				$labels_str = "<span id=\"HLLCTR-$id\">";
 				$labels_str .= format_article_labels($labels, $id);
@@ -450,7 +421,7 @@ class Feeds extends Handler_Protected {
 					$mouseover_attrs = "onmouseover='postMouseIn(event, $id)'
 						onmouseout='postMouseOut($id)'";
 
-					$reply['content'] .= "<div class='hl $class' id='RROW-$id' $label_row_style $mouseover_attrs>";
+					$reply['content'] .= "<div class='hl $class' id='RROW-$id' $mouseover_attrs>";
 
 					$reply['content'] .= "<div class='hlLeft'>";
 
