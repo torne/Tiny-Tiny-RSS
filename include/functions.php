@@ -2929,15 +2929,6 @@
 		exit;
 	}
 
-	// from http://developer.apple.com/internet/safari/faq.html
-	function no_cache_incantation() {
-		header("Expires: Mon, 22 Dec 1980 00:00:00 GMT"); // Happy birthday to me :)
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
-		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0"); // HTTP/1.1
-		header("Cache-Control: post-check=0, pre-check=0", false);
-		header("Pragma: no-cache"); // HTTP/1.0
-	}
-
 	function format_warning($msg, $id = "") {
 		global $link;
 		return "<div class=\"warning\" id=\"$id\">

@@ -25,8 +25,6 @@
 
 	login_sequence($link);
 
-	no_cache_incantation();
-
 	header('Content-Type: text/html; charset=utf-8');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
