@@ -2925,6 +2925,8 @@
 	}
 
 	function render_login_form($link) {
+		header('Cache-Control: public');
+
 		require_once "login_form.php";
 		exit;
 	}
