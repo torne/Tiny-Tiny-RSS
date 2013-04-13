@@ -307,7 +307,7 @@ class API extends Handler {
 		$article_id = join(",", array_filter(explode(",", db_escape_string($this->link, $_REQUEST["article_id"])), is_numeric));
 
 		$query = "SELECT id,title,link,content,cached_content,feed_id,comments,int_id,
-			marked,unread,published,
+			marked,unread,published,score,
 			".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 			author
 			FROM ttrss_entries,ttrss_user_entries
@@ -337,7 +337,8 @@ class API extends Handler {
 					"updated" => (int) strtotime($line["updated"]),
 					"content" => $line["cached_content"] != "" ? $line["cached_content"] : $line["content"],
 					"feed_id" => $line["feed_id"],
-					"attachments" => $attachments
+					"attachments" => $attachments,
+					"score" => (int)$line["score"]
 				);
 
 				global $pluginhost;
@@ -694,6 +695,7 @@ class API extends Handler {
 				$headline_row["always_display_attachments"] = sql_bool_to_bool($line["always_display_enclosures"]);
 
 				$headline_row["author"] = $line["author"];
+				$headline_row["score"] = (int)$line["score"];
 
 				global $pluginhost;
 				foreach ($pluginhost->get_hooks($pluginhost::HOOK_RENDER_ARTICLE_API) as $p) {
