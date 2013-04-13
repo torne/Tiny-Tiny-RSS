@@ -67,11 +67,11 @@
 				array_push($errors, "Javascript cache is not writable (chmod -R 777 ".CACHE_DIR."/js)");
 			}
 
-			if (strlen(FEED_CRYPT_KEY) != 24) {
+			if (strlen(FEED_CRYPT_KEY) > 0 && strlen(FEED_CRYPT_KEY) != 24) {
 				array_push($errors, "FEED_CRYPT_KEY should be exactly 24 characters in length.");
 			}
 
-			if (strlen(FEED_CRYPT_KEY) != 0 && !function_exists("mcrypt_decrypt")) {
+			if (strlen(FEED_CRYPT_KEY) > 0 && !function_exists("mcrypt_decrypt")) {
 				array_push($errors, "FEED_CRYPT_KEY requires mcrypt functions which are not found.");
 			}
 
