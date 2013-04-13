@@ -104,7 +104,7 @@ class RPC extends Handler_Protected {
 		$feed = db_escape_string($this->link, $_REQUEST['feed']);
 		$cat = db_escape_string($this->link, $_REQUEST['cat']);
 		$login = db_escape_string($this->link, $_REQUEST['login']);
-		$pass = db_escape_string($this->link, $_REQUEST['pass']);
+		$pass = trim($_REQUEST['pass']); // escaped later
 
 		$rc = subscribe_to_feed($this->link, $feed, $cat, $login, $pass);
 

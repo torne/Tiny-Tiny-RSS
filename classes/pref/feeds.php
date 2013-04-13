@@ -932,7 +932,7 @@ class Pref_Feeds extends Handler_Protected {
 		$feed_ids = db_escape_string($this->link, $_POST["ids"]); /* batchEditSave */
 		$cat_id = (int) db_escape_string($this->link, $_POST["cat_id"]);
 		$auth_login = db_escape_string($this->link, trim($_POST["auth_login"]));
-		$auth_pass = db_escape_string($this->link, trim($_POST["auth_pass"]));
+		$auth_pass = trim($_POST["auth_pass"]);
 		$private = checkbox_to_sql_bool(db_escape_string($this->link, $_POST["private"]));
 		$include_in_digest = checkbox_to_sql_bool(
 			db_escape_string($this->link, $_POST["include_in_digest"]));
@@ -953,6 +953,8 @@ class Pref_Feeds extends Handler_Protected {
 		} else {
 			$auth_pass_encrypted = 'false';
 		}
+
+		$auth_pass = db_escape_string($this->link, $auth_pass);
 
 		if (get_pref($this->link, 'ENABLE_FEED_CATS')) {
 			if ($cat_id && $cat_id != 0) {
@@ -1842,7 +1844,7 @@ class Pref_Feeds extends Handler_Protected {
 		$cat_id = db_escape_string($this->link, $_REQUEST['cat']);
 		$feeds = explode("\n", $_REQUEST['feeds']);
 		$login = db_escape_string($this->link, $_REQUEST['login']);
-		$pass = db_escape_string($this->link, $_REQUEST['pass']);
+		$pass = trim($_REQUEST['pass']);
 
 		foreach ($feeds as $feed) {
 			$feed = db_escape_string($this->link, trim($feed));
@@ -1868,6 +1870,8 @@ class Pref_Feeds extends Handler_Protected {
 				} else {
 					$auth_pass_encrypted = 'false';
 				}
+
+				$pass = db_escape_string($this->link, $pass);
 
 				if (db_num_rows($result) == 0) {
 					$result = db_query($this->link,
