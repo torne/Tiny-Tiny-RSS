@@ -24,6 +24,13 @@
 	// You need to set this option correctly otherwise several features
 	// including PUSH, bookmarklets and browser integration will not work properly.
 
+	define('FEED_CRYPT_KEY', '');
+   // Key used for encryption of login/passwords for password-protected feeds
+   // in the database. A string of 24 random characters. If left blank, encryption
+	// is not used. Requires mcrypt functions.
+	// Warning: changing this key will make your stored feed passwords impossible
+	// to decrypt.
+	
 	define('SINGLE_USER_MODE', false);
 	// Operate in single user mode, disables all functionality related to
 	// multiple users and authentication. Enabling this assumes you have

@@ -203,7 +203,7 @@
 		$result = db_query($link, "SELECT id,update_interval,auth_login,
 			feed_url,auth_pass,cache_images,last_updated,
 			mark_unread_on_update, owner_uid,
-			pubsub_state
+			pubsub_state, auth_pass_encrypted
 			FROM ttrss_feeds WHERE id = '$feed'");
 
 		if (db_num_rows($result) == 0) {
@@ -218,12 +218,19 @@
 		$mark_unread_on_update = sql_bool_to_bool(db_fetch_result($result,
 			0, "mark_unread_on_update"));
 		$pubsub_state = db_fetch_result($result, 0, "pubsub_state");
+		$auth_pass_encrypted = sql_bool_to_bool(db_fetch_result($result,
+			0, "auth_pass_encrypted"));
 
 		db_query($link, "UPDATE ttrss_feeds SET last_update_started = NOW()
 			WHERE id = '$feed'");
 
 		$auth_login = db_fetch_result($result, 0, "auth_login");
 		$auth_pass = db_fetch_result($result, 0, "auth_pass");
+
+		if ($auth_pass_encrypted) {
+			require_once "crypt.php";
+			$auth_pass = decrypt_string($auth_pass);
+		}
 
 		$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
 		$fetch_url = db_fetch_result($result, 0, "feed_url");

@@ -67,6 +67,14 @@
 				array_push($errors, "Javascript cache is not writable (chmod -R 777 ".CACHE_DIR."/js)");
 			}
 
+			if (strlen(FEED_CRYPT_KEY) != 24) {
+				array_push($errors, "FEED_CRYPT_KEY should be exactly 24 characters in length.");
+			}
+
+			if (strlen(FEED_CRYPT_KEY) != 0 && !function_exists("mcrypt_decrypt")) {
+				array_push($errors, "FEED_CRYPT_KEY requires mcrypt functions which are not found.");
+			}
+
 			if (GENERATED_CONFIG_CHECK != EXPECTED_CONFIG_VERSION) {
 				array_push($errors,
 					"Configuration option checker sanity_config.php is outdated, please recreate it using ./utils/regen_config_checks.sh");
