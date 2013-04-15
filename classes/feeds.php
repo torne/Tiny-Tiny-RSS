@@ -529,8 +529,8 @@ class Feeds extends Handler_Protected {
 						id=\"RROW-$id\" $mouseover_attrs'>";
 
 					//setting feed headline background color, needs to change text color based on dark/light
-					$favColor = explode("|", $line['favicon_avg_color']);
-					$reply['content'] .= "<div class=\"cdmHeader\" style=\"background-color: rgb($favColor[0], $favColor[1], $favColor[2]);\">";
+					$fav_color = $line['favicon_avg_color'];
+					$reply['content'] .= "<div class=\"cdmHeader\" style=\"background-color: $fav_color;\">";
 					$reply['content'] .= "<div style=\"vertical-align : middle\">";
 
 					$reply['content'] .= "<input dojoType=\"dijit.form.CheckBox\"

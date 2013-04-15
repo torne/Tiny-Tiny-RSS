@@ -416,9 +416,13 @@
 
 						 require_once "colors.php";
 
-                   if (is_array($favicon_color))
-							  $favicon_colorstring = ",favicon_avg_color = '" .
-							  		_color_pack(array_slice($favicon_color, 0, 3)) . "'";
+						 if (is_array($favicon_color))
+								$tmp = array($favicon_color['red'],
+									$favicon_color['green'],
+									$favicon_color['blue']);
+
+								 $favicon_colorstring = ",favicon_avg_color = '" .
+								_color_pack($tmp) . "'";
                 }
 
 				db_query($link, "UPDATE ttrss_feeds SET favicon_last_checked = NOW() $favicon_colorstring
