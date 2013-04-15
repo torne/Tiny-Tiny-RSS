@@ -464,6 +464,9 @@ class Pref_Feeds extends Handler_Protected {
 
 		if (db_num_rows($result) != 0) {
 			@unlink(ICONS_DIR . "/$feed_id.ico");
+
+			db_query($this->link, "UPDATE ttrss_feeds SET favicon_avg_color = NULL
+				where id = '$feed_id'");
 		}
 
 		return;
@@ -498,8 +501,19 @@ class Pref_Feeds extends Handler_Protected {
 
 				if (db_num_rows($result) != 0) {
 					@unlink(ICONS_DIR . "/$feed_id.ico");
-					rename($icon_file, ICONS_DIR . "/$feed_id.ico");
-					$rc = 0;
+					if (rename($icon_file, ICONS_DIR . "/$feed_id.ico")) {
+
+						require_once "colors.php";
+
+						$favicon_color = db_escape_string($this->link,
+							calculate_avg_color(ICONS_DIR . "/$feed_id.ico"));
+
+						db_query($this->link, "UPDATE ttrss_feeds SET
+							favicon_avg_color = '$favicon_color'
+							WHERE id = '$feed_id'");
+
+						$rc = 0;
+					}
 				} else {
 					$rc = 2;
 				}
