@@ -401,6 +401,28 @@ class Feeds extends Handler_Protected {
 
 				$entry_site_url = $line["site_url"];
 
+				//setting feed headline background color, needs to change text color based on dark/light
+				$fav_color = $line['favicon_avg_color'];
+
+				require_once "colors.php";
+
+				if ($fav_color) {
+					if (!isset($rgba_cache[$feed_id]))
+						$rgba_cache[$feed_id] = join(",", _color_unpack($fav_color));
+
+					$rgba = $rgba_cache[$feed_id];
+
+					// W3C definition seems to work in FF and Chrome
+					$row_background = "background-image : linear-gradient(to right, rgba(255, 255, 255, 0) 50%, rgba($rgba, 0.2) 100%);";
+
+					/* $row_background = "background-image : -moz-linear-gradient(left, rgba(255, 255, 255, 0) 50%, rgba($rgba, 0.2) 100%);".
+						"background-image : linear-gradient(to right, rgba(255, 255, 255, 0) 50%, rgba($rgba, 0.2) 100%);";
+						"background-image : -webkit-gradient(linear, left top, right top, color-stop( 50%, rgba(255,255,255,0)),
+							color-stop(100%, rgba($rgba, 0.2)));"; */
+				} else {
+					$row_background = "";
+				}
+
 				if (!get_pref($this->link, 'COMBINED_DISPLAY_MODE')) {
 
 					if (get_pref($this->link, 'VFEED_GROUP_BY_FEED')) {
@@ -424,7 +446,7 @@ class Feeds extends Handler_Protected {
 					$mouseover_attrs = "onmouseover='postMouseIn(event, $id)'
 						onmouseout='postMouseOut($id)'";
 
-					$reply['content'] .= "<div class='hl $class' id='RROW-$id' $mouseover_attrs>";
+					$reply['content'] .= "<div class='hl $class' id='RROW-$id' $mouseover_attrs style='$row_background'>";
 
 					$reply['content'] .= "<div class='hlLeft'>";
 
@@ -529,29 +551,6 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= "<div class=\"cdm $expanded_class $class\"
 						id=\"RROW-$id\" $mouseover_attrs'>";
-
-					//setting feed headline background color, needs to change text color based on dark/light
-					$fav_color = $line['favicon_avg_color'];
-
-					require_once "colors.php";
-
-					if ($fav_color) {
-						if (!isset($rgba_cache[$feed_id]))
-							$rgba_cache[$feed_id] = join(",", _color_unpack($fav_color));
-
-						$rgba = $rgba_cache[$feed_id];
-
-						// W3C definition seems to work in FF and Chrome
-						$row_background = "background-image : linear-gradient(to right, rgba(255, 255, 255, 0) 50%, rgba($rgba, 0.2) 100%);";
-
-						/* $row_background = "background-image : -moz-linear-gradient(left, rgba(255, 255, 255, 0) 50%, rgba($rgba, 0.2) 100%);".
-							"background-image : linear-gradient(to right, rgba(255, 255, 255, 0) 50%, rgba($rgba, 0.2) 100%);";
-							"background-image : -webkit-gradient(linear, left top, right top, color-stop( 50%, rgba(255,255,255,0)),
-								color-stop(100%, rgba($rgba, 0.2)));"; */
-
-					} else {
-						$row_background = "";
-					}
 
 					$reply['content'] .= "<div class=\"cdmHeader\" style=\"$row_background\">";
 					$reply['content'] .= "<div style=\"vertical-align : middle\">";
