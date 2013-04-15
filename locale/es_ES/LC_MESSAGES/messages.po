@@ -8,13 +8,14 @@ msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-11 22:01+0400\n"
-"PO-Revision-Date: 2013-04-06 01:19+0100\n"
+"PO-Revision-Date: 2013-04-15 13:59+0100\n"
 "Last-Translator: DavidM <milarupa@yahoo.es>\n"
 "Language-Team: Español <milarupa@yahoo.es>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: backend.php:74
 msgid "Use default"
@@ -571,14 +572,12 @@ msgid "Open previous article (don't scroll long articles)"
 msgstr "Abrir artículo anterior (no desplazar artículos largos)"
 
 #: include/functions.php:1929
-#, fuzzy
 msgid "Move to next article (don't expand or mark read)"
-msgstr "Abrir artículo siguiente (no desplazar artículos largos)"
+msgstr "Ir al artículo siguiente (no expandir ni marcar como leído)"
 
 #: include/functions.php:1930
-#, fuzzy
 msgid "Move to previous article (don't expand or mark read)"
-msgstr "Abrir artículo anterior (no desplazar artículos largos)"
+msgstr "Ir al artículo anterior (no expandir ni marcar como leído)"
 
 #: include/functions.php:1931
 msgid "Show search dialog"
@@ -649,9 +648,8 @@ msgid "Close/collapse article"
 msgstr "Cerrar/plegar artículo"
 
 #: include/functions.php:1947
-#, fuzzy
 msgid "Toggle article expansion (combined mode)"
-msgstr "Expandir automáticamente los artículos en el modo combinado"
+msgstr "Alternar expansión de los artículos (modo combinado)"
 
 #: include/functions.php:1949
 #: plugins/embed_original/init.php:33
@@ -1460,14 +1458,13 @@ msgstr "Procesando categoría: %s"
 #: plugins/googlereaderimport/init.php:70
 #, php-format
 msgid "Upload failed with error code %d"
-msgstr ""
+msgstr "La subida falló con el código de error %d"
 
 #: classes/opml.php:479
 #: plugins/import_export/init.php:435
 #: plugins/googlereaderimport/init.php:84
-#, fuzzy
 msgid "Unable to move uploaded file."
-msgstr "Error: por favor, suba un fichero OPML."
+msgstr "No se pudo mover el archivo subido."
 
 #: classes/opml.php:483
 #: plugins/import_export/init.php:439
@@ -1476,9 +1473,8 @@ msgid "Error: please upload OPML file."
 msgstr "Error: por favor, suba un fichero OPML."
 
 #: classes/opml.php:492
-#, fuzzy
 msgid "Error: unable to find moved OPML file."
-msgstr "Error: no se pudo cargar el artículo."
+msgstr "Error: no se pudo encontrar el fichero OPML movido."
 
 #: classes/opml.php:499
 #: plugins/googlereaderimport/init.php:190
@@ -1818,13 +1814,12 @@ msgid "Amount of articles to display at once"
 msgstr "Número de artículos que se muestran simultáneamente"
 
 #: classes/pref/prefs.php:33
-#, fuzzy
 msgid "Default feed update interval"
-msgstr "Intervalo por defecto"
+msgstr "Intervalo de actualización de fuentes por defecto"
 
 #: classes/pref/prefs.php:33
 msgid "Shortest interval at which a feed will be checked for updates regardless of update method"
-msgstr ""
+msgstr "Intervalo más breve en el cual una fuente será chequeada buscando actualizaciones, independientemente del método de actualización."
 
 #: classes/pref/prefs.php:34
 msgid "Mark articles in e-mail digest as read"
@@ -1994,9 +1989,8 @@ msgid "Your personal data has been saved."
 msgstr "Sus datos personales han sido guardados."
 
 #: classes/pref/prefs.php:184
-#, fuzzy
 msgid "Your preferences are now set to default values."
-msgstr "Algunas preferencias solo están disponibles en el perfil por defecto."
+msgstr "Se han establecido los valores por defecto en las preferencias."
 
 #: classes/pref/prefs.php:206
 msgid "Personal data / Authentication"
@@ -2783,21 +2777,20 @@ msgid "Your Tiny Tiny RSS installation is up to date."
 msgstr "Su instalación de Tiny Tiny RSS está actualizada."
 
 #: plugins/updater/init.php:351
-#, fuzzy
 msgid "Do not close this dialog until updating is finished."
-msgstr "No cierre este diálogo esta que termine la actualización. Antes de continuar haga una copia de seguridad de la carpeta de Tiny Tiny RSS."
+msgstr "No cierre este cuadro de diálogo hasta que haya terminado la actualización."
 
 #: plugins/updater/init.php:360
 msgid "It is suggested to backup your tt-rss directory first."
-msgstr ""
+msgstr "Se recomienda hacer previamente una copia de seguridad del directorio de Tiny Tiny RSS."
 
 #: plugins/updater/init.php:361
 msgid "Your database will not be modified."
-msgstr ""
+msgstr "Su base de datos no será modificada."
 
 #: plugins/updater/init.php:362
 msgid "Your current tt-rss installation directory will not be modified. It will be renamed and left in the parent directory. You will be able to migrate all your customized files after update finishes."
-msgstr ""
+msgstr "El directorio actual de su instalación de Tiny Tiny RSS no será modificado. Será renombrado, y quedará en el directorio padre. Después de concluir la actualización usted podrá migrar todos los archivos personalizados que tenga."
 
 #: plugins/updater/init.php:363
 msgid "Ready to update."
@@ -3570,9 +3563,8 @@ msgid "Share article by URL"
 msgstr "Compartir artículo mediante URL"
 
 #: plugins/updater/updater.js:58
-#, fuzzy
 msgid "Backup your tt-rss directory before continuing. Please type 'yes' to continue."
-msgstr "La actualización en vivo es una característica experimental. Haga una copia de seguridad de la carpeta de tt-rss antes de continuar. Escriba 'yes' para continuar."
+msgstr "Haga copia de seguridad del directorio de Tiny Tiny RSS antes de continuar. Por favor escriba 'yes' para continuar."
 
 #~ msgid "Could not upload file. You might need to adjust upload_max_filesize in PHP.ini (current value = %s)"
 #~ msgstr "No se puedo cargar el archivo. Puede ser necesario ajustar el parámetro upload_max_filesize en PHP.ini (valor actual = %s)"
@@ -3615,6 +3607,7 @@ msgstr "La actualización en vivo es una característica experimental. Haga una 
 
 #, fuzzy
 #~ msgid "Finished. Performed <b>%d</b> update up to schema version <b>%d</b>."
+
 #~ msgid_plural "Finished. Performed <b>%d</b> updates up to schema version <b>%d</b>."
 #~ msgstr[0] "Tarea terminada. Realizada(s) <b>%d</b> actualización(es) a la versión del esquema <b>%d</b>."
 #~ msgstr[1] "Tarea terminada. Realizada(s) <b>%d</b> actualización(es) a la versión del esquema <b>%d</b>."
@@ -3676,6 +3669,7 @@ msgstr "La actualización en vivo es una característica experimental. Haga una 
 
 #, fuzzy
 #~ msgid "(%d feed)"
+
 #~ msgid_plural "(%d feeds)"
 #~ msgstr[0] "Editar la fuente"
 #~ msgstr[1] "Editar la fuente"
