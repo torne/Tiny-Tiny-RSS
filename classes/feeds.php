@@ -413,8 +413,13 @@ class Feeds extends Handler_Protected {
 
 					$rgba = $rgba_cache[$feed_id];
 
+					if (sql_bool_to_bool($line["unread"]))
+						$endalpha = '0.3';
+					else
+						$endalpha = '0.1';
+
 					// W3C definition seems to work in FF and Chrome
-					$row_background = "background-image : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba($rgba, 0.3) 100%);";
+					$row_background = "background-image : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba($rgba, $endalpha) 100%);";
 
 					/* $row_background = "background-image : -moz-linear-gradient(left, rgba(255, 255, 255, 0) 50%, rgba($rgba, 0.2) 100%);".
 						"background-image : linear-gradient(to right, rgba(255, 255, 255, 0) 50%, rgba($rgba, 0.2) 100%);";
