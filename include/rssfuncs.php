@@ -259,6 +259,8 @@
 		$cache_timestamp = file_exists($cache_filename) ? filemtime($cache_filename) : 0;
 		$last_updated_timestamp = strtotime($last_updated);
 
+		$force_refetch = isset($_REQUEST["force_refetch"]);
+
 		if (file_exists($cache_filename) &&
 			is_readable($cache_filename) &&
 			!$auth_login && !$auth_pass &&
@@ -275,7 +277,7 @@
 						$rss_hash = sha1($rss_data);
 						@$rss = unserialize($rss_data);
 					}
-				} else {
+				} else if (!$force_refetch) {
 					if ($debug_enabled) {
 						_debug("update_rss_feed: local cache valid and older than last_updated, nothing to do.");
 					}
@@ -289,8 +291,6 @@
 				if ($debug_enabled) {
 					_debug("update_rss_feed: fetching [$fetch_url] (ts: $cache_timestamp/$last_updated_timestamp)");
 				}
-
-				$force_refetch = isset($_REQUEST["force_refetch"]);
 
 				$feed_data = fetch_file_contents($fetch_url, false,
 					$auth_login, $auth_pass, false,
@@ -403,18 +403,24 @@
 
 			$site_url = db_escape_string($link, mb_substr(rewrite_relative_url($fetch_url, $rss->get_link()), 0, 245));
 
-			if ($debug_enabled) {
-				_debug("update_rss_feed: checking favicon...");
-			}
+			if ($favicon_needs_check || $force_refetch) {
+				if ($debug_enabled) {
+					_debug("update_rss_feed: checking favicon...");
+				}
 
-			if ($favicon_needs_check) {
-				$favicon_file = check_feed_favicon($site_url, $feed, $link);
-                if ($favicon_file) {
-				    $favicon_color = calculate_avg_color($favicon_file);
-                    if (is_array($favicon_color))
-                        $favicon_colorstring = ",favicon_avg_color = '" . implode("|", array_slice($favicon_color, 0, 3)) . "'";
+				check_feed_favicon($site_url, $feed, $link);
+				$favicon_file = ICONS_DIR . "/$feed.ico";
+
+				if (file_exists($favicon_file)) {
+					    $favicon_color = calculate_avg_color($favicon_file);
+
+						 require_once "colors.php";
+
+                   if (is_array($favicon_color))
+							  $favicon_colorstring = ",favicon_avg_color = '" .
+							  		_color_pack(array_slice($favicon_color, 0, 3)) . "'";
                 }
-				
+
 				db_query($link, "UPDATE ttrss_feeds SET favicon_last_checked = NOW() $favicon_colorstring
 					WHERE id = '$feed'");
 			}
