@@ -385,7 +385,7 @@ class Feeds extends Handler_Protected {
 				$entry_author = $line["author"];
 
 				if ($entry_author) {
-					$entry_author = " - $entry_author";
+					$entry_author = " &mdash; $entry_author";
 				}
 
 				$has_feed_icon = feed_has_icon($feed_id);
