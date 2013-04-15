@@ -508,7 +508,49 @@
 					}
 				}
 			}
+            return $icon_file;
 		}
+	}
+	
+	function calculate_avg_color($iconFile) {
+		
+		require_once "lib/floIcon.php";
+		
+		$imgInfo = @getimagesize($iconFile);
+        
+		if(strtolower($imgInfo['mime'])=='image/vnd.microsoft.icon') {
+			$ico = new floIcon();
+			@$ico->readICO($iconFile);
+			//TODO: error logging
+			if(count($ico->images)==0)
+				return null;
+			else {
+				$image = @$ico->images[count($ico->images)-1]->getImageResource();
+			}
+			$type = "ico";
+			}
+		elseif(strtolower($imgInfo['mime'])=='image/png') {
+            $image = imagecreatefrompng($iconFile);
+			$type = 'png';
+		}
+		elseif(strtolower($imgInfo['mime'])=='image/jpeg') {
+			$image = imagecreatefromjpeg($iconFile);
+			$type = 'jpg';
+		}
+		elseif(strtolower($imgInfo['mime'])=='image/gif') {
+			$image = imagecreatefromgif($iconFile);
+			$type = 'gif';
+		}
+		//TODO: error logging
+		if (is_null($image))
+			return null;
+		$width = imagesx($image);
+		$height = imagesy($image);
+		$pixel = imagecreatetruecolor(1, 1);
+		imagecopyresampled($pixel, $image, 0, 0, 0, 0, 1, 1, $width, $height);
+		$rgb = imagecolorat($pixel, 0, 0);
+		$color = imagecolorsforindex($pixel, $rgb);
+		return $color;
 	}
 
 	function print_select($id, $default, $values, $attributes = "") {

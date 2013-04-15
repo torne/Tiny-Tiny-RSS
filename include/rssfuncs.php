@@ -408,9 +408,14 @@
 			}
 
 			if ($favicon_needs_check) {
-				check_feed_favicon($site_url, $feed, $link);
-
-				db_query($link, "UPDATE ttrss_feeds SET favicon_last_checked = NOW()
+				$favicon_file = check_feed_favicon($site_url, $feed, $link);
+                if ($favicon_file) {
+				    $favicon_color = calculate_avg_color($favicon_file);
+                    if (is_array($favicon_color))
+                        $favicon_colorstring = ",favicon_avg_color = '" . implode("|", array_slice($favicon_color, 0, 3)) . "'";
+                }
+				
+				db_query($link, "UPDATE ttrss_feeds SET favicon_last_checked = NOW() $favicon_colorstring
 					WHERE id = '$feed'");
 			}
 

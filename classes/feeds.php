@@ -528,8 +528,9 @@ class Feeds extends Handler_Protected {
 					$reply['content'] .= "<div class=\"cdm $expanded_class $class\"
 						id=\"RROW-$id\" $mouseover_attrs'>";
 
-					$reply['content'] .= "<div class=\"cdmHeader\">";
-
+					//setting feed headline background color, needs to change text color based on dark/light
+					$favColor = explode("|", $line['favicon_avg_color']);
+					$reply['content'] .= "<div class=\"cdmHeader\" style=\"background-color: rgb($favColor[0], $favColor[1], $favColor[2]);\">";
 					$reply['content'] .= "<div style=\"vertical-align : middle\">";
 
 					$reply['content'] .= "<input dojoType=\"dijit.form.CheckBox\"
