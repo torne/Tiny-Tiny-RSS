@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 116);
+	define('SCHEMA_VERSION', 117);
 
 	define('LABEL_BASE_INDEX', -1024);
 	define('PLUGIN_FEED_BASE_INDEX', -128);
@@ -511,13 +511,13 @@
             return $icon_file;
 		}
 	}
-	
+
 	function calculate_avg_color($iconFile) {
-		
+
 		require_once "lib/floIcon.php";
-		
+
 		$imgInfo = @getimagesize($iconFile);
-        
+
 		if(strtolower($imgInfo['mime'])=='image/vnd.microsoft.icon') {
 			$ico = new floIcon();
 			@$ico->readICO($iconFile);

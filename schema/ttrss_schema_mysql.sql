@@ -108,6 +108,7 @@ create table ttrss_feeds (id integer not null auto_increment primary key,
 	purge_interval integer not null default 0,
 	last_updated datetime default 0,
 	last_error varchar(250) not null default '',
+	favicon_avg_color varchar(11) default null,
 	site_url varchar(250) not null default '',
 	auth_login varchar(250) not null default '',
 	auth_pass varchar(250) not null default '',
@@ -298,7 +299,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (116);
+insert into ttrss_version values (117);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,

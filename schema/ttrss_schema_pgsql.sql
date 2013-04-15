@@ -70,6 +70,7 @@ create table ttrss_feeds (id serial not null primary key,
 	purge_interval integer not null default 0,
 	last_updated timestamp default null,
 	last_error text not null default '',
+	favicon_avg_color varchar(11) default null,
 	site_url varchar(250) not null default '',
 	auth_login varchar(250) not null default '',
 	parent_feed integer default null references ttrss_feeds(id) on delete set null,
@@ -256,7 +257,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (116);
+insert into ttrss_version values (117);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
