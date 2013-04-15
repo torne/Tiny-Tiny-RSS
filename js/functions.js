@@ -368,6 +368,9 @@ function toggleSelectRow2(sender, row, is_cdm) {
 		row.addClassName('Selected');
 	else
 		row.removeClassName('Selected');
+
+	if (typeof updateSelectedPrompt != undefined)
+		updateSelectedPrompt();
 }
 
 
@@ -379,6 +382,9 @@ function toggleSelectRow(sender, row) {
 		row.addClassName('Selected');
 	else
 		row.removeClassName('Selected');
+
+	if (typeof updateSelectedPrompt != undefined)
+		updateSelectedPrompt();
 }
 
 function checkboxToggleElement(elem, id) {

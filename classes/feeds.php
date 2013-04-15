@@ -49,6 +49,7 @@ class Feeds extends Handler_Protected {
 		// right part
 
 		$reply .= "<span class='r'>";
+		$reply .= "<span id='selected_prompt'></span>";
 		$reply .= "<span id='feed_title'>";
 
 		if ($feed_site_url) {

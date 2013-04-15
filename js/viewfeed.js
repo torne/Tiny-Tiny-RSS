@@ -639,8 +639,30 @@ function toggleSelected(id, force_on) {
 				if (cb) cb.attr("checked", true);
 			}
 		}
+
+		updateSelectedPrompt();
 	} catch (e) {
 		exception_error("toggleSelected", e);
+	}
+}
+
+function updateSelectedPrompt() {
+	try {
+		var count = getSelectedArticleIds2().size();
+		var elem = $("selected_prompt");
+
+		if (elem) {
+			elem.innerHTML = ngettext("%d article selected",
+					"%d articles selected", count).replace("%d", count);
+
+			if (count > 0)
+				Element.show(elem);
+			else
+				Element.hide(elem);
+		}
+
+	} catch (e) {
+		exception_error("updateSelectedPrompt", e);
 	}
 }
 
@@ -959,6 +981,8 @@ function selectArticles(mode) {
 				if (cb) cb.attr("checked", false);
 			}
 		});
+
+		updateSelectedPrompt();
 
 	} catch (e) {
 		exception_error("selectArticles", e);
