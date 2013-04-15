@@ -150,6 +150,8 @@ class Feeds extends Handler_Protected {
 
 		$reply = array();
 
+		$rgba_cache = array();
+
 		$timing_info = microtime(true);
 
 		$topmost_article_ids = array();
@@ -530,7 +532,22 @@ class Feeds extends Handler_Protected {
 
 					//setting feed headline background color, needs to change text color based on dark/light
 					$fav_color = $line['favicon_avg_color'];
-					$reply['content'] .= "<div class=\"cdmHeader\" style=\"background-color: $fav_color;\">";
+
+					require_once "colors.php";
+
+					if ($fav_color) {
+						if (!isset($rgba_cache[$feed_id]))
+							$rgba_cache[$feed_id] = join(",", _color_unpack($fav_color));
+
+						$rgba = $rgba_cache[$feed_id];
+
+						$row_background = "background-image : -moz-linear-gradient(left, rgba(255, 255, 255, 0) 50%, rgba($rgba, 0.2) 95%";
+
+					} else {
+						$row_background = "";
+					}
+
+					$reply['content'] .= "<div class=\"cdmHeader\" style=\"$row_background\">";
 					$reply['content'] .= "<div style=\"vertical-align : middle\">";
 
 					$reply['content'] .= "<input dojoType=\"dijit.form.CheckBox\"
