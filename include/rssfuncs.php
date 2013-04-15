@@ -517,13 +517,15 @@
 				if (!$entry_guid) $entry_guid = $item->get_link();
 				if (!$entry_guid) $entry_guid = make_guid_from_title($item->get_title());
 
-				if ($debug_enabled) {
-					_debug("update_rss_feed: guid $entry_guid");
-				}
-
 				if (!$entry_guid) continue;
 
 				$entry_guid = "$owner_uid,$entry_guid";
+
+				$entry_guid_hashed = db_escape_string($link, 'SHA1:' . sha1($entry_guid));
+
+				if ($debug_enabled) {
+					_debug("update_rss_feed: guid $entry_guid / $entry_guid_hashed");
+				}
 
 				$entry_timestamp = "";
 
@@ -633,7 +635,7 @@
 
 				// FIXME not sure if owner_uid is a good idea here, we may have a base entry without user entry (?)
 				$result = db_query($link, "SELECT plugin_data,title,content,link,tag_cache,author FROM ttrss_entries, ttrss_user_entries
-					WHERE ref_id = id AND guid = '".db_escape_string($link, $entry_guid)."' AND owner_uid = $owner_uid");
+					WHERE ref_id = id AND (guid = '".db_escape_string($link, $entry_guid)."' OR guid = '$entry_guid_hashed') AND owner_uid = $owner_uid");
 
 				if (db_num_rows($result) != 0) {
 					$entry_plugin_data = db_fetch_result($result, 0, "plugin_data");
@@ -684,7 +686,7 @@
 				db_query($link, "BEGIN");
 
 				$result = db_query($link, "SELECT id FROM	ttrss_entries
-					WHERE guid = '$entry_guid'");
+					WHERE (guid = '$entry_guid' OR guid = '$entry_guid_hashed')");
 
 				if (db_num_rows($result) == 0) {
 
@@ -712,7 +714,7 @@
 							author)
 						VALUES
 							('$entry_title',
-							'$entry_guid',
+							'$entry_guid_hashed',
 							'$entry_link',
 							'$entry_timestamp_fmt',
 							'$entry_content',
@@ -745,13 +747,13 @@
 				// now it should exist, if not - bad luck then
 
 				$result = db_query($link, "SELECT
-						id,content_hash,no_orig_date,title,plugin_data,
+						id,content_hash,no_orig_date,title,plugin_data,guid,
 						".SUBSTRING_FOR_DATE."(date_updated,1,19) as date_updated,
 						".SUBSTRING_FOR_DATE."(updated,1,19) as updated,
 						num_comments
 					FROM
 						ttrss_entries
-					WHERE guid = '$entry_guid'");
+					WHERE guid = '$entry_guid' OR guid = '$entry_guid_hashed'");
 
 				$entry_ref_id = 0;
 				$entry_int_id = 0;
@@ -759,7 +761,7 @@
 				if (db_num_rows($result) == 1) {
 
 					if ($debug_enabled) {
-						_debug("update_rss_feed: base guid [$entry_guid] found, checking for user record");
+						_debug("update_rss_feed: base guid found, checking for user record");
 					}
 
 					// this will be used below in update handler
@@ -772,6 +774,14 @@
 
 					$ref_id = db_fetch_result($result, 0, "id");
 					$entry_ref_id = $ref_id;
+
+					/* $stored_guid = db_fetch_result($result, 0, "guid");
+					if ($stored_guid != $entry_guid_hashed) {
+						if ($debug_enabled) _debug("upgrading compat guid to hashed one");
+
+						db_query($link, "UPDATE ttrss_entries SET guid = '$entry_guid_hashed' WHERE
+							id = '$ref_id'");
+					} */
 
 					// check for user post link to main table
 
@@ -933,7 +943,7 @@
 					if ($post_needs_update) {
 
 						if (defined('DAEMON_EXTENDED_DEBUG')) {
-							_debug("update_rss_feed: post $entry_guid needs update...");
+							_debug("update_rss_feed: post $entry_guid_hashed needs update...");
 						}
 
 //						print "<!-- post $orig_title needs update : $post_needs_update -->";

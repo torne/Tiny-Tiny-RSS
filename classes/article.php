@@ -88,7 +88,7 @@ class Article extends Handler_Protected {
 	static function create_published_article($link, $title, $url, $content, $labels_str,
 			$owner_uid) {
 
-		$guid = sha1($url . $owner_uid); // include owner_uid to prevent global GUID clash
+		$guid = 'SHA1:' . sha1("ttshared:" . $url . $owner_uid); // include owner_uid to prevent global GUID clash
 		$content_hash = sha1($content);
 
 		if ($labels_str != "") {
