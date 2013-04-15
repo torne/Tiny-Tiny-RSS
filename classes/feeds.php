@@ -541,7 +541,13 @@ class Feeds extends Handler_Protected {
 
 						$rgba = $rgba_cache[$feed_id];
 
-						$row_background = "background-image : -moz-linear-gradient(left, rgba(255, 255, 255, 0) 50%, rgba($rgba, 0.2) 95%";
+						// W3C definition seems to work in FF and Chrome
+						$row_background = "background-image : linear-gradient(to right, rgba(255, 255, 255, 0) 50%, rgba($rgba, 0.2) 100%);";
+
+						/* $row_background = "background-image : -moz-linear-gradient(left, rgba(255, 255, 255, 0) 50%, rgba($rgba, 0.2) 100%);".
+							"background-image : linear-gradient(to right, rgba(255, 255, 255, 0) 50%, rgba($rgba, 0.2) 100%);";
+							"background-image : -webkit-gradient(linear, left top, right top, color-stop( 50%, rgba(255,255,255,0)),
+								color-stop(100%, rgba($rgba, 0.2)));"; */
 
 					} else {
 						$row_background = "";
