@@ -408,15 +408,7 @@ class Feeds extends Handler_Protected {
 
 				if ($fav_color) {
 					if (!isset($rgba_cache[$feed_id])) {
-						$hsl = rgb2hsl(_color_unpack($fav_color));
-
-						if ($hsl[1] < 0.1)
-							$hsl[2] = 1;
-						else if ($hsl[2] < 0.25)
-							$hsl[2] = 0.25;
-
-						$rgba_cache[$feed_id] = join(",", hsl2rgb($hsl));
-
+						$rgba_cache[$feed_id] = join(",", _color_unpack($fav_color));
 					}
 
 					$rgba = $rgba_cache[$feed_id];

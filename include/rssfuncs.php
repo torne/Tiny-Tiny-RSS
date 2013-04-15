@@ -417,6 +417,8 @@
 						 $favicon_color = db_escape_string($link,
 							 calculate_avg_color($favicon_file));
 
+						 if ($debug_enabled) _debug("color: $favicon_color");
+
 						 $favicon_colorstring = ",favicon_avg_color = '".$favicon_color."'";
 				}
 
