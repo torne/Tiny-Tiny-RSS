@@ -412,18 +412,13 @@
 				$favicon_file = ICONS_DIR . "/$feed.ico";
 
 				if (file_exists($favicon_file)) {
-					    $favicon_color = calculate_avg_color($favicon_file);
-
 						 require_once "colors.php";
 
-						 if (is_array($favicon_color))
-								$tmp = array($favicon_color['red'],
-									$favicon_color['green'],
-									$favicon_color['blue']);
+						 $favicon_color = db_escape_string($link,
+							 calculate_avg_color($favicon_file));
 
-								 $favicon_colorstring = ",favicon_avg_color = '" .
-								_color_pack($tmp) . "'";
-                }
+						 $favicon_colorstring = ",favicon_avg_color = '".$favicon_color."'";
+				}
 
 				db_query($link, "UPDATE ttrss_feeds SET favicon_last_checked = NOW() $favicon_colorstring
 					WHERE id = '$feed'");
