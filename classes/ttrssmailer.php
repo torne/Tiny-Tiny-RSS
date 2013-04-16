@@ -17,34 +17,29 @@ class ttrssMailer extends PHPMailer {
 		public $CharSet = "UTF-8";
 		public $PluginDir = "lib/phpmailer/";
 		public $ContentType = "text/html"; //default email type is HTML
-		public $Host;
-		public $Port;
-		public $SMTPAuth=False;
-		public $Username;
-		public $Password;
 
 	function __construct() {
 		$this->SetLanguage("en", "lib/phpmailer/language/");
 
 		if (SMTP_SERVER) {
 			$pair = explode(":", SMTP_SERVER, 2);
-			$Mailer = "smtp";
+			$this->Mailer = "smtp";
 
-			$Host = $pair[0];
-			$Port = $pair[1];
+			$this->Host = $pair[0];
+			$this->Port = $pair[1];
 
 			if (!$Port) $Port = 25;
 		} else {
-			$Host = '';
-			$Port = '';
+			$this->Host = '';
+			$this->Port = '';
 		}
 
 
 		//if SMTP_LOGIN is specified, set credentials and enable auth
 		if(SMTP_LOGIN){
-			$SMTPAuth = true;
-			$Username = SMTP_LOGIN;
-			$Password = SMTP_PASSWORD;
+			$this->SMTPAuth = true;
+			$this->Username = SMTP_LOGIN;
+			$this->Password = SMTP_PASSWORD;
 			}
 	}
 	/*	@brief a simple mail function to send email using the defaults
