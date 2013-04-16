@@ -16,7 +16,8 @@ class Logger_SQL {
 			$errstr = db_escape_string($this->link, $errstr);
 			$file = db_escape_string($this->link, $file);
 			$line = db_escape_string($this->link, $line);
-			$context = db_escape_string($this->link, json_encode($context));
+			$context = ''; // backtrace is a lot of data which is not really critical to store
+			//$context = db_escape_string($this->link, serialize($context));
 
 			$owner_uid = $_SESSION["uid"] ? $_SESSION["uid"] : "NULL";
 

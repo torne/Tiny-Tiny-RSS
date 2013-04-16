@@ -8,7 +8,7 @@ function ttrss_error_handler($errno, $errstr, $file, $line, $context) {
 
 	if (!$logger) $logger = new Logger_SQL();
 
-	$errfile = str_replace(dirname(dirname(__FILE__)), "", $errfile);
+	$file = substr(str_replace(dirname(dirname(__FILE__)), "", $file), 1);
 
 	if ($logger) {
 		return $logger->log_error($errno, $errstr, $file, $line, $context);
@@ -35,7 +35,7 @@ function ttrss_fatal_handler() {
 
 		$context = debug_backtrace();
 
-		$file = str_replace(dirname(dirname(__FILE__)) . "/", "", $file);
+		$file = substr(str_replace(dirname(dirname(__FILE__)), "", $file), 1);
 
 		if (!$logger) $logger = new Logger_SQL();
 

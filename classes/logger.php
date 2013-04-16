@@ -1,7 +1,8 @@
 <?php
 class Logger {
 
-	protected $errornames = array(
+	public static $errornames = array(
+		1			=> 'E_ERROR',
 		2			=> 'E_WARNING',
 		8			=> 'E_NOTICE',
 		256		=> 'E_USER_ERROR',
