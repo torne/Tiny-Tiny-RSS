@@ -399,8 +399,8 @@ class Pref_Prefs extends Handler_Protected {
 							parameters: dojo.objectToQuery(this.getValues()),
 							onComplete: function(transport) {
 								notify('');
-								if (transport.responseText.indexOf('ERROR: ') == 0) {
-									notify_error(transport.responseText.replace('ERROR: ', ''));
+								if (transport.responseText.indexOf('ERROR:') == 0) {
+									notify_error(transport.responseText.replace('ERROR:', ''));
 								} else {
 									window.location.reload();
 								}
@@ -416,11 +416,13 @@ class Pref_Prefs extends Handler_Protected {
 					print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" type=\"password\" required=\"1\"
 						name=\"password\"></td></tr>";
 
-					print "<tr><td colspan=\"2\">";
+					print "<tr><td width=\"40%\">".__("Enter the generated one time password")."</td>";
 
-					print "<input dojoType=\"dijit.form.CheckBox\" required=\"1\"
-						type=\"checkbox\" id=\"enable_otp\" name=\"enable_otp\"/> ";
-					print "<label for=\"enable_otp\">".__("I have scanned the code and would like to enable OTP")."</label>";
+					print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" autocomplete=\"off\"
+						required=\"1\"
+						name=\"otp\"></td></tr>";
+
+					print "<tr><td colspan=\"2\">";
 
 					print "</td></tr><tr><td colspan=\"2\">";
 
@@ -957,22 +959,39 @@ class Pref_Prefs extends Handler_Protected {
 	}
 
 	function otpenable() {
-		$password = db_escape_string($this->link, $_REQUEST["password"]);
-		$enable_otp = $_REQUEST["enable_otp"] == "on";
+		require_once "lib/otphp/vendor/base32.php";
+		require_once "lib/otphp/lib/otp.php";
+		require_once "lib/otphp/lib/totp.php";
+
+		$password = $_REQUEST["password"];
+		$otp = $_REQUEST["otp"];
 
 		global $pluginhost;
 		$authenticator = $pluginhost->get_plugin($_SESSION["auth_module"]);
 
 		if ($authenticator->check_password($_SESSION["uid"], $password)) {
 
-			if ($enable_otp) {
+			$result = db_query($this->link, "SELECT salt
+				FROM ttrss_users
+				WHERE id = ".$_SESSION["uid"]);
+
+			$base32 = new Base32();
+
+			$secret = $base32->encode(sha1(db_fetch_result($result, 0, "salt")));
+			$topt = new \OTPHP\TOTP($secret);
+
+			$otp_check = $topt->now();
+
+			if ($otp == $otp_check) {
 				db_query($this->link, "UPDATE ttrss_users SET otp_enabled = true WHERE
 					id = " . $_SESSION["uid"]);
 
 				print "OK";
+			} else {
+				print "ERROR:".__("Incorrect one time password");
 			}
 		} else {
-			print "ERROR: ".__("Incorrect password");
+			print "ERROR:".__("Incorrect password");
 		}
 
 	}
