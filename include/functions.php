@@ -3824,7 +3824,9 @@
 
 		$sphinxClient = new SphinxClient();
 
-		$sphinxClient->SetServer('localhost', 9312);
+		$sphinxpair = explode(":", SPHINX_SERVER, 2);
+
+		$sphinxClient->SetServer($sphinxpair[0], $sphinxpair[1]);
 		$sphinxClient->SetConnectTimeout(1);
 
 		$sphinxClient->SetFieldWeights(array('title' => 70, 'content' => 30,
