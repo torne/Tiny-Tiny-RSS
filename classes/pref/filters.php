@@ -482,7 +482,7 @@ class Pref_Filters extends Handler_Protected {
 
 	function remove() {
 
-		$ids = split(",", db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
 			db_query($this->link, "DELETE FROM ttrss_filters2 WHERE id = '$id' AND owner_uid = ". $_SESSION["uid"]);

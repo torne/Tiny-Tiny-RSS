@@ -119,7 +119,7 @@ class Pref_Labels extends Handler_Protected {
 
 	function colorset() {
 		$kind = db_escape_string($this->link, $_REQUEST["kind"]);
-		$ids = split(',', db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(',', db_escape_string($this->link, $_REQUEST["ids"]));
 		$color = db_escape_string($this->link, $_REQUEST["color"]);
 		$fg = db_escape_string($this->link, $_REQUEST["fg"]);
 		$bg = db_escape_string($this->link, $_REQUEST["bg"]);
@@ -149,7 +149,7 @@ class Pref_Labels extends Handler_Protected {
 	}
 
 	function colorreset() {
-		$ids = split(',', db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(',', db_escape_string($this->link, $_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
 			db_query($this->link, "UPDATE ttrss_labels2 SET
@@ -213,7 +213,7 @@ class Pref_Labels extends Handler_Protected {
 
 	function remove() {
 
-		$ids = split(",", db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
 			label_remove($this->link, $id, $_SESSION["uid"]);

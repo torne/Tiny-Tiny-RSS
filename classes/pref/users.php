@@ -202,7 +202,7 @@ class Pref_Users extends Handler_Protected {
 		}
 
 		function remove() {
-			$ids = split(",", db_escape_string($this->link, $_REQUEST["ids"]));
+			$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
 				if ($id != $_SESSION["uid"] && $id != 1) {
@@ -367,7 +367,7 @@ class Pref_Users extends Handler_Protected {
 
 			if ($user_search) {
 
-				$user_search = split(" ", $user_search);
+				$user_search = explode(" ", $user_search);
 				$tokens = array();
 
 				foreach ($user_search as $token) {

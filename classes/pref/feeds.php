@@ -1097,7 +1097,7 @@ class Pref_Feeds extends Handler_Protected {
 
 	function remove() {
 
-		$ids = split(",", db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
 			Pref_Feeds::remove_feed($this->link, $id, $_SESSION["uid"]);
@@ -1114,7 +1114,7 @@ class Pref_Feeds extends Handler_Protected {
 	function rescore() {
 		require_once "rssfuncs.php";
 
-		$ids = split(",", db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
 
@@ -1220,7 +1220,7 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function categorize() {
-		$ids = split(",", db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
 
 		$cat_id = db_escape_string($this->link, $_REQUEST["cat_id"]);
 
@@ -1244,7 +1244,7 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function removeCat() {
-		$ids = split(",", db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
 		foreach ($ids as $id) {
 			$this->remove_feed_category($this->link, $id, $_SESSION["uid"]);
 		}
