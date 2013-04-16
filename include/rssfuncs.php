@@ -148,6 +148,7 @@
 
 		expire_cached_files($debug);
 		expire_lock_files($debug);
+		expire_error_log($link, $debug);
 
 		$nf = 0;
 
@@ -1195,6 +1196,19 @@
 		$node = $doc->getElementsByTagName('body')->item(0);
 
 		return $doc->saveXML($node);
+	}
+
+	function expire_error_log($link, $debug) {
+		if ($debug) _debug("Removing old error log entries...");
+
+		if (DB_TYPE == "pgsql") {
+			db_query($link, "DELETE FROM ttrss_error_log
+				WHERE created_at < NOW() - INTERVAL '7 days'");
+		} else {
+			db_query($link, "DELETE FROM ttrss_error_log
+				WHERE created_at < DATE_SUB(NOW(), INTERVAL 7 DAY)");
+		}
+
 	}
 
 	function expire_lock_files($debug) {
