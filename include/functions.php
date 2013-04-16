@@ -324,7 +324,7 @@
 
 		if (!defined('NO_CURL') && function_exists('curl_init') && !ini_get("open_basedir")) {
 
-			if (ini_get("safe_mode")) {
+			if (ini_get("safe_mode") || ini_get("open_basedir")) {
 				$ch = curl_init(geturl($url));
 			} else {
 				$ch = curl_init($url);
@@ -337,7 +337,7 @@
 
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout ? $timeout : FILE_FETCH_CONNECT_TIMEOUT);
 			curl_setopt($ch, CURLOPT_TIMEOUT, $timeout ? $timeout : FILE_FETCH_TIMEOUT);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, !ini_get("safe_mode"));
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, !ini_get("safe_mode") && !ini_get("open_basedir"));
 			curl_setopt($ch, CURLOPT_MAXREDIRS, 20);
 			curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

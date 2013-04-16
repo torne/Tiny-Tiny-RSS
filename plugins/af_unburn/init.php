@@ -29,7 +29,7 @@ class Af_Unburn extends Plugin {
 
 			if (strpos($article["plugin_data"], "unburn,$owner_uid:") === FALSE) {
 
-				if (ini_get("safe_mode")) {
+				if (ini_get("safe_mode") || ini_get("open_basedir")) {
 					$ch = curl_init(geturl($article["link"]));
 				} else {
 					$ch = curl_init($article["link"]);
@@ -38,7 +38,7 @@ class Af_Unburn extends Plugin {
 				curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 				curl_setopt($ch, CURLOPT_HEADER, true);
-				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, !ini_get("safe_mode"));
+				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, !ini_get("safe_mode") && !ini_get("open_basedir"));
 				curl_setopt($ch, CURLOPT_USERAGENT, SELF_USER_AGENT);
 
 				$contents = @curl_exec($ch);
