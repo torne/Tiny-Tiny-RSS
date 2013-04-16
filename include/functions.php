@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 117);
+	define('SCHEMA_VERSION', 118);
 
 	define('LABEL_BASE_INDEX', -1024);
 	define('PLUGIN_FEED_BASE_INDEX', -128);
@@ -3369,9 +3369,8 @@
 		return is_file(ICONS_DIR . "/$id.ico") && filesize(ICONS_DIR . "/$id.ico") > 0;
 	}
 
-	function init_connection($link) {
+	function init_connection_only($link) {
 		if ($link) {
-
 			if (DB_TYPE == "pgsql") {
 				pg_query($link, "set client_encoding = 'UTF-8'");
 				pg_set_client_encoding("UNICODE");
@@ -3384,6 +3383,16 @@
 					db_query($link, "SET NAMES " . MYSQL_CHARSET);
 				}
 			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	function init_connection($link) {
+		if ($link) {
+			init_connection_only($link);
 
 			global $pluginhost;
 

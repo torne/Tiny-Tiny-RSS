@@ -1,3 +1,4 @@
+drop table if exists ttrss_error_log;
 drop table if exists ttrss_plugin_storage;
 drop table if exists ttrss_linked_feeds;
 drop table if exists ttrss_linked_instances;
@@ -257,7 +258,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (117);
+insert into ttrss_version values (118);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -420,5 +421,15 @@ create table ttrss_plugin_storage (
 	name varchar(100) not null,
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
 	content text not null);
+
+create table ttrss_error_log(
+	id serial not null primary key,
+	owner_uid integer references ttrss_users(id) ON DELETE SET NULL,
+	errno integer not null,
+	errstr text not null,
+	filename text not null,
+	lineno integer not null,	
+	context text not null,
+	created_at timestamp not null);
 
 commit;
