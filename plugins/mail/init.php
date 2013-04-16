@@ -44,8 +44,8 @@ class Mail extends Plugin {
 
 		if (!$user_name) $user_name = $_SESSION['name'];
 
-		$_SESSION['email_replyto'] = $user_email;
-		$_SESSION['email_fromname'] = $user_name;
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"from_email\" value=\"$user_email\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"from_name\" value=\"$user_name\">";
 
 		require_once "lib/MiniTemplator.class.php";
 
@@ -134,15 +134,10 @@ class Mail extends Plugin {
 
 		$reply = array();
 
-		$_SESSION['email_secretkey'] = '';
-
-		$replyto = strip_tags($_SESSION['email_replyto']);
-		$fromname = strip_tags($_SESSION['email_fromname']);
-
 		$mail = new ttrssMailer();
 
-		$mail->From = $replyto;
-		$mail->FromName = $fromname;
+		$mail->From = strip_tags($_REQUEST['from_email']);
+		$mail->FromName = strip_tags($_REQUEST['from_name']);
 		$mail->AddAddress($_REQUEST['destination']);
 
 		$mail->IsHTML(false);
