@@ -160,12 +160,10 @@
 	define('DIGEST_SUBJECT', '[tt-rss] New headlines for last 24 hours');
 	// Subject line for email digests
 
-	define('SMTP_HOST', '');
-	// SMTP Host to send outgoing mail. Blank - use system MTA.
+	define('SMTP_SERVER', '');
+	// Hostname:port combination to send outgoing mail (i.e. localhost:25). 
+	// Blank - use system MTA.
 	
-	define('SMTP_PORT','');
-	// SMTP port to sent outgoing mail. Default is 25.
-
 	define('SMTP_LOGIN', '');
 	define('SMTP_PASSWORD', '');
 	// These two options enable SMTP authentication when sending

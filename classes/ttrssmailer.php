@@ -25,17 +25,20 @@ class ttrssMailer extends PHPMailer {
 
 	function __construct() {
 		$this->SetLanguage("en", "lib/phpmailer/language/");
-		//if SMTP_HOST is specified, use SMTP to send mail directly
+
 		if (SMTP_HOST) {
-			$Host = SMTP_HOST;
+			$pair = explode(":", SMTP_HOST, 2);
 			$Mailer = "smtp";
+
+			$Host = $pair[0];
+			$Port = $pair[1];
+
+			if (!$Port) $Port = 25;
+		} else {
+			$Host = '';
+			$Port = '';
 		}
-		//if SMTP_PORT is specified, assign it. Otherwise default to port 25
-		if(SMTP_PORT){
-			$Port = SMTP_PORT;
-		}else{
-			$Port = "25";
-		}
+
 
 		//if SMTP_LOGIN is specified, set credentials and enable auth
 		if(SMTP_LOGIN){
