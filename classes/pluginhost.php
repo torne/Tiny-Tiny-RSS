@@ -103,6 +103,9 @@ class PluginHost {
 		foreach ($plugins as $class) {
 			$class = trim($class);
 			$class_file = strtolower(basename($class));
+
+			if (!is_dir(dirname(__FILE__)."/../plugins/$class_file")) continue;
+
 			$file = dirname(__FILE__)."/../plugins/$class_file/init.php";
 
 			if (!isset($this->plugins[$class])) {
