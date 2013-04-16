@@ -2990,18 +2990,11 @@
 		if (strpos($ctype, "audio/") === 0) {
 
 			if ($_SESSION["hasAudio"] && (strpos($ctype, "ogg") !== false ||
-				strpos($_SERVER['HTTP_USER_AGENT'], "Chrome") !== false ||
-				strpos($_SERVER['HTTP_USER_AGENT'], "Safari") !== false )) {
+				$_SESSION["hasMp3"])) {
 
-				$id = 'AUDIO-' . uniqid();
-
-				$entry .= "<audio id=\"$id\"\" controls style='display : none'>
+				$entry .= "<audio controls>
 					<source type=\"$ctype\" src=\"$url\"></source>
 					</audio>";
-
-				$entry .= "<span onclick=\"player(this)\"
-					title=\"".__("Click to play")."\" status=\"0\"
-					class=\"player\" audio-id=\"$id\">".__("Play")."</span>";
 
 			} else {
 

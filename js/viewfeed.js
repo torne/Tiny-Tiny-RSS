@@ -2027,34 +2027,6 @@ function initHeadlinesMenu() {
 	}
 }
 
-
-function player(elem) {
-	var aid = elem.getAttribute("audio-id");
-	var status = elem.getAttribute("status");
-
-	var audio = $(aid);
-
-	if (audio) {
-		if (status == 0) {
-			audio.play();
-			status = 1;
-			elem.innerHTML = __("Playing...");
-			elem.title = __("Click to pause");
-			elem.addClassName("playing");
-		} else {
-			audio.pause();
-			status = 0;
-			elem.innerHTML = __("Play");
-			elem.title = __("Click to play");
-			elem.removeClassName("playing");
-		}
-
-		elem.setAttribute("status", status);
-	} else {
-		alert("Your browser doesn't seem to support HTML5 audio.");
-	}
-}
-
 function cache_set(id, obj) {
 	//console.log("cache_set: " + id);
 	if (has_storage)

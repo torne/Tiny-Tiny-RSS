@@ -334,6 +334,7 @@ class RPC extends Handler_Protected {
 	function sanityCheck() {
 		$_SESSION["hasAudio"] = $_REQUEST["hasAudio"] === "true";
 		$_SESSION["hasSandbox"] = $_REQUEST["hasSandbox"] === "true";
+		$_SESSION["hasMp3"] = $_REQUEST["hasMp3"] === "true";
 
 		$reply = array();
 
