@@ -16,13 +16,13 @@ Date: 2009-03-16
 
 Changes:
 I was a little hasty on that last update.  A couple new bugs from 1.1.0 have
-been fixed.  
+been fixed.
 
 Version 1.1.0:
 Date: 2009-03-16
 
 Changes:
-Added Vista support.  
+Added Vista support.
 Fixed a number of minor bugs.  Many thanks to Dvir Berebi for pointing
         them out.
 
@@ -386,7 +386,7 @@ class floIconImage {
                 imagealphablending($imageResource, false);
                 $height = imagesy($imageResource);
                 $width = imagesx($imageResource);
-               
+
                 // Parse resource to determine header and icon format
 
                 // Find Palette information
@@ -637,7 +637,7 @@ class floIconImage {
                         $this->_imageIconFormat = $imageAsPng;
                 }
 
-       
+
         }
         function _createImageResource() {
                 if ($newImage = @imagecreatefromstring($this->_headerIconFormat.$this->_imageIconFormat)) {
@@ -779,6 +779,10 @@ class floIconImage {
                 fseek($filePointer, $entryOffset);
                 $this->_entryIconFormat = fread($filePointer, 16);
                 $this->_entry = unpack("CWidth/CHeight/CColorCount/CReserved/SPlanes/SBitCount/LSizeInBytes/LFileOffset", $this->_entryIconFormat);
+
+					 // fox
+					 if ($this->_entry["SizeInBytes"] > 16384)
+						 $this->_entry["SizeInBytes"] = 16384;
 
                 // Position the file pointer.
                 fseek($filePointer, $this->_entry["FileOffset"]);
