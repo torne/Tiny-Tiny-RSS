@@ -6,6 +6,8 @@ require_once "classes/logger/sql.php";
 function ttrss_error_handler($errno, $errstr, $file, $line, $context) {
 	global $logger;
 
+	if (error_reporting() == 0) return false;
+
 	if (!$logger) $logger = new Logger_SQL();
 
 	$file = substr(str_replace(dirname(dirname(__FILE__)), "", $file), 1);
