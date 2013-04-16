@@ -60,7 +60,7 @@ class Auth_Internal extends Plugin implements IAuthModule {
 								<input type="hidden" name="password" value="<?php echo htmlspecialchars($password) ?>">
 
 								<label><?php echo __("Please enter your one time password:") ?></label>
-								<input type="password" size="6" name="otp"/>
+								<input size="6" name="otp" value=""/>
 								<input type="submit" value="Continue"/>
 							</form>
 							<script type="text/javascript">
