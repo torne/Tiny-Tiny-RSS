@@ -26,8 +26,8 @@ class ttrssMailer extends PHPMailer {
 	function __construct() {
 		$this->SetLanguage("en", "lib/phpmailer/language/");
 
-		if (SMTP_HOST) {
-			$pair = explode(":", SMTP_HOST, 2);
+		if (SMTP_SERVER) {
+			$pair = explode(":", SMTP_SERVER, 2);
 			$Mailer = "smtp";
 
 			$Host = $pair[0];
