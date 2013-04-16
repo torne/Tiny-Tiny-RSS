@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-11 22:01+0400\n"
-"PO-Revision-Date: 2013-03-25 13:25+0100\n"
+"PO-Revision-Date: 2013-04-15 21:00+0100\n"
 "Last-Translator: Mirosław Lach <m.wordpress@lach.waw.pl>\n"
-"Language-Team: Polish (http://www.transifex.com/projects/p/tt-rss/language/pl/)\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language-Team: \n"
 
 #: backend.php:74
 msgid "Use default"
@@ -225,13 +225,12 @@ msgid "Unread"
 msgstr "Nieprzeczytane"
 
 #: index.php:177
-#, fuzzy
 msgid "Unread First"
-msgstr "Nieprzeczytane"
+msgstr "Najpierw nieprzeczytane"
 
 #: index.php:178
 msgid "With Note"
-msgstr ""
+msgstr "Z adnotacją"
 
 #: index.php:179
 msgid "Ignore Scoring"
@@ -247,11 +246,11 @@ msgstr "Domyślne"
 
 #: index.php:186
 msgid "Newest first"
-msgstr ""
+msgstr "Najpierw najnowsze"
 
 #: index.php:187
 msgid "Oldest first"
-msgstr ""
+msgstr "Najpierw najstarsze"
 
 #: index.php:188
 msgid "Title"
@@ -270,15 +269,15 @@ msgstr "Oznacz jako przeczytane"
 
 #: index.php:195
 msgid "Older than one day"
-msgstr ""
+msgstr "Starsze niż jeden dzień"
 
 #: index.php:198
 msgid "Older than one week"
-msgstr ""
+msgstr "Starsze niż jeden tydzień"
 
 #: index.php:201
 msgid "Older than two weeks"
-msgstr ""
+msgstr "Starsze niż dwa tygodnie"
 
 #: index.php:218
 msgid "Communication problem with server."
@@ -576,14 +575,12 @@ msgid "Open previous article (don't scroll long articles)"
 msgstr "Otwórz poprzeni artykół (nie przewijaj długich artykułów)"
 
 #: include/functions.php:1929
-#, fuzzy
 msgid "Move to next article (don't expand or mark read)"
-msgstr "Otwórz następny artykuł (nie przewijaj długich artykułów)"
+msgstr "Otwórz następny artykół (nie rozszerzaj lub oznaczaj jako przeczytane)"
 
 #: include/functions.php:1930
-#, fuzzy
 msgid "Move to previous article (don't expand or mark read)"
-msgstr "Otwórz poprzeni artykół (nie przewijaj długich artykułów)"
+msgstr "Otwórz poprzeni artykół (nie rozszerzaj lub oznaczaj jako przeczytane)"
 
 #: include/functions.php:1931
 msgid "Show search dialog"
@@ -654,9 +651,8 @@ msgid "Close/collapse article"
 msgstr "Zamknij/zwiń artykuł"
 
 #: include/functions.php:1947
-#, fuzzy
 msgid "Toggle article expansion (combined mode)"
-msgstr "Przełącz tryb scalony"
+msgstr "Przełącz rozszerzanie artykułów (tryb scalony)"
 
 #: include/functions.php:1949
 #: plugins/embed_original/init.php:33
@@ -738,9 +734,8 @@ msgid "Toggle combined mode"
 msgstr "Przełącz tryb scalony"
 
 #: include/functions.php:1968
-#, fuzzy
 msgid "Toggle auto expand in combined mode"
-msgstr "Przełącz tryb scalony"
+msgstr "Przełącz automatyczne rozszerzanie artykułów w trybie scalonym"
 
 #: include/functions.php:1969
 msgid "Go to"
@@ -894,7 +889,7 @@ msgstr "Wersja lekka"
 
 #: include/login_form.php:229
 msgid "Remember me"
-msgstr ""
+msgstr "Pamiętaj mnie"
 
 #: include/login_form.php:235
 #: classes/handler/public.php:499
@@ -1037,13 +1032,12 @@ msgid "Edit subscription options"
 msgstr "Edytuj opcje prenumeraty"
 
 #: classes/handler/public.php:758
-#, fuzzy
 msgid "Password recovery"
-msgstr "Hasło"
+msgstr "Odzyskiwanie hasła"
 
 #: classes/handler/public.php:764
 msgid "You will need to provide valid account name and email. New password will be sent on your email address."
-msgstr ""
+msgstr "Będziesz musiał podać prawidłową nazwę konta oraz adres email. Nowe hasło zostanie przesłane na Twój adres email."
 
 #: classes/handler/public.php:786
 #: classes/pref/users.php:360
@@ -1139,7 +1133,7 @@ msgstr "Możesz przeprowadzić aktualizację wykorzystując wbudowany aktualizat
 #: classes/dlg.php:245
 #: plugins/updater/init.php:337
 msgid "See the release notes"
-msgstr ""
+msgstr "Zobacz informacje o wydaniu"
 
 #: classes/dlg.php:247
 msgid "Download"
@@ -1252,9 +1246,9 @@ msgid "Feed not found."
 msgstr "Kanał nie został odnaleziony."
 
 #: classes/feeds.php:387
-#, fuzzy, php-format
+#, php-format
 msgid "Imported at %s"
-msgstr "Importuj"
+msgstr "Zaimportowane do %s"
 
 #: classes/feeds.php:534
 msgid "mark as read"
@@ -1277,9 +1271,8 @@ msgid "No starred articles found to display."
 msgstr "Nie znaleziono artykułów oznaczonych gwiazdką."
 
 #: classes/feeds.php:748
-#, fuzzy
 msgid "No articles found to display. You can assign articles to labels manually from article header context menu (applies to all selected articles) or use a filter."
-msgstr "Nie znaleziono artykułów. Możesz ręcznie przypisać artykuły do etykiet (zobacz menu Akcje powyżej) lub wykorzystać do tego celu filtry."
+msgstr "Nie znaleziono artykułów do wyświetlenia. Możesz ręcznie przypisać artykuły do etykiet z menu kontekstowego artykułu (ma zastosowanie do wszystkich zaznaczonych artykułów) lub użyć filtru."
 
 #: classes/feeds.php:750
 msgid "No articles found to display."
@@ -1468,14 +1461,13 @@ msgstr "Przetwarzam kategorię: %s"
 #: plugins/googlereaderimport/init.php:70
 #, php-format
 msgid "Upload failed with error code %d"
-msgstr ""
+msgstr "Przesyłanie pliku zakończone błędem numer %d"
 
 #: classes/opml.php:479
 #: plugins/import_export/init.php:435
 #: plugins/googlereaderimport/init.php:84
-#, fuzzy
 msgid "Unable to move uploaded file."
-msgstr "Błąd: nie udało się wczytać artykułu."
+msgstr "Nie udało się przenieść przesłanego pliku."
 
 #: classes/opml.php:483
 #: plugins/import_export/init.php:439
@@ -1484,9 +1476,8 @@ msgid "Error: please upload OPML file."
 msgstr "Błąd: proszę wgrać plik OPML."
 
 #: classes/opml.php:492
-#, fuzzy
 msgid "Error: unable to find moved OPML file."
-msgstr "Błąd: nie udało się wczytać artykułu."
+msgstr "Błąd: nie udało się przenieść pliku OPML."
 
 #: classes/opml.php:499
 #: plugins/googlereaderimport/init.php:190
@@ -1685,7 +1676,6 @@ msgstr "Pasuje do dowolnej reguły"
 
 #: classes/pref/filters.php:390
 #: classes/pref/filters.php:791
-#, fuzzy
 msgid "Inverse matching"
 msgstr "Odwróć dopasowanie"
 
@@ -1695,14 +1685,13 @@ msgid "Test"
 msgstr "Testuj"
 
 #: classes/pref/filters.php:435
-#, fuzzy
 msgid "(inverse)"
-msgstr "Odwróć"
+msgstr "(odwróć)"
 
 #: classes/pref/filters.php:434
-#, fuzzy, php-format
+#, php-format
 msgid "%s on %s in %s %s"
-msgstr "%s na %s w %s"
+msgstr "%s na %s w %s %s"
 
 #: classes/pref/filters.php:657
 msgid "Combine"
@@ -1724,9 +1713,8 @@ msgid "Create"
 msgstr "Utwórz"
 
 #: classes/pref/filters.php:856
-#, fuzzy
 msgid "Inverse regular expression matching"
-msgstr "Nieprawidłowe wyrażenie regularne."
+msgstr "Odwróć dopasowywanie wyrażeniami regularnymi"
 
 #: classes/pref/filters.php:858
 msgid "on field"
@@ -1765,9 +1753,8 @@ msgid "Add action"
 msgstr "Dodaj działania"
 
 #: classes/pref/filters.php:967
-#, fuzzy
 msgid "[No caption]"
-msgstr "Opis"
+msgstr "[Brak opisu]"
 
 #: classes/pref/prefs.php:18
 msgid "General"
@@ -1783,10 +1770,9 @@ msgstr "Zaawansowane"
 
 #: classes/pref/prefs.php:21
 msgid "Digest"
-msgstr ""
+msgstr "Wyciąg"
 
 #: classes/pref/prefs.php:25
-#, fuzzy
 msgid "Allow duplicate articles"
 msgstr "Zezwalaj na powielanie artykułów"
 
@@ -1799,7 +1785,6 @@ msgid "Blacklisted tags"
 msgstr "Czarna lista tagów"
 
 #: classes/pref/prefs.php:27
-#, fuzzy
 msgid "When auto-detecting tags in articles these tags will not be applied (comma-separated list)."
 msgstr "Podczas automatycznego wykrywania tagów wymienione obok tagi nie zostaną zastosowane (kolejne tagi oddzielaj przecinkiem)."
 
@@ -1808,9 +1793,8 @@ msgid "Automatically mark articles as read"
 msgstr "Automatycznie oznacz artykuły jako przeczytane"
 
 #: classes/pref/prefs.php:28
-#, fuzzy
 msgid "This option enables marking articles as read automatically while you scroll article list."
-msgstr "Opcja uruchamia automatyczne oznaczanie artykułów jako przeczytanych podczas przewijania listy artykułów."
+msgstr "Opcja uruchamia automatyczne oznaczanie artykułów jako przeczytanych podczas przewijania listy artykułów,"
 
 #: classes/pref/prefs.php:29
 msgid "Automatically expand articles in combined mode"
@@ -1833,20 +1817,18 @@ msgid "Amount of articles to display at once"
 msgstr "Ilość artykułów do wyświetlenia za jednym razem"
 
 #: classes/pref/prefs.php:33
-#, fuzzy
 msgid "Default feed update interval"
-msgstr "Domyślna częstotliwość"
+msgstr "Domyślna częstotliwość aktualizacji kanałów"
 
 #: classes/pref/prefs.php:33
 msgid "Shortest interval at which a feed will be checked for updates regardless of update method"
-msgstr ""
+msgstr "Najkrótszy odstęp czasu co który kanał będzie sprawdzany w poszukiwaniu zmian, niezależnie od metody aktualizacji"
 
 #: classes/pref/prefs.php:34
 msgid "Mark articles in e-mail digest as read"
 msgstr "Oznacz jako przeczytane artykuły przesłane emailem jako przegląd"
 
 #: classes/pref/prefs.php:35
-#, fuzzy
 msgid "Enable e-mail digest"
 msgstr "Włącz przegląd artykułów wysyłany emailem"
 
@@ -1864,11 +1846,11 @@ msgstr "Używa strefy UTC"
 
 #: classes/pref/prefs.php:37
 msgid "Enable API access"
-msgstr ""
+msgstr "Włącz dostęp do API"
 
 #: classes/pref/prefs.php:37
 msgid "Allows external clients to access this account through the API"
-msgstr ""
+msgstr "Zezwój zewnętrznym klientom/aplikacjom korzystać z tego konta przez API"
 
 #: classes/pref/prefs.php:38
 msgid "Enable feed categories"
@@ -1883,14 +1865,12 @@ msgid "Maximum age of fresh articles (in hours)"
 msgstr "Przez ile czasu uznawać artykuł za świeży (w godzinach)"
 
 #: classes/pref/prefs.php:41
-#, fuzzy
 msgid "Hide feeds with no unread articles"
 msgstr "Ukryj kanały nie zawierające nieprzeczytanych artykułów"
 
 #: classes/pref/prefs.php:42
-#, fuzzy
 msgid "Show special feeds when hiding read feeds"
-msgstr "Pokaż kanały specjalne gdy włączone ukrywanie przeczytanych kanałów."
+msgstr "Pokaż kanały specjalne gdy włączone jest ukrywanie przeczytanych kanałów."
 
 #: classes/pref/prefs.php:43
 msgid "Long date format"
@@ -1972,7 +1952,7 @@ msgstr "Grupuj nagłówki w wirtualnych kanałach"
 
 #: classes/pref/prefs.php:56
 msgid "Special feeds, labels, and categories are grouped by originating feeds"
-msgstr ""
+msgstr "Kanały specjalne, etykiety i kategorie są grupowane według źródłowego kanału"
 
 #: classes/pref/prefs.php:57
 msgid "Select theme"
@@ -1980,7 +1960,7 @@ msgstr "Wybierz styl"
 
 #: classes/pref/prefs.php:57
 msgid "Select one of the available CSS themes"
-msgstr ""
+msgstr "Wybierz jeden z dostępnych styli CSS"
 
 #: classes/pref/prefs.php:68
 msgid "Old password cannot be blank."
@@ -2012,9 +1992,8 @@ msgid "Your personal data has been saved."
 msgstr "Dwoje dane osobiste zostały zapisane."
 
 #: classes/pref/prefs.php:184
-#, fuzzy
 msgid "Your preferences are now set to default values."
-msgstr "Niektóre ustawienia dostępne są jedynie dla domyślnego profilu."
+msgstr "Twoje ustawienie zostały zresetowane do wartości domyślnych."
 
 #: classes/pref/prefs.php:206
 msgid "Personal data / Authentication"
@@ -2123,9 +2102,8 @@ msgid "Save configuration"
 msgstr "Zapisz konfigurację"
 
 #: classes/pref/prefs.php:694
-#, fuzzy
 msgid "Save and exit preferences"
-msgstr "Wyjdź z ustawień"
+msgstr "Zapisz i wyjdź z ustawień"
 
 #: classes/pref/prefs.php:699
 msgid "Manage profiles"
@@ -2146,7 +2124,7 @@ msgstr "Musisz przeładować Tiny Tiny RSS aby zastosować zmiany we wtyczkach."
 
 #: classes/pref/prefs.php:732
 msgid "Download more plugins at tt-rss.org <a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/forum/viewforum.php?f=22\">forums</a> or <a target=\"_blank\" class=\"visibleLink\" href=\"http://tt-rss.org/wiki/Plugins\">wiki</a>."
-msgstr ""
+msgstr "Pobierz więcej wtyczek  z <a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/forum/viewforum.php?f=22\">forum</a> lub <a target=\"_blank\" class=\"visibleLink\" href=\"http://tt-rss.org/wiki/Plugins\">wiki</a> tt-rss.org."
 
 #: classes/pref/prefs.php:758
 msgid "System plugins"
@@ -2175,7 +2153,7 @@ msgstr "Autor"
 #: classes/pref/prefs.php:794
 #: classes/pref/prefs.php:851
 msgid "more info"
-msgstr ""
+msgstr "więcej informacji"
 
 #: classes/pref/prefs.php:803
 #: classes/pref/prefs.php:860
@@ -2670,7 +2648,7 @@ msgstr "Przygotuj dane"
 #: plugins/import_export/init.php:447
 #: plugins/googlereaderimport/init.php:96
 msgid "No file uploaded."
-msgstr ""
+msgstr "Nie przesłano żadnego pliku."
 
 #: plugins/mail/init.php:87
 msgid "From:"
@@ -2708,23 +2686,23 @@ msgstr "Ustaw wartość"
 #: plugins/googlereaderimport/init.php:182
 #, php-format
 msgid "All done. %d out of %d articles imported."
-msgstr ""
+msgstr "Zakończone. Zaimportowano %d z %d artykułów."
 
 #: plugins/googlereaderimport/init.php:186
 msgid "The document has incorrect format."
-msgstr ""
+msgstr "Dokument ma nieprawidłowy format."
 
 #: plugins/googlereaderimport/init.php:357
 msgid "Import starred or shared items from Google Reader"
-msgstr ""
+msgstr "Zaimportuj oznaczone gwiazdką lub udostępnione elementy z Google Reader"
 
 #: plugins/googlereaderimport/init.php:361
 msgid "Paste your starred.json or shared.json into the form below."
-msgstr ""
+msgstr "Wklej swój plik starred.json lub shared.json do poniższego formularza."
 
 #: plugins/googlereaderimport/init.php:375
 msgid "Import my Starred items"
-msgstr ""
+msgstr "Importuj elementy Oznaczone gwiazdką"
 
 #: plugins/instances/init.php:144
 msgid "Linked"
@@ -2805,21 +2783,20 @@ msgid "Your Tiny Tiny RSS installation is up to date."
 msgstr "Twoja instalacja Tiny Tiny RSS jest aktualna."
 
 #: plugins/updater/init.php:351
-#, fuzzy
 msgid "Do not close this dialog until updating is finished."
-msgstr "Nie zamykaj tego okna dopóki aktualizacja nia zakończy się. Wykonaj kopię zapasową katalogu tt-rss przed kontynuacją."
+msgstr "Nie zamykaj tego okna dopóki aktualizacja nia zakończy się."
 
 #: plugins/updater/init.php:360
 msgid "It is suggested to backup your tt-rss directory first."
-msgstr ""
+msgstr "Sugerujemy wykonać wcześniej kopię zapasową katalogu tt-rss."
 
 #: plugins/updater/init.php:361
 msgid "Your database will not be modified."
-msgstr ""
+msgstr "Baza danych nie zostanie zmodyfikowana."
 
 #: plugins/updater/init.php:362
 msgid "Your current tt-rss installation directory will not be modified. It will be renamed and left in the parent directory. You will be able to migrate all your customized files after update finishes."
-msgstr ""
+msgstr "Twój obecny katalog tt-rss nie zostanie zmodyfikowany. Jego nazwa zostanie zmieniona i pozostawiona w katalogu poziom wyżej. Będziesz mógł przemigrować dostosowane przez siebie pliki po zakończeniu aktualizacji."
 
 #: plugins/updater/init.php:363
 msgid "Ready to update."
@@ -2836,19 +2813,16 @@ msgid "Mark all articles in %s as read?"
 msgstr "Oznaczyć wszystkie artykuły w %s jako przeczytane?"
 
 #: js/feedlist.js:413
-#, fuzzy
 msgid "Mark all articles in %s older than 1 day as read?"
-msgstr "Oznaczyć wszystkie artykuły w %s jako przeczytane?"
+msgstr "Oznaczyć wszystkie w kanale %s starsze jak 1 dzień jako przeczytane?"
 
 #: js/feedlist.js:416
-#, fuzzy
 msgid "Mark all articles in %s older than 1 week as read?"
-msgstr "Oznaczyć wszystkie artykuły w %s jako przeczytane?"
+msgstr "Oznaczyć wszystkie w kanale %s starsze jak tydzień jako przeczytane?"
 
 #: js/feedlist.js:419
-#, fuzzy
 msgid "Mark all articles in %s older than 2 weeks as read?"
-msgstr "Oznaczyć wszystkie artykuły w %s jako przeczytane?"
+msgstr "Oznaczyć wszystkie w kanale %s starsze jak 2 tygodnie jako przeczytane?"
 
 #: js/functions.js:92
 msgid "Are you sure to report this exception to tt-rss.org? The report will include your browser information. Your IP would be saved in the database."
@@ -2856,11 +2830,11 @@ msgstr "Czy jesteś pewien, że chcesz zgłosić ten wyjątek do tt-rss.org? Zg�
 
 #: js/functions.js:214
 msgid "close"
-msgstr ""
+msgstr "zamknij"
 
 #: js/functions.js:586
 msgid "Error explained"
-msgstr ""
+msgstr "Wyjaśnienie błędu"
 
 #: js/functions.js:668
 msgid "Upload complete."
@@ -3432,7 +3406,7 @@ msgstr[2] "Przywrócić %d zarchiwizowanych artykułów?"
 
 #: js/viewfeed.js:1032
 msgid "Please note that unstarred articles might get purged on next feed update."
-msgstr ""
+msgstr "Pamiętaj, iż artykuły nie oznaczone gwiazdką mogą zostać usunięte podczas następnej aktualizacji."
 
 #: js/viewfeed.js:1077
 msgid "Mark %d selected article in %s as read?"
@@ -3473,7 +3447,6 @@ msgid "Display article URL"
 msgstr "Wyświetl adres artykułu"
 
 #: js/viewfeed.js:1907
-#, fuzzy
 msgid "Toggle marked"
 msgstr "Przełącz oznaczenie gwiazdką"
 
@@ -3569,10 +3542,9 @@ msgstr "Zapisuję notatkę do artykułu..."
 
 #: plugins/googlereaderimport/init.js:18
 msgid "Google Reader Import"
-msgstr ""
+msgstr "Import z Google Reader"
 
 #: plugins/googlereaderimport/init.js:42
-#, fuzzy
 msgid "Please choose a file first."
 msgstr "Najpierw wybierz plik."
 
@@ -3606,9 +3578,8 @@ msgid "Share article by URL"
 msgstr "Udostępnij artykuł"
 
 #: plugins/updater/updater.js:58
-#, fuzzy
 msgid "Backup your tt-rss directory before continuing. Please type 'yes' to continue."
-msgstr "Aktualizacja \"na żywo\" jest uznawana za funkcję eksperymentalną. Wykonaj kopię swojego katalogu tt-rss przed kontynuowaniem. Wpisz 'yes' aby kontynuować."
+msgstr "Wykonaj kopię swojego katalogu tt-rss przed kontynuowaniem. Wpisz 'yes' aby kontynuować."
 
 #~ msgid "Could not upload file. You might need to adjust upload_max_filesize in PHP.ini (current value = %s)"
 #~ msgstr "Nie udało się wgrać pliku. Możliwe, że będziesz musiał dostosować wartość parametru upload_max_filesize (maksymalny rozmiar przesyłanego pliku) w PHP.ini (obecna wartość = %s)"
@@ -3650,6 +3621,7 @@ msgstr "Aktualizacja \"na żywo\" jest uznawana za funkcję eksperymentalną. Wy
 #~ msgstr "BŁĄD!"
 
 #~ msgid "Finished. Performed <b>%d</b> update up to schema version <b>%d</b>."
+
 #~ msgid_plural "Finished. Performed <b>%d</b> updates up to schema version <b>%d</b>."
 #~ msgstr[0] "Zakończono. Wykonano <b>%d</b> aktualizację do wersji <b>%d</b> schematu bazy danych."
 #~ msgstr[1] "Zakończono. Wykonano <b>%d</b> aktualizacji do wersji <b>%d</b> schematu bazy danych."
@@ -3711,6 +3683,7 @@ msgstr "Aktualizacja \"na żywo\" jest uznawana za funkcję eksperymentalną. Wy
 #~ msgstr "Świeży"
 
 #~ msgid "(%d feed)"
+
 #~ msgid_plural "(%d feeds)"
 #~ msgstr[0] "(%d kanał)"
 #~ msgstr[1] "(%d kanały)"
