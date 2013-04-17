@@ -22,15 +22,10 @@ function ttrss_error_handler($errno, $errstr, $file, $line, $context) {
 function ttrss_fatal_handler() {
 	global $logger;
 
-	$file		= "UNKNOWN FILE";
-	$errstr  = "UNKNOWN";
-	$errno   = E_CORE_ERROR;
-	$line		= -1;
-
 	$error = error_get_last();
 
 	if ($error !== NULL) {
-		$errno   = $error["type"];
+		$errno = $error["type"];
 		$file = $error["file"];
 		$line = $error["line"];
 		$errstr  = $error["message"];
