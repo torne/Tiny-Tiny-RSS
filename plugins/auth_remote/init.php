@@ -11,9 +11,9 @@ class Auth_Remote extends Plugin implements IAuthModule {
 			true);
 	}
 
-	function init($host) {
+	function init($dbh, host) {
 		$this->host = $host;
-		$this->base = new Auth_Base();
+		$this->base = new Auth_Base($dbh);
 
 		$host->add_hook($host::HOOK_AUTH_USER, $this);
 	}
