@@ -852,6 +852,15 @@ function updatePrefsList() {
 		} });
 }
 
+function updateSystemList() {
+	new Ajax.Request("backend.php", {
+		parameters: "?op=pref-system",
+		onComplete: function(transport) {
+			dijit.byId('systemConfigTab').attr('content', transport.responseText);
+			notify("");
+		} });
+}
+
 function selectTab(id, noupdate, method) {
 	try {
 		if (!noupdate) {
@@ -867,6 +876,8 @@ function selectTab(id, noupdate, method) {
 				updatePrefsList();
 			} else if (id == "userConfig") {
 				updateUsersList();
+			} else if (id == "systemConfig") {
+				updateSystemList();
 			}
 
 			var tab = dijit.byId(id + "Tab");
