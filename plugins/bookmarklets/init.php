@@ -1,6 +1,5 @@
 <?php
 class Bookmarklets extends Plugin {
-  private $link;
   private $host;
 
   function about() {
@@ -10,7 +9,6 @@ class Bookmarklets extends Plugin {
   }
 
   function init($host) {
-    $this->link = $host->get_link();
     $this->host = $host;
 
     $host->add_hook($host::HOOK_PREFS_TAB, $this);

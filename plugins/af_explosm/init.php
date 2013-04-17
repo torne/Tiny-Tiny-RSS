@@ -1,7 +1,6 @@
 <?php
 class Af_Explosm extends Plugin {
 
-	private $link;
 	private $host;
 
 	function about() {
@@ -11,7 +10,6 @@ class Af_Explosm extends Plugin {
 	}
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_ARTICLE_FILTER, $this);

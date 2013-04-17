@@ -1,6 +1,5 @@
 <?php
 class Share extends Plugin {
-	private $link;
 	private $host;
 
 	function about() {
@@ -10,7 +9,6 @@ class Share extends Plugin {
 	}
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
@@ -28,9 +26,9 @@ class Share extends Plugin {
 	}
 
 	function shareArticle() {
-		$param = db_escape_string($this->link, $_REQUEST['param']);
+		$param = db_escape_string( $_REQUEST['param']);
 
-		$result = db_query($this->link, "SELECT uuid, ref_id FROM ttrss_user_entries WHERE int_id = '$param'
+		$result = db_query( "SELECT uuid, ref_id FROM ttrss_user_entries WHERE int_id = '$param'
 			AND owner_uid = " . $_SESSION['uid']);
 
 		if (db_num_rows($result) == 0) {
@@ -41,8 +39,8 @@ class Share extends Plugin {
 			$ref_id = db_fetch_result($result, 0, "ref_id");
 
 			if (!$uuid) {
-				$uuid = db_escape_string($this->link, sha1(uniqid(rand(), true)));
-				db_query($this->link, "UPDATE ttrss_user_entries SET uuid = '$uuid' WHERE int_id = '$param'
+				$uuid = db_escape_string( sha1(uniqid(rand(), true)));
+				db_query( "UPDATE ttrss_user_entries SET uuid = '$uuid' WHERE int_id = '$param'
 					AND owner_uid = " . $_SESSION['uid']);
 			}
 
@@ -55,10 +53,10 @@ class Share extends Plugin {
 			print "<a id='pub_opml_url' href='$url_path' target='_blank'>$url_path</a>";
 			print "</div>";
 
-			/* if (!label_find_id($this->link, __('Shared'), $_SESSION["uid"]))
-				label_create($this->link, __('Shared'), $_SESSION["uid"]);
+			/* if (!label_find_id( __('Shared'), $_SESSION["uid"]))
+				label_create( __('Shared'), $_SESSION["uid"]);
 
-			label_add_article($this->link, $ref_id, __('Shared'), $_SESSION['uid']); */
+			label_add_article( $ref_id, __('Shared'), $_SESSION['uid']); */
 		}
 
 		print "<div align='center'>";

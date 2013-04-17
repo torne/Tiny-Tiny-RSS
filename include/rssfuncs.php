@@ -3,32 +3,32 @@
 	define('DAEMON_FEED_LIMIT', 100);
 	define('DAEMON_SLEEP_INTERVAL', 60);
 
-	function update_feedbrowser_cache($link) {
+	function update_feedbrowser_cache() {
 
-		$result = db_query($link, "SELECT feed_url, site_url, title, COUNT(id) AS subscribers
+		$result = db_query( "SELECT feed_url, site_url, title, COUNT(id) AS subscribers
 	  		FROM ttrss_feeds WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
 				WHERE tf.feed_url = ttrss_feeds.feed_url
 				AND (private IS true OR auth_login != '' OR auth_pass != '' OR feed_url LIKE '%:%@%/%'))
 				GROUP BY feed_url, site_url, title ORDER BY subscribers DESC LIMIT 1000");
 
-		db_query($link, "BEGIN");
+		db_query( "BEGIN");
 
-		db_query($link, "DELETE FROM ttrss_feedbrowser_cache");
+		db_query( "DELETE FROM ttrss_feedbrowser_cache");
 
 		$count = 0;
 
 		while ($line = db_fetch_assoc($result)) {
-			$subscribers = db_escape_string($link, $line["subscribers"]);
-			$feed_url = db_escape_string($link, $line["feed_url"]);
-			$title = db_escape_string($link, $line["title"]);
-			$site_url = db_escape_string($link, $line["site_url"]);
+			$subscribers = db_escape_string( $line["subscribers"]);
+			$feed_url = db_escape_string( $line["feed_url"]);
+			$title = db_escape_string( $line["title"]);
+			$site_url = db_escape_string( $line["site_url"]);
 
-			$tmp_result = db_query($link, "SELECT subscribers FROM
+			$tmp_result = db_query( "SELECT subscribers FROM
 				ttrss_feedbrowser_cache WHERE feed_url = '$feed_url'");
 
 			if (db_num_rows($tmp_result) == 0) {
 
-				db_query($link, "INSERT INTO ttrss_feedbrowser_cache
+				db_query( "INSERT INTO ttrss_feedbrowser_cache
 					(feed_url, site_url, title, subscribers) VALUES ('$feed_url',
 						'$site_url', '$title', '$subscribers')");
 
@@ -38,7 +38,7 @@
 
 		}
 
-		db_query($link, "COMMIT");
+		db_query( "COMMIT");
 
 		return $count;
 
@@ -57,10 +57,10 @@
 	 * @param boolean $debug Set to false to disable debug output. Default to true.
 	 * @return void
 	 */
-	function update_daemon_common($link, $limit = DAEMON_FEED_LIMIT, $from_http = false, $debug = true) {
+	function update_daemon_common( $limit = DAEMON_FEED_LIMIT, $from_http = false, $debug = true) {
 		// Process all other feeds using last_updated and interval parameters
 
-		$schema_version = get_schema_version($link);
+		$schema_version = get_schema_version();
 
 		if ($schema_version != SCHEMA_VERSION) {
 			die("Schema version is wrong, please upgrade the database.\n");
@@ -116,7 +116,7 @@
 		$random_qpart = sql_random_function();
 
 		// We search for feed needing update.
-		$result = db_query($link, "SELECT DISTINCT ttrss_feeds.feed_url,$random_qpart
+		$result = db_query( "SELECT DISTINCT ttrss_feeds.feed_url,$random_qpart
 			FROM
 				ttrss_feeds, ttrss_users, ttrss_user_prefs
 			WHERE
@@ -134,7 +134,7 @@
 		// Here is a little cache magic in order to minimize risk of double feed updates.
 		$feeds_to_update = array();
 		while ($line = db_fetch_assoc($result)) {
-			array_push($feeds_to_update, db_escape_string($link, $line['feed_url']));
+			array_push($feeds_to_update, db_escape_string( $line['feed_url']));
 		}
 
 		// We update the feed last update started date before anything else.
@@ -145,16 +145,16 @@
 			$feeds_quoted = array();
 
 			foreach ($feeds_to_update as $feed) {
-				array_push($feeds_quoted, "'" . db_escape_string($link, $feed) . "'");
+				array_push($feeds_quoted, "'" . db_escape_string( $feed) . "'");
 			}
 
-			db_query($link, sprintf("UPDATE ttrss_feeds SET last_update_started = NOW()
+			db_query( sprintf("UPDATE ttrss_feeds SET last_update_started = NOW()
 				WHERE feed_url IN (%s)", implode(',', $feeds_quoted)));
 		}
 
 		expire_cached_files($debug);
 		expire_lock_files($debug);
-		expire_error_log($link, $debug);
+		expire_error_log( $debug);
 
 		$nf = 0;
 
@@ -162,16 +162,16 @@
 		foreach ($feeds_to_update as $feed) {
 			if($debug) _debug("Base feed: $feed");
 
-			//update_rss_feed($link, $line["id"], true);
+			//update_rss_feed( $line["id"], true);
 
 			// since we have the data cached, we can deal with other feeds with the same url
 
-			$tmp_result = db_query($link, "SELECT DISTINCT ttrss_feeds.id,last_updated
+			$tmp_result = db_query( "SELECT DISTINCT ttrss_feeds.id,last_updated
 			FROM ttrss_feeds, ttrss_users, ttrss_user_prefs WHERE
 				ttrss_user_prefs.owner_uid = ttrss_feeds.owner_uid AND
 				ttrss_users.id = ttrss_user_prefs.owner_uid AND
 				ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL' AND
-				feed_url = '".db_escape_string($link, $feed)."' AND
+				feed_url = '".db_escape_string( $feed)."' AND
 				(ttrss_feeds.update_interval > 0 OR
 					ttrss_user_prefs.value != '-1')
 				$login_thresh_qpart
@@ -180,7 +180,7 @@
 			if (db_num_rows($tmp_result) > 0) {
 				while ($tline = db_fetch_assoc($tmp_result)) {
 					if($debug) _debug(" => " . $tline["last_updated"] . ", " . $tline["id"]);
-					update_rss_feed($link, $tline["id"], true);
+					update_rss_feed( $tline["id"], true);
 					++$nf;
 				}
 			}
@@ -189,14 +189,14 @@
 		require_once "digest.php";
 
 		// Send feed digests by email if needed.
-		send_headlines_digests($link, $debug);
+		send_headlines_digests( $debug);
 
 		return $nf;
 
 	} // function update_daemon_common
 
 	// ignore_daemon is not used
-	function update_rss_feed($link, $feed, $ignore_daemon = false, $no_cache = false,
+	function update_rss_feed( $feed, $ignore_daemon = false, $no_cache = false,
 		$override_url = false) {
 
 		require_once "lib/simplepie/simplepie.inc";
@@ -207,7 +207,7 @@
 			_debug("update_rss_feed: start");
 		}
 
-		$result = db_query($link, "SELECT id,update_interval,auth_login,
+		$result = db_query( "SELECT id,update_interval,auth_login,
 			feed_url,auth_pass,cache_images,last_updated,
 			mark_unread_on_update, owner_uid,
 			pubsub_state, auth_pass_encrypted
@@ -228,7 +228,7 @@
 		$auth_pass_encrypted = sql_bool_to_bool(db_fetch_result($result,
 			0, "auth_pass_encrypted"));
 
-		db_query($link, "UPDATE ttrss_feeds SET last_update_started = NOW()
+		db_query( "UPDATE ttrss_feeds SET last_update_started = NOW()
 			WHERE id = '$feed'");
 
 		$auth_login = db_fetch_result($result, 0, "auth_login");
@@ -242,7 +242,7 @@
 		$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
 		$fetch_url = db_fetch_result($result, 0, "feed_url");
 
-		$feed = db_escape_string($link, $feed);
+		$feed = db_escape_string( $feed);
 
 		if ($override_url) $fetch_url = $override_url;
 
@@ -252,7 +252,7 @@
 
 		// Ignore cache if new feed or manual update.
 		$cache_age = ($no_cache || is_null($last_updated) || $last_updated == '1970-01-01 00:00:00') ?
-			30 : get_feed_update_interval($link, $feed) * 60;
+			30 : get_feed_update_interval( $feed) * 60;
 
 		if ($debug_enabled) {
 			_debug("update_rss_feed: cache filename: $cache_filename exists: " . file_exists($cache_filename));
@@ -322,14 +322,14 @@
 
 				// If-Modified-Since
 				if ($fetch_last_error_code != 304) {
-					$error_escaped = db_escape_string($link, $fetch_last_error);
+					$error_escaped = db_escape_string( $fetch_last_error);
 				} else {
 					if ($debug_enabled) {
 						_debug("update_rss_feed: source claims data not modified, nothing to do.");
 					}
 				}
 
-				db_query($link,
+				db_query(
 					"UPDATE ttrss_feeds SET last_error = '$error_escaped',
 						last_updated = NOW() WHERE id = '$feed'");
 
@@ -337,9 +337,9 @@
 			}
 		}
 
-		$pluginhost = new PluginHost($link);
+		$pluginhost = new PluginHost();
 		$pluginhost->set_debug($debug_enabled);
-		$user_plugins = get_pref($link, "_ENABLED_PLUGINS", $owner_uid);
+		$user_plugins = get_pref( "_ENABLED_PLUGINS", $owner_uid);
 
 		$pluginhost->load(PLUGINS, $pluginhost::KIND_ALL);
 		$pluginhost->load($user_plugins, $pluginhost::KIND_USER, $owner_uid);
@@ -364,7 +364,7 @@
 
 //		print_r($rss);
 
-		$feed = db_escape_string($link, $feed);
+		$feed = db_escape_string( $feed);
 
 		if (!$rss->error()) {
 
@@ -388,7 +388,7 @@
 				_debug("update_rss_feed: processing feed data...");
 			}
 
-//			db_query($link, "BEGIN");
+//			db_query( "BEGIN");
 
 			if (DB_TYPE == "pgsql") {
 				$favicon_interval_qpart = "favicon_last_checked < NOW() - INTERVAL '12 hour'";
@@ -396,7 +396,7 @@
 				$favicon_interval_qpart = "favicon_last_checked < DATE_SUB(NOW(), INTERVAL 12 HOUR)";
 			}
 
-			$result = db_query($link, "SELECT title,site_url,owner_uid,
+			$result = db_query( "SELECT title,site_url,owner_uid,
 				(favicon_last_checked IS NULL OR $favicon_interval_qpart) AS
 						favicon_needs_check
 				FROM ttrss_feeds WHERE id = '$feed'");
@@ -408,7 +408,7 @@
 
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
-			$site_url = db_escape_string($link, mb_substr(rewrite_relative_url($fetch_url, $rss->get_link()), 0, 245));
+			$site_url = db_escape_string( mb_substr(rewrite_relative_url($fetch_url, $rss->get_link()), 0, 245));
 
 			if ($favicon_needs_check || $force_refetch) {
 				if ($debug_enabled) {
@@ -421,31 +421,31 @@
 				if (file_exists($favicon_file)) {
 						require_once "colors.php";
 
-						$favicon_color = db_escape_string($link,
+						$favicon_color = db_escape_string(
 							calculate_avg_color($favicon_file));
 
 						$favicon_colorstring = ",favicon_avg_color = '".$favicon_color."'";
 				}
 
-				db_query($link, "UPDATE ttrss_feeds SET favicon_last_checked = NOW()
+				db_query( "UPDATE ttrss_feeds SET favicon_last_checked = NOW()
 					$favicon_colorstring
 					WHERE id = '$feed'");
 			}
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
 
-				$feed_title = db_escape_string($link, $rss->get_title());
+				$feed_title = db_escape_string( $rss->get_title());
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: registering title: $feed_title");
 				}
 
-				db_query($link, "UPDATE ttrss_feeds SET
+				db_query( "UPDATE ttrss_feeds SET
 					title = '$feed_title' WHERE id = '$feed'");
 			}
 
 			if ($site_url && $orig_site_url != $site_url) {
-				db_query($link, "UPDATE ttrss_feeds SET
+				db_query( "UPDATE ttrss_feeds SET
 					site_url = '$site_url' WHERE id = '$feed'");
 			}
 
@@ -453,8 +453,8 @@
 				_debug("update_rss_feed: loading filters & labels...");
 			}
 
-			$filters = load_filters($link, $feed, $owner_uid);
-			$labels = get_all_labels($link, $owner_uid);
+			$filters = load_filters( $feed, $owner_uid);
+			$labels = get_all_labels( $owner_uid);
 
 			if ($debug_enabled) {
 				//print_r($filters);
@@ -468,7 +468,7 @@
 					_debug("update_rss_feed: no articles found.");
 				}
 
-				db_query($link, "UPDATE ttrss_feeds
+				db_query( "UPDATE ttrss_feeds
 					SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");
 
 				return; // no articles
@@ -506,7 +506,7 @@
 					if ($debug_enabled)
 						_debug("update_rss_feed: feed hub url found, subscribe request sent.");
 
-					db_query($link, "UPDATE ttrss_feeds SET pubsub_state = 1
+					db_query( "UPDATE ttrss_feeds SET pubsub_state = 1
 						WHERE id = '$feed'");
 				}
 			}
@@ -528,7 +528,7 @@
 
 				$entry_guid = "$owner_uid,$entry_guid";
 
-				$entry_guid_hashed = db_escape_string($link, 'SHA1:' . sha1($entry_guid));
+				$entry_guid_hashed = db_escape_string( 'SHA1:' . sha1($entry_guid));
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: guid $entry_guid / $entry_guid_hashed");
@@ -578,13 +578,13 @@
 					$entry_author = $entry_author_item->get_name();
 					if (!$entry_author) $entry_author = $entry_author_item->get_email();
 
-					$entry_author = db_escape_string($link, $entry_author);
+					$entry_author = db_escape_string( $entry_author);
 				}
 
-				$entry_guid = db_escape_string($link, mb_substr($entry_guid, 0, 245));
+				$entry_guid = db_escape_string( mb_substr($entry_guid, 0, 245));
 
-				$entry_comments = db_escape_string($link, mb_substr($entry_comments, 0, 245));
-				$entry_author = db_escape_string($link, mb_substr($entry_author, 0, 245));
+				$entry_comments = db_escape_string( mb_substr($entry_comments, 0, 245));
+				$entry_author = db_escape_string( mb_substr($entry_author, 0, 245));
 
 				$num_comments = $item->get_item_tags('http://purl.org/rss/1.0/modules/slash/', 'comments');
 
@@ -641,8 +641,8 @@
 				}
 
 				// FIXME not sure if owner_uid is a good idea here, we may have a base entry without user entry (?)
-				$result = db_query($link, "SELECT plugin_data,title,content,link,tag_cache,author FROM ttrss_entries, ttrss_user_entries
-					WHERE ref_id = id AND (guid = '".db_escape_string($link, $entry_guid)."' OR guid = '$entry_guid_hashed') AND owner_uid = $owner_uid");
+				$result = db_query( "SELECT plugin_data,title,content,link,tag_cache,author FROM ttrss_entries, ttrss_user_entries
+					WHERE ref_id = id AND (guid = '".db_escape_string( $entry_guid)."' OR guid = '$entry_guid_hashed') AND owner_uid = $owner_uid");
 
 				if (db_num_rows($result) != 0) {
 					$entry_plugin_data = db_fetch_result($result, 0, "plugin_data");
@@ -671,11 +671,11 @@
 				}
 
 				$entry_tags = $article["tags"];
-				$entry_guid = db_escape_string($link, $entry_guid);
-				$entry_title = db_escape_string($link, $article["title"]);
-				$entry_author = db_escape_string($link, $article["author"]);
-				$entry_link = db_escape_string($link, $article["link"]);
-				$entry_plugin_data = db_escape_string($link, $article["plugin_data"]);
+				$entry_guid = db_escape_string( $entry_guid);
+				$entry_title = db_escape_string( $article["title"]);
+				$entry_author = db_escape_string( $article["author"]);
+				$entry_link = db_escape_string( $article["link"]);
+				$entry_plugin_data = db_escape_string( $article["plugin_data"]);
 				$entry_content = $article["content"]; // escaped below
 
 
@@ -686,13 +686,13 @@
 				if ($cache_images && is_writable(CACHE_DIR . '/images'))
 					cache_images($entry_content, $site_url, $debug_enabled);
 
-				$entry_content = db_escape_string($link, $entry_content, false);
+				$entry_content = db_escape_string( $entry_content, false);
 
 				$content_hash = "SHA1:" . sha1($entry_content);
 
-				db_query($link, "BEGIN");
+				db_query( "BEGIN");
 
-				$result = db_query($link, "SELECT id FROM	ttrss_entries
+				$result = db_query( "SELECT id FROM	ttrss_entries
 					WHERE (guid = '$entry_guid' OR guid = '$entry_guid_hashed')");
 
 				if (db_num_rows($result) == 0) {
@@ -703,7 +703,7 @@
 
 					// base post entry does not exist, create it
 
-					$result = db_query($link,
+					$result = db_query(
 						"INSERT INTO ttrss_entries
 							(title,
 							guid,
@@ -745,15 +745,15 @@
 
 					$base_entry_id = db_fetch_result($result, 0, "id");
 
-					db_query($link, "UPDATE ttrss_entries SET date_updated = NOW()
+					db_query( "UPDATE ttrss_entries SET date_updated = NOW()
 						WHERE id = '$base_entry_id'");
 
-					$article_labels = get_article_labels($link, $base_entry_id, $owner_uid);
+					$article_labels = get_article_labels( $base_entry_id, $owner_uid);
 				}
 
 				// now it should exist, if not - bad luck then
 
-				$result = db_query($link, "SELECT
+				$result = db_query( "SELECT
 						id,content_hash,no_orig_date,title,plugin_data,guid,
 						".SUBSTRING_FOR_DATE."(date_updated,1,19) as date_updated,
 						".SUBSTRING_FOR_DATE."(updated,1,19) as updated,
@@ -786,14 +786,14 @@
 					if ($stored_guid != $entry_guid_hashed) {
 						if ($debug_enabled) _debug("upgrading compat guid to hashed one");
 
-						db_query($link, "UPDATE ttrss_entries SET guid = '$entry_guid_hashed' WHERE
+						db_query( "UPDATE ttrss_entries SET guid = '$entry_guid_hashed' WHERE
 							id = '$ref_id'");
 					} */
 
 					// check for user post link to main table
 
 					// do we allow duplicate posts with same GUID in different feeds?
-					if (get_pref($link, "ALLOW_DUPLICATE_POSTS", $owner_uid, false)) {
+					if (get_pref( "ALLOW_DUPLICATE_POSTS", $owner_uid, false)) {
 						$dupcheck_qpart = "AND (feed_id = '$feed' OR feed_id IS NULL)";
 					} else {
 						$dupcheck_qpart = "";
@@ -813,7 +813,7 @@
 					}
 
 					if (find_article_filter($article_filters, "filter")) {
-						db_query($link, "COMMIT"); // close transaction in progress
+						db_query( "COMMIT"); // close transaction in progress
 						continue;
 					}
 
@@ -829,7 +829,7 @@
 
 //					if ($_REQUEST["xdebug"]) print "$query\n";
 
-					$result = db_query($link, $query);
+					$result = db_query( $query);
 
 					// okay it doesn't exist - create user entry
 					if (db_num_rows($result) == 0) {
@@ -862,7 +862,7 @@
 
 						if (DB_TYPE == "pgsql" and defined('_NGRAM_TITLE_DUPLICATE_THRESHOLD')) {
 
-							$result = db_query($link, "SELECT COUNT(*) AS similar FROM
+							$result = db_query( "SELECT COUNT(*) AS similar FROM
 									ttrss_entries,ttrss_user_entries
 								WHERE ref_id = id AND updated >= NOW() - INTERVAL '7 day'
 									AND similarity(title, '$entry_title') >= "._NGRAM_TITLE_DUPLICATE_THRESHOLD."
@@ -882,7 +882,7 @@
 						$last_marked = ($marked == 'true') ? 'NOW()' : 'NULL';
 						$last_published = ($published == 'true') ? 'NOW()' : 'NULL';
 
-						$result = db_query($link,
+						$result = db_query(
 							"INSERT INTO ttrss_user_entries
 								(ref_id, owner_uid, feed_id, unread, last_read, marked,
 								published, score, tag_cache, label_cache, uuid,
@@ -894,14 +894,14 @@
 						if (PUBSUBHUBBUB_HUB && $published == 'true') {
 							$rss_link = get_self_url_prefix() .
 								"/public.php?op=rss&id=-2&key=" .
-								get_feed_access_key($link, -2, false, $owner_uid);
+								get_feed_access_key( -2, false, $owner_uid);
 
 							$p = new Publisher(PUBSUBHUBBUB_HUB);
 
 							$pubsub_result = $p->publish_update($rss_link);
 						}
 
-						$result = db_query($link,
+						$result = db_query(
 							"SELECT int_id FROM ttrss_user_entries WHERE
 								ref_id = '$ref_id' AND owner_uid = '$owner_uid' AND
 								feed_id = '$feed' LIMIT 1");
@@ -940,7 +940,7 @@
 						$update_insignificant = false;
 					}
 
-					if (db_escape_string($link, $orig_title) != $entry_title) {
+					if (db_escape_string( $orig_title) != $entry_title) {
 						$post_needs_update = true;
 						$update_insignificant = false;
 					}
@@ -955,7 +955,7 @@
 
 //						print "<!-- post $orig_title needs update : $post_needs_update -->";
 
-						db_query($link, "UPDATE ttrss_entries
+						db_query( "UPDATE ttrss_entries
 							SET title = '$entry_title', content = '$entry_content',
 								content_hash = '$content_hash',
 								updated = '$entry_timestamp_fmt',
@@ -965,20 +965,20 @@
 
 						if (!$update_insignificant) {
 							if ($mark_unread_on_update) {
-								db_query($link, "UPDATE ttrss_user_entries
+								db_query( "UPDATE ttrss_user_entries
 									SET last_read = null, unread = true WHERE ref_id = '$ref_id'");
 							}
 						}
 					}
 				}
 
-				db_query($link, "COMMIT");
+				db_query( "COMMIT");
 
 				if ($debug_enabled) {
 					_debug("update_rss_feed: assigning labels...");
 				}
 
-				assign_article_to_label_filters($link, $entry_ref_id, $article_filters,
+				assign_article_to_label_filters( $entry_ref_id, $article_filters,
 					$owner_uid, $article_labels);
 
 				if ($debug_enabled) {
@@ -1004,24 +1004,24 @@
 					print_r($enclosures);
 				}
 
-				db_query($link, "BEGIN");
+				db_query( "BEGIN");
 
 				foreach ($enclosures as $enc) {
-					$enc_url = db_escape_string($link, $enc[0]);
-					$enc_type = db_escape_string($link, $enc[1]);
-					$enc_dur = db_escape_string($link, $enc[2]);
+					$enc_url = db_escape_string( $enc[0]);
+					$enc_type = db_escape_string( $enc[1]);
+					$enc_dur = db_escape_string( $enc[2]);
 
-					$result = db_query($link, "SELECT id FROM ttrss_enclosures
+					$result = db_query( "SELECT id FROM ttrss_enclosures
 						WHERE content_url = '$enc_url' AND post_id = '$entry_ref_id'");
 
 					if (db_num_rows($result) == 0) {
-						db_query($link, "INSERT INTO ttrss_enclosures
+						db_query( "INSERT INTO ttrss_enclosures
 							(content_url, content_type, title, duration, post_id) VALUES
 							('$enc_url', '$enc_type', '', '$enc_dur', '$entry_ref_id')");
 					}
 				}
 
-				db_query($link, "COMMIT");
+				db_query( "COMMIT");
 
 				// check for manual tags (we have to do it here since they're loaded from filters)
 
@@ -1040,7 +1040,7 @@
 
 				// Skip boring tags
 
-				$boring_tags = trim_array(explode(",", mb_strtolower(get_pref($link,
+				$boring_tags = trim_array(explode(",", mb_strtolower(get_pref(
 					'BLACKLISTED_TAGS', $owner_uid, ''), 'utf-8')));
 
 				$filtered_tags = array();
@@ -1065,22 +1065,22 @@
 
 				if (count($filtered_tags) > 0) {
 
-					db_query($link, "BEGIN");
+					db_query( "BEGIN");
 
 					foreach ($filtered_tags as $tag) {
 
 						$tag = sanitize_tag($tag);
-						$tag = db_escape_string($link, $tag);
+						$tag = db_escape_string( $tag);
 
 						if (!tag_is_valid($tag)) continue;
 
-						$result = db_query($link, "SELECT id FROM ttrss_tags
+						$result = db_query( "SELECT id FROM ttrss_tags
 							WHERE tag_name = '$tag' AND post_int_id = '$entry_int_id' AND
 							owner_uid = '$owner_uid' LIMIT 1");
 
 							if ($result && db_num_rows($result) == 0) {
 
-								db_query($link, "INSERT INTO ttrss_tags
+								db_query( "INSERT INTO ttrss_tags
 									(owner_uid,tag_name,post_int_id)
 									VALUES ('$owner_uid','$tag', '$entry_int_id')");
 							}
@@ -1092,16 +1092,16 @@
 
 					$tags_to_cache = array_unique($tags_to_cache);
 
-					$tags_str = db_escape_string($link, join(",", $tags_to_cache));
+					$tags_str = db_escape_string( join(",", $tags_to_cache));
 
-					db_query($link, "UPDATE ttrss_user_entries
+					db_query( "UPDATE ttrss_user_entries
 						SET tag_cache = '$tags_str' WHERE ref_id = '$entry_ref_id'
 						AND owner_uid = $owner_uid");
 
-					db_query($link, "COMMIT");
+					db_query( "COMMIT");
 				}
 
-				if (get_pref($link, "AUTO_ASSIGN_LABELS", $owner_uid, false)) {
+				if (get_pref( "AUTO_ASSIGN_LABELS", $owner_uid, false)) {
 					if ($debug_enabled) {
 						_debug("update_rss_feed: auto-assigning labels...");
 					}
@@ -1111,7 +1111,7 @@
 
 						if ($caption && preg_match("/\b$caption\b/i", "$tags_str " . strip_tags($entry_content) . " $entry_title")) {
 							if (!labels_contains_caption($article_labels, $caption)) {
-								label_add_article($link, $entry_ref_id, $caption, $owner_uid);
+								label_add_article( $entry_ref_id, $caption, $owner_uid);
 							}
 						}
 					}
@@ -1126,29 +1126,29 @@
 				if ($debug_enabled) {
 					_debug("update_rss_feed: new feed, catching it up...");
 				}
-				catchup_feed($link, $feed, false, $owner_uid);
+				catchup_feed( $feed, false, $owner_uid);
 			}
 
 			if ($debug_enabled) {
 				_debug("purging feed...");
 			}
 
-			purge_feed($link, $feed, 0, $debug_enabled);
+			purge_feed( $feed, 0, $debug_enabled);
 
-			db_query($link, "UPDATE ttrss_feeds
+			db_query( "UPDATE ttrss_feeds
 				SET last_updated = NOW(), last_error = '' WHERE id = '$feed'");
 
-//			db_query($link, "COMMIT");
+//			db_query( "COMMIT");
 
 		} else {
 
-			$error_msg = db_escape_string($link, mb_substr($rss->error(), 0, 245));
+			$error_msg = db_escape_string( mb_substr($rss->error(), 0, 245));
 
 			if ($debug_enabled) {
 				_debug("update_rss_feed: error fetching feed: $error_msg");
 			}
 
-			db_query($link,
+			db_query(
 				"UPDATE ttrss_feeds SET last_error = '$error_msg',
 					last_updated = NOW() WHERE id = '$feed'");
 		}
@@ -1204,14 +1204,14 @@
 		return $doc->saveXML($node);
 	}
 
-	function expire_error_log($link, $debug) {
+	function expire_error_log( $debug) {
 		if ($debug) _debug("Removing old error log entries...");
 
 		if (DB_TYPE == "pgsql") {
-			db_query($link, "DELETE FROM ttrss_error_log
+			db_query( "DELETE FROM ttrss_error_log
 				WHERE created_at < NOW() - INTERVAL '7 days'");
 		} else {
-			db_query($link, "DELETE FROM ttrss_error_log
+			db_query( "DELETE FROM ttrss_error_log
 				WHERE created_at < DATE_SUB(NOW(), INTERVAL 7 DAY)");
 		}
 
@@ -1284,7 +1284,7 @@
 		return $params;
 	}
 
-	function get_article_filters($filters, $title, $content, $link, $timestamp, $author, $tags) {
+	function get_article_filters($filters, $title, $content,  $timestamp, $author, $tags) {
 		$matches = array();
 
 		foreach ($filters as $filter) {
@@ -1399,11 +1399,11 @@
 		return false;
 	}
 
-	function assign_article_to_label_filters($link, $id, $filters, $owner_uid, $article_labels) {
+	function assign_article_to_label_filters( $id, $filters, $owner_uid, $article_labels) {
 		foreach ($filters as $f) {
 			if ($f["type"] == "label") {
 				if (!labels_contains_caption($article_labels, $f["param"])) {
-					label_add_article($link, $id, $f["param"], $owner_uid);
+					label_add_article( $id, $f["param"], $owner_uid);
 				}
 			}
 		}

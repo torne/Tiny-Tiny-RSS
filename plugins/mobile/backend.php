@@ -31,28 +31,28 @@
 
 	switch ($op) {
 	case "toggleMarked":
-		$cmode = db_escape_string($link, $_REQUEST["mark"]);
-		$id = db_escape_string($link, $_REQUEST["id"]);
+		$cmode = db_escape_string( $_REQUEST["mark"]);
+		$id = db_escape_string( $_REQUEST["id"]);
 
-		markArticlesById($link, array($id), $cmode);
+		markArticlesById( array($id), $cmode);
 		break;
 	case "togglePublished":
-		$cmode = db_escape_string($link, $_REQUEST["pub"]);
-		$id = db_escape_string($link, $_REQUEST["id"]);
+		$cmode = db_escape_string( $_REQUEST["pub"]);
+		$id = db_escape_string( $_REQUEST["id"]);
 
-		publishArticlesById($link, array($id), $cmode);
+		publishArticlesById( array($id), $cmode);
 		break;
 	case "toggleUnread":
-		$cmode = db_escape_string($link, $_REQUEST["unread"]);
-		$id = db_escape_string($link, $_REQUEST["id"]);
+		$cmode = db_escape_string( $_REQUEST["unread"]);
+		$id = db_escape_string( $_REQUEST["id"]);
 
-		catchupArticlesById($link, array($id), $cmode);
+		catchupArticlesById( array($id), $cmode);
 		break;
 
 	case "setPref":
-		$id = db_escape_string($link, $_REQUEST["id"]);
-		$value = db_escape_string($link, $_REQUEST["to"]);
-		mobile_set_pref($link, $id, $value);
+		$id = db_escape_string( $_REQUEST["id"]);
+		$value = db_escape_string( $_REQUEST["to"]);
+		mobile_set_pref( $id, $value);
 		print_r($_SESSION);
 		break;
 	default:

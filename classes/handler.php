@@ -1,10 +1,10 @@
 <?php
 class Handler implements IHandler {
-	protected $link;
+	protected $dbh;
 	protected $args;
 
-	function __construct($link, $args) {
-		$this->link = $link;
+	function __construct($dbh, $args) {
+		$this->dbh = $dbh;
 		$this->args = $args;
 	}
 

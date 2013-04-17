@@ -6,7 +6,6 @@ class Example_VFeed extends Plugin {
 
 	// Not implemented yet: stuff for 3 panel mode
 
-	private $link;
 	private $host;
 	private $dummy_id;
 
@@ -18,7 +17,6 @@ class Example_VFeed extends Plugin {
 	}
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$this->dummy_id = $host->add_feed(-1, 'Dummy feed', 'images/pub_set.svg', $this);
@@ -29,7 +27,7 @@ class Example_VFeed extends Plugin {
 	}
 
 	function get_headlines($feed_id, $options) {
-		$qfh_ret = queryFeedHeadlines($this->link, -4,
+		$qfh_ret = queryFeedHeadlines( -4,
 			$options['limit'],
 			$options['view_mode'], $options['cat_view'],
 			$options['search'],

@@ -1,7 +1,6 @@
 <?php
 class Af_PennyArcade extends Plugin {
 
-	private $link;
 	private $host;
 
 	function about() {
@@ -11,7 +10,6 @@ class Af_PennyArcade extends Plugin {
 	}
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_ARTICLE_FILTER, $this);
@@ -22,11 +20,11 @@ class Af_PennyArcade extends Plugin {
 
 		if (strpos($article["link"], "penny-arcade.com") !== FALSE && strpos($article["title"], "Comic:") !== FALSE) {
 			if (strpos($article["plugin_data"], "pennyarcade,$owner_uid:") === FALSE) {
-				
+
 				if ($debug_enabled) {
 					_debug("af_pennyarcade: Processing comic");
 				}
-				
+
 				$doc = new DOMDocument();
 				$doc->loadHTML(fetch_file_contents($article["link"]));
 
@@ -49,7 +47,7 @@ class Af_PennyArcade extends Plugin {
 				$article["content"] = $article["stored"]["content"];
 			}
 		}
-	
+
 		if (strpos($article["link"], "penny-arcade.com") !== FALSE && strpos($article["title"], "News Post:") !== FALSE) {
 			if (strpos($article["plugin_data"], "pennyarcade,$owner_uid:") === FALSE) {
 				if ($debug_enabled) {
@@ -57,22 +55,22 @@ class Af_PennyArcade extends Plugin {
 				}
 				$doc = new DOMDocument();
 				$doc->loadHTML(fetch_file_contents($article["link"]));
-				
+
 				if ($doc) {
 					$xpath = new DOMXPath($doc);
 					$entries = $xpath->query('(//div[@class="post"])');
-					
+
 					$basenode = false;
-					
+
 					foreach ($entries as $entry) {
 						$basenode = $entry;
 					}
-					
+
 					$uninteresting = $xpath->query('(//div[@class="heading"])');
 					foreach ($uninteresting as $i) {
 						$i->parentNode->removeChild($i);
 					}
-					
+
 					if ($basenode){
 						$article["content"] = $doc->saveXML($basenode);
 						$article["plugin_data"] = "pennyarcade,$owner_uid:" . $article["plugin_data"];

@@ -7,7 +7,7 @@
 			$_SESSION["prefs_cache"] = array();
 	}
 
-	function cache_prefs($link) {
+	function cache_prefs() {
 		$profile = false;
 
 		$user_id = $_SESSION["uid"];
@@ -19,9 +19,9 @@
 			$profile_qpart = "profile IS NULL AND";
 		}
 
-		if (get_schema_version($link) < 63) $profile_qpart = "";
+		if (get_schema_version() < 63) $profile_qpart = "";
 
-		$result = db_query($link, "SELECT
+		$result = db_query( "SELECT
 			value,ttrss_prefs_types.type_name as type_name,ttrss_prefs.pref_name AS pref_name
 			FROM
 				ttrss_user_prefs,ttrss_prefs,ttrss_prefs_types
@@ -42,9 +42,9 @@
 		}
 	}
 
-	function get_pref($link, $pref_name, $user_id = false, $die_on_error = false) {
+	function get_pref( $pref_name, $user_id = false, $die_on_error = false) {
 
-		$pref_name = db_escape_string($link, $pref_name);
+		$pref_name = db_escape_string( $pref_name);
 		$prefs_cache = true;
 		$profile = false;
 
@@ -69,9 +69,9 @@
 			$profile_qpart = "profile IS NULL AND";
 		}
 
-		if (get_schema_version($link) < 63) $profile_qpart = "";
+		if (get_schema_version() < 63) $profile_qpart = "";
 
-		$result = db_query($link, "SELECT
+		$result = db_query( "SELECT
 			value,ttrss_prefs_types.type_name as type_name
 			FROM
 				ttrss_user_prefs,ttrss_prefs,ttrss_prefs_types
@@ -114,9 +114,9 @@
 		}
 	}
 
-	function set_pref($link, $pref_name, $value, $user_id = false, $strip_tags = true) {
-		$pref_name = db_escape_string($link, $pref_name);
-		$value = db_escape_string($link, $value, $strip_tags);
+	function set_pref( $pref_name, $value, $user_id = false, $strip_tags = true) {
+		$pref_name = db_escape_string( $pref_name);
+		$value = db_escape_string( $value, $strip_tags);
 
 		if (!$user_id) {
 			$user_id = $_SESSION["uid"];
@@ -132,7 +132,7 @@
 			$profile_qpart = "AND profile IS NULL";
 		}
 
-		if (get_schema_version($link) < 63) $profile_qpart = "";
+		if (get_schema_version() < 63) $profile_qpart = "";
 
 		$type_name = "";
 		$current_value = "";
@@ -145,7 +145,7 @@
 		}
 
 		if (!$type_name) {
-			$result = db_query($link, "SELECT type_name
+			$result = db_query( "SELECT type_name
 				FROM ttrss_prefs,ttrss_prefs_types
 				WHERE pref_name = '$pref_name' AND type_id = ttrss_prefs_types.id");
 
@@ -170,7 +170,7 @@
 				$value = 'UTC';
 			}
 
-			db_query($link, "UPDATE ttrss_user_prefs SET
+			db_query( "UPDATE ttrss_user_prefs SET
 				value = '$value' WHERE pref_name = '$pref_name'
 					$profile_qpart
 					AND owner_uid = " . $_SESSION["uid"]);

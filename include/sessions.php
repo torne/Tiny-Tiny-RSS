@@ -36,7 +36,7 @@
 		}
 	}
 
-	function validate_session($link) {
+	function validate_session() {
 		if (SINGLE_USER_MODE) return true;
 
 		if (VERSION != $_SESSION["version"]) return false;

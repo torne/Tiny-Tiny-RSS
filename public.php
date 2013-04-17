@@ -31,7 +31,7 @@
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-	if (!init_plugins($link)) return;
+	if (!init_plugins()) return;
 
 	if (ENABLE_GZIP_OUTPUT && function_exists("ob_gzhandler")) {
 		ob_start("ob_gzhandler");
@@ -45,7 +45,7 @@
 	if ($override) {
 		$handler = $override;
 	} else {
-		$handler = new Handler_Public($link, $_REQUEST);
+		$handler = new Handler_Public( $_REQUEST);
 	}
 
 	if (implements_interface($handler, "IHandler") && $handler->before($method)) {
@@ -62,5 +62,5 @@
 	print json_encode(array("error" => array("code" => 7)));
 
 	// We close the connection to database.
-	db_close($link);
+	db_close();
 ?>

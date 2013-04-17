@@ -20,10 +20,10 @@
 
 	init_plugins($link);
 
-	login_sequence($link, true);
+	login_sequence( true);
 
-	$cat_id = db_escape_string($link, $_REQUEST["id"]);
+	$cat_id = db_escape_string( $_REQUEST["id"]);
 
-  	render_category($link, $cat_id);
+  	render_category( $cat_id);
 ?>
 

@@ -8,9 +8,9 @@ class Pref_Labels extends Handler_Protected {
 	}
 
 	function edit() {
-		$label_id = db_escape_string($this->link, $_REQUEST['id']);
+		$label_id = db_escape_string( $_REQUEST['id']);
 
-		$result = db_query($this->link, "SELECT * FROM ttrss_labels2 WHERE
+		$result = db_query( "SELECT * FROM ttrss_labels2 WHERE
 			id = '$label_id' AND owner_uid = " . $_SESSION["uid"]);
 
 		$line = db_fetch_assoc($result);
@@ -90,7 +90,7 @@ class Pref_Labels extends Handler_Protected {
 		$root['name'] = __('Labels');
 		$root['items'] = array();
 
-		$result = db_query($this->link, "SELECT *
+		$result = db_query( "SELECT *
 			FROM ttrss_labels2
 			WHERE owner_uid = ".$_SESSION["uid"]."
 			ORDER BY caption");
@@ -118,29 +118,29 @@ class Pref_Labels extends Handler_Protected {
 	}
 
 	function colorset() {
-		$kind = db_escape_string($this->link, $_REQUEST["kind"]);
-		$ids = explode(',', db_escape_string($this->link, $_REQUEST["ids"]));
-		$color = db_escape_string($this->link, $_REQUEST["color"]);
-		$fg = db_escape_string($this->link, $_REQUEST["fg"]);
-		$bg = db_escape_string($this->link, $_REQUEST["bg"]);
+		$kind = db_escape_string( $_REQUEST["kind"]);
+		$ids = explode(',', db_escape_string( $_REQUEST["ids"]));
+		$color = db_escape_string( $_REQUEST["color"]);
+		$fg = db_escape_string( $_REQUEST["fg"]);
+		$bg = db_escape_string( $_REQUEST["bg"]);
 
 		foreach ($ids as $id) {
 
 			if ($kind == "fg" || $kind == "bg") {
-				db_query($this->link, "UPDATE ttrss_labels2 SET
+				db_query( "UPDATE ttrss_labels2 SET
 					${kind}_color = '$color' WHERE id = '$id'
 					AND owner_uid = " . $_SESSION["uid"]);
 			} else {
-				db_query($this->link, "UPDATE ttrss_labels2 SET
+				db_query( "UPDATE ttrss_labels2 SET
 					fg_color = '$fg', bg_color = '$bg' WHERE id = '$id'
 					AND owner_uid = " . $_SESSION["uid"]);
 			}
 
-			$caption = db_escape_string($this->link, label_find_caption($this->link, $id, $_SESSION["uid"]));
+			$caption = db_escape_string( label_find_caption($id, $_SESSION["uid"]));
 
 			/* Remove cached data */
 
-			db_query($this->link, "UPDATE ttrss_user_entries SET label_cache = ''
+			db_query( "UPDATE ttrss_user_entries SET label_cache = ''
 				WHERE label_cache LIKE '%$caption%' AND owner_uid = " . $_SESSION["uid"]);
 
 		}
@@ -149,18 +149,18 @@ class Pref_Labels extends Handler_Protected {
 	}
 
 	function colorreset() {
-		$ids = explode(',', db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(',', db_escape_string( $_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
-			db_query($this->link, "UPDATE ttrss_labels2 SET
+			db_query( "UPDATE ttrss_labels2 SET
 				fg_color = '', bg_color = '' WHERE id = '$id'
 				AND owner_uid = " . $_SESSION["uid"]);
 
-			$caption = db_escape_string($this->link, label_find_caption($this->link, $id, $_SESSION["uid"]));
+			$caption = db_escape_string( label_find_caption($id, $_SESSION["uid"]));
 
 			/* Remove cached data */
 
-			db_query($this->link, "UPDATE ttrss_user_entries SET label_cache = ''
+			db_query( "UPDATE ttrss_user_entries SET label_cache = ''
 				WHERE label_cache LIKE '%$caption%' AND owner_uid = " . $_SESSION["uid"]);
 		}
 
@@ -168,31 +168,31 @@ class Pref_Labels extends Handler_Protected {
 
 	function save() {
 
-		$id = db_escape_string($this->link, $_REQUEST["id"]);
-		$caption = db_escape_string($this->link, trim($_REQUEST["caption"]));
+		$id = db_escape_string( $_REQUEST["id"]);
+		$caption = db_escape_string( trim($_REQUEST["caption"]));
 
-		db_query($this->link, "BEGIN");
+		db_query( "BEGIN");
 
-		$result = db_query($this->link, "SELECT caption FROM ttrss_labels2
+		$result = db_query( "SELECT caption FROM ttrss_labels2
 			WHERE id = '$id' AND owner_uid = ". $_SESSION["uid"]);
 
 		if (db_num_rows($result) != 0) {
 			$old_caption = db_fetch_result($result, 0, "caption");
 
-			$result = db_query($this->link, "SELECT id FROM ttrss_labels2
+			$result = db_query( "SELECT id FROM ttrss_labels2
 				WHERE caption = '$caption' AND owner_uid = ". $_SESSION["uid"]);
 
 			if (db_num_rows($result) == 0) {
 				if ($caption) {
-					$result = db_query($this->link, "UPDATE ttrss_labels2 SET
+					$result = db_query( "UPDATE ttrss_labels2 SET
 						caption = '$caption' WHERE id = '$id' AND
 						owner_uid = " . $_SESSION["uid"]);
 
 					/* Update filters that reference label being renamed */
 
-					$old_caption = db_escape_string($this->link, $old_caption);
+					$old_caption = db_escape_string( $old_caption);
 
-					db_query($this->link, "UPDATE ttrss_filters2_actions SET
+					db_query( "UPDATE ttrss_filters2_actions SET
 						action_param = '$caption' WHERE action_param = '$old_caption'
 						AND action_id = 7
 						AND filter_id IN (SELECT id FROM ttrss_filters2 WHERE owner_uid = ".$_SESSION["uid"].")");
@@ -206,28 +206,28 @@ class Pref_Labels extends Handler_Protected {
 			}
 		}
 
-		db_query($this->link, "COMMIT");
+		db_query( "COMMIT");
 
 		return;
 	}
 
 	function remove() {
 
-		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(",", db_escape_string( $_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
-			label_remove($this->link, $id, $_SESSION["uid"]);
+			label_remove( $id, $_SESSION["uid"]);
 		}
 
 	}
 
 	function add() {
-		$caption = db_escape_string($this->link, $_REQUEST["caption"]);
-		$output = db_escape_string($this->link, $_REQUEST["output"]);
+		$caption = db_escape_string( $_REQUEST["caption"]);
+		$output = db_escape_string( $_REQUEST["output"]);
 
 		if ($caption) {
 
-			if (label_create($this->link, $caption)) {
+			if (label_create( $caption)) {
 				if (!$output) {
 					print T_sprintf("Created label <b>%s</b>", htmlspecialchars($caption));
 				}
@@ -238,7 +238,7 @@ class Pref_Labels extends Handler_Protected {
 
 				print "<rpc-reply><payload>";
 
-				print_label_select($this->link, "select_label",
+				print_label_select( "select_label",
 					$caption, "");
 
 				print "</payload></rpc-reply>";
@@ -250,13 +250,13 @@ class Pref_Labels extends Handler_Protected {
 
 	function index() {
 
-		$sort = db_escape_string($this->link, $_REQUEST["sort"]);
+		$sort = db_escape_string( $_REQUEST["sort"]);
 
 		if (!$sort || $sort == "undefined") {
 			$sort = "caption";
 		}
 
-		$label_search = db_escape_string($this->link, $_REQUEST["search"]);
+		$label_search = db_escape_string( $_REQUEST["search"]);
 
 		if (array_key_exists("search", $_REQUEST)) {
 			$_SESSION["prefs_label_search"] = $label_search;

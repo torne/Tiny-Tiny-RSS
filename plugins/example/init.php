@@ -2,8 +2,6 @@
 class Example extends Plugin {
 
 	// Demonstrates how to add a separate panel to the preferences screen and inject Javascript/save data using Dojo forms.
-
-	private $link;
 	private $host;
 
 	function about() {
@@ -15,14 +13,13 @@ class Example extends Plugin {
 	}
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_PREFS_TAB, $this);
 	}
 
 	function save() {
-		$example_value = db_escape_string($this->link, $_POST["example_value"]);
+		$example_value = db_escape_string( $_POST["example_value"]);
 
 		$this->host->set($this, "example", $example_value);
 

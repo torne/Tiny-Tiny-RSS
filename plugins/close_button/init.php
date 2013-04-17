@@ -1,10 +1,8 @@
 <?php
 class Close_Button extends Plugin {
-	private $link;
 	private $host;
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
@@ -17,7 +15,7 @@ class Close_Button extends Plugin {
 	}
 
 	function hook_article_button($line) {
-		if (!get_pref($this->link, "COMBINED_DISPLAY_MODE")) {
+		if (!get_pref( "COMBINED_DISPLAY_MODE")) {
 			$rv = "<img src=\"plugins/close_button/button.png\"
 				class='tagsPic' style=\"cursor : pointer\"
 				onclick=\"closeArticlePanel()\"

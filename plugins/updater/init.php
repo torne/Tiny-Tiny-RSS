@@ -1,7 +1,6 @@
 <?php
 class Updater extends Plugin {
 
-	private $link;
 	private $host;
 
 	function about() {
@@ -12,7 +11,6 @@ class Updater extends Plugin {
 	}
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_PREFS_TAB, $this);
@@ -22,7 +20,7 @@ class Updater extends Plugin {
 			$this);
 	}
 
-	function update_self_step($link, $step, $params, $force = false) {
+	function update_self_step( $step, $params, $force = false) {
 		// __FILE__ is in plugins/updater so we need to go one level up
 		$work_dir = dirname(dirname(dirname(__FILE__)));
 		$parent_dir = dirname($work_dir);
@@ -279,13 +277,13 @@ class Updater extends Plugin {
 		return array("step" => $step, "stop" => $stop, "params" => $params, "log" => $log);
 	}
 
-	function update_self_cli($link, $force = false) {
+	function update_self_cli( $force = false) {
 		$step = 0;
 		$stop = false;
 		$params = array();
 
 		while (!$stop) {
-			$rc = $this->update_self_step($link, $step, $params, $force);
+			$rc = $this->update_self_step( $step, $params, $force);
 
 			$params = $rc['params'];
 			$stop = $rc['stop'];
@@ -309,7 +307,7 @@ class Updater extends Plugin {
 		if ($input != 'yes' && $input != 'force')
 			exit;
 
-		$this->update_self_cli($link, $input == 'force');
+		$this->update_self_cli( $input == 'force');
 	}
 
 	function get_prefs_js() {
@@ -323,7 +321,7 @@ class Updater extends Plugin {
 			print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Update Tiny Tiny RSS')."\">";
 
 			if ($_SESSION["pref_last_version_check"] + 86400 + rand(-1000, 1000) < time()) {
-				$_SESSION["version_data"] = @check_for_update($this->link);
+				$_SESSION["version_data"] = @check_for_update();
 				$_SESSION["pref_last_version_check"] = time();
 			}
 
@@ -378,7 +376,7 @@ class Updater extends Plugin {
 		$force = (bool) $_REQUEST["force"];
 
 		if (($_SESSION["access_level"] >= 10 || SINGLE_USER_MODE) && CHECK_FOR_NEW_VERSION) {
-			print	json_encode($this->update_self_step($this->link, $step, $params, $force));
+			print	json_encode($this->update_self_step( $step, $params, $force));
 		}
 	}
 

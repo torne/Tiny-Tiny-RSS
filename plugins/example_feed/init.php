@@ -4,7 +4,6 @@ class Example_Feed extends Plugin {
 	// Demonstrates how to query data from the parsed feed object (SimplePie)
 	// don't enable unless debugging feed through f D hotkey or manually.
 
-	private $link;
 	private $host;
 
 	function about() {
@@ -15,7 +14,6 @@ class Example_Feed extends Plugin {
 	}
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_FEED_PARSED, $this);

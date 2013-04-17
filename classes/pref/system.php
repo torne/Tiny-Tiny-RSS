@@ -2,10 +2,6 @@
 
 class Pref_System extends Handler_Protected {
 
-	function __construct($link, $args) {
-		parent::__construct($link, $args);
-	}
-
 	function before($method) {
 		if (parent::before($method)) {
 			if ($_SESSION["access_level"] < 10) {
@@ -28,7 +24,7 @@ class Pref_System extends Handler_Protected {
 		print "<div dojoType=\"dijit.layout.AccordionContainer\" region=\"center\">";
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Error Log')."\">";
 
-		$result = db_query($this->link, "SELECT errno, errstr, filename, lineno,
+		$result = db_query( "SELECT errno, errstr, filename, lineno,
 			created_at, login FROM ttrss_error_log
 			LEFT JOIN ttrss_users ON (owner_uid = ttrss_users.id)
 			ORDER BY ttrss_error_log.id DESC
@@ -57,7 +53,7 @@ class Pref_System extends Handler_Protected {
 			print "<td class='login'>" . $line["login"] . "</td>";
 
 			print "<td class='timestamp'>" .
-				make_local_datetime($this->link,
+				make_local_datetime(
 				$line["created_at"], false) . "</td>";
 
 			print "</tr>";

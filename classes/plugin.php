@@ -1,10 +1,10 @@
 <?php
 class Plugin {
-	private $link;
+	private $dbh;
 	private $host;
 
 	function init($host) {
-		$this->link = $host->get_link();
+		$this->dbh = $host->get_dbh();
 		$this->host = $host;
 	}
 

@@ -174,15 +174,11 @@
 			"Maybe another daemon is already running.\n");
 	}
 
-	// Testing database connection.
-	// It is unnecessary to start the fork loop if database is not ok.
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	init_plugins();
 
-	if (!init_plugins($link)) die("Can't initialize db connection.\n");
+	$schema_version = get_schema_version();
 
-	$schema_version = get_schema_version($link);
-
-	db_close($link);
+	db_close();
 
 	if ($schema_version != SCHEMA_VERSION) {
 		die("Schema version is wrong, please upgrade the database.\n");
@@ -203,10 +199,8 @@
 
 			/* Check if schema version changed */
 
-			$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-			if (!init_plugins($link)) die("Can't initialize db connection.\n");
-			$test_schema_version = get_schema_version($link);
-			db_close($link);
+			init_plugins();
+			$test_schema_version = get_schema_version();
 
 			if ($test_schema_version != $schema_version) {
 				echo "Expected schema version: $schema_version, got: $test_schema_version\n";
@@ -254,9 +248,7 @@
 
 					$start_timestamp = time();
 
-					$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-					if (!init_plugins($link)) return;
+					if (!init_plugins()) return;
 
 					// We disable stamp file, since it is of no use in a multiprocess update.
 					// not really, tho for the time being -fox
@@ -271,15 +263,15 @@
 
 					_debug("Waiting before update [$j]..");
 					sleep($j*5);
-					$nf = update_daemon_common($link);
+					$nf = update_daemon_common();
 
 					if (rand(0,100) > 50) {
-						$count = update_feedbrowser_cache($link);
+						$count = update_feedbrowser_cache();
 						_debug("Feedbrowser updated, $count feeds processed.");
 
-						purge_orphans($link, true);
+						purge_orphans( true);
 
-						$rc = cleanup_tags($link, 14, 50000);
+						$rc = cleanup_tags( 14, 50000);
 
 						_debug("Cleaned $rc cached tags.");
 
@@ -297,7 +289,7 @@
 						}
 					}
 
-					db_close($link);
+					db_close();
 
 					// We are in a fork.
 					// We wait a little before exiting to avoid to be faster than our parent process.

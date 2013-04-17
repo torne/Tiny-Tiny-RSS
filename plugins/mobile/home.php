@@ -20,14 +20,14 @@
 
 	init_plugins($link);
 
-	login_sequence($link, true);
+	login_sequence( true);
 
-	$use_cats = mobile_get_pref($link, 'ENABLE_CATS');
-	$offset = (int) db_escape_string($link, $_REQUEST["skip"]);
+	$use_cats = mobile_get_pref( 'ENABLE_CATS');
+	$offset = (int) db_escape_string( $_REQUEST["skip"]);
 
 	if ($use_cats) {
 		render_categories_list($link);
 	} else {
-		render_flat_feed_list($link, $offset);
+		render_flat_feed_list( $offset);
 	}
 ?>

@@ -6,7 +6,6 @@ class Example_Api extends Plugin {
 	// 1. status (STATUS_OK or STATUS_ERR)
 	// 2. arbitrary payload
 
-	private $link;
 	private $host;
 
 	function about() {
@@ -18,7 +17,6 @@ class Example_Api extends Plugin {
 	}
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$host->add_api_method("example_testmethod", $this);

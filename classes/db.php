@@ -36,7 +36,7 @@ class Db implements IDb {
 
 	function connect($host, $user, $pass, $db, $port) {
 		//return $this->adapter->connect($host, $user, $pass, $db, $port);
-		return $this->link;
+		return ;
 	}
 
 	function escape_string($s, $strip_tags = true) {

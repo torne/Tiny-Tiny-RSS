@@ -1,7 +1,6 @@
 <?php
 class Example_Article extends Plugin {
 
-	private $link;
 	private $host;
 
 	function about() {
@@ -12,7 +11,6 @@ class Example_Article extends Plugin {
 	}
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_RENDER_ARTICLE, $this);

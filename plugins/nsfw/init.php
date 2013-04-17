@@ -1,7 +1,5 @@
 <?php
 class NSFW extends Plugin {
-
-	private $link;
 	private $host;
 
 	function about() {
@@ -12,7 +10,6 @@ class NSFW extends Plugin {
 	}
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_RENDER_ARTICLE, $this);
@@ -91,7 +88,7 @@ class NSFW extends Plugin {
 	}
 
 	function save() {
-		$tags = explode(",", db_escape_string($this->link, $_POST["tags"]));
+		$tags = explode(",", db_escape_string( $_POST["tags"]));
 		$tags = array_map("trim", $tags);
 		$tags = array_map("mb_strtolower", $tags);
 		$tags = join(", ", $tags);
