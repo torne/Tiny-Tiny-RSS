@@ -1,11 +1,5 @@
 <?php
 class Auth_Base {
-	protected $dbh;
-
-	function __construct($dbh) {
-		$this->dbh = $dbh;
-	}
-
 	function check_password($owner_uid, $password) {
 		return false;
 	}
