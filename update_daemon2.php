@@ -21,7 +21,6 @@
 	require_once "config.php";
 	require_once "db.php";
 	require_once "db-prefs.php";
-	require_once "errorhandler.php";
 
 	// defaults
 	define('PURGE_INTERVAL', 3600); // seconds
@@ -230,67 +229,13 @@
 
 					register_shutdown_function('task_shutdown');
 
+					$quiet = (isset($options["quiet"])) ? "--quiet" : "";
+
 					$my_pid = posix_getpid();
-					$lock_filename = "update_daemon-$my_pid.lock";
 
-					$lock_handle = make_lockfile($lock_filename);
+					passthru(PHP_EXECUTABLE . " update.php --daemon-loop $quiet --task $j --pidlock $my_pid");
 
-					if (!$lock_handle) {
-						die("error: Can't create lockfile ($lock_filename). ".
-						"Maybe another daemon is already running.\n");
-					}
-
-					// ****** Updating RSS code *******
-					// Only run in fork process.
-
-					$start_timestamp = time();
-
-					if (!init_plugins()) return;
-
-					// We disable stamp file, since it is of no use in a multiprocess update.
-					// not really, tho for the time being -fox
-					if (!make_stampfile('update_daemon.stamp')) {
-						_debug("warning: unable to create stampfile\n");
-					}
-
-					// Call to the feed batch update function
-					// and maybe regenerate feedbrowser cache
-
-					$nf = 0;
-
-					_debug("Waiting before update [$j]..");
-					sleep($j*5);
-					$nf = update_daemon_common();
-
-					if (rand(0,100) > 50) {
-						$count = update_feedbrowser_cache();
-						_debug("Feedbrowser updated, $count feeds processed.");
-
-						purge_orphans( true);
-
-						$rc = cleanup_tags( 14, 50000);
-
-						_debug("Cleaned $rc cached tags.");
-
-						global $pluginhost;
-						$pluginhost->run_hooks($pluginhost::HOOK_UPDATE_TASK, "hook_update_task", $op);
-					}
-
-					_debug("Elapsed time: " . (time() - $start_timestamp) . " second(s)");
-
-					if ($nf > 0) {
-						_debug("Feeds processed: $nf");
-
-						if (time() - $start_timestamp > 0) {
-							_debug("Feeds/minute: " . sprintf("%.2d", $nf/((time()-$start_timestamp)/60)));
-						}
-					}
-
-					// We are in a fork.
-					// We wait a little before exiting to avoid to be faster than our parent process.
 					sleep(1);
-
-					unlink(LOCK_DIRECTORY . "/$lock_filename");
 
 					// We exit in order to avoid fork bombing.
 					exit(0);

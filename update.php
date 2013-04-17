@@ -30,6 +30,7 @@
 			"quiet",
 			"log:",
 			"indexes",
+			"pidlock:",
 			"update-schema",
 			"convert-filters",
 			"force-update",
@@ -113,8 +114,22 @@
 		$lock_filename = $lock_filename . "-task_" . $options["task"];
 	}
 
+	if (isset($options["pidlock"])) {
+		$my_pid = $options["pidlock"];
+		$lock_filename = "update_daemon-$my_pid.lock";
+
+	}
+
+	_debug("Lock: $lock_filename");
+
 	$lock_handle = make_lockfile($lock_filename);
 	$must_exit = false;
+
+	if (isset($options["task"])) {
+		$waits = $options["task"] * 5;
+		_debug("Waiting before update ($waits)");
+		sleep($waits);
+	}
 
 	// Try to lock a file in order to avoid concurrent update.
 	if (!$lock_handle) {

@@ -337,7 +337,7 @@
 			}
 		}
 
-		$pluginhost = new PluginHost();
+		$pluginhost = new PluginHost(Db::get());
 		$pluginhost->set_debug($debug_enabled);
 		$user_plugins = get_pref( "_ENABLED_PLUGINS", $owner_uid);
 
