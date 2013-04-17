@@ -134,7 +134,8 @@ function catchupAllFeeds() {
 		new Ajax.Request("backend.php", {
 			parameters: query_str,
 			onComplete: function(transport) {
-				feedlist_callback2(transport);
+				request_counters(true);
+				viewCurrentFeed();
 			} });
 
 		global_unread = 0;
