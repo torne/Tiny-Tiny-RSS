@@ -60,6 +60,12 @@
 	function update_daemon_common($link, $limit = DAEMON_FEED_LIMIT, $from_http = false, $debug = true) {
 		// Process all other feeds using last_updated and interval parameters
 
+		$schema_version = get_schema_version($link);
+
+		if ($schema_version != SCHEMA_VERSION) {
+			die("Schema version is wrong, please upgrade the database.\n");
+		}
+
 		define('PREFS_NO_CACHE', true);
 
 		// Test if the user has loggued in recently. If not, it does not update its feeds.

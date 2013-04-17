@@ -183,6 +183,10 @@
 
 	db_close($link);
 
+	if ($schema_version != SCHEMA_VERSION) {
+		die("Schema version is wrong, please upgrade the database.\n");
+	}
+
 	while (true) {
 
 		// Since sleep is interupted by SIGCHLD, we need another way to

@@ -89,6 +89,14 @@
 		return;
 	}
 
+	if (!isset($options['update-schema'])) {
+		$schema_version = get_schema_version($link);
+
+		if ($schema_version != SCHEMA_VERSION) {
+			die("Schema version is wrong, please upgrade the database.\n");
+		}
+	}
+
 	define('QUIET', isset($options['quiet']));
 
 	if (isset($options["log"])) {
