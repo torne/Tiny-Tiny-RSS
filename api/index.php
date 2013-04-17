@@ -31,8 +31,6 @@
 		ob_start();
 	}
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
 	$input = file_get_contents("php://input");
 
 	if (defined('_API_DEBUG_HTTP_ENABLED') && _API_DEBUG_HTTP_ENABLED) {
@@ -55,11 +53,11 @@
 		@session_start();
 	}
 
-	if (!init_plugins($link)) return;
+	if (!init_plugins()) return;
 
 	$method = strtolower($_REQUEST["op"]);
 
-	$handler = new API($link, $_REQUEST);
+	$handler = new API(Db::get(), $_REQUEST);
 
 	if ($handler->before($method)) {
 		if ($method && method_exists($handler, $method)) {
@@ -69,8 +67,6 @@
 		}
 		$handler->after();
 	}
-
-	db_close($link);
 
 	header("Api-Content-Length: " . ob_get_length());
 
