@@ -223,8 +223,6 @@
 					ttrss_entries.date_updated < NOW() - INTERVAL '$purge_interval days'");
 			}
 
-			$rows = pg_affected_rows($result);
-
 		} else {
 
 /*			$result = db_query("DELETE FROM ttrss_user_entries WHERE
@@ -239,11 +237,10 @@
 				feed_id = '$feed_id' AND
 				$query_limit
 				ttrss_entries.date_updated < DATE_SUB(NOW(), INTERVAL $purge_interval DAY)");
-
-			$rows = mysql_affected_rows();
-
 		}
 
+		$rows = db_affected_rows($result);
+		
 		ccache_update($feed_id, $owner_uid);
 
 		if ($debug) {
