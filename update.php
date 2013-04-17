@@ -88,6 +88,10 @@
 		return;
 	}
 
+	if (!isset($options['daemon'])) {
+		require_once "errorhandler.php";
+	}
+
 	if (!isset($options['update-schema'])) {
 		$schema_version = get_schema_version($link);
 
