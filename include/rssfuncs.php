@@ -595,6 +595,7 @@
 				}
 
 				if ($debug_enabled) {
+					_debug("update_rss_feed: author $entry_author");
 					_debug("update_rss_feed: num_comments: $num_comments");
 					_debug("update_rss_feed: looking for tags [1]...");
 				}
@@ -1284,7 +1285,7 @@
 		return $params;
 	}
 
-	function get_article_filters($filters, $title, $content,  $timestamp, $author, $tags) {
+	function get_article_filters($filters, $title, $content, $link, $timestamp, $author, $tags) {
 		$matches = array();
 
 		foreach ($filters as $filter) {
