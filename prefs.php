@@ -20,8 +20,6 @@
 	require_once "config.php";
 	require_once "db-prefs.php";
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
 	if (!init_plugins()) return;
 
 	login_sequence();
@@ -153,8 +151,6 @@
 </div> <!-- footer -->
 
 </div>
-
-<?php db_close(); ?>
 
 </body>
 </html>

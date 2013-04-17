@@ -29,8 +29,6 @@
 
 	$script_started = microtime(true);
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
 	if (!init_plugins()) return;
 
 	if (ENABLE_GZIP_OUTPUT && function_exists("ob_gzhandler")) {
@@ -61,6 +59,4 @@
 	header("Content-Type: text/plain");
 	print json_encode(array("error" => array("code" => 7)));
 
-	// We close the connection to database.
-	db_close();
 ?>

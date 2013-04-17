@@ -30,8 +30,6 @@
 
 	$mobile = new Mobile_Detect();
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
 	if (!init_plugins()) return;
 
 	global $pluginhost;
@@ -284,8 +282,6 @@
 </div>
 </div>
 </div>
-
-<?php db_close(); ?>
 
 </body>
 </html>

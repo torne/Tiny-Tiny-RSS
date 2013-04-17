@@ -48,8 +48,6 @@
 
 	$script_started = microtime(true);
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
 	if (!init_plugins()) return;
 
 	header("Content-Type: text/json; charset=utf-8");
@@ -154,6 +152,4 @@
 	header("Content-Type: text/json");
 	print json_encode(array("error" => array("code" => 7)));
 
-	// We close the connection to database.
-	db_close();
 ?>

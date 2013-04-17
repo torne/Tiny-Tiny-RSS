@@ -4,6 +4,7 @@ class Db_Mysql implements IDb {
 
 	function connect($host, $user, $pass, $db, $port) {
 		$this->link = mysql_connect($host, $user, $pass);
+
 		if ($this->link) {
 			$result = mysql_select_db($db, $this->link);
 			if (!$result) {

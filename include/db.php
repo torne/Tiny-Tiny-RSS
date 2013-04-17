@@ -1,9 +1,5 @@
 <?php
 
-function db_connect($host, $user, $pass, $db) {
-	return Db::get()->connect($host, $user, $pass, $db, 0);
-}
-
 function db_escape_string( $s, $strip_tags = true) {
 	return Db::get()->escape_string($s, $strip_tags);
 }
@@ -23,10 +19,6 @@ function db_num_rows($result) {
 
 function db_fetch_result($result, $row, $param) {
 	return Db::get()->fetch_result($result, $row, $param);
-}
-
-function db_close() {
-	return Db::get()->close();
 }
 
 function db_affected_rows( $result) {

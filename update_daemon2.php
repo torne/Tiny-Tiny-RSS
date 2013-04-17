@@ -178,8 +178,6 @@
 
 	$schema_version = get_schema_version();
 
-	db_close();
-
 	if ($schema_version != SCHEMA_VERSION) {
 		die("Schema version is wrong, please upgrade the database.\n");
 	}
@@ -199,7 +197,6 @@
 
 			/* Check if schema version changed */
 
-			init_plugins();
 			$test_schema_version = get_schema_version();
 
 			if ($test_schema_version != $schema_version) {
@@ -288,8 +285,6 @@
 							_debug("Feeds/minute: " . sprintf("%.2d", $nf/((time()-$start_timestamp)/60)));
 						}
 					}
-
-					db_close();
 
 					// We are in a fork.
 					// We wait a little before exiting to avoid to be faster than our parent process.

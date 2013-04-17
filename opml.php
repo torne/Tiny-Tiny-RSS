@@ -10,8 +10,6 @@
 	require_once "db.php";
 	require_once "db-prefs.php";
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
 	if (!init_plugins()) return;
 
 	$op = $_REQUEST['op'];
@@ -33,7 +31,5 @@
 			print "<error>User not found</error>";
 		}
 	}
-
-	db_close();
 
 ?>
