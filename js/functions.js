@@ -1,8 +1,8 @@
-var notify_silent = false;
 var loading_progress = 0;
 var sanity_check_done = false;
 var init_params = {};
 var _label_base_index = -1024;
+var notify_hide_timerid = false;
 
 Ajax.Base.prototype.initialize = Ajax.Base.prototype.initialize.wrap(
 	function (callOriginal, options) {
@@ -147,42 +147,28 @@ function param_unescape(arg) {
 		return unescape(arg);
 }
 
-var notify_hide_timerid = false;
 
 function hide_notify() {
-	var n = $("notify");
-	if (n) {
-		n.style.display = "none";
-	}
-}
-
-function notify_silent_next() {
-	notify_silent = true;
+	Element.hide('notify');
 }
 
 function notify_real(msg, no_hide, n_type) {
 
-	if (notify_silent) {
-		notify_silent = false;
-		return;
-	}
-
 	var n = $("notify");
-	var nb = $("notify_body");
 
-	if (!n || !nb) return;
+	if (!n) return;
 
 	if (notify_hide_timerid) {
 		window.clearTimeout(notify_hide_timerid);
 	}
 
 	if (msg == "") {
-		if (n.style.display == "block") {
+		if (Element.visible(n)) {
 			notify_hide_timerid = window.setTimeout("hide_notify()", 0);
 		}
 		return;
 	} else {
-		n.style.display = "block";
+		Element.show(n);
 	}
 
 	/* types:
@@ -194,33 +180,31 @@ function notify_real(msg, no_hide, n_type) {
 
 	*/
 
-	msg = __(msg);
+	msg = "<span class=\"msg\"> " + __(msg) + "</span>";
 
 	if (n_type == 1) {
 		n.className = "notify";
 	} else if (n_type == 2) {
 		n.className = "notify progress";
-		msg = "<img src='images/indicator_white.gif'> " + msg;
+		msg = "<span><img src='images/indicator_white.gif'></span>" + msg;
+		no_hide = true;
 	} else if (n_type == 3) {
 		n.className = "notify error";
-		msg = "<img src='images/sign_excl.svg'> " + msg;
+		msg = "<span><img src='images/sign_excl.svg'></span>" + msg;
 	} else if (n_type == 4) {
 		n.className = "notify info";
-		msg = "<img src='images/sign_info.svg'> " + msg;
+		msg = "<span><img src='images/sign_info.svg'></span>" + msg;
 	}
 
-	if (no_hide) {
-		msg += " <span>(<a href='#' onclick=\"notify('')\">" +
-			__("close") + "</a>)</span>";
-	}
-
+	msg += " <span><img src=\"images/close_notify.svg\" class=\"close\" title=\"" +
+		__("Click to close") + "\" onclick=\"notify('')\"></span>";
 
 //	msg = "<img src='images/live_com_loading.gif'> " + msg;
 
-	nb.innerHTML = msg;
+	n.innerHTML = msg;
 
 	if (!no_hide) {
-		notify_hide_timerid = window.setTimeout("hide_notify()", 3000);
+		notify_hide_timerid = window.setTimeout("hide_notify()", 5*1000);
 	}
 }
 

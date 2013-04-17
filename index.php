@@ -138,7 +138,7 @@
 	</div>
 </div>
 
-<div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
+<div id="notify" class="notify" style="display : none"></div>
 <div id="cmdline" style="display : none"></div>
 <div id="headlines-tmp" style="display : none"></div>
 
