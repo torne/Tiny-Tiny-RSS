@@ -49,6 +49,6 @@ function ttrss_fatal_handler() {
 	return false;
 }
 
-//register_shutdown_function('ttrss_fatal_handler');
-//set_error_handler('ttrss_error_handler');
+register_shutdown_function('ttrss_fatal_handler');
+set_error_handler('ttrss_error_handler');
 ?>
