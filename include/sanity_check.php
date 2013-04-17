@@ -118,7 +118,7 @@
 				array_push($errors, "PHP support for JSON is required, but was not found.");
 			}
 
-			if (DB_TYPE == "mysql" && !function_exists("mysql_connect")) {
+			if (DB_TYPE == "mysql" && !function_exists("mysql_connect") && !function_exists("mysqli_connect")) {
 				array_push($errors, "PHP support for MySQL is required for configured DB_TYPE in config.php.");
 			}
 
