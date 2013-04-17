@@ -1,0 +1,87 @@
+<?php
+class Db_PDO implements IDb {
+	private $pdo;
+
+	function connect($host, $user, $pass, $db, $port) {
+		$connstr = DB_TYPE . ":host=$host;dbname=$db;charset=utf8";
+
+		try {
+			$this->pdo = new PDO($connstr, $user, $pass);
+		} catch (PDOException $e) {
+			die($e->getMessage());
+		}
+
+		return $this->pdo;
+	}
+
+	function escape_string($s, $strip_tags = true) {
+		if ($strip_tags) $s = strip_tags($s);
+
+		$qs = $this->pdo->quote($s);
+
+		return mb_substr($qs, 1, mb_strlen($qs)-2);
+	}
+
+	function query($query, $die_on_error = true) {
+		try {
+			return $this->pdo->query($query);
+		} catch (PDOException $e) {
+			user_error($e->getMessage(), $die_on_error ? E_USER_ERROR : E_USER_WARNING);
+		}
+	}
+
+	function fetch_assoc($result) {
+		try {
+			if ($result) {
+				return $result->fetch();
+			} else {
+				return null;
+			}
+		} catch (PDOException $e) {
+			user_error($e->getMessage(), E_USER_WARNING);
+		}
+	}
+
+	function num_rows($result) {
+		try {
+			if ($result) {
+				return $result->rowCount();
+			} else {
+				return false;
+			}
+		} catch (PDOException $e) {
+			user_error($e->getMessage(), E_USER_WARNING);
+		}
+	}
+
+	function fetch_result($result, $row, $param) {
+		$line = $this->fetch_assoc($result);
+
+		if ($line)
+			return $line[$param];
+		else
+			return null;
+
+	}
+
+	function close() {
+		$this->pdo = null;
+	}
+
+	function affected_rows($result) {
+		try {
+			if ($result) {
+				return $result->rowCount();
+			} else {
+				return null;
+			}
+		} catch (PDOException $e) {
+			user_error($e->getMessage(), E_USER_WARNING);
+		}
+	}
+
+	function last_error() {
+		return join(" ", $pdo->errorInfo());
+	}
+}
+?>

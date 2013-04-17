@@ -24,10 +24,12 @@ class Auth_Internal extends Plugin implements IAuthModule {
 
 		if (get_schema_version() > 96) {
 			if (!defined('AUTH_DISABLE_OTP') || !AUTH_DISABLE_OTP) {
+
 				$result = db_query("SELECT otp_enabled,salt FROM ttrss_users WHERE
 					login = '$login'");
 
 				if (db_num_rows($result) > 0) {
+
 					require_once "lib/otphp/vendor/base32.php";
 					require_once "lib/otphp/lib/otp.php";
 					require_once "lib/otphp/lib/totp.php";

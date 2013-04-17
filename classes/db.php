@@ -5,22 +5,37 @@ class Db implements IDb {
 	private $link;
 
 	private function __construct() {
-		switch (DB_TYPE) {
-		case "mysql":
-			if (function_exists("mysqli_connect")) {
-				$this->adapter = new Db_Mysqli();
-			} else {
-				$this->adapter = new Db_Mysql();
+
+		$er = error_reporting(E_ALL);
+
+		if (class_exists("PDO")) {
+			$this->adapter = new Db_PDO();
+		} else {
+			switch (DB_TYPE) {
+			case "mysql":
+				if (function_exists("mysqli_connect")) {
+					$this->adapter = new Db_Mysqli();
+				} else {
+					$this->adapter = new Db_Mysql();
+				}
+				break;
+			case "pgsql":
+				$this->adapter = new Db_Pgsql();
+				break;
+			default:
+				die("Unknown DB_TYPE: " . DB_TYPE);
 			}
-			break;
-		case "pgsql":
-			$this->adapter = new Db_Pgsql();
-			break;
-		default:
-			die("Unknown DB_TYPE: " . DB_TYPE);
 		}
 
+		if (!$this->adapter) die("Error initializing database adapter for " . DB_TYPE);
+
 		$this->link = $this->adapter->connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, defined('DB_PORT') ? DB_PORT : false);
+
+		if (!$this->link) {
+			die("Error connecting through adapter: " . $this->adapter->last_error());
+		}
+
+		error_reporting($er);
 	}
 
 	private function __clone() {
