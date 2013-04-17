@@ -869,7 +869,7 @@ class Handler_Public extends Handler {
 
 			<?php
 				@$op = $_REQUEST["subop"];
-				$updater = new DbUpdater(DB_TYPE, SCHEMA_VERSION);
+				$updater = new DbUpdater(Db::get(), DB_TYPE, SCHEMA_VERSION);
 
 				if ($op == "performupdate") {
 					if ($updater->isUpdateRequired()) {
