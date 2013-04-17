@@ -1,32 +1,26 @@
 <?php
 class Logger_SQL {
 
-	private $link;
-
-	function __construct() {
-		$this->link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-	}
-
 	function log_error($errno, $errstr, $file, $line, $context) {
 
 		if ($errno == E_NOTICE) return false;
 
-		if ($this->link) {
-			$errno = db_escape_string($this->link, $errno);
-			$errstr = db_escape_string($this->link, $errstr);
-			$file = db_escape_string($this->link, $file);
-			$line = db_escape_string($this->link, $line);
+		if (Db::get()) {
+			$errno = Db::get()->escape_string($errno);
+			$errstr = Db::get()->escape_string($errstr);
+			$file = Db::get()->escape_string($file);
+			$line = Db::get()->escape_string($line);
 			$context = ''; // backtrace is a lot of data which is not really critical to store
 			//$context = db_escape_string($this->link, serialize($context));
 
 			$owner_uid = $_SESSION["uid"] ? $_SESSION["uid"] : "NULL";
 
-			$result = db_query($this->link,
+			$result = Db::get()->query(
 				"INSERT INTO ttrss_error_log
 				(errno, errstr, filename, lineno, context, owner_uid, created_at) VALUES
 				($errno, '$errstr', '$file', '$line', '$context', $owner_uid, NOW())");
 
-			return db_affected_rows($this->link, $result) != 0;
+			return Db::get()->affected_rows($result) != 0;
 
 		}
 		return false;
