@@ -39,9 +39,8 @@ class Db_Pgsql implements IDb {
 
 		if (!$result) {
 			$query = htmlspecialchars($query); // just in case
-			if ($die_on_error) {
-				die("Query <i>$query</i> failed [$result]: " . ($this->link ? pg_last_error($this->link) : "No connection"));
-			}
+			user_error("Query $query failed: " . ($this->link ? pg_last_error($this->link) : "No connection"),
+				$die_on_error ? E_USER_ERROR : E_USER_WARNING);
 		}
 		return $result;
 	}

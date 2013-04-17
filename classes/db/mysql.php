@@ -25,10 +25,8 @@ class Db_Mysql implements IDb {
 	function query($query, $die_on_error = true) {
 		$result = mysql_query($query, $this->link);
 		if (!$result) {
-			$query = htmlspecialchars($query);
-			if ($die_on_error) {
-				die("Query <i>$query</i> failed: " . ($this->link ? mysql_error($link) : "No connection"));
-			}
+			user_error("Query $query failed: " . ($this->link ? mysql_error($this->link) : "No connection"),
+				$die_on_error ? E_USER_ERROR : E_USER_WARNING);
 		}
 		return $result;
 	}

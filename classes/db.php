@@ -13,11 +13,10 @@ class Db implements IDb {
 			$this->adapter = new Db_Pgsql();
 			break;
 		default:
-			user_error("Unknown DB_TYPE: " . DB_TYPE);
+			die("Unknown DB_TYPE: " . DB_TYPE);
 		}
 
 		$this->link = $this->adapter->connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
-
 	}
 
 	private function __clone() {
@@ -33,10 +32,6 @@ class Db implements IDb {
 
 	static function quote($str){
 		return("'$str'");
-	}
-
-	function init() {
-		//
 	}
 
 	function connect($host, $user, $pass, $db, $port) {

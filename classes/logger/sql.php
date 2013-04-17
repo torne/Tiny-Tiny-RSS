@@ -6,6 +6,7 @@ class Logger_SQL {
 		if ($errno == E_NOTICE) return false;
 
 		if (Db::get()) {
+
 			$errno = Db::get()->escape_string($errno);
 			$errstr = Db::get()->escape_string($errstr);
 			$file = Db::get()->escape_string($file);
@@ -21,8 +22,8 @@ class Logger_SQL {
 				($errno, '$errstr', '$file', '$line', '$context', $owner_uid, NOW())");
 
 			return Db::get()->affected_rows($result) != 0;
-
 		}
+
 		return false;
 	}
 
