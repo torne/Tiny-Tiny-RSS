@@ -30,6 +30,9 @@ class Pref_System extends Handler_Protected {
 			ORDER BY ttrss_error_log.id DESC
 			LIMIT 100");
 
+		print "<button dojoType=\"dijit.form.Button\"
+			onclick=\"updateSystemList()\">".__('Refresh')."</button> ";
+
 		print "<p><table width=\"100%\" cellspacing=\"10\" class=\"prefErrorLog\">";
 
 		print "<tr class=\"title\">
