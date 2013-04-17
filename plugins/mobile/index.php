@@ -16,10 +16,6 @@
 	require_once "config.php";
 	require_once "mobile-functions.php";
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-	init_plugins($link);
-
 	login_sequence(true);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"

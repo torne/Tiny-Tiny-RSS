@@ -1,8 +1,11 @@
 <?php
+	require_once "autoload.php";
 	require_once "functions.php";
 	require_once "sessions.php";
 	require_once "version.php";
 	require_once "db-prefs.php";
+
+	init_plugins();
 
 	define('TTRSS_SESSION_NAME', 'ttrss_m_sid');
 
