@@ -7,7 +7,11 @@ class Db implements IDb {
 	private function __construct() {
 		switch (DB_TYPE) {
 		case "mysql":
-			$this->adapter = new Db_Mysql();
+			if (function_exists("mysqli_connect")) {
+				$this->adapter = new Db_Mysqli();
+			} else {
+				$this->adapter = new Db_Mysql();
+			}
 			break;
 		case "pgsql":
 			$this->adapter = new Db_Pgsql();
@@ -16,7 +20,7 @@ class Db implements IDb {
 			die("Unknown DB_TYPE: " . DB_TYPE);
 		}
 
-		$this->link = $this->adapter->connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
+		$this->link = $this->adapter->connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, defined('DB_PORT') ? DB_PORT : false);
 	}
 
 	private function __clone() {
