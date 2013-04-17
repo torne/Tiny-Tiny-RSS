@@ -21,7 +21,7 @@ class Handler_Public extends Handler {
 		else if ($feed == -1)
 			$date_sort_field = "last_marked DESC";
 
-		$qfh_ret = queryFeedHeadlines( $feed,
+		$qfh_ret = queryFeedHeadlines($feed,
 			1, $view_mode, $is_cat, $search, $search_mode,
 			$date_sort_field, $offset, $owner_uid,
 			false, 0, false, true);
@@ -41,7 +41,7 @@ class Handler_Public extends Handler {
 			header("Last-Modified: $last_modified", true);
 		}
 
-		$qfh_ret = queryFeedHeadlines( $feed,
+		$qfh_ret = queryFeedHeadlines($feed,
 			$limit, $view_mode, $is_cat, $search, $search_mode,
 			$date_sort_field, $offset, $owner_uid,
 			false, 0, false, true);
@@ -54,7 +54,7 @@ class Handler_Public extends Handler {
 
 		$feed_self_url = get_self_url_prefix() .
 			"/public.php?op=rss&id=-2&key=" .
-			get_feed_access_key( -2, false, $owner_uid);
+			get_feed_access_key(-2, false, $owner_uid);
 
 		if (!$feed_site_url) $feed_site_url = get_self_url_prefix();
 
@@ -82,7 +82,7 @@ class Handler_Public extends Handler {
 				$tpl->setVariable('ARTICLE_EXCERPT',
 					truncate_string(strip_tags($line["content_preview"]), 100, '...'), true);
 
-				$content = sanitize( $line["content_preview"], false, $owner_uid);
+				$content = sanitize($line["content_preview"], false, $owner_uid);
 
 				if ($line['note']) {
 					$content = "<div style=\"$note_style\">Article note: " . $line['note'] . "</div>" .
@@ -99,14 +99,14 @@ class Handler_Public extends Handler {
 
 				$tpl->setVariable('ARTICLE_AUTHOR', htmlspecialchars($line['author']), true);
 
-				$tags = get_article_tags( $line["id"], $owner_uid);
+				$tags = get_article_tags($line["id"], $owner_uid);
 
 				foreach ($tags as $tag) {
 					$tpl->setVariable('ARTICLE_CATEGORY', htmlspecialchars($tag), true);
 					$tpl->addBlock('category');
 				}
 
-				$enclosures = get_article_enclosures( $line["id"]);
+				$enclosures = get_article_enclosures($line["id"]);
 
 				foreach ($enclosures as $e) {
 					$type = htmlspecialchars($e['content_type']);
@@ -158,13 +158,13 @@ class Handler_Public extends Handler {
 				$article['link']	= $line['link'];
 				$article['title'] = $line['title'];
 				$article['excerpt'] = truncate_string(strip_tags($line["content_preview"]), 100, '...');
-				$article['content'] = sanitize( $line["content_preview"], false, $owner_uid);
+				$article['content'] = sanitize($line["content_preview"], false, $owner_uid);
 				$article['updated'] = date('c', strtotime($line["updated"]));
 
 				if ($line['note']) $article['note'] = $line['note'];
 				if ($article['author']) $article['author'] = $line['author'];
 
-				$tags = get_article_tags( $line["id"], $owner_uid);
+				$tags = get_article_tags($line["id"], $owner_uid);
 
 				if (count($tags) > 0) {
 					$article['tags'] = array();
@@ -174,7 +174,7 @@ class Handler_Public extends Handler {
 					}
 				}
 
-				$enclosures = get_article_enclosures( $line["id"]);
+				$enclosures = get_article_enclosures($line["id"]);
 
 				if (count($enclosures) > 0) {
 					$article['enclosures'] = array();
@@ -201,19 +201,19 @@ class Handler_Public extends Handler {
 	}
 
 	function getUnread() {
-		$login = db_escape_string( $_REQUEST["login"]);
+		$login = db_escape_string($_REQUEST["login"]);
 		$fresh = $_REQUEST["fresh"] == "1";
 
-		$result = db_query( "SELECT id FROM ttrss_users WHERE login = '$login'");
+		$result = db_query("SELECT id FROM ttrss_users WHERE login = '$login'");
 
 		if (db_num_rows($result) == 1) {
 			$uid = db_fetch_result($result, 0, "id");
 
-			print getGlobalUnread( $uid);
+			print getGlobalUnread($uid);
 
 			if ($fresh) {
 				print ";";
-				print getFeedArticles( -3, false, true, $uid);
+				print getFeedArticles(-3, false, true, $uid);
 			}
 
 		} else {
@@ -223,9 +223,9 @@ class Handler_Public extends Handler {
 	}
 
 	function getProfiles() {
-		$login = db_escape_string( $_REQUEST["login"]);
+		$login = db_escape_string($_REQUEST["login"]);
 
-		$result = db_query( "SELECT * FROM ttrss_settings_profiles,ttrss_users
+		$result = db_query("SELECT * FROM ttrss_settings_profiles,ttrss_users
 			WHERE ttrss_users.id = ttrss_settings_profiles.owner_uid AND login = '$login' ORDER BY title");
 
 		print "<select dojoType='dijit.form.Select' style='width : 220px; margin : 0px' name='profile'>";
@@ -243,9 +243,9 @@ class Handler_Public extends Handler {
 	}
 
 	function pubsub() {
-		$mode = db_escape_string( $_REQUEST['hub_mode']);
-		$feed_id = (int) db_escape_string( $_REQUEST['id']);
-		$feed_url = db_escape_string( $_REQUEST['hub_topic']);
+		$mode = db_escape_string($_REQUEST['hub_mode']);
+		$feed_id = (int) db_escape_string($_REQUEST['id']);
+		$feed_url = db_escape_string($_REQUEST['hub_topic']);
 
 		if (!PUBSUBHUBBUB_ENABLED) {
 			header('HTTP/1.0 404 Not Found');
@@ -255,7 +255,7 @@ class Handler_Public extends Handler {
 
 		// TODO: implement hub_verifytoken checking
 
-		$result = db_query( "SELECT feed_url FROM ttrss_feeds
+		$result = db_query("SELECT feed_url FROM ttrss_feeds
 			WHERE id = '$feed_id'");
 
 		if (db_num_rows($result) != 0) {
@@ -265,7 +265,7 @@ class Handler_Public extends Handler {
 			if ($check_feed_url && ($check_feed_url == $feed_url || !$feed_url)) {
 				if ($mode == "subscribe") {
 
-					db_query( "UPDATE ttrss_feeds SET pubsub_state = 2
+					db_query("UPDATE ttrss_feeds SET pubsub_state = 2
 						WHERE id = '$feed_id'");
 
 					print $_REQUEST['hub_challenge'];
@@ -273,7 +273,7 @@ class Handler_Public extends Handler {
 
 				} else if ($mode == "unsubscribe") {
 
-					db_query( "UPDATE ttrss_feeds SET pubsub_state = 0
+					db_query("UPDATE ttrss_feeds SET pubsub_state = 0
 						WHERE id = '$feed_id'");
 
 					print $_REQUEST['hub_challenge'];
@@ -282,9 +282,9 @@ class Handler_Public extends Handler {
 				} else if (!$mode) {
 
 					// Received update ping, schedule feed update.
-					//update_rss_feed( $feed_id, true, true);
+					//update_rss_feed($feed_id, true, true);
 
-					db_query( "UPDATE ttrss_feeds SET
+					db_query("UPDATE ttrss_feeds SET
 						last_update_started = '1970-01-01',
 						last_updated = '1970-01-01' WHERE id = '$feed_id'");
 
@@ -306,9 +306,9 @@ class Handler_Public extends Handler {
 	}
 
 	function share() {
-		$uuid = db_escape_string( $_REQUEST["key"]);
+		$uuid = db_escape_string($_REQUEST["key"]);
 
-		$result = db_query( "SELECT ref_id, owner_uid FROM ttrss_user_entries WHERE
+		$result = db_query("SELECT ref_id, owner_uid FROM ttrss_user_entries WHERE
 			uuid = '$uuid'");
 
 		if (db_num_rows($result) != 0) {
@@ -317,7 +317,7 @@ class Handler_Public extends Handler {
 			$id = db_fetch_result($result, 0, "ref_id");
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
-			$article = format_article( $id, false, true, $owner_uid);
+			$article = format_article($id, false, true, $owner_uid);
 
 			print_r($article['content']);
 
@@ -328,28 +328,28 @@ class Handler_Public extends Handler {
 	}
 
 	function rss() {
-		$feed = db_escape_string( $_REQUEST["id"]);
-		$key = db_escape_string( $_REQUEST["key"]);
+		$feed = db_escape_string($_REQUEST["id"]);
+		$key = db_escape_string($_REQUEST["key"]);
 		$is_cat = $_REQUEST["is_cat"] != false;
-		$limit = (int)db_escape_string( $_REQUEST["limit"]);
-		$offset = (int)db_escape_string( $_REQUEST["offset"]);
+		$limit = (int)db_escape_string($_REQUEST["limit"]);
+		$offset = (int)db_escape_string($_REQUEST["offset"]);
 
-		$search = db_escape_string( $_REQUEST["q"]);
-		$search_mode = db_escape_string( $_REQUEST["smode"]);
-		$view_mode = db_escape_string( $_REQUEST["view-mode"]);
+		$search = db_escape_string($_REQUEST["q"]);
+		$search_mode = db_escape_string($_REQUEST["smode"]);
+		$view_mode = db_escape_string($_REQUEST["view-mode"]);
 
-		$format = db_escape_string( $_REQUEST['format']);
+		$format = db_escape_string($_REQUEST['format']);
 
 		if (!$format) $format = 'atom';
 
 		if (SINGLE_USER_MODE) {
-			authenticate_user( "admin", null);
+			authenticate_user("admin", null);
 		}
 
 		$owner_id = false;
 
 		if ($key) {
-			$result = db_query( "SELECT owner_uid FROM
+			$result = db_query("SELECT owner_uid FROM
 				ttrss_access_keys WHERE access_key = '$key' AND feed_id = '$feed'");
 
 			if (db_num_rows($result) == 1)
@@ -367,7 +367,7 @@ class Handler_Public extends Handler {
 	function globalUpdateFeeds() {
 		include "rssfuncs.php";
 		// Update all feeds needing a update.
-		update_daemon_common( 0, true, false);
+		update_daemon_common(0, true, false);
 
 		// Update feedbrowser
 		update_feedbrowser_cache();
@@ -375,7 +375,7 @@ class Handler_Public extends Handler {
 		// Purge orphans and cleanup tags
 		purge_orphans();
 
-		cleanup_tags( 14, 50000);
+		cleanup_tags(14, 50000);
 
 		global $pluginhost;
 		$pluginhost->run_hooks($pluginhost::HOOK_UPDATE_TASK, "hook_update_task", $op);
@@ -402,12 +402,12 @@ class Handler_Public extends Handler {
 
 			if ($action == 'share') {
 
-				$title = db_escape_string( strip_tags($_REQUEST["title"]));
-				$url = db_escape_string( strip_tags($_REQUEST["url"]));
-				$content = db_escape_string( strip_tags($_REQUEST["content"]));
-				$labels = db_escape_string( strip_tags($_REQUEST["labels"]));
+				$title = db_escape_string(strip_tags($_REQUEST["title"]));
+				$url = db_escape_string(strip_tags($_REQUEST["url"]));
+				$content = db_escape_string(strip_tags($_REQUEST["content"]));
+				$labels = db_escape_string(strip_tags($_REQUEST["labels"]));
 
-				Article::create_published_article( $title, $url, $content, $labels,
+				Article::create_published_article($title, $url, $content, $labels,
 					$_SESSION["uid"]);
 
 				print "<script type='text/javascript'>";
@@ -513,7 +513,7 @@ class Handler_Public extends Handler {
 
 		if (!SINGLE_USER_MODE) {
 
-			$login = db_escape_string( $_POST["login"]);
+			$login = db_escape_string($_POST["login"]);
 			$password = $_POST["password"];
 			$remember_me = $_POST["remember_me"];
 
@@ -525,18 +525,18 @@ class Handler_Public extends Handler {
 
 			@session_start();
 
-			if (authenticate_user( $login, $password)) {
+			if (authenticate_user($login, $password)) {
 				$_POST["password"] = "";
 
 				$_SESSION["language"] = $_POST["language"];
-				$_SESSION["ref_schema_version"] = get_schema_version( true);
+				$_SESSION["ref_schema_version"] = get_schema_version(true);
 				$_SESSION["bw_limit"] = !!$_POST["bw_limit"];
 
 				if ($_POST["profile"]) {
 
-					$profile = db_escape_string( $_POST["profile"]);
+					$profile = db_escape_string($_POST["profile"]);
 
-					$result = db_query( "SELECT id FROM ttrss_settings_profiles
+					$result = db_query("SELECT id FROM ttrss_settings_profiles
 						WHERE id = '$profile' AND owner_uid = " . $_SESSION["uid"]);
 
 					if (db_num_rows($result) != 0) {
@@ -563,7 +563,7 @@ class Handler_Public extends Handler {
 
 		if ($_SESSION["uid"]) {
 
-			$feed_url = db_escape_string( trim($_REQUEST["feed_url"]));
+			$feed_url = db_escape_string(trim($_REQUEST["feed_url"]));
 
 			header('Content-Type: text/html; charset=utf-8');
 			print "<html>
@@ -577,7 +577,7 @@ class Handler_Public extends Handler {
 			  		alt=\"Tiny Tiny RSS\"/>
 					<h1>".__("Subscribe to feed...")."</h1><div class='content'>";
 
-			$rc = subscribe_to_feed( $feed_url);
+			$rc = subscribe_to_feed($feed_url);
 
 			switch ($rc['code']) {
 			case 0:
@@ -625,7 +625,7 @@ class Handler_Public extends Handler {
 			$tt_uri = get_self_url_prefix();
 
 			if ($rc['code'] <= 2){
-				$result = db_query( "SELECT id FROM ttrss_feeds WHERE
+				$result = db_query("SELECT id FROM ttrss_feeds WHERE
 					feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
 
 				$feed_id = db_fetch_result($result, 0, "id");
@@ -656,16 +656,16 @@ class Handler_Public extends Handler {
 	}
 
 	function subscribe2() {
-		$feed_url = db_escape_string( trim($_REQUEST["feed_url"]));
-		$cat_id = db_escape_string( $_REQUEST["cat_id"]);
-		$from = db_escape_string( $_REQUEST["from"]);
+		$feed_url = db_escape_string(trim($_REQUEST["feed_url"]));
+		$cat_id = db_escape_string($_REQUEST["cat_id"]);
+		$from = db_escape_string($_REQUEST["from"]);
 
 		/* only read authentication information from POST */
 
-		$auth_login = db_escape_string( trim($_POST["auth_login"]));
-		$auth_pass = db_escape_string( trim($_POST["auth_pass"]));
+		$auth_login = db_escape_string(trim($_POST["auth_login"]));
+		$auth_pass = db_escape_string(trim($_POST["auth_pass"]));
 
-		$rc = subscribe_to_feed( $feed_url, $cat_id, $auth_login, $auth_pass);
+		$rc = subscribe_to_feed($feed_url, $cat_id, $auth_login, $auth_pass);
 
 		switch ($rc) {
 		case 1:
@@ -712,7 +712,7 @@ class Handler_Public extends Handler {
 		$tt_uri = get_self_url_prefix();
 
 		if ($rc <= 2){
-			$result = db_query( "SELECT id FROM ttrss_feeds WHERE
+			$result = db_query("SELECT id FROM ttrss_feeds WHERE
 				feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
 
 			$feed_id = db_fetch_result($result, 0, "id");
@@ -788,9 +788,9 @@ class Handler_Public extends Handler {
 			print "</form>";
 		} else if ($method == 'do') {
 
-			$login = db_escape_string( $_POST["login"]);
-			$email = db_escape_string( $_POST["email"]);
-			$test = db_escape_string( $_POST["test"]);
+			$login = db_escape_string($_POST["login"]);
+			$email = db_escape_string($_POST["email"]);
+			$test = db_escape_string($_POST["test"]);
 
 			if (($test != 4 && $test != 'four') || !$email || !$login) {
 				print_error(__('Some of the required form parameters are missing or incorrect.'));
@@ -802,13 +802,13 @@ class Handler_Public extends Handler {
 
 			} else {
 
-				$result = db_query( "SELECT id FROM ttrss_users
+				$result = db_query("SELECT id FROM ttrss_users
 					WHERE login = '$login' AND email = '$email'");
 
 				if (db_num_rows($result) != 0) {
 					$id = db_fetch_result($result, 0, "id");
 
-					Pref_Users::resetUserPassword( $id, false);
+					Pref_Users::resetUserPassword($id, false);
 
 					print "<p>";
 
@@ -869,7 +869,7 @@ class Handler_Public extends Handler {
 
 			<?php
 				@$op = $_REQUEST["subop"];
-				$updater = new DbUpdater( DB_TYPE, SCHEMA_VERSION);
+				$updater = new DbUpdater(DB_TYPE, SCHEMA_VERSION);
 
 				if ($op == "performupdate") {
 					if ($updater->isUpdateRequired()) {

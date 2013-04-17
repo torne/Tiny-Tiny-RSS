@@ -19,7 +19,7 @@ class Example extends Plugin {
 	}
 
 	function save() {
-		$example_value = db_escape_string( $_POST["example_value"]);
+		$example_value = db_escape_string($_POST["example_value"]);
 
 		$this->host->set($this, "example", $example_value);
 

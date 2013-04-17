@@ -27,7 +27,7 @@ class Example_VFeed extends Plugin {
 	}
 
 	function get_headlines($feed_id, $options) {
-		$qfh_ret = queryFeedHeadlines( -4,
+		$qfh_ret = queryFeedHeadlines(-4,
 			$options['limit'],
 			$options['view_mode'], $options['cat_view'],
 			$options['search'],

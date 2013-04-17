@@ -1,10 +1,10 @@
 <?php
 
-function db_escape_string( $s, $strip_tags = true) {
+function db_escape_string($s, $strip_tags = true) {
 	return Db::get()->escape_string($s, $strip_tags);
 }
 
-function db_query( $query, $die_on_error = true) {
+function db_query($query, $die_on_error = true) {
 	return Db::get()->query($query, $die_on_error);
 }
 
@@ -21,7 +21,7 @@ function db_fetch_result($result, $row, $param) {
 	return Db::get()->fetch_result($result, $row, $param);
 }
 
-function db_affected_rows( $result) {
+function db_affected_rows($result) {
 	return Db::get()->affected_rows($result);
 }
 

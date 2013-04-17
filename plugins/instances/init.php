@@ -37,7 +37,7 @@ class Instances extends Plugin implements IHandler {
 	// 2   - did not receive valid data
 	// >10 - server error, code + 10 (e.g. 16 means server error 6)
 
-	function get_linked_feeds( $instance_id = false) {
+	function get_linked_feeds($instance_id = false) {
 		if ($instance_id)
 			$instance_qpart = "id = '$instance_id' AND ";
 		else
@@ -49,7 +49,7 @@ class Instances extends Plugin implements IHandler {
 			$date_qpart = "last_connected < DATE_SUB(NOW(), INTERVAL 6 HOUR)";
 		}
 
-		$result = db_query( "SELECT id, access_key, access_url FROM ttrss_linked_instances
+		$result = db_query("SELECT id, access_key, access_url FROM ttrss_linked_instances
 			WHERE $instance_qpart $date_qpart ORDER BY last_connected");
 
 		while ($line = db_fetch_assoc($result)) {
@@ -77,7 +77,7 @@ class Instances extends Plugin implements IHandler {
 
 						// access denied
 						if ($status == 16) {
-							db_query( "DELETE FROM ttrss_linked_feeds
+							db_query("DELETE FROM ttrss_linked_feeds
 								WHERE instance_id = '$id'");
 						}
 					} else {
@@ -85,16 +85,16 @@ class Instances extends Plugin implements IHandler {
 
 						if (count($feeds['feeds']) > 0) {
 
-							db_query( "DELETE FROM ttrss_linked_feeds
+							db_query("DELETE FROM ttrss_linked_feeds
 								WHERE instance_id = '$id'");
 
 							foreach ($feeds['feeds'] as $feed) {
-								$feed_url = db_escape_string( $feed['feed_url']);
-								$title = db_escape_string( $feed['title']);
-								$subscribers = db_escape_string( $feed['subscribers']);
-								$site_url = db_escape_string( $feed['site_url']);
+								$feed_url = db_escape_string($feed['feed_url']);
+								$title = db_escape_string($feed['title']);
+								$subscribers = db_escape_string($feed['subscribers']);
+								$site_url = db_escape_string($feed['site_url']);
 
-								db_query( "INSERT INTO ttrss_linked_feeds
+								db_query("INSERT INTO ttrss_linked_feeds
 									(feed_url, site_url, title, subscribers, instance_id, created, updated)
 								VALUES
 									('$feed_url', '$site_url', '$title', '$subscribers', '$id', NOW(), NOW())");
@@ -119,7 +119,7 @@ class Instances extends Plugin implements IHandler {
 
 			_debug("Status: $status");
 
-			db_query( "UPDATE ttrss_linked_instances SET
+			db_query("UPDATE ttrss_linked_instances SET
 				last_status_out = '$status', last_connected = NOW() WHERE id = '$id'");
 
 		}
@@ -127,7 +127,7 @@ class Instances extends Plugin implements IHandler {
 
 
 	function get_feeds() {
-		$this->get_linked_feeds( false);
+		$this->get_linked_feeds(false);
 	}
 
 	function get_prefs_js() {
@@ -164,37 +164,37 @@ class Instances extends Plugin implements IHandler {
 	}
 
 	function remove() {
-		$ids = db_escape_string( $_REQUEST['ids']);
+		$ids = db_escape_string($_REQUEST['ids']);
 
-		db_query( "DELETE FROM ttrss_linked_instances WHERE
+		db_query("DELETE FROM ttrss_linked_instances WHERE
 			id IN ($ids)");
 	}
 
 	function add() {
-		$id = db_escape_string( $_REQUEST["id"]);
-		$access_url = db_escape_string( $_REQUEST["access_url"]);
-		$access_key = db_escape_string( $_REQUEST["access_key"]);
+		$id = db_escape_string($_REQUEST["id"]);
+		$access_url = db_escape_string($_REQUEST["access_url"]);
+		$access_key = db_escape_string($_REQUEST["access_key"]);
 
-		db_query( "BEGIN");
+		db_query("BEGIN");
 
-		$result = db_query( "SELECT id FROM ttrss_linked_instances
+		$result = db_query("SELECT id FROM ttrss_linked_instances
 			WHERE access_url = '$access_url'");
 
 		if (db_num_rows($result) == 0) {
-			db_query( "INSERT INTO ttrss_linked_instances
+			db_query("INSERT INTO ttrss_linked_instances
 				(access_url, access_key, last_connected, last_status_in, last_status_out)
 				VALUES
 				('$access_url', '$access_key', '1970-01-01', -1, -1)");
 
 		}
 
-		db_query( "COMMIT");
+		db_query("COMMIT");
 	}
 
 	function edit() {
-		$id = db_escape_string( $_REQUEST["id"]);
+		$id = db_escape_string($_REQUEST["id"]);
 
-		$result = db_query( "SELECT * FROM ttrss_linked_instances WHERE
+		$result = db_query("SELECT * FROM ttrss_linked_instances WHERE
 			id = '$id'");
 
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\"  name=\"id\" value=\"$id\">";
@@ -250,11 +250,11 @@ class Instances extends Plugin implements IHandler {
 	}
 
 	function editSave() {
-		$id = db_escape_string( $_REQUEST["id"]);
-		$access_url = db_escape_string( $_REQUEST["access_url"]);
-		$access_key = db_escape_string( $_REQUEST["access_key"]);
+		$id = db_escape_string($_REQUEST["id"]);
+		$access_url = db_escape_string($_REQUEST["access_url"]);
+		$access_key = db_escape_string($_REQUEST["access_key"]);
 
-		db_query( "UPDATE ttrss_linked_instances SET
+		db_query("UPDATE ttrss_linked_instances SET
 			access_key = '$access_key', access_url = '$access_url',
 			last_connected = '1970-01-01'
 			WHERE id = '$id'");
@@ -274,7 +274,7 @@ class Instances extends Plugin implements IHandler {
 
 		print "<div id=\"pref-instance-toolbar\" dojoType=\"dijit.Toolbar\">";
 
-		$sort = db_escape_string( $_REQUEST["sort"]);
+		$sort = db_escape_string($_REQUEST["sort"]);
 
 		if (!$sort || $sort == "undefined") {
 			$sort = "access_url";
@@ -295,7 +295,7 @@ class Instances extends Plugin implements IHandler {
 
 		print "</div>"; #toolbar
 
-		$result = db_query( "SELECT *,
+		$result = db_query("SELECT *,
 			(SELECT COUNT(*) FROM ttrss_linked_feeds
 				WHERE instance_id = ttrss_linked_instances.id) AS num_feeds
 			FROM ttrss_linked_instances
@@ -324,7 +324,7 @@ class Instances extends Plugin implements IHandler {
 			$id = $line['id'];
 			$this_row_id = "id=\"LIRR-$id\"";
 
-			$line["last_connected"] = make_local_datetime( $line["last_connected"], false);
+			$line["last_connected"] = make_local_datetime($line["last_connected"], false);
 
 			print "<tr class=\"$class\" $this_row_id>";
 
@@ -361,17 +361,17 @@ class Instances extends Plugin implements IHandler {
 
 	function fbexport() {
 
-		$access_key = db_escape_string( $_POST["key"]);
+		$access_key = db_escape_string($_POST["key"]);
 
 		// TODO: rate limit checking using last_connected
-		$result = db_query( "SELECT id FROM ttrss_linked_instances
+		$result = db_query("SELECT id FROM ttrss_linked_instances
 			WHERE access_key = '$access_key'");
 
 		if (db_num_rows($result) == 1) {
 
 			$instance_id = db_fetch_result($result, 0, "id");
 
-			$result = db_query( "SELECT feed_url, site_url, title, subscribers
+			$result = db_query("SELECT feed_url, site_url, title, subscribers
 				FROM ttrss_feedbrowser_cache ORDER BY subscribers DESC LIMIT 100");
 
 			$feeds = array();
@@ -380,7 +380,7 @@ class Instances extends Plugin implements IHandler {
 				array_push($feeds, $line);
 			}
 
-			db_query( "UPDATE ttrss_linked_instances SET
+			db_query("UPDATE ttrss_linked_instances SET
 				last_status_in = 1 WHERE id = '$instance_id'");
 
 			print json_encode(array("feeds" => $feeds));

@@ -20,13 +20,13 @@
 
 	init_plugins($link);
 
-	login_sequence( true);
+	login_sequence(true);
 
-	$id = db_escape_string( $_REQUEST["id"]);
-	$feed_id = db_escape_string( $_REQUEST["feed"]);
-	$cat_id = db_escape_string( $_REQUEST["cat"]);
-	$is_cat = db_escape_string( $_REQUEST["is_cat"]);
+	$id = db_escape_string($_REQUEST["id"]);
+	$feed_id = db_escape_string($_REQUEST["feed"]);
+	$cat_id = db_escape_string($_REQUEST["cat"]);
+	$is_cat = db_escape_string($_REQUEST["is_cat"]);
 
-  	render_article( $id, $feed_id, $cat_id, $is_cat);
+  	render_article($id, $feed_id, $cat_id, $is_cat);
 ?>
 

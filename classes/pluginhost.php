@@ -222,9 +222,9 @@ class PluginHost {
 
 	function load_data($force = false) {
 		if ($this->owner_uid && (!$_SESSION["plugin_storage"] || $force))  {
-			$plugin = db_escape_string( $plugin);
+			$plugin = db_escape_string($plugin);
 
-			$result = db_query( "SELECT name, content FROM ttrss_plugin_storage
+			$result = db_query("SELECT name, content FROM ttrss_plugin_storage
 				WHERE owner_uid = '".$this->owner_uid."'");
 
 			while ($line = db_fetch_assoc($result)) {
@@ -237,9 +237,9 @@ class PluginHost {
 
 	private function save_data($plugin) {
 		if ($this->owner_uid) {
-			$plugin = db_escape_string( $plugin);
+			$plugin = db_escape_string($plugin);
 
-			db_query( "BEGIN");
+			db_query("BEGIN");
 
 			$result = db_query("SELECT id FROM ttrss_plugin_storage WHERE
 				owner_uid= '".$this->owner_uid."' AND name = '$plugin'");
@@ -247,19 +247,19 @@ class PluginHost {
 			if (!isset($this->storage[$plugin]))
 				$this->storage[$plugin] = array();
 
-			$content = db_escape_string( serialize($this->storage[$plugin]));
+			$content = db_escape_string(serialize($this->storage[$plugin]));
 
 			if (db_num_rows($result) != 0) {
-				db_query( "UPDATE ttrss_plugin_storage SET content = '$content'
+				db_query("UPDATE ttrss_plugin_storage SET content = '$content'
 					WHERE owner_uid= '".$this->owner_uid."' AND name = '$plugin'");
 
 			} else {
-				db_query( "INSERT INTO ttrss_plugin_storage
+				db_query("INSERT INTO ttrss_plugin_storage
 					(name,owner_uid,content) VALUES
 					('$plugin','".$this->owner_uid."','$content')");
 			}
 
-			db_query( "COMMIT");
+			db_query("COMMIT");
 		}
 	}
 
@@ -298,7 +298,7 @@ class PluginHost {
 
 			unset($this->storage[$idx]);
 
-			db_query( "DELETE FROM ttrss_plugin_storage WHERE name = '$idx'
+			db_query("DELETE FROM ttrss_plugin_storage WHERE name = '$idx'
 				AND owner_uid = " . $this->owner_uid);
 
 			$_SESSION["plugin_storage"] = $this->storage;

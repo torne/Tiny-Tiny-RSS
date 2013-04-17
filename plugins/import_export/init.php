@@ -26,11 +26,11 @@ class Import_Export extends Plugin implements IHandler {
 
 		_debug("please enter your username:");
 
-		$username = db_escape_string( trim(read_stdin()));
+		$username = db_escape_string(trim(read_stdin()));
 
 		_debug("importing $filename for user $username...\n");
 
-		$result = db_query( "SELECT id FROM ttrss_users WHERE login = '$username'");
+		$result = db_query("SELECT id FROM ttrss_users WHERE login = '$username'");
 
 		if (db_num_rows($result) == 0) {
 			print "error: could not find user $username.\n";
@@ -39,11 +39,11 @@ class Import_Export extends Plugin implements IHandler {
 
 		$owner_uid = db_fetch_result($result, 0, "id");
 
-		$this->perform_data_import( $filename, $owner_uid);
+		$this->perform_data_import($filename, $owner_uid);
 	}
 
 	function save() {
-		$example_value = db_escape_string( $_POST["example_value"]);
+		$example_value = db_escape_string($_POST["example_value"]);
 
 		echo "Value set to $example_value (not really)";
 	}
@@ -117,12 +117,12 @@ class Import_Export extends Plugin implements IHandler {
 	}
 
 	function exportrun() {
-		$offset = (int) db_escape_string( $_REQUEST['offset']);
+		$offset = (int) db_escape_string($_REQUEST['offset']);
 		$exported = 0;
 		$limit = 250;
 
 		if ($offset < 10000 && is_writable(CACHE_DIR . "/export")) {
-			$result = db_query( "SELECT
+			$result = db_query("SELECT
 					ttrss_entries.guid,
 					ttrss_entries.title,
 					content,
@@ -181,7 +181,7 @@ class Import_Export extends Plugin implements IHandler {
 		print json_encode(array("exported" => $exported));
 	}
 
-	function perform_data_import( $filename, $owner_uid) {
+	function perform_data_import($filename, $owner_uid) {
 
 		$num_imported = 0;
 		$num_processed = 0;
@@ -234,7 +234,7 @@ class Import_Export extends Plugin implements IHandler {
 
 					foreach ($article_node->childNodes as $child) {
 						if ($child->nodeName != 'label_cache')
-							$article[$child->nodeName] = db_escape_string( $child->nodeValue);
+							$article[$child->nodeName] = db_escape_string($child->nodeValue);
 						else
 							$article[$child->nodeName] = $child->nodeValue;
 					}
@@ -245,11 +245,11 @@ class Import_Export extends Plugin implements IHandler {
 
 						++$num_processed;
 
-						//db_query( "BEGIN");
+						//db_query("BEGIN");
 
 						//print 'GUID:' . $article['guid'] . "\n";
 
-						$result = db_query( "SELECT id FROM ttrss_entries
+						$result = db_query("SELECT id FROM ttrss_entries
 							WHERE guid = '".$article['guid']."'");
 
 						if (db_num_rows($result) == 0) {
@@ -282,7 +282,7 @@ class Import_Export extends Plugin implements IHandler {
 									'0',
 									'')");
 
-							$result = db_query( "SELECT id FROM ttrss_entries
+							$result = db_query("SELECT id FROM ttrss_entries
 								WHERE guid = '".$article['guid']."'");
 
 							if (db_num_rows($result) != 0) {
@@ -303,7 +303,7 @@ class Import_Export extends Plugin implements IHandler {
 							$feed = 'NULL';
 
 							if ($feed_url && $feed_title) {
-								$result = db_query( "SELECT id FROM ttrss_feeds
+								$result = db_query("SELECT id FROM ttrss_feeds
 									WHERE feed_url = '$feed_url' AND owner_uid = '$owner_uid'");
 
 								if (db_num_rows($result) != 0) {
@@ -311,10 +311,10 @@ class Import_Export extends Plugin implements IHandler {
 								} else {
 									// try autocreating feed in Uncategorized...
 
-									$result = db_query( "INSERT INTO ttrss_feeds (owner_uid,
+									$result = db_query("INSERT INTO ttrss_feeds (owner_uid,
 										feed_url, title) VALUES ($owner_uid, '$feed_url', '$feed_title')");
 
-									$result = db_query( "SELECT id FROM ttrss_feeds
+									$result = db_query("SELECT id FROM ttrss_feeds
 										WHERE feed_url = '$feed_url' AND owner_uid = '$owner_uid'");
 
 									if (db_num_rows($result) != 0) {
@@ -332,7 +332,7 @@ class Import_Export extends Plugin implements IHandler {
 
 							//print "$ref_id / $feed / " . $article['title'] . "\n";
 
-							$result = db_query( "SELECT int_id FROM ttrss_user_entries
+							$result = db_query("SELECT int_id FROM ttrss_user_entries
 								WHERE ref_id = '$ref_id' AND owner_uid = '$owner_uid' AND $feed_qpart");
 
 							if (db_num_rows($result) == 0) {
@@ -342,7 +342,7 @@ class Import_Export extends Plugin implements IHandler {
 								$score = (int) $article['score'];
 
 								$tag_cache = $article['tag_cache'];
-								$label_cache = db_escape_string( $article['label_cache']);
+								$label_cache = db_escape_string($article['label_cache']);
 								$note = $article['note'];
 
 								//print "Importing " . $article['title'] . "<br/>";
@@ -362,15 +362,15 @@ class Import_Export extends Plugin implements IHandler {
 								if (is_array($label_cache) && $label_cache["no-labels"] != 1) {
 									foreach ($label_cache as $label) {
 
-										label_create( $label[1],
+										label_create($label[1],
 											$label[2], $label[3], $owner_uid);
 
-										label_add_article( $ref_id, $label[1], $owner_uid);
+										label_add_article($ref_id, $label[1], $owner_uid);
 
 									}
 								}
 
-								//db_query( "COMMIT");
+								//db_query("COMMIT");
 							}
 						}
 					}
@@ -438,7 +438,7 @@ class Import_Export extends Plugin implements IHandler {
 		}
 
 		if (is_file($tmp_file)) {
-			$this->perform_data_import( $tmp_file, $_SESSION['uid']);
+			$this->perform_data_import($tmp_file, $_SESSION['uid']);
 			unlink($tmp_file);
 		} else {
 			print_error(__('No file uploaded.'));

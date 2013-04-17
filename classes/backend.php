@@ -11,7 +11,7 @@ class Backend extends Handler {
 
 		require_once "digest.php";
 
-		$rv = prepare_headlines_digest( $_SESSION['uid'], 1, 1000);
+		$rv = prepare_headlines_digest($_SESSION['uid'], 1, 1000);
 
 		$rv[3] = "<pre>" . $rv[3] . "</pre>";
 

@@ -30,11 +30,11 @@ class GoogleReaderImport extends Plugin {
 
 		_debug("please enter your username:");
 
-		$username = db_escape_string( trim(read_stdin()));
+		$username = db_escape_string(trim(read_stdin()));
 
 		_debug("looking up user: $username...");
 
-		$result = db_query( "SELECT id FROM ttrss_users
+		$result = db_query("SELECT id FROM ttrss_users
 			WHERE login = '$username'");
 
 		if (db_num_rows($result) == 0) {
@@ -111,19 +111,19 @@ class GoogleReaderImport extends Plugin {
 				foreach ($doc['items'] as $item) {
 //					print_r($item);
 
-					$guid = db_escape_string( mb_substr($item['id'], 0, 250));
-					$title = db_escape_string( $item['title']);
+					$guid = db_escape_string(mb_substr($item['id'], 0, 250));
+					$title = db_escape_string($item['title']);
 					$updated = date('Y-m-d h:i:s', $item['updated']);
 					$link = '';
 					$content = '';
-					$author = db_escape_string( $item['author']);
+					$author = db_escape_string($item['author']);
 					$tags = array();
 					$orig_feed_data = array();
 
 					if (is_array($item['alternate'])) {
 						foreach ($item['alternate'] as $alt) {
 							if (isset($alt['type']) && $alt['type'] == 'text/html') {
-								$link = db_escape_string( $alt['href']);
+								$link = db_escape_string($alt['href']);
 							}
 						}
 					}
@@ -206,9 +206,9 @@ class GoogleReaderImport extends Plugin {
 
 		$content_hash = sha1($content);
 
-		if (filter_var( FILTER_VALIDATE_URL) === FALSE) return false;
+		if (filter_var(FILTER_VALIDATE_URL) === FALSE) return false;
 
-		db_query( "BEGIN");
+		db_query("BEGIN");
 
 		$feed_id = 'NULL';
 
@@ -254,18 +254,18 @@ class GoogleReaderImport extends Plugin {
 			// locate archived entry to file entries in, we don't want to file them in actual feeds because of purging
 			// maybe file marked in real feeds because eh
 
-			$result = db_query( "SELECT id FROM ttrss_archived_feeds WHERE
+			$result = db_query("SELECT id FROM ttrss_archived_feeds WHERE
 				feed_url = '".$orig_feed_data['feed_url']."' AND owner_uid = $owner_uid");
 
 			if (db_num_rows($result) != 0) {
 				$orig_feed_id = db_fetch_result($result, 0, "id");
 			} else {
-				db_query( "INSERT INTO ttrss_archived_feeds
+				db_query("INSERT INTO ttrss_archived_feeds
 						(id, owner_uid, title, feed_url, site_url)
 						SELECT id, owner_uid, title, feed_url, site_url from ttrss_feeds
 							WHERE id = '$feed_id'");
 
-				$result = db_query( "SELECT id FROM ttrss_archived_feeds WHERE
+				$result = db_query("SELECT id FROM ttrss_archived_feeds WHERE
 					feed_url = '".$orig_feed_data['feed_url']."' AND owner_uid = $owner_uid");
 
 				if (db_num_rows($result) != 0) {
@@ -276,32 +276,32 @@ class GoogleReaderImport extends Plugin {
 
 		// delete temporarily inserted feed
 		if ($feed_id && $feed_inserted) {
-				db_query( "DELETE FROM ttrss_feeds WHERE id = $feed_id");
+				db_query("DELETE FROM ttrss_feeds WHERE id = $feed_id");
 		}
 
 		if (!$orig_feed_id) $orig_feed_id = 'NULL';
 
-		$result = db_query( "SELECT id FROM ttrss_entries, ttrss_user_entries WHERE
+		$result = db_query("SELECT id FROM ttrss_entries, ttrss_user_entries WHERE
 			guid = '$guid' AND ref_id = id AND owner_uid = '$owner_uid' LIMIT 1");
 
 		if (db_num_rows($result) == 0) {
-			$result = db_query( "INSERT INTO ttrss_entries
+			$result = db_query("INSERT INTO ttrss_entries
 				(title, guid, link, updated, content, content_hash, date_entered, date_updated, author)
 				VALUES
 				('$title', '$guid', '$link', '$updated', '$content', '$content_hash', NOW(), NOW(), '$author')");
 
-			$result = db_query( "SELECT id FROM ttrss_entries WHERE guid = '$guid'");
+			$result = db_query("SELECT id FROM ttrss_entries WHERE guid = '$guid'");
 
 			if (db_num_rows($result) != 0) {
 				$ref_id = db_fetch_result($result, 0, "id");
 
-				db_query( "INSERT INTO ttrss_user_entries
+				db_query("INSERT INTO ttrss_user_entries
 					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, marked, tag_cache, label_cache,
 						last_read, note, unread, last_marked)
 					VALUES
 					('$ref_id', '', NULL, $orig_feed_id, $owner_uid, $marked, '', '', NOW(), '', false, NOW())");
 
-				$result = db_query( "SELECT int_id FROM ttrss_user_entries, ttrss_entries
+				$result = db_query("SELECT int_id FROM ttrss_user_entries, ttrss_entries
 					WHERE owner_uid = $owner_uid AND ref_id = id AND ref_id = $ref_id");
 
 				if (db_num_rows($result) != 0 && is_array($tags)) {
@@ -311,16 +311,16 @@ class GoogleReaderImport extends Plugin {
 
 					foreach ($tags as $tag) {
 
-						$tag = db_escape_string( sanitize_tag($tag));
+						$tag = db_escape_string(sanitize_tag($tag));
 
 						if (!tag_is_valid($tag)) continue;
 
-						$result = db_query( "SELECT id FROM ttrss_tags
+						$result = db_query("SELECT id FROM ttrss_tags
 							WHERE tag_name = '$tag' AND post_int_id = '$entry_int_id' AND
 							owner_uid = '$owner_uid' LIMIT 1");
 
 							if ($result && db_num_rows($result) == 0) {
-								db_query( "INSERT INTO ttrss_tags
+								db_query("INSERT INTO ttrss_tags
 									(owner_uid,tag_name,post_int_id)
 									VALUES ('$owner_uid','$tag', '$entry_int_id')");
 							}
@@ -331,9 +331,9 @@ class GoogleReaderImport extends Plugin {
 					/* update the cache */
 
 					$tags_to_cache = array_unique($tags_to_cache);
-					$tags_str = db_escape_string( join(",", $tags_to_cache));
+					$tags_str = db_escape_string(join(",", $tags_to_cache));
 
-					db_query( "UPDATE ttrss_user_entries
+					db_query("UPDATE ttrss_user_entries
 						SET tag_cache = '$tags_str' WHERE ref_id = '$ref_id'
 						AND owner_uid = $owner_uid");
 				}
@@ -342,7 +342,7 @@ class GoogleReaderImport extends Plugin {
 			}
 		}
 
-		db_query( "COMMIT");
+		db_query("COMMIT");
 
 		return $rc;
 	}

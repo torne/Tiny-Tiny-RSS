@@ -8,34 +8,34 @@
 
 	/* TODO replace with interface to db-prefs */
 
-	function mobile_pref_toggled( $id) {
-		if (get_pref( "_MOBILE_$id"))
+	function mobile_pref_toggled($id) {
+		if (get_pref("_MOBILE_$id"))
 			return "true";
 		else
 			return "";
 	}
 
-	function mobile_get_pref( $id) {
+	function mobile_get_pref($id) {
 		//return $_SESSION["mobile-prefs"][$id];
-		return get_pref( "_MOBILE_$id");
+		return get_pref("_MOBILE_$id");
 	}
 
-	function mobile_set_pref( $id, $value) {
+	function mobile_set_pref($id, $value) {
 		//$_SESSION["mobile-prefs"][$id] = $value;
-		return set_pref( "_MOBILE_$id", $value);
+		return set_pref("_MOBILE_$id", $value);
 	}
 
 	function mobile_feed_has_icon($id) {
 		return file_exists("../../".ICONS_DIR."/$id.ico");
 	}
 
-	function render_flat_feed_list( $offset) {
+	function render_flat_feed_list($offset) {
 		$owner_uid = $_SESSION["uid"];
 		$limit = 0;
 
 		if (!$offset) $offset = 0;
 
-		if (mobile_get_pref( "SORT_FEEDS_UNREAD")) {
+		if (mobile_get_pref("SORT_FEEDS_UNREAD")) {
 			$order_by = "unread DESC, title";
 		} else {
 			$order_by = "title";
@@ -47,7 +47,7 @@
 			$limit_qpart = "";
 		}
 
-		$result = db_query( "SELECT id,
+		$result = db_query("SELECT id,
 				title,
 			(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
 				WHERE feed_id = ttrss_feeds.id AND unread = true
@@ -85,7 +85,7 @@
 					$icon_url = "../../images/blank_icon.gif";
 				}
 
-				if ($unread > 0 || !mobile_get_pref( "HIDE_READ")) {
+				if ($unread > 0 || !mobile_get_pref("HIDE_READ")) {
 					print "<li class='$class'><a href='feed.php?id=$id'>" .
 						"<img class='tinyIcon' src='$icon_url'/>".
 						$line["title"] . "</a></li>";
@@ -103,7 +103,7 @@
 
 	}
 
-	function render_category( $cat_id, $offset) {
+	function render_category($cat_id, $offset) {
 		$owner_uid = $_SESSION["uid"];
 
 		if ($cat_id >= 0) {
@@ -114,13 +114,13 @@
 				$cat_query = "cat_id IS NULL";
 			}
 
-			if (mobile_get_pref( "SORT_FEEDS_UNREAD")) {
+			if (mobile_get_pref("SORT_FEEDS_UNREAD")) {
 				$order_by = "unread DESC, title";
 			} else {
 				$order_by = "title";
 			}
 
-			$result = db_query( "SELECT id,
+			$result = db_query("SELECT id,
 				title,
 			(SELECT COUNT(id) FROM ttrss_entries,ttrss_user_entries
 				WHERE feed_id = ttrss_feeds.id AND unread = true
@@ -132,7 +132,7 @@
 				$cat_query
 			ORDER BY $order_by");
 
-			$title = getCategoryTitle( $cat_id);
+			$title = getCategoryTitle($cat_id);
 
 			print "<ul id='cat-$cat_id' title='$title' myBackLabel='".__("Home")."'
 				myBackHref='home.php'>";
@@ -158,7 +158,7 @@
 					$icon_url = "../../images/blank_icon.gif";
 				}
 
-				if ($unread > 0 || !mobile_get_pref( "HIDE_READ")) {
+				if ($unread > 0 || !mobile_get_pref("HIDE_READ")) {
 					print "<li class='$class'><a href='feed.php?id=$id&cat=$cat_id'>" .
 						"<img class='tinyIcon' src='$icon_url'/>".
 						$line["title"] . "</a></li>";
@@ -174,8 +174,8 @@
 				myBackHref='home.php'>";
 
 			foreach (array(-4, -3, -1, -2, 0) as $id) {
-				$title = getFeedTitle( $id);
-				$unread = getFeedUnread( $id, false);
+				$title = getFeedTitle($id);
+				$unread = getFeedUnread($id, false);
 				$icon = getFeedIcon($id);
 
 				if ($unread > 0) {
@@ -185,7 +185,7 @@
 					$class = 'oldItem';
 				}
 
-				if ($unread > 0 || !mobile_get_pref( "HIDE_READ")) {
+				if ($unread > 0 || !mobile_get_pref("HIDE_READ")) {
 					print "<li class='$class'>
 						<a href='feed.php?id=$id&cat=-1'>
 						<img class='tinyIcon' src='../$icon'/>$title</a></li>";
@@ -200,7 +200,7 @@
 			print "<ul id='cat--2' title='$title' myBackLabel='".__("Home")."'
 				myBackHref='home.php'>";
 
-			$result = db_query( "SELECT id, caption FROM ttrss_labels2
+			$result = db_query("SELECT id, caption FROM ttrss_labels2
 				WHERE owner_uid = '$owner_uid'");
 
 			$label_data = array();
@@ -209,7 +209,7 @@
 
 				$id = label_to_feed_id($line["id"]);
 
-				$unread = getFeedUnread( $id);
+				$unread = getFeedUnread($id);
 				$title = $line["caption"];
 
 				if ($unread > 0) {
@@ -219,7 +219,7 @@
 					$class = 'oldItem';
 				}
 
-				if ($unread > 0 || !mobile_get_pref( "HIDE_READ")) {
+				if ($unread > 0 || !mobile_get_pref("HIDE_READ")) {
 					print "<li class='$class'>
 						<a href='feed.php?id=$id&cat=-2'>$title</a></li>";
 				}
@@ -231,7 +231,7 @@
 	function render_categories_list($link) {
 		$owner_uid = $_SESSION["uid"];
 
-		$cat_browse = mobile_get_pref( "BROWSE_CATS");
+		$cat_browse = mobile_get_pref("BROWSE_CATS");
 
 		print '<ul id="home" title="'.__('Home').'" selected="true"
 			myBackLabel="'.__('Logout').'" myBackHref="logout.php" myBackTarget="_self">';
@@ -239,8 +239,8 @@
 //		print "<li><a href='#searchForm'>Search...</a></li>";
 
 		foreach (array(-1, -2) as $id) {
-			$title = getCategoryTitle( $id);
-			$unread = getFeedUnread( $id, true);
+			$title = getCategoryTitle($id);
+			$unread = getFeedUnread($id, true);
 			if ($unread > 0) {
 				$title = $title . " ($unread)";
 				$class = '';
@@ -254,7 +254,7 @@
 				print "<li class='$class'><a href='feed.php?id=$id&is_cat=true'>$title</a></li>";
 		}
 
-		$result = db_query( "SELECT
+		$result = db_query("SELECT
 				ttrss_feed_categories.id,
 				ttrss_feed_categories.title,
 				COUNT(ttrss_feeds.id) AS num_feeds
@@ -269,7 +269,7 @@
 
 			if ($line["num_feeds"] > 0) {
 
-				$unread = getFeedUnread( $line["id"], true);
+				$unread = getFeedUnread($line["id"], true);
 				$id = $line["id"];
 
 				if ($unread > 0) {
@@ -279,7 +279,7 @@
 					$class = 'oldItem';
 				}
 
-				if ($unread > 0 || !mobile_get_pref( "HIDE_READ")) {
+				if ($unread > 0 || !mobile_get_pref("HIDE_READ")) {
 
 					if ($cat_browse)
 						print "<li class='$class'><a href='cat.php?id=$id'>" .
@@ -292,13 +292,13 @@
 		}
 
 
-		$result = db_query( "SELECT COUNT(*) AS nf FROM ttrss_feeds WHERE
+		$result = db_query("SELECT COUNT(*) AS nf FROM ttrss_feeds WHERE
 			cat_id IS NULL and owner_uid = '$owner_uid'");
 
 		$num_feeds = db_fetch_result($result, 0, "nf");
 
 		if ($num_feeds > 0) {
-			$unread = getFeedUnread( 0, true);
+			$unread = getFeedUnread(0, true);
 			$title = "Uncategorized";
 
 			if ($unread > 0) {
@@ -308,7 +308,7 @@
 				$class = 'oldItem';
 			}
 
-			if ($unread > 0 || !mobile_get_pref( "HIDE_READ")) {
+			if ($unread > 0 || !mobile_get_pref("HIDE_READ")) {
 				if ($cat_browse)
 					print "<li class='$class'><a href='cat.php?id=0'>$title</a></li>";
 				else
@@ -320,14 +320,14 @@
 		print "</ul>";
 	}
 
-	function render_headlines_list( $feed_id, $cat_id, $offset, $search,
+	function render_headlines_list($feed_id, $cat_id, $offset, $search,
 		$is_cat = false) {
 
 		$feed_id = $feed_id;
 		$limit = 15;
 		$filter = '';
 
-		if (!mobile_get_pref( "HIDE_READ"))
+		if (!mobile_get_pref("HIDE_READ"))
 			$view_mode = "all_articles";
 		else
 			$view_mode = 'adaptive';
@@ -338,9 +338,9 @@
 			$search_mode = '';
 		}
 
-		$qfh_ret = queryFeedHeadlines( $feed_id, $limit,
+		$qfh_ret = queryFeedHeadlines($feed_id, $limit,
 			$view_mode, $is_cat, $search, $search_mode,
-			"score DESC, date_entered ".(mobile_get_pref( 'REVERSE_HEADLINES') ? 'ASC' : 'DESC'), $offset);
+			"score DESC, date_entered ".(mobile_get_pref('REVERSE_HEADLINES') ? 'ASC' : 'DESC'), $offset);
 
 		$result = $qfh_ret[0];
 		$feed_title = $qfh_ret[1];
@@ -364,7 +364,7 @@
 			  </form>";
 
 			if ($cat_id) {
-				$cat_title = getCategoryTitle( $cat_id);
+				$cat_title = getCategoryTitle($cat_id);
 
 				print "<ul id=\"feed-$feed_id\" title=\"$feed_title\" selected=\"true\"
 					myBackLabel='$cat_title' myBackHref='cat.php?id=$cat_id'>";
@@ -413,7 +413,7 @@
 //		print "<a target='_replace' href='feed.php?id=$feed_id&cat=$cat_id&skip=0'>Next $limit articles...</a>";
 
 		$next_offset = $offset + $num_headlines;
-		$num_unread = getFeedUnread( $feed_id, $is_cat);
+		$num_unread = getFeedUnread($feed_id, $is_cat);
 
 		/* FIXME needs normal implementation */
 
@@ -435,7 +435,7 @@
 
 	}
 
-	function render_article( $id, $feed_id, $cat_id, $is_cat) {
+	function render_article($id, $feed_id, $cat_id, $is_cat) {
 
 		$query = "SELECT title,link,content,feed_id,comments,int_id,
 			marked,unread,published,
@@ -445,33 +445,33 @@
 			WHERE	id = '$id' AND ref_id = id AND owner_uid = " .
 				$_SESSION["uid"] ;
 
-		$result = db_query( $query);
+		$result = db_query($query);
 
 		if (db_num_rows($result) != 0) {
 
 			$line = db_fetch_assoc($result);
 
-			$tmp_result = db_query( "UPDATE ttrss_user_entries
+			$tmp_result = db_query("UPDATE ttrss_user_entries
 				SET unread = false,last_read = NOW()
 				WHERE ref_id = '$id'
 				AND owner_uid = " . $_SESSION["uid"]);
 
-			$updated_fmt = make_local_datetime( $line['updated'], false);
+			$updated_fmt = make_local_datetime($line['updated'], false);
 
 			$title = $line["title"];
 			$article_link = $line["link"];
 
 			if (!$is_cat)
-				$feed_title = getFeedTitle( $feed_id);
+				$feed_title = getFeedTitle($feed_id);
 			else
-				$feed_title = getCategoryTitle( $feed_id);
+				$feed_title = getCategoryTitle($feed_id);
 
 			print "<div class=\"panel\" id=\"article-$id\" title=\"$title\"
 				selected=\"true\"
 				myBackLabel='$feed_title' myBackHref='feed.php?id=$feed_id&cat=$cat_id&is_cat=$is_cat'>";
 
 			if ($line['feed_id'] != $feed_id) {
-				$real_feed_title = getFeedTitle( $line['feed_id']);
+				$real_feed_title = getFeedTitle($line['feed_id']);
 				$real_feed_id = $line['feed_id'];
 				$feed_link = "(<a href=\"feed.php?id=$real_feed_id\">$real_feed_title</a>)";
 			}
@@ -497,10 +497,10 @@
 
 //			print "</fieldset>";
 
-			$content = sanitize( $line["content"]);
+			$content = sanitize($line["content"]);
 			$content = preg_replace("/href=/i", "target=\"_blank\" href=", $content);
 
-			if (!mobile_get_pref( "SHOW_IMAGES")) {
+			if (!mobile_get_pref("SHOW_IMAGES")) {
 				$content = preg_replace('/<img[^>]+>/is', '', $content);
 			}
 

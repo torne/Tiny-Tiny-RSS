@@ -27,7 +27,7 @@ class MailTo extends Plugin {
 
 	function emailArticle() {
 
-		$param = db_escape_string( $_REQUEST['param']);
+		$param = db_escape_string($_REQUEST['param']);
 
 		require_once "lib/MiniTemplator.class.php";
 
@@ -41,7 +41,7 @@ class MailTo extends Plugin {
 		$tpl->setVariable('TTRSS_HOST', $_SERVER["HTTP_HOST"], true);
 
 
-		$result = db_query( "SELECT link, content, title
+		$result = db_query("SELECT link, content, title
 			FROM ttrss_user_entries, ttrss_entries WHERE id = ref_id AND
 			id IN ($param) AND owner_uid = " . $_SESSION["uid"]);
 

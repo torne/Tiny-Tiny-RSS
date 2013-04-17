@@ -46,14 +46,14 @@ class SessionHandler implements SessionHandlerInterface {
 			return false;
 		}
 
-		$data = $this->db->escape_string( base64_encode($data), false);
+		$data = $this->db->escape_string(base64_encode($data), false);
 
 		$expire = time() + max(SESSION_COOKIE_LIFETIME, 86400);
 
 	 	$query = "UPDATE ttrss_sessions SET data='$data',
 				expire = '$expire' WHERE id='$id'";
 
-		$this->db->query( $query);
+		$this->db->query($query);
 		return true;
 	}
 

@@ -6,7 +6,7 @@ class Dlg extends Handler_Protected {
 		if (parent::before($method)) {
 			header("Content-Type: text/html"); # required for iframe
 
-			$this->param = db_escape_string( $_REQUEST["param"]);
+			$this->param = db_escape_string($_REQUEST["param"]);
 			return true;
 		}
 		return false;
@@ -18,15 +18,15 @@ class Dlg extends Handler_Protected {
 		print "<div class=\"prefFeedOPMLHolder\">";
 		$owner_uid = $_SESSION["uid"];
 
-		db_query( "BEGIN");
+		db_query("BEGIN");
 
 		print "<ul class='nomarks'>";
 
-		$opml = new Opml( $_REQUEST);
+		$opml = new Opml($_REQUEST);
 
 		$opml->opml_import($_SESSION["uid"]);
 
-		db_query( "COMMIT");
+		db_query("COMMIT");
 
 		print "</ul>";
 		print "</div>";
@@ -106,7 +106,7 @@ class Dlg extends Handler_Protected {
 			FROM ttrss_tags WHERE owner_uid = ".$_SESSION["uid"]."
 			GROUP BY tag_name ORDER BY count DESC LIMIT 50";
 
-		$result = db_query( $query);
+		$result = db_query($query);
 
 		$tags = array();
 
@@ -114,7 +114,7 @@ class Dlg extends Handler_Protected {
 			$tags[$line["tag_name"]] = $line["count"];
 		}
 
-        if( count($tags) == 0 ){ return; }
+        if(count($tags) == 0 ){ return; }
 
 		ksort($tags);
 
@@ -171,7 +171,7 @@ class Dlg extends Handler_Protected {
 		print "<label for=\"tag_mode_all\">".__("All tags.")."</input>";
 
 		print "<select id=\"all_tags\" name=\"all_tags\" title=\"" . __('Which Tags?') . "\" multiple=\"multiple\" size=\"10\" style=\"width : 100%\">";
-		$result = db_query( "SELECT DISTINCT tag_name FROM ttrss_tags WHERE owner_uid = ".$_SESSION['uid']."
+		$result = db_query("SELECT DISTINCT tag_name FROM ttrss_tags WHERE owner_uid = ".$_SESSION['uid']."
 			AND LENGTH(tag_name) <= 30 ORDER BY tag_name ASC");
 
 		while ($row = db_fetch_assoc($result)) {
@@ -195,10 +195,10 @@ class Dlg extends Handler_Protected {
 	function generatedFeed() {
 
 		$this->params = explode(":", $this->param, 3);
-		$feed_id = db_escape_string( $this->params[0]);
+		$feed_id = db_escape_string($this->params[0]);
 		$is_cat = (bool) $this->params[1];
 
-		$key = get_feed_access_key( $feed_id, $is_cat);
+		$key = get_feed_access_key($feed_id, $is_cat);
 
 		$url_path = htmlspecialchars($this->params[2]) . "&key=" . $key;
 

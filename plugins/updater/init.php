@@ -20,7 +20,7 @@ class Updater extends Plugin {
 			$this);
 	}
 
-	function update_self_step( $step, $params, $force = false) {
+	function update_self_step($step, $params, $force = false) {
 		// __FILE__ is in plugins/updater so we need to go one level up
 		$work_dir = dirname(dirname(dirname(__FILE__)));
 		$parent_dir = dirname($work_dir);
@@ -277,13 +277,13 @@ class Updater extends Plugin {
 		return array("step" => $step, "stop" => $stop, "params" => $params, "log" => $log);
 	}
 
-	function update_self_cli( $force = false) {
+	function update_self_cli($force = false) {
 		$step = 0;
 		$stop = false;
 		$params = array();
 
 		while (!$stop) {
-			$rc = $this->update_self_step( $step, $params, $force);
+			$rc = $this->update_self_step($step, $params, $force);
 
 			$params = $rc['params'];
 			$stop = $rc['stop'];
@@ -307,7 +307,7 @@ class Updater extends Plugin {
 		if ($input != 'yes' && $input != 'force')
 			exit;
 
-		$this->update_self_cli( $input == 'force');
+		$this->update_self_cli($input == 'force');
 	}
 
 	function get_prefs_js() {
@@ -376,7 +376,7 @@ class Updater extends Plugin {
 		$force = (bool) $_REQUEST["force"];
 
 		if (($_SESSION["access_level"] >= 10 || SINGLE_USER_MODE) && CHECK_FOR_NEW_VERSION) {
-			print	json_encode($this->update_self_step( $step, $params, $force));
+			print	json_encode($this->update_self_step($step, $params, $force));
 		}
 	}
 

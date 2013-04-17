@@ -34,9 +34,9 @@ class Embed_Original extends Plugin {
 	}
 
 	function getUrl() {
-		$id = db_escape_string( $_REQUEST['id']);
+		$id = db_escape_string($_REQUEST['id']);
 
-		$result = db_query( "SELECT link
+		$result = db_query("SELECT link
 				FROM ttrss_entries, ttrss_user_entries
 				WHERE id = '$id' AND ref_id = id AND owner_uid = " .$_SESSION['uid']);
 

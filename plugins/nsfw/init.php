@@ -88,7 +88,7 @@ class NSFW extends Plugin {
 	}
 
 	function save() {
-		$tags = explode(",", db_escape_string( $_POST["tags"]));
+		$tags = explode(",", db_escape_string($_POST["tags"]));
 		$tags = array_map("trim", $tags);
 		$tags = array_map("mb_strtolower", $tags);
 		$tags = join(", ", $tags);

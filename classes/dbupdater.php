@@ -12,7 +12,7 @@ class DbUpdater {
 	}
 
 	function getSchemaVersion() {
-		$result = db_query( "SELECT schema_version FROM ttrss_version");
+		$result = db_query("SELECT schema_version FROM ttrss_version");
 		return (int) db_fetch_result($result, 0, "schema_version");
 	}
 
@@ -37,21 +37,21 @@ class DbUpdater {
 
 			if (is_array($lines)) {
 
-				db_query( "BEGIN");
+				db_query("BEGIN");
 
 				foreach ($lines as $line) {
 					if (strpos($line, "--") !== 0 && $line) {
-						db_query( $line);
+						db_query($line);
 					}
 				}
 
 				$db_version = $this->getSchemaVersion();
 
 				if ($db_version == $version) {
-					db_query( "COMMIT");
+					db_query("COMMIT");
 					return true;
 				} else {
-					db_query( "ROLLBACK");
+					db_query("ROLLBACK");
 					return false;
 				}
 			} else {

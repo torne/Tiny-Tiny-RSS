@@ -31,11 +31,11 @@ class Db_Pgsql implements IDb {
 	function escape_string($s, $strip_tags = true) {
 		if ($strip_tags) $s = strip_tags($s);
 
-		return pg_escape_string( $s);
+		return pg_escape_string($s);
 	}
 
 	function query($query, $die_on_error = true) {
-		$result = pg_query( $query);
+		$result = pg_query($query);
 
 		if (!$result) {
 			$query = htmlspecialchars($query); // just in case
