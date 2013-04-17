@@ -100,7 +100,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 	_createTreeNode: function(args) {
 		var tnode = new dijit._TreeNode(args);
 
-		if (args.item.icon)
+		if (args.item.icon && args.item.icon[0])
 			tnode.iconNode.src = args.item.icon[0];
 
 		var id = args.item.id[0];

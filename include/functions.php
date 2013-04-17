@@ -1851,6 +1851,8 @@
 			}
 			break;
 		}
+
+		return false;
 	}
 
 	function getFeedTitle($link, $id, $cat = false) {
