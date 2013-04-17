@@ -23,6 +23,8 @@ class Db_Pgsql implements IDb {
 			die("Unable to connect to database (as $user to $host, database $db):" . pg_last_error());
 		}
 
+		$this->init();
+
 		return $this->link;
 	}
 

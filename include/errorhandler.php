@@ -1,7 +1,7 @@
 <?php
 // TODO: make configurable
-require_once "classes/logger.php";
-require_once "classes/logger/sql.php";
+//require_once "classes/logger.php";
+//require_once "classes/logger/sql.php";
 
 function ttrss_error_handler($errno, $errstr, $file, $line, $context) {
 	global $logger;
@@ -42,6 +42,6 @@ function ttrss_fatal_handler() {
 	}
 }
 
-register_shutdown_function('ttrss_fatal_handler');
-set_error_handler('ttrss_error_handler');
+//register_shutdown_function('ttrss_fatal_handler');
+//set_error_handler('ttrss_error_handler');
 ?>

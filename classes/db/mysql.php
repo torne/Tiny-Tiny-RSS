@@ -9,6 +9,9 @@ class Db_Mysql implements IDb {
 			if (!$result) {
 				die("Can't select DB: " . mysql_error($this->link));
 			}
+
+			$this->init();
+
 			return $this->link;
 		} else {
 			die("Unable to connect to database (as $user to $host, database $db): " . mysql_error());

@@ -2,6 +2,7 @@
 class Db implements IDb {
 	private static $instance;
 	private $adapter;
+	private $link;
 
 	private function __construct() {
 		switch (DB_TYPE) {
@@ -12,11 +13,11 @@ class Db implements IDb {
 			$this->adapter = new Db_Pgsql();
 			break;
 		default:
-			die("Unknown DB_TYPE: " . DB_TYPE);
+			user_error("Unknown DB_TYPE: " . DB_TYPE);
 		}
 
-		$this->adapter->connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
-		$this->adapter->init();
+		$this->link = $this->adapter->connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
+
 	}
 
 	private function __clone() {
@@ -40,6 +41,7 @@ class Db implements IDb {
 
 	function connect($host, $user, $pass, $db, $port) {
 		//return $this->adapter->connect($host, $user, $pass, $db, $port);
+		return $this->link;
 	}
 
 	function escape_string($s, $strip_tags = true) {
