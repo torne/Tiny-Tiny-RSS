@@ -1076,7 +1076,7 @@ function hash_get(key) {
 		kv = window.location.hash.substring(1).toQueryParams();
 		return kv[key];
 	} catch (e) {
-		exception_error("hash_set", e);
+		exception_error("hash_get", e);
 	}
 }
 function hash_set(key, value) {
