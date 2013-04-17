@@ -20,7 +20,6 @@
 	require_once "config.php";
 	require_once "db.php";
 	require_once "db-prefs.php";
-	require_once "errorhandler.php";
 
 	// defaults
 	define('PURGE_INTERVAL', 3600); // seconds

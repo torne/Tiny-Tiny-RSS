@@ -13,7 +13,6 @@
 	require_once "sanity_check.php";
 	require_once "db.php";
 	require_once "db-prefs.php";
-	require_once "errorhandler.php";
 
 	if (!defined('PHP_EXECUTABLE'))
 		define('PHP_EXECUTABLE', '/usr/bin/php');
