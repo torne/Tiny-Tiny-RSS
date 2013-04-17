@@ -24,7 +24,7 @@ class Pref_System extends Handler_Protected {
 		print "<div dojoType=\"dijit.layout.AccordionContainer\" region=\"center\">";
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Error Log')."\">";
 
-		$result = db_query("SELECT errno, errstr, filename, lineno,
+		$result = $this->dbh->query("SELECT errno, errstr, filename, lineno,
 			created_at, login FROM ttrss_error_log
 			LEFT JOIN ttrss_users ON (owner_uid = ttrss_users.id)
 			ORDER BY ttrss_error_log.id DESC
@@ -43,7 +43,7 @@ class Pref_System extends Handler_Protected {
 			<td width='5%'>".__("Date")."</td>
 			</tr>";
 
-		while ($line = db_fetch_assoc($result)) {
+		while ($line = $this->dbh->fetch_assoc($result)) {
 			print "<tr class=\"errrow\">";
 
 			foreach ($line as $k => $v) {

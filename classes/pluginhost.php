@@ -222,12 +222,12 @@ class PluginHost {
 
 	function load_data($force = false) {
 		if ($this->owner_uid && (!$_SESSION["plugin_storage"] || $force))  {
-			$plugin = db_escape_string($plugin);
+			$plugin = $this->dbh->escape_string($plugin);
 
-			$result = db_query("SELECT name, content FROM ttrss_plugin_storage
+			$result = $this->dbh->query("SELECT name, content FROM ttrss_plugin_storage
 				WHERE owner_uid = '".$this->owner_uid."'");
 
-			while ($line = db_fetch_assoc($result)) {
+			while ($line = $this->dbh->fetch_assoc($result)) {
 				$this->storage[$line["name"]] = unserialize($line["content"]);
 			}
 
@@ -237,29 +237,29 @@ class PluginHost {
 
 	private function save_data($plugin) {
 		if ($this->owner_uid) {
-			$plugin = db_escape_string($plugin);
+			$plugin = $this->dbh->escape_string($plugin);
 
-			db_query("BEGIN");
+			$this->dbh->query("BEGIN");
 
-			$result = db_query("SELECT id FROM ttrss_plugin_storage WHERE
+			$result = $this->dbh->query("SELECT id FROM ttrss_plugin_storage WHERE
 				owner_uid= '".$this->owner_uid."' AND name = '$plugin'");
 
 			if (!isset($this->storage[$plugin]))
 				$this->storage[$plugin] = array();
 
-			$content = db_escape_string(serialize($this->storage[$plugin]));
+			$content = $this->dbh->escape_string(serialize($this->storage[$plugin]));
 
-			if (db_num_rows($result) != 0) {
-				db_query("UPDATE ttrss_plugin_storage SET content = '$content'
+			if ($this->dbh->num_rows($result) != 0) {
+				$this->dbh->query("UPDATE ttrss_plugin_storage SET content = '$content'
 					WHERE owner_uid= '".$this->owner_uid."' AND name = '$plugin'");
 
 			} else {
-				db_query("INSERT INTO ttrss_plugin_storage
+				$this->dbh->query("INSERT INTO ttrss_plugin_storage
 					(name,owner_uid,content) VALUES
 					('$plugin','".$this->owner_uid."','$content')");
 			}
 
-			db_query("COMMIT");
+			$this->dbh->query("COMMIT");
 		}
 	}
 
@@ -298,7 +298,7 @@ class PluginHost {
 
 			unset($this->storage[$idx]);
 
-			db_query("DELETE FROM ttrss_plugin_storage WHERE name = '$idx'
+			$this->dbh->query("DELETE FROM ttrss_plugin_storage WHERE name = '$idx'
 				AND owner_uid = " . $this->owner_uid);
 
 			$_SESSION["plugin_storage"] = $this->storage;

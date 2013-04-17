@@ -8,14 +8,14 @@ class Article extends Handler_Protected {
 	}
 
 	function redirect() {
-		$id = db_escape_string($_REQUEST['id']);
+		$id = $this->dbh->escape_string($_REQUEST['id']);
 
-		$result = db_query("SELECT link FROM ttrss_entries, ttrss_user_entries
+		$result = $this->dbh->query("SELECT link FROM ttrss_entries, ttrss_user_entries
 						WHERE id = '$id' AND id = ref_id AND owner_uid = '".$_SESSION['uid']."'
 						LIMIT 1");
 
-		if (db_num_rows($result) == 1) {
-			$article_url = db_fetch_result($result, 0, 'link');
+		if ($this->dbh->num_rows($result) == 1) {
+			$article_url = $this->dbh->fetch_result($result, 0, 'link');
 			$article_url = str_replace("\n", "", $article_url);
 
 			header("Location: $article_url");
@@ -27,10 +27,10 @@ class Article extends Handler_Protected {
 	}
 
 	function view() {
-		$id = db_escape_string($_REQUEST["id"]);
-		$cids = explode(",", db_escape_string($_REQUEST["cids"]));
-		$mode = db_escape_string($_REQUEST["mode"]);
-		$omode = db_escape_string($_REQUEST["omode"]);
+		$id = $this->dbh->escape_string($_REQUEST["id"]);
+		$cids = explode(",", $this->dbh->escape_string($_REQUEST["cids"]));
+		$mode = $this->dbh->escape_string($_REQUEST["mode"]);
+		$omode = $this->dbh->escape_string($_REQUEST["omode"]);
 
 		// in prefetch mode we only output requested cids, main article
 		// just gets marked as read (it already exists in client cache)
@@ -68,15 +68,15 @@ class Article extends Handler_Protected {
 	private function catchupArticleById($id, $cmode) {
 
 		if ($cmode == 0) {
-			db_query("UPDATE ttrss_user_entries SET
+			$this->dbh->query("UPDATE ttrss_user_entries SET
 			unread = false,last_read = NOW()
 			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 		} else if ($cmode == 1) {
-			db_query("UPDATE ttrss_user_entries SET
+			$this->dbh->query("UPDATE ttrss_user_entries SET
 			unread = true
 			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 		} else {
-			db_query("UPDATE ttrss_user_entries SET
+			$this->dbh->query("UPDATE ttrss_user_entries SET
 			unread = NOT unread,last_read = NOW()
 			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 		}
@@ -178,9 +178,9 @@ class Article extends Handler_Protected {
 
 		print __("Tags for this article (separated by commas):")."<br>";
 
-		$param = db_escape_string($_REQUEST['param']);
+		$param = $this->dbh->escape_string($_REQUEST['param']);
 
-		$tags = get_article_tags(db_escape_string($param));
+		$tags = get_article_tags($this->dbh->escape_string($param));
 
 		$tags_str = join(", ", $tags);
 
@@ -209,10 +209,10 @@ class Article extends Handler_Protected {
 	}
 
 	function setScore() {
-		$ids = db_escape_string($_REQUEST['id']);
-		$score = (int)db_escape_string($_REQUEST['score']);
+		$ids = $this->dbh->escape_string($_REQUEST['id']);
+		$score = (int)$this->dbh->escape_string($_REQUEST['score']);
 
-		db_query("UPDATE ttrss_user_entries SET
+		$this->dbh->query("UPDATE ttrss_user_entries SET
 			score = '$score' WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
 		print json_encode(array("id" => $id,
@@ -222,23 +222,23 @@ class Article extends Handler_Protected {
 
 	function setArticleTags() {
 
-		$id = db_escape_string($_REQUEST["id"]);
+		$id = $this->dbh->escape_string($_REQUEST["id"]);
 
-		$tags_str = db_escape_string($_REQUEST["tags_str"]);
+		$tags_str = $this->dbh->escape_string($_REQUEST["tags_str"]);
 		$tags = array_unique(trim_array(explode(",", $tags_str)));
 
-		db_query("BEGIN");
+		$this->dbh->query("BEGIN");
 
-		$result = db_query("SELECT int_id FROM ttrss_user_entries WHERE
+		$result = $this->dbh->query("SELECT int_id FROM ttrss_user_entries WHERE
 				ref_id = '$id' AND owner_uid = '".$_SESSION["uid"]."' LIMIT 1");
 
-		if (db_num_rows($result) == 1) {
+		if ($this->dbh->num_rows($result) == 1) {
 
 			$tags_to_cache = array();
 
-			$int_id = db_fetch_result($result, 0, "int_id");
+			$int_id = $this->dbh->fetch_result($result, 0, "int_id");
 
-			db_query("DELETE FROM ttrss_tags WHERE
+			$this->dbh->query("DELETE FROM ttrss_tags WHERE
 				post_int_id = $int_id AND owner_uid = '".$_SESSION["uid"]."'");
 
 			foreach ($tags as $tag) {
@@ -255,7 +255,7 @@ class Article extends Handler_Protected {
 				//					print "<!-- $id : $int_id : $tag -->";
 
 				if ($tag != '') {
-					db_query("INSERT INTO ttrss_tags
+					$this->dbh->query("INSERT INTO ttrss_tags
 								(post_int_id, owner_uid, tag_name) VALUES ('$int_id', '".$_SESSION["uid"]."', '$tag')");
 				}
 
@@ -267,12 +267,12 @@ class Article extends Handler_Protected {
 			sort($tags_to_cache);
 			$tags_str = join(",", $tags_to_cache);
 
-			db_query("UPDATE ttrss_user_entries
+			$this->dbh->query("UPDATE ttrss_user_entries
 				SET tag_cache = '$tags_str' WHERE ref_id = '$id'
 						AND owner_uid = " . $_SESSION["uid"]);
 		}
 
-		db_query("COMMIT");
+		$this->dbh->query("COMMIT");
 
 		$tags = get_article_tags($id);
 		$tags_str = format_tags_string($tags, $id);
@@ -286,15 +286,15 @@ class Article extends Handler_Protected {
 
 
 	function completeTags() {
-		$search = db_escape_string($_REQUEST["search"]);
+		$search = $this->dbh->escape_string($_REQUEST["search"]);
 
-		$result = db_query("SELECT DISTINCT tag_name FROM ttrss_tags
+		$result = $this->dbh->query("SELECT DISTINCT tag_name FROM ttrss_tags
 				WHERE owner_uid = '".$_SESSION["uid"]."' AND
 				tag_name LIKE '$search%' ORDER BY tag_name
 				LIMIT 10");
 
 		print "<ul>";
-		while ($line = db_fetch_assoc($result)) {
+		while ($line = $this->dbh->fetch_assoc($result)) {
 			print "<li>" . $line["tag_name"] . "</li>";
 		}
 		print "</ul>";
@@ -311,10 +311,10 @@ class Article extends Handler_Protected {
 	private function labelops($assign) {
 		$reply = array();
 
-		$ids = explode(",", db_escape_string($_REQUEST["ids"]));
-		$label_id = db_escape_string($_REQUEST["lid"]);
+		$ids = explode(",", $this->dbh->escape_string($_REQUEST["ids"]));
+		$label_id = $this->dbh->escape_string($_REQUEST["lid"]);
 
-		$label = db_escape_string(label_find_caption($label_id,
+		$label = $this->dbh->escape_string(label_find_caption($label_id,
 		$_SESSION["uid"]));
 
 		$reply["info-for-headlines"] = array();

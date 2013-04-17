@@ -164,19 +164,19 @@ class Feeds extends Handler_Protected {
 		if ($method == "ForceUpdate" && $feed > 0 && is_numeric($feed)) {
 			// Update the feed if required with some basic flood control
 
-			$result = db_query(
+			$result = $this->dbh->query(
 				"SELECT cache_images,".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 					FROM ttrss_feeds WHERE id = '$feed'");
 
-				if (db_num_rows($result) != 0) {
-					$last_updated = strtotime(db_fetch_result($result, 0, "last_updated"));
-					$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
+				if ($this->dbh->num_rows($result) != 0) {
+					$last_updated = strtotime($this->dbh->fetch_result($result, 0, "last_updated"));
+					$cache_images = sql_bool_to_bool($this->dbh->fetch_result($result, 0, "cache_images"));
 
 					if (!$cache_images && time() - $last_updated > 120 || isset($_REQUEST['DevForceUpdate'])) {
 						include "rssfuncs.php";
 						update_rss_feed($feed, true, true);
 					} else {
-						db_query("UPDATE ttrss_feeds SET last_updated = '1970-01-01', last_update_started = '1970-01-01'
+						$this->dbh->query("UPDATE ttrss_feeds SET last_updated = '1970-01-01', last_update_started = '1970-01-01'
 							WHERE id = '$feed'");
 					}
 				}
@@ -189,21 +189,21 @@ class Feeds extends Handler_Protected {
 		// FIXME: might break tag display?
 
 		if (is_numeric($feed) && $feed > 0 && !$cat_view) {
-			$result = db_query(
+			$result = $this->dbh->query(
 				"SELECT id FROM ttrss_feeds WHERE id = '$feed' LIMIT 1");
 
-			if (db_num_rows($result) == 0) {
+			if ($this->dbh->num_rows($result) == 0) {
 				$reply['content'] = "<div align='center'>".__('Feed not found.')."</div>";
 			}
 		}
 
-		@$search = db_escape_string($_REQUEST["query"]);
+		@$search = $this->dbh->escape_string($_REQUEST["query"]);
 
 		if ($search) {
 			$disable_cache = true;
 		}
 
-		@$search_mode = db_escape_string($_REQUEST["search_mode"]);
+		@$search_mode = $this->dbh->escape_string($_REQUEST["search_mode"]);
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H0", $timing_info);
 
@@ -259,7 +259,7 @@ class Feeds extends Handler_Protected {
 			$feed, $cat_view, $search, $search_mode, $view_mode,
 			$last_error);
 
-		$headlines_count = db_num_rows($result);
+		$headlines_count = $this->dbh->num_rows($result);
 
 		/* if (get_pref('COMBINED_DISPLAY_MODE')) {
 			$button_plugins = array();
@@ -275,7 +275,7 @@ class Feeds extends Handler_Protected {
 
 		global $pluginhost;
 
-		if (db_num_rows($result) > 0) {
+		if ($this->dbh->num_rows($result) > 0) {
 
 			$lnum = $offset;
 
@@ -288,7 +288,7 @@ class Feeds extends Handler_Protected {
 
 			$expand_cdm = get_pref('CDM_EXPANDED');
 
-			while ($line = db_fetch_assoc($result)) {
+			while ($line = $this->dbh->fetch_assoc($result)) {
 				$class = ($lnum % 2) ? "even" : "odd";
 
 				$id = $line["id"];
@@ -633,17 +633,17 @@ class Feeds extends Handler_Protected {
 
 			if ($line["orig_feed_id"]) {
 
-				$tmp_result = db_query("SELECT * FROM ttrss_archived_feeds
+				$tmp_result = $this->dbh->query("SELECT * FROM ttrss_archived_feeds
 					WHERE id = ".$line["orig_feed_id"]);
 
-						if (db_num_rows($tmp_result) != 0) {
+						if ($this->dbh->num_rows($tmp_result) != 0) {
 
 							$reply['content'] .= "<div clear='both'>";
 							$reply['content'] .= __("Originally from:");
 
 							$reply['content'] .= "&nbsp;";
 
-							$tmp_line = db_fetch_assoc($tmp_result);
+							$tmp_line = $this->dbh->fetch_assoc($tmp_result);
 
 							$reply['content'] .= "<a target='_blank'
 								href=' " . htmlspecialchars($tmp_line['site_url']) . "'>" .
@@ -757,18 +757,18 @@ class Feeds extends Handler_Protected {
 
 				$reply['content'] .= "<p><span class=\"insensitive\">";
 
-				$result = db_query("SELECT ".SUBSTRING_FOR_DATE."(MAX(last_updated), 1, 19) AS last_updated FROM ttrss_feeds
+				$result = $this->dbh->query("SELECT ".SUBSTRING_FOR_DATE."(MAX(last_updated), 1, 19) AS last_updated FROM ttrss_feeds
 					WHERE owner_uid = " . $_SESSION['uid']);
 
-				$last_updated = db_fetch_result($result, 0, "last_updated");
+				$last_updated = $this->dbh->fetch_result($result, 0, "last_updated");
 				$last_updated = make_local_datetime($last_updated, false);
 
 				$reply['content'] .= sprintf(__("Feeds last updated at %s"), $last_updated);
 
-				$result = db_query("SELECT COUNT(id) AS num_errors
+				$result = $this->dbh->query("SELECT COUNT(id) AS num_errors
 					FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 
-				$num_errors = db_fetch_result($result, 0, "num_errors");
+				$num_errors = $this->dbh->fetch_result($result, 0, "num_errors");
 
 				if ($num_errors > 0) {
 					$reply['content'] .= "<br/>";
@@ -786,7 +786,7 @@ class Feeds extends Handler_Protected {
 	}
 
 	function catchupAll() {
-		db_query("UPDATE ttrss_user_entries SET
+		$this->dbh->query("UPDATE ttrss_user_entries SET
 						last_read = NOW(), unread = false WHERE unread = true AND owner_uid = " . $_SESSION["uid"]);
 		ccache_zero_all($_SESSION["uid"]);
 	}
@@ -798,17 +798,17 @@ class Feeds extends Handler_Protected {
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("0", $timing_info);
 
-		$omode = db_escape_string($_REQUEST["omode"]);
+		$omode = $this->dbh->escape_string($_REQUEST["omode"]);
 
-		$feed = db_escape_string($_REQUEST["feed"]);
-		$method = db_escape_string($_REQUEST["m"]);
-		$view_mode = db_escape_string($_REQUEST["view_mode"]);
+		$feed = $this->dbh->escape_string($_REQUEST["feed"]);
+		$method = $this->dbh->escape_string($_REQUEST["m"]);
+		$view_mode = $this->dbh->escape_string($_REQUEST["view_mode"]);
 		$limit = 30;
 		@$cat_view = $_REQUEST["cat"] == "true";
-		@$next_unread_feed = db_escape_string($_REQUEST["nuf"]);
-		@$offset = db_escape_string($_REQUEST["skip"]);
-		@$vgroup_last_feed = db_escape_string($_REQUEST["vgrlf"]);
-		$order_by = db_escape_string($_REQUEST["order_by"]);
+		@$next_unread_feed = $this->dbh->escape_string($_REQUEST["nuf"]);
+		@$offset = $this->dbh->escape_string($_REQUEST["skip"]);
+		@$vgroup_last_feed = $this->dbh->escape_string($_REQUEST["vgrlf"]);
+		$order_by = $this->dbh->escape_string($_REQUEST["order_by"]);
 
 		if (is_numeric($feed)) $feed = (int) $feed;
 
@@ -824,17 +824,17 @@ class Feeds extends Handler_Protected {
 
 		if ($feed < LABEL_BASE_INDEX) {
 			$label_feed = feed_to_label_id($feed);
-			$result = db_query("SELECT id FROM ttrss_labels2 WHERE
+			$result = $this->dbh->query("SELECT id FROM ttrss_labels2 WHERE
 							id = '$label_feed' AND owner_uid = " . $_SESSION['uid']);
 		} else if (!$cat_view && is_numeric($feed) && $feed > 0) {
-			$result = db_query("SELECT id FROM ttrss_feeds WHERE
+			$result = $this->dbh->query("SELECT id FROM ttrss_feeds WHERE
 							id = '$feed' AND owner_uid = " . $_SESSION['uid']);
 		} else if ($cat_view && is_numeric($feed) && $feed > 0) {
-			$result = db_query("SELECT id FROM ttrss_feed_categories WHERE
+			$result = $this->dbh->query("SELECT id FROM ttrss_feed_categories WHERE
 							id = '$feed' AND owner_uid = " . $_SESSION['uid']);
 		}
 
-		if ($result && db_num_rows($result) == 0) {
+		if ($result && $this->dbh->num_rows($result) == 0) {
 			print json_encode($this->generate_error_feed(__("Feed not found.")));
 			return;
 		}
@@ -851,13 +851,13 @@ class Feeds extends Handler_Protected {
 
 		/* bump login timestamp if needed */
 		if (time() - $_SESSION["last_login_update"] > 3600) {
-			db_query("UPDATE ttrss_users SET last_login = NOW() WHERE id = " .
+			$this->dbh->query("UPDATE ttrss_users SET last_login = NOW() WHERE id = " .
 				$_SESSION["uid"]);
 			$_SESSION["last_login_update"] = time();
 		}
 
 		if (!$cat_view && is_numeric($feed) && $feed > 0) {
-			db_query("UPDATE ttrss_feeds SET last_viewed = NOW()
+			$this->dbh->query("UPDATE ttrss_feeds SET last_viewed = NOW()
 							WHERE id = '$feed' AND owner_uid = ".$_SESSION["uid"]);
 		}
 
@@ -924,18 +924,18 @@ class Feeds extends Handler_Protected {
 
 		$reply['headlines']['content'] .= "<p><span class=\"insensitive\">";
 
-		$result = db_query("SELECT ".SUBSTRING_FOR_DATE."(MAX(last_updated), 1, 19) AS last_updated FROM ttrss_feeds
+		$result = $this->dbh->query("SELECT ".SUBSTRING_FOR_DATE."(MAX(last_updated), 1, 19) AS last_updated FROM ttrss_feeds
 			WHERE owner_uid = " . $_SESSION['uid']);
 
-		$last_updated = db_fetch_result($result, 0, "last_updated");
+		$last_updated = $this->dbh->fetch_result($result, 0, "last_updated");
 		$last_updated = make_local_datetime($last_updated, false);
 
 		$reply['headlines']['content'] .= sprintf(__("Feeds last updated at %s"), $last_updated);
 
-		$result = db_query("SELECT COUNT(id) AS num_errors
+		$result = $this->dbh->query("SELECT COUNT(id) AS num_errors
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 
-		$num_errors = db_fetch_result($result, 0, "num_errors");
+		$num_errors = $this->dbh->fetch_result($result, 0, "num_errors");
 
 		if ($num_errors > 0) {
 			$reply['headlines']['content'] .= "<br/>";
@@ -1044,7 +1044,7 @@ class Feeds extends Handler_Protected {
 	function feedBrowser() {
 		if (defined('_DISABLE_FEED_BROWSER') && _DISABLE_FEED_BROWSER) return;
 
-		$browser_search = db_escape_string($_REQUEST["search"]);
+		$browser_search = $this->dbh->escape_string($_REQUEST["search"]);
 
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"rpc\">";
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"updateFeedBrowser\">";
@@ -1092,7 +1092,7 @@ class Feeds extends Handler_Protected {
 	}
 
 	function search() {
-		$this->params = explode(":", db_escape_string($_REQUEST["param"]), 2);
+		$this->params = explode(":", $this->dbh->escape_string($_REQUEST["param"]), 2);
 
 		$active_feed_id = sprintf("%d", $this->params[0]);
 		$is_cat = $this->params[1] != "false";

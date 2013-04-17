@@ -50,16 +50,16 @@ class API extends Handler {
 		@session_destroy();
 		@session_start();
 
-		$login = db_escape_string($_REQUEST["user"]);
+		$login = $this->dbh->escape_string($_REQUEST["user"]);
 		$password = $_REQUEST["password"];
 		$password_base64 = base64_decode($_REQUEST["password"]);
 
 		if (SINGLE_USER_MODE) $login = "admin";
 
-		$result = db_query("SELECT id FROM ttrss_users WHERE login = '$login'");
+		$result = $this->dbh->query("SELECT id FROM ttrss_users WHERE login = '$login'");
 
-		if (db_num_rows($result) != 0) {
-			$uid = db_fetch_result($result, 0, "id");
+		if ($this->dbh->num_rows($result) != 0) {
+			$uid = $this->dbh->fetch_result($result, 0, "id");
 		} else {
 			$uid = 0;
 		}
@@ -95,8 +95,8 @@ class API extends Handler {
 	}
 
 	function getUnread() {
-		$feed_id = db_escape_string($_REQUEST["feed_id"]);
-		$is_cat = db_escape_string($_REQUEST["is_cat"]);
+		$feed_id = $this->dbh->escape_string($_REQUEST["feed_id"]);
+		$is_cat = $this->dbh->escape_string($_REQUEST["is_cat"]);
 
 		if ($feed_id) {
 			print $this->wrap(self::STATUS_OK, array("unread" => getFeedUnread($feed_id, $is_cat)));
@@ -111,10 +111,10 @@ class API extends Handler {
 	}
 
 	function getFeeds() {
-		$cat_id = db_escape_string($_REQUEST["cat_id"]);
+		$cat_id = $this->dbh->escape_string($_REQUEST["cat_id"]);
 		$unread_only = sql_bool_to_bool($_REQUEST["unread_only"]);
-		$limit = (int) db_escape_string($_REQUEST["limit"]);
-		$offset = (int) db_escape_string($_REQUEST["offset"]);
+		$limit = (int) $this->dbh->escape_string($_REQUEST["limit"]);
+		$offset = (int) $this->dbh->escape_string($_REQUEST["offset"]);
 		$include_nested = sql_bool_to_bool($_REQUEST["include_nested"]);
 
 		$feeds = $this->api_get_feeds($cat_id, $unread_only, $limit, $offset, $include_nested);
@@ -134,7 +134,7 @@ class API extends Handler {
 		else
 			$nested_qpart = "true";
 
-		$result = db_query("SELECT
+		$result = $this->dbh->query("SELECT
 				id, title, order_id, (SELECT COUNT(id) FROM
 				ttrss_feeds WHERE
 				ttrss_feed_categories.id IS NOT NULL AND cat_id = ttrss_feed_categories.id) AS num_feeds,
@@ -147,7 +147,7 @@ class API extends Handler {
 
 		$cats = array();
 
-		while ($line = db_fetch_assoc($result)) {
+		while ($line = $this->dbh->fetch_assoc($result)) {
 			if ($include_empty || $line["num_feeds"] > 0 || $line["num_cats"] > 0) {
 				$unread = getFeedUnread($line["id"], true);
 
@@ -180,22 +180,22 @@ class API extends Handler {
 	}
 
 	function getHeadlines() {
-		$feed_id = db_escape_string($_REQUEST["feed_id"]);
+		$feed_id = $this->dbh->escape_string($_REQUEST["feed_id"]);
 		if ($feed_id != "") {
 
-			$limit = (int)db_escape_string($_REQUEST["limit"]);
+			$limit = (int)$this->dbh->escape_string($_REQUEST["limit"]);
 
 			if (!$limit || $limit >= 60) $limit = 60;
 
-			$offset = (int)db_escape_string($_REQUEST["skip"]);
-			$filter = db_escape_string($_REQUEST["filter"]);
+			$offset = (int)$this->dbh->escape_string($_REQUEST["skip"]);
+			$filter = $this->dbh->escape_string($_REQUEST["filter"]);
 			$is_cat = sql_bool_to_bool($_REQUEST["is_cat"]);
 			$show_excerpt = sql_bool_to_bool($_REQUEST["show_excerpt"]);
 			$show_content = sql_bool_to_bool($_REQUEST["show_content"]);
 			/* all_articles, unread, adaptive, marked, updated */
-			$view_mode = db_escape_string($_REQUEST["view_mode"]);
+			$view_mode = $this->dbh->escape_string($_REQUEST["view_mode"]);
 			$include_attachments = sql_bool_to_bool($_REQUEST["include_attachments"]);
-			$since_id = (int)db_escape_string($_REQUEST["since_id"]);
+			$since_id = (int)$this->dbh->escape_string($_REQUEST["since_id"]);
 			$include_nested = sql_bool_to_bool($_REQUEST["include_nested"]);
 			$sanitize_content = true;
 
@@ -211,8 +211,8 @@ class API extends Handler {
 
 			/* do not rely on params below */
 
-			$search = db_escape_string($_REQUEST["search"]);
-			$search_mode = db_escape_string($_REQUEST["search_mode"]);
+			$search = $this->dbh->escape_string($_REQUEST["search"]);
+			$search_mode = $this->dbh->escape_string($_REQUEST["search_mode"]);
 
 			$headlines = $this->api_get_headlines($feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $override_order,
@@ -226,10 +226,10 @@ class API extends Handler {
 	}
 
 	function updateArticle() {
-		$article_ids = array_filter(explode(",", db_escape_string($_REQUEST["article_ids"])), is_numeric);
-		$mode = (int) db_escape_string($_REQUEST["mode"]);
-		$data = db_escape_string($_REQUEST["data"]);
-		$field_raw = (int)db_escape_string($_REQUEST["field"]);
+		$article_ids = array_filter(explode(",", $this->dbh->escape_string($_REQUEST["article_ids"])), is_numeric);
+		$mode = (int) $this->dbh->escape_string($_REQUEST["mode"]);
+		$data = $this->dbh->escape_string($_REQUEST["data"]);
+		$field_raw = (int)$this->dbh->escape_string($_REQUEST["field"]);
 
 		$field = "";
 		$set_to = "";
@@ -269,15 +269,15 @@ class API extends Handler {
 
 			$article_ids = join(", ", $article_ids);
 
-			$result = db_query("UPDATE ttrss_user_entries SET $field = $set_to $additional_fields WHERE ref_id IN ($article_ids) AND owner_uid = " . $_SESSION["uid"]);
+			$result = $this->dbh->query("UPDATE ttrss_user_entries SET $field = $set_to $additional_fields WHERE ref_id IN ($article_ids) AND owner_uid = " . $_SESSION["uid"]);
 
-			$num_updated = db_affected_rows($result);
+			$num_updated = $this->dbh->affected_rows($result);
 
 			if ($num_updated > 0 && $field == "unread") {
-				$result = db_query("SELECT DISTINCT feed_id FROM ttrss_user_entries
+				$result = $this->dbh->query("SELECT DISTINCT feed_id FROM ttrss_user_entries
 					WHERE ref_id IN ($article_ids)");
 
-				while ($line = db_fetch_assoc($result)) {
+				while ($line = $this->dbh->fetch_assoc($result)) {
 					ccache_update($line["feed_id"], $_SESSION["uid"]);
 				}
 			}
@@ -304,7 +304,7 @@ class API extends Handler {
 
 	function getArticle() {
 
-		$article_id = join(",", array_filter(explode(",", db_escape_string($_REQUEST["article_id"])), is_numeric));
+		$article_id = join(",", array_filter(explode(",", $this->dbh->escape_string($_REQUEST["article_id"])), is_numeric));
 
 		$query = "SELECT id,title,link,content,cached_content,feed_id,comments,int_id,
 			marked,unread,published,score,
@@ -314,13 +314,13 @@ class API extends Handler {
 			WHERE	id IN ($article_id) AND ref_id = id AND owner_uid = " .
 				$_SESSION["uid"] ;
 
-		$result = db_query($query);
+		$result = $this->dbh->query($query);
 
 		$articles = array();
 
-		if (db_num_rows($result) != 0) {
+		if ($this->dbh->num_rows($result) != 0) {
 
-			while ($line = db_fetch_assoc($result)) {
+			while ($line = $this->dbh->fetch_assoc($result)) {
 
 				$attachments = get_article_enclosures($line['id']);
 
@@ -363,10 +363,10 @@ class API extends Handler {
 
 		$config["daemon_is_running"] = file_is_locked("update_daemon.lock");
 
-		$result = db_query("SELECT COUNT(*) AS cf FROM
+		$result = $this->dbh->query("SELECT COUNT(*) AS cf FROM
 			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
 
-		$num_feeds = db_fetch_result($result, 0, "cf");
+		$num_feeds = $this->dbh->fetch_result($result, 0, "cf");
 
 		$config["num_feeds"] = (int)$num_feeds;
 
@@ -376,7 +376,7 @@ class API extends Handler {
 	function updateFeed() {
 		require_once "include/rssfuncs.php";
 
-		$feed_id = (int) db_escape_string($_REQUEST["feed_id"]);
+		$feed_id = (int) $this->dbh->escape_string($_REQUEST["feed_id"]);
 
 		update_rss_feed($feed_id, true);
 
@@ -384,8 +384,8 @@ class API extends Handler {
 	}
 
 	function catchupFeed() {
-		$feed_id = db_escape_string($_REQUEST["feed_id"]);
-		$is_cat = db_escape_string($_REQUEST["is_cat"]);
+		$feed_id = $this->dbh->escape_string($_REQUEST["feed_id"]);
+		$is_cat = $this->dbh->escape_string($_REQUEST["is_cat"]);
 
 		catchup_feed($feed_id, $is_cat);
 
@@ -393,19 +393,19 @@ class API extends Handler {
 	}
 
 	function getPref() {
-		$pref_name = db_escape_string($_REQUEST["pref_name"]);
+		$pref_name = $this->dbh->escape_string($_REQUEST["pref_name"]);
 
 		print $this->wrap(self::STATUS_OK, array("value" => get_pref($pref_name)));
 	}
 
 	function getLabels() {
-		//$article_ids = array_filter(explode(",", db_escape_string($_REQUEST["article_ids"])), is_numeric);
+		//$article_ids = array_filter(explode(",", $this->dbh->escape_string($_REQUEST["article_ids"])), is_numeric);
 
 		$article_id = (int)$_REQUEST['article_id'];
 
 		$rv = array();
 
-		$result = db_query("SELECT id, caption, fg_color, bg_color
+		$result = $this->dbh->query("SELECT id, caption, fg_color, bg_color
 			FROM ttrss_labels2
 			WHERE owner_uid = '".$_SESSION['uid']."' ORDER BY caption");
 
@@ -414,7 +414,7 @@ class API extends Handler {
 		else
 			$article_labels = array();
 
-		while ($line = db_fetch_assoc($result)) {
+		while ($line = $this->dbh->fetch_assoc($result)) {
 
 			$checked = false;
 			foreach ($article_labels as $al) {
@@ -437,11 +437,11 @@ class API extends Handler {
 
 	function setArticleLabel() {
 
-		$article_ids = array_filter(explode(",", db_escape_string($_REQUEST["article_ids"])), is_numeric);
-		$label_id = (int) db_escape_string($_REQUEST['label_id']);
-		$assign = (bool) db_escape_string($_REQUEST['assign']) == "true";
+		$article_ids = array_filter(explode(",", $this->dbh->escape_string($_REQUEST["article_ids"])), is_numeric);
+		$label_id = (int) $this->dbh->escape_string($_REQUEST['label_id']);
+		$assign = (bool) $this->dbh->escape_string($_REQUEST['assign']) == "true";
 
-		$label = db_escape_string(label_find_caption(
+		$label = $this->dbh->escape_string(label_find_caption(
 			$label_id, $_SESSION["uid"]));
 
 		$num_updated = 0;
@@ -481,9 +481,9 @@ class API extends Handler {
 	}
 
 	function shareToPublished() {
-		$title = db_escape_string(strip_tags($_REQUEST["title"]));
-		$url = db_escape_string(strip_tags($_REQUEST["url"]));
-		$content = db_escape_string(strip_tags($_REQUEST["content"]));
+		$title = $this->dbh->escape_string(strip_tags($_REQUEST["title"]));
+		$url = $this->dbh->escape_string(strip_tags($_REQUEST["url"]));
+		$content = $this->dbh->escape_string(strip_tags($_REQUEST["content"]));
 
 		if (Article::create_published_article($title, $url, $content, "", $_SESSION["uid"])) {
 			print $this->wrap(self::STATUS_OK, array("status" => 'OK'));
@@ -709,12 +709,12 @@ class API extends Handler {
 	}
 
 	function unsubscribeFeed() {
-		$feed_id = (int) db_escape_string($_REQUEST["feed_id"]);
+		$feed_id = (int) $this->dbh->escape_string($_REQUEST["feed_id"]);
 
-		$result = db_query("SELECT id FROM ttrss_feeds WHERE
+		$result = $this->dbh->query("SELECT id FROM ttrss_feeds WHERE
 			id = '$feed_id' AND owner_uid = ".$_SESSION["uid"]);
 
-		if (db_num_rows($result) != 0) {
+		if ($this->dbh->num_rows($result) != 0) {
 			Pref_Feeds::remove_feed($feed_id, $_SESSION["uid"]);
 			print $this->wrap(self::STATUS_OK, array("status" => "OK"));
 		} else {
@@ -723,10 +723,10 @@ class API extends Handler {
 	}
 
 	function subscribeToFeed() {
-		$feed_url = db_escape_string($_REQUEST["feed_url"]);
-		$category_id = (int) db_escape_string($_REQUEST["category_id"]);
-		$login = db_escape_string($_REQUEST["login"]);
-		$password = db_escape_string($_REQUEST["password"]);
+		$feed_url = $this->dbh->escape_string($_REQUEST["feed_url"]);
+		$category_id = (int) $this->dbh->escape_string($_REQUEST["category_id"]);
+		$login = $this->dbh->escape_string($_REQUEST["login"]);
+		$password = $this->dbh->escape_string($_REQUEST["password"]);
 
 		if ($feed_url) {
 			$rc = subscribe_to_feed($feed_url, $category_id,
@@ -760,16 +760,16 @@ class API extends Handler {
 	private function isCategoryEmpty($id) {
 
 		if ($id == -2) {
-			$result = db_query("SELECT COUNT(*) AS count FROM ttrss_labels2
+			$result = $this->dbh->query("SELECT COUNT(*) AS count FROM ttrss_labels2
 				WHERE owner_uid = " . $_SESSION["uid"]);
 
-			return db_fetch_result($result, 0, "count") == 0;
+			return $this->dbh->fetch_result($result, 0, "count") == 0;
 
 		} else if ($id == 0) {
-			$result = db_query("SELECT COUNT(*) AS count FROM ttrss_feeds
+			$result = $this->dbh->query("SELECT COUNT(*) AS count FROM ttrss_feeds
 				WHERE cat_id IS NULL AND owner_uid = " . $_SESSION["uid"]);
 
-			return db_fetch_result($result, 0, "count") == 0;
+			return $this->dbh->fetch_result($result, 0, "count") == 0;
 
 		}
 

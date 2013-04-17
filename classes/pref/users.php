@@ -21,7 +21,7 @@ class Pref_Users extends Handler_Protected {
 
 			$uid = sprintf("%d", $_REQUEST["id"]);
 
-			$result = db_query("SELECT login,
+			$result = $this->dbh->query("SELECT login,
 				".SUBSTRING_FOR_DATE."(last_login,1,16) AS last_login,
 				access_level,
 				(SELECT COUNT(int_id) FROM ttrss_user_entries
@@ -30,33 +30,33 @@ class Pref_Users extends Handler_Protected {
 				FROM ttrss_users
 				WHERE id = '$uid'");
 
-			if (db_num_rows($result) == 0) {
+			if ($this->dbh->num_rows($result) == 0) {
 				print "<h1>".__('User not found')."</h1>";
 				return;
 			}
 
 			// print "<h1>User Details</h1>";
 
-			$login = db_fetch_result($result, 0, "login");
+			$login = $this->dbh->fetch_result($result, 0, "login");
 
 			print "<table width='100%'>";
 
 			$last_login = make_local_datetime(
-				db_fetch_result($result, 0, "last_login"), true);
+				$this->dbh->fetch_result($result, 0, "last_login"), true);
 
 			$created = make_local_datetime(
-				db_fetch_result($result, 0, "created"), true);
+				$this->dbh->fetch_result($result, 0, "created"), true);
 
-			$access_level = db_fetch_result($result, 0, "access_level");
-			$stored_articles = db_fetch_result($result, 0, "stored_articles");
+			$access_level = $this->dbh->fetch_result($result, 0, "access_level");
+			$stored_articles = $this->dbh->fetch_result($result, 0, "stored_articles");
 
 			print "<tr><td>".__('Registered')."</td><td>$created</td></tr>";
 			print "<tr><td>".__('Last logged in')."</td><td>$last_login</td></tr>";
 
-			$result = db_query("SELECT COUNT(id) as num_feeds FROM ttrss_feeds
+			$result = $this->dbh->query("SELECT COUNT(id) as num_feeds FROM ttrss_feeds
 				WHERE owner_uid = '$uid'");
 
-			$num_feeds = db_fetch_result($result, 0, "num_feeds");
+			$num_feeds = $this->dbh->fetch_result($result, 0, "num_feeds");
 
 			print "<tr><td>".__('Subscribed feeds count')."</td><td>$num_feeds</td></tr>";
 
@@ -64,14 +64,14 @@ class Pref_Users extends Handler_Protected {
 
 			print "<h1>".__('Subscribed feeds')."</h1>";
 
-			$result = db_query("SELECT id,title,site_url FROM ttrss_feeds
+			$result = $this->dbh->query("SELECT id,title,site_url FROM ttrss_feeds
 				WHERE owner_uid = '$uid' ORDER BY title");
 
 			print "<ul class=\"userFeedList\">";
 
 			$row_class = "odd";
 
-			while ($line = db_fetch_assoc($result)) {
+			while ($line = $this->dbh->fetch_assoc($result)) {
 
 				$icon_file = ICONS_URL."/".$line["id"].".ico";
 
@@ -87,7 +87,7 @@ class Pref_Users extends Handler_Protected {
 
 			}
 
-			if (db_num_rows($result) < $num_feeds) {
+			if ($this->dbh->num_rows($result) < $num_feeds) {
 				// FIXME - add link to show ALL subscribed feeds here somewhere
 				print "<li><img
 					class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">&nbsp;...</li>";
@@ -105,18 +105,18 @@ class Pref_Users extends Handler_Protected {
 		function edit() {
 			global $access_level_names;
 
-			$id = db_escape_string($_REQUEST["id"]);
+			$id = $this->dbh->escape_string($_REQUEST["id"]);
 			print "<form id=\"user_edit_form\" onsubmit='return false'>";
 
 			print "<input type=\"hidden\" name=\"id\" value=\"$id\">";
 			print "<input type=\"hidden\" name=\"op\" value=\"pref-users\">";
 			print "<input type=\"hidden\" name=\"method\" value=\"editSave\">";
 
-			$result = db_query("SELECT * FROM ttrss_users WHERE id = '$id'");
+			$result = $this->dbh->query("SELECT * FROM ttrss_users WHERE id = '$id'");
 
-			$login = db_fetch_result($result, 0, "login");
-			$access_level = db_fetch_result($result, 0, "access_level");
-			$email = db_fetch_result($result, 0, "email");
+			$login = $this->dbh->fetch_result($result, 0, "login");
+			$access_level = $this->dbh->fetch_result($result, 0, "access_level");
+			$email = $this->dbh->fetch_result($result, 0, "email");
 
 			$sel_disabled = ($id == $_SESSION["uid"]) ? "disabled" : "";
 
@@ -181,10 +181,10 @@ class Pref_Users extends Handler_Protected {
 		}
 
 		function editSave() {
-			$login = db_escape_string(trim($_REQUEST["login"]));
-			$uid = db_escape_string($_REQUEST["id"]);
+			$login = $this->dbh->escape_string(trim($_REQUEST["login"]));
+			$uid = $this->dbh->escape_string($_REQUEST["id"]);
 			$access_level = (int) $_REQUEST["access_level"];
-			$email = db_escape_string(trim($_REQUEST["email"]));
+			$email = $this->dbh->escape_string(trim($_REQUEST["email"]));
 			$password = $_REQUEST["password"];
 
 			if ($password) {
@@ -195,47 +195,47 @@ class Pref_Users extends Handler_Protected {
 				$pass_query_part = "";
 			}
 
-			db_query("UPDATE ttrss_users SET $pass_query_part login = '$login',
+			$this->dbh->query("UPDATE ttrss_users SET $pass_query_part login = '$login',
 				access_level = '$access_level', email = '$email', otp_enabled = false
 				WHERE id = '$uid'");
 
 		}
 
 		function remove() {
-			$ids = explode(",", db_escape_string($_REQUEST["ids"]));
+			$ids = explode(",", $this->dbh->escape_string($_REQUEST["ids"]));
 
 			foreach ($ids as $id) {
 				if ($id != $_SESSION["uid"] && $id != 1) {
-					db_query("DELETE FROM ttrss_tags WHERE owner_uid = '$id'");
-					db_query("DELETE FROM ttrss_feeds WHERE owner_uid = '$id'");
-					db_query("DELETE FROM ttrss_users WHERE id = '$id'");
+					$this->dbh->query("DELETE FROM ttrss_tags WHERE owner_uid = '$id'");
+					$this->dbh->query("DELETE FROM ttrss_feeds WHERE owner_uid = '$id'");
+					$this->dbh->query("DELETE FROM ttrss_users WHERE id = '$id'");
 				}
 			}
 		}
 
 		function add() {
 
-			$login = db_escape_string(trim($_REQUEST["login"]));
+			$login = $this->dbh->escape_string(trim($_REQUEST["login"]));
 			$tmp_user_pwd = make_password(8);
 			$salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
 			$pwd_hash = encrypt_password($tmp_user_pwd, $salt, true);
 
-			$result = db_query("SELECT id FROM ttrss_users WHERE
+			$result = $this->dbh->query("SELECT id FROM ttrss_users WHERE
 				login = '$login'");
 
-			if (db_num_rows($result) == 0) {
+			if ($this->dbh->num_rows($result) == 0) {
 
-				db_query("INSERT INTO ttrss_users
+				$this->dbh->query("INSERT INTO ttrss_users
 					(login,pwd_hash,access_level,last_login,created, salt)
 					VALUES ('$login', '$pwd_hash', 0, null, NOW(), '$salt')");
 
 
-				$result = db_query("SELECT id FROM ttrss_users WHERE
+				$result = $this->dbh->query("SELECT id FROM ttrss_users WHERE
 					login = '$login' AND pwd_hash = '$pwd_hash'");
 
-				if (db_num_rows($result) == 1) {
+				if ($this->dbh->num_rows($result) == 1) {
 
-					$new_uid = db_fetch_result($result, 0, "id");
+					$new_uid = $this->dbh->fetch_result($result, 0, "id");
 
 					print format_notice(T_sprintf("Added user <b>%s</b> with password <b>%s</b>",
 						$login, $tmp_user_pwd));
@@ -304,7 +304,7 @@ class Pref_Users extends Handler_Protected {
 		}
 
 		function resetPass() {
-			$uid = db_escape_string($_REQUEST["id"]);
+			$uid = $this->dbh->escape_string($_REQUEST["id"]);
 			Pref_Users::resetUserPassword($uid, true);
 		}
 
@@ -317,7 +317,7 @@ class Pref_Users extends Handler_Protected {
 
 			print "<div id=\"pref-user-toolbar\" dojoType=\"dijit.Toolbar\">";
 
-			$user_search = db_escape_string($_REQUEST["search"]);
+			$user_search = $this->dbh->escape_string($_REQUEST["search"]);
 
 			if (array_key_exists("search", $_REQUEST)) {
 				$_SESSION["prefs_user_search"] = $user_search;
@@ -332,7 +332,7 @@ class Pref_Users extends Handler_Protected {
 					__('Search')."</button>
 				</div>";
 
-			$sort = db_escape_string($_REQUEST["sort"]);
+			$sort = $this->dbh->escape_string($_REQUEST["sort"]);
 
 			if (!$sort || $sort == "undefined") {
 				$sort = "login";
@@ -381,7 +381,7 @@ class Pref_Users extends Handler_Protected {
 				$user_search_query = "";
 			}
 
-			$result = db_query("SELECT
+			$result = $this->dbh->query("SELECT
 					id,login,access_level,email,
 					".SUBSTRING_FOR_DATE."(last_login,1,16) as last_login,
 					".SUBSTRING_FOR_DATE."(created,1,16) as created
@@ -392,7 +392,7 @@ class Pref_Users extends Handler_Protected {
 					id > 0
 				ORDER BY $sort");
 
-			if (db_num_rows($result) > 0) {
+			if ($this->dbh->num_rows($result) > 0) {
 
 			print "<p><table width=\"100%\" cellspacing=\"0\"
 				class=\"prefUserList\" id=\"prefUserList\">";
@@ -406,7 +406,7 @@ class Pref_Users extends Handler_Protected {
 
 			$lnum = 0;
 
-			while ($line = db_fetch_assoc($result)) {
+			while ($line = $this->dbh->fetch_assoc($result)) {
 
 				$class = ($lnum % 2) ? "even" : "odd";
 

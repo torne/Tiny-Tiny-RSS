@@ -28,8 +28,8 @@ class Handler_Public extends Handler {
 
 		$result = $qfh_ret[0];
 
-		if (db_num_rows($result) != 0) {
-			$ts = strtotime(db_fetch_result($result, 0, "date_entered"));
+		if ($this->dbh->num_rows($result) != 0) {
+			$ts = strtotime($this->dbh->fetch_result($result, 0, "date_entered"));
 
 			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) &&
 					strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $ts) {
@@ -74,7 +74,7 @@ class Handler_Public extends Handler {
 
 			$tpl->setVariable('SELF_URL', htmlspecialchars(get_self_url_prefix()), true);
 
-			while ($line = db_fetch_assoc($result)) {
+			while ($line = $this->dbh->fetch_assoc($result)) {
 
 				$tpl->setVariable('ARTICLE_ID', htmlspecialchars($line['link']), true);
 				$tpl->setVariable('ARTICLE_LINK', htmlspecialchars($line['link']), true);
@@ -151,7 +151,7 @@ class Handler_Public extends Handler {
 
 			$feed['articles'] = array();
 
-			while ($line = db_fetch_assoc($result)) {
+			while ($line = $this->dbh->fetch_assoc($result)) {
 				$article = array();
 
 				$article['id'] = $line['link'];
@@ -201,13 +201,13 @@ class Handler_Public extends Handler {
 	}
 
 	function getUnread() {
-		$login = db_escape_string($_REQUEST["login"]);
+		$login = $this->dbh->escape_string($_REQUEST["login"]);
 		$fresh = $_REQUEST["fresh"] == "1";
 
-		$result = db_query("SELECT id FROM ttrss_users WHERE login = '$login'");
+		$result = $this->dbh->query("SELECT id FROM ttrss_users WHERE login = '$login'");
 
-		if (db_num_rows($result) == 1) {
-			$uid = db_fetch_result($result, 0, "id");
+		if ($this->dbh->num_rows($result) == 1) {
+			$uid = $this->dbh->fetch_result($result, 0, "id");
 
 			print getGlobalUnread($uid);
 
@@ -223,16 +223,16 @@ class Handler_Public extends Handler {
 	}
 
 	function getProfiles() {
-		$login = db_escape_string($_REQUEST["login"]);
+		$login = $this->dbh->escape_string($_REQUEST["login"]);
 
-		$result = db_query("SELECT * FROM ttrss_settings_profiles,ttrss_users
+		$result = $this->dbh->query("SELECT * FROM ttrss_settings_profiles,ttrss_users
 			WHERE ttrss_users.id = ttrss_settings_profiles.owner_uid AND login = '$login' ORDER BY title");
 
 		print "<select dojoType='dijit.form.Select' style='width : 220px; margin : 0px' name='profile'>";
 
 		print "<option value='0'>" . __("Default profile") . "</option>";
 
-		while ($line = db_fetch_assoc($result)) {
+		while ($line = $this->dbh->fetch_assoc($result)) {
 			$id = $line["id"];
 			$title = $line["title"];
 
@@ -243,9 +243,9 @@ class Handler_Public extends Handler {
 	}
 
 	function pubsub() {
-		$mode = db_escape_string($_REQUEST['hub_mode']);
-		$feed_id = (int) db_escape_string($_REQUEST['id']);
-		$feed_url = db_escape_string($_REQUEST['hub_topic']);
+		$mode = $this->dbh->escape_string($_REQUEST['hub_mode']);
+		$feed_id = (int) $this->dbh->escape_string($_REQUEST['id']);
+		$feed_url = $this->dbh->escape_string($_REQUEST['hub_topic']);
 
 		if (!PUBSUBHUBBUB_ENABLED) {
 			header('HTTP/1.0 404 Not Found');
@@ -255,17 +255,17 @@ class Handler_Public extends Handler {
 
 		// TODO: implement hub_verifytoken checking
 
-		$result = db_query("SELECT feed_url FROM ttrss_feeds
+		$result = $this->dbh->query("SELECT feed_url FROM ttrss_feeds
 			WHERE id = '$feed_id'");
 
-		if (db_num_rows($result) != 0) {
+		if ($this->dbh->num_rows($result) != 0) {
 
-			$check_feed_url = db_fetch_result($result, 0, "feed_url");
+			$check_feed_url = $this->dbh->fetch_result($result, 0, "feed_url");
 
 			if ($check_feed_url && ($check_feed_url == $feed_url || !$feed_url)) {
 				if ($mode == "subscribe") {
 
-					db_query("UPDATE ttrss_feeds SET pubsub_state = 2
+					$this->dbh->query("UPDATE ttrss_feeds SET pubsub_state = 2
 						WHERE id = '$feed_id'");
 
 					print $_REQUEST['hub_challenge'];
@@ -273,7 +273,7 @@ class Handler_Public extends Handler {
 
 				} else if ($mode == "unsubscribe") {
 
-					db_query("UPDATE ttrss_feeds SET pubsub_state = 0
+					$this->dbh->query("UPDATE ttrss_feeds SET pubsub_state = 0
 						WHERE id = '$feed_id'");
 
 					print $_REQUEST['hub_challenge'];
@@ -284,7 +284,7 @@ class Handler_Public extends Handler {
 					// Received update ping, schedule feed update.
 					//update_rss_feed($feed_id, true, true);
 
-					db_query("UPDATE ttrss_feeds SET
+					$this->dbh->query("UPDATE ttrss_feeds SET
 						last_update_started = '1970-01-01',
 						last_updated = '1970-01-01' WHERE id = '$feed_id'");
 
@@ -306,16 +306,16 @@ class Handler_Public extends Handler {
 	}
 
 	function share() {
-		$uuid = db_escape_string($_REQUEST["key"]);
+		$uuid = $this->dbh->escape_string($_REQUEST["key"]);
 
-		$result = db_query("SELECT ref_id, owner_uid FROM ttrss_user_entries WHERE
+		$result = $this->dbh->query("SELECT ref_id, owner_uid FROM ttrss_user_entries WHERE
 			uuid = '$uuid'");
 
-		if (db_num_rows($result) != 0) {
+		if ($this->dbh->num_rows($result) != 0) {
 			header("Content-Type: text/html");
 
-			$id = db_fetch_result($result, 0, "ref_id");
-			$owner_uid = db_fetch_result($result, 0, "owner_uid");
+			$id = $this->dbh->fetch_result($result, 0, "ref_id");
+			$owner_uid = $this->dbh->fetch_result($result, 0, "owner_uid");
 
 			$article = format_article($id, false, true, $owner_uid);
 
@@ -328,17 +328,17 @@ class Handler_Public extends Handler {
 	}
 
 	function rss() {
-		$feed = db_escape_string($_REQUEST["id"]);
-		$key = db_escape_string($_REQUEST["key"]);
+		$feed = $this->dbh->escape_string($_REQUEST["id"]);
+		$key = $this->dbh->escape_string($_REQUEST["key"]);
 		$is_cat = $_REQUEST["is_cat"] != false;
-		$limit = (int)db_escape_string($_REQUEST["limit"]);
-		$offset = (int)db_escape_string($_REQUEST["offset"]);
+		$limit = (int)$this->dbh->escape_string($_REQUEST["limit"]);
+		$offset = (int)$this->dbh->escape_string($_REQUEST["offset"]);
 
-		$search = db_escape_string($_REQUEST["q"]);
-		$search_mode = db_escape_string($_REQUEST["smode"]);
-		$view_mode = db_escape_string($_REQUEST["view-mode"]);
+		$search = $this->dbh->escape_string($_REQUEST["q"]);
+		$search_mode = $this->dbh->escape_string($_REQUEST["smode"]);
+		$view_mode = $this->dbh->escape_string($_REQUEST["view-mode"]);
 
-		$format = db_escape_string($_REQUEST['format']);
+		$format = $this->dbh->escape_string($_REQUEST['format']);
 
 		if (!$format) $format = 'atom';
 
@@ -349,11 +349,11 @@ class Handler_Public extends Handler {
 		$owner_id = false;
 
 		if ($key) {
-			$result = db_query("SELECT owner_uid FROM
+			$result = $this->dbh->query("SELECT owner_uid FROM
 				ttrss_access_keys WHERE access_key = '$key' AND feed_id = '$feed'");
 
-			if (db_num_rows($result) == 1)
-				$owner_id = db_fetch_result($result, 0, "owner_uid");
+			if ($this->dbh->num_rows($result) == 1)
+				$owner_id = $this->dbh->fetch_result($result, 0, "owner_uid");
 		}
 
 		if ($owner_id) {
@@ -402,10 +402,10 @@ class Handler_Public extends Handler {
 
 			if ($action == 'share') {
 
-				$title = db_escape_string(strip_tags($_REQUEST["title"]));
-				$url = db_escape_string(strip_tags($_REQUEST["url"]));
-				$content = db_escape_string(strip_tags($_REQUEST["content"]));
-				$labels = db_escape_string(strip_tags($_REQUEST["labels"]));
+				$title = $this->dbh->escape_string(strip_tags($_REQUEST["title"]));
+				$url = $this->dbh->escape_string(strip_tags($_REQUEST["url"]));
+				$content = $this->dbh->escape_string(strip_tags($_REQUEST["content"]));
+				$labels = $this->dbh->escape_string(strip_tags($_REQUEST["labels"]));
 
 				Article::create_published_article($title, $url, $content, $labels,
 					$_SESSION["uid"]);
@@ -513,7 +513,7 @@ class Handler_Public extends Handler {
 
 		if (!SINGLE_USER_MODE) {
 
-			$login = db_escape_string($_POST["login"]);
+			$login = $this->dbh->escape_string($_POST["login"]);
 			$password = $_POST["password"];
 			$remember_me = $_POST["remember_me"];
 
@@ -534,12 +534,12 @@ class Handler_Public extends Handler {
 
 				if ($_POST["profile"]) {
 
-					$profile = db_escape_string($_POST["profile"]);
+					$profile = $this->dbh->escape_string($_POST["profile"]);
 
-					$result = db_query("SELECT id FROM ttrss_settings_profiles
+					$result = $this->dbh->query("SELECT id FROM ttrss_settings_profiles
 						WHERE id = '$profile' AND owner_uid = " . $_SESSION["uid"]);
 
-					if (db_num_rows($result) != 0) {
+					if ($this->dbh->num_rows($result) != 0) {
 						$_SESSION["profile"] = $profile;
 						$_SESSION["prefs_cache"] = array();
 					}
@@ -563,7 +563,7 @@ class Handler_Public extends Handler {
 
 		if ($_SESSION["uid"]) {
 
-			$feed_url = db_escape_string(trim($_REQUEST["feed_url"]));
+			$feed_url = $this->dbh->escape_string(trim($_REQUEST["feed_url"]));
 
 			header('Content-Type: text/html; charset=utf-8');
 			print "<html>
@@ -625,10 +625,10 @@ class Handler_Public extends Handler {
 			$tt_uri = get_self_url_prefix();
 
 			if ($rc['code'] <= 2){
-				$result = db_query("SELECT id FROM ttrss_feeds WHERE
+				$result = $this->dbh->query("SELECT id FROM ttrss_feeds WHERE
 					feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
 
-				$feed_id = db_fetch_result($result, 0, "id");
+				$feed_id = $this->dbh->fetch_result($result, 0, "id");
 			} else {
 				$feed_id = 0;
 			}
@@ -656,14 +656,14 @@ class Handler_Public extends Handler {
 	}
 
 	function subscribe2() {
-		$feed_url = db_escape_string(trim($_REQUEST["feed_url"]));
-		$cat_id = db_escape_string($_REQUEST["cat_id"]);
-		$from = db_escape_string($_REQUEST["from"]);
+		$feed_url = $this->dbh->escape_string(trim($_REQUEST["feed_url"]));
+		$cat_id = $this->dbh->escape_string($_REQUEST["cat_id"]);
+		$from = $this->dbh->escape_string($_REQUEST["from"]);
 
 		/* only read authentication information from POST */
 
-		$auth_login = db_escape_string(trim($_POST["auth_login"]));
-		$auth_pass = db_escape_string(trim($_POST["auth_pass"]));
+		$auth_login = $this->dbh->escape_string(trim($_POST["auth_login"]));
+		$auth_pass = $this->dbh->escape_string(trim($_POST["auth_pass"]));
 
 		$rc = subscribe_to_feed($feed_url, $cat_id, $auth_login, $auth_pass);
 
@@ -712,10 +712,10 @@ class Handler_Public extends Handler {
 		$tt_uri = get_self_url_prefix();
 
 		if ($rc <= 2){
-			$result = db_query("SELECT id FROM ttrss_feeds WHERE
+			$result = $this->dbh->query("SELECT id FROM ttrss_feeds WHERE
 				feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
 
-			$feed_id = db_fetch_result($result, 0, "id");
+			$feed_id = $this->dbh->fetch_result($result, 0, "id");
 		} else {
 			$feed_id = 0;
 		}
@@ -788,9 +788,9 @@ class Handler_Public extends Handler {
 			print "</form>";
 		} else if ($method == 'do') {
 
-			$login = db_escape_string($_POST["login"]);
-			$email = db_escape_string($_POST["email"]);
-			$test = db_escape_string($_POST["test"]);
+			$login = $this->dbh->escape_string($_POST["login"]);
+			$email = $this->dbh->escape_string($_POST["email"]);
+			$test = $this->dbh->escape_string($_POST["test"]);
 
 			if (($test != 4 && $test != 'four') || !$email || !$login) {
 				print_error(__('Some of the required form parameters are missing or incorrect.'));
@@ -802,11 +802,11 @@ class Handler_Public extends Handler {
 
 			} else {
 
-				$result = db_query("SELECT id FROM ttrss_users
+				$result = $this->dbh->query("SELECT id FROM ttrss_users
 					WHERE login = '$login' AND email = '$email'");
 
-				if (db_num_rows($result) != 0) {
-					$id = db_fetch_result($result, 0, "id");
+				if ($this->dbh->num_rows($result) != 0) {
+					$id = $this->dbh->fetch_result($result, 0, "id");
 
 					Pref_Users::resetUserPassword($id, false);
 

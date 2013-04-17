@@ -15,11 +15,11 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function renamecat() {
-		$title = db_escape_string($_REQUEST['title']);
-		$id = db_escape_string($_REQUEST['id']);
+		$title = $this->dbh->escape_string($_REQUEST['title']);
+		$id = $this->dbh->escape_string($_REQUEST['id']);
 
 		if ($title) {
-			db_query("UPDATE ttrss_feed_categories SET
+			$this->dbh->query("UPDATE ttrss_feed_categories SET
 				title = '$title' WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 		}
 		return;
@@ -41,10 +41,10 @@ class Pref_Feeds extends Handler_Protected {
 
 		$items = array();
 
-		$result = db_query("SELECT id, title FROM ttrss_feed_categories
+		$result = $this->dbh->query("SELECT id, title FROM ttrss_feed_categories
 				WHERE owner_uid = " . $_SESSION["uid"] . " AND parent_cat = '$cat_id' ORDER BY order_id, title");
 
-		while ($line = db_fetch_assoc($result)) {
+		while ($line = $this->dbh->fetch_assoc($result)) {
 
 			$cat = array();
 			$cat['id'] = 'CAT:' . $line['id'];
@@ -65,13 +65,13 @@ class Pref_Feeds extends Handler_Protected {
 
 		}
 
-		$feed_result = db_query("SELECT id, title, last_error,
+		$feed_result = $this->dbh->query("SELECT id, title, last_error,
 			".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 			FROM ttrss_feeds
 			WHERE cat_id = '$cat_id' AND owner_uid = ".$_SESSION["uid"].
 			"$search_qpart ORDER BY order_id, title");
 
-		while ($feed_line = db_fetch_assoc($feed_result)) {
+		while ($feed_line = $this->dbh->fetch_assoc($feed_result)) {
 			$feed = array();
 			$feed['id'] = 'FEED:' . $feed_line['id'];
 			$feed['bare_id'] = (int)$feed_line['id'];
@@ -154,10 +154,10 @@ class Pref_Feeds extends Handler_Protected {
 				$root['items'] = array_merge($root['items'], $cat['items']);
 			}
 
-			$result = db_query("SELECT * FROM
+			$result = $this->dbh->query("SELECT * FROM
 				ttrss_labels2 WHERE owner_uid = ".$_SESSION['uid']." ORDER by caption");
 
-			if (db_num_rows($result) > 0) {
+			if ($this->dbh->num_rows($result) > 0) {
 
 				if (get_pref('ENABLE_FEED_CATS')) {
 					$cat = $this->feedlist_init_cat(-2);
@@ -165,7 +165,7 @@ class Pref_Feeds extends Handler_Protected {
 					$cat['items'] = array();
 				}
 
-				while ($line = db_fetch_assoc($result)) {
+				while ($line = $this->dbh->fetch_assoc($result)) {
 
 					$label_id = label_to_feed_id($line['id']);
 
@@ -190,10 +190,10 @@ class Pref_Feeds extends Handler_Protected {
 				($_REQUEST['mode'] != 2 && !$search &&
 				get_pref('_PREFS_SHOW_EMPTY_CATS'));
 
-			$result = db_query("SELECT id, title FROM ttrss_feed_categories
+			$result = $this->dbh->query("SELECT id, title FROM ttrss_feed_categories
 				WHERE owner_uid = " . $_SESSION["uid"] . " AND parent_cat IS NULL ORDER BY order_id, title");
 
-			while ($line = db_fetch_assoc($result)) {
+			while ($line = $this->dbh->fetch_assoc($result)) {
 				$cat = array();
 				$cat['id'] = 'CAT:' . $line['id'];
 				$cat['bare_id'] = (int)$line['id'];
@@ -226,13 +226,13 @@ class Pref_Feeds extends Handler_Protected {
 			$cat['unread'] = 0;
 			$cat['child_unread'] = 0;
 
-			$feed_result = db_query("SELECT id, title,last_error,
+			$feed_result = $this->dbh->query("SELECT id, title,last_error,
 				".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 				FROM ttrss_feeds
 				WHERE cat_id IS NULL AND owner_uid = ".$_SESSION["uid"].
 				"$search_qpart ORDER BY order_id, title");
 
-			while ($feed_line = db_fetch_assoc($feed_result)) {
+			while ($feed_line = $this->dbh->fetch_assoc($feed_result)) {
 				$feed = array();
 				$feed['id'] = 'FEED:' . $feed_line['id'];
 				$feed['bare_id'] = (int)$feed_line['id'];
@@ -257,13 +257,13 @@ class Pref_Feeds extends Handler_Protected {
 			$root['param'] = vsprintf(_ngettext('(%d feed)', '(%d feeds)', count($cat['items'])), count($cat['items']));
 
 		} else {
-			$feed_result = db_query("SELECT id, title, last_error,
+			$feed_result = $this->dbh->query("SELECT id, title, last_error,
 				".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
 				FROM ttrss_feeds
 				WHERE owner_uid = ".$_SESSION["uid"].
 				"$search_qpart ORDER BY order_id, title");
 
-			while ($feed_line = db_fetch_assoc($feed_result)) {
+			while ($feed_line = $this->dbh->fetch_assoc($feed_result)) {
 				$feed = array();
 				$feed['id'] = 'FEED:' . $feed_line['id'];
 				$feed['bare_id'] = (int)$feed_line['id'];
@@ -296,13 +296,13 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function catsortreset() {
-		db_query("UPDATE ttrss_feed_categories
+		$this->dbh->query("UPDATE ttrss_feed_categories
 				SET order_id = 0 WHERE owner_uid = " . $_SESSION["uid"]);
 		return;
 	}
 
 	function feedsortreset() {
-		db_query("UPDATE ttrss_feeds
+		$this->dbh->query("UPDATE ttrss_feeds
 				SET order_id = 0 WHERE owner_uid = " . $_SESSION["uid"]);
 		return;
 	}
@@ -326,12 +326,12 @@ class Pref_Feeds extends Handler_Protected {
 		if ($item_id != 'root') {
 			if ($parent_id && $parent_id != 'root') {
 				$parent_bare_id = substr($parent_id, strpos($parent_id, ':')+1);
-				$parent_qpart = db_escape_string($parent_bare_id);
+				$parent_qpart = $this->dbh->escape_string($parent_bare_id);
 			} else {
 				$parent_qpart = 'NULL';
 			}
 
-			db_query("UPDATE ttrss_feed_categories
+			$this->dbh->query("UPDATE ttrss_feed_categories
 				SET parent_cat = $parent_qpart WHERE id = '$bare_item_id' AND
 				owner_uid = " . $_SESSION["uid"]);
 		}
@@ -352,12 +352,12 @@ class Pref_Feeds extends Handler_Protected {
 					if (strpos($id, "FEED") === 0) {
 
 						$cat_id = ($item_id != "root") ?
-							db_escape_string($bare_item_id) : "NULL";
+							$this->dbh->escape_string($bare_item_id) : "NULL";
 
 						$cat_qpart = ($cat_id != 0) ? "cat_id = '$cat_id'" :
 							"cat_id = NULL";
 
-						db_query("UPDATE ttrss_feeds
+						$this->dbh->query("UPDATE ttrss_feeds
 							SET order_id = $order_id, $cat_qpart
 							WHERE id = '$bare_id' AND
 								owner_uid = " . $_SESSION["uid"]);
@@ -367,12 +367,12 @@ class Pref_Feeds extends Handler_Protected {
 							$nest_level+1);
 
 						if ($item_id != 'root') {
-							$parent_qpart = db_escape_string($bare_id);
+							$parent_qpart = $this->dbh->escape_string($bare_id);
 						} else {
 							$parent_qpart = 'NULL';
 						}
 
-						db_query("UPDATE ttrss_feed_categories
+						$this->dbh->query("UPDATE ttrss_feed_categories
 								SET order_id = '$order_id' WHERE id = '$bare_id' AND
 								owner_uid = " . $_SESSION["uid"]);
 					}
@@ -424,7 +424,7 @@ class Pref_Feeds extends Handler_Protected {
 				++$cat_order_id;
 
 				if ($bare_id > 0) {
-					db_query("UPDATE ttrss_feed_categories
+					$this->dbh->query("UPDATE ttrss_feed_categories
 						SET order_id = '$cat_order_id' WHERE id = '$bare_id' AND
 						owner_uid = " . $_SESSION["uid"]);
 				}
@@ -441,7 +441,7 @@ class Pref_Feeds extends Handler_Protected {
 						else
 							$cat_query = "cat_id = NULL";
 
-						db_query("UPDATE ttrss_feeds
+						$this->dbh->query("UPDATE ttrss_feeds
 							SET order_id = '$feed_order_id',
 							$cat_query
 							WHERE id = '$feed_id' AND
@@ -457,15 +457,15 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function removeicon() {
-		$feed_id = db_escape_string($_REQUEST["feed_id"]);
+		$feed_id = $this->dbh->escape_string($_REQUEST["feed_id"]);
 
-		$result = db_query("SELECT id FROM ttrss_feeds
+		$result = $this->dbh->query("SELECT id FROM ttrss_feeds
 			WHERE id = '$feed_id' AND owner_uid = ". $_SESSION["uid"]);
 
-		if (db_num_rows($result) != 0) {
+		if ($this->dbh->num_rows($result) != 0) {
 			@unlink(ICONS_DIR . "/$feed_id.ico");
 
-			db_query("UPDATE ttrss_feeds SET favicon_avg_color = NULL
+			$this->dbh->query("UPDATE ttrss_feeds SET favicon_avg_color = NULL
 				where id = '$feed_id'");
 		}
 
@@ -491,24 +491,24 @@ class Pref_Feeds extends Handler_Protected {
 		}
 
 		$icon_file = $tmp_file;
-		$feed_id = db_escape_string($_REQUEST["feed_id"]);
+		$feed_id = $this->dbh->escape_string($_REQUEST["feed_id"]);
 
 		if (is_file($icon_file) && $feed_id) {
 			if (filesize($icon_file) < 20000) {
 
-				$result = db_query("SELECT id FROM ttrss_feeds
+				$result = $this->dbh->query("SELECT id FROM ttrss_feeds
 					WHERE id = '$feed_id' AND owner_uid = ". $_SESSION["uid"]);
 
-				if (db_num_rows($result) != 0) {
+				if ($this->dbh->num_rows($result) != 0) {
 					@unlink(ICONS_DIR . "/$feed_id.ico");
 					if (rename($icon_file, ICONS_DIR . "/$feed_id.ico")) {
 
 						require_once "colors.php";
 
-						$favicon_color = db_escape_string(
+						$favicon_color = $this->dbh->escape_string(
 							calculate_avg_color(ICONS_DIR . "/$feed_id.ico"));
 
-						db_query("UPDATE ttrss_feeds SET
+						$this->dbh->query("UPDATE ttrss_feeds SET
 							favicon_avg_color = '$favicon_color'
 							WHERE id = '$feed_id'");
 
@@ -536,16 +536,16 @@ class Pref_Feeds extends Handler_Protected {
 		global $purge_intervals;
 		global $update_intervals;
 
-		$feed_id = db_escape_string($_REQUEST["id"]);
+		$feed_id = $this->dbh->escape_string($_REQUEST["id"]);
 
-		$result = db_query(
+		$result = $this->dbh->query(
 			"SELECT * FROM ttrss_feeds WHERE id = '$feed_id' AND
 				owner_uid = " . $_SESSION["uid"]);
 
-		$auth_pass_encrypted = sql_bool_to_bool(db_fetch_result($result, 0,
+		$auth_pass_encrypted = sql_bool_to_bool($this->dbh->fetch_result($result, 0,
 			"auth_pass_encrypted"));
 
-		$title = htmlspecialchars(db_fetch_result($result,
+		$title = htmlspecialchars($this->dbh->fetch_result($result,
 			0, "title"));
 
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$feed_id\">";
@@ -563,8 +563,8 @@ class Pref_Feeds extends Handler_Protected {
 
 		/* Feed URL */
 
-		$feed_url = db_fetch_result($result, 0, "feed_url");
-		$feed_url = htmlspecialchars(db_fetch_result($result,
+		$feed_url = $this->dbh->fetch_result($result, 0, "feed_url");
+		$feed_url = htmlspecialchars($this->dbh->fetch_result($result,
 			0, "feed_url"));
 
 		print "<hr/>";
@@ -575,7 +575,7 @@ class Pref_Feeds extends Handler_Protected {
 			regExp='^(http|https)://.*' style=\"width : 20em\"
 			name=\"feed_url\" value=\"$feed_url\">";
 
-		$last_error = db_fetch_result($result, 0, "last_error");
+		$last_error = $this->dbh->fetch_result($result, 0, "last_error");
 
 		if ($last_error) {
 			print "&nbsp;<span title=\"".htmlspecialchars($last_error)."\"
@@ -587,7 +587,7 @@ class Pref_Feeds extends Handler_Protected {
 
 		if (get_pref('ENABLE_FEED_CATS')) {
 
-			$cat_id = db_fetch_result($result, 0, "cat_id");
+			$cat_id = $this->dbh->fetch_result($result, 0, "cat_id");
 
 			print "<hr/>";
 
@@ -604,14 +604,14 @@ class Pref_Feeds extends Handler_Protected {
 
 		/* Update Interval */
 
-		$update_interval = db_fetch_result($result, 0, "update_interval");
+		$update_interval = $this->dbh->fetch_result($result, 0, "update_interval");
 
 		print_select_hash("update_interval", $update_interval, $update_intervals,
 			'dojoType="dijit.form.Select"');
 
 		/* Purge intl */
 
-		$purge_interval = db_fetch_result($result, 0, "purge_interval");
+		$purge_interval = $this->dbh->fetch_result($result, 0, "purge_interval");
 
 		print "<hr/>";
 		print __('Article purging:') . " ";
@@ -624,13 +624,13 @@ class Pref_Feeds extends Handler_Protected {
 		print "<div class=\"dlgSec\">".__("Authentication")."</div>";
 		print "<div class=\"dlgSecCont\">";
 
-		$auth_login = htmlspecialchars(db_fetch_result($result, 0, "auth_login"));
+		$auth_login = htmlspecialchars($this->dbh->fetch_result($result, 0, "auth_login"));
 
 		print "<input dojoType=\"dijit.form.TextBox\" id=\"feedEditDlg_login\"
 			placeHolder=\"".__("Login")."\"
 			name=\"auth_login\" value=\"$auth_login\"><hr/>";
 
-		$auth_pass = db_fetch_result($result, 0, "auth_pass");
+		$auth_pass = $this->dbh->fetch_result($result, 0, "auth_pass");
 
 		if ($auth_pass_encrypted) {
 			require_once "crypt.php";
@@ -651,7 +651,7 @@ class Pref_Feeds extends Handler_Protected {
 		print "<div class=\"dlgSec\">".__("Options")."</div>";
 		print "<div class=\"dlgSecCont\">";
 
-		$private = sql_bool_to_bool(db_fetch_result($result, 0, "private"));
+		$private = sql_bool_to_bool($this->dbh->fetch_result($result, 0, "private"));
 
 		if ($private) {
 			$checked = "checked=\"1\"";
@@ -662,7 +662,7 @@ class Pref_Feeds extends Handler_Protected {
 		print "<input dojoType=\"dijit.form.CheckBox\" type=\"checkbox\" name=\"private\" id=\"private\"
 			$checked>&nbsp;<label for=\"private\">".__('Hide from Popular feeds')."</label>";
 
-		$include_in_digest = sql_bool_to_bool(db_fetch_result($result, 0, "include_in_digest"));
+		$include_in_digest = sql_bool_to_bool($this->dbh->fetch_result($result, 0, "include_in_digest"));
 
 		if ($include_in_digest) {
 			$checked = "checked=\"1\"";
@@ -675,7 +675,7 @@ class Pref_Feeds extends Handler_Protected {
 			$checked>&nbsp;<label for=\"include_in_digest\">".__('Include in e-mail digest')."</label>";
 
 
-		$always_display_enclosures = sql_bool_to_bool(db_fetch_result($result, 0, "always_display_enclosures"));
+		$always_display_enclosures = sql_bool_to_bool($this->dbh->fetch_result($result, 0, "always_display_enclosures"));
 
 		if ($always_display_enclosures) {
 			$checked = "checked";
@@ -687,7 +687,7 @@ class Pref_Feeds extends Handler_Protected {
 			name=\"always_display_enclosures\"
 			$checked>&nbsp;<label for=\"always_display_enclosures\">".__('Always display image attachments')."</label>";
 
-		$hide_images = sql_bool_to_bool(db_fetch_result($result, 0, "hide_images"));
+		$hide_images = sql_bool_to_bool($this->dbh->fetch_result($result, 0, "hide_images"));
 
 		if ($hide_images) {
 			$checked = "checked=\"1\"";
@@ -700,7 +700,7 @@ class Pref_Feeds extends Handler_Protected {
 			$checked>&nbsp;<label for=\"hide_images\">".
 		__('Do not embed images')."</label>";
 
-		$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
+		$cache_images = sql_bool_to_bool($this->dbh->fetch_result($result, 0, "cache_images"));
 
 		if ($cache_images) {
 			$checked = "checked=\"1\"";
@@ -713,7 +713,7 @@ class Pref_Feeds extends Handler_Protected {
 			$checked>&nbsp;<label for=\"cache_images\">".
 		__('Cache images locally')."</label>";
 
-		$mark_unread_on_update = sql_bool_to_bool(db_fetch_result($result, 0, "mark_unread_on_update"));
+		$mark_unread_on_update = sql_bool_to_bool($this->dbh->fetch_result($result, 0, "mark_unread_on_update"));
 
 		if ($mark_unread_on_update) {
 			$checked = "checked";
@@ -758,7 +758,7 @@ class Pref_Feeds extends Handler_Protected {
 				__('Unsubscribe')."</button>";
 
 		if (PUBSUBHUBBUB_ENABLED) {
-			$pubsub_state = db_fetch_result($result, 0, "pubsub_state");
+			$pubsub_state = $this->dbh->fetch_result($result, 0, "pubsub_state");
 			$pubsub_btn_disabled = ($pubsub_state == 2) ? "" : "disabled=\"1\"";
 
 			print "<button dojoType=\"dijit.form.Button\" id=\"pubsubReset_Btn\" $pubsub_btn_disabled
@@ -782,7 +782,7 @@ class Pref_Feeds extends Handler_Protected {
 		global $purge_intervals;
 		global $update_intervals;
 
-		$feed_ids = db_escape_string($_REQUEST["ids"]);
+		$feed_ids = $this->dbh->escape_string($_REQUEST["ids"]);
 
 		print_notice("Enable the options you wish to apply using checkboxes on the right:");
 
@@ -938,27 +938,27 @@ class Pref_Feeds extends Handler_Protected {
 
 	function editsaveops($batch) {
 
-		$feed_title = db_escape_string(trim($_POST["title"]));
-		$feed_link = db_escape_string(trim($_POST["feed_url"]));
-		$upd_intl = (int) db_escape_string($_POST["update_interval"]);
-		$purge_intl = (int) db_escape_string($_POST["purge_interval"]);
-		$feed_id = (int) db_escape_string($_POST["id"]); /* editSave */
-		$feed_ids = db_escape_string($_POST["ids"]); /* batchEditSave */
-		$cat_id = (int) db_escape_string($_POST["cat_id"]);
-		$auth_login = db_escape_string(trim($_POST["auth_login"]));
+		$feed_title = $this->dbh->escape_string(trim($_POST["title"]));
+		$feed_link = $this->dbh->escape_string(trim($_POST["feed_url"]));
+		$upd_intl = (int) $this->dbh->escape_string($_POST["update_interval"]);
+		$purge_intl = (int) $this->dbh->escape_string($_POST["purge_interval"]);
+		$feed_id = (int) $this->dbh->escape_string($_POST["id"]); /* editSave */
+		$feed_ids = $this->dbh->escape_string($_POST["ids"]); /* batchEditSave */
+		$cat_id = (int) $this->dbh->escape_string($_POST["cat_id"]);
+		$auth_login = $this->dbh->escape_string(trim($_POST["auth_login"]));
 		$auth_pass = trim($_POST["auth_pass"]);
-		$private = checkbox_to_sql_bool(db_escape_string($_POST["private"]));
+		$private = checkbox_to_sql_bool($this->dbh->escape_string($_POST["private"]));
 		$include_in_digest = checkbox_to_sql_bool(
-			db_escape_string($_POST["include_in_digest"]));
+			$this->dbh->escape_string($_POST["include_in_digest"]));
 		$cache_images = checkbox_to_sql_bool(
-			db_escape_string($_POST["cache_images"]));
+			$this->dbh->escape_string($_POST["cache_images"]));
 		$hide_images = checkbox_to_sql_bool(
-			db_escape_string($_POST["hide_images"]));
+			$this->dbh->escape_string($_POST["hide_images"]));
 		$always_display_enclosures = checkbox_to_sql_bool(
-			db_escape_string($_POST["always_display_enclosures"]));
+			$this->dbh->escape_string($_POST["always_display_enclosures"]));
 
 		$mark_unread_on_update = checkbox_to_sql_bool(
-			db_escape_string($_POST["mark_unread_on_update"]));
+			$this->dbh->escape_string($_POST["mark_unread_on_update"]));
 
 		if (strlen(FEED_CRYPT_KEY) > 0) {
 			require_once "crypt.php";
@@ -968,7 +968,7 @@ class Pref_Feeds extends Handler_Protected {
 			$auth_pass_encrypted = 'false';
 		}
 
-		$auth_pass = db_escape_string($auth_pass);
+		$auth_pass = $this->dbh->escape_string($auth_pass);
 
 		if (get_pref('ENABLE_FEED_CATS')) {
 			if ($cat_id && $cat_id != 0) {
@@ -985,7 +985,7 @@ class Pref_Feeds extends Handler_Protected {
 
 		if (!$batch) {
 
-			$result = db_query("UPDATE ttrss_feeds SET
+			$result = $this->dbh->query("UPDATE ttrss_feeds SET
 				$category_qpart
 				title = '$feed_title', feed_url = '$feed_link',
 				update_interval = '$upd_intl',
@@ -1010,7 +1010,7 @@ class Pref_Feeds extends Handler_Protected {
 				}
 			}
 
-			db_query("BEGIN");
+			$this->dbh->query("BEGIN");
 
 			foreach (array_keys($feed_data) as $k) {
 
@@ -1073,23 +1073,23 @@ class Pref_Feeds extends Handler_Protected {
 				}
 
 				if ($qpart) {
-					db_query(
+					$this->dbh->query(
 						"UPDATE ttrss_feeds SET $qpart WHERE id IN ($feed_ids)
 						AND owner_uid = " . $_SESSION["uid"]);
 					print "<br/>";
 				}
 			}
 
-			db_query("COMMIT");
+			$this->dbh->query("COMMIT");
 		}
 		return;
 	}
 
 	function resetPubSub() {
 
-		$ids = db_escape_string($_REQUEST["ids"]);
+		$ids = $this->dbh->escape_string($_REQUEST["ids"]);
 
-		db_query("UPDATE ttrss_feeds SET pubsub_state = 0 WHERE id IN ($ids)
+		$this->dbh->query("UPDATE ttrss_feeds SET pubsub_state = 0 WHERE id IN ($ids)
 			AND owner_uid = " . $_SESSION["uid"]);
 
 		return;
@@ -1097,7 +1097,7 @@ class Pref_Feeds extends Handler_Protected {
 
 	function remove() {
 
-		$ids = explode(",", db_escape_string($_REQUEST["ids"]));
+		$ids = explode(",", $this->dbh->escape_string($_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
 			Pref_Feeds::remove_feed($id, $_SESSION["uid"]);
@@ -1107,20 +1107,20 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function clear() {
-		$id = db_escape_string($_REQUEST["id"]);
+		$id = $this->dbh->escape_string($_REQUEST["id"]);
 		$this->clear_feed_articles($id);
 	}
 
 	function rescore() {
 		require_once "rssfuncs.php";
 
-		$ids = explode(",", db_escape_string($_REQUEST["ids"]));
+		$ids = explode(",", $this->dbh->escape_string($_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
 
 			$filters = load_filters($id, $_SESSION["uid"], 6);
 
-			$result = db_query("SELECT
+			$result = $this->dbh->query("SELECT
 				title, content, link, ref_id, author,".
 				SUBSTRING_FOR_DATE."(updated, 1, 19) AS updated
 			  	FROM
@@ -1131,7 +1131,7 @@ class Pref_Feeds extends Handler_Protected {
 
 			$scores = array();
 
-			while ($line = db_fetch_assoc($result)) {
+			while ($line = $this->dbh->fetch_assoc($result)) {
 
 				$tags = get_article_tags($line["ref_id"]);
 
@@ -1148,15 +1148,15 @@ class Pref_Feeds extends Handler_Protected {
 
 			foreach (array_keys($scores) as $s) {
 				if ($s > 1000) {
-					db_query("UPDATE ttrss_user_entries SET score = '$s',
+					$this->dbh->query("UPDATE ttrss_user_entries SET score = '$s',
 						marked = true WHERE
 						ref_id IN (" . join(',', $scores[$s]) . ")");
 				} else if ($s < -500) {
-					db_query("UPDATE ttrss_user_entries SET score = '$s',
+					$this->dbh->query("UPDATE ttrss_user_entries SET score = '$s',
 						unread = false WHERE
 						ref_id IN (" . join(',', $scores[$s]) . ")");
 				} else {
-					db_query("UPDATE ttrss_user_entries SET score = '$s' WHERE
+					$this->dbh->query("UPDATE ttrss_user_entries SET score = '$s' WHERE
 						ref_id IN (" . join(',', $scores[$s]) . ")");
 				}
 			}
@@ -1168,16 +1168,16 @@ class Pref_Feeds extends Handler_Protected {
 
 	function rescoreAll() {
 
-		$result = db_query(
+		$result = $this->dbh->query(
 			"SELECT id FROM ttrss_feeds WHERE owner_uid = " . $_SESSION['uid']);
 
-		while ($feed_line = db_fetch_assoc($result)) {
+		while ($feed_line = $this->dbh->fetch_assoc($result)) {
 
 			$id = $feed_line["id"];
 
 			$filters = load_filters($id, $_SESSION["uid"], 6);
 
-			$tmp_result = db_query("SELECT
+			$tmp_result = $this->dbh->query("SELECT
 				title, content, link, ref_id, author,".
 				  	SUBSTRING_FOR_DATE."(updated, 1, 19) AS updated
 					FROM
@@ -1188,7 +1188,7 @@ class Pref_Feeds extends Handler_Protected {
 
 			$scores = array();
 
-			while ($line = db_fetch_assoc($tmp_result)) {
+			while ($line = $this->dbh->fetch_assoc($tmp_result)) {
 
 				$tags = get_article_tags($line["ref_id"]);
 
@@ -1205,11 +1205,11 @@ class Pref_Feeds extends Handler_Protected {
 
 			foreach (array_keys($scores) as $s) {
 				if ($s > 1000) {
-					db_query("UPDATE ttrss_user_entries SET score = '$s',
+					$this->dbh->query("UPDATE ttrss_user_entries SET score = '$s',
 						marked = true WHERE
 						ref_id IN (" . join(',', $scores[$s]) . ")");
 				} else {
-					db_query("UPDATE ttrss_user_entries SET score = '$s' WHERE
+					$this->dbh->query("UPDATE ttrss_user_entries SET score = '$s' WHERE
 						ref_id IN (" . join(',', $scores[$s]) . ")");
 				}
 			}
@@ -1220,9 +1220,9 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function categorize() {
-		$ids = explode(",", db_escape_string($_REQUEST["ids"]));
+		$ids = explode(",", $this->dbh->escape_string($_REQUEST["ids"]));
 
-		$cat_id = db_escape_string($_REQUEST["cat_id"]);
+		$cat_id = $this->dbh->escape_string($_REQUEST["cat_id"]);
 
 		if ($cat_id == 0) {
 			$cat_id_qpart = 'NULL';
@@ -1230,28 +1230,28 @@ class Pref_Feeds extends Handler_Protected {
 			$cat_id_qpart = "'$cat_id'";
 		}
 
-		db_query("BEGIN");
+		$this->dbh->query("BEGIN");
 
 		foreach ($ids as $id) {
 
-			db_query("UPDATE ttrss_feeds SET cat_id = $cat_id_qpart
+			$this->dbh->query("UPDATE ttrss_feeds SET cat_id = $cat_id_qpart
 				WHERE id = '$id'
 			  	AND owner_uid = " . $_SESSION["uid"]);
 
 		}
 
-		db_query("COMMIT");
+		$this->dbh->query("COMMIT");
 	}
 
 	function removeCat() {
-		$ids = explode(",", db_escape_string($_REQUEST["ids"]));
+		$ids = explode(",", $this->dbh->escape_string($_REQUEST["ids"]));
 		foreach ($ids as $id) {
 			$this->remove_feed_category($id, $_SESSION["uid"]);
 		}
 	}
 
 	function addCat() {
-		$feed_cat = db_escape_string(trim($_REQUEST["cat"]));
+		$feed_cat = $this->dbh->escape_string(trim($_REQUEST["cat"]));
 
 		add_feed_category($feed_cat);
 	}
@@ -1261,10 +1261,10 @@ class Pref_Feeds extends Handler_Protected {
 		print "<div dojoType=\"dijit.layout.AccordionContainer\" region=\"center\">";
 		print "<div id=\"pref-feeds-feeds\" dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Feeds')."\">";
 
-		$result = db_query("SELECT COUNT(id) AS num_errors
+		$result = $this->dbh->query("SELECT COUNT(id) AS num_errors
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 
-		$num_errors = db_fetch_result($result, 0, "num_errors");
+		$num_errors = $this->dbh->fetch_result($result, 0, "num_errors");
 
 		if ($num_errors > 0) {
 
@@ -1279,13 +1279,13 @@ class Pref_Feeds extends Handler_Protected {
 			$interval_qpart = "DATE_SUB(NOW(), INTERVAL 3 MONTH)";
 		}
 
-		$result = db_query("SELECT COUNT(*) AS num_inactive FROM ttrss_feeds WHERE
+		$result = $this->dbh->query("SELECT COUNT(*) AS num_inactive FROM ttrss_feeds WHERE
 					(SELECT MAX(updated) FROM ttrss_entries, ttrss_user_entries WHERE
 						ttrss_entries.id = ref_id AND
 							ttrss_user_entries.feed_id = ttrss_feeds.id) < $interval_qpart AND
 			ttrss_feeds.owner_uid = ".$_SESSION["uid"]);
 
-		$num_inactive = db_fetch_result($result, 0, "num_inactive");
+		$num_inactive = $this->dbh->fetch_result($result, 0, "num_inactive");
 
 		if ($num_inactive > 0) {
 			$inactive_button = "<button dojoType=\"dijit.form.Button\"
@@ -1293,7 +1293,7 @@ class Pref_Feeds extends Handler_Protected {
 					__("Inactive feeds") . "</button>";
 		}
 
-		$feed_search = db_escape_string($_REQUEST["search"]);
+		$feed_search = $this->dbh->escape_string($_REQUEST["search"]);
 
 		if (array_key_exists("search", $_REQUEST)) {
 			$_SESSION["prefs_feed_search"] = $feed_search;
@@ -1567,7 +1567,7 @@ class Pref_Feeds extends Handler_Protected {
 			$interval_qpart = "DATE_SUB(NOW(), INTERVAL 3 MONTH)";
 		}
 
-		$result = db_query("SELECT ttrss_feeds.title, ttrss_feeds.site_url,
+		$result = $this->dbh->query("SELECT ttrss_feeds.title, ttrss_feeds.site_url,
 		  		ttrss_feeds.feed_url, ttrss_feeds.id, MAX(updated) AS last_article
 			FROM ttrss_feeds, ttrss_entries, ttrss_user_entries WHERE
 				(SELECT MAX(updated) FROM ttrss_entries, ttrss_user_entries WHERE
@@ -1598,7 +1598,7 @@ class Pref_Feeds extends Handler_Protected {
 
 		$lnum = 1;
 
-		while ($line = db_fetch_assoc($result)) {
+		while ($line = $this->dbh->fetch_assoc($result)) {
 
 			$class = ($lnum % 2) ? "even" : "odd";
 			$feed_id = $line["id"];
@@ -1648,7 +1648,7 @@ class Pref_Feeds extends Handler_Protected {
 		print "<h2>" . __("These feeds have not been updated because of errors:") .
 			"</h2>";
 
-		$result = db_query("SELECT id,title,feed_url,last_error,site_url
+		$result = $this->dbh->query("SELECT id,title,feed_url,last_error,site_url
 		FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 
 		print "<div dojoType=\"dijit.Toolbar\">";
@@ -1668,7 +1668,7 @@ class Pref_Feeds extends Handler_Protected {
 
 		$lnum = 1;
 
-		while ($line = db_fetch_assoc($result)) {
+		while ($line = $this->dbh->fetch_assoc($result)) {
 
 			$class = ($lnum % 2) ? "even" : "odd";
 			$feed_id = $line["id"];
@@ -1725,14 +1725,14 @@ class Pref_Feeds extends Handler_Protected {
 	private function clear_feed_articles($id) {
 
 		if ($id != 0) {
-			$result = db_query("DELETE FROM ttrss_user_entries
+			$result = $this->dbh->query("DELETE FROM ttrss_user_entries
 			WHERE feed_id = '$id' AND marked = false AND owner_uid = " . $_SESSION["uid"]);
 		} else {
-			$result = db_query("DELETE FROM ttrss_user_entries
+			$result = $this->dbh->query("DELETE FROM ttrss_user_entries
 			WHERE feed_id IS NULL AND marked = false AND owner_uid = " . $_SESSION["uid"]);
 		}
 
-		$result = db_query("DELETE FROM ttrss_entries WHERE
+		$result = $this->dbh->query("DELETE FROM ttrss_entries WHERE
 			(SELECT COUNT(int_id) FROM ttrss_user_entries WHERE ref_id = id) = 0");
 
 		ccache_update($id, $_SESSION['uid']);
@@ -1740,7 +1740,7 @@ class Pref_Feeds extends Handler_Protected {
 
 	private function remove_feed_category($id, $owner_uid) {
 
-		db_query("DELETE FROM ttrss_feed_categories
+		$this->dbh->query("DELETE FROM ttrss_feed_categories
 			WHERE id = '$id' AND owner_uid = $owner_uid");
 
 		ccache_remove($id, $owner_uid, true);
@@ -1855,17 +1855,17 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function batchAddFeeds() {
-		$cat_id = db_escape_string($_REQUEST['cat']);
+		$cat_id = $this->dbh->escape_string($_REQUEST['cat']);
 		$feeds = explode("\n", $_REQUEST['feeds']);
-		$login = db_escape_string($_REQUEST['login']);
+		$login = $this->dbh->escape_string($_REQUEST['login']);
 		$pass = trim($_REQUEST['pass']);
 
 		foreach ($feeds as $feed) {
-			$feed = db_escape_string(trim($feed));
+			$feed = $this->dbh->escape_string(trim($feed));
 
 			if (validate_feed_url($feed)) {
 
-				db_query("BEGIN");
+				$this->dbh->query("BEGIN");
 
 				if ($cat_id == "0" || !$cat_id) {
 					$cat_qpart = "NULL";
@@ -1873,7 +1873,7 @@ class Pref_Feeds extends Handler_Protected {
 					$cat_qpart = "'$cat_id'";
 				}
 
-				$result = db_query(
+				$result = $this->dbh->query(
 					"SELECT id FROM ttrss_feeds
 					WHERE feed_url = '$feed' AND owner_uid = ".$_SESSION["uid"]);
 
@@ -1885,17 +1885,17 @@ class Pref_Feeds extends Handler_Protected {
 					$auth_pass_encrypted = 'false';
 				}
 
-				$pass = db_escape_string($pass);
+				$pass = $this->dbh->escape_string($pass);
 
-				if (db_num_rows($result) == 0) {
-					$result = db_query(
+				if ($this->dbh->num_rows($result) == 0) {
+					$result = $this->dbh->query(
 						"INSERT INTO ttrss_feeds
 							(owner_uid,feed_url,title,cat_id,auth_login,auth_pass,update_method,auth_pass_encrypted)
 						VALUES ('".$_SESSION["uid"]."', '$feed',
 							'[Unknown]', $cat_qpart, '$login', '$pass', 0, $auth_pass_encrypted)");
 				}
 
-				db_query("COMMIT");
+				$this->dbh->query("COMMIT");
 			}
 		}
 	}
@@ -1910,8 +1910,8 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function regenFeedKey() {
-		$feed_id = db_escape_string($_REQUEST['id']);
-		$is_cat = db_escape_string($_REQUEST['is_cat']) == "true";
+		$feed_id = $this->dbh->escape_string($_REQUEST['id']);
+		$is_cat = $this->dbh->escape_string($_REQUEST['is_cat']) == "true";
 
 		$new_key = $this->update_feed_access_key($feed_id, $is_cat);
 
@@ -1924,14 +1924,14 @@ class Pref_Feeds extends Handler_Protected {
 
 		$sql_is_cat = bool_to_sql_bool($is_cat);
 
-		$result = db_query("SELECT access_key FROM ttrss_access_keys
+		$result = $this->dbh->query("SELECT access_key FROM ttrss_access_keys
 			WHERE feed_id = '$feed_id'	AND is_cat = $sql_is_cat
 			AND owner_uid = " . $owner_uid);
 
-		if (db_num_rows($result) == 1) {
-			$key = db_escape_string(sha1(uniqid(rand(), true)));
+		if ($this->dbh->num_rows($result) == 1) {
+			$key = $this->dbh->escape_string(sha1(uniqid(rand(), true)));
 
-			db_query("UPDATE ttrss_access_keys SET access_key = '$key'
+			$this->dbh->query("UPDATE ttrss_access_keys SET access_key = '$key'
 				WHERE feed_id = '$feed_id' AND is_cat = $sql_is_cat
 				AND owner_uid = " . $owner_uid);
 
@@ -1944,7 +1944,7 @@ class Pref_Feeds extends Handler_Protected {
 
 	// Silent
 	function clearKeys() {
-		db_query("DELETE FROM ttrss_access_keys WHERE
+		$this->dbh->query("DELETE FROM ttrss_access_keys WHERE
 			owner_uid = " . $_SESSION["uid"]);
 	}
 
