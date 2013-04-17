@@ -128,7 +128,7 @@
 	$lock_handle = make_lockfile($lock_filename);
 	$must_exit = false;
 
-	if (isset($options["task"])) {
+	if (isset($options["task"]) && isset($options["pidlock"])) {
 		$waits = $options["task"] * 5;
 		_debug("Waiting before update ($waits)");
 		sleep($waits);
