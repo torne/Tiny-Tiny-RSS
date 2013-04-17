@@ -49,7 +49,7 @@
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-	if (!init_connection($link)) return;
+	if (!init_plugins($link)) return;
 
 	header("Content-Type: text/json; charset=utf-8");
 

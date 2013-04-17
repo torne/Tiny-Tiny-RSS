@@ -23,7 +23,7 @@
 
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-	init_connection($link);
+	init_plugins($link);
 
 	if (!$_SESSION["uid"]) return;
 

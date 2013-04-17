@@ -54,7 +54,7 @@
 		@session_start();
 	}
 
-	if (!init_connection($link)) return;
+	if (!init_plugins($link)) return;
 
 	$method = strtolower($_REQUEST["op"]);
 

@@ -69,5 +69,13 @@ class Db_Pgsql implements IDb {
 		return pg_last_error($this->link);
 	}
 
+	function init() {
+		$this->query("set client_encoding = 'UTF-8'");
+		pg_set_client_encoding("UNICODE");
+		$this->query("set datestyle = 'ISO, european'");
+		$this->query("set TIME ZONE 0");
+
+		return true;
+	}
 }
 ?>

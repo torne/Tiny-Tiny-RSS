@@ -177,7 +177,7 @@
 	// It is unnecessary to start the fork loop if database is not ok.
 	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-	if (!init_connection($link)) die("Can't initialize db connection.\n");
+	if (!init_plugins($link)) die("Can't initialize db connection.\n");
 
 	$schema_version = get_schema_version($link);
 
@@ -203,7 +203,7 @@
 			/* Check if schema version changed */
 
 			$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-			if (!init_connection($link)) die("Can't initialize db connection.\n");
+			if (!init_plugins($link)) die("Can't initialize db connection.\n");
 			$test_schema_version = get_schema_version($link);
 			db_close($link);
 
@@ -255,7 +255,7 @@
 
 					$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-					if (!init_connection($link)) return;
+					if (!init_plugins($link)) return;
 
 					// We disable stamp file, since it is of no use in a multiprocess update.
 					// not really, tho for the time being -fox

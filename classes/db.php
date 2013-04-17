@@ -16,6 +16,7 @@ class Db implements IDb {
 		}
 
 		$this->adapter->connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
+		$this->adapter->init();
 	}
 
 	private function __clone() {
@@ -31,6 +32,10 @@ class Db implements IDb {
 
 	static function quote($str){
 		return("'$str'");
+	}
+
+	function init() {
+		//
 	}
 
 	function connect($host, $user, $pass, $db, $port) {
