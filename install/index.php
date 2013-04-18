@@ -80,12 +80,13 @@
 	}
 
 	function print_error($msg) {
-		print "<div class='error'><img src='../images/sign_excl.svg'> $msg</div>";
+		print "<div class='error'><span><img src='../images/sign_excl.svg'></span>
+			<span>$msg</span></div>";
 	}
 
 	function print_notice($msg) {
 		print "<div class=\"notice\">
-			<img src=\"../images/sign_info.svg\">$msg</div>";
+			<span><img src=\"../images/sign_info.svg\"></span><span>$msg</span></div>";
 	}
 
 	function db_connect($host, $user, $pass, $db, $type, $port) {

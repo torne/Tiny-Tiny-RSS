@@ -929,7 +929,7 @@ class Handler_Public extends Handler {
 
 					} else {
 
-						print "<h2>" . "Tiny Tiny RSS database is up to date." . "</h2>";
+						print_notice("Tiny Tiny RSS database is up to date.");
 
 						print "<p><form method=\"GET\" action=\"index.php\">
 							<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
