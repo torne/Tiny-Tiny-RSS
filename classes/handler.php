@@ -3,8 +3,8 @@ class Handler implements IHandler {
 	protected $dbh;
 	protected $args;
 
-	function __construct($dbh, $args) {
-		$this->dbh = $dbh;
+	function __construct($args) {
+		$this->dbh = Db::get();
 		$this->args = $args;
 	}
 

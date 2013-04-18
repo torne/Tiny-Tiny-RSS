@@ -308,7 +308,7 @@
 				$_REQUEST = $filter;
 				$_SESSION["uid"] = $owner_uid;
 
-				$filters = new Pref_Filters( $_REQUEST);
+				$filters = new Pref_Filters($_REQUEST);
 				$filters->add();
 			}
 		}

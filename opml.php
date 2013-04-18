@@ -24,7 +24,7 @@
 		if (db_num_rows($result) == 1) {
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
-			$opml = new Opml( $_REQUEST);
+			$opml = new Opml($_REQUEST);
 			$opml->opml_export("", $owner_uid, true, false);
 
 		} else {

@@ -120,7 +120,7 @@
 		if ($override) {
 			$handler = $override;
 		} else {
-			$handler = new $op(Db::get(), $_REQUEST);
+			$handler = new $op($_REQUEST);
 		}
 
 		if ($handler && implements_interface($handler, 'IHandler')) {

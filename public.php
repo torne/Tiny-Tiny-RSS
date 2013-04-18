@@ -42,7 +42,7 @@
 	if ($override) {
 		$handler = $override;
 	} else {
-		$handler = new Handler_Public(Db::get(), $_REQUEST);
+		$handler = new Handler_Public($_REQUEST);
 	}
 
 	if (implements_interface($handler, "IHandler") && $handler->before($method)) {
