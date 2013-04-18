@@ -509,8 +509,6 @@ class Handler_Public extends Handler {
 	}
 
 	function login() {
-		$_SESSION["prefs_cache"] = array();
-
 		if (!SINGLE_USER_MODE) {
 
 			$login = $this->dbh->escape_string($_POST["login"]);
@@ -541,7 +539,6 @@ class Handler_Public extends Handler {
 
 					if ($this->dbh->num_rows($result) != 0) {
 						$_SESSION["profile"] = $profile;
-						$_SESSION["prefs_cache"] = array();
 					}
 				}
 			} else {

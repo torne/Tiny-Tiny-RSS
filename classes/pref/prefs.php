@@ -90,9 +90,6 @@ class Pref_Prefs extends Handler_Protected {
 	}
 
 	function saveconfig() {
-
-		$_SESSION["prefs_cache"] = false;
-
 		$boolean_prefs = explode(",", $_POST["boolean_prefs"]);
 
 		foreach ($boolean_prefs as $pref) {

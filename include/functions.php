@@ -744,12 +744,9 @@
 	}
 
 	function login_sequence() {
-		$_SESSION["prefs_cache"] = false;
-
 		if (SINGLE_USER_MODE) {
 			@session_start();
 			authenticate_user("admin", null);
-			cache_prefs();
 			load_user_plugins($_SESSION["uid"]);
 		} else {
 			if (!validate_session()) $_SESSION["uid"] = false;
@@ -783,7 +780,6 @@
 			}
 
 			if ($_SESSION["uid"]) {
-				cache_prefs();
 				load_user_plugins($_SESSION["uid"]);
 
 				/* cleanup ccache */

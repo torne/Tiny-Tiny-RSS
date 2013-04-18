@@ -11,7 +11,6 @@ class RPC extends Handler_Protected {
 		$id = $this->dbh->escape_string($_REQUEST["id"]);
 
 		$_SESSION["profile"] = $id;
-		$_SESSION["prefs_cache"] = array();
 	}
 
 	function remprofiles() {
