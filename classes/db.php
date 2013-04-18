@@ -29,7 +29,7 @@ class Db implements IDb {
 
 		if (!$this->adapter) die("Error initializing database adapter for " . DB_TYPE);
 
-		$this->link = $this->adapter->connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, defined('DB_PORT') ? DB_PORT : false);
+		$this->link = $this->adapter->connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, defined('DB_PORT') ? DB_PORT : "");
 
 		if (!$this->link) {
 			die("Error connecting through adapter: " . $this->adapter->last_error());
