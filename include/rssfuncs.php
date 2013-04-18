@@ -583,14 +583,12 @@
 					$entry_author_item = $item->get_author();
 					$entry_author = $entry_author_item->get_name();
 					if (!$entry_author) $entry_author = $entry_author_item->get_email();
-
-					$entry_author = db_escape_string($entry_author);
 				}
 
 				$entry_guid = db_escape_string(mb_substr($entry_guid, 0, 245));
 
-				$entry_comments = db_escape_string(mb_substr($entry_comments, 0, 245));
-				$entry_author = db_escape_string(mb_substr($entry_author, 0, 245));
+				$entry_comments = db_escape_string(mb_substr(trim($entry_comments), 0, 245));
+				$entry_author = db_escape_string(mb_substr(trim($entry_author), 0, 245));
 
 				$num_comments = $item->get_item_tags('http://purl.org/rss/1.0/modules/slash/', 'comments');
 
