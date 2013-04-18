@@ -286,7 +286,7 @@ function hsl2rgb($arr) {
 
 		$size = @getimagesize($imageFile);
 
-		if (strtolower($size['mime']) == 'image/vnd.microsoft.icon') {
+		if (!defined('_DISABLE_FLOICON') && strtolower($size['mime']) == 'image/vnd.microsoft.icon') {
 			$ico = new floIcon();
 			@$ico->readICO($imageFile);
 
