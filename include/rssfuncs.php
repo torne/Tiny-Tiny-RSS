@@ -308,8 +308,6 @@
 					_debug("update_rss_feed: fetch done.");
 				}
 
-				$feed_data = gzdecode($feed_data);
-
 			}
 
 			if (!$feed_data) {
