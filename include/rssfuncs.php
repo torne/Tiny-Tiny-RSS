@@ -304,6 +304,14 @@
 					$no_cache ? FEED_FETCH_NO_CACHE_TIMEOUT : FEED_FETCH_TIMEOUT,
 					$force_refetch ? 0 : max($last_updated_timestamp, $cache_timestamp));
 
+				global $fetch_curl_used;
+
+				if (!$fetch_curl_used) {
+					$tmp = @gzdecode($feed_data);
+
+					if ($tmp) $feed_data = $tmp;
+				}
+
 				if ($debug_enabled) {
 					_debug("update_rss_feed: fetch done.");
 				}

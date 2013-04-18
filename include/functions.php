@@ -8,6 +8,7 @@
 	$fetch_last_error = false;
 	$fetch_last_error_code = false;
 	$fetch_last_content_type = false;
+	$fetch_curl_used = false;
 	$pluginhost = false;
 
 	mb_internal_encoding("UTF-8");
@@ -240,7 +241,7 @@
 		}
 
 		$rows = db_affected_rows($result);
-		
+
 		ccache_update($feed_id, $owner_uid);
 
 		if ($debug) {
@@ -305,10 +306,13 @@
 		global $fetch_last_error;
 		global $fetch_last_error_code;
 		global $fetch_last_content_type;
+		global $fetch_curl_used;
 
 		$url = str_replace(' ', '%20', $url);
 
-		if (!defined('NO_CURL') && function_exists('curl_init') && !ini_get("open_basedir")) {
+		if (!defined('NO_CURL') && function_exists('curl_init')) {
+
+			$fetch_curl_used = true;
 
 			if (ini_get("safe_mode") || ini_get("open_basedir")) {
 				$ch = curl_init(geturl($url));
@@ -330,7 +334,7 @@
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 			curl_setopt($ch, CURLOPT_USERAGENT, SELF_USER_AGENT);
-			curl_setopt($ch, CURLOPT_ENCODING , "gzip");
+			curl_setopt($ch, CURLOPT_ENCODING, "");
 			curl_setopt($ch, CURLOPT_REFERER, $url);
 
 			if ($post_query) {
@@ -373,6 +377,9 @@
 
 			return $contents;
 		} else {
+
+			$fetch_curl_used = false;
+
 			if ($login && $pass){
 				$url_parts = array();
 
@@ -4064,7 +4071,8 @@
 
 	function geturl($url){
 
-		(function_exists('curl_init')) ? '' : die('cURL Must be installed for geturl function to work. Ask your host to enable it or uncomment extension=php_curl.dll in php.ini');
+		if (!function_exists('curl_init'))
+			return user_error('CURL Must be installed for geturl function to work. Ask your host to enable it or uncomment extension=php_curl.dll in php.ini', E_USER_ERROR);
 
 		$curl = curl_init();
 		$header[0] = "Accept: text/xml,application/xml,application/xhtml+xml,";
