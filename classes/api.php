@@ -185,7 +185,7 @@ class API extends Handler {
 
 			$limit = (int)$this->dbh->escape_string($_REQUEST["limit"]);
 
-			if (!$limit || $limit >= 60) $limit = 60;
+			if (!$limit || $limit >= 200) $limit = 200;
 
 			$offset = (int)$this->dbh->escape_string($_REQUEST["skip"]);
 			$filter = $this->dbh->escape_string($_REQUEST["filter"]);
