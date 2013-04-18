@@ -32,16 +32,14 @@
 
 	if (!init_plugins()) return;
 
-	global $pluginhost;
-
 	if (!$_REQUEST['mobile']) {
-		if ($mobile->isTablet() && $pluginhost->get_plugin("digest")) {
+		if ($mobile->isTablet() && PluginHost::getInstance()->get_plugin("digest")) {
 			header('Location: backend.php?op=digest');
 			exit;
-		} else if ($mobile->isMobile() && $pluginhost->get_plugin("mobile")) {
+		} else if ($mobile->isMobile() && PluginHost::getInstance()->get_plugin("mobile")) {
 			header('Location: backend.php?op=mobile');
 			exit;
-		} else if ($mobile->isMobile() && $pluginhost->get_plugin("digest")) {
+		} else if ($mobile->isMobile() && PluginHost::getInstance()->get_plugin("digest")) {
 			header('Location: backend.php?op=digest');
 			exit;
 		}
@@ -74,7 +72,7 @@
 
 	<style type="text/css">
 	<?php
-		foreach ($pluginhost->get_plugins() as $n => $p) {
+		foreach (PluginHost::getInstance()->get_plugins() as $n => $p) {
 			if (method_exists($p, "get_css")) {
 				echo $p->get_css();
 			}
@@ -104,9 +102,7 @@
 		print get_minified_js(array("tt-rss",
 			"functions", "feedlist", "viewfeed", "FeedTree"));
 
-		global $pluginhost;
-
-		foreach ($pluginhost->get_plugins() as $n => $p) {
+		foreach (PluginHost::getInstance()->get_plugins() as $n => $p) {
 			if (method_exists($p, "get_js")) {
 				echo JShrink\Minifier::minify($p->get_js());
 			}
@@ -205,8 +201,7 @@
 		<div class="actionChooser">
 
 			<?php
-				global $pluginhost;
-				foreach ($pluginhost->get_hooks($pluginhost::HOOK_TOOLBAR_BUTTON) as $p) {
+				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_TOOLBAR_BUTTON) as $p) {
 					 echo $p->hook_toolbar_button();
 				}
 			?>
@@ -238,18 +233,14 @@
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcCatchupAll')"><?php echo __('Mark as read') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcShowOnlyUnread')"><?php echo __('(Un)hide read feeds') ?></div>
 					<div dojoType="dijit.MenuItem" disabled="1"><?php echo __('Other actions:') ?></div>
-					<!-- <?php if ($pluginhost->get_plugin("digest")) { ?>
-					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcDigest')"><?php echo __('Switch to digest...') ?></div>
-					<?php } ?> -->
-						<!-- <div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcTagCloud')"><?php echo __('Show tag cloud...') ?></div> -->
-						<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcToggleWidescreen')"><?php echo __('Toggle widescreen mode') ?></div>
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcToggleWidescreen')"><?php echo __('Toggle widescreen mode') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcTagSelect')"><?php echo __('Select by tags...') ?></div>
 					<!-- <div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddLabel')"><?php echo __('Create label...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddFilter')"><?php echo __('Create filter...') ?></div> -->
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcHKhelp')"><?php echo __('Keyboard shortcuts help') ?></div>
 
 					<?php
-						foreach ($pluginhost->get_hooks($pluginhost::HOOK_ACTION_ITEM) as $p) {
+						foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_ACTION_ITEM) as $p) {
 						 echo $p->hook_action_item();
 						}
 					?>

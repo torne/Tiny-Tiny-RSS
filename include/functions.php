@@ -9,7 +9,6 @@
 	$fetch_last_error_code = false;
 	$fetch_last_content_type = false;
 	$fetch_curl_used = false;
-	$pluginhost = false;
 
 	mb_internal_encoding("UTF-8");
 	date_default_timezone_set('UTC');
@@ -622,8 +621,7 @@
 		if (!SINGLE_USER_MODE) {
 			$user_id = false;
 
-			global $pluginhost;
-			foreach ($pluginhost->get_hooks($pluginhost::HOOK_AUTH_USER) as $plugin) {
+			foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_AUTH_USER) as $plugin) {
 
 				$user_id = (int) $plugin->authenticate($login, $password);
 
@@ -734,11 +732,10 @@
 		if ($owner_uid) {
 			$plugins = get_pref("_ENABLED_PLUGINS", $owner_uid);
 
-			global $pluginhost;
-			$pluginhost->load($plugins, $pluginhost::KIND_USER, $owner_uid);
+			PluginHost::getInstance()->load($plugins, PluginHost::KIND_USER, $owner_uid);
 
 			if (get_schema_version() > 100) {
-				$pluginhost->load_data();
+				PluginHost::getInstance()->load_data();
 			}
 		}
 	}
@@ -1443,18 +1440,13 @@
 			array_push($ret_arr, $cv);
 		}
 
-		global $pluginhost;
+		$feeds = PluginHost::getInstance()->get_feeds(-1);
 
-		if ($pluginhost) {
-			$feeds = $pluginhost->get_feeds(-1);
-
-			if (is_array($feeds)) {
-				foreach ($feeds as $feed) {
-					$cv = array("id" => PluginHost::pfeed_to_feed_id($feed['id']),
-						"counter" => $feed['sender']->get_unread($feed['id']));
-
+		if (is_array($feeds)) {
+			foreach ($feeds as $feed) {
+				$cv = array("id" => PluginHost::pfeed_to_feed_id($feed['id']),
+					"counter" => $feed['sender']->get_unread($feed['id']));
 					array_push($ret_arr, $cv);
-				}
 			}
 		}
 
@@ -1982,8 +1974,7 @@
 				"help_dialog" => __("Show help dialog"))
 			);
 
-		global $pluginhost;
-		foreach ($pluginhost->get_hooks($pluginhost::HOOK_HOTKEY_INFO) as $plugin) {
+		foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_HOTKEY_INFO) as $plugin) {
 			$hotkeys = $plugin->hook_hotkey_info($hotkeys);
 		}
 
@@ -2059,8 +2050,7 @@
 			$hotkeys["^(40)|Ctrl-down"] = "next_article_noscroll";
 		}
 
-		global $pluginhost;
-		foreach ($pluginhost->get_hooks($pluginhost::HOOK_HOTKEY_MAP) as $plugin) {
+		foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_HOTKEY_MAP) as $plugin) {
 			$hotkeys = $plugin->hook_hotkey_map($hotkeys);
 		}
 
@@ -2753,18 +2743,14 @@
 
 		$disallowed_attributes = array('id', 'style', 'class');
 
-		global $pluginhost;
-
-		if (isset($pluginhost)) {
-			foreach ($pluginhost->get_hooks($pluginhost::HOOK_SANITIZE) as $plugin) {
-				$retval = $plugin->hook_sanitize($doc, $site_url, $allowed_elements, $disallowed_attributes);
-				if (is_array($retval)) {
-					$doc = $retval[0];
-					$allowed_elements = $retval[1];
-					$disallowed_attributes = $retval[2];
-				} else {
-					$doc = $retval;
-				}
+		foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_SANITIZE) as $plugin) {
+			$retval = $plugin->hook_sanitize($doc, $site_url, $allowed_elements, $disallowed_attributes);
+			if (is_array($retval)) {
+				$doc = $retval[0];
+				$allowed_elements = $retval[1];
+				$disallowed_attributes = $retval[2];
+			} else {
+				$doc = $retval;
 			}
 		}
 
@@ -3065,9 +3051,7 @@
 
 			$line["content"] = sanitize($line["content"], false, $owner_uid,	$line["site_url"]);
 
-			global $pluginhost;
-
-			foreach ($pluginhost->get_hooks($pluginhost::HOOK_RENDER_ARTICLE) as $p) {
+			foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_RENDER_ARTICLE) as $p) {
 				$line = $p->hook_render_article($line);
 			}
 
@@ -3142,8 +3126,7 @@
 					id=\"ATSTRTIP-$id\" connectId=\"ATSTR-$id\"
 					position=\"below\">$tags_str_full</div>";
 
-				global $pluginhost;
-				foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_BUTTON) as $p) {
+				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_ARTICLE_BUTTON) as $p) {
 					$rv['content'] .= $p->hook_article_button($line);
 				}
 
@@ -3154,8 +3137,7 @@
 			$rv['content'] .= "</div>";
 			$rv['content'] .= "<div clear='both'>";
 
-			global $pluginhost;
-			foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_LEFT_BUTTON) as $p) {
+			foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_ARTICLE_LEFT_BUTTON) as $p) {
 				$rv['content'] .= $p->hook_article_left_button($line);
 			}
 
@@ -3361,10 +3343,7 @@
 	}
 
 	function init_plugins() {
-		global $pluginhost;
-
-		$pluginhost = new PluginHost(Db::get());
-		$pluginhost->load(PLUGINS, $pluginhost::KIND_ALL);
+		PluginHost::getInstance()->load(PLUGINS, PluginHost::KIND_ALL);
 
 		return true;
 	}

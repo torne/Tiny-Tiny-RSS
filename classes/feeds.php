@@ -108,14 +108,12 @@ class Feeds extends Handler_Protected {
 
 		}
 
-		global $pluginhost;
-
-		if ($pluginhost->get_plugin("mail")) {
+		if (PluginHost::getInstance()->get_plugin("mail")) {
 			$reply .= "<option value=\"emailArticle(false)\">".__('Forward by email').
 				"</option>";
 		}
 
-		if ($pluginhost->get_plugin("mailto")) {
+		if (PluginHost::getInstance()->get_plugin("mailto")) {
 			$reply .= "<option value=\"mailtoArticle(false)\">".__('Forward by email').
 				"</option>";
 		}
@@ -132,7 +130,7 @@ class Feeds extends Handler_Protected {
 
 		//$reply .= "</h2";
 
-		foreach ($pluginhost->get_hooks($pluginhost::HOOK_HEADLINE_TOOLBAR_BUTTON) as $p) {
+		foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_HEADLINE_TOOLBAR_BUTTON) as $p) {
 			 echo $p->hook_headline_toolbar_button($feed_id, $is_cat);
 		}
 
@@ -214,9 +212,7 @@ class Feeds extends Handler_Protected {
 //		error_log("search_mode: " . $search_mode);
 
 		if (!$cat_view && is_numeric($feed) && $feed < PLUGIN_FEED_BASE_INDEX && $feed > LABEL_BASE_INDEX) {
-			global $pluginhost;
-
-			$handler = $pluginhost->get_feed_handler(
+			$handler = PluginHost::getInstance()->get_feed_handler(
 				PluginHost::feed_to_pfeed_id($feed));
 
 		//	function queryFeedHeadlines($feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false) {
@@ -272,8 +268,6 @@ class Feeds extends Handler_Protected {
 				}
 			}
 		} */
-
-		global $pluginhost;
 
 		if ($this->dbh->num_rows($result) > 0) {
 
@@ -521,7 +515,7 @@ class Feeds extends Handler_Protected {
 					$line["content"] = sanitize($line["content_preview"],
 							sql_bool_to_bool($line['hide_images']), false, $entry_site_url);
 
-					foreach ($pluginhost->get_hooks($pluginhost::HOOK_RENDER_ARTICLE_CDM) as $p) {
+					foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_RENDER_ARTICLE_CDM) as $p) {
 						$line = $p->hook_render_article_cdm($line);
 					}
 
@@ -679,7 +673,7 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= "<div class=\"cdmFooter\">";
 
-					foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_LEFT_BUTTON) as $p) {
+					foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_ARTICLE_LEFT_BUTTON) as $p) {
 						$reply['content'] .= $p->hook_article_left_button($line);
 					}
 
@@ -713,7 +707,7 @@ class Feeds extends Handler_Protected {
 //					$reply['content'] .= "$marked_pic";
 //					$reply['content'] .= "$published_pic";
 
-					foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_BUTTON) as $p) {
+					foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_ARTICLE_BUTTON) as $p) {
 						$reply['content'] .= $p->hook_article_button($line);
 					}
 

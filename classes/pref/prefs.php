@@ -79,8 +79,7 @@ class Pref_Prefs extends Handler_Protected {
 			return;
 		}
 
-		global $pluginhost;
-		$authenticator = $pluginhost->get_plugin($_SESSION["auth_module"]);
+		$authenticator = PluginHost::getInstance()->get_plugin($_SESSION["auth_module"]);
 
 		if (method_exists($authenticator, "change_password")) {
 			print $authenticator->change_password($_SESSION["uid"], $old_pw, $new_pw);
@@ -255,10 +254,7 @@ class Pref_Prefs extends Handler_Protected {
 		print "</form>";
 
 		if ($_SESSION["auth_module"]) {
-			global $pluginhost;
-
-			$authenticator = $pluginhost->get_plugin($_SESSION["auth_module"]);
-
+			$authenticator = PluginHost::getInstance()->get_plugin($_SESSION["auth_module"]);
 		} else {
 			$authenticator = false;
 		}
@@ -436,8 +432,7 @@ class Pref_Prefs extends Handler_Protected {
 			}
 		}
 
-		global $pluginhost;
-		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB_SECTION,
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_TAB_SECTION,
 			"hook_prefs_tab_section", "prefPrefsAuth");
 
 		print "</div>"; #pane
@@ -675,8 +670,7 @@ class Pref_Prefs extends Handler_Protected {
 
 		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"boolean_prefs\" value=\"$listed_boolean_prefs\">";
 
-		global $pluginhost;
-		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB_SECTION,
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_TAB_SECTION,
 			"hook_prefs_tab_section", "prefPrefsPrefsInside");
 
 		print '</div>'; # inside pane
@@ -712,8 +706,7 @@ class Pref_Prefs extends Handler_Protected {
 				<label for='prefs_show_advanced'>" .
 				__("Show additional preferences") . "</label>"; */
 
-		global $pluginhost;
-		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB_SECTION,
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_TAB_SECTION,
 			"hook_prefs_tab_section", "prefPrefsPrefsOutside");
 
 		print "</form>";
@@ -877,8 +870,7 @@ class Pref_Prefs extends Handler_Protected {
 
 		print "</div>"; #pane
 
-		global $pluginhost;
-		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB,
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_TAB,
 			"hook_prefs_tab", "prefPrefs");
 
 		print "</div>"; #container
@@ -918,8 +910,7 @@ class Pref_Prefs extends Handler_Protected {
 		$password = $_REQUEST["password"];
 		$otp = $_REQUEST["otp"];
 
-		global $pluginhost;
-		$authenticator = $pluginhost->get_plugin($_SESSION["auth_module"]);
+		$authenticator = PluginHost::getInstance()->get_plugin($_SESSION["auth_module"]);
 
 		if ($authenticator->check_password($_SESSION["uid"], $password)) {
 
@@ -951,8 +942,7 @@ class Pref_Prefs extends Handler_Protected {
 	function otpdisable() {
 		$password = $this->dbh->escape_string($_REQUEST["password"]);
 
-		global $pluginhost;
-		$authenticator = $pluginhost->get_plugin($_SESSION["auth_module"]);
+		$authenticator = PluginHost::getInstance()->get_plugin($_SESSION["auth_module"]);
 
 		if ($authenticator->check_password($_SESSION["uid"], $password)) {
 
@@ -978,8 +968,7 @@ class Pref_Prefs extends Handler_Protected {
 	function clearplugindata() {
 		$name = $this->dbh->escape_string($_REQUEST["name"]);
 
-		global $pluginhost;
-		$pluginhost->clear_data($pluginhost->get_plugin($name));
+		PluginHost::getInstance()->clear_data(PluginHost::getInstance()->get_plugin($name));
 	}
 
 	function customizeCSS() {

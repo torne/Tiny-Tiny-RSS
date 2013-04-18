@@ -66,8 +66,7 @@ class Pref_System extends Handler_Protected {
 
 		print "</div>";
 
-		global $pluginhost;
-		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB,
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_TAB,
 			"hook_prefs_tab", "prefSystem");
 
 		print "</div>"; #container

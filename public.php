@@ -37,8 +37,7 @@
 
 	$method = $_REQUEST["op"];
 
-	global $pluginhost;
-	$override = $pluginhost->lookup_handler("public", $method);
+	$override = PluginHost::getInstance()->lookup_handler("public", $method);
 
 	if ($override) {
 		$handler = $override;

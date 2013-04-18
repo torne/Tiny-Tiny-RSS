@@ -377,8 +377,7 @@ class Handler_Public extends Handler {
 
 		cleanup_tags(14, 50000);
 
-		global $pluginhost;
-		$pluginhost->run_hooks($pluginhost::HOOK_UPDATE_TASK, "hook_update_task", $op);
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_UPDATE_TASK, "hook_update_task", $op);
 
 	}
 

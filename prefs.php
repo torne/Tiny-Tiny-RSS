@@ -66,9 +66,7 @@
 	<?php
 		require 'lib/jshrink/Minifier.php';
 
-		global $pluginhost;
-
-		foreach ($pluginhost->get_plugins() as $n => $p) {
+		foreach (PluginHost::getInstance()->get_plugins() as $n => $p) {
 			if (method_exists($p, "get_prefs_js")) {
 				echo JShrink\Minifier::minify($p->get_prefs_js());
 			}
@@ -134,7 +132,7 @@
 		title="<?php echo __('System') ?>"></div>
 <?php } ?>
 <?php
-	$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TABS,
+	PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_TABS,
 		"hook_prefs_tabs", false);
 ?>
 </div>

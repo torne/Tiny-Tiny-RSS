@@ -36,7 +36,7 @@
 			"list-plugins",
 			"help");
 
-	foreach ($pluginhost->get_commands() as $command => $data) {
+	foreach (PluginHost::getInstance()->get_commands() as $command => $data) {
 		array_push($longopts, $command . $data["suffix"]);
 	}
 
@@ -79,7 +79,7 @@
 		print "  --help               - show this help\n";
 		print "Plugin options:\n";
 
-		foreach ($pluginhost->get_commands() as $command => $data) {
+		foreach (PluginHost::getInstance()->get_commands() as $command => $data) {
 			$args = $data['arghelp'];
 			printf(" --%-19s - %s\n", "$command $args", $data["description"]);
 		}
@@ -161,8 +161,7 @@
 		$rc = cleanup_tags( 14, 50000);
 		_debug("Cleaned $rc cached tags.");
 
-		global $pluginhost;
-		$pluginhost->run_hooks($pluginhost::HOOK_UPDATE_TASK, "hook_update_task", $op);
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_UPDATE_TASK, "hook_update_task", $op);
 	}
 
 	if (isset($options["feedbrowser"])) {
@@ -200,8 +199,7 @@
 
 			_debug("Cleaned $rc cached tags.");
 
-			global $pluginhost;
-			$pluginhost->run_hooks($pluginhost::HOOK_UPDATE_TASK, "hook_update_task", $op);
+			PluginHost::getInstance()->run_hooks(PluginHost::HOOK_UPDATE_TASK, "hook_update_task", $op);
 		}
 
 	}
@@ -368,7 +366,7 @@
 
 	}
 
-	$pluginhost->run_commands($options);
+	PluginHost::getInstance()->run_commands($options);
 
 	if ($lock_handle != false) {
 		fclose($lock_handle);

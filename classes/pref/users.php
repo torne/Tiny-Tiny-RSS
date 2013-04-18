@@ -453,8 +453,7 @@ class Pref_Users extends Handler_Protected {
 
 			print "</div>"; #pane
 
-			global $pluginhost;
-			$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB,
+			PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_TAB,
 				"hook_prefs_tab", "prefUsers");
 
 			print "</div>"; #container

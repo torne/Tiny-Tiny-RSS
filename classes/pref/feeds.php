@@ -124,9 +124,7 @@ class Pref_Feeds extends Handler_Protected {
 
 			/* Plugin feeds for -1 */
 
-			global $pluginhost;
-
-			$feeds = $pluginhost->get_feeds(-1);
+			$feeds = PluginHost::getInstance()->get_feeds(-1);
 
 			if ($feeds) {
 				foreach ($feeds as $feed) {
@@ -1456,8 +1454,7 @@ class Pref_Feeds extends Handler_Protected {
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return displayDlg('".__("Public OPML URL")."','pubOPMLUrl')\">".
 			__('Display published OPML URL')."</button> ";
 
-		global $pluginhost;
-		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB_SECTION,
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_TAB_SECTION,
 			"hook_prefs_tab_section", "prefFeedsOPML");
 
 		print "</div>"; # pane
@@ -1503,15 +1500,12 @@ class Pref_Feeds extends Handler_Protected {
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return clearArticleAccessKeys()\">".
 			__('Unshare all articles')."</button> ";
 
-		global $pluginhost;
-		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB_SECTION,
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_TAB_SECTION,
 			"hook_prefs_tab_section", "prefFeedsPublishedGenerated");
 
 		print "</div>"; #pane
 
-		global $pluginhost;
-
-		$pluginhost->run_hooks($pluginhost::HOOK_PREFS_TAB,
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_TAB,
 			"hook_prefs_tab", "prefFeeds");
 
 		print "</div>"; #container

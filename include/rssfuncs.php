@@ -343,15 +343,15 @@
 			}
 		}
 
-		$pluginhost = new PluginHost(Db::get());
+		$pluginhost = new PluginHost();
 		$pluginhost->set_debug($debug_enabled);
 		$user_plugins = get_pref("_ENABLED_PLUGINS", $owner_uid);
 
-		$pluginhost->load(PLUGINS, $pluginhost::KIND_ALL);
-		$pluginhost->load($user_plugins, $pluginhost::KIND_USER, $owner_uid);
+		$pluginhost->load(PLUGINS, PluginHost::KIND_ALL);
+		$pluginhost->load($user_plugins, PluginHost::KIND_USER, $owner_uid);
 		$pluginhost->load_data();
 
-		foreach ($pluginhost->get_hooks($pluginhost::HOOK_FEED_FETCHED) as $plugin) {
+		foreach ($pluginhost->get_hooks(PluginHost::HOOK_FEED_FETCHED) as $plugin) {
 			$feed_data = $plugin->hook_feed_fetched($feed_data);
 		}
 
@@ -388,7 +388,7 @@
 			}
 
 			// We use local pluginhost here because we need to load different per-user feed plugins
-			$pluginhost->run_hooks($pluginhost::HOOK_FEED_PARSED, "hook_feed_parsed", $rss);
+			$pluginhost->run_hooks(PluginHost::HOOK_FEED_PARSED, "hook_feed_parsed", $rss);
 
 			if ($debug_enabled) {
 				_debug("update_rss_feed: processing feed data...");
@@ -673,7 +673,7 @@
 					"author" => $entry_author,
 					"stored" => $stored_article);
 
-				foreach ($pluginhost->get_hooks($pluginhost::HOOK_ARTICLE_FILTER) as $plugin) {
+				foreach ($pluginhost->get_hooks(PluginHost::HOOK_ARTICLE_FILTER) as $plugin) {
 					$article = $plugin->hook_article_filter($article);
 				}
 

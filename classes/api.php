@@ -341,8 +341,7 @@ class API extends Handler {
 					"score" => (int)$line["score"]
 				);
 
-				global $pluginhost;
-				foreach ($pluginhost->get_hooks($pluginhost::HOOK_RENDER_ARTICLE_API) as $p) {
+				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_RENDER_ARTICLE_API) as $p) {
 					$article = $p->hook_render_article_api(array("article" => $article));
 				}
 
@@ -466,9 +465,7 @@ class API extends Handler {
 	}
 
 	function index($method) {
-		global $pluginhost;
-
-		$plugin = $pluginhost->get_api_method(strtolower($method));
+		$plugin = PluginHost::getInstance()->get_api_method(strtolower($method));
 
 		if ($plugin && method_exists($plugin, $method)) {
 			$reply = $plugin->$method();
@@ -697,8 +694,7 @@ class API extends Handler {
 				$headline_row["author"] = $line["author"];
 				$headline_row["score"] = (int)$line["score"];
 
-				global $pluginhost;
-				foreach ($pluginhost->get_hooks($pluginhost::HOOK_RENDER_ARTICLE_API) as $p) {
+				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_RENDER_ARTICLE_API) as $p) {
 					$headline_row = $p->hook_render_article_api(array("headline" => $headline_row));
 				}
 
