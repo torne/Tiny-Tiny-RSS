@@ -88,7 +88,7 @@
 			<img src=\"../images/sign_info.svg\">$msg</div>";
 	}
 
-	function db_connect($host, $user, $pass, $db, $type) {
+	function db_connect($host, $user, $pass, $db, $type, $port) {
 		if ($type == "pgsql") {
 
 			$string = "dbname=$db user=$user";
@@ -101,8 +101,8 @@
 				$string .= " host=$host";
 			}
 
-			if (defined('DB_PORT')) {
-				$string = "$string port=" . DB_PORT;
+			if ($port) {
+				$string = "$string port=" . $port;
 			}
 
 			$link = pg_connect($string);
@@ -110,10 +110,15 @@
 			return $link;
 
 		} else if ($type == "mysql") {
-			$link = mysql_connect($host, $user, $pass);
-			if ($link) {
-				$result = mysql_select_db($db, $link);
-				if ($result) return $link;
+			if (function_exists("mysqli_connect")) {
+				return mysqli_connect($host, $user, $pass, $db, $port);
+
+			} else {
+				$link = mysql_connect($host, $user, $pass);
+				if ($link) {
+					$result = mysql_select_db($db, $link);
+					if ($result) return $link;
+				}
 			}
 		}
 	}
@@ -173,7 +178,12 @@
 			}
 			return $result;
 		} else if ($type == "mysql") {
-			$result = mysql_query($query, $link);
+
+			if (function_exists("mysqli_connect")) {
+				$result = mysqli_query($link, $query);
+			} else {
+				$result = mysql_query($query, $link);
+			}
 			if (!$result) {
 				$query = htmlspecialchars($query);
 				if ($die_on_error) {
@@ -254,17 +264,19 @@
 
 <fieldset>
 	<label>Database name</label>
-	<input name="DB_NAME" size="20" value="<?php echo $DB_NAME ?>"/>
+	<input required name="DB_NAME" size="20" value="<?php echo $DB_NAME ?>"/>
 </fieldset>
 
 <fieldset>
 	<label>Host name</label>
-	<input  name="DB_HOST" placeholder="if needed" size="20" value="<?php echo $DB_HOST ?>"/>
+	<input name="DB_HOST" size="20" value="<?php echo $DB_HOST ?>"/>
+	<span class="hint">If needed</span>
 </fieldset>
 
 <fieldset>
 	<label>Port</label>
-	<input name="DB_PORT" type="number" placeholder="if needed, PgSQL only" size="20" value="<?php echo $DB_PORT ?>"/>
+	<input name="DB_PORT" type="number" size="20" value="<?php echo $DB_PORT ?>"/>
+	<span class="hint">Usually 3306 for MySQL or 5432 for PostgreSQL</span>
 </fieldset>
 
 <h2>Other settings</h2>
@@ -327,7 +339,7 @@
 	<h2>Checking database</h2>
 
 	<?php
-		$link = db_connect($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME, $DB_TYPE);
+		$link = db_connect($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME, $DB_TYPE, $DB_PORT);
 
 		if (!$link) {
 			print_error("Unable to connect to database using specified parameters.");
