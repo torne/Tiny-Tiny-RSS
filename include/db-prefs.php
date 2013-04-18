@@ -97,7 +97,7 @@
 
 		} else {
 			if ($die_on_error) {
-				die("Fatal error, unknown preferences key: $pref_name");
+				user_error("Fatal error, unknown preferences key: $pref_name", E_USER_ERROR);
 			} else {
 				return null;
 			}
