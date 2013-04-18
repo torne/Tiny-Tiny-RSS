@@ -3,10 +3,14 @@ class Db_PDO implements IDb {
 	private $pdo;
 
 	function connect($host, $user, $pass, $db, $port) {
-		$connstr = DB_TYPE . ":host=$host;dbname=$db;charset=utf8";
+		$connstr = DB_TYPE . ":host=$host;dbname=$db";
+
+		if (DB_TYPE == "mysql") $connstr .= ";charset=utf8";
 
 		try {
 			$this->pdo = new PDO($connstr, $user, $pass);
+			$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$this->init();
 		} catch (PDOException $e) {
 			die($e->getMessage());
 		}
@@ -77,5 +81,20 @@ class Db_PDO implements IDb {
 	function last_error() {
 		return join(" ", $pdo->errorInfo());
 	}
+
+	function init() {
+		switch (DB_TYPE) {
+		case "pgsql":
+			$this->query("set client_encoding = 'UTF-8'");
+			$this->query("set datestyle = 'ISO, european'");
+			$this->query("set TIME ZONE 0");
+		case "mysql":
+			$this->query("SET time_zone = '+0:0'");
+			return;
+		}
+
+		return true;
+	}
+
 }
 ?>
