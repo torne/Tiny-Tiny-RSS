@@ -1,5 +1,11 @@
 <?php
 class Auth_Base {
+	private $dbh;
+
+	function __construct() {
+		$this->dbh = Db::get();
+	}
+
 	function check_password($owner_uid, $password) {
 		return false;
 	}
