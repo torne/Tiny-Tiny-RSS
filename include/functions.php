@@ -2925,19 +2925,19 @@
 	function format_warning($msg, $id = "") {
 		global $link;
 		return "<div class=\"warning\" id=\"$id\">
-			<img src=\"images/sign_excl.svg\"><div class='inner'>$msg</div></div>";
+			<img src=\"images/sign_excl.svg\">$msg</div>";
 	}
 
 	function format_notice($msg, $id = "") {
 		global $link;
 		return "<div class=\"notice\" id=\"$id\">
-			<img src=\"images/sign_info.svg\"><div class='inner'>$msg</div></div>";
+			<img src=\"images/sign_info.svg\">$msg</div>";
 	}
 
 	function format_error($msg, $id = "") {
 		global $link;
 		return "<div class=\"error\" id=\"$id\">
-			<img src=\"images/sign_excl.svg\"><div class='inner'>$msg</div></div>";
+			<img src=\"images/sign_excl.svg\">$msg</div>";
 	}
 
 	function print_notice($msg) {
