@@ -8,7 +8,7 @@ class Db implements IDb {
 
 		$er = error_reporting(E_ALL);
 
-		if (class_exists("PDO")) {
+		if (defined('_ENABLE_PDO') && _ENABLE_PDO && class_exists("PDO")) {
 			$this->adapter = new Db_PDO();
 		} else {
 			switch (DB_TYPE) {

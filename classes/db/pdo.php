@@ -24,7 +24,7 @@ class Db_PDO implements IDb {
 
 	function query($query, $die_on_error = true) {
 		try {
-			return $this->pdo->query($query);
+			return new Db_Stmt($this->pdo->query($query));
 		} catch (PDOException $e) {
 			user_error($e->getMessage(), $die_on_error ? E_USER_ERROR : E_USER_WARNING);
 		}
@@ -55,13 +55,7 @@ class Db_PDO implements IDb {
 	}
 
 	function fetch_result($result, $row, $param) {
-		$line = $this->fetch_assoc($result);
-
-		if ($line)
-			return $line[$param];
-		else
-			return null;
-
+		return $result->fetch_result($row, $param);
 	}
 
 	function close() {
