@@ -1558,6 +1558,7 @@
 	 *                     Here you should call extractfeedurls in rpc-backend
 	 *                     to get all possible feeds.
 	 *                 5 - Couldn't download the URL content.
+	 *                 6 - Content is an invalid XML.
 	 */
 	function subscribe_to_feed($url, $cat_id = 0,
 			$auth_login = '', $auth_pass = '') {
@@ -1586,6 +1587,18 @@
 			}
 			//use feed url as new URL
 			$url = key($feedUrls);
+		}
+
+		libxml_use_internal_errors(true);
+		$doc = new DOMDocument();
+		$doc->loadXML(html_entity_decode($contents));
+		$error = libxml_get_last_error();
+		libxml_clear_errors();
+
+		if ($error) {
+			$error_message = format_libxml_error($error);
+
+			return array("code" => 6, "message" => $error_message);
 		}
 
 		if ($cat_id == "0" || !$cat_id) {
@@ -4201,6 +4214,12 @@
 
 	function feed_to_label_id($feed) {
 		return LABEL_BASE_INDEX - 1 + abs($feed);
+	}
+
+	function format_libxml_error($error) {
+		return T_sprintf("LibXML error %s at line %d (column %d): %s",
+				$error->code, $error->line, $error->column,
+				$error->message);
 	}
 
 ?>

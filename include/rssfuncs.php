@@ -316,6 +316,25 @@
 					_debug("update_rss_feed: fetch done.");
 				}
 
+				$error = verify_feed_xml($feed_data);
+
+				if ($error) {
+					if ($debug_enabled) {
+						_debug("update_rss_feed: error verifying XML, code: " . $error->code);
+					}
+
+					if ($error->code == 26) {
+						if ($debug_enabled) {
+							_debug("update_rss_feed: got error 26, trying to decode entities...");
+						}
+
+						$feed_data = html_entity_decode($feed_data, ENT_COMPAT, 'UTF-8');
+
+						$error = verify_feed_xml($feed_data);
+
+						if ($error) $feed_data = '';
+					}
+				}
 			}
 
 			if (!$feed_data) {
@@ -559,7 +578,7 @@
 					_debug("update_rss_feed: date $entry_timestamp [$entry_timestamp_fmt]");
 				}
 
-				$entry_title = html_entity_decode($item->get_title());
+				$entry_title = html_entity_decode($item->get_title(), ENT_COMPAT, 'UTF-8');
 
 				$entry_link = rewrite_relative_url($site_url, $item->get_link());
 
@@ -1421,5 +1440,13 @@
 			mb_strtolower(strip_tags($title), 'utf-8'));
 	}
 
+	function verify_feed_xml($feed_data) {
+		libxml_use_internal_errors(true);
+		$doc = new DOMDocument();
+		$doc->loadXML($feed_data);
+		$error = libxml_get_last_error();
+		libxml_clear_errors();
+		return $error;
+	}
 
 ?>
