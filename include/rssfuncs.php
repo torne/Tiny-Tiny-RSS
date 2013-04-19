@@ -424,7 +424,7 @@
 				check_feed_favicon($site_url, $feed, $link);
 				$favicon_file = ICONS_DIR . "/$feed.ico";
 
-				if (file_exists($favicon_file)) {
+				if (file_exists($favicon_file) && function_exists("imagecreatefromstring")) {
 						require_once "colors.php";
 
 						$favicon_color = db_escape_string(
