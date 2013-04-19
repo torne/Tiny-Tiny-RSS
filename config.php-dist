@@ -192,6 +192,12 @@
 	// authentication plugin here (auth_*).
 	// Users may enable other user plugins from Preferences/Plugins but may not
 	// disable plugins specified in this list.
+	
+	define('LOG_DESTINATION', 'sql');
+	// Log destination to use. Possible values: sql (uses internal logging
+	// you can read in Preferences -> System), syslog - logs to system log.
+	// Setting this to blank uses PHP logging (usually to http server 
+	// error.log).
 
 	define('CONFIG_VERSION', 26);
 	// Expected config version. Please update this option in config.php

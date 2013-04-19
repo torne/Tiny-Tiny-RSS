@@ -24,45 +24,52 @@ class Pref_System extends Handler_Protected {
 		print "<div dojoType=\"dijit.layout.AccordionContainer\" region=\"center\">";
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Error Log')."\">";
 
-		$result = $this->dbh->query("SELECT errno, errstr, filename, lineno,
-			created_at, login FROM ttrss_error_log
-			LEFT JOIN ttrss_users ON (owner_uid = ttrss_users.id)
-			ORDER BY ttrss_error_log.id DESC
-			LIMIT 100");
+		if (LOG_DESTINATION == "sql") {
 
-		print "<button dojoType=\"dijit.form.Button\"
-			onclick=\"updateSystemList()\">".__('Refresh')."</button> ";
+			$result = $this->dbh->query("SELECT errno, errstr, filename, lineno,
+				created_at, login FROM ttrss_error_log
+				LEFT JOIN ttrss_users ON (owner_uid = ttrss_users.id)
+				ORDER BY ttrss_error_log.id DESC
+				LIMIT 100");
 
-		print "<p><table width=\"100%\" cellspacing=\"10\" class=\"prefErrorLog\">";
+			print "<button dojoType=\"dijit.form.Button\"
+				onclick=\"updateSystemList()\">".__('Refresh')."</button> ";
 
-		print "<tr class=\"title\">
-			<td width='5%'>".__("Error")."</td>
-			<td>".__("Filename")."</td>
-			<td>".__("Message")."</td>
-			<td width='5%'>".__("User")."</td>
-			<td width='5%'>".__("Date")."</td>
-			</tr>";
+			print "<p><table width=\"100%\" cellspacing=\"10\" class=\"prefErrorLog\">";
 
-		while ($line = $this->dbh->fetch_assoc($result)) {
-			print "<tr class=\"errrow\">";
+			print "<tr class=\"title\">
+				<td width='5%'>".__("Error")."</td>
+				<td>".__("Filename")."</td>
+				<td>".__("Message")."</td>
+				<td width='5%'>".__("User")."</td>
+				<td width='5%'>".__("Date")."</td>
+				</tr>";
 
-			foreach ($line as $k => $v) {
-				$line[$k] = htmlspecialchars($v);
+			while ($line = $this->dbh->fetch_assoc($result)) {
+				print "<tr class=\"errrow\">";
+
+				foreach ($line as $k => $v) {
+					$line[$k] = htmlspecialchars($v);
+				}
+
+				print "<td class='errno'>" . Logger::$errornames[$line["errno"]] . " (" . $line["errno"] . ")</td>";
+				print "<td class='filename'>" . $line["filename"] . ":" . $line["lineno"] . "</td>";
+				print "<td class='errstr'>" . $line["errstr"] . "</td>";
+				print "<td class='login'>" . $line["login"] . "</td>";
+
+				print "<td class='timestamp'>" .
+					make_local_datetime(
+					$line["created_at"], false) . "</td>";
+
+				print "</tr>";
 			}
 
-			print "<td class='errno'>" . Logger::$errornames[$line["errno"]] . " (" . $line["errno"] . ")</td>";
-			print "<td class='filename'>" . $line["filename"] . ":" . $line["lineno"] . "</td>";
-			print "<td class='errstr'>" . $line["errstr"] . "</td>";
-			print "<td class='login'>" . $line["login"] . "</td>";
+			print "</table>";
+		} else {
 
-			print "<td class='timestamp'>" .
-				make_local_datetime(
-				$line["created_at"], false) . "</td>";
+			print_notice("Please set LOG_DESTINATION to 'sql' in config.php to enable database logging.");
 
-			print "</tr>";
 		}
-
-		print "</table>";
 
 		print "</div>";
 

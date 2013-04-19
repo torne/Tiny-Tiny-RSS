@@ -2,9 +2,6 @@
 class Logger_SQL {
 
 	function log_error($errno, $errstr, $file, $line, $context) {
-
-		if ($errno == E_NOTICE) return false;
-
 		if (Db::get() && get_schema_version() > 117) {
 
 			$errno = Db::get()->escape_string($errno);

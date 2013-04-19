@@ -1,5 +1,7 @@
 <?php
 class Logger {
+	private static $instance;
+	private $adapter;
 
 	public static $errornames = array(
 		1			=> 'E_ERROR',
@@ -20,11 +22,44 @@ class Logger {
 		32767		=> 'E_ALL');
 
 	function log_error($errno, $errstr, $file, $line, $context) {
-		return false;
+		if ($errno == E_NOTICE) return false;
+
+		if ($this->adapter)
+			return $this->adapter->log_error($errno, $errstr, $file, $line, $context);
+		else
+			return false;
 	}
 
 	function log($string) {
-		return false;
+		if ($this->adapter)
+			return $this->adapter->log($string);
+		else
+			return false;
 	}
+
+	private function __clone() {
+		//
+	}
+
+	function __construct() {
+		switch (LOG_DESTINATION) {
+		case "sql":
+			$this->adapter = new Logger_SQL();
+			break;
+		case "syslog":
+			$this->adapter = new Logger_Syslog();
+			break;
+		default:
+			$this->adapter = false;
+		}
+	}
+
+	public static function get() {
+		if (self::$instance == null)
+			self::$instance = new self();
+
+		return self::$instance;
+	}
+
 }
 ?>
