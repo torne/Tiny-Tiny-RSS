@@ -112,7 +112,10 @@
 
 		} else if ($type == "mysql") {
 			if (function_exists("mysqli_connect")) {
-				return mysqli_connect($host, $user, $pass, $db, $port);
+				if ($port)
+					return mysqli_connect($host, $user, $pass, $db, $port);
+				else
+					return mysqli_connect($host, $user, $pass, $db);
 
 			} else {
 				$link = mysql_connect($host, $user, $pass);
