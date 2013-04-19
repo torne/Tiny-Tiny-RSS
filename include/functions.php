@@ -129,26 +129,20 @@
 	$utc_tz = new DateTimeZone('UTC');
 	$schema_version = false;
 
-	global $_debug_enabled;
-	$_debug_enabled = true;
-
 	/**
 	 * Print a timestamped debug message.
 	 *
 	 * @param string $msg The debug message.
 	 * @return void
 	 */
-	function _debug($msg) {
-		global $_debug_enabled;
-
-		if (!$_debug_enabled) return;
+	function _debug($msg, $show = true) {
 
 		$ts = strftime("%H:%M:%S", time());
 		if (function_exists('posix_getpid')) {
 			$ts = "$ts/" . posix_getpid();
 		}
 
-		if (!(defined('QUIET') && QUIET)) {
+		if ($show && !(defined('QUIET') && QUIET)) {
 			print "[$ts] $msg\n";
 		}
 
@@ -162,15 +156,6 @@
 		}
 
 	} // function _debug
-
-	function _debug_enable($enabled) {
-		global $_debug_enabled;
-
-		$old = $_debug_enabled;
-		$_debug_enabled = $enabled;
-
-		return $old;
-	}
 
 	/**
 	 * Purge a feed old posts.
