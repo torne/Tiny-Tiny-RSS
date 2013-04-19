@@ -10,6 +10,7 @@ class PluginHost {
 	private $api_methods = array();
 	private $owner_uid;
 	private $debug;
+	private $last_registered;
 	private static $instance;
 
 	const HOOK_ARTICLE_BUTTON = 1;
@@ -57,6 +58,17 @@ class PluginHost {
 	private function register_plugin($name, $plugin) {
 		//array_push($this->plugins, $plugin);
 		$this->plugins[$name] = $plugin;
+	}
+
+	function get_link() {
+		header("Content-type: text/plain");
+
+		print "One of the plugins called obsolete host method get_link(). This plugin needs to be updated or removed.\n\n";
+
+		print "List of plugins loaded: " . join(" ,", array_keys($this->plugins)) . "\n\n";
+
+		print "Last plugin initialized (possible culprit): " . $this->last_registered . "\n";
+		die;
 	}
 
 	function get_dbh() {
@@ -124,6 +136,8 @@ class PluginHost {
 
 				if (class_exists($class) && is_subclass_of($class, "Plugin")) {
 					$plugin = new $class($this);
+
+					$this->last_registered = $class;
 
 					switch ($kind) {
 					case $this::KIND_SYSTEM:
