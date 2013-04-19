@@ -392,7 +392,17 @@
 				}
 			}
 
-			$data = @file_get_contents($url);
+			if (!$post_query && $timestamp) {
+				$context = stream_context_create(array(
+					'http' => array(
+						'method' => 'GET',
+						'header' => "If-Modified-Since: ".gmdate("D, d M Y H:i:s \\G\\M\\T\r\n", $timestamp)
+					)));
+			} else {
+				$context = NULL;
+			}
+
+			$data = @file_get_contents($url, false, $context);
 
 			$fetch_last_content_type = false;  // reset if no type was sent from server
 			if (is_array($http_response_header)) {
@@ -401,6 +411,10 @@
 						$fetch_last_content_type = substr($h, 14);
 						// don't abort here b/c there might be more than one
 						// e.g. if we were being redirected -- last one is the right one
+					}
+
+					if (substr(strtolower($h), 0, 7) == 'http/1.') {
+						$fetch_last_error_code = (int) substr($h, 9, 3);
 					}
 				}
 			}
