@@ -310,6 +310,8 @@
 					if ($tmp) $feed_data = $tmp;
 				}
 
+				$feed_data = trim($feed_data);
+
 				if ($debug_enabled) {
 					_debug("update_rss_feed: fetch done.");
 				}
