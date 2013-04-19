@@ -444,6 +444,9 @@ class Instances extends Plugin implements IHandler {
 		print json_encode(array("hash" => $hash));
 	}
 
+	function api_version() {
+		return 2;
+	}
 
 }
 ?>

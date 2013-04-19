@@ -52,5 +52,10 @@ class Af_GoComics extends Plugin {
 
 		return $article;
 	}
+
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

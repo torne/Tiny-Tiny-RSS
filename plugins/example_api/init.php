@@ -25,5 +25,10 @@ class Example_Api extends Plugin {
 	function example_testmethod() {
 		return array(API::STATUS_OK, array("current_time" => time()));
 	}
+
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

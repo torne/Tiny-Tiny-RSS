@@ -68,5 +68,9 @@ class Note extends Plugin {
 				"raw_length" => mb_strlen($note)));
 	}
 
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

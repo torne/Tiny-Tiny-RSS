@@ -453,6 +453,9 @@ class Import_Export extends Plugin implements IHandler {
 
 	}
 
+	function api_version() {
+		return 2;
+	}
 
 }
 ?>

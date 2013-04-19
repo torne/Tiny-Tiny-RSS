@@ -98,5 +98,9 @@ class NSFW extends Plugin {
 		echo __("Configuration saved.");
 	}
 
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

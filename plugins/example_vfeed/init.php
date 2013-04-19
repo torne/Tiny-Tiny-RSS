@@ -43,5 +43,10 @@ class Example_VFeed extends Plugin {
 
 		return $qfh_ret;
 	}
+
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

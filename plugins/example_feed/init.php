@@ -23,5 +23,10 @@ class Example_Feed extends Plugin {
 		_debug("I'm a little feed short and stout, here's my title: " . $feed->get_title());
 		_debug("... here's my link element: " . $feed->get_link());
 	}
+
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

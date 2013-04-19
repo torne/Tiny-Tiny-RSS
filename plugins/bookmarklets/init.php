@@ -38,8 +38,11 @@ class Bookmarklets extends Plugin {
 		print "</div>"; #pane
 
 	 }
-
   }
+
+	function api_version() {
+		return 2;
+	}
 
 }
 ?>

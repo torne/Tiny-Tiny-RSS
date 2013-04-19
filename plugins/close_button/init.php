@@ -24,5 +24,10 @@ class Close_Button extends Plugin {
 
 		return $rv;
 	}
+
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

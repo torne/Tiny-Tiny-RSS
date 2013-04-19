@@ -34,5 +34,10 @@ class Mark_Button extends Plugin {
 
 		return $marked_pic;
 	}
+
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

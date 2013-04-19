@@ -125,5 +125,10 @@ class Af_Unburn extends Plugin {
 		}
 		return $url;
 	}
+
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

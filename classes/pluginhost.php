@@ -13,7 +13,7 @@ class PluginHost {
 	private $last_registered;
 	private static $instance;
 
-	const API_VERSION = 1;
+	const API_VERSION = 2;
 
 	const HOOK_ARTICLE_BUTTON = 1;
 	const HOOK_ARTICLE_FILTER = 2;
@@ -62,15 +62,9 @@ class PluginHost {
 		$this->plugins[$name] = $plugin;
 	}
 
+	// needed for compatibility with API 1
 	function get_link() {
-		header("Content-type: text/plain");
-
-		print "One of the plugins called obsolete host method get_link(). This plugin needs to be updated or removed.\n\n";
-
-		print "List of plugins loaded: " . join(" ,", array_keys($this->plugins)) . "\n\n";
-
-		print "Last plugin initialized (possible culprit): " . $this->last_registered . "\n";
-		die;
+		return false;
 	}
 
 	function get_dbh() {

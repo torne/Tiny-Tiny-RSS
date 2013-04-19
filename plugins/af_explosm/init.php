@@ -53,5 +53,9 @@ class Af_Explosm extends Plugin {
 
 		return $article;
 	}
+
+	function api_version() {
+		return 2;
+	}
 }
 ?>

@@ -67,6 +67,9 @@ class Share extends Plugin {
 		print "</div>";
 	}
 
+	function api_version() {
+		return 2;
+	}
 
 }
 ?>

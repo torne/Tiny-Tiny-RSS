@@ -187,5 +187,10 @@ class Auth_Internal extends Plugin implements IAuthModule {
 			return "ERROR: ".__('Old password is incorrect.');
 		}
 	}
+
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

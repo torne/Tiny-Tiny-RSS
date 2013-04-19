@@ -53,5 +53,10 @@ class Af_Buttersafe extends Plugin {
 
 		return $article;
 	}
+
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

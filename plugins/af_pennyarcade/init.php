@@ -83,5 +83,10 @@ class Af_PennyArcade extends Plugin {
 
 		return $article;
 	}
+
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

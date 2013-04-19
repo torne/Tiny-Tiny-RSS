@@ -168,6 +168,9 @@ class Mail extends Plugin {
 		print "</ul>";
 	}
 
+	function api_version() {
+		return 2;
+	}
 
 }
 ?>

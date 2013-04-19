@@ -11,6 +11,7 @@ class Digest extends Plugin implements IHandler {
 	}
 
 	function init($host) {
+		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$host->add_handler("digest", "*", $this);
@@ -98,6 +99,10 @@ class Digest extends Plugin implements IHandler {
 		$params["feeds"] = $feeds;
 
 		print json_encode($params);
+	}
+
+	function api_version() {
+		return 2;
 	}
 
 }

@@ -25,5 +25,10 @@ class Example_Article extends Plugin {
 
 		return $article;
 	}
+
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

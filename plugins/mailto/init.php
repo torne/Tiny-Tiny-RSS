@@ -86,5 +86,9 @@ class MailTo extends Plugin {
 		//return;
 	}
 
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

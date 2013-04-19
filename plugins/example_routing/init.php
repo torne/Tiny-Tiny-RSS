@@ -48,5 +48,9 @@ class Example_Routing extends Plugin implements IHandler {
 		return true;
 	}
 
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

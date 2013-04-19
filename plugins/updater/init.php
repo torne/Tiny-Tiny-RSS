@@ -380,5 +380,9 @@ class Updater extends Plugin {
 		}
 	}
 
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

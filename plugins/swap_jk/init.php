@@ -21,7 +21,11 @@ class Swap_JK extends Plugin {
 		$hotkeys["k"] = "prev_feed";
 
 		return $hotkeys;
-
 	}
+
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

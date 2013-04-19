@@ -37,6 +37,9 @@ class Mobile extends Plugin implements IHandler {
 
 	}
 
+	function api_version() {
+		return 2;
+	}
 
 }
 ?>

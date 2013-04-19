@@ -50,5 +50,9 @@ class Embed_Original extends Plugin {
 		print json_encode(array("url" => $url, "id" => $id));
 	}
 
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

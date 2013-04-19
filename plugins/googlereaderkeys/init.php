@@ -28,7 +28,11 @@ class GoogleReaderKeys extends Plugin {
 		$hotkeys["(40)|down"]	= "article_scroll_down";
 
 		return $hotkeys;
-
 	}
+
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>
