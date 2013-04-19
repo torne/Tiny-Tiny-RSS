@@ -3,7 +3,10 @@ class Db_Mysqli implements IDb {
 	private $link;
 
 	function connect($host, $user, $pass, $db, $port) {
-		$this->link = mysqli_connect($host, $user, $pass, $db, $port);
+		if ($port)
+			$this->link = mysqli_connect($host, $user, $pass, $db, $port);
+		else
+			$this->link = mysqli_connect($host, $user, $pass, $db);
 
 		if ($this->link) {
 			$this->init();
