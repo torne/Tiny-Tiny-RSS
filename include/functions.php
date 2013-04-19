@@ -402,6 +402,8 @@
 				$context = NULL;
 			}
 
+			$old_error = error_get_last();
+
 			$data = @file_get_contents($url, false, $context);
 
 			$fetch_last_content_type = false;  // reset if no type was sent from server
@@ -419,9 +421,14 @@
 				}
 			}
 
-			if (!$data && function_exists('error_get_last')) {
+			if (!$data) {
 				$error = error_get_last();
-				$fetch_last_error = $error["message"];
+
+				if ($error['message'] != $old_error['message']) {
+					$fetch_last_error = $error["message"];
+				} else {
+					$fetch_last_error = "HTTP Code: $fetch_last_error_code";
+				}
 			}
 			return $data;
 		}
