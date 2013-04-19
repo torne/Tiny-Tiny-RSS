@@ -394,11 +394,13 @@
 			$data = @file_get_contents($url);
 
 			$fetch_last_content_type = false;  // reset if no type was sent from server
-			foreach ($http_response_header as $h) {
-				if (substr(strtolower($h), 0, 13) == 'content-type:') {
-					$fetch_last_content_type = substr($h, 14);
-					// don't abort here b/c there might be more than one
-					// e.g. if we were being redirected -- last one is the right one
+			if (is_array($http_response_header)) {
+				foreach ($http_response_header as $h) {
+					if (substr(strtolower($h), 0, 13) == 'content-type:') {
+						$fetch_last_content_type = substr($h, 14);
+						// don't abort here b/c there might be more than one
+						// e.g. if we were being redirected -- last one is the right one
+					}
 				}
 			}
 
