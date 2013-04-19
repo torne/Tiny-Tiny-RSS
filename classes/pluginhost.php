@@ -13,6 +13,8 @@ class PluginHost {
 	private $last_registered;
 	private static $instance;
 
+	const API_VERSION = 1;
+
 	const HOOK_ARTICLE_BUTTON = 1;
 	const HOOK_ARTICLE_FILTER = 2;
 	const HOOK_PREFS_TAB = 3;
@@ -136,6 +138,13 @@ class PluginHost {
 
 				if (class_exists($class) && is_subclass_of($class, "Plugin")) {
 					$plugin = new $class($this);
+
+					$plugin_api = $plugin->api_version();
+
+					if ($plugin_api < PluginHost::API_VERSION) {
+						user_error("Plugin $class is not compatible with current API version (need: " . PluginHost::API_VERSION . ", got: $plugin_api)", E_USER_WARNING);
+						continue;
+					}
 
 					$this->last_registered = $class;
 

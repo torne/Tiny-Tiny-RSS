@@ -3,6 +3,8 @@ class Plugin {
 	private $dbh;
 	private $host;
 
+	const API_VERSION_COMPAT = 1;
+
 	function init($host) {
 		$this->dbh = $host->get_dbh();
 		$this->host = $host;
@@ -19,6 +21,10 @@ class Plugin {
 
 	function get_prefs_js() {
 		return "";
+	}
+
+	function api_version() {
+		return Plugin::API_VERSION_COMPAT;
 	}
 }
 ?>
