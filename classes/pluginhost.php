@@ -36,7 +36,7 @@ class PluginHost {
 	const KIND_SYSTEM = 2;
 	const KIND_USER = 3;
 
-	function __construct($ignored = false) {
+	function __construct() {
 		$this->dbh = Db::get();
 		$this->storage = $_SESSION["plugin_storage"];
 

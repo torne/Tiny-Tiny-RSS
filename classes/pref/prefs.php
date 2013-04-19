@@ -11,8 +11,8 @@ class Pref_Prefs extends Handler_Protected {
 		return array_search($method, $csrf_ignored) !== false;
 	}
 
-	function __construct($link, $args) {
-		parent::__construct($link, $args);
+	function __construct($args) {
+		parent::__construct($args);
 
 		$this->pref_sections = array(
 			1 => __('General'),
