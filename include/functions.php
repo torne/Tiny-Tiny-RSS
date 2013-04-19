@@ -129,6 +129,9 @@
 	$utc_tz = new DateTimeZone('UTC');
 	$schema_version = false;
 
+	global $_debug_enabled;
+	$_debug_enabled = true;
+
 	/**
 	 * Print a timestamped debug message.
 	 *
@@ -136,6 +139,10 @@
 	 * @return void
 	 */
 	function _debug($msg) {
+		global $_debug_enabled;
+
+		if (!$_debug_enabled) return;
+
 		$ts = strftime("%H:%M:%S", time());
 		if (function_exists('posix_getpid')) {
 			$ts = "$ts/" . posix_getpid();
@@ -155,6 +162,15 @@
 		}
 
 	} // function _debug
+
+	function _debug_enable($enabled) {
+		global $_debug_enabled;
+
+		$old = $_debug_enabled;
+		$_debug_enabled = $enabled;
+
+		return $old;
+	}
 
 	/**
 	 * Purge a feed old posts.
