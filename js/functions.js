@@ -50,6 +50,21 @@ function exception_error(location, e, ext_info) {
 			}
 		}
 
+		try {
+			new Ajax.Request("backend.php", {
+				parameters: {op: "rpc", method: "log", logmsg: msg},
+				onComplete: function (transport) {
+					console.log(transport.responseText);
+				} });
+
+		} catch (eii) {
+			console.log("Exception while trying to log the error.");
+			console.log(eii);
+		}
+
+		msg += "<p>"+ __("The error will be reported to the configured log destination.") +
+			"</p>";
+
 		var content = "<div class=\"fatalError\">" +
 			"<pre>" + msg + "</pre>";
 
@@ -106,7 +121,28 @@ function exception_error(location, e, ext_info) {
 
 		dialog.show();
 
-	} catch (e) {
+	} catch (ei) {
+		console.log("Exception while trying to report an exception. Oh boy.");
+		console.log(ei);
+		console.log("Original exception:");
+		console.log(e);
+
+		msg += "\n\nAdditional exception caught while trying to show the error dialog.\n\n" +  format_exception_error('exception_error', ei);
+
+		try {
+			new Ajax.Request("backend.php", {
+				parameters: {op: "rpc", method: "log", logmsg: msg},
+				onComplete: function (transport) {
+					console.log(transport.responseText);
+				} });
+
+		} catch (eii) {
+			console.log("Third exception while trying to log the error! Seriously?");
+			console.log(eii);
+		}
+
+		msg += "\n\nThe error will be reported to the configured log destination.";
+
 		alert(msg);
 	}
 

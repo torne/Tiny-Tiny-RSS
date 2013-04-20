@@ -634,5 +634,16 @@ class RPC extends Handler_Protected {
 		}
 	}
 
+	function log() {
+		$logmsg = $this->dbh->escape_string($_REQUEST['logmsg']);
+
+		if ($logmsg) {
+			Logger::get()->log_error(E_USER_WARNING,
+				$logmsg, '[client-js]', 0, false);
+		}
+
+		echo json_encode(array("message" => "HOST_ERROR_LOGGED"));
+
+	}
 }
 ?>
