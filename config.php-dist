@@ -192,6 +192,8 @@
 	// authentication plugin here (auth_*).
 	// Users may enable other user plugins from Preferences/Plugins but may not
 	// disable plugins specified in this list.
+	// Disabling auth_internal in this list would automatically disable
+	// reset password link on the login form.
 	
 	define('LOG_DESTINATION', 'sql');
 	// Log destination to use. Possible values: sql (uses internal logging
