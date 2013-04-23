@@ -433,7 +433,7 @@
 				if ($favicon_modified_new > $favicon_modified)
 					$favicon_avg_color = '';
 
-				if (file_exists($favicon_file) && function_exists("imagecreatefromstring") && $favicon_avg_color != 'fail') {
+				if (file_exists($favicon_file) && function_exists("imagecreatefromstring") && $favicon_avg_color == '') {
 						require_once "colors.php";
 
 						$favicon_color = db_escape_string(
