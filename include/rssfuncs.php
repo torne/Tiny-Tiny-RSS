@@ -1159,7 +1159,7 @@
 
 			if ($files) {
 				foreach ($files as $file) {
-					if (!file_is_locked($file) && time() - filemtime($file) > 86400*2) {
+					if (!file_is_locked(basename($file)) && time() - filemtime($file) > 86400*2) {
 						unlink($file);
 						++$num_deleted;
 					}
