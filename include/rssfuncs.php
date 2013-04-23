@@ -399,7 +399,7 @@
 				$favicon_interval_qpart = "favicon_last_checked < DATE_SUB(NOW(), INTERVAL 12 HOUR)";
 			}
 
-			$result = db_query("SELECT title,site_url,owner_uid,
+			$result = db_query("SELECT title,site_url,owner_uid,favicon_avg_color,
 				(favicon_last_checked IS NULL OR $favicon_interval_qpart) AS
 						favicon_needs_check
 				FROM ttrss_feeds WHERE id = '$feed'");
@@ -408,24 +408,34 @@
 			$orig_site_url = db_fetch_result($result, 0, "site_url");
 			$favicon_needs_check = sql_bool_to_bool(db_fetch_result($result, 0,
 				"favicon_needs_check"));
+			$favicon_avg_color = db_fetch_result($result, 0, "favicon_avg_color");
 
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
 			$site_url = db_escape_string(mb_substr(rewrite_relative_url($fetch_url, $rss->get_link()), 0, 245));
 
 			if ($favicon_needs_check || $force_refetch) {
+
+				/* terrible hack: if we crash on floicon shit here, we won't check
+				 * the icon avgcolor again */
+
+				db_query("UPDATE ttrss_feeds SET favicon_avg_color = 'fail' WHERE
+					id = '$feed'");
+
 				_debug("checking favicon...", $debug_enabled);
 
 				check_feed_favicon($site_url, $feed, $link);
 				$favicon_file = ICONS_DIR . "/$feed.ico";
 
-				if (file_exists($favicon_file) && function_exists("imagecreatefromstring")) {
+				if (file_exists($favicon_file) && function_exists("imagecreatefromstring") && $favicon_avg_color != 'fail') {
 						require_once "colors.php";
 
 						$favicon_color = db_escape_string(
 							calculate_avg_color($favicon_file));
 
 						$favicon_colorstring = ",favicon_avg_color = '".$favicon_color."'";
+				} else if ($favicon_avg_color == 'fail') {
+					_debug("floicon failed on this file, not trying to recalculate avg color");
 				}
 
 				db_query("UPDATE ttrss_feeds SET favicon_last_checked = NOW()
