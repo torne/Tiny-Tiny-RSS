@@ -550,7 +550,7 @@ class Feeds extends Handler_Protected {
 					$expanded_class = $expand_cdm ? "expanded" : "expandable";
 
 					$reply['content'] .= "<div class=\"cdm $expanded_class $class\"
-						id=\"RROW-$id\" $mouseover_attrs'>";
+						id=\"RROW-$id\" $mouseover_attrs>";
 
 					$reply['content'] .= "<div class=\"cdmHeader\" style=\"$row_background\">";
 					$reply['content'] .= "<div style=\"vertical-align : middle\">";
