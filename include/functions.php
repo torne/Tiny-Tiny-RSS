@@ -407,7 +407,7 @@
 			$data = @file_get_contents($url, false, $context);
 
 			$fetch_last_content_type = false;  // reset if no type was sent from server
-			if (is_array($http_response_header)) {
+			if (isset($http_response_header) && is_array($http_response_header)) {
 				foreach ($http_response_header as $h) {
 					if (substr(strtolower($h), 0, 13) == 'content-type:') {
 						$fetch_last_content_type = substr($h, 14);
