@@ -184,24 +184,17 @@
 			_debug("warning: unable to create stampfile\n");
 		}
 
-		// Call to the feed batch update function
-		// or regenerate feedbrowser cache
+		update_daemon_common();
 
-		if (rand(0,100) > 30) {
-			update_daemon_common();
-		} else {
-			$count = update_feedbrowser_cache();
-			_debug("Feedbrowser updated, $count feeds processed.");
+		$count = update_feedbrowser_cache();
+		_debug("Feedbrowser updated, $count feeds processed.");
 
-			purge_orphans( true);
+		purge_orphans( true);
 
-			$rc = cleanup_tags( 14, 50000);
+		$rc = cleanup_tags( 14, 50000);
 
-			_debug("Cleaned $rc cached tags.");
-
-			PluginHost::getInstance()->run_hooks(PluginHost::HOOK_UPDATE_TASK, "hook_update_task", $op);
-		}
-
+		_debug("Cleaned $rc cached tags.");
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_UPDATE_TASK, "hook_update_task", $op);
 	}
 
 	if (isset($options["cleanup-tags"])) {

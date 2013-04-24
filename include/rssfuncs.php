@@ -1,7 +1,7 @@
 <?php
-	define('DAEMON_UPDATE_LOGIN_LIMIT', 30);
-	define('DAEMON_FEED_LIMIT', 100);
-	define('DAEMON_SLEEP_INTERVAL', 60);
+	define_default('DAEMON_UPDATE_LOGIN_LIMIT', 30);
+	define_default('DAEMON_FEED_LIMIT', 500);
+	define_default('DAEMON_SLEEP_INTERVAL', 60);
 
 	function update_feedbrowser_cache() {
 
@@ -113,8 +113,7 @@
 		$query_limit = "";
 		if($limit) $query_limit = sprintf("LIMIT %d", $limit);
 
-		// We search for feed needing update.
-		$result = db_query("SELECT DISTINCT ttrss_feeds.feed_url
+		$query = "SELECT DISTINCT ttrss_feeds.feed_url, ttrss_feeds.last_updated
 			FROM
 				ttrss_feeds, ttrss_users, ttrss_user_prefs
 			WHERE
@@ -123,7 +122,10 @@
 				AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
 				$login_thresh_qpart $update_limit_qpart
 				$updstart_thresh_qpart
-			ORDER BY last_updated $query_limit");
+				ORDER BY last_updated $query_limit";
+
+		// We search for feed needing update.
+		$result = db_query($query);
 
 		if($debug) _debug(sprintf("Scheduled %d feeds to update...", db_num_rows($result)));
 
