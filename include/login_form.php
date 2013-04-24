@@ -222,7 +222,11 @@ function bwLimitChange(elem) {
 			<label>&nbsp;</label>
 			<input dojoType="dijit.form.CheckBox" name="bw_limit" id="bw_limit" type="checkbox"
 				onchange="bwLimitChange(this)">
-			<label style='display : inline' for="bw_limit"><?php echo __("Use less traffic") ?></label>
+			<label id="bw_limit_label" style='display : inline' for="bw_limit"><?php echo __("Use less traffic") ?></label>
+		</div>
+
+		<div dojoType="dijit.Tooltip" connectId="bw_limit_label" position="below">
+<?php echo __("Does not display images in articles, reduces automatic refreshes."); ?>
 		</div>
 
 		<?php if (SESSION_COOKIE_LIFETIME > 0) { ?>
