@@ -320,7 +320,7 @@
 				$ch = curl_init($url);
 			}
 
-			if ($timestamp) {
+			if ($timestamp && !$post_query) {
 				curl_setopt($ch, CURLOPT_HTTPHEADER,
 					array("If-Modified-Since: ".gmdate('D, d M Y H:i:s \G\M\T', $timestamp)));
 			}

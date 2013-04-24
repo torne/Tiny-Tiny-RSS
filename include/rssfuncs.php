@@ -113,10 +113,8 @@
 		$query_limit = "";
 		if($limit) $query_limit = sprintf("LIMIT %d", $limit);
 
-		$random_qpart = sql_random_function();
-
 		// We search for feed needing update.
-		$result = db_query("SELECT DISTINCT ttrss_feeds.feed_url,$random_qpart
+		$result = db_query("SELECT DISTINCT ttrss_feeds.feed_url
 			FROM
 				ttrss_feeds, ttrss_users, ttrss_user_prefs
 			WHERE
@@ -125,7 +123,7 @@
 				AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
 				$login_thresh_qpart $update_limit_qpart
 				$updstart_thresh_qpart
-			ORDER BY $random_qpart $query_limit");
+			ORDER BY last_updated $query_limit");
 
 		if($debug) _debug(sprintf("Scheduled %d feeds to update...", db_num_rows($result)));
 
@@ -278,6 +276,9 @@
 					_debug("local cache valid and older than last_updated, nothing to do.", $debug_enabled);
 					return;
 				}
+		} else {
+			_debug("local cache will not be used for this feed", $debug_enabled);
+			$cache_timestamp = 0;
 		}
 
 		if (!$rss) {
