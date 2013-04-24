@@ -12,6 +12,7 @@
 	require_once "config.php";
 	require_once "autoload.php";
 	require_once "functions.php";
+	require_once "rssfuncs.php";
 
 	// defaults
 	define_default('PURGE_INTERVAL', 3600); // seconds
@@ -19,7 +20,6 @@
 	define_default('MAX_JOBS', 2);
 	define_default('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL); // seconds
 
-	require_once "rssfuncs.php";
 	require_once "sanity_check.php";
 	require_once "db.php";
 	require_once "db-prefs.php";

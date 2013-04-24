@@ -184,7 +184,7 @@
 			_debug("warning: unable to create stampfile\n");
 		}
 
-		update_daemon_common();
+		update_daemon_common(isset($options["pidlock"]) ? 50 : DAEMON_FEED_LIMIT);
 
 		$count = update_feedbrowser_cache();
 		_debug("Feedbrowser updated, $count feeds processed.");
