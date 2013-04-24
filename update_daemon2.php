@@ -9,24 +9,22 @@
 	define('DISABLE_SESSIONS', true);
 
 	require_once "version.php";
-
-	if (strpos(VERSION, ".99") !== false || getenv('DAEMON_XDEBUG')) {
-		define('DAEMON_EXTENDED_DEBUG', true);
-	}
-
+	require_once "config.php";
 	require_once "autoload.php";
 	require_once "functions.php";
+
+	// defaults
+	define_default('PURGE_INTERVAL', 3600); // seconds
+	define_default('MAX_CHILD_RUNTIME', 600); // seconds
+	define_default('MAX_JOBS', 2);
+	define_default('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL); // seconds
+	define_default('DAEMON_FEED_LIMIT', 250);
+
 	require_once "rssfuncs.php";
 	require_once "sanity_check.php";
-	require_once "config.php";
 	require_once "db.php";
 	require_once "db-prefs.php";
 
-	// defaults
-	define('PURGE_INTERVAL', 3600); // seconds
-	define('MAX_CHILD_RUNTIME', 600); // seconds
-	define('MAX_JOBS', 2);
-	define('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL); // seconds
 
 	if (!function_exists('pcntl_fork')) {
 		die("error: This script requires PHP compiled with PCNTL module.\n");
