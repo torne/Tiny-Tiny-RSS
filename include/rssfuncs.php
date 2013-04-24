@@ -1169,7 +1169,7 @@
 	}
 
 	function expire_lock_files($debug) {
-		if ($debug) _debug("Removing old lock files...");
+		//if ($debug) _debug("Removing old lock files...");
 
 		$num_deleted = 0;
 
@@ -1186,14 +1186,14 @@
 			}
 		}
 
-		if ($debug) _debug("Removed $num_deleted files.");
+		if ($debug) _debug("Removed $num_deleted old lock files.");
 	}
 
 	function expire_cached_files($debug) {
 		foreach (array("simplepie", "images", "export", "upload") as $dir) {
 			$cache_dir = CACHE_DIR . "/$dir";
 
-			if ($debug) _debug("Expiring $cache_dir");
+//			if ($debug) _debug("Expiring $cache_dir");
 
 			$num_deleted = 0;
 
@@ -1211,7 +1211,7 @@
 				}
 			}
 
-			if ($debug) _debug("Removed $num_deleted files.");
+			if ($debug) _debug("$cache_dir: removed $num_deleted files.");
 		}
 	}
 
