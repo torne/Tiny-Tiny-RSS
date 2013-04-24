@@ -418,9 +418,6 @@
 				/* terrible hack: if we crash on floicon shit here, we won't check
 				 * the icon avgcolor again (unless the icon got updated) */
 
-				db_query("UPDATE ttrss_feeds SET favicon_avg_color = 'fail' WHERE
-					id = '$feed'");
-
 				$favicon_file = ICONS_DIR . "/$feed.ico";
 				$favicon_modified = @filemtime($favicon_file);
 
@@ -434,6 +431,9 @@
 
 				if (file_exists($favicon_file) && function_exists("imagecreatefromstring") && $favicon_avg_color == '') {
 						require_once "colors.php";
+
+						db_query("UPDATE ttrss_feeds SET favicon_avg_color = 'fail' WHERE
+							id = '$feed'");
 
 						$favicon_color = db_escape_string(
 							calculate_avg_color($favicon_file));
