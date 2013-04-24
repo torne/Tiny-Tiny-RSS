@@ -18,7 +18,6 @@
 	define_default('MAX_CHILD_RUNTIME', 600); // seconds
 	define_default('MAX_JOBS', 2);
 	define_default('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL); // seconds
-	define_default('DAEMON_FEED_LIMIT', 250);
 
 	require_once "rssfuncs.php";
 	require_once "sanity_check.php";
