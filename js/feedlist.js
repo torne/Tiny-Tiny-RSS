@@ -139,6 +139,7 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 			onComplete: function(transport) {
 				setFeedExpandoIcon(feed, is_cat, 'images/blank_icon.gif');
 				headlines_callback2(transport, offset, background, infscroll_req);
+				PluginHost.run(PluginHost.HOOK_FEED_LOADED, [feed, is_cat]);
 			} });
 
 	} catch (e) {

@@ -100,7 +100,7 @@
 		require 'lib/jshrink/Minifier.php';
 
 		print get_minified_js(array("tt-rss",
-			"functions", "feedlist", "viewfeed", "FeedTree"));
+			"functions", "feedlist", "viewfeed", "FeedTree", "PluginHost"));
 
 		foreach (PluginHost::getInstance()->get_plugins() as $n => $p) {
 			if (method_exists($p, "get_js")) {

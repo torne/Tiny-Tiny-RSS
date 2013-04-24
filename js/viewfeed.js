@@ -232,6 +232,8 @@ function render_article(article) {
 			c.domNode.scrollTop = 0;
 		} catch (e) { };
 
+		PluginHost.run(PluginHost.HOOK_ARTICLE_RENDERED, article);
+
 		c.attr('content', article);
 
 		correctHeadlinesOffset(getActiveArticleId());
@@ -1193,6 +1195,7 @@ function cdmScrollToArticleId(id, force) {
 
 function setActiveArticleId(id) {
 	_active_article_id = id;
+	PluginHost.run(PluginHost.HOOK_ARTICLE_SET_ACTIVE, _active_article_id);
 }
 
 function getActiveArticleId() {
@@ -1219,6 +1222,8 @@ function unpackVisibleHeadlines() {
 					var cencw = $("CENCW-" + child.id.replace("RROW-", ""));
 
 					if (cencw) {
+						PluginHost.run(PluginHost.HOOK_ARTICLE_RENDERED_CDM, child);
+
 						cencw.innerHTML = htmlspecialchars_decode(cencw.innerHTML);
 						cencw.setAttribute('id', '');
 						Element.show(cencw);
