@@ -440,7 +440,7 @@
 
 						$favicon_colorstring = ",favicon_avg_color = '".$favicon_color."'";
 				} else if ($favicon_avg_color == 'fail') {
-					_debug("floicon failed on this file, not trying to recalculate avg color");
+					_debug("floicon failed on this file, not trying to recalculate avg color", $debug_enabled);
 				}
 
 				db_query("UPDATE ttrss_feeds SET favicon_last_checked = NOW()
