@@ -659,7 +659,7 @@
 				@session_start();
 
 				$_SESSION["uid"] = $user_id;
-				$_SESSION["version"] = VERSION;
+				$_SESSION["version"] = VERSION_STATIC;
 
 				$result = db_query("SELECT login,access_level,pwd_hash FROM ttrss_users
 					WHERE id = '$user_id'");

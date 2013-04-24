@@ -39,7 +39,7 @@
 	function validate_session() {
 		if (SINGLE_USER_MODE) return true;
 
-		if (VERSION != $_SESSION["version"]) return false;
+		if (VERSION_STATIC != $_SESSION["version"]) return false;
 
 		$check_ip = $_SESSION['ip_address'];
 
