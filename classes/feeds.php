@@ -400,7 +400,7 @@ class Feeds extends Handler_Protected {
 
 				require_once "colors.php";
 
-				if ($fav_color) {
+				if ($fav_color && $fav_color != 'FAIL') {
 					if (!isset($rgba_cache[$feed_id])) {
 						$rgba_cache[$feed_id] = join(",", _color_unpack($fav_color));
 					}
