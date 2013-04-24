@@ -1,7 +1,7 @@
 <?php
 	define_default('DAEMON_UPDATE_LOGIN_LIMIT', 30);
 	define_default('DAEMON_FEED_LIMIT', 500);
-	define_default('DAEMON_SLEEP_INTERVAL', 60);
+	define_default('DAEMON_SLEEP_INTERVAL', 120);
 
 	function update_feedbrowser_cache() {
 
@@ -149,10 +149,6 @@
 			db_query(sprintf("UPDATE ttrss_feeds SET last_update_started = NOW()
 				WHERE feed_url IN (%s)", implode(',', $feeds_quoted)));
 		}
-
-		expire_cached_files($debug);
-		expire_lock_files($debug);
-		expire_error_log($debug);
 
 		$nf = 0;
 
@@ -1374,4 +1370,17 @@
 		return $error;
 	}
 
+	function housekeeping_common($debug) {
+		expire_cached_files($debug);
+		expire_lock_files($debug);
+		expire_error_log($debug);
+
+		$count = update_feedbrowser_cache();
+		_debug("Feedbrowser updated, $count feeds processed.");
+
+		purge_orphans( true);
+		$rc = cleanup_tags( 14, 50000);
+
+		_debug("Cleaned $rc cached tags.");
+	}
 ?>

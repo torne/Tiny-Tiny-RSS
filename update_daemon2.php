@@ -170,13 +170,14 @@
 			"Maybe another daemon is already running.\n");
 	}
 
-	init_plugins();
-
 	$schema_version = get_schema_version();
 
 	if ($schema_version != SCHEMA_VERSION) {
 		die("Schema version is wrong, please upgrade the database.\n");
 	}
+
+	// Protip: children close shared database handle when terminating, it's a bad idea to
+	// do database stuff on main process from now on.
 
 	while (true) {
 
@@ -190,17 +191,6 @@
 		}
 
 		if ($last_checkpoint + $spawn_interval < time()) {
-
-			/* Check if schema version changed */
-
-			$test_schema_version = get_schema_version();
-
-			if ($test_schema_version != $schema_version) {
-				echo "Expected schema version: $schema_version, got: $test_schema_version\n";
-				echo "Schema version changed while we were running, bailing out\n";
-				exit(100);
-			}
-
 			check_ctimes();
 			reap_children();
 

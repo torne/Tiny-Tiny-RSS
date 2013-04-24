@@ -148,18 +148,8 @@
 	}
 
 	if (isset($options["feeds"])) {
-		// Update all feeds needing a update.
 		update_daemon_common();
-
-		// Update feedbrowser
-		$count = update_feedbrowser_cache();
-		_debug("Feedbrowser updated, $count feeds processed.");
-
-		// Purge orphans and cleanup tags
-		purge_orphans( true);
-
-		$rc = cleanup_tags( 14, 50000);
-		_debug("Cleaned $rc cached tags.");
+		housekeeping_common(true);
 
 		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_UPDATE_TASK, "hook_update_task", $op);
 	}
@@ -185,15 +175,8 @@
 		}
 
 		update_daemon_common(isset($options["pidlock"]) ? 50 : DAEMON_FEED_LIMIT);
+		housekeeping_common(true);
 
-		$count = update_feedbrowser_cache();
-		_debug("Feedbrowser updated, $count feeds processed.");
-
-		purge_orphans( true);
-
-		$rc = cleanup_tags( 14, 50000);
-
-		_debug("Cleaned $rc cached tags.");
 		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_UPDATE_TASK, "hook_update_task", $op);
 	}
 

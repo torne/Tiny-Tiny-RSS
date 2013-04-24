@@ -53,6 +53,10 @@ class Db implements IDb {
 		return("'$str'");
 	}
 
+	function reconnect() {
+		$this->link = $this->adapter->connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, defined('DB_PORT') ? DB_PORT : "");
+	}
+
 	function connect($host, $user, $pass, $db, $port) {
 		//return $this->adapter->connect($host, $user, $pass, $db, $port);
 		return ;

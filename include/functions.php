@@ -922,7 +922,7 @@
 	function get_schema_version($nocache = false) {
 		global $schema_version;
 
-		if (!$schema_version) {
+		if (!$schema_version && !$nocache) {
 			$result = db_query("SELECT schema_version FROM ttrss_version");
 			$version = db_fetch_result($result, 0, "schema_version");
 			$schema_version = $version;

@@ -368,14 +368,7 @@ class Handler_Public extends Handler {
 		include "rssfuncs.php";
 		// Update all feeds needing a update.
 		update_daemon_common(0, true, false);
-
-		// Update feedbrowser
-		update_feedbrowser_cache();
-
-		// Purge orphans and cleanup tags
-		purge_orphans();
-
-		cleanup_tags(14, 50000);
+		housekeeping_common(false);
 
 		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_UPDATE_TASK, "hook_update_task", $op);
 
