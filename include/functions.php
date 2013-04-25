@@ -2801,7 +2801,8 @@
 	}
 
 	function strip_harmful_tags($doc, $allowed_elements, $disallowed_attributes) {
-		$entries = $doc->getElementsByTagName("*");
+		$xpath = new DOMXPath($doc);
+		$entries = $xpath->query('//*');
 
 		foreach ($entries as $entry) {
 			if (!in_array($entry->nodeName, $allowed_elements)) {
