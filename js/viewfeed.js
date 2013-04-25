@@ -43,9 +43,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 			if (background) {
 				var content = reply['headlines']['content'];
 
-				if (getInitParam("cdm_auto_catchup") == 1) {
-					content = content + "<div id='headlines-spacer'></div>";
-				}
+				content = content + "<div id='headlines-spacer'></div>";
 				return;
 			}
 
@@ -93,11 +91,9 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					}
 				});
 
-				if (getInitParam("cdm_auto_catchup") == 1) {
-					var hsp = $("headlines-spacer");
-					if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
-					dijit.byId('headlines-frame').domNode.appendChild(hsp);
-				}
+				var hsp = $("headlines-spacer");
+				if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
+				dijit.byId('headlines-frame').domNode.appendChild(hsp);
 
 				initHeadlinesMenu();
 
