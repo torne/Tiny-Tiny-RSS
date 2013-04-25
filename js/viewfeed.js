@@ -1416,6 +1416,8 @@ function cdmCollapseArticle(event, id) {
 			}
 
 			if (event) Event.stop(event);
+
+			PluginHost.run(PluginHost.HOOK_ARTICLE_COLLAPSED, id);
 		}
 
 	} catch (e) {
@@ -1502,6 +1504,8 @@ function cdmExpandArticle(id, noexpand) {
 			toggleUnread(id, 0, true);
 		toggleSelected(id);
 		$("RROW-" + id).addClassName("active");
+
+		PluginHost.run(PluginHost.HOOK_ARTICLE_EXPANDED, id);
 
 	} catch (e) {
 		exception_error("cdmExpandArticle", e);
