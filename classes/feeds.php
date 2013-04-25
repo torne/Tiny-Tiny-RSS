@@ -11,7 +11,7 @@ class Feeds extends Handler_Protected {
 
 	private function format_headline_subtoolbar($feed_site_url, $feed_title,
 			$feed_id, $is_cat, $search,
-			$search_mode, $view_mode, $error) {
+			$search_mode, $view_mode, $error, $feed_last_updated) {
 
 		$page_prev_link = "viewFeedGoPage(-1)";
 		$page_next_link = "viewFeedGoPage(1)";
@@ -53,8 +53,11 @@ class Feeds extends Handler_Protected {
 		$reply .= "<span id='feed_title'>";
 
 		if ($feed_site_url) {
+			$last_updated = T_sprintf("Last updated: %s",
+				$feed_last_updated);
+
 			$target = "target=\"_blank\"";
-			$reply .= "<a title=\"".__("Visit the website")."\" $target href=\"$feed_site_url\">".
+			$reply .= "<a title=\"$last_updated\" $target href=\"$feed_site_url\">".
 				truncate_string($feed_title,30)."</a>";
 
 			if ($error) {
@@ -247,13 +250,14 @@ class Feeds extends Handler_Protected {
 		$feed_title = $qfh_ret[1];
 		$feed_site_url = $qfh_ret[2];
 		$last_error = $qfh_ret[3];
+		$last_updated = make_local_datetime($qfh_ret[4]);
 
 		$vgroup_last_feed = $vgr_last_feed;
 
 		$reply['toolbar'] = $this->format_headline_subtoolbar($feed_site_url,
 			$feed_title,
 			$feed, $cat_view, $search, $search_mode, $view_mode,
-			$last_error);
+			$last_error, $last_updated);
 
 		$headlines_count = $this->dbh->num_rows($result);
 
