@@ -309,7 +309,7 @@ function init() {
 				var id = getActiveArticleId();
 				var elem = $("CICD-"+id);
 				if(elem.visible()) {
-					cdmUnexpandArticle(null, id);
+					cdmCollapseArticle(null, id, false);
 				}
 				else {
 					cdmExpandArticle(id);

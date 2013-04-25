@@ -1395,8 +1395,10 @@ function catchupRelativeToArticle(below, id) {
 	}
 }
 
-function cdmCollapseArticle(event, id) {
+function cdmCollapseArticle(event, id, unmark) {
 	try {
+		if (unmark == undefined) unmark = true;
+
 		var row = $("RROW-" + id);
 		var elem = $("CICD-" + id);
 
@@ -1407,12 +1409,15 @@ function cdmCollapseArticle(event, id) {
 		  	Element.hide(elem);
 			Element.show("CEXC-" + id);
 			Element.hide(collapse);
-			row.removeClassName("active");
 
-			markHeadline(id, false);
+			if (unmark) {
+				row.removeClassName("active");
 
-			if (id == getActiveArticleId()) {
-				setActiveArticleId(0);
+				markHeadline(id, false);
+
+				if (id == getActiveArticleId()) {
+					setActiveArticleId(0);
+				}
 			}
 
 			if (event) Event.stop(event);
@@ -1422,27 +1427,6 @@ function cdmCollapseArticle(event, id) {
 
 	} catch (e) {
 		exception_error("cdmCollapseArticle", e);
-	}
-}
-
-function cdmUnexpandArticle(event, id) {
-	try {
-		var row = $("RROW-" + id);
-		var elem = $("CICD-" + id);
-
-		if (elem && row) {
-			var collapse = $$("div#RROW-" + id +
-				" span[class='collapseBtn']")[0];
-
-		  	Element.hide(elem);
-			Element.show("CEXC-" + id);
-			Element.hide(collapse);
-
-			if (event) Event.stop(event);
-		}
-
-	} catch (e) {
-		exception_error("cdmUnexpandArticle", e);
 	}
 }
 
