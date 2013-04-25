@@ -855,6 +855,8 @@
 		global $utc_tz;
 		global $tz_offset;
 
+		$timestamp = substr($timestamp, 0, 19);
+
 		# We store date in UTC internally
 		$dt = new DateTime($timestamp, $utc_tz);
 

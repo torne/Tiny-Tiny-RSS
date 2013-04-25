@@ -202,7 +202,9 @@
 		$result = db_query("SELECT id,update_interval,auth_login,
 			feed_url,auth_pass,cache_images,last_updated,
 			mark_unread_on_update, owner_uid,
-			pubsub_state, auth_pass_encrypted
+			pubsub_state, auth_pass_encrypted,
+			(SELECT max(date_entered) FROM
+				ttrss_entries, ttrss_user_entries where ref_id = id AND feed_id = '$feed') AS last_article_timestamp
 			FROM ttrss_feeds WHERE id = '$feed'");
 
 		if (db_num_rows($result) == 0) {
@@ -211,6 +213,7 @@
 		}
 
 		$last_updated = db_fetch_result($result, 0, "last_updated");
+		$last_article_timestamp = @strtotime(db_fetch_result($result, 0, "last_article_timestamp"));
 		$owner_uid = db_fetch_result($result, 0, "owner_uid");
 		$mark_unread_on_update = sql_bool_to_bool(db_fetch_result($result,
 			0, "mark_unread_on_update"));
@@ -251,7 +254,6 @@
 		$rss = false;
 		$rss_hash = false;
 		$cache_timestamp = file_exists($cache_filename) ? filemtime($cache_filename) : 0;
-		$last_updated_timestamp = strtotime($last_updated);
 
 		$force_refetch = isset($_REQUEST["force_refetch"]);
 
@@ -262,7 +264,7 @@
 
 				_debug("using local cache.", $debug_enabled);
 
-				if ($cache_timestamp > $last_updated_timestamp) {
+				if ($cache_timestamp > $last_article_timestamp) {
 					@$rss_data = file_get_contents($cache_filename);
 
 					if ($rss_data) {
@@ -275,18 +277,18 @@
 				}
 		} else {
 			_debug("local cache will not be used for this feed", $debug_enabled);
-			$cache_timestamp = 0;
 		}
 
 		if (!$rss) {
 
 			if (!$feed_data) {
-				_debug("fetching [$fetch_url] (ts: $cache_timestamp/$last_updated_timestamp)", $debug_enabled);
+				_debug("fetching [$fetch_url]...", $debug_enabled);
+				_debug("If-Modified-Since: ".gmdate('D, d M Y H:i:s \G\M\T', $last_article_timestamp), $debug_enabled);
 
 				$feed_data = fetch_file_contents($fetch_url, false,
 					$auth_login, $auth_pass, false,
 					$no_cache ? FEED_FETCH_NO_CACHE_TIMEOUT : FEED_FETCH_TIMEOUT,
-					$force_refetch ? 0 : max($last_updated_timestamp, $cache_timestamp));
+					$force_refetch ? 0 : $last_article_timestamp);
 
 				global $fetch_curl_used;
 
