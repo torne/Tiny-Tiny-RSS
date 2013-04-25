@@ -2535,12 +2535,13 @@
 					$feed_title = getCategoryTitle($feed);
 				} else {
 					if (is_numeric($feed) && $feed > 0) {
-						$result = db_query("SELECT title,site_url,last_error
+						$result = db_query("SELECT title,site_url,last_error,last_updated
 							FROM ttrss_feeds WHERE id = '$feed' AND owner_uid = $owner_uid");
 
 						$feed_title = db_fetch_result($result, 0, "title");
 						$feed_site_url = db_fetch_result($result, 0, "site_url");
 						$last_error = db_fetch_result($result, 0, "last_error");
+						$last_updated = db_fetch_result($result, 0, "last_updated");
 					} else {
 						$feed_title = getFeedTitle($feed);
 					}
@@ -2688,7 +2689,7 @@
 				$result = db_query($select_qpart . $from_qpart . $where_qpart);
 			}
 
-			return array($result, $feed_title, $feed_site_url, $last_error);
+			return array($result, $feed_title, $feed_site_url, $last_error, $last_updated);
 
 	}
 
