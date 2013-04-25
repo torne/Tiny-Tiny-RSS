@@ -241,8 +241,7 @@
 		$cache_filename = CACHE_DIR . "/simplepie/" . sha1($fetch_url) . ".feed";
 
 		// Ignore cache if new feed or manual update.
-		$cache_age = ($no_cache || is_null($last_updated) || $last_updated == '1970-01-01 00:00:00') ?
-			30 : get_feed_update_interval($feed) * 60;
+		$cache_age = ($no_cache || is_null($last_updated) || strpos($last_updated, '1970-01-01') === 0) ? 30 : get_feed_update_interval($feed) * 60;
 
 		_debug("cache filename: $cache_filename exists: " . file_exists($cache_filename), $debug_enabled);
 		_debug("cache age: $cache_age; no cache: $no_cache", $debug_enabled);
