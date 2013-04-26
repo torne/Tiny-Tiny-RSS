@@ -1002,6 +1002,9 @@ class Pref_Feeds extends Handler_Protected {
 				mark_unread_on_update = $mark_unread_on_update
 			WHERE id = '$feed_id' AND owner_uid = " . $_SESSION["uid"]);
 
+			PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_SAVE_FEED,
+				"hook_prefs_save_feed", $feed_id);
+
 		} else {
 			$feed_data = array();
 
