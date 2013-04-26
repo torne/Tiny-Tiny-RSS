@@ -256,10 +256,12 @@ function init() {
 		var hasAudio = !!a.canPlayType;
 		var hasSandbox = "sandbox" in document.createElement("iframe");
 		var hasMp3 = !!(a.canPlayType && a.canPlayType('audio/mpeg;').replace(/no/, ''));
+		var clientTzOffset = new Date().getTimezoneOffset() * 60;
 
 		new Ajax.Request("backend.php",	{
 			parameters: {op: "rpc", method: "sanityCheck", hasAudio: hasAudio,
 				hasMp3: hasMp3,
+			 	clientTzOffset: clientTzOffset,
 				hasSandbox: hasSandbox},
 			onComplete: function(transport) {
 					backend_sanity_check_callback(transport);

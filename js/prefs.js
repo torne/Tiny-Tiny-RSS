@@ -962,8 +962,11 @@ function init() {
 		dojo.addOnLoad(function() {
 			loading_set_progress(50);
 
+			var clientTzOffset = new Date().getTimezoneOffset() * 60;
+
 			new Ajax.Request("backend.php", {
-				parameters: {op: "rpc", method: "sanityCheck"},
+				parameters: {op: "rpc", method: "sanityCheck",
+				 	clientTzOffset: clientTzOffset },
 					onComplete: function(transport) {
 					backend_sanity_check_callback(transport);
 				} });

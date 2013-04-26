@@ -862,13 +862,18 @@
 
 		$user_tz_string = get_pref('USER_TIMEZONE', $owner_uid);
 
-		try {
-			if (!$user_tz) $user_tz = new DateTimeZone($user_tz_string);
-		} catch (Exception $e) {
-			$user_tz = $utc_tz;
-		}
+		if ($user_tz_string != 'Automatic') {
 
-		$tz_offset = $user_tz->getOffset($dt);
+			try {
+				if (!$user_tz) $user_tz = new DateTimeZone($user_tz_string);
+			} catch (Exception $e) {
+				$user_tz = $utc_tz;
+			}
+
+			$tz_offset = $user_tz->getOffset($dt);
+		} else {
+			$tz_offset = (int) $_SESSION["clientTzOffset"];
+		}
 
 		$user_timestamp = $dt->format('U') + $tz_offset;
 
