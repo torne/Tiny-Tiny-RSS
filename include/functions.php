@@ -125,8 +125,6 @@
 
 	require_once 'lib/pubsubhubbub/publisher.php';
 
-	$tz_offset = -1;
-	$utc_tz = new DateTimeZone('UTC');
 	$schema_version = false;
 
 	/**
@@ -853,25 +851,24 @@
 		if (!$timestamp) $timestamp = '1970-01-01 0:00';
 
 		global $utc_tz;
-		global $tz_offset;
+		global $user_tz;
+
+		if (!$utc_tz) $utc_tz = new DateTimeZone('UTC');
 
 		$timestamp = substr($timestamp, 0, 19);
 
 		# We store date in UTC internally
 		$dt = new DateTime($timestamp, $utc_tz);
 
-		if ($tz_offset == -1) {
+		$user_tz_string = get_pref('USER_TIMEZONE', $owner_uid);
 
-			$user_tz_string = get_pref('USER_TIMEZONE', $owner_uid);
-
-			try {
-				$user_tz = new DateTimeZone($user_tz_string);
-			} catch (Exception $e) {
-				$user_tz = $utc_tz;
-			}
-
-			$tz_offset = $user_tz->getOffset($dt);
+		try {
+			if (!$user_tz) $user_tz = new DateTimeZone($user_tz_string);
+		} catch (Exception $e) {
+			$user_tz = $utc_tz;
 		}
+
+		$tz_offset = $user_tz->getOffset($dt);
 
 		$user_timestamp = $dt->format('U') + $tz_offset;
 
