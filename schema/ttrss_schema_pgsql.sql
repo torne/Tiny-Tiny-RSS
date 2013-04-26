@@ -258,7 +258,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (118);
+insert into ttrss_version values (119);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -336,7 +336,7 @@ insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('_MOBILE
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('_MOBILE_HIDE_READ', 1, 'false', 1);
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('_MOBILE_SORT_FEEDS_UNREAD', 1, 'false', 1);
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('_THEME_ID', 2, '0', 1);
-insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('USER_TIMEZONE', 2, 'UTC', 1);
+insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('USER_TIMEZONE', 2, 'Automatic', 1);
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('USER_STYLESHEET', 2, '', 2);
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('SORT_HEADLINES_BY_FEED_DATE', 1, 'false', 2);
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('_MOBILE_BROWSE_CATS', 1, 'true', 1);
@@ -428,7 +428,7 @@ create table ttrss_error_log(
 	errno integer not null,
 	errstr text not null,
 	filename text not null,
-	lineno integer not null,	
+	lineno integer not null,
 	context text not null,
 	created_at timestamp not null);
 
