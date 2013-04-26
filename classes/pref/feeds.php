@@ -748,6 +748,9 @@ class Pref_Feeds extends Handler_Protected {
 
 		print "</div>";
 
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_EDIT_FEED,
+			"hook_prefs_edit_feed", $feed_id);
+
 		$title = htmlspecialchars($title, ENT_QUOTES);
 
 		print "<div class='dlgButtons'>
