@@ -1242,7 +1242,7 @@
 
 			foreach ($filter["rules"] as $rule) {
 				$match = false;
-				$reg_exp = $rule["reg_exp"];
+				$reg_exp = str_replace('/', '\/', $rule["reg_exp"]);
 				$rule_inverse = $rule["inverse"];
 
 				if (!$reg_exp)
