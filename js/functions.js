@@ -1277,6 +1277,9 @@ function backend_sanity_check_callback(transport) {
 			}
 
 			init_params = params;
+
+			// PluginHost might not be available on non-index pages
+			window.PluginHost && PluginHost.run(PluginHost.HOOK_PARAMS_LOADED, init_params);
 		}
 
 		sanity_check_done = true;
