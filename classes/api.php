@@ -685,7 +685,8 @@ class API extends Handler {
 
 				$headline_row["labels"] = $labels;
 
-				$headline_row["feed_title"] = $line["feed_title"];
+				$headline_row["feed_title"] = $line["feed_title"] ? $line["feed_title"] :
+					$feed_title;
 
 				$headline_row["comments_count"] = (int)$line["num_comments"];
 				$headline_row["comments_link"] = $line["comments"];
