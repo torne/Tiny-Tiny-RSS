@@ -3437,7 +3437,7 @@
 
 	function format_article_labels($labels, $id) {
 
-		if (is_array($labels)) return '';
+		if (!is_array($labels)) return '';
 
 		$labels_str = "";
 
