@@ -1269,13 +1269,11 @@ function backend_sanity_check_callback(transport) {
 		if (params) {
 			console.log('reading init-params...');
 
-			if (params) {
-				for (k in params) {
-					var v = params[k];
-					console.log("IP: " + k + " => " + v);
+			for (k in params) {
+				var v = params[k];
+				console.log("IP: " + k + " => " + v);
 
-					if (k == "label_base_index") _label_base_index = parseInt(v);
-				}
+				if (k == "label_base_index") _label_base_index = parseInt(v);
 			}
 
 			init_params = params;
