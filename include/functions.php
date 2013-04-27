@@ -95,8 +95,11 @@
 			$lang = _TRANSLATION_OVERRIDE_DEFAULT;
 		}
 
-		if ($_SESSION["language"] && $_SESSION["language"] != "auto") {
-			$lang = $_SESSION["language"];
+		// startup_gettext() is called before session_start() so we can't rely
+		// on $_SESSION['language'] here.
+
+		if ($_COOKIE["ttrss_lang"] && $_COOKIE["ttrss_lang"] != "auto") {
+			$lang = $_COOKIE["ttrss_lang"];
 		}
 
 		if ($lang) {
