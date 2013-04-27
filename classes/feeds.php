@@ -362,7 +362,7 @@ class Feeds extends Handler_Protected {
 
 				if (get_pref('SHOW_CONTENT_PREVIEW')) {
 					$content_preview = truncate_string(strip_tags($line["content_preview"]),
-						100);
+						250);
 				}
 
 				$score = $line["score"];
