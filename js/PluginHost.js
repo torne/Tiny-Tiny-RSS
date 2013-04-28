@@ -8,6 +8,8 @@ var PluginHost = {
 	HOOK_FEED_LOADED: 5,
 	HOOK_ARTICLE_EXPANDED: 6,
 	HOOK_ARTICLE_COLLAPSED: 7,
+	HOOK_PARAMS_LOADED: 8,
+	HOOK_RUNTIME_INFO_LOADED: 9,
 	hooks: [],
 	register: function (name, callback) {
 		if (typeof(this.hooks[name]) == 'undefined')
