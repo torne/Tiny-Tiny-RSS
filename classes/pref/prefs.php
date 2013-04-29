@@ -368,7 +368,7 @@ class Pref_Prefs extends Handler_Protected {
 
 				print "</form>";
 
-				} else {
+				} else if (function_exists("imagecreatefromstring")) {
 
 					print "<p>".__("You will need a compatible Authenticator to use this. Changing your password would automatically disable OTP.") . "</p>";
 
@@ -426,6 +426,10 @@ class Pref_Prefs extends Handler_Protected {
 						__("Enable OTP")."</button>";
 
 					print "</form>";
+
+				} else {
+
+					print_notice(__("PHP GD functions are required for OTP support."));
 
 				}
 
