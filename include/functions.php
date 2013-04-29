@@ -5,6 +5,8 @@
 	define('LABEL_BASE_INDEX', -1024);
 	define('PLUGIN_FEED_BASE_INDEX', -128);
 
+	define('COOKIE_LIFETIME_LONG', 86400*365);
+
 	$fetch_last_error = false;
 	$fetch_last_error_code = false;
 	$fetch_last_content_type = false;
@@ -796,9 +798,9 @@
 				$_SESSION["last_login_update"] = time();
 			}
 
-			if ($_SESSION["uid"] && $_SESSION["language"] && SESSION_COOKIE_LIFETIME > 0) {
+			if ($_SESSION["uid"] && $_SESSION["language"]) {
 				setcookie("ttrss_lang", $_SESSION["language"],
-					time() + SESSION_COOKIE_LIFETIME);
+					time() + COOKIE_LIFETIME_LONG);
 			}
 
 			if ($_SESSION["uid"]) {

@@ -114,7 +114,7 @@ class Pref_Prefs extends Handler_Protected {
 			if ($pref_name == "language") {
 				if ($_SESSION["language"] != $value) {
 					setcookie("ttrss_lang", $value,
-						time() + SESSION_COOKIE_LIFETIME);
+						time() + COOKIE_LIFETIME_LONG);
 					$_SESSION["language"] = $value;
 
 					$need_reload = true;

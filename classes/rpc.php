@@ -479,7 +479,7 @@ class RPC extends Handler_Protected {
 		$wide = (int) $_REQUEST["wide"];
 
 		setcookie("ttrss_widescreen", $wide,
-			time() + SESSION_COOKIE_LIFETIME);
+			time() + COOKIE_LIFETIME_LONG);
 
 		print json_encode(array("wide" => $wide));
 	}
