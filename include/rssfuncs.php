@@ -553,6 +553,7 @@
 				_debug("date $entry_timestamp [$entry_timestamp_fmt]", $debug_enabled);
 
 				$entry_title = html_entity_decode($item->get_title(), ENT_COMPAT, 'UTF-8');
+				$entry_title = decode_numeric_entities($entry_title);
 
 				$entry_link = rewrite_relative_url($site_url, $item->get_link());
 
@@ -1387,5 +1388,16 @@
 		$rc = cleanup_tags( 14, 50000);
 
 		_debug("Cleaned $rc cached tags.");
+	}
+
+	function utf8_entity_decode($entity){
+		$convmap = array(0x0, 0x10000, 0, 0xfffff);
+		return mb_decode_numericentity($entity, $convmap, 'UTF-8');
+	}
+
+	function decode_numeric_entities($body) {
+		$body = preg_replace('/&#\d{2,5};/ue', "utf8_entity_decode('$0')", $body );
+		$body = preg_replace('/&#x([a-fA-F0-7]{2,8});/ue', "utf8_entity_decode('&#'.hexdec('$1').';')", $body );
+		return $body;
 	}
 ?>
