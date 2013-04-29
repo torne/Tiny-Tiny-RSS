@@ -1833,3 +1833,21 @@ function clearPluginData(name) {
 		exception_error("clearPluginData", e);
 	}
 }
+
+function clearSqlLog() {
+
+	if (confirm(__("Clear all messages in the error log?"))) {
+
+		notify_progress("Loading, please wait...");
+		var query = "?op=pref-system&method=clearLog";
+
+		new Ajax.Request("backend.php",	{
+			parameters: query,
+			onComplete: function(transport) {
+				updateSystemList();
+			} });
+
+	}
+}
+
+

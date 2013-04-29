@@ -19,6 +19,10 @@ class Pref_System extends Handler_Protected {
 		return array_search($method, $csrf_ignored) !== false;
 	}
 
+	function clearLog() {
+		$this->dbh->query("DELETE FROM ttrss_error_log");
+	}
+
 	function index() {
 
 		print "<div dojoType=\"dijit.layout.AccordionContainer\" region=\"center\">";
@@ -34,6 +38,9 @@ class Pref_System extends Handler_Protected {
 
 			print "<button dojoType=\"dijit.form.Button\"
 				onclick=\"updateSystemList()\">".__('Refresh')."</button> ";
+
+			print "&nbsp;<button dojoType=\"dijit.form.Button\"
+				onclick=\"clearSqlLog()\">".__('Clear log')."</button> ";
 
 			print "<p><table width=\"100%\" cellspacing=\"10\" class=\"prefErrorLog\">";
 
