@@ -202,14 +202,6 @@ function bwLimitChange(elem) {
 		<?php } ?>
 
 		<div class="row">
-			<label><?php echo __("Language:") ?></label>
-			<?php
-				print_select_hash("language", $_COOKIE["ttrss_lang"], get_translations(),
-					"style='width : 220px; margin : 0px' dojoType='dijit.form.Select'");
-			?>
-		</div>
-
-		<div class="row">
 			<label><?php echo __("Profile:") ?></label>
 
 			<span id='profile_box'><select disabled='disabled' dojoType='dijit.form.Select'

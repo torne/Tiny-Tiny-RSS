@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 119);
+	define('SCHEMA_VERSION', 120);
 
 	define('LABEL_BASE_INDEX', -1024);
 	define('PLUGIN_FEED_BASE_INDEX', -128);
@@ -97,11 +97,12 @@
 			$lang = _TRANSLATION_OVERRIDE_DEFAULT;
 		}
 
-		// startup_gettext() is called before session_start() so we can't rely
-		// on $_SESSION['language'] here.
+		if ($_SESSION["uid"]) {
+			$pref_lang = get_pref("USER_LANGUAGE", $_SESSION["uid"], false);
 
-		if ($_COOKIE["ttrss_lang"] && $_COOKIE["ttrss_lang"] != "auto") {
-			$lang = $_COOKIE["ttrss_lang"];
+			if ($pref_lang) {
+				$lang = $pref_lang;
+			}
 		}
 
 		if ($lang) {
@@ -117,8 +118,6 @@
 			_bind_textdomain_codeset("messages", "UTF-8");
 		}
 	}
-
-	startup_gettext();
 
 	require_once 'db-prefs.php';
 	require_once 'version.php';
@@ -798,12 +797,8 @@
 				$_SESSION["last_login_update"] = time();
 			}
 
-			if ($_SESSION["uid"] && $_SESSION["language"]) {
-				setcookie("ttrss_lang", $_SESSION["language"],
-					time() + COOKIE_LIFETIME_LONG);
-			}
-
 			if ($_SESSION["uid"]) {
+				startup_gettext();
 				load_user_plugins($_SESSION["uid"]);
 
 				/* cleanup ccache */
