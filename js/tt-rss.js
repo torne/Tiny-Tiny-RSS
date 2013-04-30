@@ -332,7 +332,7 @@ function init() {
 		hotkey_actions["edit_tags"] = function() {
 				var id = getActiveArticleId();
 				if (id) {
-					editArticleTags(id, getActiveFeedId(), isCdmMode());
+					editArticleTags(id);
 				};
 			}
 		hotkey_actions["dismiss_selected"] = function() {

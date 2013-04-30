@@ -687,7 +687,7 @@ class Feeds extends Handler_Protected {
 					$reply['content'] .= "<img src='images/tag.png' alt='Tags' title='Tags'>
 						<span id=\"ATSTR-$id\">$tags_str</span>
 						<a title=\"".__('Edit tags for this article')."\"
-						href=\"#\" onclick=\"editArticleTags($id, $feed_id, true)\">(+)</a>";
+						href=\"#\" onclick=\"editArticleTags($id)\">(+)</a>";
 
 					$num_comments = $line["num_comments"];
 					$entry_comments = "";
