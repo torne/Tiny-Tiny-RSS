@@ -510,7 +510,10 @@ class Handler_Public extends Handler {
 			if (authenticate_user($login, $password)) {
 				$_POST["password"] = "";
 
-				$_SESSION["language"] = get_pref("USER_LANGUAGE", $_SESSION["uid"], false);
+				if (get_schema_version() >= 120) {
+					$_SESSION["language"] = get_pref("USER_LANGUAGE", $_SESSION["uid"]);
+				}
+
 				$_SESSION["ref_schema_version"] = get_schema_version(true);
 				$_SESSION["bw_limit"] = !!$_POST["bw_limit"];
 

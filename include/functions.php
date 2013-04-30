@@ -97,8 +97,8 @@
 			$lang = _TRANSLATION_OVERRIDE_DEFAULT;
 		}
 
-		if ($_SESSION["uid"]) {
-			$pref_lang = get_pref("USER_LANGUAGE", $_SESSION["uid"], false);
+		if ($_SESSION["uid"] && get_schema_version() >= 120) {
+			$pref_lang = get_pref("USER_LANGUAGE", $_SESSION["uid"]);
 
 			if ($pref_lang) {
 				$lang = $pref_lang;
