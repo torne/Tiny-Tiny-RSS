@@ -448,10 +448,12 @@
 
 				$feed_title = db_escape_string($rss->get_title());
 
-				_debug("registering title: $feed_title", $debug_enabled);
+				if ($feed_title) {
+					_debug("registering title: $feed_title", $debug_enabled);
 
-				db_query("UPDATE ttrss_feeds SET
-					title = '$feed_title' WHERE id = '$feed'");
+					db_query("UPDATE ttrss_feeds SET
+						title = '$feed_title' WHERE id = '$feed'");
+				}
 			}
 
 			if ($site_url && $orig_site_url != $site_url) {

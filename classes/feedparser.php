@@ -28,12 +28,16 @@ class FeedParser {
 		$xpath = new DOMXPath($this->doc);
 		$xpath->registerNamespace('atom', 'http://www.w3.org/2005/Atom');
 		$xpath->registerNamespace('media', 'http://search.yahoo.com/mrss/');
+		$xpath->registerNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
 		$this->xpath = $xpath;
 
-		$root = $xpath->query("(//atom:feed|//channel)")->item(0);
+		$root = $xpath->query("(//atom:feed|//channel|//rdf:rdf|//rdf:RDF)")->item(0);
 
 		if ($root) {
-			switch ($root->tagName) {
+			switch (mb_strtolower($root->tagName)) {
+			case "rdf:rdf":
+				$this->type = $this::FEED_RDF;
+				break;
 			case "channel":
 				$this->type = $this::FEED_RSS;
 				break;
@@ -88,7 +92,33 @@ class FeedParser {
 				}
 
 				break;
+			case $this::FEED_RDF:
+				$xpath->registerNamespace('rssfake', 'http://purl.org/rss/1.0/');
+
+				$title = $xpath->query("//rssfake:channel/rssfake:title")->item(0);
+
+				if ($title) {
+					$this->title = $title->nodeValue;
+				}
+
+				$link = $xpath->query("//rssfake:channel/rssfake:link")->item(0);
+
+				if ($link) {
+					$this->link = $link->nodeValue;
+				}
+
+				$articles = $xpath->query("//rssfake:item");
+
+				foreach ($articles as $article) {
+					array_push($this->items, new FeedItem_RSS($article, $this->doc, $this->xpath));
+				}
+
+				break;
+
 			}
+		} else {
+			$this->error = "Unknown/unsupported feed type";
+			return;
 		}
 	}
 
