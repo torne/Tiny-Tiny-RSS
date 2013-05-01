@@ -355,7 +355,7 @@
 
 		// set last update to now so if anything *simplepie* crashes later we won't be
 		// continuously failing on the same feed
-		db_query("UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = '$feed'");
+		//db_query("UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = '$feed'");
 
 		if (!$rss) {
 			$rss = new FeedParser($feed_data);
