@@ -1,5 +1,5 @@
 <?php
-class FeedItem {
+abstract class FeedItem {
 	abstract function get_id();
 	abstract function get_date();
 	abstract function get_link();
