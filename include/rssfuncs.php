@@ -216,6 +216,10 @@
 
 		$last_updated = db_fetch_result($result, 0, "last_updated");
 		$last_article_timestamp = @strtotime(db_fetch_result($result, 0, "last_article_timestamp"));
+
+		if (defined('_DISABLE_HTTP_304'))
+			$last_article_timestamp = 0;
+
 		$owner_uid = db_fetch_result($result, 0, "owner_uid");
 		$mark_unread_on_update = sql_bool_to_bool(db_fetch_result($result,
 			0, "mark_unread_on_update"));
