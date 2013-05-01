@@ -591,7 +591,7 @@
 
 				_debug("author $entry_author", $debug_enabled);
 				_debug("num_comments: $num_comments", $debug_enabled);
-				_debug("looking for tags [1]...", $debug_enabled);
+				_debug("looking for tags...", $debug_enabled);
 
 				// parse <category> entries into tags
 
@@ -605,13 +605,12 @@
 					}
 				}
 
-				_debug("category tags:", $debug_enabled);
-				_debug("looking for tags [2]...", $debug_enabled);
-
 				$entry_tags = array_unique($additional_tags);
 
 				for ($i = 0; $i < count($entry_tags); $i++)
 					$entry_tags[$i] = mb_strtolower($entry_tags[$i], 'utf-8');
+
+				_debug("tags found: " . join(",", $entry_tags), $debug_enabled);
 
 				_debug("done collecting data.", $debug_enabled);
 
