@@ -1,9 +1,11 @@
 <?php
 class FeedItem_Atom {
 	private $elem;
+	private $xpath;
 
 	function __construct($elem, $doc, $xpath) {
 		$this->elem = $elem;
+		$this->xpath = $xpath;
 	}
 
 	function get_id() {
@@ -63,9 +65,12 @@ class FeedItem_Atom {
 
 	}
 
-	// todo
 	function get_comments_count() {
+		$comments = $this->xpath->query("slash:comments", $this->elem)->item(0);
 
+		if ($comments) {
+			return $comments->nodeValue;
+		}
 	}
 
 	function get_categories() {
@@ -77,6 +82,11 @@ class FeedItem_Atom {
 				array_push($cats, $cat->getAttribute("term"));
 		}
 
+		$categories = $this->xpath->query("dc:subject", $this->elem);
+
+		foreach ($categories as $cat) {
+			array_push($cats, $cat->nodeValue);
+		}
 
 		return $cats;
 	}
@@ -98,6 +108,18 @@ class FeedItem_Atom {
 					array_push($encs, $enc);
 				}
 			}
+		}
+
+		$enclosures = $this->xpath->query("media:content", $this->elem);
+
+		foreach ($enclosures as $enclosure) {
+			$enc = new FeedEnclosure();
+
+			$enc->type = $enclosure->getAttribute("type");
+			$enc->link = $enclosure->getAttribute("url");
+			$enc->length = $enclosure->getAttribute("length");
+
+			array_push($encs, $enc);
 		}
 
 		return $encs;

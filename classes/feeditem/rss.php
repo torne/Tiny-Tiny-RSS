@@ -63,14 +63,23 @@ class FeedItem_RSS {
 
 	}
 
-	// todo
 	function get_comments_count() {
+		$comments = $this->xpath->query("slash:comments", $this->elem)->item(0);
 
+		if ($comments) {
+			return $comments->nodeValue;
+		}
 	}
 
 	function get_categories() {
 		$categories = $this->elem->getElementsByTagName("category");
 		$cats = array();
+
+		foreach ($categories as $cat) {
+			array_push($cats, $cat->nodeValue);
+		}
+
+		$categories = $this->xpath->query("dc:subject", $this->elem);
 
 		foreach ($categories as $cat) {
 			array_push($cats, $cat->nodeValue);
@@ -95,8 +104,6 @@ class FeedItem_RSS {
 		}
 
 		$enclosures = $this->xpath->query("media:content", $this->elem);
-
-		$encs = array();
 
 		foreach ($enclosures as $enclosure) {
 			$enc = new FeedEnclosure();

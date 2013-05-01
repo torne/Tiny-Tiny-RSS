@@ -581,13 +581,7 @@
 				$entry_comments = db_escape_string(mb_substr(trim($entry_comments), 0, 245));
 				$entry_author = db_escape_string(mb_substr(trim($entry_author), 0, 245));
 
-				$num_comments = $item->get_comments_count();
-
-				if (is_array($num_comments) && is_array($num_comments[0])) {
-					$num_comments = (int) $num_comments[0]["data"];
-				} else {
-					$num_comments = 0;
-				}
+				$num_comments = (int) $item->get_comments_count();
 
 				_debug("author $entry_author", $debug_enabled);
 				_debug("num_comments: $num_comments", $debug_enabled);
