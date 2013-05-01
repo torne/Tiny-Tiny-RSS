@@ -381,12 +381,11 @@
 
 			// cache data for later
 			if (!$auth_pass && !$auth_login && is_writable(CACHE_DIR . "/simplepie")) {
-				$rss_data = serialize($rss);
 				$new_rss_hash = sha1($rss_data);
 
 				if ($new_rss_hash != $rss_hash && count($rss->get_items()) > 0 ) {
 					_debug("saving $cache_filename", $debug_enabled);
-					@file_put_contents($cache_filename, $rss_data);
+					@file_put_contents($cache_filename, $feed_data);
 				}
 			}
 
