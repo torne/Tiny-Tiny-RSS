@@ -264,18 +264,14 @@
 			!$auth_login && !$auth_pass &&
 			filemtime($cache_filename) > time() - $cache_age) {
 
-				_debug("using local cache.", $debug_enabled);
+			_debug("using local cache.", $debug_enabled);
 
-				if ($cache_timestamp > $last_article_timestamp) {
-					@$feed_data = file_get_contents($cache_filename);
+			@$feed_data = file_get_contents($cache_filename);
 
-					if ($feed_data) {
-						$rss_hash = sha1($feed_data);
-					}
-				} else if (!$force_refetch) {
-					_debug("local cache valid and older than last_updated, nothing to do.", $debug_enabled);
-					return;
-				}
+			if ($feed_data) {
+				$rss_hash = sha1($feed_data);
+			}
+
 		} else {
 			_debug("local cache will not be used for this feed", $debug_enabled);
 		}
