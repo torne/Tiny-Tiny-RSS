@@ -7,7 +7,13 @@ class FeedItem_RSS {
 	}
 
 	function get_id() {
-		return $this->get_link();
+		$id = $this->elem->getElementsByTagName("guid")->item(0);
+
+		if ($id) {
+			return $id->nodeValue;
+		} else {
+			return $this->get_link();
+		}
 	}
 
 	function get_date() {
