@@ -193,8 +193,6 @@
 	function update_rss_feed($feed, $ignore_daemon = false, $no_cache = false,
 		$override_url = false) {
 
-		require_once "lib/simplepie/simplepie.inc";
-
 		$debug_enabled = defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug'];
 
 		_debug("start", $debug_enabled);
@@ -360,15 +358,6 @@
 		}
 
 		if (!$rss) {
-			/* $rss = new SimplePie();
-			$rss->set_sanitize_class("SanitizeDummy");
-			// simplepie ignores the above and creates default sanitizer anyway,
-			// so let's override it...
-			$rss->sanitize = new SanitizeDummy();
-			$rss->set_output_encoding('UTF-8');
-			$rss->set_raw_data($feed_data);
-			$rss->enable_cache(false); */
-
 			$rss = new FeedParser($feed_data);
 			$rss->init();
 		}
