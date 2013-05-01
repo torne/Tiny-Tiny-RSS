@@ -361,16 +361,17 @@
 		}
 
 		if (!$rss) {
-			$rss = new SimplePie();
+			/* $rss = new SimplePie();
 			$rss->set_sanitize_class("SanitizeDummy");
 			// simplepie ignores the above and creates default sanitizer anyway,
 			// so let's override it...
 			$rss->sanitize = new SanitizeDummy();
 			$rss->set_output_encoding('UTF-8');
 			$rss->set_raw_data($feed_data);
-			$rss->enable_cache(false);
+			$rss->enable_cache(false); */
 
-			@$rss->init();
+			$rss = new FeedParser($feed_data);
+			$rss->init();
 		}
 
 //		print_r($rss);
@@ -386,7 +387,7 @@
 
 				if ($new_rss_hash != $rss_hash) {
 					_debug("saving $cache_filename", $debug_enabled);
-					@file_put_contents($cache_filename, serialize($rss));
+					//@file_put_contents($cache_filename, serialize($rss)); NOT YET
 				}
 			}
 
@@ -417,6 +418,9 @@
 			$owner_uid = db_fetch_result($result, 0, "owner_uid");
 
 			$site_url = db_escape_string(mb_substr(rewrite_relative_url($fetch_url, $rss->get_link()), 0, 245));
+
+			_debug("site_url: $site_url", $debug_enabled);
+			_debug("feed_title: " . $rss->get_title(), $debug_enabled);
 
 			if ($favicon_needs_check || $force_refetch) {
 
@@ -533,6 +537,8 @@
 				if (!$entry_guid) $entry_guid = $item->get_link();
 				if (!$entry_guid) $entry_guid = make_guid_from_title($item->get_title());
 
+				_debug("f_guid $entry_guid", $debug_enabled);
+
 				if (!$entry_guid) continue;
 
 				$entry_guid = "$owner_uid,$entry_guid";
@@ -575,20 +581,15 @@
 					print "\n";
 				}
 
-				$entry_comments = $item->data["comments"];
-
-				if ($item->get_author()) {
-					$entry_author_item = $item->get_author();
-					$entry_author = $entry_author_item->get_name();
-					if (!$entry_author) $entry_author = $entry_author_item->get_email();
-				}
+				$entry_comments = $item->get_comments_url();
+				$entry_author = $item->get_author();
 
 				$entry_guid = db_escape_string(mb_substr($entry_guid, 0, 245));
 
 				$entry_comments = db_escape_string(mb_substr(trim($entry_comments), 0, 245));
 				$entry_author = db_escape_string(mb_substr(trim($entry_author), 0, 245));
 
-				$num_comments = $item->get_item_tags('http://purl.org/rss/1.0/modules/slash/', 'comments');
+				$num_comments = $item->get_comments_count();
 
 				if (is_array($num_comments) && is_array($num_comments[0])) {
 					$num_comments = (int) $num_comments[0]["data"];
@@ -608,7 +609,7 @@
 
 				if (is_array($additional_tags_src)) {
 					foreach ($additional_tags_src as $tobj) {
-						array_push($additional_tags, $tobj->get_term());
+						array_push($additional_tags, $tobj);
 					}
 				}
 
