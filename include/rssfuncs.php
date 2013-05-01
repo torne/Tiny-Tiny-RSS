@@ -245,7 +245,7 @@
 
 		$date_feed_processed = date('Y-m-d H:i');
 
-		$cache_filename = CACHE_DIR . "/simplepie/" . sha1($fetch_url) . ".feed";
+		$cache_filename = CACHE_DIR . "/simplepie/" . sha1($fetch_url) . ".feed2";
 
 		// Ignore cache if new feed or manual update.
 		$cache_age = ($no_cache || is_null($last_updated) || strpos($last_updated, '1970-01-01') === 0) ? 30 : get_feed_update_interval($feed) * 60;
@@ -269,11 +269,10 @@
 				_debug("using local cache.", $debug_enabled);
 
 				if ($cache_timestamp > $last_article_timestamp) {
-					@$rss_data = file_get_contents($cache_filename);
+					@$feed_data = file_get_contents($cache_filename);
 
-					if ($rss_data) {
-						$rss_hash = sha1($rss_data);
-						@$rss = unserialize($rss_data);
+					if ($feed_data) {
+						$rss_hash = sha1($feed_data);
 					}
 				} else if (!$force_refetch) {
 					_debug("local cache valid and older than last_updated, nothing to do.", $debug_enabled);
@@ -385,9 +384,9 @@
 				$rss_data = serialize($rss);
 				$new_rss_hash = sha1($rss_data);
 
-				if ($new_rss_hash != $rss_hash) {
+				if ($new_rss_hash != $rss_hash && count($rss->get_items()) > 0 ) {
 					_debug("saving $cache_filename", $debug_enabled);
-					//@file_put_contents($cache_filename, serialize($rss)); NOT YET
+					@file_put_contents($cache_filename, $rss_data);
 				}
 			}
 

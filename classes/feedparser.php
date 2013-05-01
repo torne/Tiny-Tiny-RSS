@@ -64,9 +64,6 @@ class FeedParser {
 				}
 
 				break;
-			case $this::FEED_RDF:
-
-				break;
 			case $this::FEED_RSS:
 
 				$title = $xpath->query("//channel/title")->item(0);
