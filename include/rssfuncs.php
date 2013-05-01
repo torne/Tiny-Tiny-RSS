@@ -160,7 +160,7 @@
 
 			// since we have the data cached, we can deal with other feeds with the same url
 
-			$tmp_result = db_query("SELECT DISTINCT ttrss_feeds.id,last_updated
+			$tmp_result = db_query("SELECT DISTINCT ttrss_feeds.id,last_updated,ttrss_feeds.owner_uid
 			FROM ttrss_feeds, ttrss_users, ttrss_user_prefs WHERE
 				ttrss_user_prefs.owner_uid = ttrss_feeds.owner_uid AND
 				ttrss_users.id = ttrss_user_prefs.owner_uid AND
@@ -173,7 +173,7 @@
 
 			if (db_num_rows($tmp_result) > 0) {
 				while ($tline = db_fetch_assoc($tmp_result)) {
-					if($debug) _debug(" => " . $tline["last_updated"] . ", " . $tline["id"]);
+					if($debug) _debug(" => " . $tline["last_updated"] . ", " . $tline["id"] . " " . $tline["owner_uid"]);
 					update_rss_feed($tline["id"], true);
 					++$nf;
 				}
