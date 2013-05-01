@@ -132,8 +132,10 @@ class FeedParser {
 			break;
 		case $this::FEED_RSS:
 			$links = $this->xpath->query("//channel/link");
-			if (!$rel || $link->hasAttribute('rel') && $link->getAttribute('rel') == $rel) {
-				array_push($rv, $link->getAttribute('href'));
+			foreach ($links as $link) {
+				if (!$rel || $link->hasAttribute('rel') && $link->getAttribute('rel') == $rel) {
+					array_push($rv, $link->getAttribute('href'));
+				}
 			}
 			break;
 		}
