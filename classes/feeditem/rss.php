@@ -129,8 +129,14 @@ class FeedItem_RSS {
 			$email = $author->getElementsByTagName("email")->item(0);
 
 			if ($email) return $email->nodeValue;
-
 		}
+
+		$author = $this->xpath->query("dc:creator", $this->elem)->item(0);
+
+		if ($author) {
+			return $author->nodeValue;
+		}
+
 	}
 }
 ?>

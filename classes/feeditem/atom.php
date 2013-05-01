@@ -138,6 +138,13 @@ class FeedItem_Atom {
 			if ($email) return $email->nodeValue;
 
 		}
+
+		$author = $this->xpath->query("dc:creator", $this->elem)->item(0);
+
+		if ($author) {
+			return $author->nodeValue;
+		}
+
 	}
 }
 ?>
