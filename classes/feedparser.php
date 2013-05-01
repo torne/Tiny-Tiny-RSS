@@ -27,6 +27,7 @@ class FeedParser {
 		$root = $this->doc->firstChild;
 		$xpath = new DOMXPath($this->doc);
 		$xpath->registerNamespace('atom', 'http://www.w3.org/2005/Atom');
+		$xpath->registerNamespace('media', 'http://search.yahoo.com/mrss/');
 		$this->xpath = $xpath;
 
 		$root = $xpath->query("(//atom:feed|//channel)")->item(0);
@@ -62,7 +63,7 @@ class FeedParser {
 				$articles = $xpath->query("//atom:entry");
 
 				foreach ($articles as $article) {
-					array_push($this->items, new FeedItem_Atom($article));
+					array_push($this->items, new FeedItem_Atom($article, $this->doc, $this->xpath));
 				}
 
 				break;
@@ -83,7 +84,7 @@ class FeedParser {
 				$articles = $xpath->query("//channel/item");
 
 				foreach ($articles as $article) {
-					array_push($this->items, new FeedItem_RSS($article));
+					array_push($this->items, new FeedItem_RSS($article, $this->doc, $this->xpath));
 				}
 
 				break;

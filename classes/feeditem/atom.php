@@ -2,7 +2,7 @@
 class FeedItem_Atom {
 	private $elem;
 
-	function __construct($elem) {
+	function __construct($elem, $doc, $xpath) {
 		$this->elem = $elem;
 	}
 

@@ -1,9 +1,11 @@
 <?php
 class FeedItem_RSS {
 	private $elem;
+	private $xpath;
 
-	function __construct($elem) {
+	function __construct($elem, $doc, $xpath) {
 		$this->elem = $elem;
+		$this->xpath = $xpath;
 	}
 
 	function get_id() {
@@ -79,6 +81,20 @@ class FeedItem_RSS {
 
 	function get_enclosures() {
 		$enclosures = $this->elem->getElementsByTagName("enclosure");
+
+		$encs = array();
+
+		foreach ($enclosures as $enclosure) {
+			$enc = new FeedEnclosure();
+
+			$enc->type = $enclosure->getAttribute("type");
+			$enc->link = $enclosure->getAttribute("url");
+			$enc->length = $enclosure->getAttribute("length");
+
+			array_push($encs, $enc);
+		}
+
+		$enclosures = $this->xpath->query("media:content", $this->elem);
 
 		$encs = array();
 
