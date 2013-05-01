@@ -212,6 +212,10 @@
 			return false;
 		}
 
+		// set last update to now so if anything *simplepie* crashes later we won't be
+		// continuously failing on the same feed
+		db_query("UPDATE ttrss_feeds SET last_updated = NOW() WHERE id = '$feed'");
+
 		$last_updated = db_fetch_result($result, 0, "last_updated");
 		$last_article_timestamp = @strtotime(db_fetch_result($result, 0, "last_article_timestamp"));
 		$owner_uid = db_fetch_result($result, 0, "owner_uid");
