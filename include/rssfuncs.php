@@ -549,7 +549,9 @@
 
 				$entry_timestamp = "";
 
-				$entry_timestamp = strtotime($item->get_date());
+				$entry_timestamp = $item->get_date();
+
+				_debug("orig date: " . $item->get_date(), $debug_enabled);
 
 				if ($entry_timestamp == -1 || !$entry_timestamp || $entry_timestamp > time()) {
 					$entry_timestamp = time();

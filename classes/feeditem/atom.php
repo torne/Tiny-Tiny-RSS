@@ -17,8 +17,11 @@ class FeedItem_Atom {
 	}
 
 	function get_date() {
+		$updated = $this->elem->getElementsByTagName("updated")->item(0);
 
-
+		if ($updated) {
+			return strtotime($updated->nodeValue);
+		}
 	}
 
 	function get_link() {

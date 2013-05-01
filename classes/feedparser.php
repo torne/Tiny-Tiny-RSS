@@ -24,10 +24,14 @@ class FeedParser {
 
 	function init() {
 		$root = $this->doc->firstChild;
+		$xpath = new DOMXPath($this->doc);
+		$xpath->registerNamespace('atom', 'http://www.w3.org/2005/Atom');
+
+		$root = $xpath->query("(//atom:feed|//channel)")->item(0);
 
 		if ($root) {
 			switch ($root->tagName) {
-			case "rss":
+			case "channel":
 				$this->type = $this::FEED_RSS;
 				break;
 			case "feed":
@@ -38,11 +42,8 @@ class FeedParser {
 				return;
 			}
 
-			$xpath = new DOMXPath($this->doc);
-
 			switch ($this->type) {
 			case $this::FEED_ATOM:
-				$xpath->registerNamespace('atom', 'http://www.w3.org/2005/Atom');
 
 				$title = $xpath->query("//atom:feed/atom:title")->item(0);
 
@@ -67,6 +68,25 @@ class FeedParser {
 
 				break;
 			case $this::FEED_RSS:
+
+				$title = $xpath->query("//channel/title")->item(0);
+
+				if ($title) {
+					$this->title = $title->nodeValue;
+				}
+
+				$link = $xpath->query("//channel/link")->item(0);
+
+				if ($link && $link->hasAttributes()) {
+					$this->link = $link->getAttribute("href");
+				}
+
+				$articles = $xpath->query("//channel/item");
+
+				foreach ($articles as $article) {
+					array_push($this->items, new FeedItem_RSS($article));
+				}
+
 				break;
 			}
 		}
