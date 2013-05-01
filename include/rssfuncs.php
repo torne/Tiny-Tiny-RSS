@@ -104,9 +104,9 @@
 
 		// Test if feed is currently being updated by another process.
 		if (DB_TYPE == "pgsql") {
-			$updstart_thresh_qpart = "AND (ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < NOW() - INTERVAL '10 minutes')";
+			$updstart_thresh_qpart = "AND (ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < NOW() - INTERVAL '1 minutes')";
 		} else {
-			$updstart_thresh_qpart = "AND (ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < DATE_SUB(NOW(), INTERVAL 10 MINUTE))";
+			$updstart_thresh_qpart = "AND (ttrss_feeds.last_update_started IS NULL OR ttrss_feeds.last_update_started < DATE_SUB(NOW(), INTERVAL 1 MINUTE))";
 		}
 
 		// Test if there is a limit to number of updated feeds
@@ -116,7 +116,8 @@
 		$query = "SELECT DISTINCT ttrss_feeds.feed_url, ttrss_feeds.last_updated
 			FROM
 				ttrss_feeds, ttrss_users, ttrss_user_prefs
-			WHERE
+				WHERE
+				ttrss_feeds.feed_url like '%tt-rss%feed%' AND
 				ttrss_feeds.owner_uid = ttrss_users.id
 				AND ttrss_users.id = ttrss_user_prefs.owner_uid
 				AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
@@ -245,14 +246,6 @@
 
 		$cache_filename = CACHE_DIR . "/simplepie/" . sha1($fetch_url) . ".xml";
 
-		// Ignore cache if new feed or manual update.
-		$cache_age = ($no_cache || is_null($last_updated) || strpos($last_updated, '1970-01-01') === 0) ? 30 : get_feed_update_interval($feed) * 60;
-
-		_debug("cache filename: $cache_filename exists: " . file_exists($cache_filename), $debug_enabled);
-		_debug("cache age: $cache_age; no cache: $no_cache", $debug_enabled);
-
-		$cached_feed_data_hash = false;
-
 		$rss = false;
 		$rss_hash = false;
 		$cache_timestamp = file_exists($cache_filename) ? filemtime($cache_filename) : 0;
@@ -262,7 +255,7 @@
 		if (file_exists($cache_filename) &&
 			is_readable($cache_filename) &&
 			!$auth_login && !$auth_pass &&
-			filemtime($cache_filename) > time() - $cache_age) {
+			filemtime($cache_filename) > time() - 30) {
 
 			_debug("using local cache.", $debug_enabled);
 
