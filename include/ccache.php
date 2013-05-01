@@ -127,12 +127,12 @@
 
 			/* Recalculate counters for child feeds */
 
-			/* $result = db_query("SELECT id FROM ttrss_feeds
+			$result = db_query("SELECT id FROM ttrss_feeds
 						WHERE owner_uid = '$owner_uid' AND $cat_qpart");
 
 			while ($line = db_fetch_assoc($result)) {
 				ccache_update($line["id"], $owner_uid, false, false);
-			} */
+			}
 
 			$result = db_query("SELECT SUM(value) AS sv
 				FROM ttrss_counters_cache, ttrss_feeds
