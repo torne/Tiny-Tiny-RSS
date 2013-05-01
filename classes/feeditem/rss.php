@@ -40,6 +40,13 @@ class FeedItem_RSS extends FeedItem_Common {
 		if ($content) {
 			return $content->nodeValue;
 		}
+
+		$content = $this->xpath->query("content:encoded", $this->elem)->item(0);
+
+		if ($content) {
+			return $content->nodeValue;
+		}
+
 	}
 
 	function get_description() {
