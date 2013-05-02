@@ -20,8 +20,6 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 	try {
 		handle_rpc_json(transport);
 
-		loading_set_progress(25);
-
 		console.log("headlines_callback2 [offset=" + offset + "] B:" + background + " I:" + infscroll_req);
 
 		var is_cat = false;

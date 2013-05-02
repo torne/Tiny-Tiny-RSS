@@ -249,7 +249,7 @@ function init() {
 		if (!genericSanityCheck())
 			return false;
 
-		loading_set_progress(20);
+		loading_set_progress(30);
 
 		var a = document.createElement('audio');
 
@@ -573,7 +573,7 @@ function init_second_stage() {
 			setActiveFeedId(hash_feed_id, hash_feed_is_cat);
 		}
 
-		loading_set_progress(30);
+		loading_set_progress(50);
 
 		// can't use cache_clear() here because viewfeed might not have initialized yet
 		if ('sessionStorage' in window && window['sessionStorage'] !== null)
