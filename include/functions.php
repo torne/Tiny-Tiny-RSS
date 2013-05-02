@@ -2902,7 +2902,6 @@
 			ttrss_tags WHERE post_int_id = (SELECT int_id FROM ttrss_user_entries WHERE
 			ref_id = '$a_id' AND owner_uid = '$owner_uid' LIMIT 1) ORDER BY tag_name";
 
-		$obj_id = md5("TAGS:$owner_uid:$id");
 		$tags = array();
 
 		/* check cache first */
@@ -3249,7 +3248,7 @@
 
 	function print_checkpoint($n, $s) {
 		$ts = microtime(true);
-		echo sprintf("<!-- CP[$n] %.4f seconds -->", $ts - $s);
+		echo sprintf("<!-- CP[$n] %.4f seconds -->\n", $ts - $s);
 		return $ts;
 	}
 
