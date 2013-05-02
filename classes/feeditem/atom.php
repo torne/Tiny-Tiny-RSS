@@ -22,7 +22,8 @@ class FeedItem_Atom extends FeedItem_Common {
 		$links = $this->elem->getElementsByTagName("link");
 
 		foreach ($links as $link) {
-			if ($link && $link->hasAttribute("href") && !$link->hasAttribute("rel")) {
+			if ($link && $link->hasAttribute("href") && (!$link->hasAttribute("rel")
+					|| $link->getAttribute("rel") == "alternate")) {
 				return $link->getAttribute("href");
 			}
 		}
