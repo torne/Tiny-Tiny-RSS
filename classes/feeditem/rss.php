@@ -35,18 +35,17 @@ class FeedItem_RSS extends FeedItem_Common {
 	}
 
 	function get_content() {
-		$content = $this->elem->getElementsByTagName("description")->item(0);
-
-		if ($content) {
-			return $content->nodeValue;
-		}
-
 		$content = $this->xpath->query("content:encoded", $this->elem)->item(0);
 
 		if ($content) {
 			return $content->nodeValue;
 		}
 
+		$content = $this->elem->getElementsByTagName("description")->item(0);
+
+		if ($content) {
+			return $content->nodeValue;
+		}
 	}
 
 	function get_description() {
