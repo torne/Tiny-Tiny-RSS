@@ -21,6 +21,9 @@ abstract class FeedItem_Common extends FeedItem {
 			$email = $author->getElementsByTagName("email")->item(0);
 
 			if ($email) return $email->nodeValue;
+
+			if ($author->nodeValue)
+				return $author->nodeValue;
 		}
 
 		$author = $this->xpath->query("dc:creator", $this->elem)->item(0);
