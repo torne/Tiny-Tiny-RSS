@@ -3391,47 +3391,22 @@
 	}
 
 	function format_tags_string($tags, $id) {
+		if (!is_array($tags) || count($tags) == 0) {
+			return __("no tags");
+		} else {
+			$maxtags = min(5, count($tags));
 
-		$tags_str = "";
-		$tags_nolinks_str = "";
-
-		$num_tags = 0;
-
-		$tag_limit = 6;
-
-		$formatted_tags = array();
-
-		foreach ($tags as $tag) {
-			$num_tags++;
-			$tag_escaped = str_replace("'", "\\'", $tag);
-
-			if (mb_strlen($tag) > 30) {
-				$tag = truncate_string($tag, 30);
+			for ($i = 0; $i < $maxtags; $i++) {
+				$tags_str .= "<a href=\"#\" onclick=\"viewfeed('".$tags[$i]."'\")>" . $tags[$i] . "</a>, ";
 			}
 
-			$tag_str = "<a href=\"javascript:viewfeed('$tag_escaped')\">$tag</a>";
+			$tags_str = mb_substr($tags_str, 0, mb_strlen($tags_str)-2);
 
-			array_push($formatted_tags, $tag_str);
+			if (count($tags) > $maxtags)
+				$tags_str .= ", &hellip;";
 
-			$tmp_tags_str = implode(", ", $formatted_tags);
-
-			if ($num_tags == $tag_limit || mb_strlen($tmp_tags_str) > 150) {
-				break;
-			}
+			return $tags_str;
 		}
-
-		$tags_str = implode(", ", $formatted_tags);
-
-		if ($num_tags < count($tags)) {
-			$tags_str .= ", &hellip;";
-		}
-
-		if ($num_tags == 0) {
-			$tags_str = __("no tags");
-		}
-
-		return $tags_str;
-
 	}
 
 	function format_article_labels($labels, $id) {
