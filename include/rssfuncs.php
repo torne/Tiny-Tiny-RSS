@@ -116,8 +116,7 @@
 		$query = "SELECT DISTINCT ttrss_feeds.feed_url, ttrss_feeds.last_updated
 			FROM
 				ttrss_feeds, ttrss_users, ttrss_user_prefs
-				WHERE
-				ttrss_feeds.feed_url like '%tt-rss%feed%' AND
+			WHERE
 				ttrss_feeds.owner_uid = ttrss_users.id
 				AND ttrss_users.id = ttrss_user_prefs.owner_uid
 				AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
