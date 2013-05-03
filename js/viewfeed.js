@@ -1416,6 +1416,8 @@ function cdmCollapseArticle(event, id, unmark) {
 				if (id == getActiveArticleId()) {
 					setActiveArticleId(0);
 				}
+
+				updateSelectedPrompt();
 			}
 
 			if (event) Event.stop(event);
