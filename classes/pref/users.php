@@ -252,9 +252,9 @@ class Pref_Users extends Handler_Protected {
 			}
 		}
 
-		static function resetUserPassword($link, $uid, $show_password) {
+		static function resetUserPassword($uid, $show_password) {
 
-			$result = db_query($link, "SELECT login,email
+			$result = db_query("SELECT login,email
 				FROM ttrss_users WHERE id = '$uid'");
 
 			$login = db_fetch_result($result, 0, "login");
@@ -266,7 +266,7 @@ class Pref_Users extends Handler_Protected {
 
 			$pwd_hash = encrypt_password($tmp_user_pwd, $new_salt, true);
 
-			db_query($link, "UPDATE ttrss_users SET pwd_hash = '$pwd_hash', salt = '$new_salt'
+			db_query("UPDATE ttrss_users SET pwd_hash = '$pwd_hash', salt = '$new_salt'
 				WHERE id = '$uid'");
 
 			if ($show_password) {
