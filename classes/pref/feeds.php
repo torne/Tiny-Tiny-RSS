@@ -1594,7 +1594,6 @@ class Pref_Feeds extends Handler_Protected {
 
 		while ($line = $this->dbh->fetch_assoc($result)) {
 
-			$class = ($lnum % 2) ? "even" : "odd";
 			$feed_id = $line["id"];
 			$this_row_id = "id=\"FUPDD-$feed_id\"";
 
@@ -1664,7 +1663,6 @@ class Pref_Feeds extends Handler_Protected {
 
 		while ($line = $this->dbh->fetch_assoc($result)) {
 
-			$class = ($lnum % 2) ? "even" : "odd";
 			$feed_id = $line["id"];
 			$this_row_id = "id=\"FERDD-$feed_id\"";
 

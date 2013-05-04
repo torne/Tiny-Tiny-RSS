@@ -1041,8 +1041,6 @@ class Pref_Prefs extends Handler_Protected {
 
 		while ($line = $this->dbh->fetch_assoc($result)) {
 
-			$class = ($lnum % 2) ? "even" : "odd";
-
 			$profile_id = $line["id"];
 			$this_row_id = "id=\"FCATR-$profile_id\"";
 

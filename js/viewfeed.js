@@ -134,8 +134,6 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
 
-					fixHeadlinesOrder(getLoadedArticleIds());
-
 					if (getInitParam("cdm_auto_catchup") == 1) {
 						c.domNode.appendChild(hsp);
 					}
@@ -1496,26 +1494,6 @@ function cdmExpandArticle(id, noexpand) {
 	return false;
 }
 
-function fixHeadlinesOrder(ids) {
-	try {
-		for (var i = 0; i < ids.length; i++) {
-			var e = $("RROW-" + ids[i]);
-
-			if (e) {
-				if (i % 2 == 0) {
-					e.removeClassName("even");
-					e.addClassName("odd");
-				} else {
-					e.removeClassName("odd");
-					e.addClassName("even");
-				}
-			}
-		}
-	} catch (e) {
-		exception_error("fixHeadlinesOrder", e);
-	}
-}
-
 function getArticleUnderPointer() {
 	return post_under_pointer;
 }
@@ -1596,7 +1574,6 @@ function dismissSelectedArticles() {
 		if (sel.length > 0)
 			selectionToggleUnread(false);
 
-		fixHeadlinesOrder(tmp);
 
 	} catch (e) {
 		exception_error("dismissSelectedArticles", e);
@@ -1620,8 +1597,6 @@ function dismissReadArticles() {
 				tmp.push(ids[i]);
 			}
 		}
-
-		fixHeadlinesOrder(tmp);
 
 	} catch (e) {
 		exception_error("dismissSelectedArticles", e);

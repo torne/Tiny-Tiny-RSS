@@ -69,8 +69,6 @@ class Pref_Users extends Handler_Protected {
 
 			print "<ul class=\"userFeedList\">";
 
-			$row_class = "odd";
-
 			while ($line = $this->dbh->fetch_assoc($result)) {
 
 				$icon_file = ICONS_URL."/".$line["id"].".ico";
@@ -81,9 +79,7 @@ class Pref_Users extends Handler_Protected {
 					$feed_icon = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\">";
 				}
 
-				print "<li class=\"$row_class\">$feed_icon&nbsp;<a href=\"".$line["site_url"]."\">".$line["title"]."</a></li>";
-
-				$row_class = $row_class == "even" ? "odd" : "even";
+				print "<li>$feed_icon&nbsp;<a href=\"".$line["site_url"]."\">".$line["title"]."</a></li>";
 
 			}
 
@@ -407,8 +403,6 @@ class Pref_Users extends Handler_Protected {
 			$lnum = 0;
 
 			while ($line = $this->dbh->fetch_assoc($result)) {
-
-				$class = ($lnum % 2) ? "even" : "odd";
 
 				$uid = $line["id"];
 

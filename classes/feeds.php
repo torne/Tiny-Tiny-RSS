@@ -288,8 +288,6 @@ class Feeds extends Handler_Protected {
 			$expand_cdm = get_pref('CDM_EXPANDED');
 
 			while ($line = $this->dbh->fetch_assoc($result)) {
-				$class = ($lnum % 2) ? "even" : "odd";
-
 				$id = $line["id"];
 				$feed_id = $line["feed_id"];
 				$label_cache = $line["label_cache"];
@@ -315,6 +313,8 @@ class Feeds extends Handler_Protected {
 				if (count($topmost_article_ids) < 3) {
 					array_push($topmost_article_ids, $id);
 				}
+
+				$class = "";
 
 				if (sql_bool_to_bool($line["unread"])) {
 					$class .= " Unread";

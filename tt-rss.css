@@ -187,17 +187,12 @@ a:hover {
 	font-weight : bold;
 }
 
-.hl.even.Grayed {
-	background : #f0f0f0;
+.hl.Grayed {
 	color : #909090;
-	border-width : 0px 0px 1px 0px;
-	border-style : solid;
-	border-color : #c0c0c0;
-	border-collapse : collapse;
 }
 
-.hl.odd.Grayed {
-	color : #909090;
+#headlines-frame div.hl:nth-child(even) {
+	background : #f0f0f0;
 }
 
 .hl {
@@ -208,15 +203,6 @@ a:hover {
 
 .hl.active {
 	background : #ecf4ff ! important;
-}
-
-.hl.even {
-	background : #f0f0f0;
-	border-collapse : collapse;
-}
-
-.hl.odd {
-	background : white;
 }
 
 div.filterTestHolder {
