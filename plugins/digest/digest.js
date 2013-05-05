@@ -46,9 +46,8 @@ function catchup_feed(feed_id, callback) {
 	}
 }
 
-function get_visible_article_ids() {
+function parse_article_elements_for_ids(elems) {
 	try {
-		var elems = $("headlines-content").getElementsByTagName("LI");
 		var ids = [];
 
 		for (var i = 0; i < elems.length; i++) {
@@ -60,6 +59,28 @@ function get_visible_article_ids() {
 		return ids;
 
 	} catch (e) {
+		exception_error("parse_article_elements_for_ids", e);
+	}
+}
+
+function get_selected_article_ids() {
+	try {
+		var elems = $$('#headlines-content li.selected');
+
+		return parse_article_elements_for_ids(elems);
+
+	} catch (e) {
+		exception_error("get_visible_article_ids", e);
+	}
+}
+
+function get_visible_article_ids() {
+	try {
+		var elems = $("headlines-content").getElementsByTagName("LI");
+
+		return parse_article_elements_for_ids(elems);
+
+	} catch (e) {
 		exception_error("get_visible_article_ids", e);
 	}
 }
@@ -67,9 +88,15 @@ function get_visible_article_ids() {
 function catchup_visible_articles(callback) {
 	try {
 
-		var ids = get_visible_article_ids();
+		var ids = get_selected_article_ids();
+		if ( 0 == ids.length ) {
+			ids = get_visible_article_ids();
+			ntext = [ "Mark %d displayed article as read?", "Mark %d displayed articles as read?" ];
+		} else {
+			ntext = [ "Mark %d selected article as read?", "Mark %d selected articles as read?" ];
+		}
 
-		if (confirm(ngettext("Mark %d displayed article as read?", "Mark %d displayed articles as read?", ids.length).replace("%d", ids.length))) {
+		if (confirm(ngettext(ntext[0], ntext[1], ids.length).replace("%d", ids.length))) {
 
 			var query = "op=rpc&method=catchupSelected" +
 				"&cmode=0&ids=" + param_escape(ids);
