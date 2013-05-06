@@ -1610,21 +1610,6 @@ function resetCatOrder() {
 	}
 }
 
-function toggleHiddenFeedCats() {
-	try {
-		notify_progress("Loading, please wait...");
-
-		new Ajax.Request("backend.php", {
-			parameters: "?op=pref-feeds&method=togglehiddenfeedcats",
-			onComplete: function(transport) {
-		  		updateFeedList();
-			} });
-
-	} catch (e) {
-		exception_error("toggleHiddenFeedCats");
-	}
-}
-
 function editCat(id, item, event) {
 	try {
 		var new_name = prompt(__('Rename category to:'), item.name);

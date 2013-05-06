@@ -36,8 +36,7 @@ class Pref_Feeds extends Handler_Protected {
 
 		// first one is set by API
 		$show_empty_cats = $_REQUEST['force_show_empty'] ||
-			($_REQUEST['mode'] != 2 && !$search &&
-				get_pref('_PREFS_SHOW_EMPTY_CATS'));
+			($_REQUEST['mode'] != 2 && !$search);
 
 		$items = array();
 
@@ -185,8 +184,7 @@ class Pref_Feeds extends Handler_Protected {
 
 		if ($enable_cats) {
 			$show_empty_cats = $_REQUEST['force_show_empty'] ||
-				($_REQUEST['mode'] != 2 && !$search &&
-				get_pref('_PREFS_SHOW_EMPTY_CATS'));
+				($_REQUEST['mode'] != 2 && !$search);
 
 			$result = $this->dbh->query("SELECT id, title FROM ttrss_feed_categories
 				WHERE owner_uid = " . $_SESSION["uid"] . " AND parent_cat IS NULL ORDER BY order_id, title");
@@ -303,11 +301,6 @@ class Pref_Feeds extends Handler_Protected {
 		$this->dbh->query("UPDATE ttrss_feeds
 				SET order_id = 0 WHERE owner_uid = " . $_SESSION["uid"]);
 		return;
-	}
-
-	function togglehiddenfeedcats() {
-		set_pref('_PREFS_SHOW_EMPTY_CATS',
-			(get_pref('_PREFS_SHOW_EMPTY_CATS') ? 'false' : 'true'));
 	}
 
 	private function process_category_order(&$data_map, $item_id, $parent_id = false, $nest_level = 0) {
@@ -1350,9 +1343,6 @@ class Pref_Feeds extends Handler_Protected {
 
 		print $error_button;
 		print $inactive_button;
-
-		print "<button onclick=\"toggleHiddenFeedCats()\"
-			dojoType=\"dijit.form.Button\">".__('(Un)hide empty categories')."</button>";
 
 		if (defined('_ENABLE_FEED_DEBUGGING')) {
 
