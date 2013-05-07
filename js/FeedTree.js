@@ -188,7 +188,9 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		ctr.className = 'counterNode';
 		ctr.innerHTML = args.item.unread;
 
-		args.item.unread > 0 ? ctr.addClassName("unread") : ctr.removeClassName("unread");
+		//args.item.unread > 0 ? ctr.addClassName("unread") : ctr.removeClassName("unread");
+
+		args.item.unread > 0 ? Element.show(ctr) : Element.hide(ctr);
 
 		dojo.place(ctr, tnode.labelNode, 'after');
 		tnode.counterNode = ctr;
@@ -212,8 +214,11 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 			node = node[0];
 
 			if (node.counterNode) {
-				node.counterNode.innerHTML = item.unread;
-				item.unread > 0 ? node.counterNode.addClassName("unread") : node.counterNode.removeClassName("unread");
+				ctr = node.counterNode;
+				ctr.innerHTML = item.unread;
+				item.unread > 0 ? Effect.Appear(ctr, {duration : 0.3,
+					queue: { position: 'end', scope: 'CAPPEAR-' + item.id, limit: 1 }}) :
+						Element.hide(ctr);
 			}
 		}
 
