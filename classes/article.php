@@ -215,7 +215,7 @@ class Article extends Handler_Protected {
 		$this->dbh->query("UPDATE ttrss_user_entries SET
 			score = '$score' WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
-		print json_encode(array("id" => $id,
+		print json_encode(array("id" => $ids,
 			"score_pic" => get_score_pic($score)));
 	}
 

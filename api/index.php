@@ -57,7 +57,7 @@
 
 	$method = strtolower($_REQUEST["op"]);
 
-	$handler = new API(Db::get(), $_REQUEST);
+	$handler = new API($_REQUEST);
 
 	if ($handler->before($method)) {
 		if ($method && method_exists($handler, $method)) {

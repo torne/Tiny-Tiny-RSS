@@ -79,7 +79,7 @@ class Db_PDO implements IDb {
 	}
 
 	function last_error() {
-		return join(" ", $pdo->errorInfo());
+		return join(" ", $this->pdo->errorInfo());
 	}
 
 	function init() {

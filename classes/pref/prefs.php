@@ -747,7 +747,7 @@ class Pref_Prefs extends Handler_Protected {
 		$system_enabled = array_map("trim", explode(",", PLUGINS));
 		$user_enabled = array_map("trim", explode(",", get_pref("_ENABLED_PLUGINS")));
 
-		$tmppluginhost = new PluginHost(Db::get());
+		$tmppluginhost = new PluginHost();
 		$tmppluginhost->load_all($tmppluginhost::KIND_ALL, $_SESSION["uid"]);
 		$tmppluginhost->load_data(true);
 

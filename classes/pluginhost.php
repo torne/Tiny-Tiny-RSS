@@ -186,7 +186,7 @@ class PluginHost {
 		}
 	}
 
-	function del_handler($handler, $method) {
+	function del_handler($handler, $method, $sender) {
 		$handler = str_replace("-", "_", strtolower($handler));
 		$method = strtolower($method);
 
@@ -252,8 +252,6 @@ class PluginHost {
 
 	function load_data($force = false) {
 		if ($this->owner_uid)  {
-			$plugin = $this->dbh->escape_string($plugin);
-
 			$result = $this->dbh->query("SELECT name, content FROM ttrss_plugin_storage
 				WHERE owner_uid = '".$this->owner_uid."'");
 

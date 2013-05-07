@@ -28,7 +28,7 @@ class ttrssMailer extends PHPMailer {
 			$this->Host = $pair[0];
 			$this->Port = $pair[1];
 
-			if (!$Port) $Port = 25;
+			if (!$this->Port) $this->Port = 25;
 		} else {
 			$this->Host = '';
 			$this->Port = '';

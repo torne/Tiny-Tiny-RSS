@@ -1101,7 +1101,7 @@ if (!class_exists('QRcode', false)) {
 		 protected function makeMaskNo($maskNo, $width, $s, &$d, $maskGenOnly=false) {
 			$b = 0;
 			$bitMask = array();
-			$bitMask = $this->generateMaskNo($maskNo, $width, $s, $d);
+			$bitMask = $this->generateMaskNo($maskNo, $width, $s);
 			if ($maskGenOnly) {
 				return;
 			}
@@ -1399,7 +1399,7 @@ if (!class_exists('QRcode', false)) {
 				$p += 2;
 			}
 			$this->items = $this->appendNewInputItem($this->items, QR_MODE_KJ, $p, str_split($this->dataStr));
-			return $run;
+			return $p;
 		}
 
 		/**
@@ -1470,7 +1470,7 @@ if (!class_exists('QRcode', false)) {
 						break;
 					}
 					case QR_MODE_KJ: {
-						if ($hint == QR_MODE_KJ) {
+						if ($this->hint == QR_MODE_KJ) {
 							$length = $this->eatKanji();
 						} else {
 							$length = $this->eat8();
@@ -1499,7 +1499,7 @@ if (!class_exists('QRcode', false)) {
 			$stringLen = strlen($this->dataStr);
 			$p = 0;
 			while ($p < $stringLen) {
-				$mode = $this->identifyMode(substr($this->dataStr, $p), $this->hint);
+				$mode = $this->identifyMode(substr($this->dataStr, $p));
 				if ($mode == QR_MODE_KJ) {
 					$p += 2;
 				} else {

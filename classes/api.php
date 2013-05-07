@@ -14,12 +14,12 @@ class API extends Handler {
 			header("Content-Type: text/json");
 
 			if (!$_SESSION["uid"] && $method != "login" && $method != "isloggedin") {
-				print $this->wrap(self::STATUS_ERR, array("error" => 'NOT_LOGGED_IN'));
+				$this->wrap(self::STATUS_ERR, array("error" => 'NOT_LOGGED_IN'));
 				return false;
 			}
 
 			if ($_SESSION["uid"] && $method != "logout" && !get_pref('ENABLE_API_ACCESS')) {
-				print $this->wrap(self::STATUS_ERR, array("error" => 'API_DISABLED'));
+				$this->wrap(self::STATUS_ERR, array("error" => 'API_DISABLED'));
 				return false;
 			}
 
@@ -38,12 +38,12 @@ class API extends Handler {
 
 	function getVersion() {
 		$rv = array("version" => VERSION);
-		print $this->wrap(self::STATUS_OK, $rv);
+		$this->wrap(self::STATUS_OK, $rv);
 	}
 
 	function getApiLevel() {
 		$rv = array("level" => self::API_LEVEL);
-		print $this->wrap(self::STATUS_OK, $rv);
+		$this->wrap(self::STATUS_OK, $rv);
 	}
 
 	function login() {
@@ -65,33 +65,33 @@ class API extends Handler {
 		}
 
 		if (!$uid) {
-			print $this->wrap(self::STATUS_ERR, array("error" => "LOGIN_ERROR"));
+			$this->wrap(self::STATUS_ERR, array("error" => "LOGIN_ERROR"));
 			return;
 		}
 
 		if (get_pref("ENABLE_API_ACCESS", $uid)) {
 			if (authenticate_user($login, $password)) {               // try login with normal password
-				print $this->wrap(self::STATUS_OK, array("session_id" => session_id(),
+				$this->wrap(self::STATUS_OK, array("session_id" => session_id(),
 					"api_level" => self::API_LEVEL));
 			} else if (authenticate_user($login, $password_base64)) { // else try with base64_decoded password
-				print $this->wrap(self::STATUS_OK,	array("session_id" => session_id(),
+				$this->wrap(self::STATUS_OK,	array("session_id" => session_id(),
 					"api_level" => self::API_LEVEL));
 			} else {                                                         // else we are not logged in
-				print $this->wrap(self::STATUS_ERR, array("error" => "LOGIN_ERROR"));
+				$this->wrap(self::STATUS_ERR, array("error" => "LOGIN_ERROR"));
 			}
 		} else {
-			print $this->wrap(self::STATUS_ERR, array("error" => "API_DISABLED"));
+			$this->wrap(self::STATUS_ERR, array("error" => "API_DISABLED"));
 		}
 
 	}
 
 	function logout() {
 		logout_user();
-		print $this->wrap(self::STATUS_OK, array("status" => "OK"));
+		$this->wrap(self::STATUS_OK, array("status" => "OK"));
 	}
 
 	function isLoggedIn() {
-		print $this->wrap(self::STATUS_OK, array("status" => $_SESSION["uid"] != ''));
+		$this->wrap(self::STATUS_OK, array("status" => $_SESSION["uid"] != ''));
 	}
 
 	function getUnread() {
@@ -99,15 +99,15 @@ class API extends Handler {
 		$is_cat = $this->dbh->escape_string($_REQUEST["is_cat"]);
 
 		if ($feed_id) {
-			print $this->wrap(self::STATUS_OK, array("unread" => getFeedUnread($feed_id, $is_cat)));
+			$this->wrap(self::STATUS_OK, array("unread" => getFeedUnread($feed_id, $is_cat)));
 		} else {
-			print $this->wrap(self::STATUS_OK, array("unread" => getGlobalUnread()));
+			$this->wrap(self::STATUS_OK, array("unread" => getGlobalUnread()));
 		}
 	}
 
 	/* Method added for ttrss-reader for Android */
 	function getCounters() {
-		print $this->wrap(self::STATUS_OK, getAllCounters());
+		$this->wrap(self::STATUS_OK, getAllCounters());
 	}
 
 	function getFeeds() {
@@ -119,7 +119,7 @@ class API extends Handler {
 
 		$feeds = $this->api_get_feeds($cat_id, $unread_only, $limit, $offset, $include_nested);
 
-		print $this->wrap(self::STATUS_OK, $feeds);
+		$this->wrap(self::STATUS_OK, $feeds);
 	}
 
 	function getCategories() {
@@ -176,7 +176,7 @@ class API extends Handler {
 			}
 		}
 
-		print $this->wrap(self::STATUS_OK, $cats);
+		$this->wrap(self::STATUS_OK, $cats);
 	}
 
 	function getHeadlines() {
@@ -219,9 +219,9 @@ class API extends Handler {
 				$include_attachments, $since_id, $search, $search_mode,
 				$include_nested, $sanitize_content);
 
-			print $this->wrap(self::STATUS_OK, $headlines);
+			$this->wrap(self::STATUS_OK, $headlines);
 		} else {
-			print $this->wrap(self::STATUS_ERR, array("error" => 'INCORRECT_USAGE'));
+			$this->wrap(self::STATUS_ERR, array("error" => 'INCORRECT_USAGE'));
 		}
 	}
 
@@ -293,11 +293,11 @@ class API extends Handler {
 				}
 			}
 
-			print $this->wrap(self::STATUS_OK, array("status" => "OK",
+			$this->wrap(self::STATUS_OK, array("status" => "OK",
 				"updated" => $num_updated));
 
 		} else {
-			print $this->wrap(self::STATUS_ERR, array("error" => 'INCORRECT_USAGE'));
+			$this->wrap(self::STATUS_ERR, array("error" => 'INCORRECT_USAGE'));
 		}
 
 	}
@@ -352,7 +352,7 @@ class API extends Handler {
 			}
 		}
 
-		print $this->wrap(self::STATUS_OK, $articles);
+		$this->wrap(self::STATUS_OK, $articles);
 
 	}
 
@@ -370,7 +370,7 @@ class API extends Handler {
 
 		$config["num_feeds"] = (int)$num_feeds;
 
-		print $this->wrap(self::STATUS_OK, $config);
+		$this->wrap(self::STATUS_OK, $config);
 	}
 
 	function updateFeed() {
@@ -380,7 +380,7 @@ class API extends Handler {
 
 		update_rss_feed($feed_id, true);
 
-		print $this->wrap(self::STATUS_OK, array("status" => "OK"));
+		$this->wrap(self::STATUS_OK, array("status" => "OK"));
 	}
 
 	function catchupFeed() {
@@ -389,13 +389,13 @@ class API extends Handler {
 
 		catchup_feed($feed_id, $is_cat);
 
-		print $this->wrap(self::STATUS_OK, array("status" => "OK"));
+		$this->wrap(self::STATUS_OK, array("status" => "OK"));
 	}
 
 	function getPref() {
 		$pref_name = $this->dbh->escape_string($_REQUEST["pref_name"]);
 
-		print $this->wrap(self::STATUS_OK, array("value" => get_pref($pref_name)));
+		$this->wrap(self::STATUS_OK, array("value" => get_pref($pref_name)));
 	}
 
 	function getLabels() {
@@ -432,7 +432,7 @@ class API extends Handler {
 				"checked" => $checked));
 		}
 
-		print $this->wrap(self::STATUS_OK, $rv);
+		$this->wrap(self::STATUS_OK, $rv);
 	}
 
 	function setArticleLabel() {
@@ -460,7 +460,7 @@ class API extends Handler {
 			}
 		}
 
-		print $this->wrap(self::STATUS_OK, array("status" => "OK",
+		$this->wrap(self::STATUS_OK, array("status" => "OK",
 			"updated" => $num_updated));
 
 	}
@@ -471,10 +471,10 @@ class API extends Handler {
 		if ($plugin && method_exists($plugin, $method)) {
 			$reply = $plugin->$method();
 
-			print $this->wrap($reply[0], $reply[1]);
+			$this->wrap($reply[0], $reply[1]);
 
 		} else {
-			print $this->wrap(self::STATUS_ERR, array("error" => 'UNKNOWN_METHOD', "method" => $method));
+			$this->wrap(self::STATUS_ERR, array("error" => 'UNKNOWN_METHOD', "method" => $method));
 		}
 	}
 
@@ -484,9 +484,9 @@ class API extends Handler {
 		$content = $this->dbh->escape_string(strip_tags($_REQUEST["content"]));
 
 		if (Article::create_published_article($title, $url, $content, "", $_SESSION["uid"])) {
-			print $this->wrap(self::STATUS_OK, array("status" => 'OK'));
+			$this->wrap(self::STATUS_OK, array("status" => 'OK'));
 		} else {
-			print $this->wrap(self::STATUS_ERR, array("error" => 'Publishing failed'));
+			$this->wrap(self::STATUS_ERR, array("error" => 'Publishing failed'));
 		}
 	}
 
@@ -714,9 +714,9 @@ class API extends Handler {
 
 		if ($this->dbh->num_rows($result) != 0) {
 			Pref_Feeds::remove_feed($feed_id, $_SESSION["uid"]);
-			print $this->wrap(self::STATUS_OK, array("status" => "OK"));
+			$this->wrap(self::STATUS_OK, array("status" => "OK"));
 		} else {
-			print $this->wrap(self::STATUS_ERR, array("error" => "FEED_NOT_FOUND"));
+			$this->wrap(self::STATUS_ERR, array("error" => "FEED_NOT_FOUND"));
 		}
 	}
 
@@ -727,12 +727,11 @@ class API extends Handler {
 		$password = $this->dbh->escape_string($_REQUEST["password"]);
 
 		if ($feed_url) {
-			$rc = subscribe_to_feed($feed_url, $category_id,
-				$login, $password, false);
+			$rc = subscribe_to_feed($feed_url, $category_id, $login, $password);
 
-			print $this->wrap(self::STATUS_OK, array("status" => $rc));
+			$this->wrap(self::STATUS_OK, array("status" => $rc));
 		} else {
-			print $this->wrap(self::STATUS_ERR, array("error" => 'INCORRECT_USAGE'));
+			$this->wrap(self::STATUS_ERR, array("error" => 'INCORRECT_USAGE'));
 		}
 	}
 
@@ -746,9 +745,9 @@ class API extends Handler {
 
 		if ($pf){
 			$data = $pf->makefeedtree();
-			print $this->wrap(self::STATUS_OK, array("categories" => $data));
+			$this->wrap(self::STATUS_OK, array("categories" => $data));
 		} else {
-			print $this->wrap(self::STATUS_ERR, array("error" =>
+			$this->wrap(self::STATUS_ERR, array("error" =>
 				'UNABLE_TO_INSTANTIATE_OBJECT'));
 		}
 

@@ -291,7 +291,7 @@ class RPC extends Handler_Protected {
 
 		$reply = array();
 
-		if ($seq) $reply['seq'] = $seq;
+		if (!empty($_REQUEST['seq'])) $reply['seq'] = (int) $_REQUEST['seq'];
 
 		if ($last_article_id != getLastArticleId()) {
 			$reply['counters'] = getAllCounters();
@@ -464,7 +464,7 @@ class RPC extends Handler_Protected {
 			$id = 0;
 		}
 
-		print_feed_cat_select("cat_id", $id);
+		print_feed_cat_select("cat_id", $id, '');
 	}
 
 	// Silent

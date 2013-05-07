@@ -89,7 +89,7 @@
 			<span><img src=\"../images/sign_info.svg\"></span><span>$msg</span></div>";
 	}
 
-	function db_connect($host, $user, $pass, $db, $type, $port) {
+	function db_connect($host, $user, $pass, $db, $type, $port = false) {
 		if ($type == "pgsql") {
 
 			$string = "dbname=$db user=$user";
