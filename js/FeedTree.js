@@ -192,7 +192,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 
 		args.item.unread > 0 ? Element.show(ctr) : Element.hide(ctr);
 
-		dojo.place(ctr, tnode.labelNode, 'after');
+		dojo.place(ctr, tnode.rowNode, 'first');
 		tnode.counterNode = ctr;
 
 		//tnode.labelNode.innerHTML = args.label;
