@@ -1661,7 +1661,7 @@
 			$feed_id = db_fetch_result($result, 0, "id");
 
 			if ($feed_id) {
-				update_rss_feed($feed_id, true);
+				update_rss_feed($feed_id, false, false, false, $contents);
 			}
 
 			return array("code" => 1);
