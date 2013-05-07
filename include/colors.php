@@ -237,16 +237,16 @@ function rgb2hsl($arr) {
    } else {
       $s = $del_Max / $var_Max;
 
-      $del_R = ((($max - $var_R ) / 6 ) + ($del_Max / 2 ) ) / $del_Max;
-      $del_G = ((($max - $var_G ) / 6 ) + ($del_Max / 2 ) ) / $del_Max;
-      $del_B = ((($max - $var_B ) / 6 ) + ($del_Max / 2 ) ) / $del_Max;
+      $del_R = ((($var_Max - $var_R ) / 6 ) + ($del_Max / 2 ) ) / $del_Max;
+      $del_G = ((($var_Max - $var_G ) / 6 ) + ($del_Max / 2 ) ) / $del_Max;
+      $del_B = ((($var_Max - $var_B ) / 6 ) + ($del_Max / 2 ) ) / $del_Max;
 
       if      ($var_R == $var_Max) $h = $del_B - $del_G;
       else if ($var_G == $var_Max) $h = (1 / 3 ) + $del_R - $del_B;
       else if ($var_B == $var_Max) $h = (2 / 3 ) + $del_G - $del_R;
 
-      if ($H < 0) $h++;
-      if ($H > 1) $h--;
+      if ($h < 0) $h++;
+      if ($h > 1) $h--;
    }
 
    return array($h, $s, $v);

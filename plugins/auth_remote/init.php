@@ -45,7 +45,7 @@ class Auth_Remote extends Plugin implements IAuthModule {
 #	  	if (!$try_login) $try_login = "test_qqq";
 
 		if ($try_login) {
-			$user_id = $this->base->auto_create_user($try_login);
+			$user_id = $this->base->auto_create_user($try_login, $password);
 
 			if ($user_id) {
 				$_SESSION["fake_login"] = $try_login;

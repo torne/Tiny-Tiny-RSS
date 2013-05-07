@@ -114,7 +114,7 @@ class Af_Unburn extends Plugin {
 				preg_match("/(Location:|URI:)[^(\n)]*/", $header, $matches);
 				$url = trim(str_replace($matches[1],"",$matches[0]));
 				$url_parsed = parse_url($url);
-				return (isset($url_parsed))? geturl($url, $referer):'';
+				return (isset($url_parsed))? geturl($url):'';
 			}
 			$oline='';
 			foreach($status as $key=>$eline){$oline.='['.$key.']'.$eline.' ';}

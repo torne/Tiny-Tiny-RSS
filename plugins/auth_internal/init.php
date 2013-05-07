@@ -51,7 +51,7 @@ class Auth_Internal extends Plugin implements IAuthModule {
 							$return = urlencode($_REQUEST["return"]);
 							?><html>
 								<head><title>Tiny Tiny RSS</title></head>
-								<?php echo stylesheet_tag("utility.css") ?>
+								<?php stylesheet_tag("utility.css") ?>
 							<body class="otp"><div class="content">
 							<form action="public.php?return=<?php echo $return ?>"
 									method="POST" class="otpform">

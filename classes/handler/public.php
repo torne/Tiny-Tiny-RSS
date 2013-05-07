@@ -382,9 +382,9 @@ class Handler_Public extends Handler {
 		header('Content-Type: text/html; charset=utf-8');
 		print "<html><head><title>Tiny Tiny RSS</title>";
 
-		print stylesheet_tag("utility.css");
-		print javascript_tag("lib/prototype.js");
-		print javascript_tag("lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls");
+		stylesheet_tag("utility.css");
+		javascript_tag("lib/prototype.js");
+		javascript_tag("lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls");
 		print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 			</head><body id='sharepopup'>";
 
@@ -643,6 +643,7 @@ class Handler_Public extends Handler {
 		$feed_url = $this->dbh->escape_string(trim($_REQUEST["feed_url"]));
 		$cat_id = $this->dbh->escape_string($_REQUEST["cat_id"]);
 		$from = $this->dbh->escape_string($_REQUEST["from"]);
+		$feed_urls = array();
 
 		/* only read authentication information from POST */
 
@@ -666,8 +667,10 @@ class Handler_Public extends Handler {
 			break;
 		case 4:
 			print_notice(__("Multiple feed URLs found."));
-
-			$feed_urls = get_feeds_from_html($feed_url);
+ 			$contents = @fetch_file_contents($url, false, $auth_login, $auth_pass);
+			if (is_html($contents)) {
+				$feed_urls = get_feeds_from_html($url, $contents);
+			}
 			break;
 		case 5:
 			print_error(T_sprintf("Could not subscribe to <b>%s</b>.<br>Can't download the Feed URL.", $feed_url));
@@ -732,8 +735,8 @@ class Handler_Public extends Handler {
 		header('Content-Type: text/html; charset=utf-8');
 		print "<html><head><title>Tiny Tiny RSS</title>";
 
-		print stylesheet_tag("utility.css");
-		print javascript_tag("lib/prototype.js");
+		stylesheet_tag("utility.css");
+		javascript_tag("lib/prototype.js");
 
 		print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 			</head><body id='forgotpass'>";

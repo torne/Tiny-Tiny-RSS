@@ -321,7 +321,7 @@
 	}
 
 	if (isset($options["list-plugins"])) {
-		$tmppluginhost = new PluginHost(Db::get());
+		$tmppluginhost = new PluginHost();
 		$tmppluginhost->load_all($tmppluginhost::KIND_ALL);
 		$enabled = array_map("trim", explode(",", PLUGINS));
 

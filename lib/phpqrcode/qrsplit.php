@@ -186,7 +186,7 @@
             if($ret < 0)
                 return -1;
 
-            return $run;
+            return $ret;
         }
 
         //----------------------------------------------------------------------
@@ -258,7 +258,7 @@
                     case QR_MODE_NUM: $length = $this->eatNum(); break;
                     case QR_MODE_AN:  $length = $this->eatAn(); break;
                     case QR_MODE_KANJI:
-                        if ($hint == QR_MODE_KANJI)
+                        if ($this->modeHint == QR_MODE_KANJI)
                                 $length = $this->eatKanji();
                         else    $length = $this->eat8();
                         break;
@@ -280,7 +280,7 @@
             $p = 0;
             
             while ($p<$stringLen) {
-                $mode = self::identifyMode(substr($this->dataStr, $p), $this->modeHint);
+                $mode = self::identifyMode(substr($this->dataStr, $p));
                 if($mode == QR_MODE_KANJI) {
                     $p += 2;
                 } else {

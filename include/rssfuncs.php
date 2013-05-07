@@ -334,7 +334,7 @@
 		}
 
 		$pluginhost = new PluginHost();
-		$pluginhost->set_debug($debug_enabled, $debug_enabled);
+		$pluginhost->set_debug($debug_enabled);
 		$user_plugins = get_pref("_ENABLED_PLUGINS", $owner_uid);
 
 		$pluginhost->load(PLUGINS, PluginHost::KIND_ALL);
@@ -411,7 +411,7 @@
 
 				_debug("checking favicon...", $debug_enabled);
 
-				check_feed_favicon($site_url, $feed, $link);
+				check_feed_favicon($site_url, $feed);
 				$favicon_modified_new = @filemtime($favicon_file);
 
 				if ($favicon_modified_new > $favicon_modified)

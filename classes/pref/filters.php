@@ -83,8 +83,6 @@ class Pref_Filters extends Handler_Protected {
 			}
 		}
 
-		$feed_title = getFeedTitle($feed);
-
 		$qfh_ret = queryFeedHeadlines(-4, 30, "", false, false, false,
 			"date_entered DESC", 0, $_SESSION["uid"], $filter);
 
