@@ -787,10 +787,6 @@ div.fatalError textarea {
 	border-width : 0px;
 }
 
-#feedTree {
-	overflow : visible;
-}
-
 #headlines-frame {
 	padding : 0px;
 	border-color : #88b0f0;
@@ -1027,4 +1023,15 @@ div.hl.active a.title {
 
 #selected_prompt {
 	margin-right : 25px;
+}
+
+#feedTree .dijitTreeRow, #feedTree .dijitTreeNode, #feedTree .dijitFocused {
+	padding : 1px 0px 1px;
+	border-width : 1px;
+	border-color : transparent;
+}
+
+#feedTree { 
+	height : 100%;
+	overflow-x : hidden;
 }
