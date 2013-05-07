@@ -787,7 +787,7 @@ class Pref_Feeds extends Handler_Protected {
 
 		print "<input dojoType=\"dijit.form.ValidationTextBox\"
 			disabled=\"1\" style=\"font-size : 16px; width : 20em;\" required=\"1\"
-			name=\"title\" value=\"$title\">";
+			name=\"title\" value=\"\">";
 
 		$this->batch_edit_cbox("title");
 
@@ -798,7 +798,7 @@ class Pref_Feeds extends Handler_Protected {
 		print __('URL:') . " ";
 		print "<input dojoType=\"dijit.form.ValidationTextBox\" disabled=\"1\"
 			required=\"1\" regExp='^(http|https)://.*' style=\"width : 20em\"
-			name=\"feed_url\" value=\"$feed_url\">";
+			name=\"feed_url\" value=\"\">";
 
 		$this->batch_edit_cbox("feed_url");
 
@@ -810,7 +810,7 @@ class Pref_Feeds extends Handler_Protected {
 
 			print __('Place in category:') . " ";
 
-			print_feed_cat_select("cat_id", $cat_id,
+			print_feed_cat_select("cat_id", false,
 				'disabled="1" dojoType="dijit.form.Select"');
 
 			$this->batch_edit_cbox("cat_id");
@@ -824,7 +824,7 @@ class Pref_Feeds extends Handler_Protected {
 
 		/* Update Interval */
 
-		print_select_hash("update_interval", $update_interval, $update_intervals,
+		print_select_hash("update_interval", "", $update_intervals,
 			'disabled="1" dojoType="dijit.form.Select"');
 
 		$this->batch_edit_cbox("update_interval");
@@ -837,7 +837,7 @@ class Pref_Feeds extends Handler_Protected {
 
 			print __('Article purging:') . " ";
 
-			print_select_hash("purge_interval", $purge_interval, $purge_intervals,
+			print_select_hash("purge_interval", "", $purge_intervals,
 				'disabled="1" dojoType="dijit.form.Select"');
 
 			$this->batch_edit_cbox("purge_interval");
@@ -849,13 +849,13 @@ class Pref_Feeds extends Handler_Protected {
 
 		print "<input dojoType=\"dijit.form.TextBox\"
 			placeHolder=\"".__("Login")."\" disabled=\"1\"
-			name=\"auth_login\" value=\"$auth_login\">";
+			name=\"auth_login\" value=\"\">";
 
 		$this->batch_edit_cbox("auth_login");
 
 		print "<br/><input dojoType=\"dijit.form.TextBox\" type=\"password\" name=\"auth_pass\"
 			placeHolder=\"".__("Password")."\" disabled=\"1\"
-			value=\"$auth_pass\">";
+			value=\"\">";
 
 		$this->batch_edit_cbox("auth_pass");
 
