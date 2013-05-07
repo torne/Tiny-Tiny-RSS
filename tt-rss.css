@@ -113,8 +113,9 @@ h3 {
 
 hr {
 	border-width : 0px 0px 1px 0px;
-	border-style : dashed;
-	border-color : #e0e0e0;
+	border-style : solid;
+	border-color : #c0c0c0;
+	max-width : 90%;
 }
 
 a {
@@ -185,8 +186,17 @@ a:hover {
 	border-color : #ff0000;
 }
 
-.hl.Unread div.hlTitle {
+.hl div.hlTitle a {
 	font-weight : bold;
+	color : gray;
+}
+
+.hl.Unread div.hlTitle a {
+	color : black;
+}
+
+.hl.active div.hlTitle a {
+	color : #4684ff;
 }
 
 .hl.Grayed {
@@ -198,7 +208,7 @@ a:hover {
 }
 
 .hl {
-	border-width : 0px 1px 1px 0px;
+	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #c0c0c0;
 }
@@ -1010,10 +1020,6 @@ select.attachments {
 
 div.hl.active {
 	border-color : #88b0f0;
-}
-
-div.hl.active a.title {
-	color : #4684ff;
 }
 
 #selected_prompt {
