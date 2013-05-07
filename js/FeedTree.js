@@ -193,6 +193,12 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		//tnode.labelNode.innerHTML = args.label;
 		return tnode;
 	},
+	getTooltip: function (item) {
+		if (item.updated)
+			return item.updated;
+		else
+			return "";
+	},
 	getIconClass: function (item, opened) {
 		return (!item || this.model.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "feedIcon";
 	},
