@@ -186,12 +186,37 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 
 		ctr = dojo.doc.createElement('span');
 		ctr.className = 'counterNode';
-		ctr.innerHTML = '0';
+		ctr.innerHTML = args.item.unread;
+
+		args.item.unread > 0 ? ctr.addClassName("unread") : ctr.removeClassName("unread");
+
 		dojo.place(ctr, tnode.labelNode, 'after');
 		tnode.counterNode = ctr;
 
 		//tnode.labelNode.innerHTML = args.label;
 		return tnode;
+	},
+	postCreate: function() {
+		this.connect(this.model, "onChange", "updateCounter");
+
+		this.inherited(arguments);
+	},
+	updateCounter: function (item) {
+		var tree = this;
+
+		//console.log("updateCounter: " + item.id[0] + " " + item.unread + " " + tree);
+
+		var node = tree._itemNodesMap[item.id];
+
+		if (node) {
+			node = node[0];
+
+			if (node.counterNode) {
+				node.counterNode.innerHTML = item.unread;
+				item.unread > 0 ? node.counterNode.addClassName("unread") : node.counterNode.removeClassName("unread");
+			}
+		}
+
 	},
 	getTooltip: function (item) {
 		if (item.updated)
