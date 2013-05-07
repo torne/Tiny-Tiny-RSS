@@ -1017,10 +1017,15 @@ div.hl.active a.title {
 	margin-right : 25px;
 }
 
-#feedTree .dijitTreeRow, #feedTree .dijitTreeNode, #feedTree .dijitFocused {
+#feedTree .dijitTreeRow, #feedTree .dijitFocused {
 	padding : 1px 0px 1px;
 	border-width : 1px;
 	border-color : transparent;
+}
+
+#feedTree .dijitTreeNode {
+	padding : 0px;
+	border-width : 0px;
 }
 
 #feedTree { 
