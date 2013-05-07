@@ -139,8 +139,10 @@ a:hover {
 	position : absolute;	
 	font-size : 12px;
 	z-index : 99;
+	max-width : 200px;
+	min-width : 100px;
 	padding : 5px;
-	min-width : 200px;
+	-width : 200px;
 	box-shadow : 0px 0px 2px #ccc;
 }
 
@@ -948,6 +950,7 @@ ul.helpKbList h2 {
 
 .dijitTreeNode .loadingNode {
 	margin-left : 3px;
+	height : 9px;
 }
 
 span.collapseBtn {
@@ -1049,5 +1052,4 @@ div.hl.active a.title {
 	padding : 0px 4px 0px 4px;
 	vertical-align : middle;
 }
-
 

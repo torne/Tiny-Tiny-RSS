@@ -347,11 +347,9 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 
 		if (treeNode) {
 			treeNode = treeNode[0];
-			if (is_cat) {
-				if (treeNode.loadingNode) {
-					treeNode.loadingNode.src = src;
-					return true;
-				}
+			if (treeNode.loadingNode) {
+				treeNode.loadingNode.src = src;
+				return true;
 			} else {
 				treeNode.expandoNode.src = src;
 				return true;
