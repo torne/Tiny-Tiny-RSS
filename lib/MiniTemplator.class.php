@@ -336,7 +336,7 @@ function processBeginBlockCmd ($parms, $cmdTPosBegin, $cmdTPosEnd) {
    $this->openBlocksTab[$this->currentNestingLevel] = $blockNo;
    $this->currentNestingLevel += 1;
    if ($this->currentNestingLevel > $this->maxNestingLevel) {
-      $trhis->triggerError ("Block nesting overflow in template at offset $cmdTPosBegin.");
+      $this->triggerError ("Block nesting overflow in template at offset $cmdTPosBegin.");
       return false; }
    return true; }
 
@@ -844,7 +844,7 @@ function readFileIntoString ($fileName, &$s) {
    $fh = fopen($fileName,"rb");
    if ($fh === false) return false;
    $fileSize = filesize($fileName);
-   if ($fileSize === false) {close ($fh); return false; }
+   if ($fileSize === false) {fclose ($fh); return false; }
    $s = fread($fh,$fileSize);
    fclose ($fh);
    if (strlen($s) != $fileSize) return false;

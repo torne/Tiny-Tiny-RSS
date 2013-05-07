@@ -139,6 +139,7 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 			onComplete: function(transport) {
 				setFeedExpandoIcon(feed, is_cat, 'images/blank_icon.gif');
 				headlines_callback2(transport, offset, background, infscroll_req);
+				PluginHost.run(PluginHost.HOOK_FEED_LOADED, [feed, is_cat]);
 			} });
 
 	} catch (e) {
@@ -149,6 +150,8 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 function feedlist_init() {
 	try {
 		console.log("in feedlist init");
+
+		loading_set_progress(50);
 
 		document.onkeydown = hotkey_handler;
 		setTimeout("hotkey_prefix_timeout()", 5*1000);

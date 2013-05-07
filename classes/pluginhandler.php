@@ -5,9 +5,7 @@ class PluginHandler extends Handler_Protected {
 	}
 
 	function catchall($method) {
-		global $pluginhost;
-
-		$plugin = $pluginhost->get_plugin($_REQUEST["plugin"]);
+		$plugin = PluginHost::getInstance()->get_plugin($_REQUEST["plugin"]);
 
 		if ($plugin) {
 			if (method_exists($plugin, $method)) {

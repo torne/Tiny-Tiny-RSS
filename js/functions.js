@@ -1,8 +1,8 @@
-var notify_silent = false;
 var loading_progress = 0;
 var sanity_check_done = false;
 var init_params = {};
 var _label_base_index = -1024;
+var notify_hide_timerid = false;
 
 Ajax.Base.prototype.initialize = Ajax.Base.prototype.initialize.wrap(
 	function (callOriginal, options) {
@@ -49,6 +49,21 @@ function exception_error(location, e, ext_info) {
 				ext_info = ext_info.responseText;
 			}
 		}
+
+		try {
+			new Ajax.Request("backend.php", {
+				parameters: {op: "rpc", method: "log", logmsg: msg},
+				onComplete: function (transport) {
+					console.log(transport.responseText);
+				} });
+
+		} catch (eii) {
+			console.log("Exception while trying to log the error.");
+			console.log(eii);
+		}
+
+		msg += "<p>"+ __("The error will be reported to the configured log destination.") +
+			"</p>";
 
 		var content = "<div class=\"fatalError\">" +
 			"<pre>" + msg + "</pre>";
@@ -106,7 +121,28 @@ function exception_error(location, e, ext_info) {
 
 		dialog.show();
 
-	} catch (e) {
+	} catch (ei) {
+		console.log("Exception while trying to report an exception. Oh boy.");
+		console.log(ei);
+		console.log("Original exception:");
+		console.log(e);
+
+		msg += "\n\nAdditional exception caught while trying to show the error dialog.\n\n" +  format_exception_error('exception_error', ei);
+
+		try {
+			new Ajax.Request("backend.php", {
+				parameters: {op: "rpc", method: "log", logmsg: msg},
+				onComplete: function (transport) {
+					console.log(transport.responseText);
+				} });
+
+		} catch (eii) {
+			console.log("Third exception while trying to log the error! Seriously?");
+			console.log(eii);
+		}
+
+		msg += "\n\nThe error will be reported to the configured log destination.";
+
 		alert(msg);
 	}
 
@@ -147,42 +183,28 @@ function param_unescape(arg) {
 		return unescape(arg);
 }
 
-var notify_hide_timerid = false;
 
 function hide_notify() {
-	var n = $("notify");
-	if (n) {
-		n.style.display = "none";
-	}
-}
-
-function notify_silent_next() {
-	notify_silent = true;
+	Element.hide('notify');
 }
 
 function notify_real(msg, no_hide, n_type) {
 
-	if (notify_silent) {
-		notify_silent = false;
-		return;
-	}
-
 	var n = $("notify");
-	var nb = $("notify_body");
 
-	if (!n || !nb) return;
+	if (!n) return;
 
 	if (notify_hide_timerid) {
 		window.clearTimeout(notify_hide_timerid);
 	}
 
 	if (msg == "") {
-		if (n.style.display == "block") {
+		if (Element.visible(n)) {
 			notify_hide_timerid = window.setTimeout("hide_notify()", 0);
 		}
 		return;
 	} else {
-		n.style.display = "block";
+		Element.show(n);
 	}
 
 	/* types:
@@ -194,33 +216,31 @@ function notify_real(msg, no_hide, n_type) {
 
 	*/
 
-	msg = __(msg);
+	msg = "<span class=\"msg\"> " + __(msg) + "</span>";
 
 	if (n_type == 1) {
 		n.className = "notify";
 	} else if (n_type == 2) {
 		n.className = "notify progress";
-		msg = "<img src='images/indicator_white.gif'> " + msg;
+		msg = "<span><img src='images/indicator_white.gif'></span>" + msg;
+		no_hide = true;
 	} else if (n_type == 3) {
 		n.className = "notify error";
-		msg = "<img src='images/sign_excl.svg'> " + msg;
+		msg = "<span><img src='images/sign_excl.svg'></span>" + msg;
 	} else if (n_type == 4) {
 		n.className = "notify info";
-		msg = "<img src='images/sign_info.svg'> " + msg;
+		msg = "<span><img src='images/sign_info.svg'></span>" + msg;
 	}
 
-	if (no_hide) {
-		msg += " <span>(<a href='#' onclick=\"notify('')\">" +
-			__("close") + "</a>)</span>";
-	}
-
+	msg += " <span><img src=\"images/close_notify.svg\" class=\"close\" title=\"" +
+		__("Click to close") + "\" onclick=\"notify('')\"></span>";
 
 //	msg = "<img src='images/live_com_loading.gif'> " + msg;
 
-	nb.innerHTML = msg;
+	n.innerHTML = msg;
 
 	if (!no_hide) {
-		notify_hide_timerid = window.setTimeout("hide_notify()", 3000);
+		notify_hide_timerid = window.setTimeout("hide_notify()", 5*1000);
 	}
 }
 
@@ -368,6 +388,9 @@ function toggleSelectRow2(sender, row, is_cdm) {
 		row.addClassName('Selected');
 	else
 		row.removeClassName('Selected');
+
+	if (typeof updateSelectedPrompt != undefined)
+		updateSelectedPrompt();
 }
 
 
@@ -379,6 +402,9 @@ function toggleSelectRow(sender, row) {
 		row.addClassName('Selected');
 	else
 		row.removeClassName('Selected');
+
+	if (typeof updateSelectedPrompt != undefined)
+		updateSelectedPrompt();
 }
 
 function checkboxToggleElement(elem, id) {
@@ -810,7 +836,7 @@ function quickAddFeed() {
 								notify('');
 								Element.hide("feed_add_spinner");
 
-								console.log("GOT RC: " + rc);
+								console.log(rc);
 
 								switch (parseInt(rc['code'])) {
 								case 1:
@@ -826,45 +852,14 @@ function quickAddFeed() {
 									alert(__("Specified URL doesn't seem to contain any feeds."));
 									break;
 								case 4:
-									/* notify_progress("Searching for feed urls...", true);
-
-									new Ajax.Request("backend.php", {
-										parameters: 'op=rpc&method=extractfeedurls&url=' + param_escape(feed_url),
-										onComplete: function(transport, dialog, feed_url) {
-
-											notify('');
-
-											var reply = JSON.parse(transport.responseText);
-
-											var feeds = reply['urls'];
-
-											console.log(transport.responseText);
-
-											var select = dijit.byId("feedDlg_feedContainerSelect");
-
-											while (select.getOptions().length > 0)
-												select.removeOption(0);
-
-											var count = 0;
-											for (var feedUrl in feeds) {
-												select.addOption({value: feedUrl, label: feeds[feedUrl]});
-												count++;
-											}
-
-//											if (count > 5) count = 5;
-//											select.size = count;
-
-											Effect.Appear('feedDlg_feedsContainer', {duration : 0.5});
-										}
-									});
-									break; */
-
 									feeds = rc['feeds'];
 
 									var select = dijit.byId("feedDlg_feedContainerSelect");
 
 									while (select.getOptions().length > 0)
 										select.removeOption(0);
+
+									select.addOption({value: '', label: __("Expand to select feed")});
 
 									var count = 0;
 									for (var feedUrl in feeds) {
@@ -878,6 +873,11 @@ function quickAddFeed() {
 								case 5:
 									alert(__("Couldn't download the specified URL: %s").
 											replace("%s", rc['message']));
+									break;
+								case 6:
+									alert(__("XML validation failed: %s").
+											replace("%s", rc['message']));
+									break;
 									break;
 								case 0:
 									alert(__("You are already subscribed to this feed."));
@@ -1269,16 +1269,17 @@ function backend_sanity_check_callback(transport) {
 		if (params) {
 			console.log('reading init-params...');
 
-			if (params) {
-				for (k in params) {
-					var v = params[k];
-					console.log("IP: " + k + " => " + v);
+			for (k in params) {
+				var v = params[k];
+				console.log("IP: " + k + " => " + v);
 
-					if (k == "label_base_index") _label_base_index = parseInt(v);
-				}
+				if (k == "label_base_index") _label_base_index = parseInt(v);
 			}
 
 			init_params = params;
+
+			// PluginHost might not be available on non-index pages
+			window.PluginHost && PluginHost.run(PluginHost.HOOK_PARAMS_LOADED, init_params);
 		}
 
 		sanity_check_done = true;

@@ -1,5 +1,7 @@
 <?php
 
+require_once "lib/floIcon.php";
+
 function _resolve_htmlcolor($color) {
 	$htmlcolors = array ("aliceblue" => "#f0f8ff",
 		"antiquewhite" => "#faebd7",
@@ -235,16 +237,16 @@ function rgb2hsl($arr) {
    } else {
       $s = $del_Max / $var_Max;
 
-      $del_R = ( ( ( $max - $var_R ) / 6 ) + ( $del_Max / 2 ) ) / $del_Max;
-      $del_G = ( ( ( $max - $var_G ) / 6 ) + ( $del_Max / 2 ) ) / $del_Max;
-      $del_B = ( ( ( $max - $var_B ) / 6 ) + ( $del_Max / 2 ) ) / $del_Max;
+      $del_R = ((($var_Max - $var_R ) / 6 ) + ($del_Max / 2 ) ) / $del_Max;
+      $del_G = ((($var_Max - $var_G ) / 6 ) + ($del_Max / 2 ) ) / $del_Max;
+      $del_B = ((($var_Max - $var_B ) / 6 ) + ($del_Max / 2 ) ) / $del_Max;
 
       if      ($var_R == $var_Max) $h = $del_B - $del_G;
-      else if ($var_G == $var_Max) $h = ( 1 / 3 ) + $del_R - $del_B;
-      else if ($var_B == $var_Max) $h = ( 2 / 3 ) + $del_G - $del_R;
+      else if ($var_G == $var_Max) $h = (1 / 3 ) + $del_R - $del_B;
+      else if ($var_B == $var_Max) $h = (2 / 3 ) + $del_G - $del_R;
 
-      if ($H < 0) $h++;
-      if ($H > 1) $h--;
+      if ($h < 0) $h++;
+      if ($h > 1) $h--;
    }
 
    return array($h, $s, $v);
@@ -259,10 +261,10 @@ function hsl2rgb($arr) {
         $r = $g = $B = $v * 255;
     } else {
         $var_H = $h * 6;
-        $var_i = floor( $var_H );
-        $var_1 = $v * ( 1 - $s );
-        $var_2 = $v * ( 1 - $s * ( $var_H - $var_i ) );
-        $var_3 = $v * ( 1 - $s * (1 - ( $var_H - $var_i ) ) );
+        $var_i = floor($var_H );
+        $var_1 = $v * (1 - $s );
+        $var_2 = $v * (1 - $s * ($var_H - $var_i ) );
+        $var_3 = $v * (1 - $s * (1 - ($var_H - $var_i ) ) );
 
         if       ($var_i == 0) { $var_R = $v     ; $var_G = $var_3  ; $var_B = $var_1 ; }
         else if  ($var_i == 1) { $var_R = $var_2 ; $var_G = $v      ; $var_B = $var_1 ; }
@@ -278,4 +280,62 @@ function hsl2rgb($arr) {
     return array($r, $g, $B);
 }
 
+	function colorPalette($imageFile, $numColors, $granularity = 5) {
+	   $granularity = max(1, abs((int)$granularity));
+	   $colors = array();
+
+		$size = @getimagesize($imageFile);
+
+		if (!defined('_DISABLE_FLOICON') && strtolower($size['mime']) == 'image/vnd.microsoft.icon') {
+			$ico = new floIcon();
+			@$ico->readICO($imageFile);
+
+			if(count($ico->images)==0)
+				return null;
+			else
+				$img = @$ico->images[count($ico->images)-1]->getImageResource();
+
+		} else {
+		   $img = @imagecreatefromstring(file_get_contents($imageFile));
+		}
+
+		if (!$img) return false;
+
+	   for($x = 0; $x < $size[0]; $x += $granularity) {
+	      for($y = 0; $y < $size[1]; $y += $granularity) {
+	         $thisColor = imagecolorat($img, $x, $y);
+	         $rgb = imagecolorsforindex($img, $thisColor);
+	         $red = round(round(($rgb['red'] / 0x33)) * 0x33);
+	         $green = round(round(($rgb['green'] / 0x33)) * 0x33);
+	         $blue = round(round(($rgb['blue'] / 0x33)) * 0x33);
+	         $thisRGB = sprintf('%02X%02X%02X', $red, $green, $blue);
+	         if(array_key_exists($thisRGB, $colors)) {
+	            $colors[$thisRGB]++;
+	         } else{
+	            $colors[$thisRGB] = 1;
+	         }
+	      }
+		}
+
+	   arsort($colors);
+	   return array_slice(array_keys($colors), 0, $numColors);
+	}
+
+	function calculate_avg_color($iconFile) {
+		$palette = colorPalette($iconFile, 4, 4);
+
+		if (is_array($palette)) {
+			foreach ($palette as $p) {
+				$hsl = rgb2hsl(_color_unpack("#$p"));
+
+				if ($hsl[1] > 0.25 && $hsl[2] > 0.25 &&
+					!($hsl[0] >= 0 && $hsl[0] < 0.01 && $hsl[1] < 0.01) &&
+					!($hsl[0] >= 0 && $hsl[0] < 0.01 && $hsl[2] > 0.99)) {
+
+					return _color_pack(hsl2rgb($hsl));
+				}
+			}
+		}
+		return '';
+	}
 ?>

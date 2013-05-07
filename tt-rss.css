@@ -41,6 +41,7 @@ div.postReply div.postHeader {
 
 div.postReply div.postTitle {
 	overflow : hidden;
+	text-overflow: ellipsis;
 	white-space : nowrap;
 }
 
@@ -56,6 +57,7 @@ div.postReply div.postContent {
 div.postReply div.postContent img {
 	border-width : 0px;
 	max-width : 98%;
+	height: auto;
 }
 
 div.postReply div.postEnclosures {
@@ -130,14 +132,12 @@ a:hover {
 }
 
 #notify {
-	top : 25px;
+	bottom : 10px;
 	right : 10px;
 	border-width : 1px;
 	border-style : solid;
 	position : absolute;	
-	display : none;
-	float : right;
-	font-size : 11px;
+	font-size : 12px;
 	z-index : 99;
 	padding : 5px;
 	min-width : 200px;
@@ -146,7 +146,21 @@ a:hover {
 
 #notify img {
 	vertical-align : middle;
-	margin-right : 4px;
+	max-height : 14px;
+}
+
+#notify span.msg {
+	width : 100%;
+}
+
+#notify span.close {
+	text-align : right;
+}
+
+#notify span {
+	display : table-cell;
+	vertical-align : middle;
+	padding : 4px;
 }
 
 .notify {
@@ -169,26 +183,16 @@ a:hover {
 	border-color : #ff0000;
 }
 
-.notify.error span:hover {
-	color : red;
-	cursor : pointer;
-}
-
 .hl.Unread div.hlTitle {
 	font-weight : bold;
 }
 
-.hl.even.Grayed {
-	background : #f0f0f0;
+.hl.Grayed {
 	color : #909090;
-	border-width : 0px 0px 1px 0px;
-	border-style : solid;
-	border-color : #c0c0c0;
-	border-collapse : collapse;
 }
 
-.hl.odd.Grayed {
-	color : #909090;
+#headlines-frame div.hl:nth-child(even) {
+	background : #f0f0f0;
 }
 
 .hl {
@@ -199,15 +203,6 @@ a:hover {
 
 .hl.active {
 	background : #ecf4ff ! important;
-}
-
-.hl.even {
-	background : #f0f0f0;
-	border-collapse : collapse;
-}
-
-.hl.odd {
-	background : white;
 }
 
 div.filterTestHolder {
@@ -278,8 +273,13 @@ div.error {
 
 div.warning img, div.notice img, div.error img {
 	margin-right : 4px;
-	float : left;
 	vertical-align : middle;
+}
+
+div.warning span, div.notice span, div.error span {
+	display : table-cell;
+	vertical-align : middle;
+
 }
 
 ul.nomarks {
@@ -766,7 +766,7 @@ div.fatalError textarea {
 
 #feeds-holder {
 	padding : 0px;
-	border-color : #88b0f0;
+	border-color : #c0c0c0;
 	border-left-width : 0px;
 	border-bottom-width : 0px;
 	border-top-width : 0px;
@@ -779,13 +779,9 @@ div.fatalError textarea {
 	border-width : 0px;
 }
 
-#feedTree {
-	overflow : visible;
-}
-
 #headlines-frame {
 	padding : 0px;
-	border-color : #88b0f0;
+	border-color : #c0c0c0;
 	border-left-width : 0px;
 	border-right-width : 0px;
 	margin-top : 0px;
@@ -825,7 +821,7 @@ div.fatalError textarea {
 
 #content-insert {
 	padding : 0px;
-	border-color : #88b0f0;
+	border-color : #c0c0c0;
 	border-bottom-width : 0px;
 	border-right-width : 0px;
 	border-left-width : 0px;
@@ -998,6 +994,11 @@ body#ttrssZoom div.footer {
 	text-align : center;
 }
 
+body#ttrssZoom div.postContent img {
+	max-width : 650px;
+	height : auto;
+}
+
 select.attachments {
 	display : block;
 	margin-top : 10px;
@@ -1012,22 +1013,22 @@ div.hl.active a.title {
 	color : #4684ff;
 }
 
-#feedTree .dijitTreeRow span.counterNode {
-	display : none;
+#selected_prompt {
+	margin-right : 25px;
 }
 
-#feedTree .dijitTreeRow.Unread span.counterNode {
-	display : inline;
+#feedTree .dijitTreeRow, #feedTree .dijitFocused {
+	padding : 1px 0px 1px;
+	border-width : 1px;
+	border-color : transparent;
 }
 
-#feedTree span.counterNode:before {
-	content: "(";
+#feedTree .dijitTreeNode {
+	padding : 0px;
+	border-width : 0px;
 }
 
-#feedTree span.counterNode:after {
-	content: ")";
-}
-
-#feedTree span.counterNode {
-	font-weight : bold;
+#feedTree { 
+	height : 100%;
+	overflow-x : hidden;
 }

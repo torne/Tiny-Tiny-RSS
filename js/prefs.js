@@ -852,6 +852,15 @@ function updatePrefsList() {
 		} });
 }
 
+function updateSystemList() {
+	new Ajax.Request("backend.php", {
+		parameters: "?op=pref-system",
+		onComplete: function(transport) {
+			dijit.byId('systemConfigTab').attr('content', transport.responseText);
+			notify("");
+		} });
+}
+
 function selectTab(id, noupdate, method) {
 	try {
 		if (!noupdate) {
@@ -867,6 +876,8 @@ function selectTab(id, noupdate, method) {
 				updatePrefsList();
 			} else if (id == "userConfig") {
 				updateUsersList();
+			} else if (id == "systemConfig") {
+				updateSystemList();
 			}
 
 			var tab = dijit.byId(id + "Tab");
@@ -951,8 +962,11 @@ function init() {
 		dojo.addOnLoad(function() {
 			loading_set_progress(50);
 
+			var clientTzOffset = new Date().getTimezoneOffset() * 60;
+
 			new Ajax.Request("backend.php", {
-				parameters: {op: "rpc", method: "sanityCheck"},
+				parameters: {op: "rpc", method: "sanityCheck",
+				 	clientTzOffset: clientTzOffset },
 					onComplete: function(transport) {
 					backend_sanity_check_callback(transport);
 				} });
@@ -1596,21 +1610,6 @@ function resetCatOrder() {
 	}
 }
 
-function toggleHiddenFeedCats() {
-	try {
-		notify_progress("Loading, please wait...");
-
-		new Ajax.Request("backend.php", {
-			parameters: "?op=pref-feeds&method=togglehiddenfeedcats",
-			onComplete: function(transport) {
-		  		updateFeedList();
-			} });
-
-	} catch (e) {
-		exception_error("toggleHiddenFeedCats");
-	}
-}
-
 function editCat(id, item, event) {
 	try {
 		var new_name = prompt(__('Rename category to:'), item.name);
@@ -1819,3 +1818,21 @@ function clearPluginData(name) {
 		exception_error("clearPluginData", e);
 	}
 }
+
+function clearSqlLog() {
+
+	if (confirm(__("Clear all messages in the error log?"))) {
+
+		notify_progress("Loading, please wait...");
+		var query = "?op=pref-system&method=clearLog";
+
+		new Ajax.Request("backend.php",	{
+			parameters: query,
+			onComplete: function(transport) {
+				updateSystemList();
+			} });
+
+	}
+}
+
+

@@ -1,7 +1,6 @@
 <?php
 class Swap_JK extends Plugin {
 
-	private $link;
 	private $host;
 
 	function about() {
@@ -11,7 +10,6 @@ class Swap_JK extends Plugin {
 	}
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_HOTKEY_MAP, $this);
@@ -23,7 +21,11 @@ class Swap_JK extends Plugin {
 		$hotkeys["k"] = "prev_feed";
 
 		return $hotkeys;
-
 	}
+
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

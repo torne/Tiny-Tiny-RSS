@@ -8,14 +8,14 @@ class Article extends Handler_Protected {
 	}
 
 	function redirect() {
-		$id = db_escape_string($this->link, $_REQUEST['id']);
+		$id = $this->dbh->escape_string($_REQUEST['id']);
 
-		$result = db_query($this->link, "SELECT link FROM ttrss_entries, ttrss_user_entries
+		$result = $this->dbh->query("SELECT link FROM ttrss_entries, ttrss_user_entries
 						WHERE id = '$id' AND id = ref_id AND owner_uid = '".$_SESSION['uid']."'
 						LIMIT 1");
 
-		if (db_num_rows($result) == 1) {
-			$article_url = db_fetch_result($result, 0, 'link');
+		if ($this->dbh->num_rows($result) == 1) {
+			$article_url = $this->dbh->fetch_result($result, 0, 'link');
 			$article_url = str_replace("\n", "", $article_url);
 
 			header("Location: $article_url");
@@ -27,10 +27,10 @@ class Article extends Handler_Protected {
 	}
 
 	function view() {
-		$id = db_escape_string($this->link, $_REQUEST["id"]);
-		$cids = explode(",", db_escape_string($this->link, $_REQUEST["cids"]));
-		$mode = db_escape_string($this->link, $_REQUEST["mode"]);
-		$omode = db_escape_string($this->link, $_REQUEST["omode"]);
+		$id = $this->dbh->escape_string($_REQUEST["id"]);
+		$cids = explode(",", $this->dbh->escape_string($_REQUEST["cids"]));
+		$mode = $this->dbh->escape_string($_REQUEST["mode"]);
+		$omode = $this->dbh->escape_string($_REQUEST["omode"]);
 
 		// in prefetch mode we only output requested cids, main article
 		// just gets marked as read (it already exists in client cache)
@@ -38,26 +38,26 @@ class Article extends Handler_Protected {
 		$articles = array();
 
 		if ($mode == "") {
-			array_push($articles, format_article($this->link, $id, false));
+			array_push($articles, format_article($id, false));
 		} else if ($mode == "zoom") {
-			array_push($articles, format_article($this->link, $id, true, true));
+			array_push($articles, format_article($id, true, true));
 		} else if ($mode == "raw") {
 			if ($_REQUEST['html']) {
 				header("Content-Type: text/html");
 				print '<link rel="stylesheet" type="text/css" href="tt-rss.css"/>';
 			}
 
-			$article = format_article($this->link, $id, false);
+			$article = format_article($id, false);
 			print $article['content'];
 			return;
 		}
 
-		$this->catchupArticleById($this->link, $id, 0);
+		$this->catchupArticleById($id, 0);
 
 		if (!$_SESSION["bw_limit"]) {
 			foreach ($cids as $cid) {
 				if ($cid) {
-					array_push($articles, format_article($this->link, $cid, false, false));
+					array_push($articles, format_article($cid, false, false));
 				}
 			}
 		}
@@ -65,30 +65,30 @@ class Article extends Handler_Protected {
 		print json_encode($articles);
 	}
 
-	private function catchupArticleById($link, $id, $cmode) {
+	private function catchupArticleById($id, $cmode) {
 
 		if ($cmode == 0) {
-			db_query($link, "UPDATE ttrss_user_entries SET
+			$this->dbh->query("UPDATE ttrss_user_entries SET
 			unread = false,last_read = NOW()
 			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 		} else if ($cmode == 1) {
-			db_query($link, "UPDATE ttrss_user_entries SET
+			$this->dbh->query("UPDATE ttrss_user_entries SET
 			unread = true
 			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 		} else {
-			db_query($link, "UPDATE ttrss_user_entries SET
+			$this->dbh->query("UPDATE ttrss_user_entries SET
 			unread = NOT unread,last_read = NOW()
 			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 		}
 
-		$feed_id = getArticleFeed($link, $id);
-		ccache_update($link, $feed_id, $_SESSION["uid"]);
+		$feed_id = getArticleFeed($id);
+		ccache_update($feed_id, $_SESSION["uid"]);
 	}
 
-	static function create_published_article($link, $title, $url, $content, $labels_str,
+	static function create_published_article($title, $url, $content, $labels_str,
 			$owner_uid) {
 
-		$guid = sha1($url . $owner_uid); // include owner_uid to prevent global GUID clash
+		$guid = 'SHA1:' . sha1("ttshared:" . $url . $owner_uid); // include owner_uid to prevent global GUID clash
 		$content_hash = sha1($content);
 
 		if ($labels_str != "") {
@@ -104,30 +104,30 @@ class Article extends Handler_Protected {
 
 		if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) return false;
 
-		db_query($link, "BEGIN");
+		db_query("BEGIN");
 
 		// only check for our user data here, others might have shared this with different content etc
-		$result = db_query($link, "SELECT id FROM ttrss_entries, ttrss_user_entries WHERE
+		$result = db_query("SELECT id FROM ttrss_entries, ttrss_user_entries WHERE
 			link = '$url' AND ref_id = id AND owner_uid = '$owner_uid' LIMIT 1");
 
 		if (db_num_rows($result) != 0) {
 			$ref_id = db_fetch_result($result, 0, "id");
 
-			$result = db_query($link, "SELECT int_id FROM ttrss_user_entries WHERE
+			$result = db_query("SELECT int_id FROM ttrss_user_entries WHERE
 				ref_id = '$ref_id' AND owner_uid = '$owner_uid' LIMIT 1");
 
 			if (db_num_rows($result) != 0) {
 				$int_id = db_fetch_result($result, 0, "int_id");
 
-				db_query($link, "UPDATE ttrss_entries SET
+				db_query("UPDATE ttrss_entries SET
 					content = '$content', content_hash = '$content_hash' WHERE id = '$ref_id'");
 
-				db_query($link, "UPDATE ttrss_user_entries SET published = true,
+				db_query("UPDATE ttrss_user_entries SET published = true,
 						last_published = NOW() WHERE
 						int_id = '$int_id' AND owner_uid = '$owner_uid'");
 			} else {
 
-				db_query($link, "INSERT INTO ttrss_user_entries
+				db_query("INSERT INTO ttrss_user_entries
 					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, published, tag_cache, label_cache,
 						last_read, note, unread, last_published)
 					VALUES
@@ -136,24 +136,24 @@ class Article extends Handler_Protected {
 
 			if (count($labels) != 0) {
 				foreach ($labels as $label) {
-					label_add_article($link, $ref_id, trim($label), $owner_uid);
+					label_add_article($ref_id, trim($label), $owner_uid);
 				}
 			}
 
 			$rc = true;
 
 		} else {
-			$result = db_query($link, "INSERT INTO ttrss_entries
+			$result = db_query("INSERT INTO ttrss_entries
 				(title, guid, link, updated, content, content_hash, date_entered, date_updated)
 				VALUES
 				('$title', '$guid', '$url', NOW(), '$content', '$content_hash', NOW(), NOW())");
 
-			$result = db_query($link, "SELECT id FROM ttrss_entries WHERE guid = '$guid'");
+			$result = db_query("SELECT id FROM ttrss_entries WHERE guid = '$guid'");
 
 			if (db_num_rows($result) != 0) {
 				$ref_id = db_fetch_result($result, 0, "id");
 
-				db_query($link, "INSERT INTO ttrss_user_entries
+				db_query("INSERT INTO ttrss_user_entries
 					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, published, tag_cache, label_cache,
 						last_read, note, unread, last_published)
 					VALUES
@@ -161,7 +161,7 @@ class Article extends Handler_Protected {
 
 				if (count($labels) != 0) {
 					foreach ($labels as $label) {
-						label_add_article($link, $ref_id, trim($label), $owner_uid);
+						label_add_article($ref_id, trim($label), $owner_uid);
 					}
 				}
 
@@ -169,7 +169,7 @@ class Article extends Handler_Protected {
 			}
 		}
 
-		db_query($link, "COMMIT");
+		db_query("COMMIT");
 
 		return $rc;
 	}
@@ -178,9 +178,9 @@ class Article extends Handler_Protected {
 
 		print __("Tags for this article (separated by commas):")."<br>";
 
-		$param = db_escape_string($this->link, $_REQUEST['param']);
+		$param = $this->dbh->escape_string($_REQUEST['param']);
 
-		$tags = get_article_tags($this->link, db_escape_string($this->link, $param));
+		$tags = get_article_tags($this->dbh->escape_string($param));
 
 		$tags_str = join(", ", $tags);
 
@@ -209,36 +209,36 @@ class Article extends Handler_Protected {
 	}
 
 	function setScore() {
-		$ids = db_escape_string($this->link, $_REQUEST['id']);
-		$score = (int)db_escape_string($this->link, $_REQUEST['score']);
+		$ids = $this->dbh->escape_string($_REQUEST['id']);
+		$score = (int)$this->dbh->escape_string($_REQUEST['score']);
 
-		db_query($this->link, "UPDATE ttrss_user_entries SET
+		$this->dbh->query("UPDATE ttrss_user_entries SET
 			score = '$score' WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
-		print json_encode(array("id" => $id,
+		print json_encode(array("id" => $ids,
 			"score_pic" => get_score_pic($score)));
 	}
 
 
 	function setArticleTags() {
 
-		$id = db_escape_string($this->link, $_REQUEST["id"]);
+		$id = $this->dbh->escape_string($_REQUEST["id"]);
 
-		$tags_str = db_escape_string($this->link, $_REQUEST["tags_str"]);
+		$tags_str = $this->dbh->escape_string($_REQUEST["tags_str"]);
 		$tags = array_unique(trim_array(explode(",", $tags_str)));
 
-		db_query($this->link, "BEGIN");
+		$this->dbh->query("BEGIN");
 
-		$result = db_query($this->link, "SELECT int_id FROM ttrss_user_entries WHERE
+		$result = $this->dbh->query("SELECT int_id FROM ttrss_user_entries WHERE
 				ref_id = '$id' AND owner_uid = '".$_SESSION["uid"]."' LIMIT 1");
 
-		if (db_num_rows($result) == 1) {
+		if ($this->dbh->num_rows($result) == 1) {
 
 			$tags_to_cache = array();
 
-			$int_id = db_fetch_result($result, 0, "int_id");
+			$int_id = $this->dbh->fetch_result($result, 0, "int_id");
 
-			db_query($this->link, "DELETE FROM ttrss_tags WHERE
+			$this->dbh->query("DELETE FROM ttrss_tags WHERE
 				post_int_id = $int_id AND owner_uid = '".$_SESSION["uid"]."'");
 
 			foreach ($tags as $tag) {
@@ -255,7 +255,7 @@ class Article extends Handler_Protected {
 				//					print "<!-- $id : $int_id : $tag -->";
 
 				if ($tag != '') {
-					db_query($this->link, "INSERT INTO ttrss_tags
+					$this->dbh->query("INSERT INTO ttrss_tags
 								(post_int_id, owner_uid, tag_name) VALUES ('$int_id', '".$_SESSION["uid"]."', '$tag')");
 				}
 
@@ -267,14 +267,14 @@ class Article extends Handler_Protected {
 			sort($tags_to_cache);
 			$tags_str = join(",", $tags_to_cache);
 
-			db_query($this->link, "UPDATE ttrss_user_entries
+			$this->dbh->query("UPDATE ttrss_user_entries
 				SET tag_cache = '$tags_str' WHERE ref_id = '$id'
 						AND owner_uid = " . $_SESSION["uid"]);
 		}
 
-		db_query($this->link, "COMMIT");
+		$this->dbh->query("COMMIT");
 
-		$tags = get_article_tags($this->link, $id);
+		$tags = get_article_tags($id);
 		$tags_str = format_tags_string($tags, $id);
 		$tags_str_full = join(", ", $tags);
 
@@ -286,15 +286,15 @@ class Article extends Handler_Protected {
 
 
 	function completeTags() {
-		$search = db_escape_string($this->link, $_REQUEST["search"]);
+		$search = $this->dbh->escape_string($_REQUEST["search"]);
 
-		$result = db_query($this->link, "SELECT DISTINCT tag_name FROM ttrss_tags
+		$result = $this->dbh->query("SELECT DISTINCT tag_name FROM ttrss_tags
 				WHERE owner_uid = '".$_SESSION["uid"]."' AND
 				tag_name LIKE '$search%' ORDER BY tag_name
 				LIMIT 10");
 
 		print "<ul>";
-		while ($line = db_fetch_assoc($result)) {
+		while ($line = $this->dbh->fetch_assoc($result)) {
 			print "<li>" . $line["tag_name"] . "</li>";
 		}
 		print "</ul>";
@@ -311,10 +311,10 @@ class Article extends Handler_Protected {
 	private function labelops($assign) {
 		$reply = array();
 
-		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
-		$label_id = db_escape_string($this->link, $_REQUEST["lid"]);
+		$ids = explode(",", $this->dbh->escape_string($_REQUEST["ids"]));
+		$label_id = $this->dbh->escape_string($_REQUEST["lid"]);
 
-		$label = db_escape_string($this->link, label_find_caption($this->link, $label_id,
+		$label = $this->dbh->escape_string(label_find_caption($label_id,
 		$_SESSION["uid"]));
 
 		$reply["info-for-headlines"] = array();
@@ -324,11 +324,11 @@ class Article extends Handler_Protected {
 			foreach ($ids as $id) {
 
 				if ($assign)
-					label_add_article($this->link, $id, $label, $_SESSION["uid"]);
+					label_add_article($id, $label, $_SESSION["uid"]);
 				else
-					label_remove_article($this->link, $id, $label, $_SESSION["uid"]);
+					label_remove_article($id, $label, $_SESSION["uid"]);
 
-				$labels = get_article_labels($this->link, $id, $_SESSION["uid"]);
+				$labels = get_article_labels($id, $_SESSION["uid"]);
 
 				array_push($reply["info-for-headlines"],
 				array("id" => $id, "labels" => format_article_labels($labels, $id)));

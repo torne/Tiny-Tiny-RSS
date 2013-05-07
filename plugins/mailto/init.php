@@ -1,7 +1,5 @@
 <?php
 class MailTo extends Plugin {
-
-	private $link;
 	private $host;
 
 	function about() {
@@ -11,7 +9,6 @@ class MailTo extends Plugin {
 	}
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
@@ -30,7 +27,7 @@ class MailTo extends Plugin {
 
 	function emailArticle() {
 
-		$param = db_escape_string($this->link, $_REQUEST['param']);
+		$param = db_escape_string($_REQUEST['param']);
 
 		require_once "lib/MiniTemplator.class.php";
 
@@ -44,7 +41,7 @@ class MailTo extends Plugin {
 		$tpl->setVariable('TTRSS_HOST', $_SERVER["HTTP_HOST"], true);
 
 
-		$result = db_query($this->link, "SELECT link, content, title
+		$result = db_query("SELECT link, content, title
 			FROM ttrss_user_entries, ttrss_entries WHERE id = ref_id AND
 			id IN ($param) AND owner_uid = " . $_SESSION["uid"]);
 
@@ -68,8 +65,8 @@ class MailTo extends Plugin {
 		$content = "";
 		$tpl->generateOutputToString($content);
 
-		$mailto_link = htmlspecialchars("mailto: ?subject=".urlencode($subject).
-			"&body=".urlencode($content));
+		$mailto_link = htmlspecialchars("mailto: ?subject=".rawurlencode($subject).
+			"&body=".rawurlencode($content));
 
 		print __("Clicking the following link to invoke your mail client:");
 
@@ -87,6 +84,10 @@ class MailTo extends Plugin {
 		print "</div>";
 
 		//return;
+	}
+
+	function api_version() {
+		return 2;
 	}
 
 }

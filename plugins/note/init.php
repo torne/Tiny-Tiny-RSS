@@ -1,6 +1,5 @@
 <?php
 class Note extends Plugin {
-	private $link;
 	private $host;
 
 	function about() {
@@ -10,7 +9,6 @@ class Note extends Plugin {
 	}
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
@@ -29,9 +27,9 @@ class Note extends Plugin {
 	}
 
 	function edit() {
-		$param = db_escape_string($this->link, $_REQUEST['param']);
+		$param = db_escape_string($_REQUEST['param']);
 
-		$result = db_query($this->link, "SELECT note FROM ttrss_user_entries WHERE
+		$result = db_query("SELECT note FROM ttrss_user_entries WHERE
 			ref_id = '$param' AND owner_uid = " . $_SESSION['uid']);
 
 		$note = db_fetch_result($result, 0, "note");
@@ -58,16 +56,20 @@ class Note extends Plugin {
 	}
 
 	function setNote() {
-		$id = db_escape_string($this->link, $_REQUEST["id"]);
-		$note = trim(strip_tags(db_escape_string($this->link, $_REQUEST["note"])));
+		$id = db_escape_string($_REQUEST["id"]);
+		$note = trim(strip_tags(db_escape_string($_REQUEST["note"])));
 
-		db_query($this->link, "UPDATE ttrss_user_entries SET note = '$note'
+		db_query("UPDATE ttrss_user_entries SET note = '$note'
 			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
 		$formatted_note = format_article_note($id, $note);
 
 		print json_encode(array("note" => $formatted_note,
 				"raw_length" => mb_strlen($note)));
+	}
+
+	function api_version() {
+		return 2;
 	}
 
 }

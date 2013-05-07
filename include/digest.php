@@ -6,7 +6,7 @@
 	 * @param integer $limit The maximum number of articles by digest.
 	 * @return boolean Return false if digests are not enabled.
 	 */
-	function send_headlines_digests($link, $debug = false) {
+	function send_headlines_digests($debug = false) {
 
 		require_once 'classes/ttrssmailer.php';
 
@@ -21,28 +21,28 @@
 			$interval_query = "last_digest_sent < DATE_SUB(NOW(), INTERVAL 1 DAY)";
 		}
 
-		$result = db_query($link, "SELECT id,email FROM ttrss_users
+		$result = db_query("SELECT id,email FROM ttrss_users
 				WHERE email != '' AND (last_digest_sent IS NULL OR $interval_query)");
 
 		while ($line = db_fetch_assoc($result)) {
 
-			if (get_pref($link, 'DIGEST_ENABLE', $line['id'], false)) {
-				$preferred_ts = strtotime(get_pref($link, 'DIGEST_PREFERRED_TIME', $line['id'], '00:00'));
+			if (get_pref('DIGEST_ENABLE', $line['id'], false)) {
+				$preferred_ts = strtotime(get_pref('DIGEST_PREFERRED_TIME', $line['id'], '00:00'));
 
 				// try to send digests within 2 hours of preferred time
 				if ($preferred_ts && time() >= $preferred_ts &&
 						time() - $preferred_ts <= 7200) {
 
-					if ($debug) print "Sending digest for UID:" . $line['id'] . " - " . $line["email"] . " ... ";
+					if ($debug) _debug("Sending digest for UID:" . $line['id'] . " - " . $line["email"]);
 
-					$do_catchup = get_pref($link, 'DIGEST_CATCHUP', $line['id'], false);
+					$do_catchup = get_pref('DIGEST_CATCHUP', $line['id'], false);
 
 					global $tz_offset;
 
 					// reset tz_offset global to prevent tz cache clash between users
 					$tz_offset = -1;
 
-					$tuple = prepare_headlines_digest($link, $line["id"], 1, $limit);
+					$tuple = prepare_headlines_digest($line["id"], 1, $limit);
 					$digest = $tuple[0];
 					$headlines_count = $tuple[1];
 					$affected_ids = $tuple[2];
@@ -54,19 +54,19 @@
 
 						$rc = $mail->quickMail($line["email"], $line["login"] , DIGEST_SUBJECT, $digest, $digest_text);
 
-						if (!$rc && $debug) print "ERROR: " . $mail->ErrorInfo;
+						if (!$rc && $debug) _debug("ERROR: " . $mail->ErrorInfo);
 
-						if ($debug) print "RC=$rc\n";
+						if ($debug) _debug("RC=$rc");
 
 						if ($rc && $do_catchup) {
-							if ($debug) print "Marking affected articles as read...\n";
-							catchupArticlesById($link, $affected_ids, 0, $line["id"]);
+							if ($debug) _debug("Marking affected articles as read...");
+							catchupArticlesById($affected_ids, 0, $line["id"]);
 						}
 					} else {
-						if ($debug) print "No headlines\n";
+						if ($debug) _debug("No headlines");
 					}
 
-					db_query($link, "UPDATE ttrss_users SET last_digest_sent = NOW()
+					db_query("UPDATE ttrss_users SET last_digest_sent = NOW()
 						WHERE id = " . $line["id"]);
 
 				}
@@ -77,7 +77,7 @@
 
 	}
 
-	function prepare_headlines_digest($link, $user_id, $days = 1, $limit = 1000) {
+	function prepare_headlines_digest($user_id, $days = 1, $limit = 1000) {
 
 		require_once "lib/MiniTemplator.class.php";
 
@@ -87,7 +87,7 @@
 		$tpl->readTemplateFromFile("templates/digest_template_html.txt");
 		$tpl_t->readTemplateFromFile("templates/digest_template.txt");
 
-		$user_tz_string = get_pref($link, 'USER_TIMEZONE', $user_id);
+		$user_tz_string = get_pref('USER_TIMEZONE', $user_id);
 		$local_ts = convert_timestamp(time(), 'UTC', $user_tz_string);
 
 		$tpl->setVariable('CUR_DATE', date('Y/m/d', $local_ts));
@@ -104,7 +104,7 @@
 			$interval_query = "ttrss_entries.date_updated > DATE_SUB(NOW(), INTERVAL $days DAY)";
 		}
 
-		$result = db_query($link, "SELECT ttrss_entries.title,
+		$result = db_query("SELECT ttrss_entries.title,
 				ttrss_feeds.title AS feed_title,
 				COALESCE(ttrss_feed_categories.title, '".__('Uncategorized')."') AS cat_title,
 				date_updated,
@@ -143,7 +143,7 @@
 
 			array_push($affected_ids, $line["ref_id"]);
 
-			$updated = make_local_datetime($link, $line['last_updated'], false,
+			$updated = make_local_datetime($line['last_updated'], false,
 				$user_id);
 
 /*			if ($line["score"] != 0) {
@@ -152,7 +152,7 @@
 				$line["title"] .= " (".$line['score'].")";
 			} */
 
-			if (get_pref($link, 'ENABLE_FEED_CATS', $user_id)) {
+			if (get_pref('ENABLE_FEED_CATS', $user_id)) {
 				$line['feed_title'] = $line['cat_title'] . " / " . $line['feed_title'];
 			}
 

@@ -1,7 +1,5 @@
 <?php
 class GoogleReaderKeys extends Plugin {
-
-	private $link;
 	private $host;
 
 	function about() {
@@ -11,7 +9,6 @@ class GoogleReaderKeys extends Plugin {
 	}
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_HOTKEY_MAP, $this);
@@ -31,7 +28,11 @@ class GoogleReaderKeys extends Plugin {
 		$hotkeys["(40)|down"]	= "article_scroll_down";
 
 		return $hotkeys;
-
 	}
+
+	function api_version() {
+		return 2;
+	}
+
 }
 ?>

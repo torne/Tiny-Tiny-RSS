@@ -2195,7 +2195,7 @@
                     case QR_MODE_NUM: $length = $this->eatNum(); break;
                     case QR_MODE_AN:  $length = $this->eatAn(); break;
                     case QR_MODE_KANJI:
-                        if ($hint == QR_MODE_KANJI)
+                        if ($this->modeHint == QR_MODE_KANJI)
                                 $length = $this->eatKanji();
                         else    $length = $this->eat8();
                         break;
@@ -2217,7 +2217,7 @@
             $p = 0;
             
             while ($p<$stringLen) {
-                $mode = self::identifyMode(substr($this->dataStr, $p), $this->modeHint);
+                $mode = self::identifyMode(substr($this->dataStr, $p));
                 if($mode == QR_MODE_KANJI) {
                     $p += 2;
                 } else {
@@ -2621,13 +2621,13 @@
                 if (file_exists($fileName)) {
                     $bitMask = self::unserial(file_get_contents($fileName));
                 } else {
-                    $bitMask = $this->generateMaskNo($maskNo, $width, $s, $d);
+                    $bitMask = $this->generateMaskNo($maskNo, $width, $s);
                     if (!file_exists(QR_CACHE_DIR.'mask_'.$maskNo))
                         mkdir(QR_CACHE_DIR.'mask_'.$maskNo);
                     file_put_contents($fileName, self::serial($bitMask));
                 }
             } else {
-                $bitMask = $this->generateMaskNo($maskNo, $width, $s, $d);
+                $bitMask = $this->generateMaskNo($maskNo, $width, $s);
             }
 
             if ($maskGenOnly)
@@ -2937,7 +2937,7 @@
         //----------------------------------------------------------------------
         public function getCode()
         {
-            $ret;
+            $ret = 0;
 
             if($this->count < $this->dataLength) {
                 $row = $this->count % $this->blocks;
@@ -3059,7 +3059,7 @@
             $input = new QRinput($version, $level);
             if($input == NULL) return NULL;
 
-            $ret = $input->append($input, QR_MODE_8, strlen($string), str_split($string));
+            $ret = $input->append(QR_MODE_8, strlen($string), str_split($string));
             if($ret < 0) {
                 unset($input);
                 return NULL;

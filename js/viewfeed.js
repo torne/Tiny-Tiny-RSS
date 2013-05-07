@@ -20,8 +20,6 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 	try {
 		handle_rpc_json(transport);
 
-		loading_set_progress(25);
-
 		console.log("headlines_callback2 [offset=" + offset + "] B:" + background + " I:" + infscroll_req);
 
 		var is_cat = false;
@@ -43,9 +41,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 			if (background) {
 				var content = reply['headlines']['content'];
 
-				if (getInitParam("cdm_auto_catchup") == 1) {
-					content = content + "<div id='headlines-spacer'></div>";
-				}
+				content = content + "<div id='headlines-spacer'></div>";
 				return;
 			}
 
@@ -93,11 +89,9 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					}
 				});
 
-				if (getInitParam("cdm_auto_catchup") == 1) {
-					var hsp = $("headlines-spacer");
-					if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
-					dijit.byId('headlines-frame').domNode.appendChild(hsp);
-				}
+				var hsp = $("headlines-spacer");
+				if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
+				dijit.byId('headlines-frame').domNode.appendChild(hsp);
 
 				initHeadlinesMenu();
 
@@ -139,8 +133,6 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					});
 
 					if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
-
-					fixHeadlinesOrder(getLoadedArticleIds());
 
 					if (getInitParam("cdm_auto_catchup") == 1) {
 						c.domNode.appendChild(hsp);
@@ -231,6 +223,8 @@ function render_article(article) {
 		try {
 			c.domNode.scrollTop = 0;
 		} catch (e) { };
+
+		PluginHost.run(PluginHost.HOOK_ARTICLE_RENDERED, article);
 
 		c.attr('content', article);
 
@@ -639,8 +633,30 @@ function toggleSelected(id, force_on) {
 				if (cb) cb.attr("checked", true);
 			}
 		}
+
+		updateSelectedPrompt();
 	} catch (e) {
 		exception_error("toggleSelected", e);
+	}
+}
+
+function updateSelectedPrompt() {
+	try {
+		var count = getSelectedArticleIds2().size();
+		var elem = $("selected_prompt");
+
+		if (elem) {
+			elem.innerHTML = ngettext("%d article selected",
+					"%d articles selected", count).replace("%d", count);
+
+			if (count > 0)
+				Element.show(elem);
+			else
+				Element.hide(elem);
+		}
+
+	} catch (e) {
+		exception_error("updateSelectedPrompt", e);
 	}
 }
 
@@ -960,6 +976,8 @@ function selectArticles(mode) {
 			}
 		});
 
+		updateSelectedPrompt();
+
 	} catch (e) {
 		exception_error("selectArticles", e);
 	}
@@ -1169,6 +1187,7 @@ function cdmScrollToArticleId(id, force) {
 
 function setActiveArticleId(id) {
 	_active_article_id = id;
+	PluginHost.run(PluginHost.HOOK_ARTICLE_SET_ACTIVE, _active_article_id);
 }
 
 function getActiveArticleId() {
@@ -1195,6 +1214,8 @@ function unpackVisibleHeadlines() {
 					var cencw = $("CENCW-" + child.id.replace("RROW-", ""));
 
 					if (cencw) {
+						PluginHost.run(PluginHost.HOOK_ARTICLE_RENDERED_CDM, child);
+
 						cencw.innerHTML = htmlspecialchars_decode(cencw.innerHTML);
 						cencw.setAttribute('id', '');
 						Element.show(cencw);
@@ -1370,8 +1391,10 @@ function catchupRelativeToArticle(below, id) {
 	}
 }
 
-function cdmCollapseArticle(event, id) {
+function cdmCollapseArticle(event, id, unmark) {
 	try {
+		if (unmark == undefined) unmark = true;
+
 		var row = $("RROW-" + id);
 		var elem = $("CICD-" + id);
 
@@ -1382,40 +1405,26 @@ function cdmCollapseArticle(event, id) {
 		  	Element.hide(elem);
 			Element.show("CEXC-" + id);
 			Element.hide(collapse);
-			row.removeClassName("active");
 
-			markHeadline(id, false);
+			if (unmark) {
+				row.removeClassName("active");
 
-			if (id == getActiveArticleId()) {
-				setActiveArticleId(0);
+				markHeadline(id, false);
+
+				if (id == getActiveArticleId()) {
+					setActiveArticleId(0);
+				}
+
+				updateSelectedPrompt();
 			}
 
 			if (event) Event.stop(event);
+
+			PluginHost.run(PluginHost.HOOK_ARTICLE_COLLAPSED, id);
 		}
 
 	} catch (e) {
 		exception_error("cdmCollapseArticle", e);
-	}
-}
-
-function cdmUnexpandArticle(event, id) {
-	try {
-		var row = $("RROW-" + id);
-		var elem = $("CICD-" + id);
-
-		if (elem && row) {
-			var collapse = $$("div#RROW-" + id +
-				" span[class='collapseBtn']")[0];
-
-		  	Element.hide(elem);
-			Element.show("CEXC-" + id);
-			Element.hide(collapse);
-
-			if (event) Event.stop(event);
-		}
-
-	} catch (e) {
-		exception_error("cdmUnexpandArticle", e);
 	}
 }
 
@@ -1478,31 +1487,13 @@ function cdmExpandArticle(id, noexpand) {
 		toggleSelected(id);
 		$("RROW-" + id).addClassName("active");
 
+		PluginHost.run(PluginHost.HOOK_ARTICLE_EXPANDED, id);
+
 	} catch (e) {
 		exception_error("cdmExpandArticle", e);
 	}
 
 	return false;
-}
-
-function fixHeadlinesOrder(ids) {
-	try {
-		for (var i = 0; i < ids.length; i++) {
-			var e = $("RROW-" + ids[i]);
-
-			if (e) {
-				if (i % 2 == 0) {
-					e.removeClassName("even");
-					e.addClassName("odd");
-				} else {
-					e.removeClassName("odd");
-					e.addClassName("even");
-				}
-			}
-		}
-	} catch (e) {
-		exception_error("fixHeadlinesOrder", e);
-	}
 }
 
 function getArticleUnderPointer() {
@@ -1585,7 +1576,6 @@ function dismissSelectedArticles() {
 		if (sel.length > 0)
 			selectionToggleUnread(false);
 
-		fixHeadlinesOrder(tmp);
 
 	} catch (e) {
 		exception_error("dismissSelectedArticles", e);
@@ -1609,8 +1599,6 @@ function dismissReadArticles() {
 				tmp.push(ids[i]);
 			}
 		}
-
-		fixHeadlinesOrder(tmp);
 
 	} catch (e) {
 		exception_error("dismissSelectedArticles", e);
@@ -2000,34 +1988,6 @@ function initHeadlinesMenu() {
 
 	} catch (e) {
 		exception_error("initHeadlinesMenu", e);
-	}
-}
-
-
-function player(elem) {
-	var aid = elem.getAttribute("audio-id");
-	var status = elem.getAttribute("status");
-
-	var audio = $(aid);
-
-	if (audio) {
-		if (status == 0) {
-			audio.play();
-			status = 1;
-			elem.innerHTML = __("Playing...");
-			elem.title = __("Click to pause");
-			elem.addClassName("playing");
-		} else {
-			audio.pause();
-			status = 0;
-			elem.innerHTML = __("Play");
-			elem.title = __("Click to play");
-			elem.removeClassName("playing");
-		}
-
-		elem.setAttribute("status", status);
-	} else {
-		alert("Your browser doesn't seem to support HTML5 audio.");
 	}
 }
 

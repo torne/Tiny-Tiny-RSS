@@ -1,5 +1,5 @@
 <?php
-	function make_feed_browser($link, $search, $limit, $mode = 1) {
+	function make_feed_browser($search, $limit, $mode = 1) {
 
 		$owner_uid = $_SESSION["uid"];
 		$rv = '';
@@ -12,13 +12,13 @@
 		}
 
 		if ($mode == 1) {
-			/* $result = db_query($link, "SELECT feed_url, subscribers FROM
+			/* $result = db_query("SELECT feed_url, subscribers FROM
 			 ttrss_feedbrowser_cache WHERE (SELECT COUNT(id) = 0 FROM ttrss_feeds AS tf
 			WHERE tf.feed_url = ttrss_feedbrowser_cache.feed_url
 			AND owner_uid = '$owner_uid') $search_qpart
 			ORDER BY subscribers DESC LIMIT $limit"); */
 
-			$result = db_query($link, "SELECT feed_url, site_url, title, SUM(subscribers) AS subscribers FROM
+			$result = db_query("SELECT feed_url, site_url, title, SUM(subscribers) AS subscribers FROM
 						(SELECT feed_url, site_url, title, subscribers FROM ttrss_feedbrowser_cache UNION ALL
 							SELECT feed_url, site_url, title, subscribers FROM ttrss_linked_feeds) AS qqq
 						WHERE
@@ -28,7 +28,7 @@
 						GROUP BY feed_url, site_url, title ORDER BY subscribers DESC LIMIT $limit");
 
 		} else if ($mode == 2) {
-			$result = db_query($link, "SELECT *,
+			$result = db_query("SELECT *,
 						(SELECT COUNT(*) FROM ttrss_user_entries WHERE
 					 		orig_feed_id = ttrss_archived_feeds.id) AS articles_archived
 						FROM

@@ -26,6 +26,7 @@ function emailArticle(id) {
 					new Ajax.Request("backend.php", {
 						parameters: dojo.objectToQuery(this.attr('value')),
 						onComplete: function(transport) {
+							console.log(transport.responseText);
 
 							var reply = JSON.parse(transport.responseText);
 

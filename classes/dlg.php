@@ -6,7 +6,7 @@ class Dlg extends Handler_Protected {
 		if (parent::before($method)) {
 			header("Content-Type: text/html"); # required for iframe
 
-			$this->param = db_escape_string($this->link, $_REQUEST["param"]);
+			$this->param = $this->dbh->escape_string($_REQUEST["param"]);
 			return true;
 		}
 		return false;
@@ -18,15 +18,15 @@ class Dlg extends Handler_Protected {
 		print "<div class=\"prefFeedOPMLHolder\">";
 		$owner_uid = $_SESSION["uid"];
 
-		db_query($this->link, "BEGIN");
+		$this->dbh->query("BEGIN");
 
 		print "<ul class='nomarks'>";
 
-		$opml = new Opml($this->link, $_REQUEST);
+		$opml = new Opml($_REQUEST);
 
 		$opml->opml_import($_SESSION["uid"]);
 
-		db_query($this->link, "COMMIT");
+		$this->dbh->query("COMMIT");
 
 		print "</ul>";
 		print "</div>";
@@ -43,7 +43,7 @@ class Dlg extends Handler_Protected {
 	}
 
 	function pubOPMLUrl() {
-		$url_path = Opml::opml_publish_url($this->link);
+		$url_path = Opml::opml_publish_url();
 
 		print __("Your Public OPML URL is:");
 
@@ -106,15 +106,15 @@ class Dlg extends Handler_Protected {
 			FROM ttrss_tags WHERE owner_uid = ".$_SESSION["uid"]."
 			GROUP BY tag_name ORDER BY count DESC LIMIT 50";
 
-		$result = db_query($this->link, $query);
+		$result = $this->dbh->query($query);
 
 		$tags = array();
 
-		while ($line = db_fetch_assoc($result)) {
+		while ($line = $this->dbh->fetch_assoc($result)) {
 			$tags[$line["tag_name"]] = $line["count"];
 		}
 
-        if( count($tags) == 0 ){ return; }
+        if(count($tags) == 0 ){ return; }
 
 		ksort($tags);
 
@@ -171,10 +171,10 @@ class Dlg extends Handler_Protected {
 		print "<label for=\"tag_mode_all\">".__("All tags.")."</input>";
 
 		print "<select id=\"all_tags\" name=\"all_tags\" title=\"" . __('Which Tags?') . "\" multiple=\"multiple\" size=\"10\" style=\"width : 100%\">";
-		$result = db_query($this->link, "SELECT DISTINCT tag_name FROM ttrss_tags WHERE owner_uid = ".$_SESSION['uid']."
+		$result = $this->dbh->query("SELECT DISTINCT tag_name FROM ttrss_tags WHERE owner_uid = ".$_SESSION['uid']."
 			AND LENGTH(tag_name) <= 30 ORDER BY tag_name ASC");
 
-		while ($row = db_fetch_assoc($result)) {
+		while ($row = $this->dbh->fetch_assoc($result)) {
 			$tmp = htmlspecialchars($row["tag_name"]);
 			print "<option value=\"" . str_replace(" ", "%20", $tmp) . "\">$tmp</option>";
 		}
@@ -195,10 +195,10 @@ class Dlg extends Handler_Protected {
 	function generatedFeed() {
 
 		$this->params = explode(":", $this->param, 3);
-		$feed_id = db_escape_string($this->link, $this->params[0]);
+		$feed_id = $this->dbh->escape_string($this->params[0]);
 		$is_cat = (bool) $this->params[1];
 
-		$key = get_feed_access_key($this->link, $feed_id, $is_cat);
+		$key = get_feed_access_key($feed_id, $is_cat);
 
 		$url_path = htmlspecialchars($this->params[2]) . "&key=" . $key;
 
@@ -223,7 +223,7 @@ class Dlg extends Handler_Protected {
 
 	function newVersion() {
 
-		$version_data = check_for_update($this->link);
+		$version_data = check_for_update();
 		$version = $version_data['version'];
 		$id = $version_data['version_id'];
 

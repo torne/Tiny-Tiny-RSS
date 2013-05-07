@@ -8,18 +8,17 @@ class RPC extends Handler_Protected {
 	}
 
 	function setprofile() {
-		$id = db_escape_string($this->link, $_REQUEST["id"]);
+		$id = $this->dbh->escape_string($_REQUEST["id"]);
 
 		$_SESSION["profile"] = $id;
-		$_SESSION["prefs_cache"] = array();
 	}
 
 	function remprofiles() {
-		$ids = explode(",", db_escape_string($this->link, trim($_REQUEST["ids"])));
+		$ids = explode(",", $this->dbh->escape_string(trim($_REQUEST["ids"])));
 
 		foreach ($ids as $id) {
 			if ($_SESSION["profile"] != $id) {
-				db_query($this->link, "DELETE FROM ttrss_settings_profiles WHERE id = '$id' AND
+				$this->dbh->query("DELETE FROM ttrss_settings_profiles WHERE id = '$id' AND
 							owner_uid = " . $_SESSION["uid"]);
 			}
 		}
@@ -27,38 +26,38 @@ class RPC extends Handler_Protected {
 
 	// Silent
 	function addprofile() {
-		$title = db_escape_string($this->link, trim($_REQUEST["title"]));
+		$title = $this->dbh->escape_string(trim($_REQUEST["title"]));
 		if ($title) {
-			db_query($this->link, "BEGIN");
+			$this->dbh->query("BEGIN");
 
-			$result = db_query($this->link, "SELECT id FROM ttrss_settings_profiles
+			$result = $this->dbh->query("SELECT id FROM ttrss_settings_profiles
 				WHERE title = '$title' AND owner_uid = " . $_SESSION["uid"]);
 
-			if (db_num_rows($result) == 0) {
+			if ($this->dbh->num_rows($result) == 0) {
 
-				db_query($this->link, "INSERT INTO ttrss_settings_profiles (title, owner_uid)
+				$this->dbh->query("INSERT INTO ttrss_settings_profiles (title, owner_uid)
 							VALUES ('$title', ".$_SESSION["uid"] .")");
 
-				$result = db_query($this->link, "SELECT id FROM ttrss_settings_profiles WHERE
+				$result = $this->dbh->query("SELECT id FROM ttrss_settings_profiles WHERE
 					title = '$title'");
 
-				if (db_num_rows($result) != 0) {
-					$profile_id = db_fetch_result($result, 0, "id");
+				if ($this->dbh->num_rows($result) != 0) {
+					$profile_id = $this->dbh->fetch_result($result, 0, "id");
 
 					if ($profile_id) {
-						initialize_user_prefs($this->link, $_SESSION["uid"], $profile_id);
+						initialize_user_prefs($_SESSION["uid"], $profile_id);
 					}
 				}
 			}
 
-			db_query($this->link, "COMMIT");
+			$this->dbh->query("COMMIT");
 		}
 	}
 
 	// Silent
 	function saveprofile() {
-		$id = db_escape_string($this->link, $_REQUEST["id"]);
-		$title = db_escape_string($this->link, trim($_REQUEST["value"]));
+		$id = $this->dbh->escape_string($_REQUEST["id"]);
+		$title = $this->dbh->escape_string(trim($_REQUEST["value"]));
 
 		if ($id == 0) {
 			print __("Default profile");
@@ -66,55 +65,55 @@ class RPC extends Handler_Protected {
 		}
 
 		if ($title) {
-			db_query($this->link, "BEGIN");
+			$this->dbh->query("BEGIN");
 
-			$result = db_query($this->link, "SELECT id FROM ttrss_settings_profiles
+			$result = $this->dbh->query("SELECT id FROM ttrss_settings_profiles
 				WHERE title = '$title' AND owner_uid =" . $_SESSION["uid"]);
 
-			if (db_num_rows($result) == 0) {
-				db_query($this->link, "UPDATE ttrss_settings_profiles
+			if ($this->dbh->num_rows($result) == 0) {
+				$this->dbh->query("UPDATE ttrss_settings_profiles
 							SET title = '$title' WHERE id = '$id' AND
 							owner_uid = " . $_SESSION["uid"]);
 				print $title;
 			} else {
-				$result = db_query($this->link, "SELECT title FROM ttrss_settings_profiles
+				$result = $this->dbh->query("SELECT title FROM ttrss_settings_profiles
 							WHERE id = '$id' AND owner_uid =" . $_SESSION["uid"]);
-				print db_fetch_result($result, 0, "title");
+				print $this->dbh->fetch_result($result, 0, "title");
 			}
 
-			db_query($this->link, "COMMIT");
+			$this->dbh->query("COMMIT");
 		}
 	}
 
 	// Silent
 	function remarchive() {
-		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(",", $this->dbh->escape_string($_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
-			$result = db_query($this->link, "DELETE FROM ttrss_archived_feeds WHERE
+			$result = $this->dbh->query("DELETE FROM ttrss_archived_feeds WHERE
 		(SELECT COUNT(*) FROM ttrss_user_entries
 							WHERE orig_feed_id = '$id') = 0 AND
 		id = '$id' AND owner_uid = ".$_SESSION["uid"]);
 
-			$rc = db_affected_rows($this->link, $result);
+			$rc = $this->dbh->affected_rows($result);
 		}
 	}
 
 	function addfeed() {
-		$feed = db_escape_string($this->link, $_REQUEST['feed']);
-		$cat = db_escape_string($this->link, $_REQUEST['cat']);
-		$login = db_escape_string($this->link, $_REQUEST['login']);
-		$pass = db_escape_string($this->link, $_REQUEST['pass']);
+		$feed = $this->dbh->escape_string($_REQUEST['feed']);
+		$cat = $this->dbh->escape_string($_REQUEST['cat']);
+		$login = $this->dbh->escape_string($_REQUEST['login']);
+		$pass = trim($_REQUEST['pass']); // escaped later
 
-		$rc = subscribe_to_feed($this->link, $feed, $cat, $login, $pass);
+		$rc = subscribe_to_feed($feed, $cat, $login, $pass);
 
 		print json_encode(array("result" => $rc));
 	}
 
 	function togglepref() {
-		$key = db_escape_string($this->link, $_REQUEST["key"]);
-		set_pref($this->link, $key, !get_pref($this->link, $key));
-		$value = get_pref($this->link, $key);
+		$key = $this->dbh->escape_string($_REQUEST["key"]);
+		set_pref($key, !get_pref($key));
+		$value = get_pref($key);
 
 		print json_encode(array("param" =>$key, "value" => $value));
 	}
@@ -124,14 +123,14 @@ class RPC extends Handler_Protected {
 		$key = $_REQUEST['key'];
 		$value = str_replace("\n", "<br/>", $_REQUEST['value']);
 
-		set_pref($this->link, $key, $value, $_SESSION['uid'], $key != 'USER_STYLESHEET');
+		set_pref($key, $value, $_SESSION['uid'], $key != 'USER_STYLESHEET');
 
 		print json_encode(array("param" =>$key, "value" => $value));
 	}
 
 	function mark() {
 		$mark = $_REQUEST["mark"];
-		$id = db_escape_string($this->link, $_REQUEST["id"]);
+		$id = $this->dbh->escape_string($_REQUEST["id"]);
 
 		if ($mark == "1") {
 			$mark = "true";
@@ -139,7 +138,7 @@ class RPC extends Handler_Protected {
 			$mark = "false";
 		}
 
-		$result = db_query($this->link, "UPDATE ttrss_user_entries SET marked = $mark,
+		$result = $this->dbh->query("UPDATE ttrss_user_entries SET marked = $mark,
 					last_marked = NOW()
 					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
@@ -147,12 +146,12 @@ class RPC extends Handler_Protected {
 	}
 
 	function delete() {
-		$ids = db_escape_string($this->link, $_REQUEST["ids"]);
+		$ids = $this->dbh->escape_string($_REQUEST["ids"]);
 
-		$result = db_query($this->link, "DELETE FROM ttrss_user_entries
+		$result = $this->dbh->query("DELETE FROM ttrss_user_entries
 		WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
-		purge_orphans($this->link);
+		purge_orphans();
 
 		print json_encode(array("message" => "UPDATE_COUNTERS"));
 	}
@@ -161,26 +160,26 @@ class RPC extends Handler_Protected {
 		$ids = explode(",", $_REQUEST["ids"]);
 
 		foreach ($ids as $id) {
-			$id = db_escape_string($this->link, trim($id));
-			db_query($this->link, "BEGIN");
+			$id = $this->dbh->escape_string(trim($id));
+			$this->dbh->query("BEGIN");
 
-			$result = db_query($this->link, "SELECT feed_url,site_url,title FROM ttrss_archived_feeds
+			$result = $this->dbh->query("SELECT feed_url,site_url,title FROM ttrss_archived_feeds
 				WHERE id = (SELECT orig_feed_id FROM ttrss_user_entries WHERE ref_id = $id
 				AND owner_uid = ".$_SESSION["uid"].")");
 
-			if (db_num_rows($result) != 0) {
-				$feed_url = db_escape_string($this->link, db_fetch_result($result, 0, "feed_url"));
-				$site_url = db_escape_string($this->link, db_fetch_result($result, 0, "site_url"));
-				$title = db_escape_string($this->link, db_fetch_result($result, 0, "title"));
+			if ($this->dbh->num_rows($result) != 0) {
+				$feed_url = $this->dbh->escape_string(db_fetch_result($result, 0, "feed_url"));
+				$site_url = $this->dbh->escape_string(db_fetch_result($result, 0, "site_url"));
+				$title = $this->dbh->escape_string(db_fetch_result($result, 0, "title"));
 
-				$result = db_query($this->link, "SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_url'
+				$result = $this->dbh->query("SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_url'
 					AND owner_uid = " .$_SESSION["uid"]);
 
-				if (db_num_rows($result) == 0) {
+				if ($this->dbh->num_rows($result) == 0) {
 
 					if (!$title) $title = '[Unknown]';
 
-					$result = db_query($this->link,
+					$result = $this->dbh->query(
 						"INSERT INTO ttrss_feeds
 							(owner_uid,feed_url,site_url,title,cat_id,auth_login,auth_pass,update_method)
 							VALUES (".$_SESSION["uid"].",
@@ -189,77 +188,77 @@ class RPC extends Handler_Protected {
 							'$title',
 							NULL, '', '', 0)");
 
-					$result = db_query($this->link,
+					$result = $this->dbh->query(
 						"SELECT id FROM ttrss_feeds WHERE feed_url = '$feed_url'
 						AND owner_uid = ".$_SESSION["uid"]);
 
-					if (db_num_rows($result) != 0) {
-						$feed_id = db_fetch_result($result, 0, "id");
+					if ($this->dbh->num_rows($result) != 0) {
+						$feed_id = $this->dbh->fetch_result($result, 0, "id");
 					}
 
 				} else {
-					$feed_id = db_fetch_result($result, 0, "id");
+					$feed_id = $this->dbh->fetch_result($result, 0, "id");
 				}
 
 				if ($feed_id) {
-					$result = db_query($this->link, "UPDATE ttrss_user_entries
+					$result = $this->dbh->query("UPDATE ttrss_user_entries
 						SET feed_id = '$feed_id', orig_feed_id = NULL
 						WHERE ref_id = $id AND owner_uid = " . $_SESSION["uid"]);
 				}
 			}
 
-			db_query($this->link, "COMMIT");
+			$this->dbh->query("COMMIT");
 		}
 
 		print json_encode(array("message" => "UPDATE_COUNTERS"));
 	}
 
 	function archive() {
-		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(",", $this->dbh->escape_string($_REQUEST["ids"]));
 
 		foreach ($ids as $id) {
-			$this->archive_article($this->link, $id, $_SESSION["uid"]);
+			$this->archive_article($id, $_SESSION["uid"]);
 		}
 
 		print json_encode(array("message" => "UPDATE_COUNTERS"));
 	}
 
-	private function archive_article($link, $id, $owner_uid) {
-		db_query($link, "BEGIN");
+	private function archive_article($id, $owner_uid) {
+		$this->dbh->query("BEGIN");
 
-		$result = db_query($link, "SELECT feed_id FROM ttrss_user_entries
+		$result = $this->dbh->query("SELECT feed_id FROM ttrss_user_entries
 			WHERE ref_id = '$id' AND owner_uid = $owner_uid");
 
-		if (db_num_rows($result) != 0) {
+		if ($this->dbh->num_rows($result) != 0) {
 
 			/* prepare the archived table */
 
-			$feed_id = (int) db_fetch_result($result, 0, "feed_id");
+			$feed_id = (int) $this->dbh->fetch_result($result, 0, "feed_id");
 
 			if ($feed_id) {
-				$result = db_query($link, "SELECT id FROM ttrss_archived_feeds
+				$result = $this->dbh->query("SELECT id FROM ttrss_archived_feeds
 					WHERE id = '$feed_id'");
 
-				if (db_num_rows($result) == 0) {
-					db_query($link, "INSERT INTO ttrss_archived_feeds
+				if ($this->dbh->num_rows($result) == 0) {
+					$this->dbh->query("INSERT INTO ttrss_archived_feeds
 						(id, owner_uid, title, feed_url, site_url)
 					SELECT id, owner_uid, title, feed_url, site_url from ttrss_feeds
 				  	WHERE id = '$feed_id'");
 				}
 
-				db_query($link, "UPDATE ttrss_user_entries
+				$this->dbh->query("UPDATE ttrss_user_entries
 					SET orig_feed_id = feed_id, feed_id = NULL
 					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 			}
 		}
 
-		db_query($link, "COMMIT");
+		$this->dbh->query("COMMIT");
 	}
 
 	function publ() {
 		$pub = $_REQUEST["pub"];
-		$id = db_escape_string($this->link, $_REQUEST["id"]);
-		$note = trim(strip_tags(db_escape_string($this->link, $_REQUEST["note"])));
+		$id = $this->dbh->escape_string($_REQUEST["id"]);
+		$note = trim(strip_tags($this->dbh->escape_string($_REQUEST["note"])));
 
 		if ($pub == "1") {
 			$pub = "true";
@@ -267,7 +266,7 @@ class RPC extends Handler_Protected {
 			$pub = "false";
 		}
 
-		$result = db_query($this->link, "UPDATE ttrss_user_entries SET
+		$result = $this->dbh->query("UPDATE ttrss_user_entries SET
 			published = $pub, last_published = NOW()
 			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
@@ -276,7 +275,7 @@ class RPC extends Handler_Protected {
 		if (PUBSUBHUBBUB_HUB) {
 			$rss_link = get_self_url_prefix() .
 				"/public.php?op=rss&id=-2&key=" .
-				get_feed_access_key($this->link, -2, false);
+				get_feed_access_key(-2, false);
 
 			$p = new Publisher(PUBSUBHUBBUB_HUB);
 
@@ -292,41 +291,41 @@ class RPC extends Handler_Protected {
 
 		$reply = array();
 
-		if ($seq) $reply['seq'] = $seq;
+		if (!empty($_REQUEST['seq'])) $reply['seq'] = (int) $_REQUEST['seq'];
 
-		if ($last_article_id != getLastArticleId($this->link)) {
-			$reply['counters'] = getAllCounters($this->link);
+		if ($last_article_id != getLastArticleId()) {
+			$reply['counters'] = getAllCounters();
 		}
 
-		$reply['runtime-info'] = make_runtime_info($this->link);
+		$reply['runtime-info'] = make_runtime_info();
 
 		print json_encode($reply);
 	}
 
 	/* GET["cmode"] = 0 - mark as read, 1 - as unread, 2 - toggle */
 	function catchupSelected() {
-		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(",", $this->dbh->escape_string($_REQUEST["ids"]));
 		$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
-		catchupArticlesById($this->link, $ids, $cmode);
+		catchupArticlesById($ids, $cmode);
 
 		print json_encode(array("message" => "UPDATE_COUNTERS", "ids" => $ids));
 	}
 
 	function markSelected() {
-		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(",", $this->dbh->escape_string($_REQUEST["ids"]));
 		$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
-		$this->markArticlesById($this->link, $ids, $cmode);
+		$this->markArticlesById($ids, $cmode);
 
 		print json_encode(array("message" => "UPDATE_COUNTERS"));
 	}
 
 	function publishSelected() {
-		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(",", $this->dbh->escape_string($_REQUEST["ids"]));
 		$cmode = sprintf("%d", $_REQUEST["cmode"]);
 
-		$this->publishArticlesById($this->link, $ids, $cmode);
+		$this->publishArticlesById($ids, $cmode);
 
 		print json_encode(array("message" => "UPDATE_COUNTERS"));
 	}
@@ -334,59 +333,61 @@ class RPC extends Handler_Protected {
 	function sanityCheck() {
 		$_SESSION["hasAudio"] = $_REQUEST["hasAudio"] === "true";
 		$_SESSION["hasSandbox"] = $_REQUEST["hasSandbox"] === "true";
+		$_SESSION["hasMp3"] = $_REQUEST["hasMp3"] === "true";
+		$_SESSION["clientTzOffset"] = $_REQUEST["clientTzOffset"];
 
 		$reply = array();
 
-		$reply['error'] = sanity_check($this->link);
+		$reply['error'] = sanity_check();
 
 		if ($reply['error']['code'] == 0) {
-			$reply['init-params'] = make_init_params($this->link);
-			$reply['runtime-info'] = make_runtime_info($this->link);
+			$reply['init-params'] = make_init_params();
+			$reply['runtime-info'] = make_runtime_info();
 		}
 
 		print json_encode($reply);
 	}
 
 	function completeLabels() {
-		$search = db_escape_string($this->link, $_REQUEST["search"]);
+		$search = $this->dbh->escape_string($_REQUEST["search"]);
 
-		$result = db_query($this->link, "SELECT DISTINCT caption FROM
+		$result = $this->dbh->query("SELECT DISTINCT caption FROM
 				ttrss_labels2
 				WHERE owner_uid = '".$_SESSION["uid"]."' AND
 				LOWER(caption) LIKE LOWER('$search%') ORDER BY caption
 				LIMIT 5");
 
 		print "<ul>";
-		while ($line = db_fetch_assoc($result)) {
+		while ($line = $this->dbh->fetch_assoc($result)) {
 			print "<li>" . $line["caption"] . "</li>";
 		}
 		print "</ul>";
 	}
 
 	function purge() {
-		$ids = explode(",", db_escape_string($this->link, $_REQUEST["ids"]));
+		$ids = explode(",", $this->dbh->escape_string($_REQUEST["ids"]));
 		$days = sprintf("%d", $_REQUEST["days"]);
 
 		foreach ($ids as $id) {
 
-			$result = db_query($this->link, "SELECT id FROM ttrss_feeds WHERE
+			$result = $this->dbh->query("SELECT id FROM ttrss_feeds WHERE
 				id = '$id' AND owner_uid = ".$_SESSION["uid"]);
 
-			if (db_num_rows($result) == 1) {
-				purge_feed($this->link, $id, $days);
+			if ($this->dbh->num_rows($result) == 1) {
+				purge_feed($id, $days);
 			}
 		}
 	}
 
 	function updateFeedBrowser() {
-		$search = db_escape_string($this->link, $_REQUEST["search"]);
-		$limit = db_escape_string($this->link, $_REQUEST["limit"]);
-		$mode = (int) db_escape_string($this->link, $_REQUEST["mode"]);
+		$search = $this->dbh->escape_string($_REQUEST["search"]);
+		$limit = $this->dbh->escape_string($_REQUEST["limit"]);
+		$mode = (int) $this->dbh->escape_string($_REQUEST["mode"]);
 
 		require_once "feedbrowser.php";
 
 		print json_encode(array("content" =>
-			make_feed_browser($this->link, $search, $limit, $mode),
+			make_feed_browser($search, $limit, $mode),
 				"mode" => $mode));
 	}
 
@@ -401,14 +402,14 @@ class RPC extends Handler_Protected {
 		if ($mode == 1) {
 			foreach ($payload as $feed) {
 
-				$title = db_escape_string($this->link, $feed[0]);
-				$feed_url = db_escape_string($this->link, $feed[1]);
+				$title = $this->dbh->escape_string($feed[0]);
+				$feed_url = $this->dbh->escape_string($feed[1]);
 
-				$result = db_query($this->link, "SELECT id FROM ttrss_feeds WHERE
+				$result = $this->dbh->query("SELECT id FROM ttrss_feeds WHERE
 					feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
 
-				if (db_num_rows($result) == 0) {
-					$result = db_query($this->link, "INSERT INTO ttrss_feeds
+				if ($this->dbh->num_rows($result) == 0) {
+					$result = $this->dbh->query("INSERT INTO ttrss_feeds
 									(owner_uid,feed_url,title,cat_id,site_url)
 									VALUES ('".$_SESSION["uid"]."',
 									'$feed_url', '$title', NULL, '')");
@@ -417,19 +418,19 @@ class RPC extends Handler_Protected {
 		} else if ($mode == 2) {
 			// feed archive
 			foreach ($payload as $id) {
-				$result = db_query($this->link, "SELECT * FROM ttrss_archived_feeds
+				$result = $this->dbh->query("SELECT * FROM ttrss_archived_feeds
 					WHERE id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
-				if (db_num_rows($result) != 0) {
-					$site_url = db_escape_string($this->link, db_fetch_result($result, 0, "site_url"));
-					$feed_url = db_escape_string($this->link, db_fetch_result($result, 0, "feed_url"));
-					$title = db_escape_string($this->link, db_fetch_result($result, 0, "title"));
+				if ($this->dbh->num_rows($result) != 0) {
+					$site_url = $this->dbh->escape_string(db_fetch_result($result, 0, "site_url"));
+					$feed_url = $this->dbh->escape_string(db_fetch_result($result, 0, "feed_url"));
+					$title = $this->dbh->escape_string(db_fetch_result($result, 0, "title"));
 
-					$result = db_query($this->link, "SELECT id FROM ttrss_feeds WHERE
+					$result = $this->dbh->query("SELECT id FROM ttrss_feeds WHERE
 						feed_url = '$feed_url' AND owner_uid = " . $_SESSION["uid"]);
 
-					if (db_num_rows($result) == 0) {
-						$result = db_query($this->link, "INSERT INTO ttrss_feeds
+					if ($this->dbh->num_rows($result) == 0) {
+						$result = $this->dbh->query("INSERT INTO ttrss_feeds
 										(owner_uid,feed_url,title,cat_id,site_url)
 									VALUES ('$id','".$_SESSION["uid"]."',
 									'$feed_url', '$title', NULL, '$site_url')");
@@ -440,35 +441,35 @@ class RPC extends Handler_Protected {
 	}
 
 	function catchupFeed() {
-		$feed_id = db_escape_string($this->link, $_REQUEST['feed_id']);
-		$is_cat = db_escape_string($this->link, $_REQUEST['is_cat']) == "true";
-		$mode = db_escape_string($this->link, $_REQUEST['mode']);
+		$feed_id = $this->dbh->escape_string($_REQUEST['feed_id']);
+		$is_cat = $this->dbh->escape_string($_REQUEST['is_cat']) == "true";
+		$mode = $this->dbh->escape_string($_REQUEST['mode']);
 
-		catchup_feed($this->link, $feed_id, $is_cat, false, false, $mode);
+		catchup_feed($feed_id, $is_cat, false, false, $mode);
 
 		print json_encode(array("message" => "UPDATE_COUNTERS"));
 	}
 
 	function quickAddCat() {
-		$cat = db_escape_string($this->link, $_REQUEST["cat"]);
+		$cat = $this->dbh->escape_string($_REQUEST["cat"]);
 
-		add_feed_category($this->link, $cat);
+		add_feed_category($cat);
 
-		$result = db_query($this->link, "SELECT id FROM ttrss_feed_categories WHERE
+		$result = $this->dbh->query("SELECT id FROM ttrss_feed_categories WHERE
 			title = '$cat' AND owner_uid = " . $_SESSION["uid"]);
 
-		if (db_num_rows($result) == 1) {
-			$id = db_fetch_result($result, 0, "id");
+		if ($this->dbh->num_rows($result) == 1) {
+			$id = $this->dbh->fetch_result($result, 0, "id");
 		} else {
 			$id = 0;
 		}
 
-		print_feed_cat_select($this->link, "cat_id", $id);
+		print_feed_cat_select("cat_id", $id, '');
 	}
 
 	// Silent
 	function clearArticleKeys() {
-		db_query($this->link, "UPDATE ttrss_user_entries SET uuid = '' WHERE
+		$this->dbh->query("UPDATE ttrss_user_entries SET uuid = '' WHERE
 			owner_uid = " . $_SESSION["uid"]);
 
 		return;
@@ -478,7 +479,7 @@ class RPC extends Handler_Protected {
 		$wide = (int) $_REQUEST["wide"];
 
 		setcookie("ttrss_widescreen", $wide,
-			time() + SESSION_COOKIE_LIFETIME);
+			time() + COOKIE_LIFETIME_LONG);
 
 		print json_encode(array("wide" => $wide));
 	}
@@ -515,7 +516,7 @@ class RPC extends Handler_Protected {
 		$random_qpart = sql_random_function();
 
 		// We search for feed needing update.
-		$result = db_query($this->link, "SELECT ttrss_feeds.feed_url,ttrss_feeds.id
+		$result = $this->dbh->query("SELECT ttrss_feeds.feed_url,ttrss_feeds.id
 			FROM
 				ttrss_feeds, ttrss_users, ttrss_user_prefs
 			WHERE
@@ -534,11 +535,11 @@ class RPC extends Handler_Protected {
 
 		$tstart = time();
 
-		while ($line = db_fetch_assoc($result)) {
+		while ($line = $this->dbh->fetch_assoc($result)) {
 			$feed_id = $line["id"];
 
 			if (time() - $tstart < ini_get("max_execution_time") * 0.7) {
-				update_rss_feed($this->link, $feed_id, true);
+				update_rss_feed($feed_id, true);
 				++$num_updated;
 			} else {
 				break;
@@ -546,8 +547,8 @@ class RPC extends Handler_Protected {
 		}
 
 		// Purge orphans and cleanup tags
-		purge_orphans($this->link);
-		cleanup_tags($this->link, 14, 50000);
+		purge_orphans();
+		cleanup_tags(14, 50000);
 
 		if ($num_updated > 0) {
 			print json_encode(array("message" => "UPDATE_COUNTERS",
@@ -558,7 +559,7 @@ class RPC extends Handler_Protected {
 
 	}
 
-	private function markArticlesById($link, $ids, $cmode) {
+	private function markArticlesById($ids, $cmode) {
 
 		$tmp_ids = array();
 
@@ -569,21 +570,21 @@ class RPC extends Handler_Protected {
 		$ids_qpart = join(" OR ", $tmp_ids);
 
 		if ($cmode == 0) {
-			db_query($link, "UPDATE ttrss_user_entries SET
+			$this->dbh->query("UPDATE ttrss_user_entries SET
 			marked = false, last_marked = NOW()
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
 		} else if ($cmode == 1) {
-			db_query($link, "UPDATE ttrss_user_entries SET
+			$this->dbh->query("UPDATE ttrss_user_entries SET
 			marked = true, last_marked = NOW()
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
 		} else {
-			db_query($link, "UPDATE ttrss_user_entries SET
+			$this->dbh->query("UPDATE ttrss_user_entries SET
 			marked = NOT marked,last_marked = NOW()
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
 		}
 	}
 
-	private function publishArticlesById($link, $ids, $cmode) {
+	private function publishArticlesById($ids, $cmode) {
 
 		$tmp_ids = array();
 
@@ -594,15 +595,15 @@ class RPC extends Handler_Protected {
 		$ids_qpart = join(" OR ", $tmp_ids);
 
 		if ($cmode == 0) {
-			db_query($link, "UPDATE ttrss_user_entries SET
+			$this->dbh->query("UPDATE ttrss_user_entries SET
 			published = false,last_published = NOW()
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
 		} else if ($cmode == 1) {
-			db_query($link, "UPDATE ttrss_user_entries SET
+			$this->dbh->query("UPDATE ttrss_user_entries SET
 			published = true,last_published = NOW()
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
 		} else {
-			db_query($link, "UPDATE ttrss_user_entries SET
+			$this->dbh->query("UPDATE ttrss_user_entries SET
 			published = NOT published,last_published = NOW()
 			WHERE ($ids_qpart) AND owner_uid = " . $_SESSION["uid"]);
 		}
@@ -610,7 +611,7 @@ class RPC extends Handler_Protected {
 		if (PUBSUBHUBBUB_HUB) {
 			$rss_link = get_self_url_prefix() .
 				"/public.php?op=rss&id=-2&key=" .
-				get_feed_access_key($link, -2, false);
+				get_feed_access_key(-2, false);
 
 			$p = new Publisher(PUBSUBHUBBUB_HUB);
 
@@ -619,14 +620,14 @@ class RPC extends Handler_Protected {
 	}
 
 	function getlinktitlebyid() {
-		$id = db_escape_string($this->link, $_REQUEST['id']);
+		$id = $this->dbh->escape_string($_REQUEST['id']);
 
-		$result = db_query($this->link, "SELECT link, title FROM ttrss_entries, ttrss_user_entries
+		$result = $this->dbh->query("SELECT link, title FROM ttrss_entries, ttrss_user_entries
 			WHERE ref_id = '$id' AND ref_id = id AND owner_uid = ". $_SESSION["uid"]);
 
-		if (db_num_rows($result) != 0) {
-			$link = db_fetch_result($result, 0, "link");
-			$title = db_fetch_result($result, 0, "title");
+		if ($this->dbh->num_rows($result) != 0) {
+			$link = $this->dbh->fetch_result($result, 0, "link");
+			$title = $this->dbh->fetch_result($result, 0, "title");
 
 			echo json_encode(array("link" => $link, "title" => $title));
 		} else {
@@ -634,5 +635,16 @@ class RPC extends Handler_Protected {
 		}
 	}
 
+	function log() {
+		$logmsg = $this->dbh->escape_string($_REQUEST['logmsg']);
+
+		if ($logmsg) {
+			Logger::get()->log_error(E_USER_WARNING,
+				$logmsg, '[client-js]', 0, false);
+		}
+
+		echo json_encode(array("message" => "HOST_ERROR_LOGGED"));
+
+	}
 }
 ?>

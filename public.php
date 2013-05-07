@@ -17,6 +17,7 @@
 		$_REQUEST = array_map('stripslashes_deep', $_REQUEST);
 	}
 
+	require_once "autoload.php";
 	require_once "sessions.php";
 	require_once "functions.php";
 	require_once "sanity_check.php";
@@ -28,9 +29,7 @@
 
 	$script_started = microtime(true);
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-	if (!init_connection($link)) return;
+	if (!init_plugins()) return;
 
 	if (ENABLE_GZIP_OUTPUT && function_exists("ob_gzhandler")) {
 		ob_start("ob_gzhandler");
@@ -38,13 +37,12 @@
 
 	$method = $_REQUEST["op"];
 
-	global $pluginhost;
-	$override = $pluginhost->lookup_handler("public", $method);
+	$override = PluginHost::getInstance()->lookup_handler("public", $method);
 
 	if ($override) {
 		$handler = $override;
 	} else {
-		$handler = new Handler_Public($link, $_REQUEST);
+		$handler = new Handler_Public($_REQUEST);
 	}
 
 	if (implements_interface($handler, "IHandler") && $handler->before($method)) {
@@ -60,6 +58,4 @@
 	header("Content-Type: text/plain");
 	print json_encode(array("error" => array("code" => 7)));
 
-	// We close the connection to database.
-	db_close($link);
 ?>

@@ -11,7 +11,7 @@ class Backend extends Handler {
 
 		require_once "digest.php";
 
-		$rv = prepare_headlines_digest($this->link, $_SESSION['uid'], 1, 1000);
+		$rv = prepare_headlines_digest($_SESSION['uid'], 1, 1000);
 
 		$rv[3] = "<pre>" . $rv[3] . "</pre>";
 
@@ -19,8 +19,8 @@ class Backend extends Handler {
 	}
 
 	private function display_main_help() {
-		$info = get_hotkeys_info($this->link);
-		$imap = get_hotkeys_map($this->link);
+		$info = get_hotkeys_info();
+		$imap = get_hotkeys_map();
 		$omap = array();
 
 		foreach ($imap[1] as $sequence => $action) {

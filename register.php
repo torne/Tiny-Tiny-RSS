@@ -8,7 +8,7 @@
 		get_include_path());
 
 	require_once 'classes/ttrssmailer.php';
-
+	require_once "autoload.php";
 	require_once "functions.php";
 	require_once "sessions.php";
 	require_once "sanity_check.php";
@@ -17,9 +17,7 @@
 
 	$action = $_REQUEST["action"];
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-	if (!init_connection($link)) return;
+	if (!init_plugins()) return;
 
 	if ($_REQUEST["format"] == "feed") {
 		header("Content-Type: text/xml");
@@ -32,7 +30,7 @@
 			<link rel=\"alternate\" href=\"".htmlspecialchars(SELF_URL_PATH)."\"/>";
 
 		if (ENABLE_REGISTRATION) {
-			$result = db_query($link, "SELECT COUNT(*) AS cu FROM ttrss_users");
+			$result = db_query( "SELECT COUNT(*) AS cu FROM ttrss_users");
 			$num_users = db_fetch_result($result, 0, "cu");
 
 			$num_users = REG_MAX_USERS - $num_users;
@@ -60,10 +58,10 @@
 	/* Remove users which didn't login after receiving their registration information */
 
 	if (DB_TYPE == "pgsql") {
-		db_query($link, "DELETE FROM ttrss_users WHERE last_login IS NULL
+		db_query( "DELETE FROM ttrss_users WHERE last_login IS NULL
 				AND created < NOW() - INTERVAL '1 day' AND access_level = 0");
 	} else {
-		db_query($link, "DELETE FROM ttrss_users WHERE last_login IS NULL
+		db_query( "DELETE FROM ttrss_users WHERE last_login IS NULL
 				AND created < DATE_SUB(NOW(), INTERVAL 1 DAY) AND access_level = 0");
 	}
 
@@ -74,9 +72,9 @@
 	if ($action == "check") {
 		header("Content-Type: application/xml");
 
-		$login = trim(db_escape_string($link, $_REQUEST['login']));
+		$login = trim(db_escape_string( $_REQUEST['login']));
 
-		$result = db_query($link, "SELECT id FROM ttrss_users WHERE
+		$result = db_query( "SELECT id FROM ttrss_users WHERE
 			LOWER(login) = LOWER('$login')");
 
 		$is_registered = db_num_rows($result) > 0;
@@ -200,7 +198,7 @@
 ?>
 
 <?php if (REG_MAX_USERS > 0) {
-		$result = db_query($link, "SELECT COUNT(*) AS cu FROM ttrss_users");
+		$result = db_query( "SELECT COUNT(*) AS cu FROM ttrss_users");
 		$num_users = db_fetch_result($result, 0, "cu");
 } ?>
 
@@ -244,9 +242,9 @@
 	<?php } else if ($action == "do_register") { ?>
 
 	<?php
-		$login = mb_strtolower(trim(db_escape_string($link, $_REQUEST["login"])));
-		$email = trim(db_escape_string($link, $_REQUEST["email"]));
-		$test = trim(db_escape_string($link, $_REQUEST["turing_test"]));
+		$login = mb_strtolower(trim(db_escape_string( $_REQUEST["login"])));
+		$email = trim(db_escape_string( $_REQUEST["email"]));
+		$test = trim(db_escape_string( $_REQUEST["turing_test"]));
 
 		if (!$login || !$email || !$test) {
 			print_error(__("Your registration information is incomplete."));
@@ -258,7 +256,7 @@
 
 		if ($test == "four" || $test == "4") {
 
-			$result = db_query($link, "SELECT id FROM ttrss_users WHERE
+			$result = db_query( "SELECT id FROM ttrss_users WHERE
 				login = '$login'");
 
 			$is_registered = db_num_rows($result) > 0;
@@ -275,11 +273,11 @@
 				$salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
 				$pwd_hash = encrypt_password($password, $salt, true);
 
-				db_query($link, "INSERT INTO ttrss_users
+				db_query( "INSERT INTO ttrss_users
 					(login,pwd_hash,access_level,last_login, email, created, salt)
 					VALUES ('$login', '$pwd_hash', 0, null, '$email', NOW(), '$salt')");
 
-				$result = db_query($link, "SELECT id FROM ttrss_users WHERE
+				$result = db_query( "SELECT id FROM ttrss_users WHERE
 					login = '$login' AND pwd_hash = '$pwd_hash'");
 
 				if (db_num_rows($result) != 1) {
@@ -291,7 +289,7 @@
 
 					$new_uid = db_fetch_result($result, 0, "id");
 
-					initialize_user($link, $new_uid);
+					initialize_user( $new_uid);
 
 					$reg_text = "Hi!\n".
 						"\n".

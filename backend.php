@@ -37,6 +37,7 @@
 
 	@$csrf_token = $_REQUEST['csrf_token'];
 
+	require_once "autoload.php";
 	require_once "sessions.php";
 	require_once "functions.php";
 	require_once "config.php";
@@ -47,9 +48,7 @@
 
 	$script_started = microtime(true);
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-	if (!init_connection($link)) return;
+	if (!init_plugins()) return;
 
 	header("Content-Type: text/json; charset=utf-8");
 
@@ -58,11 +57,16 @@
 	}
 
 	if (SINGLE_USER_MODE) {
-		authenticate_user($link, "admin", null);
+		authenticate_user( "admin", null);
 	}
 
 	if ($_SESSION["uid"]) {
-		load_user_plugins($link, $_SESSION["uid"]);
+		if (!validate_session()) {
+			header("Content-Type: text/json");
+			print json_encode(array("error" => array("code" => 6)));
+			return;
+		}
+		load_user_plugins( $_SESSION["uid"]);
 	}
 
 	$purge_intervals = array(
@@ -100,7 +104,7 @@
 		5 => __("Power User"),
 		10 => __("Administrator"));
 
-	#$error = sanity_check($link);
+	#$error = sanity_check();
 
 	#if ($error['code'] != 0 && $op != "logout") {
 	#	print json_encode(array("error" => $error));
@@ -109,15 +113,14 @@
 
 	$op = str_replace("-", "_", $op);
 
-	global $pluginhost;
-	$override = $pluginhost->lookup_handler($op, $method);
+	$override = PluginHost::getInstance()->lookup_handler($op, $method);
 
 	if (class_exists($op) || $override) {
 
 		if ($override) {
 			$handler = $override;
 		} else {
-			$handler = new $op($link, $_REQUEST);
+			$handler = new $op($_REQUEST);
 		}
 
 		if ($handler && implements_interface($handler, 'IHandler')) {
@@ -148,6 +151,4 @@
 	header("Content-Type: text/json");
 	print json_encode(array("error" => array("code" => 7)));
 
-	// We close the connection to database.
-	db_close($link);
 ?>

@@ -73,7 +73,11 @@ div.error {
 
 div.warning img, div.notice img, div.error img {
 	margin-right : 4px;
-	float : left;
+	vertical-align : middle;
+}
+
+div.warning span, div.notice span, div.error span {
+	display : table-cell;
 	vertical-align : middle;
 }
 
@@ -221,3 +225,27 @@ fieldset label {
 	color : gray;
 }
 
+body.otp {
+	margin : 1em;
+	padding : 0px;
+}
+
+form.otpform {
+	margin : 0px;
+	padding : 0px;
+}
+
+form.otpform label {
+	margin : 0px;
+	padding : 0px;
+}
+
+body.otp div.content {
+	display : inline-block;
+	width : auto;
+}
+
+span.hint {
+	font-size : 10px;
+	color : gray;
+}

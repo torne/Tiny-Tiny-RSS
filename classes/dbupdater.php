@@ -1,18 +1,18 @@
 <?php
 class DbUpdater {
 
-	private $link;
+	private $dbh;
 	private $db_type;
 	private $need_version;
 
-	function __construct($link, $db_type, $need_version) {
-		$this->link = $link;
+	function __construct($dbh, $db_type, $need_version) {
+		$this->dbh = $dbh;
 		$this->db_type = $db_type;
 		$this->need_version = (int) $need_version;
 	}
 
 	function getSchemaVersion() {
-		$result = db_query($this->link, "SELECT schema_version FROM ttrss_version");
+		$result = db_query("SELECT schema_version FROM ttrss_version");
 		return (int) db_fetch_result($result, 0, "schema_version");
 	}
 
@@ -37,21 +37,21 @@ class DbUpdater {
 
 			if (is_array($lines)) {
 
-				db_query($this->link, "BEGIN");
+				db_query("BEGIN");
 
 				foreach ($lines as $line) {
 					if (strpos($line, "--") !== 0 && $line) {
-						db_query($this->link, $line);
+						db_query($line);
 					}
 				}
 
 				$db_version = $this->getSchemaVersion();
 
 				if ($db_version == $version) {
-					db_query($this->link, "COMMIT");
+					db_query("COMMIT");
 					return true;
 				} else {
-					db_query($this->link, "ROLLBACK");
+					db_query("ROLLBACK");
 					return false;
 				}
 			} else {

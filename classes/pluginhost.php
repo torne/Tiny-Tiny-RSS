@@ -1,14 +1,19 @@
 <?php
 class PluginHost {
-	private $link;
+	private $dbh;
 	private $hooks = array();
 	private $plugins = array();
 	private $handlers = array();
 	private $commands = array();
 	private $storage = array();
 	private $feeds = array();
+	private $api_methods = array();
 	private $owner_uid;
 	private $debug;
+	private $last_registered;
+	private static $instance;
+
+	const API_VERSION = 2;
 
 	const HOOK_ARTICLE_BUTTON = 1;
 	const HOOK_ARTICLE_FILTER = 2;
@@ -29,17 +34,28 @@ class PluginHost {
 	const HOOK_HEADLINE_TOOLBAR_BUTTON = 17;
 	const HOOK_HOTKEY_INFO = 18;
 	const HOOK_ARTICLE_LEFT_BUTTON = 19;
+	const HOOK_PREFS_EDIT_FEED = 20;
+	const HOOK_PREFS_SAVE_FEED = 21;
 
 	const KIND_ALL = 1;
 	const KIND_SYSTEM = 2;
 	const KIND_USER = 3;
 
-	function __construct($link) {
-		$this->link = $link;
+	function __construct() {
+		$this->dbh = Db::get();
 
-		$this->storage = $_SESSION["plugin_storage"];
+		$this->storage = array();
+	}
 
-		if (!$this->storage) $this->storage = array();
+	private function __clone() {
+		//
+	}
+
+	public static function getInstance() {
+		if (self::$instance == null)
+			self::$instance = new self();
+
+		return self::$instance;
 	}
 
 	private function register_plugin($name, $plugin) {
@@ -47,8 +63,13 @@ class PluginHost {
 		$this->plugins[$name] = $plugin;
 	}
 
+	// needed for compatibility with API 1
 	function get_link() {
-		return $this->link;
+		return false;
+	}
+
+	function get_dbh() {
+		return $this->dbh;
 	}
 
 	function get_plugins() {
@@ -102,6 +123,9 @@ class PluginHost {
 		foreach ($plugins as $class) {
 			$class = trim($class);
 			$class_file = strtolower(basename($class));
+
+			if (!is_dir(dirname(__FILE__)."/../plugins/$class_file")) continue;
+
 			$file = dirname(__FILE__)."/../plugins/$class_file/init.php";
 
 			if (!isset($this->plugins[$class])) {
@@ -109,6 +133,15 @@ class PluginHost {
 
 				if (class_exists($class) && is_subclass_of($class, "Plugin")) {
 					$plugin = new $class($this);
+
+					$plugin_api = $plugin->api_version();
+
+					if ($plugin_api < PluginHost::API_VERSION) {
+						user_error("Plugin $class is not compatible with current API version (need: " . PluginHost::API_VERSION . ", got: $plugin_api)", E_USER_WARNING);
+						continue;
+					}
+
+					$this->last_registered = $class;
 
 					switch ($kind) {
 					case $this::KIND_SYSTEM:
@@ -153,7 +186,7 @@ class PluginHost {
 		}
 	}
 
-	function del_handler($handler, $method) {
+	function del_handler($handler, $method, $sender) {
 		$handler = str_replace("-", "_", strtolower($handler));
 		$method = strtolower($method);
 
@@ -218,45 +251,41 @@ class PluginHost {
 	}
 
 	function load_data($force = false) {
-		if ($this->owner_uid && (!$_SESSION["plugin_storage"] || $force))  {
-			$plugin = db_escape_string($this->link, $plugin);
-
-			$result = db_query($this->link, "SELECT name, content FROM ttrss_plugin_storage
+		if ($this->owner_uid)  {
+			$result = $this->dbh->query("SELECT name, content FROM ttrss_plugin_storage
 				WHERE owner_uid = '".$this->owner_uid."'");
 
-			while ($line = db_fetch_assoc($result)) {
+			while ($line = $this->dbh->fetch_assoc($result)) {
 				$this->storage[$line["name"]] = unserialize($line["content"]);
 			}
-
-			$_SESSION["plugin_storage"] = $this->storage;
 		}
 	}
 
 	private function save_data($plugin) {
 		if ($this->owner_uid) {
-			$plugin = db_escape_string($this->link, $plugin);
+			$plugin = $this->dbh->escape_string($plugin);
 
-			db_query($this->link, "BEGIN");
+			$this->dbh->query("BEGIN");
 
-			$result = db_query($this->link,"SELECT id FROM ttrss_plugin_storage WHERE
+			$result = $this->dbh->query("SELECT id FROM ttrss_plugin_storage WHERE
 				owner_uid= '".$this->owner_uid."' AND name = '$plugin'");
 
 			if (!isset($this->storage[$plugin]))
 				$this->storage[$plugin] = array();
 
-			$content = db_escape_string($this->link, serialize($this->storage[$plugin]));
+			$content = $this->dbh->escape_string(serialize($this->storage[$plugin]));
 
-			if (db_num_rows($result) != 0) {
-				db_query($this->link, "UPDATE ttrss_plugin_storage SET content = '$content'
+			if ($this->dbh->num_rows($result) != 0) {
+				$this->dbh->query("UPDATE ttrss_plugin_storage SET content = '$content'
 					WHERE owner_uid= '".$this->owner_uid."' AND name = '$plugin'");
 
 			} else {
-				db_query($this->link, "INSERT INTO ttrss_plugin_storage
+				$this->dbh->query("INSERT INTO ttrss_plugin_storage
 					(name,owner_uid,content) VALUES
 					('$plugin','".$this->owner_uid."','$content')");
 			}
 
-			db_query($this->link, "COMMIT");
+			$this->dbh->query("COMMIT");
 		}
 	}
 
@@ -267,8 +296,6 @@ class PluginHost {
 			$this->storage[$idx] = array();
 
 		$this->storage[$idx][$name] = $value;
-
-		$_SESSION["plugin_storage"] = $this->storage;
 
 		if ($sync) $this->save_data(get_class($sender));
 	}
@@ -295,10 +322,8 @@ class PluginHost {
 
 			unset($this->storage[$idx]);
 
-			db_query($this->link, "DELETE FROM ttrss_plugin_storage WHERE name = '$idx'
+			$this->dbh->query("DELETE FROM ttrss_plugin_storage WHERE name = '$idx'
 				AND owner_uid = " . $this->owner_uid);
-
-			$_SESSION["plugin_storage"] = $this->storage;
 		}
 	}
 
@@ -347,5 +372,14 @@ class PluginHost {
 		return PLUGIN_FEED_BASE_INDEX - 1 + abs($feed);
 	}
 
+	function add_api_method($name, $sender) {
+		if ($this->is_system($sender)) {
+			$this->api_methods[strtolower($name)] = $sender;
+		}
+	}
+
+	function get_api_method($name) {
+		return $this->api_methods[$name];
+	}
 }
 ?>

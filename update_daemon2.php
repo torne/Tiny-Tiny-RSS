@@ -9,23 +9,21 @@
 	define('DISABLE_SESSIONS', true);
 
 	require_once "version.php";
-
-	if (strpos(VERSION, ".99") !== false || getenv('DAEMON_XDEBUG')) {
-		define('DAEMON_EXTENDED_DEBUG', true);
-	}
-
+	require_once "config.php";
+	require_once "autoload.php";
 	require_once "functions.php";
 	require_once "rssfuncs.php";
+
+	// defaults
+	define_default('PURGE_INTERVAL', 3600); // seconds
+	define_default('MAX_CHILD_RUNTIME', 1800); // seconds
+	define_default('MAX_JOBS', 2);
+	define_default('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL); // seconds
+
 	require_once "sanity_check.php";
-	require_once "config.php";
 	require_once "db.php";
 	require_once "db-prefs.php";
 
-	// defaults
-	define('PURGE_INTERVAL', 3600); // seconds
-	define('MAX_CHILD_RUNTIME', 600); // seconds
-	define('MAX_JOBS', 2);
-	define('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL); // seconds
 
 	if (!function_exists('pcntl_fork')) {
 		die("error: This script requires PHP compiled with PCNTL module.\n");
@@ -172,15 +170,14 @@
 			"Maybe another daemon is already running.\n");
 	}
 
-	// Testing database connection.
-	// It is unnecessary to start the fork loop if database is not ok.
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	$schema_version = get_schema_version();
 
-	if (!init_connection($link)) die("Can't initialize db connection.\n");
+	if ($schema_version != SCHEMA_VERSION) {
+		die("Schema version is wrong, please upgrade the database.\n");
+	}
 
-	$schema_version = get_schema_version($link);
-
-	db_close($link);
+	// Protip: children close shared database handle when terminating, it's a bad idea to
+	// do database stuff on main process from now on.
 
 	while (true) {
 
@@ -194,20 +191,6 @@
 		}
 
 		if ($last_checkpoint + $spawn_interval < time()) {
-
-			/* Check if schema version changed */
-
-			$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-			if (!init_connection($link)) die("Can't initialize db connection.\n");
-			$test_schema_version = get_schema_version($link);
-			db_close($link);
-
-			if ($test_schema_version != $schema_version) {
-				echo "Expected schema version: $schema_version, got: $test_schema_version\n";
-				echo "Schema version changed while we were running, bailing out\n";
-				exit(100);
-			}
-
 			check_ctimes();
 			reap_children();
 
@@ -233,71 +216,13 @@
 
 					register_shutdown_function('task_shutdown');
 
+					$quiet = (isset($options["quiet"])) ? "--quiet" : "";
+
 					$my_pid = posix_getpid();
-					$lock_filename = "update_daemon-$my_pid.lock";
 
-					$lock_handle = make_lockfile($lock_filename);
+					passthru(PHP_EXECUTABLE . " update.php --daemon-loop $quiet --task $j --pidlock $my_pid");
 
-					if (!$lock_handle) {
-						die("error: Can't create lockfile ($lock_filename). ".
-						"Maybe another daemon is already running.\n");
-					}
-
-					// ****** Updating RSS code *******
-					// Only run in fork process.
-
-					$start_timestamp = time();
-
-					$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-					if (!init_connection($link)) return;
-
-					// We disable stamp file, since it is of no use in a multiprocess update.
-					// not really, tho for the time being -fox
-					if (!make_stampfile('update_daemon.stamp')) {
-						_debug("warning: unable to create stampfile\n");
-					}
-
-					// Call to the feed batch update function
-					// and maybe regenerate feedbrowser cache
-
-					$nf = 0;
-
-					_debug("Waiting before update [$j]..");
-					sleep($j*5);
-					$nf = update_daemon_common($link);
-
-					if (rand(0,100) > 50) {
-						$count = update_feedbrowser_cache($link);
-						_debug("Feedbrowser updated, $count feeds processed.");
-
-						purge_orphans($link, true);
-
-						$rc = cleanup_tags($link, 14, 50000);
-
-						_debug("Cleaned $rc cached tags.");
-
-						global $pluginhost;
-						$pluginhost->run_hooks($pluginhost::HOOK_UPDATE_TASK, "hook_update_task", $op);
-					}
-
-					_debug("Elapsed time: " . (time() - $start_timestamp) . " second(s)");
-
-					if ($nf > 0) {
-						_debug("Feeds processed: $nf");
-
-						if (time() - $start_timestamp > 0) {
-							_debug("Feeds/minute: " . sprintf("%.2d", $nf/((time()-$start_timestamp)/60)));
-						}
-					}
-
-					db_close($link);
-
-					// We are in a fork.
-					// We wait a little before exiting to avoid to be faster than our parent process.
 					sleep(1);
-
-					unlink(LOCK_DIRECTORY . "/$lock_filename");
 
 					// We exit in order to avoid fork bombing.
 					exit(0);

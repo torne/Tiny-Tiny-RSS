@@ -19,6 +19,7 @@
 	set_include_path(dirname(__FILE__) ."/include" . PATH_SEPARATOR .
 		get_include_path());
 
+	require_once "autoload.php";
 	require_once "sessions.php";
 	require_once "functions.php";
 	require_once "sanity_check.php";
@@ -29,28 +30,22 @@
 
 	$mobile = new Mobile_Detect();
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-	if (!init_connection($link)) return;
-
-	global $pluginhost;
+	if (!init_plugins()) return;
 
 	if (!$_REQUEST['mobile']) {
-		if ($mobile->isTablet() && $pluginhost->get_plugin("digest")) {
+		if ($mobile->isTablet() && PluginHost::getInstance()->get_plugin("digest")) {
 			header('Location: backend.php?op=digest');
 			exit;
-		} else if ($mobile->isMobile() && $pluginhost->get_plugin("mobile")) {
+		} else if ($mobile->isMobile() && PluginHost::getInstance()->get_plugin("mobile")) {
 			header('Location: backend.php?op=mobile');
 			exit;
-		} else if ($mobile->isMobile() && $pluginhost->get_plugin("digest")) {
+		} else if ($mobile->isMobile() && PluginHost::getInstance()->get_plugin("digest")) {
 			header('Location: backend.php?op=digest');
 			exit;
 		}
 	}
 
-	login_sequence($link);
-
-	no_cache_incantation();
+	login_sequence();
 
 	header('Content-Type: text/html; charset=utf-8');
 
@@ -61,23 +56,23 @@
 <head>
 	<title>Tiny Tiny RSS</title>
 
-	<?php echo stylesheet_tag("lib/dijit/themes/claro/claro.css"); ?>
-	<?php echo stylesheet_tag("tt-rss.css"); ?>
-	<?php echo stylesheet_tag("cdm.css"); ?>
+	<?php stylesheet_tag("lib/dijit/themes/claro/claro.css"); ?>
+	<?php stylesheet_tag("tt-rss.css"); ?>
+	<?php stylesheet_tag("cdm.css"); ?>
 
 	<?php if ($_SESSION["uid"]) {
-		$theme = get_pref($link, "USER_CSS_THEME", $_SESSION["uid"], false);
+		$theme = get_pref( "USER_CSS_THEME", $_SESSION["uid"], false);
 		if ($theme) {
-			echo stylesheet_tag("themes/$theme");
+			stylesheet_tag("themes/$theme");
 		}
 	}
 	?>
 
-	<?php print_user_stylesheet($link) ?>
+	<?php print_user_stylesheet() ?>
 
 	<style type="text/css">
 	<?php
-		foreach ($pluginhost->get_plugins() as $n => $p) {
+		foreach (PluginHost::getInstance()->get_plugins() as $n => $p) {
 			if (method_exists($p, "get_css")) {
 				echo $p->get_css();
 			}
@@ -96,7 +91,7 @@
 				"lib/dojo/tt-rss-layer.js",
 				"errors.php?mode=js") as $jsfile) {
 
-		echo javascript_tag($jsfile);
+		javascript_tag($jsfile);
 
 	} ?>
 
@@ -105,11 +100,9 @@
 		require 'lib/jshrink/Minifier.php';
 
 		print get_minified_js(array("tt-rss",
-			"functions", "feedlist", "viewfeed", "FeedTree"));
+			"functions", "feedlist", "viewfeed", "FeedTree", "PluginHost"));
 
-		global $pluginhost;
-
-		foreach ($pluginhost->get_plugins() as $n => $p) {
+		foreach (PluginHost::getInstance()->get_plugins() as $n => $p) {
 			if (method_exists($p, "get_js")) {
 				echo JShrink\Minifier::minify($p->get_js());
 			}
@@ -140,7 +133,7 @@
 	</div>
 </div>
 
-<div id="notify" class="notify"><span id="notify_body">&nbsp;</span></div>
+<div id="notify" class="notify" style="display : none"></div>
 <div id="cmdline" style="display : none"></div>
 <div id="headlines-tmp" style="display : none"></div>
 
@@ -208,8 +201,7 @@
 		<div class="actionChooser">
 
 			<?php
-				global $pluginhost;
-				foreach ($pluginhost->get_hooks($pluginhost::HOOK_TOOLBAR_BUTTON) as $p) {
+				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_TOOLBAR_BUTTON) as $p) {
 					 echo $p->hook_toolbar_button();
 				}
 			?>
@@ -241,18 +233,14 @@
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcCatchupAll')"><?php echo __('Mark as read') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcShowOnlyUnread')"><?php echo __('(Un)hide read feeds') ?></div>
 					<div dojoType="dijit.MenuItem" disabled="1"><?php echo __('Other actions:') ?></div>
-					<!-- <?php if ($pluginhost->get_plugin("digest")) { ?>
-					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcDigest')"><?php echo __('Switch to digest...') ?></div>
-					<?php } ?> -->
-						<!-- <div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcTagCloud')"><?php echo __('Show tag cloud...') ?></div> -->
-						<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcToggleWidescreen')"><?php echo __('Toggle widescreen mode') ?></div>
+					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcToggleWidescreen')"><?php echo __('Toggle widescreen mode') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcTagSelect')"><?php echo __('Select by tags...') ?></div>
 					<!-- <div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddLabel')"><?php echo __('Create label...') ?></div>
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcAddFilter')"><?php echo __('Create filter...') ?></div> -->
 					<div dojoType="dijit.MenuItem" onclick="quickMenuGo('qmcHKhelp')"><?php echo __('Keyboard shortcuts help') ?></div>
 
 					<?php
-						foreach ($pluginhost->get_hooks($pluginhost::HOOK_ACTION_ITEM) as $p) {
+						foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_ACTION_ITEM) as $p) {
 						 echo $p->hook_action_item();
 						}
 					?>
@@ -285,8 +273,6 @@
 </div>
 </div>
 </div>
-
-<?php db_close($link); ?>
 
 </body>
 </html>

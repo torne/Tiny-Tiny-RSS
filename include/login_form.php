@@ -188,6 +188,8 @@ function bwLimitChange(elem) {
 				value="<?php echo $_SESSION["fake_login"] ?>" />
 		</div>
 
+		<?php if (strpos(PLUGINS, "auth_internal") !== FALSE) { ?>
+
 		<div class="row">
 			<label><?php echo __("Password:") ?></label>
 			<input type="password" name="password" required="1"
@@ -197,13 +199,7 @@ function bwLimitChange(elem) {
 			<a class='forgotpass' href="public.php?op=forgotpass"><?php echo __("I forgot my password") ?></a>
 		</div>
 
-		<div class="row">
-			<label><?php echo __("Language:") ?></label>
-			<?php
-				print_select_hash("language", $_COOKIE["ttrss_lang"], get_translations(),
-					"style='width : 220px; margin : 0px' dojoType='dijit.form.Select'");
-			?>
-		</div>
+		<?php } ?>
 
 		<div class="row">
 			<label><?php echo __("Profile:") ?></label>
@@ -218,7 +214,11 @@ function bwLimitChange(elem) {
 			<label>&nbsp;</label>
 			<input dojoType="dijit.form.CheckBox" name="bw_limit" id="bw_limit" type="checkbox"
 				onchange="bwLimitChange(this)">
-			<label style='display : inline' for="bw_limit"><?php echo __("Use less traffic") ?></label>
+			<label id="bw_limit_label" style='display : inline' for="bw_limit"><?php echo __("Use less traffic") ?></label>
+		</div>
+
+		<div dojoType="dijit.Tooltip" connectId="bw_limit_label" position="below">
+<?php echo __("Does not display images in articles, reduces automatic refreshes."); ?>
 		</div>
 
 		<?php if (SESSION_COOKIE_LIFETIME > 0) { ?>

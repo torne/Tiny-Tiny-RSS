@@ -21,7 +21,7 @@
 		return $url_path;
 	}
 
-	function initial_sanity_check($link) {
+	function initial_sanity_check() {
 
 		$errors = array();
 
@@ -55,12 +55,24 @@
 				array_push($errors, "Image cache is not writable (chmod -R 777 ".CACHE_DIR."/images)");
 			}
 
+			if (!is_writable(CACHE_DIR . "/upload")) {
+				array_push($errors, "Upload cache is not writable (chmod -R 777 ".CACHE_DIR."/upload)");
+			}
+
 			if (!is_writable(CACHE_DIR . "/export")) {
 				array_push($errors, "Data export cache is not writable (chmod -R 777 ".CACHE_DIR."/export)");
 			}
 
 			if (!is_writable(CACHE_DIR . "/js")) {
 				array_push($errors, "Javascript cache is not writable (chmod -R 777 ".CACHE_DIR."/js)");
+			}
+
+			if (strlen(FEED_CRYPT_KEY) > 0 && strlen(FEED_CRYPT_KEY) != 24) {
+				array_push($errors, "FEED_CRYPT_KEY should be exactly 24 characters in length.");
+			}
+
+			if (strlen(FEED_CRYPT_KEY) > 0 && !function_exists("mcrypt_decrypt")) {
+				array_push($errors, "FEED_CRYPT_KEY requires mcrypt functions which are not found.");
 			}
 
 			if (GENERATED_CONFIG_CHECK != EXPECTED_CONFIG_VERSION) {
@@ -76,14 +88,10 @@
 			}
 
 			if (SINGLE_USER_MODE) {
-				$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+				$result = db_query("SELECT id FROM ttrss_users WHERE id = 1");
 
-				if ($link) {
-					$result = db_query($link, "SELECT id FROM ttrss_users WHERE id = 1");
-
-					if (db_num_rows($result) != 1) {
-						array_push($errors, "SINGLE_USER_MODE is enabled in config.php but default admin account is not found.");
-					}
+				if (db_num_rows($result) != 1) {
+					array_push($errors, "SINGLE_USER_MODE is enabled in config.php but default admin account is not found.");
 				}
 			}
 
@@ -102,10 +110,6 @@
 				array_push($errors, "LOCK_DIRECTORY defined in config.php is not writable (chmod -R 777 ".LOCK_DIRECTORY.").\n");
 			}
 
-			if (ini_get("open_basedir")) {
-				array_push($errors, "PHP configuration option open_basedir is not supported. Please disable this in PHP settings file (php.ini).");
-			}
-
 			if (!function_exists("curl_init") && !ini_get("allow_url_fopen")) {
 				array_push($errors, "PHP configuration option allow_url_fopen is disabled, and CURL functions are not present. Either enable allow_url_fopen or install PHP extension for CURL.");
 			}
@@ -114,7 +118,7 @@
 				array_push($errors, "PHP support for JSON is required, but was not found.");
 			}
 
-			if (DB_TYPE == "mysql" && !function_exists("mysql_connect")) {
+			if (DB_TYPE == "mysql" && !function_exists("mysql_connect") && !function_exists("mysqli_connect")) {
 				array_push($errors, "PHP support for MySQL is required for configured DB_TYPE in config.php.");
 			}
 
@@ -194,6 +198,6 @@
 		}
 	}
 
-	initial_sanity_check($link);
+	initial_sanity_check();
 
 ?>
