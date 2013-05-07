@@ -409,23 +409,6 @@ class Feeds extends Handler_Protected {
 					if (!isset($rgba_cache[$feed_id])) {
 						$rgba_cache[$feed_id] = join(",", _color_unpack($fav_color));
 					}
-
-					$rgba = $rgba_cache[$feed_id];
-
-					if (sql_bool_to_bool($line["unread"]))
-						$endalpha = '0.3';
-					else
-						$endalpha = '0.1';
-
-					// W3C definition seems to work in FF and Chrome
-					$row_background = "background-image : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba($rgba, $endalpha) 100%);";
-
-					/* $row_background = "background-image : -moz-linear-gradient(left, rgba(255, 255, 255, 0) 50%, rgba($rgba, 0.2) 100%);".
-						"background-image : linear-gradient(to right, rgba(255, 255, 255, 0) 50%, rgba($rgba, 0.2) 100%);";
-						"background-image : -webkit-gradient(linear, left top, right top, color-stop(50%, rgba(255,255,255,0)),
-							color-stop(100%, rgba($rgba, 0.2)));"; */
-				} else {
-					$row_background = "";
 				}
 
 				if (!get_pref('COMBINED_DISPLAY_MODE')) {
@@ -451,7 +434,7 @@ class Feeds extends Handler_Protected {
 					$mouseover_attrs = "onmouseover='postMouseIn(event, $id)'
 						onmouseout='postMouseOut($id)'";
 
-					$reply['content'] .= "<div class='hl $class' id='RROW-$id' $mouseover_attrs style='$row_background'>";
+					$reply['content'] .= "<div class='hl $class' id='RROW-$id' $mouseover_attrs>";
 
 					$reply['content'] .= "<div class='hlLeft'>";
 
@@ -487,14 +470,14 @@ class Feeds extends Handler_Protected {
 
 					if (!get_pref('VFEED_GROUP_BY_FEED')) {
 						if (@$line["feed_title"]) {
-							$reply['content'] .= "<div class=\"hlFeed\">
-								<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
-								truncate_string($line["feed_title"],30)."</a>
-							</div>";
+							$rgba = @$rgba_cache[$feed_id];
+
+							$reply['content'] .= "<a class=\"hlFeed\" style=\"background : rgba($rgba, 0.3)\" href=\"#\" onclick=\"viewfeed($feed_id)\">".
+								truncate_string($line["feed_title"],30)."</a>";
 						}
 					}
 
-					$reply['content'] .= "<span title='$date_entered_fmt'>$updated_fmt</span>
+					$reply['content'] .= "<div title='$date_entered_fmt'>$updated_fmt</div>
 						</span>";
 
 					$reply['content'] .= "<div class=\"hlRight\">";
@@ -597,8 +580,11 @@ class Feeds extends Handler_Protected {
 
 					if (!get_pref('VFEED_GROUP_BY_FEED')) {
 						if (@$line["feed_title"]) {
+							$rgba = @$rgba_cache[$feed_id];
+
 							$reply['content'] .= "<div class=\"hlFeed\">
-								<a href=\"#\" onclick=\"viewfeed($feed_id)\">".
+								<a href=\"#\" style=\"background-color: rgba($rgba,0.3)\"
+								onclick=\"viewfeed($feed_id)\">".
 								truncate_string($line["feed_title"],30)."</a>
 							</div>";
 						}
