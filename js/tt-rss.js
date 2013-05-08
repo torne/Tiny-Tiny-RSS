@@ -116,6 +116,7 @@ function updateFeedList() {
 
 		tree.startup();
 
+
 	} catch (e) {
 		exception_error("updateFeedList", e);
 	}
@@ -551,6 +552,35 @@ function init_second_stage() {
 			if (_widescreen_mode) {
 				switchPanelMode(_widescreen_mode);
 			}
+
+			if (parseInt(getCookie("ttrss_fh_width")) > 0) {
+				dijit.byId("feeds-holder").domNode.setStyle(
+					{width: getCookie("ttrss_fh_width") + "px" });
+			}
+
+			if (parseInt(getCookie("ttrss_ci_width")) > 0) {
+				if (_widescreen_mode) {
+					dijit.byId("content-insert").domNode.setStyle(
+						{width: getCookie("ttrss_ci_width") + "px" });
+
+				} else {
+					dijit.byId("content-insert").domNode.setStyle(
+						{height: getCookie("ttrss_ci_height") + "px" });
+				}
+			}
+
+			dijit.byId("main").resize();
+
+			var tmph = dojo.connect(dijit.byId('feeds-holder'), 'resize',
+				function (args) {
+					setCookie("ttrss_fh_width", args.w, getInitParam("cookie_lifetime"));
+			});
+
+			var tmph = dojo.connect(dijit.byId('content-insert'), 'resize',
+				function (args) {
+					setCookie("ttrss_ci_width", args.w, getInitParam("cookie_lifetime"));
+					setCookie("ttrss_ci_height", args.h, getInitParam("cookie_lifetime"));
+			});
 
 		});
 
