@@ -191,7 +191,7 @@
 
 	// ignore_daemon is not used
 	function update_rss_feed($feed, $ignore_daemon = false, $no_cache = false,
-		$override_url = false, $override_data = false) {
+		$override_url = false) {
 
 		$debug_enabled = defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug'];
 
@@ -251,11 +251,7 @@
 
 		$force_refetch = isset($_REQUEST["force_refetch"]);
 
-		if ($override_data) {
-			$feed_data = $override_data;
-		}
-
-		if (!$feed_data && file_exists($cache_filename) &&
+		if (file_exists($cache_filename) &&
 			is_readable($cache_filename) &&
 			!$auth_login && !$auth_pass &&
 			filemtime($cache_filename) > time() - 30) {
@@ -272,66 +268,69 @@
 			_debug("local cache will not be used for this feed", $debug_enabled);
 		}
 
-		if (!$feed_data) {
-			_debug("fetching [$fetch_url]...", $debug_enabled);
-			_debug("If-Modified-Since: ".gmdate('D, d M Y H:i:s \G\M\T', $last_article_timestamp), $debug_enabled);
+		if (!$rss) {
 
-			$feed_data = fetch_file_contents($fetch_url, false,
-				$auth_login, $auth_pass, false,
-				$no_cache ? FEED_FETCH_NO_CACHE_TIMEOUT : FEED_FETCH_TIMEOUT,
-				$force_refetch ? 0 : $last_article_timestamp);
+			if (!$feed_data) {
+				_debug("fetching [$fetch_url]...", $debug_enabled);
+				_debug("If-Modified-Since: ".gmdate('D, d M Y H:i:s \G\M\T', $last_article_timestamp), $debug_enabled);
 
-			global $fetch_curl_used;
+				$feed_data = fetch_file_contents($fetch_url, false,
+					$auth_login, $auth_pass, false,
+					$no_cache ? FEED_FETCH_NO_CACHE_TIMEOUT : FEED_FETCH_TIMEOUT,
+					$force_refetch ? 0 : $last_article_timestamp);
 
-			if (!$fetch_curl_used) {
-				$tmp = @gzdecode($feed_data);
+				global $fetch_curl_used;
 
-				if ($tmp) $feed_data = $tmp;
-			}
+				if (!$fetch_curl_used) {
+					$tmp = @gzdecode($feed_data);
 
-			$feed_data = trim($feed_data);
+					if ($tmp) $feed_data = $tmp;
+				}
 
-			_debug("fetch done.", $debug_enabled);
+				$feed_data = trim($feed_data);
 
-			if ($feed_data) {
-				$error = verify_feed_xml($feed_data);
+				_debug("fetch done.", $debug_enabled);
 
-				if ($error) {
-					_debug("error verifying XML, code: " . $error->code, $debug_enabled);
+				if ($feed_data) {
+					$error = verify_feed_xml($feed_data);
 
-					if ($error->code == 26) {
-						_debug("got error 26, trying to decode entities...", $debug_enabled);
+					if ($error) {
+						_debug("error verifying XML, code: " . $error->code, $debug_enabled);
 
-						$feed_data = html_entity_decode($feed_data, ENT_COMPAT, 'UTF-8');
+						if ($error->code == 26) {
+							_debug("got error 26, trying to decode entities...", $debug_enabled);
 
-						$error = verify_feed_xml($feed_data);
+							$feed_data = html_entity_decode($feed_data, ENT_COMPAT, 'UTF-8');
 
-						if ($error) $feed_data = '';
+							$error = verify_feed_xml($feed_data);
+
+							if ($error) $feed_data = '';
+						}
 					}
 				}
 			}
-		}
 
-		if (!$feed_data) {
-			global $fetch_last_error;
-			global $fetch_last_error_code;
+			if (!$feed_data) {
+				global $fetch_last_error;
+				global $fetch_last_error_code;
 
-			_debug("unable to fetch: $fetch_last_error [$fetch_last_error_code]", $debug_enabled);
+				_debug("unable to fetch: $fetch_last_error [$fetch_last_error_code]", $debug_enabled);
 
-			$error_escaped = '';
+				$error_escaped = '';
 
-			// If-Modified-Since
-			if ($fetch_last_error_code != 304) {
-				$error_escaped = db_escape_string($fetch_last_error);
-			} else {
-				_debug("source claims data not modified, nothing to do.", $debug_enabled);
+				// If-Modified-Since
+				if ($fetch_last_error_code != 304) {
+					$error_escaped = db_escape_string($fetch_last_error);
+				} else {
+					_debug("source claims data not modified, nothing to do.", $debug_enabled);
+				}
+
+				db_query(
+					"UPDATE ttrss_feeds SET last_error = '$error_escaped',
+						last_updated = NOW() WHERE id = '$feed'");
+
+				return;
 			}
-
-			db_query(
-				"UPDATE ttrss_feeds SET last_error = '$error_escaped',
-					last_updated = NOW() WHERE id = '$feed'");
-
-			return;
 		}
 
 		$pluginhost = new PluginHost();
