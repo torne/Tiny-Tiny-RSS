@@ -778,7 +778,7 @@ div.fatalError textarea {
 
 #content-wrap {
 	padding : 0px;
-	border-width : 0px 0px 1px 1px;
+	border-width : 0px 0px 0px 1px;
 	border-style : solid;
   	border-color : #c0c0c0;
 	margin : 0px;
@@ -802,10 +802,9 @@ div.fatalError textarea {
 #headlines-frame {
 	padding : 0px;
 	border-color : #c0c0c0;
-	border-left-width : 0px;
-	border-right-width : 0px;
+	border-style : solid;
+	border-width : 0px;
 	margin-top : 0px;
-	border-top-width : 0px;
 }
 
 #headlines-toolbar_splitter, #toolbar_splitter {
@@ -1073,3 +1072,4 @@ div.hl.active {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+

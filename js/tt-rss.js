@@ -548,10 +548,7 @@ function init_second_stage() {
 			closeArticlePanel();
 
 			_widescreen_mode = getInitParam("widescreen");
-
-			if (_widescreen_mode) {
-				switchPanelMode(_widescreen_mode);
-			}
+			switchPanelMode(_widescreen_mode);
 
 			if (parseInt(getCookie("ttrss_fh_width")) > 0) {
 				dijit.byId("feeds-holder").domNode.setStyle(
@@ -1063,6 +1060,7 @@ function switchPanelMode(wide) {
 				borderTopWidth: '0px' });
 
 			$("headlines-toolbar").setStyle({ borderBottomWidth: '0px' });
+			$("headlines-frame").setStyle({ borderBottomWidth: '0px' });
 
 		} else {
 
@@ -1074,6 +1072,8 @@ function switchPanelMode(wide) {
 				borderTopWidth: '1px'});
 
 			$("headlines-toolbar").setStyle({ borderBottomWidth: '1px' });
+
+			$("headlines-frame").setStyle({ borderBottomWidth: '1px' });
 		}
 
 		closeArticlePanel();
