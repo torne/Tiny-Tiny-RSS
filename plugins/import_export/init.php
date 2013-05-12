@@ -57,9 +57,9 @@ class Import_Export extends Plugin implements IHandler {
 
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Import and export')."\">";
 
-		print "<h3>" . __("Article archive") . "</h3>";
+		print_notice(__("You can export and import your Starred and Archived articles for safekeeping or when migrating between tt-rss instances of same version."));
 
-		print "<p>" . __("You can export and import your Starred and Archived articles for safekeeping or when migrating between tt-rss instances.") . "</p>";
+		print "<p>";
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return exportData()\">".
 			__('Export my data')."</button> ";
@@ -81,6 +81,8 @@ class Import_Export extends Plugin implements IHandler {
 			__('Import') . "</button>";
 
 		print "</form>";
+
+		print "</p>";
 
 		print "</div>"; # pane
 	}

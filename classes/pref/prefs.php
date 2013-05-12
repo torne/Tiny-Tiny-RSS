@@ -366,7 +366,7 @@ class Pref_Prefs extends Handler_Protected {
 
 				} else if (function_exists("imagecreatefromstring")) {
 
-					print "<p>".__("You will need a compatible Authenticator to use this. Changing your password would automatically disable OTP.") . "</p>";
+					print_warning(__("You will need a compatible Authenticator to use this. Changing your password would automatically disable OTP."));
 
 					print "<p>".__("Scan the following code by the Authenticator application:")."</p>";
 
@@ -704,8 +704,6 @@ class Pref_Prefs extends Handler_Protected {
 		print "</div>"; #pane
 
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Plugins')."\">";
-
-		print "<h2>".__("Plugins")."</h2>";
 
 		print "<p>" . __("You will need to reload Tiny Tiny RSS for plugin changes to take effect.") . "</p>";
 

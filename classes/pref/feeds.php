@@ -1408,9 +1408,7 @@ class Pref_Feeds extends Handler_Protected {
 
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('OPML')."\">";
 
-		print "<p>" . __("Using OPML you can export and import your feeds, filters, labels and Tiny Tiny RSS settings.") . " ";
-
-		print __("Only main settings profile can be migrated using OPML.") . "</p>";
+		print_notice(__("Using OPML you can export and import your feeds, filters, labels and Tiny Tiny RSS settings.") . __("Only main settings profile can be migrated using OPML."));
 
 		print "<iframe id=\"upload_iframe\"
 			name=\"upload_iframe\" onload=\"opmlImportComplete(this)\"
@@ -1453,7 +1451,7 @@ class Pref_Feeds extends Handler_Protected {
 
 			print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Firefox integration')."\">";
 
-			print "<p>" . __('This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the link below.') . "</p>";
+			print_notice(__('This Tiny Tiny RSS site can be used as a Firefox Feed Reader by clicking the link below.'));
 
 			print "<p>";
 
@@ -1470,12 +1468,12 @@ class Pref_Feeds extends Handler_Protected {
 
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Published & shared articles / Generated feeds')."\">";
 
-		print "<h3>" . __("Published articles and generated feeds") . "</h3>";
-
-		print "<p>".__('Published articles are exported as a public RSS feed and can be subscribed by anyone who knows the URL specified below.')."</p>";
+		print_notice(__('Published articles are exported as a public RSS feed and can be subscribed by anyone who knows the URL specified below.'));
 
 		$rss_url = '-2::' . htmlspecialchars(get_self_url_prefix() .
 				"/public.php?op=rss&id=-2&view-mode=all_articles");;
+
+		print "<p>";
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return displayDlg('".__("View as RSS")."','generatedFeed', '$rss_url')\">".
 			__('Display URL')."</button> ";
@@ -1483,12 +1481,16 @@ class Pref_Feeds extends Handler_Protected {
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return clearFeedAccessKeys()\">".
 			__('Clear all generated URLs')."</button> ";
 
-		print "<h3>" . __("Articles shared by URL") . "</h3>";
+		print "</p>";
 
-		print "<p>" . __("You can disable all articles shared by unique URLs here.") . "</p>";
+		print_warning(__("You can disable all articles shared by unique URLs here."));
+
+		print "<p>";
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return clearArticleAccessKeys()\">".
 			__('Unshare all articles')."</button> ";
+
+		print "</p>";
 
 		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_TAB_SECTION,
 			"hook_prefs_tab_section", "prefFeedsPublishedGenerated");
@@ -1563,7 +1565,7 @@ class Pref_Feeds extends Handler_Protected {
 			GROUP BY ttrss_feeds.title, ttrss_feeds.id, ttrss_feeds.site_url, ttrss_feeds.feed_url
 			ORDER BY last_article");
 
-		print "<h2" .__("These feeds have not been updated with new content for 3 months (oldest first):") . "</h2>";
+		print "<p" .__("These feeds have not been updated with new content for 3 months (oldest first):") . "</p>";
 
 		print "<div dojoType=\"dijit.Toolbar\">";
 		print "<div dojoType=\"dijit.form.DropDownButton\">".
@@ -1628,9 +1630,6 @@ class Pref_Feeds extends Handler_Protected {
 	}
 
 	function feedsWithErrors() {
-		print "<h2>" . __("These feeds have not been updated because of errors:") .
-			"</h2>";
-
 		$result = $this->dbh->query("SELECT id,title,feed_url,last_error,site_url
 		FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
 
