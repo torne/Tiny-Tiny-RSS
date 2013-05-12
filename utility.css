@@ -54,21 +54,32 @@ a:hover {
 div.notice, div.warning, div.error {
 	padding : 4px 10px 4px 4px;
 	display : inline-block;
-	margin : 2px 0px 2px 0px;
+	margin : 2px 0px 4px 0px;
 	font-size : 12px;
-	box-shadow : 0px 0px 2px #ccc;
+	border-style : solid;
+	border-color : #ccc;
+	border-radius : 4px;
+	border-width : 1px;
+	box-shadow : 0px 0px 2px rgba(0,0,0,0.1);
+}
+
+div.notice div.inner, div.warning div.inner, div.error div.inner {
+	vertical-align : middle;
 }
 
 div.notice {
 	background : #ecf4ff;
+	border-color : #88b0f0;
 }
 
 div.warning {
+	border-color : #EFDC88;
 	background : #fff7d5;
 }
 
 div.error {
 	background : #ffcccc;
+	border-color : #ff0000;
 }
 
 div.warning img, div.notice img, div.error img {
@@ -79,6 +90,7 @@ div.warning img, div.notice img, div.error img {
 div.warning span, div.notice span, div.error span {
 	display : table-cell;
 	vertical-align : middle;
+
 }
 
 h1 {
