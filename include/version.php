@@ -1,5 +1,5 @@
 <?php
-	define('VERSION_STATIC', '1.7.8');
+	define('VERSION_STATIC', '1.7.9');
 
 	function get_version() {
 		date_default_timezone_set('UTC');
