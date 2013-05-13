@@ -6,7 +6,8 @@ function ttrss_error_handler($errno, $errstr, $file, $line, $context) {
 
 	$file = substr(str_replace(dirname(dirname(__FILE__)), "", $file), 1);
 
-	return Logger::get()->log_error($errno, $errstr, $file, $line, $context);
+	if (class_exists("Logger"))
+		return Logger::get()->log_error($errno, $errstr, $file, $line, $context);
 }
 
 function ttrss_fatal_handler() {
@@ -26,7 +27,8 @@ function ttrss_fatal_handler() {
 
 		$file = substr(str_replace(dirname(dirname(__FILE__)), "", $file), 1);
 
-		return Logger::get()->log_error($errno, $errstr, $file, $line, $context);
+		if (class_exists("Logger"))
+			return Logger::get()->log_error($errno, $errstr, $file, $line, $context);
 	}
 
 	return false;
