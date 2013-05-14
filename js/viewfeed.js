@@ -58,6 +58,11 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 				}
 			} catch (e) { };
 
+			$("headlines-frame").removeClassName("cdm");
+			$("headlines-frame").removeClassName("normal");
+
+			$("headlines-frame").addClassName(isCdmMode() ? "cdm" : "normal");
+
 			var headlines_count = reply['headlines-info']['count'];
 
 			vgroup_last_feed = reply['headlines-info']['vgroup_last_feed'];
