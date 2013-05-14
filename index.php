@@ -87,7 +87,6 @@
 	foreach (array("lib/prototype.js",
 				"lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls",
 				"lib/dojo/dojo.js",
-				"lib/dijit/dijit.js",
 				"lib/dojo/tt-rss-layer.js",
 				"errors.php?mode=js") as $jsfile) {
 
@@ -96,6 +95,7 @@
 	} ?>
 
 	<script type="text/javascript">
+		require({cache:{}});
 	<?php
 		require 'lib/jshrink/Minifier.php';
 
