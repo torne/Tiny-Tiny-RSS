@@ -4118,7 +4118,7 @@
 
 		foreach ($files as $js) {
 			if (!isset($_GET['debug'])) {
-				$cached_file = CACHE_DIR . "/js/$js.js";
+				$cached_file = CACHE_DIR . "/js/".basename($js).".js";
 
 				if (file_exists($cached_file) &&
 						is_readable($cached_file) &&
