@@ -2,7 +2,7 @@
 
 class API extends Handler {
 
-	const API_LEVEL  = 6;
+	const API_LEVEL  = 7;
 
 	const STATUS_OK  = 0;
 	const STATUS_ERR = 1;
@@ -197,7 +197,8 @@ class API extends Handler {
 			$include_attachments = sql_bool_to_bool($_REQUEST["include_attachments"]);
 			$since_id = (int)$this->dbh->escape_string($_REQUEST["since_id"]);
 			$include_nested = sql_bool_to_bool($_REQUEST["include_nested"]);
-			$sanitize_content = true;
+			$sanitize_content = !isset($_REQUEST["sanitize"]) ||
+				sql_bool_to_bool($_REQUEST["sanitize"]);
 
 			$override_order = false;
 			switch ($_REQUEST["order_by"]) {
