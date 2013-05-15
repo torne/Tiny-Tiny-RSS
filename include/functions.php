@@ -1459,8 +1459,14 @@
 
 			$count = getFeedUnread($i);
 
+			if ($i == 0 || $i == -1 || $i == -2)
+				$auxctr = getFeedArticles($i, false);
+			else
+				$auxctr = 0;
+
 			$cv = array("id" => $i,
-				"counter" => (int) $count);
+				"counter" => (int) $count,
+				"auxcounter" => $auxctr);
 
 //			if (get_pref('EXTENDED_FEEDLIST'))
 //				$cv["xmsg"] = getFeedArticles($i)." ".__("total");

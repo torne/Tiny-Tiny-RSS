@@ -54,6 +54,7 @@ class Pref_Feeds extends Handler_Protected {
 			$cat['type'] = 'category';
 			$cat['unread'] = 0;
 			$cat['child_unread'] = 0;
+			$cat['auxcounter'] = 0;
 
 			$cat['items'] = $this->get_category_items($line['id']);
 
@@ -74,6 +75,7 @@ class Pref_Feeds extends Handler_Protected {
 			$feed = array();
 			$feed['id'] = 'FEED:' . $feed_line['id'];
 			$feed['bare_id'] = (int)$feed_line['id'];
+			$feed['auxcounter'] = 0;
 			$feed['name'] = $feed_line['title'];
 			$feed['checkbox'] = false;
 			$feed['unread'] = 0;
@@ -132,6 +134,7 @@ class Pref_Feeds extends Handler_Protected {
 					$item = array();
 					$item['id'] = 'FEED:' . $feed_id;
 					$item['bare_id'] = (int)$feed_id;
+					$item['auxcounter'] = 0;
 					$item['name'] = $feed['title'];
 					$item['checkbox'] = false;
 					$item['error'] = '';
@@ -193,6 +196,7 @@ class Pref_Feeds extends Handler_Protected {
 				$cat = array();
 				$cat['id'] = 'CAT:' . $line['id'];
 				$cat['bare_id'] = (int)$line['id'];
+				$cat['auxcounter'] = 0;
 				$cat['name'] = $line['title'];
 				$cat['items'] = array();
 				$cat['checkbox'] = false;
@@ -215,6 +219,7 @@ class Pref_Feeds extends Handler_Protected {
 			$cat = array();
 			$cat['id'] = 'CAT:0';
 			$cat['bare_id'] = 0;
+			$cat['auxcounter'] = 0;
 			$cat['name'] = __("Uncategorized");
 			$cat['items'] = array();
 			$cat['type'] = 'category';
@@ -232,6 +237,7 @@ class Pref_Feeds extends Handler_Protected {
 				$feed = array();
 				$feed['id'] = 'FEED:' . $feed_line['id'];
 				$feed['bare_id'] = (int)$feed_line['id'];
+				$feed['auxcounter'] = 0;
 				$feed['name'] = $feed_line['title'];
 				$feed['checkbox'] = false;
 				$feed['error'] = $feed_line['last_error'];
@@ -263,6 +269,7 @@ class Pref_Feeds extends Handler_Protected {
 				$feed = array();
 				$feed['id'] = 'FEED:' . $feed_line['id'];
 				$feed['bare_id'] = (int)$feed_line['id'];
+				$feed['auxcounter'] = 0;
 				$feed['name'] = $feed_line['title'];
 				$feed['checkbox'] = false;
 				$feed['error'] = $feed_line['last_error'];
@@ -1541,6 +1548,7 @@ class Pref_Feeds extends Handler_Protected {
 		$obj['updated'] = $updated;
 		$obj['icon'] = getFeedIcon($feed_id);
 		$obj['bare_id'] = $feed_id;
+		$obj['auxcounter'] = 0;
 
 		return $obj;
 	}

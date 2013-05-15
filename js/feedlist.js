@@ -219,6 +219,7 @@ function parse_counters(elems, scheduled_call) {
 			var error = elems[l].error;
 			var has_img = elems[l].has_img;
 			var updated = elems[l].updated;
+			var auxctr = parseInt(elems[l].auxcounter);
 
 			if (id == "global-unread") {
 				global_unread = ctr;
@@ -236,6 +237,7 @@ function parse_counters(elems, scheduled_call) {
 			}
 
 			setFeedUnread(id, (kind == "cat"), ctr);
+			setFeedValue(id, (kind == "cat"), 'auxcounter', auxctr);
 
 			if (kind != "cat") {
 				setFeedValue(id, false, 'error', error);

@@ -186,11 +186,13 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 
 		ctr = dojo.doc.createElement('span');
 		ctr.className = 'counterNode';
-		ctr.innerHTML = args.item.unread;
+		ctr.innerHTML = args.item.unread > 0 ? args.item.unread : args.item.auxcounter;
 
 		//args.item.unread > 0 ? ctr.addClassName("unread") : ctr.removeClassName("unread");
 
-		args.item.unread > 0 ? Element.show(ctr) : Element.hide(ctr);
+		args.item.unread > 0 || args.item.auxcounter > 0 ? Element.show(ctr) : Element.hide(ctr);
+
+		args.item.unread == 0 && args.item.auxcounter > 0 ? ctr.addClassName("aux") : ctr.removeClassName("aux");
 
 		dojo.place(ctr, tnode.rowNode, 'first');
 		tnode.counterNode = ctr;
@@ -218,10 +220,14 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 
 			if (node.counterNode) {
 				ctr = node.counterNode;
-				ctr.innerHTML = item.unread;
-				item.unread > 0 ? Effect.Appear(ctr, {duration : 0.3,
+				ctr.innerHTML = item.unread > 0 ? item.unread : item.auxcounter;
+				item.unread > 0 || item.auxcounter > 0 ?
+					Effect.Appear(ctr, {duration : 0.3,
 					queue: { position: 'end', scope: 'CAPPEAR-' + item.id, limit: 1 }}) :
 						Element.hide(ctr);
+
+				item.unread == 0 && item.auxcounter > 0 ? ctr.addClassName("aux") : ctr.removeClassName("aux");
+
 			}
 		}
 
