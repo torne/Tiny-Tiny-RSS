@@ -307,54 +307,58 @@ class API extends Handler {
 
 		$article_id = join(",", array_filter(explode(",", $this->dbh->escape_string($_REQUEST["article_id"])), is_numeric));
 
-		$query = "SELECT id,title,link,content,cached_content,feed_id,comments,int_id,
-			marked,unread,published,score,
-			".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
-			author,(SELECT title FROM ttrss_feeds WHERE id = feed_id) AS feed_title
-			FROM ttrss_entries,ttrss_user_entries
-			WHERE	id IN ($article_id) AND ref_id = id AND owner_uid = " .
-				$_SESSION["uid"] ;
+		if ($article_id) {
 
-		$result = $this->dbh->query($query);
+			$query = "SELECT id,title,link,content,cached_content,feed_id,comments,int_id,
+				marked,unread,published,score,
+				".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
+				author,(SELECT title FROM ttrss_feeds WHERE id = feed_id) AS feed_title
+				FROM ttrss_entries,ttrss_user_entries
+				WHERE	id IN ($article_id) AND ref_id = id AND owner_uid = " .
+					$_SESSION["uid"] ;
 
-		$articles = array();
+			$result = $this->dbh->query($query);
 
-		if ($this->dbh->num_rows($result) != 0) {
+			$articles = array();
 
-			while ($line = $this->dbh->fetch_assoc($result)) {
+			if ($this->dbh->num_rows($result) != 0) {
 
-				$attachments = get_article_enclosures($line['id']);
+				while ($line = $this->dbh->fetch_assoc($result)) {
 
-				$article = array(
-					"id" => $line["id"],
-					"title" => $line["title"],
-					"link" => $line["link"],
-					"labels" => get_article_labels($line['id']),
-					"unread" => sql_bool_to_bool($line["unread"]),
-					"marked" => sql_bool_to_bool($line["marked"]),
-					"published" => sql_bool_to_bool($line["published"]),
-					"comments" => $line["comments"],
-					"author" => $line["author"],
-					"updated" => (int) strtotime($line["updated"]),
-					"content" => $line["cached_content"] != "" ? $line["cached_content"] : $line["content"],
-					"feed_id" => $line["feed_id"],
-					"attachments" => $attachments,
-					"score" => (int)$line["score"],
-					"feed_title" => $line["feed_title"]
-				);
+					$attachments = get_article_enclosures($line['id']);
 
-				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_RENDER_ARTICLE_API) as $p) {
-					$article = $p->hook_render_article_api(array("article" => $article));
+					$article = array(
+						"id" => $line["id"],
+						"title" => $line["title"],
+						"link" => $line["link"],
+						"labels" => get_article_labels($line['id']),
+						"unread" => sql_bool_to_bool($line["unread"]),
+						"marked" => sql_bool_to_bool($line["marked"]),
+						"published" => sql_bool_to_bool($line["published"]),
+						"comments" => $line["comments"],
+						"author" => $line["author"],
+						"updated" => (int) strtotime($line["updated"]),
+						"content" => $line["cached_content"] != "" ? $line["cached_content"] : $line["content"],
+						"feed_id" => $line["feed_id"],
+						"attachments" => $attachments,
+						"score" => (int)$line["score"],
+						"feed_title" => $line["feed_title"]
+					);
+
+					foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_RENDER_ARTICLE_API) as $p) {
+						$article = $p->hook_render_article_api(array("article" => $article));
+					}
+
+
+					array_push($articles, $article);
+
 				}
-
-
-				array_push($articles, $article);
-
 			}
+
+			$this->wrap(self::STATUS_OK, $articles);
+		} else {
+			$this->wrap(self::STATUS_ERR, array("error" => 'INCORRECT_USAGE'));
 		}
-
-		$this->wrap(self::STATUS_OK, $articles);
-
 	}
 
 	function getConfig() {
