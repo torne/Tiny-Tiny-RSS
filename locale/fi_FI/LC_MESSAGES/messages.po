@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tt-rss 1.7.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-14 09:35+0400\n"
+"POT-Creation-Date: 2013-05-15 09:23+0400\n"
 "PO-Revision-Date: 2013-04-20 10:44+0200\n"
 "Last-Translator: Arto Tolonen <arto.tolonen@iki.fi>\n"
 "Language-Team: \n"
@@ -154,7 +154,7 @@ msgstr ""
 #: index.php:128
 #: index.php:145
 #: index.php:265
-#: prefs.php:98
+#: prefs.php:97
 #: classes/backend.php:5
 #: classes/pref/labels.php:296
 #: classes/pref/filters.php:678
@@ -181,8 +181,8 @@ msgstr ""
 #: js/prefs.js:1826
 #: js/tt-rss.js:507
 #: js/tt-rss.js:524
-#: js/viewfeed.js:816
-#: js/viewfeed.js:1245
+#: js/viewfeed.js:821
+#: js/viewfeed.js:1250
 #: plugins/import_export/import_export.js:17
 #: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
@@ -358,44 +358,44 @@ msgid "Logout"
 msgstr "Kirjaudu ulos"
 
 #: prefs.php:33
-#: prefs.php:116
+#: prefs.php:115
 #: include/functions.php:2011
 #: classes/pref/prefs.php:440
 msgid "Preferences"
 msgstr "Asetukset"
 
-#: prefs.php:107
+#: prefs.php:106
 msgid "Keyboard shortcuts"
 msgstr "Pikanäppäimet"
 
-#: prefs.php:108
+#: prefs.php:107
 msgid "Exit preferences"
 msgstr "Poistu asetuksista"
 
-#: prefs.php:119
+#: prefs.php:118
 #: classes/pref/feeds.php:106
 #: classes/pref/feeds.php:1253
 #: classes/pref/feeds.php:1316
 msgid "Feeds"
 msgstr "Syötteet"
 
-#: prefs.php:122
+#: prefs.php:121
 #: classes/pref/filters.php:154
 msgid "Filters"
 msgstr "Suodattimet"
 
-#: prefs.php:125
+#: prefs.php:124
 #: include/functions.php:1176
 #: include/functions.php:1832
 #: classes/pref/labels.php:90
 msgid "Labels"
 msgstr "Tunnisteet"
 
-#: prefs.php:129
+#: prefs.php:128
 msgid "Users"
 msgstr "Käyttäjät"
 
-#: prefs.php:132
+#: prefs.php:131
 #, fuzzy
 msgid "System"
 msgstr "Järjestelmän lisäosat"
@@ -583,12 +583,12 @@ msgid "Toggle starred"
 msgstr "Lisää/Poista tähti"
 
 #: include/functions.php:1970
-#: js/viewfeed.js:1906
+#: js/viewfeed.js:1911
 msgid "Toggle published"
 msgstr "Vaihda julkinen-tilaa"
 
 #: include/functions.php:1971
-#: js/viewfeed.js:1884
+#: js/viewfeed.js:1889
 msgid "Toggle unread"
 msgstr "Vaihda luettu/lukematon"
 
@@ -609,12 +609,12 @@ msgid "Open in new window"
 msgstr "Avaa uudessa ikkunassa"
 
 #: include/functions.php:1976
-#: js/viewfeed.js:1925
+#: js/viewfeed.js:1930
 msgid "Mark below as read"
 msgstr "Merkitse alla olevat luetuiksi"
 
 #: include/functions.php:1977
-#: js/viewfeed.js:1919
+#: js/viewfeed.js:1924
 msgid "Mark above as read"
 msgstr "Merkitse yllä olevat luetuiksi"
 
@@ -2736,18 +2736,6 @@ msgstr ""
 msgid "Start update"
 msgstr "Aloita päivitys"
 
-#: js/PrefFeedTree.js:47
-msgid "Edit category"
-msgstr "Muokkaa kansiota"
-
-#: js/PrefFeedTree.js:54
-msgid "Remove category"
-msgstr "Poista kansio"
-
-#: js/PrefFilterTree.js:48
-msgid "Inverse"
-msgstr "Käänteiset valinnat"
-
 #: js/feedlist.js:397
 #: js/feedlist.js:425
 msgid "Mark all articles in %s as read?"
@@ -2946,6 +2934,18 @@ msgstr "Poistetaan valitut syötteet..."
 #: js/functions.js:1853
 msgid "Help"
 msgstr "Apua"
+
+#: js/PrefFeedTree.js:47
+msgid "Edit category"
+msgstr "Muokkaa kansiota"
+
+#: js/PrefFeedTree.js:54
+msgid "Remove category"
+msgstr "Poista kansio"
+
+#: js/PrefFilterTree.js:48
+msgid "Inverse"
+msgstr "Käänteiset valinnat"
 
 #: js/prefs.js:55
 msgid "Please enter login:"
@@ -3281,132 +3281,132 @@ msgstr "Uudelleenpisteytetään artikkelit..."
 msgid "New version available!"
 msgstr "Uusi versio saatavilla!"
 
-#: js/viewfeed.js:100
+#: js/viewfeed.js:105
 msgid "Cancel search"
 msgstr "Peru haku"
 
-#: js/viewfeed.js:449
+#: js/viewfeed.js:454
 msgid "Unstar article"
 msgstr "Poista tähti artikkelista"
 
-#: js/viewfeed.js:453
+#: js/viewfeed.js:458
 msgid "Star article"
 msgstr "Merkitse artikkeli tähdellä"
 
-#: js/viewfeed.js:493
+#: js/viewfeed.js:498
 msgid "Unpublish article"
 msgstr "Aseta artikkeli yksityiseksi"
 
-#: js/viewfeed.js:497
+#: js/viewfeed.js:502
 msgid "Publish article"
 msgstr "Julkista artikkeli"
 
-#: js/viewfeed.js:649
+#: js/viewfeed.js:654
 #, fuzzy
 msgid "%d article selected"
 msgid_plural "%d articles selected"
 msgstr[0] "Yhtään artikkelia ei ole valittuna."
 msgstr[1] "Yhtään artikkelia ei ole valittuna."
 
-#: js/viewfeed.js:721
-#: js/viewfeed.js:749
-#: js/viewfeed.js:776
-#: js/viewfeed.js:839
-#: js/viewfeed.js:873
-#: js/viewfeed.js:993
-#: js/viewfeed.js:1036
-#: js/viewfeed.js:1089
-#: js/viewfeed.js:2066
+#: js/viewfeed.js:726
+#: js/viewfeed.js:754
+#: js/viewfeed.js:781
+#: js/viewfeed.js:844
+#: js/viewfeed.js:878
+#: js/viewfeed.js:998
+#: js/viewfeed.js:1041
+#: js/viewfeed.js:1094
+#: js/viewfeed.js:2071
 #: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "Yhtään artikkelia ei ole valittuna."
 
-#: js/viewfeed.js:1001
+#: js/viewfeed.js:1006
 msgid "Delete %d selected article in %s?"
 msgid_plural "Delete %d selected articles in %s?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/viewfeed.js:1003
+#: js/viewfeed.js:1008
 msgid "Delete %d selected article?"
 msgid_plural "Delete %d selected articles?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/viewfeed.js:1045
+#: js/viewfeed.js:1050
 msgid "Archive %d selected article in %s?"
 msgid_plural "Archive %d selected articles in %s?"
 msgstr[0] "Arkistoi %d valittu artikkeli syötteestä %s?"
 msgstr[1] "Arkistoi %d valittua artikkelia syötteestä %s?"
 
-#: js/viewfeed.js:1048
+#: js/viewfeed.js:1053
 msgid "Move %d archived article back?"
 msgid_plural "Move %d archived articles back?"
 msgstr[0] "Siirretäänkö %d arkistoitu artikkeli takaisin?"
 msgstr[1] "Siirretäänkö %d arkistoitua artikkelia takaisin?"
 
-#: js/viewfeed.js:1050
+#: js/viewfeed.js:1055
 msgid "Please note that unstarred articles might get purged on next feed update."
 msgstr ""
 
-#: js/viewfeed.js:1095
+#: js/viewfeed.js:1100
 msgid "Mark %d selected article in %s as read?"
 msgid_plural "Mark %d selected articles in %s as read?"
 msgstr[0] "Merkitäänkö %d valittu artikkeli syötteessä %s luetuksi?"
 msgstr[1] "Merkitäänkö %d valittua artikkelia syötteessä %s luetuiksi?"
 
-#: js/viewfeed.js:1119
+#: js/viewfeed.js:1124
 msgid "Edit article Tags"
 msgstr "Muokkaa artikkelin avainsanoja"
 
-#: js/viewfeed.js:1125
+#: js/viewfeed.js:1130
 msgid "Saving article tags..."
 msgstr "Tallennetaan artikkelin avainsanat..."
 
-#: js/viewfeed.js:1331
+#: js/viewfeed.js:1336
 msgid "No article is selected."
 msgstr "Yhtään artikkelia ei ole valittuna."
 
-#: js/viewfeed.js:1366
+#: js/viewfeed.js:1371
 msgid "No articles found to mark"
 msgstr "Artikkeleita ei ole merkittäväksi"
 
-#: js/viewfeed.js:1368
+#: js/viewfeed.js:1373
 msgid "Mark %d article as read?"
 msgid_plural "Mark %d articles as read?"
 msgstr[0] "Merkitäänkö %d artikkeli luetuksi?"
 msgstr[1] "Merkitäänkö %d artikkelia luetuiksi?"
 
-#: js/viewfeed.js:1870
+#: js/viewfeed.js:1875
 msgid "Open original article"
 msgstr "Avaa alkuperäinen artikkeli"
 
-#: js/viewfeed.js:1876
+#: js/viewfeed.js:1881
 msgid "Display article URL"
 msgstr "Näytä artikkelin osoite"
 
-#: js/viewfeed.js:1895
+#: js/viewfeed.js:1900
 msgid "Toggle marked"
 msgstr "Käännä valitun merkintä"
 
-#: js/viewfeed.js:1976
+#: js/viewfeed.js:1981
 msgid "Assign label"
 msgstr "Liitä tunniste"
 
-#: js/viewfeed.js:1981
+#: js/viewfeed.js:1986
 msgid "Remove label"
 msgstr "Poista tunniste"
 
-#: js/viewfeed.js:2035
+#: js/viewfeed.js:2040
 msgid "Please enter new score for selected articles:"
 msgstr "Anna uusi pistemäärä valituille artikkeleille:"
 
-#: js/viewfeed.js:2077
+#: js/viewfeed.js:2082
 msgid "Please enter new score for this article:"
 msgstr "Anna uusi pistemäärä tälle artikkelille:"
 
-#: js/viewfeed.js:2110
+#: js/viewfeed.js:2115
 msgid "Article URL:"
 msgstr "Artikkelin osoite:"
 
