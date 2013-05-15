@@ -41,6 +41,13 @@ class FeedItem_Atom extends FeedItem_Common {
 		$content = $this->elem->getElementsByTagName("content")->item(0);
 
 		if ($content) {
+			if ($content->hasChildNodes()) {
+
+				if ($content->getElementsByTagName("*")->length > 1) {
+					return $this->doc->saveXML($content->firstChild->nextSibling);
+				}
+			}
+
 			return $content->nodeValue;
 		}
 	}
