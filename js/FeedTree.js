@@ -200,6 +200,9 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 	},
 	postCreate: function() {
 		this.connect(this.model, "onChange", "updateCounter");
+		this.connect(this, "_expandNode", function() {
+			this.hideRead(getInitParam("hide_read_feeds"), getInitParam("hide_read_shows_special"));
+		});
 
 		this.inherited(arguments);
 	},
