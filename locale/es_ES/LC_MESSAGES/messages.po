@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-14 09:35+0400\n"
+"POT-Creation-Date: 2013-05-15 09:45+0400\n"
 "PO-Revision-Date: 2013-04-30 17:51+0100\n"
 "Last-Translator: DavidM <milarupa@yahoo.es>\n"
 "Language-Team: Español <milarupa@yahoo.es>\n"
@@ -155,7 +155,7 @@ msgstr "La prueba de escape SQL ha fallado. Por favor, revise la configuración 
 #: index.php:128
 #: index.php:145
 #: index.php:265
-#: prefs.php:98
+#: prefs.php:97
 #: classes/backend.php:5
 #: classes/pref/labels.php:296
 #: classes/pref/filters.php:678
@@ -182,8 +182,8 @@ msgstr "La prueba de escape SQL ha fallado. Por favor, revise la configuración 
 #: js/prefs.js:1826
 #: js/tt-rss.js:507
 #: js/tt-rss.js:524
-#: js/viewfeed.js:816
-#: js/viewfeed.js:1245
+#: js/viewfeed.js:821
+#: js/viewfeed.js:1250
 #: plugins/import_export/import_export.js:17
 #: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
@@ -359,44 +359,44 @@ msgid "Logout"
 msgstr "Cerrar sesión"
 
 #: prefs.php:33
-#: prefs.php:116
+#: prefs.php:115
 #: include/functions.php:2011
 #: classes/pref/prefs.php:440
 msgid "Preferences"
 msgstr "Preferencias"
 
-#: prefs.php:107
+#: prefs.php:106
 msgid "Keyboard shortcuts"
 msgstr "Atajos de teclado"
 
-#: prefs.php:108
+#: prefs.php:107
 msgid "Exit preferences"
 msgstr "Salir de las preferencias"
 
-#: prefs.php:119
+#: prefs.php:118
 #: classes/pref/feeds.php:106
 #: classes/pref/feeds.php:1253
 #: classes/pref/feeds.php:1316
 msgid "Feeds"
 msgstr "Fuentes"
 
-#: prefs.php:122
+#: prefs.php:121
 #: classes/pref/filters.php:154
 msgid "Filters"
 msgstr "Filtros"
 
-#: prefs.php:125
+#: prefs.php:124
 #: include/functions.php:1176
 #: include/functions.php:1832
 #: classes/pref/labels.php:90
 msgid "Labels"
 msgstr "Marcadores"
 
-#: prefs.php:129
+#: prefs.php:128
 msgid "Users"
 msgstr "Usuarios"
 
-#: prefs.php:132
+#: prefs.php:131
 msgid "System"
 msgstr "Sistema"
 
@@ -583,12 +583,12 @@ msgid "Toggle starred"
 msgstr "Alternar favoritos"
 
 #: include/functions.php:1970
-#: js/viewfeed.js:1906
+#: js/viewfeed.js:1911
 msgid "Toggle published"
 msgstr "Alternar publicados"
 
 #: include/functions.php:1971
-#: js/viewfeed.js:1884
+#: js/viewfeed.js:1889
 msgid "Toggle unread"
 msgstr "Alternar no leídos"
 
@@ -609,12 +609,12 @@ msgid "Open in new window"
 msgstr "Abrir en ventana nueva"
 
 #: include/functions.php:1976
-#: js/viewfeed.js:1925
+#: js/viewfeed.js:1930
 msgid "Mark below as read"
 msgstr "Marcar artículos posteriores como leídos"
 
 #: include/functions.php:1977
-#: js/viewfeed.js:1919
+#: js/viewfeed.js:1924
 msgid "Mark above as read"
 msgstr "Marcar artículos anteriores como leídos"
 
@@ -2725,18 +2725,6 @@ msgstr "Listo para actualizar"
 msgid "Start update"
 msgstr "Empezar actualización"
 
-#: js/PrefFeedTree.js:47
-msgid "Edit category"
-msgstr "Editar categoría"
-
-#: js/PrefFeedTree.js:54
-msgid "Remove category"
-msgstr "Borrar categoría"
-
-#: js/PrefFilterTree.js:48
-msgid "Inverse"
-msgstr "Inverso"
-
 #: js/feedlist.js:397
 #: js/feedlist.js:425
 msgid "Mark all articles in %s as read?"
@@ -2933,6 +2921,18 @@ msgstr "Borrando fuentes seleccionadas..."
 #: js/functions.js:1853
 msgid "Help"
 msgstr "Ayuda"
+
+#: js/PrefFeedTree.js:47
+msgid "Edit category"
+msgstr "Editar categoría"
+
+#: js/PrefFeedTree.js:54
+msgid "Remove category"
+msgstr "Borrar categoría"
+
+#: js/PrefFilterTree.js:48
+msgid "Inverse"
+msgstr "Inverso"
 
 #: js/prefs.js:55
 msgid "Please enter login:"
@@ -3268,131 +3268,131 @@ msgstr "Reiniciando la puntuación de los artículos..."
 msgid "New version available!"
 msgstr "¡Nueva versión disponible!"
 
-#: js/viewfeed.js:100
+#: js/viewfeed.js:105
 msgid "Cancel search"
 msgstr "Cancelar búsqueda"
 
-#: js/viewfeed.js:449
+#: js/viewfeed.js:454
 msgid "Unstar article"
 msgstr "Quitar el artículo de los favoritos"
 
-#: js/viewfeed.js:453
+#: js/viewfeed.js:458
 msgid "Star article"
 msgstr "Marcar el artículo como favorito"
 
-#: js/viewfeed.js:493
+#: js/viewfeed.js:498
 msgid "Unpublish article"
 msgstr "Despublicar artículo"
 
-#: js/viewfeed.js:497
+#: js/viewfeed.js:502
 msgid "Publish article"
 msgstr "Publicar artículo"
 
-#: js/viewfeed.js:649
+#: js/viewfeed.js:654
 msgid "%d article selected"
 msgid_plural "%d articles selected"
 msgstr[0] "%d artículo seleccionado"
 msgstr[1] "%d artículos seleccionados"
 
-#: js/viewfeed.js:721
-#: js/viewfeed.js:749
-#: js/viewfeed.js:776
-#: js/viewfeed.js:839
-#: js/viewfeed.js:873
-#: js/viewfeed.js:993
-#: js/viewfeed.js:1036
-#: js/viewfeed.js:1089
-#: js/viewfeed.js:2066
+#: js/viewfeed.js:726
+#: js/viewfeed.js:754
+#: js/viewfeed.js:781
+#: js/viewfeed.js:844
+#: js/viewfeed.js:878
+#: js/viewfeed.js:998
+#: js/viewfeed.js:1041
+#: js/viewfeed.js:1094
+#: js/viewfeed.js:2071
 #: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "No se han seleccionado artículos."
 
-#: js/viewfeed.js:1001
+#: js/viewfeed.js:1006
 msgid "Delete %d selected article in %s?"
 msgid_plural "Delete %d selected articles in %s?"
 msgstr[0] "¿Borrar %d artículo seleccionado en %s?"
 msgstr[1] "¿Borrar %d artículos seleccionados en %s?"
 
-#: js/viewfeed.js:1003
+#: js/viewfeed.js:1008
 msgid "Delete %d selected article?"
 msgid_plural "Delete %d selected articles?"
 msgstr[0] "¿Borrar %d artículo seleccionado?"
 msgstr[1] "¿Borrar %d artículos seleccionados?"
 
-#: js/viewfeed.js:1045
+#: js/viewfeed.js:1050
 msgid "Archive %d selected article in %s?"
 msgid_plural "Archive %d selected articles in %s?"
 msgstr[0] "¿Archivar %d artículo seleccionado en %s?"
 msgstr[1] "¿Archivar %d artículos seleccionados en %s?"
 
-#: js/viewfeed.js:1048
+#: js/viewfeed.js:1053
 msgid "Move %d archived article back?"
 msgid_plural "Move %d archived articles back?"
 msgstr[0] "¿Mover %d artículo archivado a su fuente original?"
 msgstr[1] "¿Mover %d artículos archivados a su fuente original?"
 
-#: js/viewfeed.js:1050
+#: js/viewfeed.js:1055
 msgid "Please note that unstarred articles might get purged on next feed update."
 msgstr "Recuerde que los artículos no favoritos podrían ser purgados en la siguiente actualización de las fuentes."
 
-#: js/viewfeed.js:1095
+#: js/viewfeed.js:1100
 msgid "Mark %d selected article in %s as read?"
 msgid_plural "Mark %d selected articles in %s as read?"
 msgstr[0] "¿Marcar %d artículo seleccionado de %s como leído?"
 msgstr[1] "¿Marcar %d artículos seleccionados de %s como leídos?"
 
-#: js/viewfeed.js:1119
+#: js/viewfeed.js:1124
 msgid "Edit article Tags"
 msgstr "Editar las etiquetas del artículo"
 
-#: js/viewfeed.js:1125
+#: js/viewfeed.js:1130
 msgid "Saving article tags..."
 msgstr "Guardando las etiquetas del artículo..."
 
-#: js/viewfeed.js:1331
+#: js/viewfeed.js:1336
 msgid "No article is selected."
 msgstr "No se ha seleccionado ningún artículo."
 
-#: js/viewfeed.js:1366
+#: js/viewfeed.js:1371
 msgid "No articles found to mark"
 msgstr "No se han encontrado artículos que marcar"
 
-#: js/viewfeed.js:1368
+#: js/viewfeed.js:1373
 msgid "Mark %d article as read?"
 msgid_plural "Mark %d articles as read?"
 msgstr[0] "¿Marcar %d artículo como leído?"
 msgstr[1] "¿Marcar %d artículos como leídos?"
 
-#: js/viewfeed.js:1870
+#: js/viewfeed.js:1875
 msgid "Open original article"
 msgstr "Abrir artículo original"
 
-#: js/viewfeed.js:1876
+#: js/viewfeed.js:1881
 msgid "Display article URL"
 msgstr "Mostrar la URL del artículo"
 
-#: js/viewfeed.js:1895
+#: js/viewfeed.js:1900
 msgid "Toggle marked"
 msgstr "Alternar favorito"
 
-#: js/viewfeed.js:1976
+#: js/viewfeed.js:1981
 msgid "Assign label"
 msgstr "Asignar marcador"
 
-#: js/viewfeed.js:1981
+#: js/viewfeed.js:1986
 msgid "Remove label"
 msgstr "Borrar marcador"
 
-#: js/viewfeed.js:2035
+#: js/viewfeed.js:2040
 msgid "Please enter new score for selected articles:"
 msgstr "Por favor, introduzca puntuación para los artículos seleccionados:"
 
-#: js/viewfeed.js:2077
+#: js/viewfeed.js:2082
 msgid "Please enter new score for this article:"
 msgstr "Por favor, introduzca puntuación para este artículo:"
 
-#: js/viewfeed.js:2110
+#: js/viewfeed.js:2115
 msgid "Article URL:"
 msgstr "URL del artículo:"
 

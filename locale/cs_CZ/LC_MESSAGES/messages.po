@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-14 09:35+0400\n"
+"POT-Creation-Date: 2013-05-15 09:45+0400\n"
 "PO-Revision-Date: 2013-05-13 18:50+0200\n"
 "Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -155,7 +155,7 @@ msgstr "Test ochrany proti podvratným SQL dotazům (SQL Injection) selhal, zkon
 #: index.php:128
 #: index.php:145
 #: index.php:265
-#: prefs.php:98
+#: prefs.php:97
 #: classes/backend.php:5
 #: classes/pref/labels.php:296
 #: classes/pref/filters.php:678
@@ -182,8 +182,8 @@ msgstr "Test ochrany proti podvratným SQL dotazům (SQL Injection) selhal, zkon
 #: js/prefs.js:1826
 #: js/tt-rss.js:507
 #: js/tt-rss.js:524
-#: js/viewfeed.js:816
-#: js/viewfeed.js:1245
+#: js/viewfeed.js:821
+#: js/viewfeed.js:1250
 #: plugins/import_export/import_export.js:17
 #: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
@@ -359,44 +359,44 @@ msgid "Logout"
 msgstr "Odhlásit se"
 
 #: prefs.php:33
-#: prefs.php:116
+#: prefs.php:115
 #: include/functions.php:2011
 #: classes/pref/prefs.php:440
 msgid "Preferences"
 msgstr "Nastavení"
 
-#: prefs.php:107
+#: prefs.php:106
 msgid "Keyboard shortcuts"
 msgstr "Klávesové zkratky"
 
-#: prefs.php:108
+#: prefs.php:107
 msgid "Exit preferences"
 msgstr "Opustit nastavení"
 
-#: prefs.php:119
+#: prefs.php:118
 #: classes/pref/feeds.php:106
 #: classes/pref/feeds.php:1253
 #: classes/pref/feeds.php:1316
 msgid "Feeds"
 msgstr "Kanály"
 
-#: prefs.php:122
+#: prefs.php:121
 #: classes/pref/filters.php:154
 msgid "Filters"
 msgstr "Filtry"
 
-#: prefs.php:125
+#: prefs.php:124
 #: include/functions.php:1176
 #: include/functions.php:1832
 #: classes/pref/labels.php:90
 msgid "Labels"
 msgstr "Štítky"
 
-#: prefs.php:129
+#: prefs.php:128
 msgid "Users"
 msgstr "Uživatelé"
 
-#: prefs.php:132
+#: prefs.php:131
 msgid "System"
 msgstr "Systém"
 
@@ -584,12 +584,12 @@ msgid "Toggle starred"
 msgstr "Přepnout hvězdičku"
 
 #: include/functions.php:1970
-#: js/viewfeed.js:1906
+#: js/viewfeed.js:1911
 msgid "Toggle published"
 msgstr "Přepnout publikováno"
 
 #: include/functions.php:1971
-#: js/viewfeed.js:1884
+#: js/viewfeed.js:1889
 msgid "Toggle unread"
 msgstr "Přepnout přečteno"
 
@@ -610,12 +610,12 @@ msgid "Open in new window"
 msgstr "Otevřít v novém okně"
 
 #: include/functions.php:1976
-#: js/viewfeed.js:1925
+#: js/viewfeed.js:1930
 msgid "Mark below as read"
 msgstr "Označit níže jako přečtené"
 
 #: include/functions.php:1977
-#: js/viewfeed.js:1919
+#: js/viewfeed.js:1924
 msgid "Mark above as read"
 msgstr "Označit výše jako přečtené"
 
@@ -2727,18 +2727,6 @@ msgstr "Připraveno k aktualizaci."
 msgid "Start update"
 msgstr "Zahájit aktualizaci"
 
-#: js/PrefFeedTree.js:47
-msgid "Edit category"
-msgstr "Upravit kategorii"
-
-#: js/PrefFeedTree.js:54
-msgid "Remove category"
-msgstr "Odstranit kategorii"
-
-#: js/PrefFilterTree.js:48
-msgid "Inverse"
-msgstr "Inverzní"
-
 #: js/feedlist.js:397
 #: js/feedlist.js:425
 msgid "Mark all articles in %s as read?"
@@ -2935,6 +2923,18 @@ msgstr "Odebírám vybrané kanály..."
 #: js/functions.js:1853
 msgid "Help"
 msgstr "Nápověda"
+
+#: js/PrefFeedTree.js:47
+msgid "Edit category"
+msgstr "Upravit kategorii"
+
+#: js/PrefFeedTree.js:54
+msgid "Remove category"
+msgstr "Odstranit kategorii"
+
+#: js/PrefFilterTree.js:48
+msgid "Inverse"
+msgstr "Inverzní"
 
 #: js/prefs.js:55
 msgid "Please enter login:"
@@ -3270,138 +3270,138 @@ msgstr "Přehodnocuji články..."
 msgid "New version available!"
 msgstr "Je dostupná nová verze."
 
-#: js/viewfeed.js:100
+#: js/viewfeed.js:105
 msgid "Cancel search"
 msgstr "Zrušit hledání"
 
-#: js/viewfeed.js:449
+#: js/viewfeed.js:454
 msgid "Unstar article"
 msgstr "Odebrat článku hvězdičku"
 
-#: js/viewfeed.js:453
+#: js/viewfeed.js:458
 msgid "Star article"
 msgstr "Přidat článku hvězdičku"
 
-#: js/viewfeed.js:493
+#: js/viewfeed.js:498
 msgid "Unpublish article"
 msgstr "Zrušit publikování článku"
 
-#: js/viewfeed.js:497
+#: js/viewfeed.js:502
 msgid "Publish article"
 msgstr "Publikovat článek"
 
-#: js/viewfeed.js:649
+#: js/viewfeed.js:654
 msgid "%d article selected"
 msgid_plural "%d articles selected"
 msgstr[0] "%d vybraný článek"
 msgstr[1] "%d vybrané články"
 msgstr[2] "%d vybraných článků"
 
-#: js/viewfeed.js:721
-#: js/viewfeed.js:749
-#: js/viewfeed.js:776
-#: js/viewfeed.js:839
-#: js/viewfeed.js:873
-#: js/viewfeed.js:993
-#: js/viewfeed.js:1036
-#: js/viewfeed.js:1089
-#: js/viewfeed.js:2066
+#: js/viewfeed.js:726
+#: js/viewfeed.js:754
+#: js/viewfeed.js:781
+#: js/viewfeed.js:844
+#: js/viewfeed.js:878
+#: js/viewfeed.js:998
+#: js/viewfeed.js:1041
+#: js/viewfeed.js:1094
+#: js/viewfeed.js:2071
 #: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "Nejsou vybrány žádné články."
 
-#: js/viewfeed.js:1001
+#: js/viewfeed.js:1006
 msgid "Delete %d selected article in %s?"
 msgid_plural "Delete %d selected articles in %s?"
 msgstr[0] "Smazat %d vybraný článek v %s?"
 msgstr[1] "Smazat %d vybrané články v %s?"
 msgstr[2] "Smazat %d vybraných článků v %s?"
 
-#: js/viewfeed.js:1003
+#: js/viewfeed.js:1008
 msgid "Delete %d selected article?"
 msgid_plural "Delete %d selected articles?"
 msgstr[0] "Smazat %d vybraný článek?"
 msgstr[1] "Smazat %d vybrané články?"
 msgstr[2] "Smazat %d vybraných článků?"
 
-#: js/viewfeed.js:1045
+#: js/viewfeed.js:1050
 msgid "Archive %d selected article in %s?"
 msgid_plural "Archive %d selected articles in %s?"
 msgstr[0] "Archivovat %d vybraný článek v %s?"
 msgstr[1] "Archivovat %d vybrané články v %s?"
 msgstr[2] "Archivovat %d vybraných článků v %s?"
 
-#: js/viewfeed.js:1048
+#: js/viewfeed.js:1053
 msgid "Move %d archived article back?"
 msgid_plural "Move %d archived articles back?"
 msgstr[0] "Přesunout zpět %d archivovaný článek?"
 msgstr[1] "Přesunout zpět %d archivované články?"
 msgstr[2] "Přesunout zpět  %d archivovaných článků?"
 
-#: js/viewfeed.js:1050
+#: js/viewfeed.js:1055
 msgid "Please note that unstarred articles might get purged on next feed update."
 msgstr "Vezměte na vědomí, že články bez hvězdičky můžou být odstraněny při následující aktualizaci kanálu."
 
-#: js/viewfeed.js:1095
+#: js/viewfeed.js:1100
 msgid "Mark %d selected article in %s as read?"
 msgid_plural "Mark %d selected articles in %s as read?"
 msgstr[0] "Označit %d článek v %s jako přečtený?"
 msgstr[1] "Označit %d články v %s jako přečtené?"
 msgstr[2] "Označit %d článků v %s jako přečtené?"
 
-#: js/viewfeed.js:1119
+#: js/viewfeed.js:1124
 msgid "Edit article Tags"
 msgstr "Upravit značky článku"
 
-#: js/viewfeed.js:1125
+#: js/viewfeed.js:1130
 msgid "Saving article tags..."
 msgstr "Ukládám značky článku..."
 
-#: js/viewfeed.js:1331
+#: js/viewfeed.js:1336
 msgid "No article is selected."
 msgstr "Není vybrán žádný článek."
 
-#: js/viewfeed.js:1366
+#: js/viewfeed.js:1371
 msgid "No articles found to mark"
 msgstr "Nenalezeny žádné články k označení"
 
-#: js/viewfeed.js:1368
+#: js/viewfeed.js:1373
 msgid "Mark %d article as read?"
 msgid_plural "Mark %d articles as read?"
 msgstr[0] "Označit %d článek jako přečtený?"
 msgstr[1] "Označit %d články jako přečtené?"
 msgstr[2] "Označit %d článků jako přečtené?"
 
-#: js/viewfeed.js:1870
+#: js/viewfeed.js:1875
 msgid "Open original article"
 msgstr "Otevřít původní článek"
 
-#: js/viewfeed.js:1876
+#: js/viewfeed.js:1881
 msgid "Display article URL"
 msgstr "Zobrazit URL článku"
 
-#: js/viewfeed.js:1895
+#: js/viewfeed.js:1900
 msgid "Toggle marked"
 msgstr "Přepnout označené"
 
-#: js/viewfeed.js:1976
+#: js/viewfeed.js:1981
 msgid "Assign label"
 msgstr "Přiřadit štítek"
 
-#: js/viewfeed.js:1981
+#: js/viewfeed.js:1986
 msgid "Remove label"
 msgstr "Odstranit štítek"
 
-#: js/viewfeed.js:2035
+#: js/viewfeed.js:2040
 msgid "Please enter new score for selected articles:"
 msgstr "Zadejte prosím nové hodnocení vybraných článků:"
 
-#: js/viewfeed.js:2077
+#: js/viewfeed.js:2082
 msgid "Please enter new score for this article:"
 msgstr "Zadejte prosím nové hodnocení článku:"
 
-#: js/viewfeed.js:2110
+#: js/viewfeed.js:2115
 msgid "Article URL:"
 msgstr "URL článku:"
 

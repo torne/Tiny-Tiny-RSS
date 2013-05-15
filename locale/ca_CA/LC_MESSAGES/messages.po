@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-14 09:35+0400\n"
+"POT-Creation-Date: 2013-05-15 09:45+0400\n"
 "PO-Revision-Date: 2009-11-19 09:40+0100\n"
 "Last-Translator: Alfred Galitó <bratac@bratac.cat>\n"
 "Language-Team: Català <bratac@bratac.cat>\n"
@@ -159,7 +159,7 @@ msgstr "Ha fallat la sortida de prova de SQL, reviseu la base configuració de l
 #: index.php:128
 #: index.php:145
 #: index.php:265
-#: prefs.php:98
+#: prefs.php:97
 #: classes/backend.php:5
 #: classes/pref/labels.php:296
 #: classes/pref/filters.php:678
@@ -186,8 +186,8 @@ msgstr "Ha fallat la sortida de prova de SQL, reviseu la base configuració de l
 #: js/prefs.js:1826
 #: js/tt-rss.js:507
 #: js/tt-rss.js:524
-#: js/viewfeed.js:816
-#: js/viewfeed.js:1245
+#: js/viewfeed.js:821
+#: js/viewfeed.js:1250
 #: plugins/import_export/import_export.js:17
 #: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
@@ -369,44 +369,44 @@ msgid "Logout"
 msgstr "Surt"
 
 #: prefs.php:33
-#: prefs.php:116
+#: prefs.php:115
 #: include/functions.php:2011
 #: classes/pref/prefs.php:440
 msgid "Preferences"
 msgstr "Preferències"
 
-#: prefs.php:107
+#: prefs.php:106
 msgid "Keyboard shortcuts"
 msgstr "Dreceres de teclat"
 
-#: prefs.php:108
+#: prefs.php:107
 msgid "Exit preferences"
 msgstr "Surt de les preferències"
 
-#: prefs.php:119
+#: prefs.php:118
 #: classes/pref/feeds.php:106
 #: classes/pref/feeds.php:1253
 #: classes/pref/feeds.php:1316
 msgid "Feeds"
 msgstr "Canals"
 
-#: prefs.php:122
+#: prefs.php:121
 #: classes/pref/filters.php:154
 msgid "Filters"
 msgstr "Filtres"
 
-#: prefs.php:125
+#: prefs.php:124
 #: include/functions.php:1176
 #: include/functions.php:1832
 #: classes/pref/labels.php:90
 msgid "Labels"
 msgstr "Etiquetes"
 
-#: prefs.php:129
+#: prefs.php:128
 msgid "Users"
 msgstr "Usuaris"
 
-#: prefs.php:132
+#: prefs.php:131
 msgid "System"
 msgstr ""
 
@@ -599,12 +599,12 @@ msgid "Toggle starred"
 msgstr "Commuta els marcats"
 
 #: include/functions.php:1970
-#: js/viewfeed.js:1906
+#: js/viewfeed.js:1911
 msgid "Toggle published"
 msgstr "Commuta els publicats"
 
 #: include/functions.php:1971
-#: js/viewfeed.js:1884
+#: js/viewfeed.js:1889
 msgid "Toggle unread"
 msgstr "Commuta els no llegits"
 
@@ -628,13 +628,13 @@ msgid "Open in new window"
 msgstr "Obre l'article en una finestra nova"
 
 #: include/functions.php:1976
-#: js/viewfeed.js:1925
+#: js/viewfeed.js:1930
 #, fuzzy
 msgid "Mark below as read"
 msgstr "Marca'l com a llegit"
 
 #: include/functions.php:1977
-#: js/viewfeed.js:1919
+#: js/viewfeed.js:1924
 #, fuzzy
 msgid "Mark above as read"
 msgstr "Marca'l com a llegit"
@@ -2926,21 +2926,6 @@ msgstr "Última actualització:"
 msgid "Start update"
 msgstr "Última actualització:"
 
-#: js/PrefFeedTree.js:47
-#, fuzzy
-msgid "Edit category"
-msgstr "Edita les categories"
-
-#: js/PrefFeedTree.js:54
-#, fuzzy
-msgid "Remove category"
-msgstr "Crea una categoria"
-
-#: js/PrefFilterTree.js:48
-#, fuzzy
-msgid "Inverse"
-msgstr "(Invers)"
-
 #: js/feedlist.js:397
 #: js/feedlist.js:425
 msgid "Mark all articles in %s as read?"
@@ -3161,6 +3146,21 @@ msgstr "S'estan suprimint els filtres seleccionats..."
 #: js/functions.js:1853
 msgid "Help"
 msgstr "Ajuda"
+
+#: js/PrefFeedTree.js:47
+#, fuzzy
+msgid "Edit category"
+msgstr "Edita les categories"
+
+#: js/PrefFeedTree.js:54
+#, fuzzy
+msgid "Remove category"
+msgstr "Crea una categoria"
+
+#: js/PrefFilterTree.js:48
+#, fuzzy
+msgid "Inverse"
+msgstr "(Invers)"
 
 #: js/prefs.js:55
 msgid "Please enter login:"
@@ -3524,146 +3524,146 @@ msgstr "S'estan canviant la puntuació dels articles"
 msgid "New version available!"
 msgstr "Hi ha una nova versió de Tiny Tiny RSS!"
 
-#: js/viewfeed.js:100
+#: js/viewfeed.js:105
 #, fuzzy
 msgid "Cancel search"
 msgstr "Cancel·la"
 
-#: js/viewfeed.js:449
+#: js/viewfeed.js:454
 msgid "Unstar article"
 msgstr "Treu la marca de l'article"
 
-#: js/viewfeed.js:453
+#: js/viewfeed.js:458
 msgid "Star article"
 msgstr "Marca l'article"
 
-#: js/viewfeed.js:493
+#: js/viewfeed.js:498
 msgid "Unpublish article"
 msgstr "Deixa de publicar l'article"
 
-#: js/viewfeed.js:497
+#: js/viewfeed.js:502
 msgid "Publish article"
 msgstr "Publica l'article"
 
-#: js/viewfeed.js:649
+#: js/viewfeed.js:654
 #, fuzzy
 msgid "%d article selected"
 msgid_plural "%d articles selected"
 msgstr[0] "No hi ha cap article seleccionat."
 msgstr[1] "No hi ha cap article seleccionat."
 
-#: js/viewfeed.js:721
-#: js/viewfeed.js:749
-#: js/viewfeed.js:776
-#: js/viewfeed.js:839
-#: js/viewfeed.js:873
-#: js/viewfeed.js:993
-#: js/viewfeed.js:1036
-#: js/viewfeed.js:1089
-#: js/viewfeed.js:2066
+#: js/viewfeed.js:726
+#: js/viewfeed.js:754
+#: js/viewfeed.js:781
+#: js/viewfeed.js:844
+#: js/viewfeed.js:878
+#: js/viewfeed.js:998
+#: js/viewfeed.js:1041
+#: js/viewfeed.js:1094
+#: js/viewfeed.js:2071
 #: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "No hi ha cap article seleccionat."
 
-#: js/viewfeed.js:1001
+#: js/viewfeed.js:1006
 #, fuzzy
 msgid "Delete %d selected article in %s?"
 msgid_plural "Delete %d selected articles in %s?"
 msgstr[0] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 msgstr[1] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 
-#: js/viewfeed.js:1003
+#: js/viewfeed.js:1008
 #, fuzzy
 msgid "Delete %d selected article?"
 msgid_plural "Delete %d selected articles?"
 msgstr[0] "Esteu segur que voleu eliminar els articles seleccionats de l'etiqueta?"
 msgstr[1] "Esteu segur que voleu eliminar els articles seleccionats de l'etiqueta?"
 
-#: js/viewfeed.js:1045
+#: js/viewfeed.js:1050
 #, fuzzy
 msgid "Archive %d selected article in %s?"
 msgid_plural "Archive %d selected articles in %s?"
 msgstr[0] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 msgstr[1] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 
-#: js/viewfeed.js:1048
+#: js/viewfeed.js:1053
 #, fuzzy
 msgid "Move %d archived article back?"
 msgid_plural "Move %d archived articles back?"
 msgstr[0] "Articles marcats"
 msgstr[1] "Articles marcats"
 
-#: js/viewfeed.js:1050
+#: js/viewfeed.js:1055
 msgid "Please note that unstarred articles might get purged on next feed update."
 msgstr ""
 
-#: js/viewfeed.js:1095
+#: js/viewfeed.js:1100
 #, fuzzy
 msgid "Mark %d selected article in %s as read?"
 msgid_plural "Mark %d selected articles in %s as read?"
 msgstr[0] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 msgstr[1] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 
-#: js/viewfeed.js:1119
+#: js/viewfeed.js:1124
 #, fuzzy
 msgid "Edit article Tags"
 msgstr "Edita les etiquetes"
 
-#: js/viewfeed.js:1125
+#: js/viewfeed.js:1130
 msgid "Saving article tags..."
 msgstr "S'estan desant les etiquetes de l'article"
 
-#: js/viewfeed.js:1331
+#: js/viewfeed.js:1336
 msgid "No article is selected."
 msgstr "No hi ha cap article seleccionat."
 
-#: js/viewfeed.js:1366
+#: js/viewfeed.js:1371
 msgid "No articles found to mark"
 msgstr "No s'han trobat articles per a marcar."
 
-#: js/viewfeed.js:1368
+#: js/viewfeed.js:1373
 #, fuzzy
 msgid "Mark %d article as read?"
 msgid_plural "Mark %d articles as read?"
 msgstr[0] "Esteu segur que voleu marcar  %d article(s) com a llegit(s) ?"
 msgstr[1] "Esteu segur que voleu marcar  %d article(s) com a llegit(s) ?"
 
-#: js/viewfeed.js:1870
+#: js/viewfeed.js:1875
 #, fuzzy
 msgid "Open original article"
 msgstr "Mostra el contingut original de l'article"
 
-#: js/viewfeed.js:1876
+#: js/viewfeed.js:1881
 #, fuzzy
 msgid "Display article URL"
 msgstr "afficher les étiquettes"
 
-#: js/viewfeed.js:1895
+#: js/viewfeed.js:1900
 #, fuzzy
 msgid "Toggle marked"
 msgstr "Commuta els marcats"
 
-#: js/viewfeed.js:1976
+#: js/viewfeed.js:1981
 msgid "Assign label"
 msgstr "Assigna-li l'etiqueta"
 
-#: js/viewfeed.js:1981
+#: js/viewfeed.js:1986
 #, fuzzy
 msgid "Remove label"
 msgstr "Esteu segur que voleu suprimir les etiquetes seleccionades?"
 
-#: js/viewfeed.js:2035
+#: js/viewfeed.js:2040
 #, fuzzy
 msgid "Please enter new score for selected articles:"
 msgstr "Si us plau, escriviu una nota per aquest article:"
 
-#: js/viewfeed.js:2077
+#: js/viewfeed.js:2082
 #, fuzzy
 msgid "Please enter new score for this article:"
 msgstr "Si us plau, escriviu una nota per aquest article:"
 
-#: js/viewfeed.js:2110
+#: js/viewfeed.js:2115
 #, fuzzy
 msgid "Article URL:"
 msgstr "Tots els articles"
