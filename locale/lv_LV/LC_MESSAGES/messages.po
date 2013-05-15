@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-15 09:23+0400\n"
+"POT-Creation-Date: 2013-05-14 09:35+0400\n"
 "PO-Revision-Date: 2013-03-18 22:55+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: \n"
@@ -157,7 +157,7 @@ msgstr "Neizdevās SQL izņēmumu tests, pārbaudiet jūsu datu bāzes un PHP ie
 #: index.php:128
 #: index.php:145
 #: index.php:265
-#: prefs.php:97
+#: prefs.php:98
 #: classes/backend.php:5
 #: classes/pref/labels.php:296
 #: classes/pref/filters.php:678
@@ -184,8 +184,8 @@ msgstr "Neizdevās SQL izņēmumu tests, pārbaudiet jūsu datu bāzes un PHP ie
 #: js/prefs.js:1826
 #: js/tt-rss.js:507
 #: js/tt-rss.js:524
-#: js/viewfeed.js:821
-#: js/viewfeed.js:1250
+#: js/viewfeed.js:816
+#: js/viewfeed.js:1245
 #: plugins/import_export/import_export.js:17
 #: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
@@ -364,44 +364,44 @@ msgid "Logout"
 msgstr "Atteikties"
 
 #: prefs.php:33
-#: prefs.php:115
+#: prefs.php:116
 #: include/functions.php:2011
 #: classes/pref/prefs.php:440
 msgid "Preferences"
 msgstr "Iestatījumi"
 
-#: prefs.php:106
+#: prefs.php:107
 msgid "Keyboard shortcuts"
 msgstr "Īsinājumtaustiņi"
 
-#: prefs.php:107
+#: prefs.php:108
 msgid "Exit preferences"
 msgstr "Iziet no iestatījumiem"
 
-#: prefs.php:118
+#: prefs.php:119
 #: classes/pref/feeds.php:106
 #: classes/pref/feeds.php:1253
 #: classes/pref/feeds.php:1316
 msgid "Feeds"
 msgstr "Barotnes"
 
-#: prefs.php:121
+#: prefs.php:122
 #: classes/pref/filters.php:154
 msgid "Filters"
 msgstr "Filtri"
 
-#: prefs.php:124
+#: prefs.php:125
 #: include/functions.php:1176
 #: include/functions.php:1832
 #: classes/pref/labels.php:90
 msgid "Labels"
 msgstr "Iezīmes"
 
-#: prefs.php:128
+#: prefs.php:129
 msgid "Users"
 msgstr "Lietotāji"
 
-#: prefs.php:131
+#: prefs.php:132
 msgid "System"
 msgstr ""
 
@@ -592,12 +592,12 @@ msgid "Toggle starred"
 msgstr "Pārslēgt zvaigžņošanu"
 
 #: include/functions.php:1970
-#: js/viewfeed.js:1911
+#: js/viewfeed.js:1906
 msgid "Toggle published"
 msgstr "Pārslēgt publicēšanu"
 
 #: include/functions.php:1971
-#: js/viewfeed.js:1889
+#: js/viewfeed.js:1884
 msgid "Toggle unread"
 msgstr "Pārslēgt nelasītu"
 
@@ -621,12 +621,12 @@ msgid "Open in new window"
 msgstr "Atvērt rakstu jaunā logā"
 
 #: include/functions.php:1976
-#: js/viewfeed.js:1930
+#: js/viewfeed.js:1925
 msgid "Mark below as read"
 msgstr "Iezīmēt lejup kā lasītus"
 
 #: include/functions.php:1977
-#: js/viewfeed.js:1924
+#: js/viewfeed.js:1919
 msgid "Mark above as read"
 msgstr "Iezīmēt augšup kā lasītus"
 
@@ -2795,6 +2795,18 @@ msgstr "Gatavs atjaunošanai."
 msgid "Start update"
 msgstr "Sākt atjaunošanu"
 
+#: js/PrefFeedTree.js:47
+msgid "Edit category"
+msgstr "Rediģēt kategoriju"
+
+#: js/PrefFeedTree.js:54
+msgid "Remove category"
+msgstr "Dzēst kategoriju"
+
+#: js/PrefFilterTree.js:48
+msgid "Inverse"
+msgstr "Apgriezt"
+
 #: js/feedlist.js:397
 #: js/feedlist.js:425
 msgid "Mark all articles in %s as read?"
@@ -3002,18 +3014,6 @@ msgstr "Dzēst izvēlētās barotnes?"
 #: js/functions.js:1853
 msgid "Help"
 msgstr "Palīdzība"
-
-#: js/PrefFeedTree.js:47
-msgid "Edit category"
-msgstr "Rediģēt kategoriju"
-
-#: js/PrefFeedTree.js:54
-msgid "Remove category"
-msgstr "Dzēst kategoriju"
-
-#: js/PrefFilterTree.js:48
-msgid "Inverse"
-msgstr "Apgriezt"
 
 #: js/prefs.js:55
 msgid "Please enter login:"
@@ -3373,141 +3373,141 @@ msgstr "Pārvērtēt rakstus"
 msgid "New version available!"
 msgstr "Ir pieejama jauna versija!"
 
-#: js/viewfeed.js:105
+#: js/viewfeed.js:100
 msgid "Cancel search"
 msgstr "Atcelt meklēšanu"
 
-#: js/viewfeed.js:454
+#: js/viewfeed.js:449
 msgid "Unstar article"
 msgstr "Atzvaigžņot rakstu"
 
-#: js/viewfeed.js:458
+#: js/viewfeed.js:453
 msgid "Star article"
 msgstr "Zvaigžņot rakstu"
 
-#: js/viewfeed.js:498
+#: js/viewfeed.js:493
 msgid "Unpublish article"
 msgstr "Atpublicēt rakstu"
 
-#: js/viewfeed.js:502
+#: js/viewfeed.js:497
 msgid "Publish article"
 msgstr "Publicēt rakstu"
 
-#: js/viewfeed.js:654
+#: js/viewfeed.js:649
 #, fuzzy
 msgid "%d article selected"
 msgid_plural "%d articles selected"
 msgstr[0] "Nav izvēlēts raksts."
 msgstr[1] "Nav izvēlēts raksts."
 
-#: js/viewfeed.js:726
-#: js/viewfeed.js:754
-#: js/viewfeed.js:781
-#: js/viewfeed.js:844
-#: js/viewfeed.js:878
-#: js/viewfeed.js:998
-#: js/viewfeed.js:1041
-#: js/viewfeed.js:1094
-#: js/viewfeed.js:2071
+#: js/viewfeed.js:721
+#: js/viewfeed.js:749
+#: js/viewfeed.js:776
+#: js/viewfeed.js:839
+#: js/viewfeed.js:873
+#: js/viewfeed.js:993
+#: js/viewfeed.js:1036
+#: js/viewfeed.js:1089
+#: js/viewfeed.js:2066
 #: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "Nav norādīts raksts."
 
-#: js/viewfeed.js:1006
+#: js/viewfeed.js:1001
 #, fuzzy
 msgid "Delete %d selected article in %s?"
 msgid_plural "Delete %d selected articles in %s?"
 msgstr[0] "Dzēst %d izvēlētos rakstus %s?"
 msgstr[1] "Dzēst %d izvēlētos rakstus %s?"
 
-#: js/viewfeed.js:1008
+#: js/viewfeed.js:1003
 #, fuzzy
 msgid "Delete %d selected article?"
 msgid_plural "Delete %d selected articles?"
 msgstr[0] "Dzēst %d izvēlētos rakstus?"
 msgstr[1] "Dzēst %d izvēlētos rakstus?"
 
-#: js/viewfeed.js:1050
+#: js/viewfeed.js:1045
 #, fuzzy
 msgid "Archive %d selected article in %s?"
 msgid_plural "Archive %d selected articles in %s?"
 msgstr[0] "Arhivēt %d izvēlētos rakstus %s?"
 msgstr[1] "Arhivēt %d izvēlētos rakstus %s?"
 
-#: js/viewfeed.js:1053
+#: js/viewfeed.js:1048
 #, fuzzy
 msgid "Move %d archived article back?"
 msgid_plural "Move %d archived articles back?"
 msgstr[0] "Pārvietot %d arhivētos rakstus atpakaļ?"
 msgstr[1] "Pārvietot %d arhivētos rakstus atpakaļ?"
 
-#: js/viewfeed.js:1055
+#: js/viewfeed.js:1050
 msgid "Please note that unstarred articles might get purged on next feed update."
 msgstr ""
 
-#: js/viewfeed.js:1100
+#: js/viewfeed.js:1095
 #, fuzzy
 msgid "Mark %d selected article in %s as read?"
 msgid_plural "Mark %d selected articles in %s as read?"
 msgstr[0] "Atzīmēt %d izvēlētos rakstus %s kā lasītus?"
 msgstr[1] "Atzīmēt %d izvēlētos rakstus %s kā lasītus?"
 
-#: js/viewfeed.js:1124
+#: js/viewfeed.js:1119
 msgid "Edit article Tags"
 msgstr "Rediģēt rakstu iezīmes"
 
-#: js/viewfeed.js:1130
+#: js/viewfeed.js:1125
 #, fuzzy
 msgid "Saving article tags..."
 msgstr "Rediģēt rakstu iezīmes"
 
-#: js/viewfeed.js:1336
+#: js/viewfeed.js:1331
 msgid "No article is selected."
 msgstr "Nav izvēlēts raksts."
 
-#: js/viewfeed.js:1371
+#: js/viewfeed.js:1366
 msgid "No articles found to mark"
 msgstr "Nav atrasti iezīmējamie raksti"
 
-#: js/viewfeed.js:1373
+#: js/viewfeed.js:1368
 #, fuzzy
 msgid "Mark %d article as read?"
 msgid_plural "Mark %d articles as read?"
 msgstr[0] "Iezīmēt %d rakstus kā lasītus?"
 msgstr[1] "Iezīmēt %d rakstus kā lasītus?"
 
-#: js/viewfeed.js:1875
+#: js/viewfeed.js:1870
 msgid "Open original article"
 msgstr "Atvērt sākotnējo rakstu"
 
-#: js/viewfeed.js:1881
+#: js/viewfeed.js:1876
 #, fuzzy
 msgid "Display article URL"
 msgstr "Parādīt URL"
 
-#: js/viewfeed.js:1900
+#: js/viewfeed.js:1895
 #, fuzzy
 msgid "Toggle marked"
 msgstr "Pārslēgt zvaigžņošanu"
 
-#: js/viewfeed.js:1981
+#: js/viewfeed.js:1976
 msgid "Assign label"
 msgstr "Pievienot etiķeti"
 
-#: js/viewfeed.js:1986
+#: js/viewfeed.js:1981
 msgid "Remove label"
 msgstr "Dzēst etiķeti"
 
-#: js/viewfeed.js:2040
+#: js/viewfeed.js:2035
 msgid "Please enter new score for selected articles:"
 msgstr "Ievadiet jauno vērtējumu izvēlētajiem rakstiem:"
 
-#: js/viewfeed.js:2082
+#: js/viewfeed.js:2077
 msgid "Please enter new score for this article:"
 msgstr "Ievadiet jaunu vērtējumu šim rakstam:"
 
-#: js/viewfeed.js:2115
+#: js/viewfeed.js:2110
 #, fuzzy
 msgid "Article URL:"
 msgstr "Visus rakstus"

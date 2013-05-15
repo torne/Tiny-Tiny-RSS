@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS sv_SE\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-15 09:23+0400\n"
+"POT-Creation-Date: 2013-05-14 09:35+0400\n"
 "PO-Revision-Date: 2013-05-14 03:37+0100\n"
 "Last-Translator: Mattias Tengblad <mst@eyesx.com>\n"
 "Language-Team: Mattias Tengblad <mst@eyesx.com>\n"
@@ -160,7 +160,7 @@ msgstr "Test för \"SQL escaping\" misslyckades, kontrollera databas och PHP-kon
 #: index.php:128
 #: index.php:145
 #: index.php:265
-#: prefs.php:97
+#: prefs.php:98
 #: classes/backend.php:5
 #: classes/pref/labels.php:296
 #: classes/pref/filters.php:678
@@ -187,8 +187,8 @@ msgstr "Test för \"SQL escaping\" misslyckades, kontrollera databas och PHP-kon
 #: js/prefs.js:1826
 #: js/tt-rss.js:507
 #: js/tt-rss.js:524
-#: js/viewfeed.js:821
-#: js/viewfeed.js:1250
+#: js/viewfeed.js:816
+#: js/viewfeed.js:1245
 #: plugins/import_export/import_export.js:17
 #: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
@@ -364,44 +364,44 @@ msgid "Logout"
 msgstr "Logga ut"
 
 #: prefs.php:33
-#: prefs.php:115
+#: prefs.php:116
 #: include/functions.php:2011
 #: classes/pref/prefs.php:440
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: prefs.php:106
+#: prefs.php:107
 msgid "Keyboard shortcuts"
 msgstr "Kortkommandon"
 
-#: prefs.php:107
+#: prefs.php:108
 msgid "Exit preferences"
 msgstr "Lämna inställningarna"
 
-#: prefs.php:118
+#: prefs.php:119
 #: classes/pref/feeds.php:106
 #: classes/pref/feeds.php:1253
 #: classes/pref/feeds.php:1316
 msgid "Feeds"
 msgstr "Flöden"
 
-#: prefs.php:121
+#: prefs.php:122
 #: classes/pref/filters.php:154
 msgid "Filters"
 msgstr "Filter"
 
-#: prefs.php:124
+#: prefs.php:125
 #: include/functions.php:1176
 #: include/functions.php:1832
 #: classes/pref/labels.php:90
 msgid "Labels"
 msgstr "Etiketter"
 
-#: prefs.php:128
+#: prefs.php:129
 msgid "Users"
 msgstr "Användare"
 
-#: prefs.php:131
+#: prefs.php:132
 msgid "System"
 msgstr "System"
 
@@ -590,12 +590,12 @@ msgid "Toggle starred"
 msgstr "Växla stjärnmarkering"
 
 #: include/functions.php:1970
-#: js/viewfeed.js:1911
+#: js/viewfeed.js:1906
 msgid "Toggle published"
 msgstr "Växla publicering"
 
 #: include/functions.php:1971
-#: js/viewfeed.js:1889
+#: js/viewfeed.js:1884
 msgid "Toggle unread"
 msgstr "Växla olästa"
 
@@ -616,12 +616,12 @@ msgid "Open in new window"
 msgstr "Öppna i nytt fönster"
 
 #: include/functions.php:1976
-#: js/viewfeed.js:1930
+#: js/viewfeed.js:1925
 msgid "Mark below as read"
 msgstr "Märk nedanstående som lästa"
 
 #: include/functions.php:1977
-#: js/viewfeed.js:1924
+#: js/viewfeed.js:1919
 msgid "Mark above as read"
 msgstr "Märk ovanstående som lästa"
 
@@ -2741,6 +2741,18 @@ msgstr "Redo att uppdatera."
 msgid "Start update"
 msgstr "Starta uppdateringen"
 
+#: js/PrefFeedTree.js:47
+msgid "Edit category"
+msgstr "Redigera kategori"
+
+#: js/PrefFeedTree.js:54
+msgid "Remove category"
+msgstr "Ta bort kategori"
+
+#: js/PrefFilterTree.js:48
+msgid "Inverse"
+msgstr "Invertera"
+
 #: js/feedlist.js:397
 #: js/feedlist.js:425
 msgid "Mark all articles in %s as read?"
@@ -2938,18 +2950,6 @@ msgstr "Tar bort valda flöden..."
 #: js/functions.js:1853
 msgid "Help"
 msgstr "Hjälp"
-
-#: js/PrefFeedTree.js:47
-msgid "Edit category"
-msgstr "Redigera kategori"
-
-#: js/PrefFeedTree.js:54
-msgid "Remove category"
-msgstr "Ta bort kategori"
-
-#: js/PrefFilterTree.js:48
-msgid "Inverse"
-msgstr "Invertera"
 
 #: js/prefs.js:55
 msgid "Please enter login:"
@@ -3285,131 +3285,131 @@ msgstr "Räknar om artikelpoäng..."
 msgid "New version available!"
 msgstr "Ny version tillgänglig!"
 
-#: js/viewfeed.js:105
+#: js/viewfeed.js:100
 msgid "Cancel search"
 msgstr "Avbryt sökning"
 
-#: js/viewfeed.js:454
+#: js/viewfeed.js:449
 msgid "Unstar article"
 msgstr "Ta bort stjärnmarkering från artikeln"
 
-#: js/viewfeed.js:458
+#: js/viewfeed.js:453
 msgid "Star article"
 msgstr "Stjärnmärk artikel"
 
-#: js/viewfeed.js:498
+#: js/viewfeed.js:493
 msgid "Unpublish article"
 msgstr "Avpublicera artikeln"
 
-#: js/viewfeed.js:502
+#: js/viewfeed.js:497
 msgid "Publish article"
 msgstr "Publicera artikel"
 
-#: js/viewfeed.js:654
+#: js/viewfeed.js:649
 msgid "%d article selected"
 msgid_plural "%d articles selected"
 msgstr[0] "%d artikel vald"
 msgstr[1] "%d artiklar valda"
 
-#: js/viewfeed.js:726
-#: js/viewfeed.js:754
-#: js/viewfeed.js:781
-#: js/viewfeed.js:844
-#: js/viewfeed.js:878
-#: js/viewfeed.js:998
-#: js/viewfeed.js:1041
-#: js/viewfeed.js:1094
-#: js/viewfeed.js:2071
+#: js/viewfeed.js:721
+#: js/viewfeed.js:749
+#: js/viewfeed.js:776
+#: js/viewfeed.js:839
+#: js/viewfeed.js:873
+#: js/viewfeed.js:993
+#: js/viewfeed.js:1036
+#: js/viewfeed.js:1089
+#: js/viewfeed.js:2066
 #: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "Inga artiklar valda."
 
-#: js/viewfeed.js:1006
+#: js/viewfeed.js:1001
 msgid "Delete %d selected article in %s?"
 msgid_plural "Delete %d selected articles in %s?"
 msgstr[0] "Radera %d vald artikel i %s?"
 msgstr[1] "Radera %d valda artiklar i %s?"
 
-#: js/viewfeed.js:1008
+#: js/viewfeed.js:1003
 msgid "Delete %d selected article?"
 msgid_plural "Delete %d selected articles?"
 msgstr[0] "Radera %d vald artikel?"
 msgstr[1] "Radera %d valda artiklar?"
 
-#: js/viewfeed.js:1050
+#: js/viewfeed.js:1045
 msgid "Archive %d selected article in %s?"
 msgid_plural "Archive %d selected articles in %s?"
 msgstr[0] "Arkivera %d vald artikel i %s?"
 msgstr[1] "Arkivera %d valda artiklar i %s?"
 
-#: js/viewfeed.js:1053
+#: js/viewfeed.js:1048
 msgid "Move %d archived article back?"
 msgid_plural "Move %d archived articles back?"
 msgstr[0] "Flytta tillbaka %d arkiverad artikel?"
 msgstr[1] "Flytta tillbaka %d arkiverade artiklar?"
 
-#: js/viewfeed.js:1055
+#: js/viewfeed.js:1050
 msgid "Please note that unstarred articles might get purged on next feed update."
 msgstr "Vänligen notera att icke stjärnmärkta artiklar kanske rensas vid nästa flödesuppdatering."
 
-#: js/viewfeed.js:1100
+#: js/viewfeed.js:1095
 msgid "Mark %d selected article in %s as read?"
 msgid_plural "Mark %d selected articles in %s as read?"
 msgstr[0] "Markera %d vald artikel i %s som läst?"
 msgstr[1] "Markera %d valda artiklar i %s som läst?"
 
-#: js/viewfeed.js:1124
+#: js/viewfeed.js:1119
 msgid "Edit article Tags"
 msgstr "Redigera artikeltaggar"
 
-#: js/viewfeed.js:1130
+#: js/viewfeed.js:1125
 msgid "Saving article tags..."
 msgstr "Sparar artikeltaggar..."
 
-#: js/viewfeed.js:1336
+#: js/viewfeed.js:1331
 msgid "No article is selected."
 msgstr "Ingen artikel vald."
 
-#: js/viewfeed.js:1371
+#: js/viewfeed.js:1366
 msgid "No articles found to mark"
 msgstr "Hittade inga artiklar att flagga"
 
-#: js/viewfeed.js:1373
+#: js/viewfeed.js:1368
 msgid "Mark %d article as read?"
 msgid_plural "Mark %d articles as read?"
 msgstr[0] "Markera %d artikel som läst?"
 msgstr[1] "Markera %d artiklar som lästa?"
 
-#: js/viewfeed.js:1875
+#: js/viewfeed.js:1870
 msgid "Open original article"
 msgstr "Öppna orginalartikeln"
 
-#: js/viewfeed.js:1881
+#: js/viewfeed.js:1876
 msgid "Display article URL"
 msgstr "Visa artikel-URL"
 
-#: js/viewfeed.js:1900
+#: js/viewfeed.js:1895
 msgid "Toggle marked"
 msgstr "Växla markerade"
 
-#: js/viewfeed.js:1981
+#: js/viewfeed.js:1976
 msgid "Assign label"
 msgstr "Ange etikett"
 
-#: js/viewfeed.js:1986
+#: js/viewfeed.js:1981
 msgid "Remove label"
 msgstr "Ta bort etikett"
 
-#: js/viewfeed.js:2040
+#: js/viewfeed.js:2035
 msgid "Please enter new score for selected articles:"
 msgstr "Ange ny poäng för markerade artiklar:"
 
-#: js/viewfeed.js:2082
+#: js/viewfeed.js:2077
 msgid "Please enter new score for this article:"
 msgstr "Ange ny poäng för denna artikel:"
 
-#: js/viewfeed.js:2115
+#: js/viewfeed.js:2110
 msgid "Article URL:"
 msgstr "URL för artikel:"
 
