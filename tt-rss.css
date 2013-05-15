@@ -215,7 +215,7 @@ a:hover {
 }
 
 #headlines-frame.normal {
-	font-size : 13px;
+
 }
 
 .hl {
@@ -999,22 +999,31 @@ div.postHeader span.author {
 body#ttrssZoom {
 	margin-left : auto;
 	margin-right : auto;
-	padding : 2em;
+	padding : 20px;
 	max-width : 800px;
-	background : #f0f0f0;
+	background : #f9fbff;
 }
 
 body#ttrssZoom div.postContent p {
 	max-width : 650px;
 }
 
+body#ttrssZoom div.postHeader {
+	margin : 10px;
+	border : 1px solid #ccc;
+	box-shadow : none;
+	border-radius : 4px;
+}
+
 body#ttrssZoom div.postReply {
 	border : 1px solid #ccc;
-	box-shadow : 0px 0px 3px #ccc;
+	border-radius : 4px;
+	box-shadow : inset 0px 0px 3px rgba(0,0,0,0.1);
+	background : white;
 }
 
 body#ttrssZoom div.postContent {
-	background-color : white;
+
 }
 
 body#ttrssZoom div.footer {
@@ -1025,7 +1034,7 @@ body#ttrssZoom div.footer {
 body#ttrssZoom div.postContent img {
 	max-width : 650px;
 	height : auto;
-}
+} 
 
 select.attachments {
 	display : block;
