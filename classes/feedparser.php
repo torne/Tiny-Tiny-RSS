@@ -27,6 +27,7 @@ class FeedParser {
 		$root = $this->doc->firstChild;
 		$xpath = new DOMXPath($this->doc);
 		$xpath->registerNamespace('atom', 'http://www.w3.org/2005/Atom');
+		$xpath->registerNamespace('atom03', 'http://purl.org/atom/ns#');
 		$xpath->registerNamespace('media', 'http://search.yahoo.com/mrss/');
 		$xpath->registerNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
 		$xpath->registerNamespace('slash', 'http://purl.org/rss/1.0/modules/slash/');
@@ -35,7 +36,7 @@ class FeedParser {
 
 		$this->xpath = $xpath;
 
-		$root = $xpath->query("(//atom:feed|//channel|//rdf:rdf|//rdf:RDF)")->item(0);
+		$root = $xpath->query("(//atom03:feed|//atom:feed|//channel|//rdf:rdf|//rdf:RDF)")->item(0);
 
 		if ($root) {
 			switch (mb_strtolower($root->tagName)) {
@@ -60,17 +61,28 @@ class FeedParser {
 
 				$title = $xpath->query("//atom:feed/atom:title")->item(0);
 
+				if (!$title)
+					$title = $xpath->query("//atom03:feed/atom03:title")->item(0);
+
+
 				if ($title) {
 					$this->title = $title->nodeValue;
 				}
 
 				$link = $xpath->query("//atom:feed/atom:link[not(@rel)]")->item(0);
 
+				if (!$link)
+					$link = $xpath->query("//atom03:feed/atom03:link[not(@rel)]")->item(0);
+
+
 				if ($link && $link->hasAttributes()) {
 					$this->link = $link->getAttribute("href");
 				}
 
 				$articles = $xpath->query("//atom:entry");
+
+				if (!$articles || $articles->length == 0)
+					$articles = $xpath->query("//atom03:entry");
 
 				foreach ($articles as $article) {
 					array_push($this->items, new FeedItem_Atom($article, $this->doc, $this->xpath));
