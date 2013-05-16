@@ -26,7 +26,7 @@
 
 		while ($line = db_fetch_assoc($result)) {
 
-			if (get_pref('DIGEST_ENABLE', $line['id'], false)) {
+			if (@get_pref('DIGEST_ENABLE', $line['id'], false)) {
 				$preferred_ts = strtotime(get_pref('DIGEST_PREFERRED_TIME', $line['id'], '00:00'));
 
 				// try to send digests within 2 hours of preferred time
