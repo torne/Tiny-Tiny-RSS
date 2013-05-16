@@ -1248,7 +1248,7 @@ function headlines_scroll_handler(e) {
 				var child = rows[i];
 
 				if ($("headlines-frame").scrollTop < child.offsetTop &&
-					child.offsetTop - $("headlines-frame").scrollTop < 50) {
+					child.offsetTop - $("headlines-frame").scrollTop < 100) {
 
 					if (_active_article_id) {
 						var row = $("RROW-" + _active_article_id);
