@@ -1247,7 +1247,9 @@ function headlines_scroll_handler(e) {
 			for (var i = 0; i < rows.length; i++) {
 				var child = rows[i];
 
-				if ($("headlines-frame").scrollTop < child.offsetTop) {
+				if ($("headlines-frame").scrollTop < child.offsetTop &&
+					child.offsetTop - $("headlines-frame").scrollTop < 50) {
+
 					if (_active_article_id) {
 						var row = $("RROW-" + _active_article_id);
 						if (row) row.removeClassName("active");
