@@ -1247,7 +1247,7 @@ function headlines_scroll_handler(e) {
 			for (var i = 0; i < rows.length; i++) {
 				var child = rows[i];
 
-				if (!active_found && $("headlines-frame").scrollTop < child.offsetTop) {
+				if ($("headlines-frame").scrollTop < child.offsetTop) {
 					if (_active_article_id) {
 						var row = $("RROW-" + _active_article_id);
 						if (row) row.removeClassName("active");
@@ -1255,6 +1255,7 @@ function headlines_scroll_handler(e) {
 
 					_active_article_id = child.id.replace("RROW-", "");
 					showArticleInHeadlines(_active_article_id, true);
+					updateSelectedPrompt();
 					break;
 				}
 			}
