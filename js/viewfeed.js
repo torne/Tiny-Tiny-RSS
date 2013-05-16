@@ -1240,8 +1240,6 @@ function headlines_scroll_handler(e) {
 
 		unpackVisibleHeadlines();
 
-		var active_found = false;
-
 		// set topmost child in the buffer as active
 		if (getInitParam("cdm_auto_catchup") == 1) {
 			var rows = $$("#headlines-frame > div[id*=RROW]");
@@ -1250,8 +1248,6 @@ function headlines_scroll_handler(e) {
 				var child = rows[i];
 
 				if (!active_found && $("headlines-frame").scrollTop < child.offsetTop) {
-					active_found = true;
-
 					if (_active_article_id) {
 						var row = $("RROW-" + _active_article_id);
 						if (row) row.removeClassName("active");
