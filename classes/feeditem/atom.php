@@ -41,9 +41,8 @@ class FeedItem_Atom extends FeedItem_Common {
 		$content = $this->elem->getElementsByTagName("content")->item(0);
 
 		if ($content) {
-			if ($content->hasChildNodes()) {
-
-				if ($content->getElementsByTagName("*")->length > 1) {
+			if ($content->hasAttribute('type')) {
+				if ($content->getAttribute('type') == 'xhtml') {
 					return $this->doc->saveXML($content->firstChild->nextSibling);
 				}
 			}
@@ -53,11 +52,18 @@ class FeedItem_Atom extends FeedItem_Common {
 	}
 
 	function get_description() {
-		$summary = $this->elem->getElementsByTagName("summary")->item(0);
+		$content = $this->elem->getElementsByTagName("summary")->item(0);
 
-		if ($summary) {
-			return $summary->nodeValue;
+		if ($content) {
+			if ($content->hasAttribute('type')) {
+				if ($content->getAttribute('type') == 'xhtml') {
+					return $this->doc->saveXML($content->firstChild->nextSibling);
+				}
+			}
+
+			return $content->nodeValue;
 		}
+
 	}
 
 	function get_categories() {
