@@ -291,7 +291,7 @@
 
 				_debug("fetch done.", $debug_enabled);
 
-				if ($feed_data) {
+				/* if ($feed_data) {
 					$error = verify_feed_xml($feed_data);
 
 					if ($error) {
@@ -307,7 +307,7 @@
 							if ($error) $feed_data = '';
 						}
 					}
-				}
+				} */
 			}
 
 			if (!$feed_data) {
@@ -1349,14 +1349,14 @@
 			mb_strtolower(strip_tags($title), 'utf-8'));
 	}
 
-	function verify_feed_xml($feed_data) {
+	/* function verify_feed_xml($feed_data) {
 		libxml_use_internal_errors(true);
 		$doc = new DOMDocument();
 		$doc->loadXML($feed_data);
 		$error = libxml_get_last_error();
 		libxml_clear_errors();
 		return $error;
-	}
+	} */
 
 	function housekeeping_common($debug) {
 		expire_cached_files($debug);
