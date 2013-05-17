@@ -24,6 +24,13 @@ class FeedItem_RSS extends FeedItem_Common {
 		if ($link) {
 			return $link->nodeValue;
 		}
+
+		$link = $this->xpath->query("atom:link", $this->elem)->item(0);
+
+		if ($link) {
+			return $link->nodeValue;
+		}
+
 	}
 
 	function get_title() {
