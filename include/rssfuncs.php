@@ -342,7 +342,7 @@
 		$pluginhost->load_data();
 
 		foreach ($pluginhost->get_hooks(PluginHost::HOOK_FEED_FETCHED) as $plugin) {
-			$feed_data = $plugin->hook_feed_fetched($feed_data);
+			$feed_data = $plugin->hook_feed_fetched($feed_data, $fetch_url, $owner_uid);
 		}
 
 		// set last update to now so if anything *simplepie* crashes later we won't be
