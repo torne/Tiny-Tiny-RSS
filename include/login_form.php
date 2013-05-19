@@ -188,7 +188,6 @@ function bwLimitChange(elem) {
 				value="<?php echo $_SESSION["fake_login"] ?>" />
 		</div>
 
-		<?php if (strpos(PLUGINS, "auth_internal") !== FALSE) { ?>
 
 		<div class="row">
 			<label><?php echo __("Password:") ?></label>
@@ -196,10 +195,11 @@ function bwLimitChange(elem) {
 					style="width : 220px" class="input"
 					value="<?php echo $_SESSION["fake_password"] ?>"/>
 			<label></label>
+		<?php if (strpos(PLUGINS, "auth_internal") !== FALSE) { ?>
 			<a class='forgotpass' href="public.php?op=forgotpass"><?php echo __("I forgot my password") ?></a>
+		<?php } ?>
 		</div>
 
-		<?php } ?>
 
 		<div class="row">
 			<label><?php echo __("Profile:") ?></label>
