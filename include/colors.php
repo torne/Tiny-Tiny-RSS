@@ -1,5 +1,7 @@
 <?php
 
+require_once "lib/floIcon.php";
+
 function _resolve_htmlcolor($color) {
 	$htmlcolors = array ("aliceblue" => "#f0f8ff",
 		"antiquewhite" => "#faebd7",
@@ -283,7 +285,19 @@ function hsl2rgb($arr) {
 	   $colors = array();
 
 		$size = @getimagesize($imageFile);
-	   $img = @imagecreatefromstring(file_get_contents($imageFile));
+
+		if (!defined('_DISABLE_FLOICON') && strtolower($size['mime']) == 'image/vnd.microsoft.icon') {
+			$ico = new floIcon();
+			@$ico->readICO($imageFile);
+
+			if(count($ico->images)==0)
+				return null;
+			else
+				$img = @$ico->images[count($ico->images)-1]->getImageResource();
+
+		} else {
+		   $img = @imagecreatefromstring(file_get_contents($imageFile));
+		}
 
 		if (!$img) return false;
 
