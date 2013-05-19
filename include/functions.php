@@ -2334,8 +2334,10 @@
 				$filter_query_part = filter_to_sql($filter, $owner_uid);
 
 				// Try to check if SQL regexp implementation chokes on a valid regexp
+
+
 				$result = db_query("SELECT true AS true_val FROM ttrss_entries,
-					ttrss_user_entries, ttrss_feeds, ttrss_feed_categories
+					ttrss_user_entries, ttrss_feeds
 					WHERE $filter_query_part LIMIT 1", false);
 
 				if ($result) {
