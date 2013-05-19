@@ -3126,7 +3126,7 @@
 				$rv['content'] .= "<html><head>
 						<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 						<title>Tiny Tiny RSS - ".$line["title"]."</title>
-						<link rel=\"stylesheet\" type=\"text/css\" href=\"tt-rss.css\">
+						<link rel=\"stylesheet\" type=\"text/css\" href=\"css/tt-rss.css\">
 					</head><body id=\"ttrssZoom\">";
 			}
 

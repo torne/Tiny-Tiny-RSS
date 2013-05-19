@@ -24,7 +24,7 @@ class Opml extends Handler_Protected {
 
 		print "<html>
 			<head>
-				<link rel=\"stylesheet\" href=\"utility.css\" type=\"text/css\">
+				<link rel=\"stylesheet\" href=\"css/utility.css\" type=\"text/css\">
 				<title>".__("OPML Utility")."</title>
 				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 			</head>

@@ -44,7 +44,7 @@ class Article extends Handler_Protected {
 		} else if ($mode == "raw") {
 			if ($_REQUEST['html']) {
 				header("Content-Type: text/html");
-				print '<link rel="stylesheet" type="text/css" href="tt-rss.css"/>';
+				print '<link rel="stylesheet" type="text/css" href="css/tt-rss.css"/>';
 			}
 
 			$article = format_article($id, false);

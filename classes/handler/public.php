@@ -382,7 +382,7 @@ class Handler_Public extends Handler {
 		header('Content-Type: text/html; charset=utf-8');
 		print "<html><head><title>Tiny Tiny RSS</title>";
 
-		stylesheet_tag("utility.css");
+		stylesheet_tag("css/utility.css");
 		javascript_tag("lib/prototype.js");
 		javascript_tag("lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls");
 		print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
@@ -553,7 +553,7 @@ class Handler_Public extends Handler {
 			print "<html>
 				<head>
 					<title>Tiny Tiny RSS</title>
-					<link rel=\"stylesheet\" type=\"text/css\" href=\"utility.css\">
+					<link rel=\"stylesheet\" type=\"text/css\" href=\"css/utility.css\">
 					<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 				</head>
 				<body>
@@ -735,7 +735,7 @@ class Handler_Public extends Handler {
 		header('Content-Type: text/html; charset=utf-8');
 		print "<html><head><title>Tiny Tiny RSS</title>";
 
-		stylesheet_tag("utility.css");
+		stylesheet_tag("css/utility.css");
 		javascript_tag("lib/prototype.js");
 
 		print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
@@ -835,7 +835,7 @@ class Handler_Public extends Handler {
 			<head>
 			<title>Database Updater</title>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-			<link rel="stylesheet" type="text/css" href="utility.css"/>
+			<link rel="stylesheet" type="text/css" href="css/utility.css"/>
 			</head>
 			<style type="text/css">
 				span.ok { color : #009000; font-weight : bold; }

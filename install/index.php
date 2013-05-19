@@ -2,7 +2,7 @@
 <head>
 	<title>Tiny Tiny RSS - Installer</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" type="text/css" href="../utility.css">
+	<link rel="stylesheet" type="text/css" href="../css/utility.css">
 	<style type="text/css">
 	textarea { font-size : 12px; }
 	</style>

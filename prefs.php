@@ -33,13 +33,13 @@
 	<title>Tiny Tiny RSS : <?php echo __("Preferences") ?></title>
 
 	<?php stylesheet_tag("lib/dijit/themes/claro/claro.css"); ?>
-	<?php stylesheet_tag("tt-rss.css"); ?>
-	<?php stylesheet_tag("prefs.css"); ?>
 
 	<?php if ($_SESSION["uid"]) {
 		$theme = get_pref( "USER_CSS_THEME", $_SESSION["uid"], false);
-		if ($theme) {
+		if ($theme && file_exists("themes/$theme")) {
 			stylesheet_tag("themes/$theme");
+		} else {
+			stylesheet_tag("themes/default.css");
 		}
 	}
 	?>
