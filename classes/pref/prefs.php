@@ -40,7 +40,7 @@ class Pref_Prefs extends Handler_Protected {
 			"FRESH_ARTICLE_MAX_AGE" => array(__("Maximum age of fresh articles (in hours)"), ""),
 			"HIDE_READ_FEEDS" => array(__("Hide feeds with no unread articles"), ""),
 			"HIDE_READ_SHOWS_SPECIAL" => array(__("Show special feeds when hiding read feeds"), ""),
-			"LONG_DATE_FORMAT" => array(__("Long date format"), ""),
+			"LONG_DATE_FORMAT" => array(__("Long date format"), __("Follows php's <a href='http://php.net/manual/function.date.php'>date() function</a>")),
 			"ON_CATCHUP_SHOW_NEXT_FEED" => array(__("On catchup show next feed"), __("Automatically open next feed with unread articles after marking one as read")),
 			"PURGE_OLD_DAYS" => array(__("Purge articles after this number of days (0 - disables)"), ""),
 			"PURGE_UNREAD_ARTICLES" => array(__("Purge unread articles"), ""),
