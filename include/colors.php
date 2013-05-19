@@ -1,6 +1,8 @@
 <?php
 
-require_once "lib/floIcon.php";
+if (file_exists("lib/floIcon.php")) {
+	require_once "lib/floIcon.php";
+}
 
 function _resolve_htmlcolor($color) {
 	$htmlcolors = array ("aliceblue" => "#f0f8ff",
@@ -286,7 +288,8 @@ function hsl2rgb($arr) {
 
 		$size = @getimagesize($imageFile);
 
-		if (!defined('_DISABLE_FLOICON') && strtolower($size['mime']) == 'image/vnd.microsoft.icon') {
+		if (strtolower($size['mime']) == 'image/vnd.microsoft.icon' && class_exists("floIcon")) {
+
 			$ico = new floIcon();
 			@$ico->readICO($imageFile);
 
