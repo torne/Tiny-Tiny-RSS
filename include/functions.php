@@ -4169,7 +4169,7 @@
 	}
 
 	function calculate_dep_timestamp() {
-		$files = array_merge(glob("js/*.js"), glob("*.css"));
+		$files = array_merge(glob("js/*.js"), glob("css/*.css"));
 
 		$max_ts = -1;
 
