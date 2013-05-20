@@ -175,7 +175,9 @@
 		}
 
 		update_daemon_common(isset($options["pidlock"]) ? 50 : DAEMON_FEED_LIMIT);
-		housekeeping_common(true);
+
+		if (!isset($options["pidlock"]) || $options["task"] == 0)
+			housekeeping_common(true);
 
 		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_UPDATE_TASK, "hook_update_task", $op);
 	}
