@@ -242,9 +242,16 @@
 
 		$cache_filename = CACHE_DIR . "/simplepie/" . sha1($fetch_url) . ".xml";
 
+		$pluginhost = new PluginHost();
+		$pluginhost->set_debug($debug_enabled);
+		$user_plugins = get_pref("_ENABLED_PLUGINS", $owner_uid);
+
+		$pluginhost->load(PLUGINS, PluginHost::KIND_ALL);
+		$pluginhost->load($user_plugins, PluginHost::KIND_USER, $owner_uid);
+		$pluginhost->load_data();
+
 		$rss = false;
 		$rss_hash = false;
-		$cache_timestamp = file_exists($cache_filename) ? filemtime($cache_filename) : 0;
 
 		$force_refetch = isset($_REQUEST["force_refetch"]);
 
@@ -266,6 +273,10 @@
 		}
 
 		if (!$rss) {
+
+			foreach ($pluginhost->get_hooks(PluginHost::HOOK_FETCH_FEED) as $plugin) {
+				$feed_data = $plugin->hook_fetch_feed($feed_data, $fetch_url, $owner_uid);
+			}
 
 			if (!$feed_data) {
 				_debug("fetching [$fetch_url]...", $debug_enabled);
@@ -329,14 +340,6 @@
 				return;
 			}
 		}
-
-		$pluginhost = new PluginHost();
-		$pluginhost->set_debug($debug_enabled);
-		$user_plugins = get_pref("_ENABLED_PLUGINS", $owner_uid);
-
-		$pluginhost->load(PLUGINS, PluginHost::KIND_ALL);
-		$pluginhost->load($user_plugins, PluginHost::KIND_USER, $owner_uid);
-		$pluginhost->load_data();
 
 		foreach ($pluginhost->get_hooks(PluginHost::HOOK_FEED_FETCHED) as $plugin) {
 			$feed_data = $plugin->hook_feed_fetched($feed_data, $fetch_url, $owner_uid);
