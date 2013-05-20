@@ -25,6 +25,12 @@ class FeedItem_RSS extends FeedItem_Common {
 			return $link->getAttribute("href");
 		}
 
+		$link = $this->elem->getElementsByTagName("guid")->item(0);
+
+		if ($link && $link->hasAttributes() && $link->getAttribute("isPermaLink") == "true") {
+			return $link->nodeValue;
+		}
+
 		$link = $this->elem->getElementsByTagName("link")->item(0);
 
 		if ($link) {
