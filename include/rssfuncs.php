@@ -190,8 +190,7 @@
 	} // function update_daemon_common
 
 	// ignore_daemon is not used
-	function update_rss_feed($feed, $ignore_daemon = false, $no_cache = false,
-		$override_url = false) {
+	function update_rss_feed($feed, $ignore_daemon = false, $no_cache = false) {
 
 		$debug_enabled = defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug'];
 
@@ -238,8 +237,6 @@
 		$fetch_url = db_fetch_result($result, 0, "feed_url");
 
 		$feed = db_escape_string($feed);
-
-		if ($override_url) $fetch_url = $override_url;
 
 		$date_feed_processed = date('Y-m-d H:i');
 
