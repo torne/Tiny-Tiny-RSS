@@ -275,7 +275,7 @@
 		if (!$rss) {
 
 			foreach ($pluginhost->get_hooks(PluginHost::HOOK_FETCH_FEED) as $plugin) {
-				$feed_data = $plugin->hook_fetch_feed($feed_data, $fetch_url, $owner_uid);
+				$feed_data = $plugin->hook_fetch_feed($feed_data, $fetch_url, $owner_uid, $feed);
 			}
 
 			if (!$feed_data) {
@@ -342,7 +342,7 @@
 		}
 
 		foreach ($pluginhost->get_hooks(PluginHost::HOOK_FEED_FETCHED) as $plugin) {
-			$feed_data = $plugin->hook_feed_fetched($feed_data, $fetch_url, $owner_uid);
+			$feed_data = $plugin->hook_feed_fetched($feed_data, $fetch_url, $owner_uid, $feed);
 		}
 
 		// set last update to now so if anything *simplepie* crashes later we won't be
