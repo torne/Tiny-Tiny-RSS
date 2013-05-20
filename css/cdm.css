@@ -75,10 +75,6 @@ div.cdm.expandable {
 	border-style : solid;
 }
 
-div.cdm.expandable.active {
-	box-shadow : inset 0px 0px 3px 0px rgba(0,0,0,0.1);
-}
-
 div.cdm.expandable > hr {
 	display : none;
 }
@@ -92,7 +88,12 @@ div.cdm.expandable.Unread {
 	background : white;
 }
 
+div.cdm.expandable.Selected {
+	background : #f9fbff;
+}
+
 div.cdm.expandable.active {
+	box-shadow : inset 0px 0px 3px 0px rgba(0,0,0,0.1);
 	border-color : #88b0f0;
 	background : white ! important;
 }
@@ -120,6 +121,9 @@ div.cdm.expanded div.cdmHeader a.title {
 	font-weight : bold;
 }
 
+div.cdm.expanded.active {
+	background : white;
+}
 
 div.cdm.expanded.active div.cdmHeader a.title {
 	color : #4684ff;
