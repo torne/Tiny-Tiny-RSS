@@ -114,8 +114,11 @@ class FeedParser {
 
 				$link = $xpath->query("//channel/link")->item(0);
 
-				if ($link && $link->hasAttributes()) {
-					$this->link = $link->getAttribute("href");
+				if ($link) {
+					if ($link->getAttribute("href"))
+						$this->link = $link->getAttribute("href");
+					else if ($link->nodeValue)
+						$this->link = $link->nodeValue;
 				}
 
 				$articles = $xpath->query("//channel/item");
