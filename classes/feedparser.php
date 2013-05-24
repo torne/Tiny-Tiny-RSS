@@ -105,7 +105,6 @@ class FeedParser {
 
 				break;
 			case $this::FEED_RSS:
-
 				$title = $xpath->query("//channel/title")->item(0);
 
 				if ($title) {
@@ -200,7 +199,8 @@ class FeedParser {
 			}
 			break;
 		case $this::FEED_RSS:
-			$links = $this->xpath->query("//channel/link");
+			$links = $this->xpath->query("//atom:link");
+
 			foreach ($links as $link) {
 				if (!$rel || $link->hasAttribute('rel') && $link->getAttribute('rel') == $rel) {
 					array_push($rv, $link->getAttribute('href'));
