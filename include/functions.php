@@ -1493,11 +1493,13 @@
 
 		$owner_uid = $_SESSION["uid"];
 
-		$result = db_query("SELECT id,caption,COUNT(unread) AS unread
+		$result = db_query("SELECT id,caption,COUNT(u1.unread) AS unread,COUNT(u2.unread) AS total
 			FROM ttrss_labels2 LEFT JOIN ttrss_user_labels2 ON
 				(ttrss_labels2.id = label_id)
-				LEFT JOIN ttrss_user_entries ON (ref_id = article_id AND unread = true
-					AND ttrss_user_entries.owner_uid = $owner_uid)
+				LEFT JOIN ttrss_user_entries AS u1 ON (u1.ref_id = article_id AND u1.unread = true
+					AND u1.owner_uid = $owner_uid)
+				LEFT JOIN ttrss_user_entries AS u2 ON (u2.ref_id = article_id AND u2.unread = false
+					AND u2.owner_uid = $owner_uid)
 				WHERE ttrss_labels2.owner_uid = $owner_uid GROUP BY ttrss_labels2.id,
 					ttrss_labels2.caption");
 
@@ -1505,17 +1507,12 @@
 
 			$id = label_to_feed_id($line["id"]);
 
-			$label_name = $line["caption"];
-			$count = $line["unread"];
-
 			$cv = array("id" => $id,
-				"counter" => (int) $count);
+				"counter" => (int) $line["unread"],
+				"auxcounter" => (int) $line["total"]);
 
 			if ($descriptions)
-				$cv["description"] = $label_name;
-
-//			if (get_pref('EXTENDED_FEEDLIST'))
-//				$cv["xmsg"] = getFeedArticles($id)." ".__("total");
+				$cv["description"] = $line["caption"];
 
 			array_push($ret_arr, $cv);
 		}
