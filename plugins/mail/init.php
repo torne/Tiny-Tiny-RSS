@@ -136,7 +136,10 @@ class Mail extends Plugin {
 
 		$mail->From = strip_tags($_REQUEST['from_email']);
 		$mail->FromName = strip_tags($_REQUEST['from_name']);
-		$mail->AddAddress($_REQUEST['destination']);
+		//$mail->AddAddress($_REQUEST['destination']);
+		$addresses = preg_split('/;/', $_REQUEST['destination'],-1,PREG_SPLIT_NO_EMPTY);
+		foreach($addresses as $nextaddr)
+			$mail->AddAddress($nextaddr);
 
 		$mail->IsHTML(false);
 		$mail->Subject = $_REQUEST['subject'];
