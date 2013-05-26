@@ -19,10 +19,16 @@ class FeedItem_RSS extends FeedItem_Common {
 	}
 
 	function get_link() {
-		$link = $this->xpath->query("atom:link", $this->elem)->item(0);
+		$links = $this->xpath->query("atom:link", $this->elem);
 
-		if ($link) {
-			return $link->getAttribute("href");
+		foreach ($links as $link) {
+			if ($link && $link->hasAttribute("href") &&
+				(!$link->hasAttribute("rel")
+					|| $link->getAttribute("rel") == "alternate"
+					|| $link->getAttribute("rel") == "standout")) {
+
+				return $link->getAttribute("href");
+			}
 		}
 
 		$link = $this->elem->getElementsByTagName("guid")->item(0);
