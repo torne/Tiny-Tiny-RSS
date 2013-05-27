@@ -56,7 +56,7 @@ class Mail extends Plugin {
 		$tpl->setVariable('USER_EMAIL', $user_email, true);
 		$tpl->setVariable('TTRSS_HOST', $_SERVER["HTTP_HOST"], true);
 
-		$result = db_query("SELECT link, content, title
+		$result = db_query("SELECT link, content, title, note 
 			FROM ttrss_user_entries, ttrss_entries WHERE id = ref_id AND
 			id IN ($param) AND owner_uid = " . $_SESSION["uid"]);
 
@@ -71,6 +71,7 @@ class Mail extends Plugin {
 
 			$tpl->setVariable('ARTICLE_TITLE', strip_tags($line["title"]));
 			$tpl->setVariable('ARTICLE_URL', strip_tags($line["link"]));
+			$tpl->setVariable('ARTICLE_NOTE', strip_tags($line["note"]));
 
 			$tpl->addBlock('article');
 		}
