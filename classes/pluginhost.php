@@ -274,7 +274,8 @@ class PluginHost {
 			if (!isset($this->storage[$plugin]))
 				$this->storage[$plugin] = array();
 
-			$content = $this->dbh->escape_string(serialize($this->storage[$plugin]));
+			$content = $this->dbh->escape_string(serialize($this->storage[$plugin]),
+				false);
 
 			if ($this->dbh->num_rows($result) != 0) {
 				$this->dbh->query("UPDATE ttrss_plugin_storage SET content = '$content'
