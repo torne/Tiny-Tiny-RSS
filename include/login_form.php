@@ -6,12 +6,12 @@
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<script type="text/javascript" src="lib/dojo/dojo.js"></script>
-	<script type="text/javascript" src="lib/dijit/dijit.js"></script>
 	<script type="text/javascript" src="lib/dojo/tt-rss-layer.js"></script>
 	<script type="text/javascript" src="lib/prototype.js"></script>
 	<script type="text/javascript" src="js/functions.js"></script>
 	<script type="text/javascript" charset="utf-8" src="errors.php?mode=js"></script>
 	<script type="text/javascript">
+		require({cache:{}});
 		Event.observe(window, 'load', function() {
 			init();
 		});
