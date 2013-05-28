@@ -11,6 +11,7 @@ drop table if exists ttrss_labels;
 drop table if exists ttrss_filters2_rules;
 drop table if exists ttrss_filters2_actions;
 drop table if exists ttrss_filters2;
+drop table if exists ttrss_filters;
 drop table if exists ttrss_filter_types;
 drop table if exists ttrss_filter_actions;
 drop table if exists ttrss_user_prefs;
