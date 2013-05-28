@@ -961,7 +961,7 @@
 	}
 
 	function file_is_locked($filename) {
-		if (function_exists('flock')) {
+		if (function_exists('flock') && file_exists(LOCK_DIRECTORY . "/$filename")) {
 			$fp = @fopen(LOCK_DIRECTORY . "/$filename", "r");
 			if ($fp) {
 				if (flock($fp, LOCK_EX | LOCK_NB)) {
