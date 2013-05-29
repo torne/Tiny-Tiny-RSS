@@ -70,8 +70,12 @@ class Mail extends Plugin {
 				$subject = __("[Forwarded]") . " " . htmlspecialchars($line["title"]);
 
 			$tpl->setVariable('ARTICLE_TITLE', strip_tags($line["title"]));
+			$tnote = strip_tags($line["note"]);
+			if( $tnote != ''){
+				$tpl->setVariable('ARTICLE_NOTE', $tnote, true);
+				$tpl->addBlock('note');
+			}
 			$tpl->setVariable('ARTICLE_URL', strip_tags($line["link"]));
-			$tpl->setVariable('ARTICLE_NOTE', strip_tags($line["note"]));
 
 			$tpl->addBlock('article');
 		}
@@ -138,7 +142,7 @@ class Mail extends Plugin {
 		$mail->From = strip_tags($_REQUEST['from_email']);
 		$mail->FromName = strip_tags($_REQUEST['from_name']);
 		//$mail->AddAddress($_REQUEST['destination']);
-		$addresses = preg_split('/;/', $_REQUEST['destination'],-1,PREG_SPLIT_NO_EMPTY);
+		$addresses = explode(';', $_REQUEST['destination']);
 		foreach($addresses as $nextaddr)
 			$mail->AddAddress($nextaddr);
 
