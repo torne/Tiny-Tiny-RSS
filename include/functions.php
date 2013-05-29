@@ -317,7 +317,12 @@
 			$fetch_curl_used = true;
 
 			if (ini_get("safe_mode") || ini_get("open_basedir")) {
-				$ch = curl_init(geturl($url));
+				$new_url = geturl($url);
+				if (!$new_url) {
+				    // geturl has already populated $fetch_last_error
+				    return false;
+				}
+				$ch = curl_init($new_url);
 			} else {
 				$ch = curl_init($url);
 			}
@@ -4100,10 +4105,10 @@
 		$html = curl_exec($curl);
 
 		$status = curl_getinfo($curl);
-		curl_close($curl);
 
 		if($status['http_code']!=200){
 			if($status['http_code'] == 301 || $status['http_code'] == 302) {
+				curl_close($curl);
 				list($header) = explode("\r\n\r\n", $html, 2);
 				$matches = array();
 				preg_match("/(Location:|URI:)[^(\n)]*/", $header, $matches);
@@ -4111,6 +4116,12 @@
 				$url_parsed = parse_url($url);
 				return (isset($url_parsed))? geturl($url):'';
 			}
+
+			global $fetch_last_error;
+
+			$fetch_last_error = curl_errno($curl) . " " . curl_error($curl);
+			curl_close($curl);
+
 			$oline='';
 			foreach($status as $key=>$eline){$oline.='['.$key.']'.$eline.' ';}
 			$line =$oline." \r\n ".$url."\r\n-----------------\r\n";
@@ -4118,6 +4129,7 @@
 #			fwrite($handle, $line);
 			return FALSE;
 		}
+		curl_close($curl);
 		return $url;
 	}
 
