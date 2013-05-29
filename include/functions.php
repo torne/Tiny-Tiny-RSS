@@ -961,22 +961,27 @@
 	}
 
 	function file_is_locked($filename) {
-		if (function_exists('flock') && file_exists(LOCK_DIRECTORY . "/$filename")) {
-			$fp = @fopen(LOCK_DIRECTORY . "/$filename", "r");
-			if ($fp) {
-				if (flock($fp, LOCK_EX | LOCK_NB)) {
-					flock($fp, LOCK_UN);
+		if (file_exists(LOCK_DIRECTORY . "/$filename")) {
+			if (function_exists('flock')) {
+				$fp = @fopen(LOCK_DIRECTORY . "/$filename", "r");
+				if ($fp) {
+					if (flock($fp, LOCK_EX | LOCK_NB)) {
+						flock($fp, LOCK_UN);
+						fclose($fp);
+						return false;
+					}
 					fclose($fp);
+					return true;
+				} else {
 					return false;
 				}
-				fclose($fp);
-				return true;
-			} else {
-				return false;
 			}
+			return true; // consider the file always locked and skip the test
+		} else {
+			return false;
 		}
-		return true; // consider the file always locked and skip the test
 	}
+
 
 	function make_lockfile($filename) {
 		$fp = fopen(LOCK_DIRECTORY . "/$filename", "w");
