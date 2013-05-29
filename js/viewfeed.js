@@ -1921,7 +1921,7 @@ function initHeadlinesMenu() {
 				}}));
 
 		menu.addChild(new dijit.MenuItem({
-			label: __("Toggle marked"),
+			label: __("Toggle starred"),
 			onClick: function(event) {
 				var ids = getSelectedArticleIds2();
 				// cast to string
