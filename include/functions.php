@@ -4101,6 +4101,7 @@
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		//curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); //CURLOPT_FOLLOWLOCATION Disabled...
 		curl_setopt($curl, CURLOPT_TIMEOUT, 60);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
 		$html = curl_exec($curl);
 
