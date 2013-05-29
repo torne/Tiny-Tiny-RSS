@@ -203,6 +203,7 @@
 					if (!$master_handlers_installed) {
 						_debug("[MASTER] installing shutdown handlers");
 						pcntl_signal(SIGINT, 'sigint_handler');
+						pcntl_signal(SIGTERM, 'sigint_handler');
 						register_shutdown_function('shutdown', posix_getpid());
 						$master_handlers_installed = true;
 					}
