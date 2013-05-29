@@ -732,6 +732,8 @@ class Handler_Public extends Handler {
 	}
 
 	function forgotpass() {
+		startup_gettext();
+
 		header('Content-Type: text/html; charset=utf-8');
 		print "<html><head><title>Tiny Tiny RSS</title>";
 
@@ -825,6 +827,8 @@ class Handler_Public extends Handler {
 	}
 
 	function dbupdate() {
+		startup_gettext();
+
 		if (!SINGLE_USER_MODE && $_SESSION["access_level"] < 10) {
 			$_SESSION["login_error_msg"] = __("Your access level is insufficient to run this script.");
 			render_login_form();
