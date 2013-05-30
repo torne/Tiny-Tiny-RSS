@@ -41,6 +41,8 @@ class ttrssMailer extends PHPMailer {
 			$this->Username = SMTP_LOGIN;
 			$this->Password = SMTP_PASSWORD;
 			}
+		if(SMTP_SECURE)
+			$this->SMTPSecure = SMTP_SECURE;	
 	}
 	/*	@brief a simple mail function to send email using the defaults
 	*	This will send an HTML email using the configured defaults
