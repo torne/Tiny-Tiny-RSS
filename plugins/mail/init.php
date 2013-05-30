@@ -50,10 +50,7 @@ class Mail extends Plugin {
 		$tpl = new MiniTemplator;
 		$tpl_t = new MiniTemplator;
 
-		$templ_name = "templates/email_article_template.txt";
-		if(file_exists("templates/my_email_article_template.txt"))
-			$templ_name = "templates/my_email_article_template.txt";
-		$tpl->readTemplateFromFile($templ_name);
+		$tpl->readTemplateFromFile("templates/email_article_template.txt");
 
 		$tpl->setVariable('USER_NAME', $_SESSION["name"], true);
 		$tpl->setVariable('USER_EMAIL', $user_email, true);
