@@ -13,7 +13,7 @@ class Db_Mysqli implements IDb {
 
 			return $this->link;
 		} else {
-			die("Unable to connect to database (as $user to $host, database $db): " . mysqli_error());
+			die("Unable to connect to database (as $user to $host, database $db): " . mysqli_connect_error());
 		}
 	}
 
