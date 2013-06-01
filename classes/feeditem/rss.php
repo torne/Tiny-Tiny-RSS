@@ -16,6 +16,12 @@ class FeedItem_RSS extends FeedItem_Common {
 		if ($pubDate) {
 			return strtotime($pubDate->nodeValue);
 		}
+
+		$date = $this->xpath->query("dc:date", $this->elem)->item(0);
+
+		if ($date) {
+			return strtotime($date->nodeValue);
+		}
 	}
 
 	function get_link() {
