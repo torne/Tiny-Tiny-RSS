@@ -3106,7 +3106,9 @@
 			$line["tags"] = get_article_tags($id, $owner_uid, $line["tag_cache"]);
 			unset($line["tag_cache"]);
 
-			$line["content"] = sanitize($line["content"], false, $owner_uid,	$line["site_url"]);
+			$line["content"] = sanitize($line["content"],
+				sql_bool_to_bool($line['hide_images']),
+				$owner_uid, $line["site_url"]);
 
 			foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_RENDER_ARTICLE) as $p) {
 				$line = $p->hook_render_article($line);
