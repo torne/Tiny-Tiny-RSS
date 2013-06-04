@@ -357,7 +357,7 @@
 			<p>Before you can start using tt-rss, database needs to be initialized. Click on the button below to do that now.</p>
 
 			<?php
-				$result = db_query($link, "SELECT true FROM ttrss_feeds", $DB_TYPE, false);
+				$result = @db_query($link, "SELECT true FROM ttrss_feeds", $DB_TYPE, false);
 
 				if ($result) {
 					print_error("Existing tt-rss tables will be removed from the database. If you would like to keep your data, skip database initialization.");
