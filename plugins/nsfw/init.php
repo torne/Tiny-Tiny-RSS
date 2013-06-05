@@ -23,8 +23,8 @@ class NSFW extends Plugin {
 	}
 
 	function hook_render_article($article) {
-		$tags = array_map("trim", explode(", ", $this->host->get($this, "tags")));
-		$a_tags = array_map("trim", explode(", ", $article["tag_cache"]));
+		$tags = array_map("trim", explode(",", $this->host->get($this, "tags")));
+		$a_tags = array_map("trim", explode(",", $article["tag_cache"]));
 
 		if (count(array_intersect($tags, $a_tags)) > 0) {
 			$article["content"] = "<div class='nswf wrapper'><button onclick=\"nsfwShow(this)\">".__("Not work safe (click to toggle)")."</button>
@@ -35,8 +35,8 @@ class NSFW extends Plugin {
 	}
 
 	function hook_render_article_cdm($article) {
-		$tags = array_map("trim", explode(", ", $this->host->get($this, "tags")));
-		$a_tags = array_map("trim", explode(", ", $article["tag_cache"]));
+		$tags = array_map("trim", explode(",", $this->host->get($this, "tags")));
+		$a_tags = array_map("trim", explode(",", $article["tag_cache"]));
 
 		if (count(array_intersect($tags, $a_tags)) > 0) {
 			$article["content"] = "<div class='nswf wrapper'><button onclick=\"nsfwShow(this)\">".__("Not work safe (click to toggle)")."</button>
