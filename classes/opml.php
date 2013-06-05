@@ -165,7 +165,7 @@ class Opml extends Handler_Protected {
 				WHERE owner_uid = ".$_SESSION["uid"]." ORDER BY id");
 
 			while ($line = $this->dbh->fetch_assoc($result)) {
-				foreach (array('enabled', 'match_any_rule') as $b) {
+				foreach (array('enabled', 'match_any_rule', 'inverse') as $b) {
 					$line[$b] = sql_bool_to_bool($line[$b]);
 				}
 
@@ -325,11 +325,14 @@ class Opml extends Handler_Protected {
 			if ($filter) {
 				$match_any_rule = bool_to_sql_bool($filter["match_any_rule"]);
 				$enabled = bool_to_sql_bool($filter["enabled"]);
+				$inverse = bool_to_sql_bool($filter["inverse"]);
+				$title = db_escape_string($filter["title"]);
 
 				$this->dbh->query("BEGIN");
 
-				$this->dbh->query("INSERT INTO ttrss_filters2 (match_any_rule,enabled,owner_uid)
-					VALUES ($match_any_rule, $enabled,".$_SESSION["uid"].")");
+				$this->dbh->query("INSERT INTO ttrss_filters2 (match_any_rule,enabled,inverse,title,owner_uid)
+					VALUES ($match_any_rule, $enabled, $inverse, '$title',
+					".$_SESSION["uid"].")");
 
 				$result = $this->dbh->query("SELECT MAX(id) AS id FROM ttrss_filters2 WHERE
 					owner_uid = ".$_SESSION["uid"]);
