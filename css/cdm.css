@@ -98,6 +98,13 @@ div.cdm.expandable.active {
 	background : white ! important;
 }
 
+div.cdm.expandable div.cdmHeader span.titleWrap {
+	white-space : nowrap;
+	text-overflow : ellipsis;
+	overflow : hidden;
+	max-width : 500px;
+}
+
 div.cdm.expandable div.cdmHeader a.title {
 	font-weight : bold;
 	color : #555;
