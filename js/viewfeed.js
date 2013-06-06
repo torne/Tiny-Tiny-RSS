@@ -1269,7 +1269,8 @@ function headlines_scroll_handler(e) {
 		unpackVisibleHeadlines();
 
 		// set topmost child in the buffer as active
-		if (getInitParam("cdm_auto_catchup") == 1) {
+		if (getInitParam("cdm_auto_catchup") == 1 &&
+				(!isCdmMode() || getInitParam("cdm_expanded"))) {
 			var rows = $$("#headlines-frame > div[id*=RROW]");
 
 			for (var i = 0; i < rows.length; i++) {
