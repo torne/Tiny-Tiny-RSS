@@ -1071,6 +1071,15 @@ div.hl.active {
 	color : #333;
 }
 
+#feedTree .dijitFolderClosed,
+#feedTree .dijitFolderOpened {
+	display : none;
+}
+
+#feedTree .dijitTreeIsRoot > .dijitTreeRow > .dijitTreeExpando {
+	margin-left : 5px;
+}
+
 #feedTree .dijitTreeNode {
 	padding : 0px;
 	border-width : 0px;
