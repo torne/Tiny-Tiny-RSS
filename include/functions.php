@@ -100,7 +100,7 @@
 		if ($_SESSION["uid"] && get_schema_version() >= 120) {
 			$pref_lang = get_pref("USER_LANGUAGE", $_SESSION["uid"]);
 
-			if ($pref_lang) {
+			if ($pref_lang && $pref_lang != 'auto') {
 				$lang = $pref_lang;
 			}
 		}
