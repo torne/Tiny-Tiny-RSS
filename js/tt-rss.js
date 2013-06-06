@@ -1061,6 +1061,7 @@ function switchPanelMode(wide) {
 
 			$("headlines-toolbar").setStyle({ borderBottomWidth: '0px' });
 			$("headlines-frame").setStyle({ borderBottomWidth: '0px' });
+			$("headlines-frame").addClassName("wide");
 
 		} else {
 
@@ -1074,6 +1075,8 @@ function switchPanelMode(wide) {
 			$("headlines-toolbar").setStyle({ borderBottomWidth: '1px' });
 
 			$("headlines-frame").setStyle({ borderBottomWidth: '1px' });
+			$("headlines-frame").removeClassName("wide");
+
 		}
 
 		closeArticlePanel();
