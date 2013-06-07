@@ -992,6 +992,13 @@
 		$fp = fopen(LOCK_DIRECTORY . "/$filename", "w");
 
 		if ($fp && flock($fp, LOCK_EX | LOCK_NB)) {
+			$stat_h = fstat($fp);
+			$stat_f = stat(LOCK_DIRECTORY . "/$filename");
+
+			if ($stat_h["ino"] != $stat_f["ino"] || $stat_h["dev"] != $stat_f["dev"]) {
+				return false;
+			}
+
 			if (function_exists('posix_getpid')) {
 				fwrite($fp, posix_getpid() . "\n");
 			}
