@@ -29,7 +29,7 @@ dojo.declare("fox.PrefFilterTree", lib.CheckBoxTree, {
 			param = dojo.doc.createElement('span');
 			param.className = (enabled != false) ? 'labelParam' : 'labelParam Disabled';
 			param.innerHTML = args.item.param[0];
-			dojo.place(param, tnode.labelNode, 'after');
+			dojo.place(param, tnode.rowNode, 'first');
 		}
 
 		return tnode;

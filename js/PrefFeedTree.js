@@ -32,7 +32,8 @@ dojo.declare("fox.PrefFeedTree", lib.CheckBoxTree, {
 			param = dojo.doc.createElement('span');
 			param.className = 'feedParam';
 			param.innerHTML = args.item.param[0];
-			dojo.place(param, tnode.labelNode, 'after');
+			//dojo.place(param, tnode.labelNode, 'after');
+			dojo.place(param, tnode.rowNode, 'first');
 		}
 
 		var id = args.item.id[0];
