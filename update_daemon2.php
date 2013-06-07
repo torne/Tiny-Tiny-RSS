@@ -29,6 +29,8 @@
 		die("error: This script requires PHP compiled with PCNTL module.\n");
 	}
 
+	$master_handlers_installed = false;
+
 	$children = array();
 	$ctimes = array();
 
@@ -80,6 +82,36 @@
 		_debug("[SIGCHLD] jobs left: $running_jobs");
 
 		pcntl_waitpid(-1, $status, WNOHANG);
+	}
+
+	function shutdown($caller_pid) {
+		if ($caller_pid == posix_getpid()) {
+			if (file_exists(LOCK_DIRECTORY . "/update_daemon.lock")) {
+				_debug("removing lockfile (master)...");
+				unlink(LOCK_DIRECTORY . "/update_daemon.lock");
+			}
+		}
+	}
+
+	function task_shutdown() {
+		$pid = posix_getpid();
+
+		if (file_exists(LOCK_DIRECTORY . "/update_daemon-$pid.lock")) {
+			_debug("removing lockfile ($pid)...");
+			unlink(LOCK_DIRECTORY . "/update_daemon-$pid.lock");
+		}
+	}
+
+	function sigint_handler() {
+		_debug("[MASTER] SIG_INT received.\n");
+		shutdown(posix_getpid());
+		die;
+	}
+
+	function task_sigint_handler() {
+		_debug("[TASK] SIG_INT received.\n");
+		task_shutdown();
+		die;
 	}
 
 	pcntl_signal(SIGCHLD, 'sigchld_handler');
@@ -167,11 +199,23 @@
 				if ($pid == -1) {
 					die("fork failed!\n");
 				} else if ($pid) {
+
+					if (!$master_handlers_installed) {
+						_debug("[MASTER] installing shutdown handlers");
+						pcntl_signal(SIGINT, 'sigint_handler');
+						pcntl_signal(SIGTERM, 'sigint_handler');
+						register_shutdown_function('shutdown', posix_getpid());
+						$master_handlers_installed = true;
+					}
+
 					_debug("[MASTER] spawned client $j [PID:$pid]...");
 					array_push($children, $pid);
 					$ctimes[$pid] = time();
 				} else {
 					pcntl_signal(SIGCHLD, SIG_IGN);
+					pcntl_signal(SIGINT, 'task_sigint_handler');
+
+					register_shutdown_function('task_shutdown');
 
 					$quiet = (isset($options["quiet"])) ? "--quiet" : "";
 
