@@ -55,6 +55,10 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 			try {
 				if (infscroll_req == false) {
 					$("headlines-frame").scrollTop = 0;
+
+					Element.hide("floatingTitle");
+					$("floatingTitle").setAttribute("rowid", 0);
+					$("floatingTitle").innerHTML = "";
 				}
 			} catch (e) { };
 
