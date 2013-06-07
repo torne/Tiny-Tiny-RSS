@@ -346,10 +346,6 @@
 
 	PluginHost::getInstance()->run_commands($options);
 
-	if ($lock_handle != false) {
-		fclose($lock_handle);
-	}
-
 	if (file_exists(LOCK_DIRECTORY . "/$lock_filename"))
 		unlink(LOCK_DIRECTORY . "/$lock_filename");
 ?>
