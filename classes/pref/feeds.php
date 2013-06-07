@@ -58,9 +58,10 @@ class Pref_Feeds extends Handler_Protected {
 
 			$cat['items'] = $this->get_category_items($line['id']);
 
-			$cat['param'] = vsprintf(_ngettext('(%d feed)', '(%d feeds)', count($cat['items'])), count($cat['items']));
+			$num_children = $this->calculate_children_count($cat);
+			$cat['param'] = vsprintf(_ngettext('(%d feed)', '(%d feeds)', $num_children), $num_children);
 
-			if (count($cat['items']) > 0 || $show_empty_cats)
+			if ($num_children > 0 || $show_empty_cats)
 				array_push($items, $cat);
 
 		}
@@ -206,9 +207,10 @@ class Pref_Feeds extends Handler_Protected {
 
 				$cat['items'] = $this->get_category_items($line['id']);
 
-				$cat['param'] = vsprintf(_ngettext('(%d feed)', '(%d feeds)', count($cat['items'])), count($cat['items']));
+				$num_children = $this->calculate_children_count($cat);
+				$cat['param'] = vsprintf(_ngettext('(%d feed)', '(%d feeds)', $num_children), $num_children);
 
-				if (count($cat['items']) > 0 || $show_empty_cats)
+				if ($num_children > 0 || $show_empty_cats)
 					array_push($root['items'], $cat);
 
 				$root['param'] += count($cat['items']);
@@ -255,8 +257,8 @@ class Pref_Feeds extends Handler_Protected {
 			if (count($cat['items']) > 0 || $show_empty_cats)
 				array_push($root['items'], $cat);
 
-			$root['param'] += count($cat['items']);
-			$root['param'] = vsprintf(_ngettext('(%d feed)', '(%d feeds)', count($cat['items'])), count($cat['items']));
+			$num_children = $this->calculate_children_count($root);
+			$root['param'] = vsprintf(_ngettext('(%d feed)', '(%d feeds)', $num_children), $num_children);
 
 		} else {
 			$feed_result = $this->dbh->query("SELECT id, title, last_error,
@@ -1937,6 +1939,19 @@ class Pref_Feeds extends Handler_Protected {
 			owner_uid = " . $_SESSION["uid"]);
 	}
 
+	private function calculate_children_count($cat) {
+		$c = 0;
+
+		foreach ($cat['items'] as $child) {
+			if ($child['type'] == 'category') {
+				$c += $this->calculate_children_count($child);
+			} else {
+				$c += 1;
+			}
+		}
+
+		return $c;
+	}
 
 }
 ?>
