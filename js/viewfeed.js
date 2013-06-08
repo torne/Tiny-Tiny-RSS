@@ -2208,9 +2208,10 @@ function updateFloatingTitle() {
 
 				var header = child.getElementsByClassName("cdmHeader")[0];
 
-				$("floatingTitle").setAttribute("rowid", child.id);
-				$("floatingTitle").innerHTML =
-					header.innerHTML;
+				if (child.id != $("floatingTitle").getAttribute("rowid")) {
+					$("floatingTitle").setAttribute("rowid", child.id);
+					$("floatingTitle").innerHTML = header.innerHTML;
+				}
 
 				if (child.offsetTop < hf.scrollTop - header.offsetHeight - 100 &&
 						child.offsetTop + child.offsetHeight - hf.scrollTop > 100)
