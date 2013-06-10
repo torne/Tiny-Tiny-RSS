@@ -17,6 +17,12 @@ class FeedItem_Atom extends FeedItem_Common {
 			return strtotime($updated->nodeValue);
 		}
 
+		$published = $this->elem->getElementsByTagName("published")->item(0);
+
+		if ($published) {
+			return strtotime($published->nodeValue);
+		}
+
 		$date = $this->xpath->query("dc:date", $this->elem)->item(0);
 
 		if ($date) {
