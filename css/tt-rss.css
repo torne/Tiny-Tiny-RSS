@@ -1082,9 +1082,13 @@ body#ttrssMain #feedTree .dijitTreeRow {
 	color : #333;
 }
 
-body#ttrssMain #feedTree .dijitFolderClosed,
-body#ttrssMain #feedTree .dijitFolderOpened {
+.dijitFolderClosed,
+.dijitFolderOpened {
 	display : none;
+}
+
+.dijitTreeNode .dijitCheckBox {
+	margin-left : 4px;
 }
 
 body#ttrssMain #feedTree .dijitTreeIsRoot > .dijitTreeRow > .dijitTreeExpando {
