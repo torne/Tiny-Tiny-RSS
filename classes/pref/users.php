@@ -12,7 +12,7 @@ class Pref_Users extends Handler_Protected {
 		}
 
 		function csrf_ignore($method) {
-			$csrf_ignored = array("index", "edit");
+			$csrf_ignored = array("index", "edit", "userdetails");
 
 			return array_search($method, $csrf_ignored) !== false;
 		}
@@ -92,7 +92,7 @@ class Pref_Users extends Handler_Protected {
 			print "</ul>";
 
 			print "<div align='center'>
-				<button onclick=\"closeInfoBox()\">".__("Close this window").
+				<button dojoType=\"dijit.form.Button\" type=\"submit\">".__("Close this window").
 				"</button></div>";
 
 			return;

@@ -83,8 +83,6 @@ function addUser() {
 function editUser(id, event) {
 
 	try {
-		notify_progress("Loading, please wait...");
-
 		var query = "backend.php?op=pref-users&method=edit&id=" +
 			param_escape(id);
 
@@ -555,17 +553,24 @@ function selectedUserDetails() {
 			return;
 		}
 
-		notify_progress("Loading, please wait...");
-
 		var id = rows[0];
 
-		var query = "?op=pref-users&method=userdetails&id=" + id;
+		var query = "backend.php?op=pref-users&method=userdetails&id=" + id;
 
-		new Ajax.Request("backend.php",	{
-			parameters: query,
-			onComplete: function(transport) {
-					infobox_callback2(transport, __("User details"));
-				} });
+		if (dijit.byId("userDetailsDlg"))
+			dijit.byId("userDetailsDlg").destroyRecursive();
+
+		dialog = new dijit.Dialog({
+			id: "userDetailsDlg",
+			title: __("User details"),
+			style: "width: 600px",
+			execute: function() {
+				dialog.hide();
+			},
+			href: query});
+
+		dialog.show();
+
 	} catch (e) {
 		exception_error("selectedUserDetails", e);
 	}
