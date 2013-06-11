@@ -85,15 +85,34 @@ function editUser(id, event) {
 	try {
 		notify_progress("Loading, please wait...");
 
-		var query = "?op=pref-users&method=edit&id=" +
+		var query = "backend.php?op=pref-users&method=edit&id=" +
 			param_escape(id);
 
-		new Ajax.Request("backend.php",	{
-			parameters: query,
-			onComplete: function(transport) {
-					infobox_callback2(transport, __("User Editor"));
-					document.forms['user_edit_form'].login.focus();
-				} });
+		if (dijit.byId("userEditDlg"))
+			dijit.byId("userEditDlg").destroyRecursive();
+
+		dialog = new dijit.Dialog({
+			id: "userEditDlg",
+			title: __("User Editor"),
+			style: "width: 600px",
+			execute: function() {
+				if (this.validate()) {
+
+					notify_progress("Saving data...", true);
+
+					var query = dojo.formToQuery("user_edit_form");
+
+					new Ajax.Request("backend.php", {
+						parameters: query,
+						onComplete: function(transport) {
+							dialog.hide();
+							updateUsersList();
+						}});
+				}
+			},
+			href: query});
+
+		dialog.show();
 
 	} catch (e) {
 		exception_error("editUser", e);
@@ -462,43 +481,6 @@ function purgeSelectedFeeds() {
 
 	return false;
 }
-
-function userEditCancel() {
-	closeInfoBox();
-	return false;
-}
-
-function userEditSave() {
-
-	try {
-
-		var login = document.forms["user_edit_form"].login.value;
-
-		if (login.length == 0) {
-			alert(__("Login field cannot be blank."));
-			return;
-		}
-
-		notify_progress("Saving user...");
-
-		closeInfoBox();
-
-		var query = Form.serialize("user_edit_form");
-
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) {
-				updateUsersList();
-			} });
-
-	} catch (e) {
-		exception_error("userEditSave", e);
-	}
-
-	return false;
-
-}
-
 
 function editSelectedUser() {
 	var rows = getSelectedUsers();

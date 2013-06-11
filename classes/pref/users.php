@@ -12,7 +12,7 @@ class Pref_Users extends Handler_Protected {
 		}
 
 		function csrf_ignore($method) {
-			$csrf_ignored = array("index");
+			$csrf_ignored = array("index", "edit");
 
 			return array_search($method, $csrf_ignored) !== false;
 		}
@@ -102,11 +102,11 @@ class Pref_Users extends Handler_Protected {
 			global $access_level_names;
 
 			$id = $this->dbh->escape_string($_REQUEST["id"]);
-			print "<form id=\"user_edit_form\" onsubmit='return false'>";
+			print "<form id=\"user_edit_form\" onsubmit='return false' dojoType=\"dijit.form.Form\">";
 
-			print "<input type=\"hidden\" name=\"id\" value=\"$id\">";
-			print "<input type=\"hidden\" name=\"op\" value=\"pref-users\">";
-			print "<input type=\"hidden\" name=\"method\" value=\"editSave\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"id\" value=\"$id\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pref-users\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"editSave\">";
 
 			$result = $this->dbh->query("SELECT * FROM ttrss_users WHERE id = '$id'");
 
@@ -120,15 +120,13 @@ class Pref_Users extends Handler_Protected {
 			print "<div class=\"dlgSecCont\">";
 
 			if ($sel_disabled) {
-				print "<input type=\"hidden\" name=\"login\" value=\"$login\">";
-				print "<input size=\"30\" style=\"font-size : 16px\"
-					onkeypress=\"return filterCR(event, userEditSave)\" $sel_disabled
-					value=\"$login\">";
-			} else {
-				print "<input size=\"30\" style=\"font-size : 16px\"
-					onkeypress=\"return filterCR(event, userEditSave)\" $sel_disabled
-					name=\"login\" value=\"$login\">";
+				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"login\" value=\"$login\">";
 			}
+
+			print "<input size=\"30\" style=\"font-size : 16px\"
+				dojoType=\"dijit.form.ValidationTextBox\" required=\"1\"
+				onkeypress=\"return filterCR(event, userEditSave)\" $sel_disabled
+				name=\"login\" value=\"$login\">";
 
 			print "</div>";
 
@@ -139,17 +137,16 @@ class Pref_Users extends Handler_Protected {
 
 			if (!$sel_disabled) {
 				print_select_hash("access_level", $access_level, $access_level_names,
-					$sel_disabled);
+					"dojoType=\"dijit.form.Select\" $sel_disabled");
 			} else {
 				print_select_hash("", $access_level, $access_level_names,
-					$sel_disabled);
-				print "<input type=\"hidden\" name=\"access_level\" value=\"$access_level\">";
+					"dojoType=\"dijit.form.Select\" $sel_disabled");
+				print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"access_level\" value=\"$access_level\">";
 			}
 
-			print "<br/>";
+			print "<hr/>";
 
-			print __('Change password to') .
-				" <input type=\"password\" size=\"20\" onkeypress=\"return filterCR(event, userEditSave)\"
+			print "<input dojoType=\"dijit.form.TextBox\" type=\"password\" size=\"20\" onkeypress=\"return filterCR(event, userEditSave)\" placeholder=\"Change password to\"
 				name=\"password\">";
 
 			print "</div>";
@@ -157,8 +154,7 @@ class Pref_Users extends Handler_Protected {
 			print "<div class=\"dlgSec\">".__("Options")."</div>";
 			print "<div class=\"dlgSecCont\">";
 
-			print __('E-mail: ').
-				" <input size=\"30\" name=\"email\" onkeypress=\"return filterCR(event, userEditSave)\"
+			print "<input dojoType=\"dijit.form.TextBox\" size=\"30\" name=\"email\" onkeypress=\"return filterCR(event, userEditSave)\" placeholder=\"Email\"
 				value=\"$email\">";
 
 			print "</div>";
@@ -168,9 +164,9 @@ class Pref_Users extends Handler_Protected {
 			print "</form>";
 
 			print "<div class=\"dlgButtons\">
-				<button onclick=\"return userEditSave()\">".
+				<button dojoType=\"dijit.form.Button\" type=\"submit\">".
 					__('Save')."</button>
-				<button onclick=\"return userEditCancel()\">".
+				<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('userEditDlg').hide()\">".
 					__('Cancel')."</button></div>";
 
 			return;
