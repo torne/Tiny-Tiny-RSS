@@ -146,7 +146,7 @@ class Pref_Users extends Handler_Protected {
 
 			print "<hr/>";
 
-			print "<input dojoType=\"dijit.form.TextBox\" type=\"password\" size=\"20\" onkeypress=\"return filterCR(event, userEditSave)\" placeholder=\"Change password to\"
+			print "<input dojoType=\"dijit.form.TextBox\" type=\"password\" size=\"20\" onkeypress=\"return filterCR(event, userEditSave)\" placeholder=\"Change password\"
 				name=\"password\">";
 
 			print "</div>";
@@ -154,7 +154,7 @@ class Pref_Users extends Handler_Protected {
 			print "<div class=\"dlgSec\">".__("Options")."</div>";
 			print "<div class=\"dlgSecCont\">";
 
-			print "<input dojoType=\"dijit.form.TextBox\" size=\"30\" name=\"email\" onkeypress=\"return filterCR(event, userEditSave)\" placeholder=\"Email\"
+			print "<input dojoType=\"dijit.form.TextBox\" size=\"30\" name=\"email\" onkeypress=\"return filterCR(event, userEditSave)\" placeholder=\"E-mail\"
 				value=\"$email\">";
 
 			print "</div>";
