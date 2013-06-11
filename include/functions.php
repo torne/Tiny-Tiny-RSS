@@ -995,8 +995,12 @@
 			$stat_h = fstat($fp);
 			$stat_f = stat(LOCK_DIRECTORY . "/$filename");
 
-			if ($stat_h["ino"] != $stat_f["ino"] || $stat_h["dev"] != $stat_f["dev"]) {
-				return false;
+			if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+				if ($stat_h["ino"] != $stat_f["ino"] ||
+						$stat_h["dev"] != $stat_f["dev"]) {
+
+					return false;
+				}
 			}
 
 			if (function_exists('posix_getpid')) {
