@@ -320,7 +320,7 @@ class Pref_Users extends Handler_Protected {
 			print "<div style='float : right; padding-right : 4px;'>
 				<input dojoType=\"dijit.form.TextBox\" id=\"user_search\" size=\"20\" type=\"search\"
 					value=\"$user_search\">
-				<button dojoType=\"dijit.form.Button\" onclick=\"javascript:updateUsersList()\">".
+				<button dojoType=\"dijit.form.Button\" onclick=\"updateUsersList()\">".
 					__('Search')."</button>
 				</div>";
 
@@ -339,16 +339,16 @@ class Pref_Users extends Handler_Protected {
 				dojoType=\"dijit.MenuItem\">".__('None')."</div>";
 			print "</div></div>";
 
-			print "<button dojoType=\"dijit.form.Button\" onclick=\"javascript:addUser()\">".__('Create user')."</button>";
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"addUser()\">".__('Create user')."</button>";
 
 			print "
-				<button dojoType=\"dijit.form.Button\" onclick=\"javascript:selectedUserDetails()\">".
+				<button dojoType=\"dijit.form.Button\" onclick=\"selectedUserDetails()\">".
 				__('Details')."</button dojoType=\"dijit.form.Button\">
-				<button dojoType=\"dijit.form.Button\" onclick=\"javascript:editSelectedUser()\">".
+				<button dojoType=\"dijit.form.Button\" onclick=\"editSelectedUser()\">".
 				__('Edit')."</button dojoType=\"dijit.form.Button\">
-				<button dojoType=\"dijit.form.Button\" onclick=\"javascript:removeSelectedUsers()\">".
+				<button dojoType=\"dijit.form.Button\" onclick=\"removeSelectedUsers()\">".
 				__('Remove')."</button dojoType=\"dijit.form.Button\">
-				<button dojoType=\"dijit.form.Button\" onclick=\"javascript:resetSelectedUserPass()\">".
+				<button dojoType=\"dijit.form.Button\" onclick=\"resetSelectedUserPass()\">".
 				__('Reset password')."</button dojoType=\"dijit.form.Button\">";
 
 			PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_TAB_SECTION,
