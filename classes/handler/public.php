@@ -237,7 +237,7 @@ class Handler_Public extends Handler {
 	function getProfiles() {
 		$login = $this->dbh->escape_string($_REQUEST["login"]);
 
-		$result = $this->dbh->query("SELECT * FROM ttrss_settings_profiles,ttrss_users
+		$result = $this->dbh->query("SELECT ttrss_settings_profiles.* FROM ttrss_settings_profiles,ttrss_users
 			WHERE ttrss_users.id = ttrss_settings_profiles.owner_uid AND login = '$login' ORDER BY title");
 
 		print "<select dojoType='dijit.form.Select' style='width : 220px; margin : 0px' name='profile'>";
