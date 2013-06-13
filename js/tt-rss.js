@@ -789,18 +789,13 @@ function collapse_feedlist() {
 
 		if (!Element.visible('feeds-holder')) {
 			Element.show('feeds-holder');
-			Element.show('feeds-holder_splitter');
 			$("collapse_feeds_btn").innerHTML = "&lt;&lt;";
 		} else {
 			Element.hide('feeds-holder');
-			Element.hide('feeds-holder_splitter');
 			$("collapse_feeds_btn").innerHTML = "&gt;&gt;";
 		}
 
 		dijit.byId("main").resize();
-
-		query = "?op=rpc&method=setpref&key=_COLLAPSED_FEEDLIST&value=true";
-		new Ajax.Request("backend.php", { parameters: query });
 
 	} catch (e) {
 		exception_error("collapse_feedlist", e);

@@ -1966,7 +1966,6 @@
 		$params["max_feed_id"] = (int) $max_feed_id;
 		$params["num_feeds"] = (int) $num_feeds;
 
-		$params["collapsed_feedlist"] = (int) get_pref("_COLLAPSED_FEEDLIST");
 		$params["hotkeys"] = get_hotkeys_map();
 
 		$params["csrf_token"] = $_SESSION["csrf_token"];
