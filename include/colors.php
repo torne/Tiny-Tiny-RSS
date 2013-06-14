@@ -298,7 +298,7 @@ function hsl2rgb($arr) {
 			else
 				$img = @$ico->images[count($ico->images)-1]->getImageResource();
 
-		} else {
+		} else if ($size[0] > 0 && $size[1] > 0) {
 		   $img = @imagecreatefromstring(file_get_contents($imageFile));
 		}
 
