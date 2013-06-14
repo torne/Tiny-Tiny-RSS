@@ -3036,7 +3036,7 @@
 			if ($_SESSION["hasAudio"] && (strpos($ctype, "ogg") !== false ||
 				$_SESSION["hasMp3"])) {
 
-				$entry .= "<audio controls>
+				$entry .= "<audio preload=\"none\" controls>
 					<source type=\"$ctype\" src=\"$url\"></source>
 					</audio>";
 
