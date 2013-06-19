@@ -199,7 +199,7 @@
 	}
 
 	function make_self_url_path() {
-		$url_path = ($_SERVER['HTTPS'] != "on" ? 'http://' :  'https://') . $_SERVER["HTTP_HOST"] . parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+		$url_path = ((!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on") ? 'http://' :  'https://') . $_SERVER["HTTP_HOST"] . parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 		return $url_path;
 	}
