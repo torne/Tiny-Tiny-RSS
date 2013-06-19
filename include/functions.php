@@ -71,6 +71,7 @@
 					"hu_HU" => "Magyar (Hungarian)",
 					"it_IT" => "Italiano",
 					"ja_JP" => "日本語 (Japanese)",
+					"ko_KR" => "한국어 (Korean)",
 					"lv_LV" => "Latviešu",
 					"nb_NO" => "Norwegian bokmål",
 					"nl_NL" => "Dutch",
