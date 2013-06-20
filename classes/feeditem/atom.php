@@ -58,7 +58,13 @@ class FeedItem_Atom extends FeedItem_Common {
 		if ($content) {
 			if ($content->hasAttribute('type')) {
 				if ($content->getAttribute('type') == 'xhtml') {
-					return $this->doc->saveXML($content->firstChild->nextSibling);
+					for ($i = 0; $i < $content->childNodes->length; $i++) {
+						$child = $content->childNodes->item($i);
+
+						if ($child->hasChildNodes()) {
+							return $this->doc->saveXML($child);
+						}
+					}
 				}
 			}
 
@@ -72,7 +78,13 @@ class FeedItem_Atom extends FeedItem_Common {
 		if ($content) {
 			if ($content->hasAttribute('type')) {
 				if ($content->getAttribute('type') == 'xhtml') {
-					return $this->doc->saveXML($content->firstChild->nextSibling);
+					for ($i = 0; $i < $content->childNodes->length; $i++) {
+						$child = $content->childNodes->item($i);
+
+						if ($child->hasChildNodes()) {
+							return $this->doc->saveXML($child);
+						}
+					}
 				}
 			}
 
