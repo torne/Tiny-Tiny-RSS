@@ -339,6 +339,9 @@ function init() {
 		hotkey_actions["dismiss_selected"] = function() {
 				dismissSelectedArticles();
 		};
+		hotkey_actions["dismiss_read"] = function() {
+				dismissReadArticles();
+		};
 		hotkey_actions["open_in_new_window"] = function() {
 				if (getActiveArticleId()) {
 					openArticleInNewWindow(getActiveArticleId());
