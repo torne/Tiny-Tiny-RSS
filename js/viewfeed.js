@@ -1613,7 +1613,9 @@ function dismissArticle(id) {
 
 		// Remove the content, too
 		var elem_content = $("CICD-" + id);
-		Element.remove(elem_content);
+		if (elem_content) {
+			Element.remove(elem_content);
+		}
 
 		if (id == getActiveArticleId()) {
 			setActiveArticleId(0);
@@ -1641,7 +1643,9 @@ function dismissSelectedArticles() {
 
 				// Remove the content, too
 				var elem_content = $("CICD-" + ids[i]);
-				Element.remove(elem_content);
+				if (elem_content) {
+					Element.remove(elem_content);
+				}
 			} else {
 				tmp.push(ids[i]);
 			}
@@ -1672,7 +1676,9 @@ function dismissReadArticles() {
 
 				// Remove the content, too
 				var elem_content = $("CICD-" + ids[i]);
-				Element.remove(elem_content);
+				if (elem_content) {
+					Element.remove(elem_content);
+				}
 			} else {
 				tmp.push(ids[i]);
 			}
