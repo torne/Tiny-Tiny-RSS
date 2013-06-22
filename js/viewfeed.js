@@ -1679,7 +1679,7 @@ function dismissReadArticles() {
 		}
 
 	} catch (e) {
-		exception_error("dismissSelectedArticles", e);
+		exception_error("dismissReadArticles", e);
 	}
 }
 
