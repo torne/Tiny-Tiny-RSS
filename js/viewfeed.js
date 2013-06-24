@@ -2216,30 +2216,24 @@ function openSelectedAttachment(elem) {
 function updateFloatingTitle() {
 	try {
 		var hf = $("headlines-frame");
+		var child = $("RROW-" + _active_article_id);
 
-		var elems = $$("#headlines-frame > div[id*=RROW]");
+		if (child && child.offsetTop + child.offsetHeight > hf.scrollTop) {
 
-		for (var i = 0; i < elems.length; i++) {
-			var child = elems[i];
+			var header = child.getElementsByClassName("cdmHeader")[0];
 
-			if (child.offsetTop + child.offsetHeight > hf.scrollTop) {
-
-				var header = child.getElementsByClassName("cdmHeader")[0];
-
-				if (child.id != $("floatingTitle").getAttribute("rowid")) {
-					$("floatingTitle").setAttribute("rowid", child.id);
-					$("floatingTitle").innerHTML = header.innerHTML;
-				}
-
-				if (child.offsetTop < hf.scrollTop - header.offsetHeight - 100 &&
-						child.offsetTop + child.offsetHeight - hf.scrollTop > 100)
-					Element.show("floatingTitle");
-				else
-					Element.hide("floatingTitle");
-
-				break;
+			if (child.id != $("floatingTitle").getAttribute("rowid")) {
+				$("floatingTitle").setAttribute("rowid", child.id);
+				$("floatingTitle").innerHTML = header.innerHTML;
 			}
+
+			if (child.offsetTop < hf.scrollTop - header.offsetHeight - 100 &&
+					child.offsetTop + child.offsetHeight - hf.scrollTop > 100)
+				Element.show("floatingTitle");
+			else
+				Element.hide("floatingTitle");
 		}
+
 	} catch (e) {
 		exception_error("updateFloatingTitle", e);
 	}
