@@ -18,7 +18,7 @@ class Af_Dilbert extends Plugin {
 		$owner_uid = $article["owner_uid"];
 
 		if (strpos($article["guid"], "dilbert.com") !== FALSE) {
-			if (strpos($article["plugin_data"], "dilbert2,$owner_uid:") === FALSE) {
+			if (strpos($article["plugin_data"], "dilbert,$owner_uid:") === FALSE) {
 				$doc = new DOMDocument();
 				@$doc->loadHTML(fetch_file_contents($article["link"]));
 
