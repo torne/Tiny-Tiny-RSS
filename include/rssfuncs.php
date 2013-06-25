@@ -1062,11 +1062,6 @@
 				_debug("article processed", $debug_enabled);
 			}
 
-			if (!$last_updated) {
-				_debug("new feed, catching it up...", $debug_enabled);
-				catchup_feed($feed, false, $owner_uid);
-			}
-
 			_debug("purging feed...", $debug_enabled);
 
 			purge_feed($feed, 0, $debug_enabled);
