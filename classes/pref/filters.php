@@ -585,14 +585,15 @@ class Pref_Filters extends Handler_Protected {
 		$enabled = checkbox_to_sql_bool($_REQUEST["enabled"]);
 		$match_any_rule = checkbox_to_sql_bool($_REQUEST["match_any_rule"]);
 		$title = $this->dbh->escape_string($_REQUEST["title"]);
+		$inverse = checkbox_to_sql_bool($_REQUEST["inverse"]);
 
 		$this->dbh->query("BEGIN");
 
 		/* create base filter */
 
 		$result = $this->dbh->query("INSERT INTO ttrss_filters2
-			(owner_uid, match_any_rule, enabled, title) VALUES
-			(".$_SESSION["uid"].",$match_any_rule,$enabled, '$title')");
+			(owner_uid, match_any_rule, enabled, title, inverse) VALUES
+			(".$_SESSION["uid"].",$match_any_rule,$enabled, '$title', $inverse)");
 
 		$result = $this->dbh->query("SELECT MAX(id) AS id FROM ttrss_filters2
 			WHERE owner_uid = ".$_SESSION["uid"]);

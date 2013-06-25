@@ -190,6 +190,7 @@ class Opml extends Handler_Protected {
 					}
 
 					$tmp_line["cat_filter"] = sql_bool_to_bool($tmp_line["cat_filter"]);
+					$tmp_line["inverse"] = sql_bool_to_bool($tmp_line["inverse"]);
 
 					unset($tmp_line["feed_id"]);
 					unset($tmp_line["cat_id"]);
@@ -363,9 +364,10 @@ class Opml extends Handler_Protected {
 						$cat_filter = bool_to_sql_bool($rule["cat_filter"]);
 						$reg_exp = $this->dbh->escape_string($rule["reg_exp"]);
 						$filter_type = (int)$rule["filter_type"];
+						$inverse = bool_to_sql_bool($rule["inverse"]);
 
-						$this->dbh->query("INSERT INTO ttrss_filters2_rules (feed_id,cat_id,filter_id,filter_type,reg_exp,cat_filter)
-							VALUES ($feed_id, $cat_id, $filter_id, $filter_type, '$reg_exp', $cat_filter)");
+						$this->dbh->query("INSERT INTO ttrss_filters2_rules (feed_id,cat_id,filter_id,filter_type,reg_exp,cat_filter,inverse)
+							VALUES ($feed_id, $cat_id, $filter_id, $filter_type, '$reg_exp', $cat_filter,$inverse)");
 					}
 
 					foreach ($filter["actions"] as $action) {
