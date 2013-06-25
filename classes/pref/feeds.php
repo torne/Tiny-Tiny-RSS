@@ -792,30 +792,9 @@ class Pref_Feeds extends Handler_Protected {
 		print "<div class=\"dlgSec\">".__("Feed")."</div>";
 		print "<div class=\"dlgSecCont\">";
 
-		/* Title */
-
-		print "<input dojoType=\"dijit.form.ValidationTextBox\"
-			disabled=\"1\" style=\"font-size : 16px; width : 20em;\" required=\"1\"
-			name=\"title\" value=\"\">";
-
-		$this->batch_edit_cbox("title");
-
-		/* Feed URL */
-
-		print "<br/>";
-
-		print __('URL:') . " ";
-		print "<input dojoType=\"dijit.form.ValidationTextBox\" disabled=\"1\"
-			required=\"1\" regExp='^(http|https)://.*' style=\"width : 20em\"
-			name=\"feed_url\" value=\"\">";
-
-		$this->batch_edit_cbox("feed_url");
-
 		/* Category */
 
 		if (get_pref('ENABLE_FEED_CATS')) {
-
-			print "<br/>";
 
 			print __('Place in category:') . " ";
 
@@ -862,7 +841,7 @@ class Pref_Feeds extends Handler_Protected {
 
 		$this->batch_edit_cbox("auth_login");
 
-		print "<br/><input dojoType=\"dijit.form.TextBox\" type=\"password\" name=\"auth_pass\"
+		print "<hr/> <input dojoType=\"dijit.form.TextBox\" type=\"password\" name=\"auth_pass\"
 			placeHolder=\"".__("Password")."\" disabled=\"1\"
 			value=\"\">";
 
