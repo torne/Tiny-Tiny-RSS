@@ -8,6 +8,12 @@ abstract class FeedItem_Common extends FeedItem {
 		$this->elem = $elem;
 		$this->xpath = $xpath;
 		$this->doc = $doc;
+
+		$source = $elem->getElementsByTagName("source")->item(0);
+
+		// we don't need <source> element
+		if ($source)
+			$elem->removeChild($source);
 	}
 
 	function get_author() {
