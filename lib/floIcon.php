@@ -1,4 +1,4 @@
-<?
+<?php
 // Compatibility shim for hooking up jimIcon to Tiny Tiny RSS.
 
 require_once "jimIcon.php";
