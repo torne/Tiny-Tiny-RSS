@@ -363,15 +363,12 @@ class Feeds extends Handler_Protected {
 				$date_entered_fmt = T_sprintf("Imported at %s",
 					make_local_datetime($line["date_entered"], false));
 
-#				if (get_pref('SHOW_CONTENT_PREVIEW') ) {
-#					if(isset($line["modified_preview"]))
-#						$content_preview = strip_tags($line["content_preview"]);
-#					else
-#						$content_preview = truncate_string(strip_tags($line["content_preview"]),
-#							250);
-				if (get_pref('SHOW_CONTENT_PREVIEW')) {
-					$content_preview = " &mdash; " . truncate_string(strip_tags($line["content_preview"]),
-						250);
+				if (get_pref('SHOW_CONTENT_PREVIEW') ) {
+					if(isset($line["modified_preview"]))
+						$content_preview =  " &mdash; " .  strip_tags($line["content_preview"]);
+					else
+						$content_preview =  " &mdash; " . truncate_string(strip_tags($line["content_preview"]),
+							250);		
 				}
 
 				$score = $line["score"];
