@@ -246,9 +246,6 @@ function bwLimitChange(elem) {
 
 <div class='footer'>
 	<a href="http://tt-rss.org/">Tiny Tiny RSS</a>
-	<?php if (!defined('HIDE_VERSION')) { ?>
-		 v<?php echo VERSION ?>
-	<?php } ?>
 	&copy; 2005&ndash;<?php echo date('Y') ?> <a href="http://fakecake.org/">Andrew Dolgov</a>
 </div>
 

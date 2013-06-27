@@ -363,12 +363,15 @@ class Feeds extends Handler_Protected {
 				$date_entered_fmt = T_sprintf("Imported at %s",
 					make_local_datetime($line["date_entered"], false));
 
-				if (get_pref('SHOW_CONTENT_PREVIEW') ) {
-					if(isset($line["modified_preview"]))
-						$content_preview = strip_tags($line["content_preview"]);
-					else
-						$content_preview = truncate_string(strip_tags($line["content_preview"]),
-							250);
+#				if (get_pref('SHOW_CONTENT_PREVIEW') ) {
+#					if(isset($line["modified_preview"]))
+#						$content_preview = strip_tags($line["content_preview"]);
+#					else
+#						$content_preview = truncate_string(strip_tags($line["content_preview"]),
+#							250);
+				if (get_pref('SHOW_CONTENT_PREVIEW')) {
+					$content_preview = " &mdash; " . truncate_string(strip_tags($line["content_preview"]),
+						250);
 				}
 
 				$score = $line["score"];
@@ -462,7 +465,7 @@ class Feeds extends Handler_Protected {
 
 					if (get_pref('SHOW_CONTENT_PREVIEW')) {
 						if ($content_preview) {
-							$reply['content'] .= "<span class=\"contentPreview\"> - $content_preview</span>";
+							$reply['content'] .= "<span class=\"contentPreview\">$content_preview</span>";
 						}
 					}
 
@@ -581,7 +584,11 @@ class Feeds extends Handler_Protected {
 						$excerpt_hidden = "style=\"display : none\"";
 
 					$reply['content'] .= "<span $excerpt_hidden
+<<<<<<< HEAD
 						id=\"CEXC-$id\" class=\"cdmExcerpt\"> -" . $content_preview . "</span>";
+=======
+						id=\"CEXC-$id\" class=\"cdmExcerpt\">$content_preview</span>";
+>>>>>>> origin
 					$reply['content'] .= "</span>";
 
 					if (!get_pref('VFEED_GROUP_BY_FEED')) {
