@@ -97,12 +97,17 @@ class Pref_Filters extends Handler_Protected {
 		print "<table width=\"100%\" cellspacing=\"0\" id=\"prefErrorFeedList\">";
 
 		while ($line = $this->dbh->fetch_assoc($result)) {
+			foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
+					$line = $p->hook_query_headlines($line, 100);
+				}
 
 			$entry_timestamp = strtotime($line["updated"]);
 			$entry_tags = get_article_tags($line["id"], $_SESSION["uid"]);
 
-			$content_preview = truncate_string(
-				strip_tags($line["content_preview"]), 100, '...');
+			if(isset($line["modified_preview"]))
+				$content_preview = strip_tags($line["content_preview"]);
+			else
+				$content_preview = truncate_string(strip_tags($line["content_preview"]), 100, '...');
 
 			if ($line["feed_title"])
 				$feed_title = $line["feed_title"];
