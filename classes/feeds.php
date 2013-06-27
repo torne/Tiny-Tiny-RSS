@@ -580,12 +580,8 @@ class Feeds extends Handler_Protected {
 					else
 						$excerpt_hidden = "style=\"display : none\"";
 
-					$reply['content'] .= "<span $excerpt_hidden
-<<<<<<< HEAD
-						id=\"CEXC-$id\" class=\"cdmExcerpt\"> -" . $content_preview . "</span>";
-=======
-						id=\"CEXC-$id\" class=\"cdmExcerpt\">$content_preview</span>";
->>>>>>> origin
+					$reply['content'] .= "<span $excerpt_hidden id=\"CEXC-$id\" class=\"cdmExcerpt\">$content_preview</span>";
+
 					$reply['content'] .= "</span>";
 
 					if (!get_pref('VFEED_GROUP_BY_FEED')) {
