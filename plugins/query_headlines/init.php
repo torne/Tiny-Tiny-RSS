@@ -6,6 +6,9 @@ class Query_Headlines extends Plugin {
 	//	-	 the array of elements that are returned by queryFeedHeadlines
 	// 	-	the length that the caller wants to truncate the content preview to
 	//	-	a boolean that indicates if the caller is from an API call
+	// The field content_preview has been shortened and sanitized, as appropriate
+	// before the plugin is called.  If you want to do your own preview handling
+	// use the content field and create the preview from that
 	//NOTE:****  You have to make this a system plugin if you want it to also work
 	//		on API calls.  If you just make it a user plugin it will work on web page output
 	//		but not on API calls
