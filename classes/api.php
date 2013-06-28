@@ -638,7 +638,7 @@ class API extends Handler {
 			$headlines = array();
 			
 			while ($line = db_fetch_assoc($result)) {
-				
+				$line["content_preview"] = truncate_string(strip_tags($line["content_preview"]), 100);
 				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
 					$line = $p->hook_query_headlines($line, 100, true);
 				}
@@ -669,13 +669,8 @@ class API extends Handler {
 						$headline_row['attachments'] = get_article_enclosures(
 							$line['id']);
 
-				if ($show_excerpt ){
-					if(isset($line["modified_preview"])) 
-						$excerpt = strip_tags($line["content_preview"]);
-					else
-						$excerpt = truncate_string(strip_tags($line["content_preview"]), 100);
-					$headline_row["excerpt"] = $excerpt;
-				}
+				if (!$show_excerpt )
+					$headline_row["excerpt"] = $ine["content_preview"];
 
 				if ($show_content) {
 

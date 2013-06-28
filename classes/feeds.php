@@ -286,8 +286,9 @@ class Feeds extends Handler_Protected {
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("PS", $timing_info);
 
 			$expand_cdm = get_pref('CDM_EXPANDED');
-
+				
 			while ($line = $this->dbh->fetch_assoc($result)) {
+				$line["content_preview"] =  "&mdash; " . truncate_string(strip_tags($line["content_preview"]),250);
 				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
 					$line = $p->hook_query_headlines($line, 250);
 				}
@@ -364,11 +365,7 @@ class Feeds extends Handler_Protected {
 					make_local_datetime($line["date_entered"], false));
 
 				if (get_pref('SHOW_CONTENT_PREVIEW') ) {
-					if(isset($line["modified_preview"]))
-						$content_preview =  " &mdash; " .  strip_tags($line["content_preview"]);
-					else
-						$content_preview =  " &mdash; " . truncate_string(strip_tags($line["content_preview"]),
-							250);		
+						$content_preview =  $line["content_preview"];	
 				}
 
 				$score = $line["score"];
@@ -461,9 +458,7 @@ class Feeds extends Handler_Protected {
 						truncate_string($line["title"], 200);
 
 					if (get_pref('SHOW_CONTENT_PREVIEW')) {
-						if ($content_preview) {
-							$reply['content'] .= "<span class=\"contentPreview\">$content_preview</span>";
-						}
+							$reply['content'] .= "<span class=\"contentPreview\">" . $line["content_preview"] . "</span>";
 					}
 
 					$reply['content'] .= "</a></span>";
@@ -580,7 +575,7 @@ class Feeds extends Handler_Protected {
 					else
 						$excerpt_hidden = "style=\"display : none\"";
 
-					$reply['content'] .= "<span $excerpt_hidden id=\"CEXC-$id\" class=\"cdmExcerpt\">$content_preview</span>";
+					$reply['content'] .= "<span $excerpt_hidden id=\"CEXC-$id\" class=\"cdmExcerpt\">" . $line["content_preview"] . "</span>";
 
 					$reply['content'] .= "</span>";
 
