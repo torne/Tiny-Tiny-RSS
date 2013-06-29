@@ -2226,6 +2226,8 @@ function updateFloatingTitle() {
 			if (child.id != $("floatingTitle").getAttribute("rowid")) {
 				$("floatingTitle").setAttribute("rowid", child.id);
 				$("floatingTitle").innerHTML = header.innerHTML;
+
+				PluginHost.run(PluginHost.HOOK_FLOATING_TITLE, child);
 			}
 
 			if (child.offsetTop < hf.scrollTop - header.offsetHeight - 100 &&
