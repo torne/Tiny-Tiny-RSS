@@ -847,6 +847,7 @@ function hotkey_handler(e) {
 
 		var keycode = false;
 		var shift_key = false;
+		var ctrl_key = false;
 
 		var cmdline = $('cmdline');
 
