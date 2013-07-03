@@ -1,5 +1,13 @@
 <?php
 class FeedItem_Atom extends FeedItem_Common {
+
+   	 private $baseUrl;
+
+  	 function __construct($elem, $doc, $xpath, $baseUrl) {
+  	 	parent::__construct($elem, $doc, $xpath);
+		$this->baseUrl= $baseUrl;
+   	 }
+
 	function get_id() {
 		$id = $this->elem->getElementsByTagName("id")->item(0);
 
@@ -39,7 +47,7 @@ class FeedItem_Atom extends FeedItem_Common {
 					|| $link->getAttribute("rel") == "alternate"
 					|| $link->getAttribute("rel") == "standout")) {
 
-				return $link->getAttribute("href");
+				return $this->baseUrl.$link->getAttribute("href");
 			}
 		}
 	}
