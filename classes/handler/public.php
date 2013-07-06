@@ -348,7 +348,7 @@ class Handler_Public extends Handler {
 	function rss() {
 		$feed = $this->dbh->escape_string($_REQUEST["id"]);
 		$key = $this->dbh->escape_string($_REQUEST["key"]);
-		$is_cat = $_REQUEST["is_cat"] != "false";
+		$is_cat = sql_bool_to_bool($_REQUEST["is_cat"]);
 		$limit = (int)$this->dbh->escape_string($_REQUEST["limit"]);
 		$offset = (int)$this->dbh->escape_string($_REQUEST["offset"]);
 
@@ -358,7 +358,7 @@ class Handler_Public extends Handler {
 		$order = $this->dbh->escape_string($_REQUEST["order"]);
 
 		$format = $this->dbh->escape_string($_REQUEST['format']);
-		$orig_guid = $_REQUEST["orig_guid"] != "false";
+		$orig_guid = !sql_bool_to_bool($_REQUEST["no_orig_guid"]);
 
 		if (!$format) $format = 'atom';
 
