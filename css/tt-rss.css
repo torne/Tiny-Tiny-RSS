@@ -606,20 +606,15 @@ div#headlines-frame.wide .hlTitle {
 	white-space : normal;
 }
 
-.hlContentH a, .hlContentH span {
-	color : #00cc00;
+.hl a.title.high, span.hlContent.high .contentPreview {
+	color : #00aa00;
+}
+.hl.Unread a.title.high, .hl.Unread span.hlContent.high .contentPreview {
+	color : #00dd00;
 }
 
-.hlContentL a, .hlContentL span {
-	color : #909090;
-	text-decoration : line-through;
-}
-
-span.titleWrapH, span.titleWrapH a {
-	color : #00cc00;
-}
-
-span.titleWrapL, span.titleWrapL a {
+.hl a.title.low, span.hlContent.low .contentPreview,
+.hl.Unread a.title.low, .hl.Unread span.hlContent.low .contentPreview {
 	color : #909090;
 	text-decoration : line-through;
 }

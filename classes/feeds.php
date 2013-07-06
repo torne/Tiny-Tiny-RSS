@@ -377,9 +377,9 @@ class Feeds extends Handler_Protected {
 					title=\"$score\">";
 
 				if ($score > 500) {
-					$hlc_suffix = "H";
+					$hlc_suffix = "high";
 				} else if ($score < -100) {
-					$hlc_suffix = "L";
+					$hlc_suffix = "low";
 				} else {
 					$hlc_suffix = "";
 				}
@@ -448,8 +448,8 @@ class Feeds extends Handler_Protected {
 					$reply['content'] .= "</div>";
 
 					$reply['content'] .= "<div onclick='return hlClicked(event, $id)'
-						class=\"hlTitle\"><span class='hlContent$hlc_suffix'>";
-					$reply['content'] .= "<a id=\"RTITLE-$id\" class=\"title\"
+						class=\"hlTitle\"><span class='hlContent $hlc_suffix'>";
+					$reply['content'] .= "<a id=\"RTITLE-$id\" class=\"title $hlc_suffix\"
 						href=\"" . htmlspecialchars($line["link"]) . "\"
 						onclick=\"\">" .
 						truncate_string($line["title"], 200);
@@ -539,7 +539,7 @@ class Feeds extends Handler_Protected {
 
 					$expanded_class = $expand_cdm ? "expanded" : "expandable";
 
-					$reply['content'] .= "<div class=\"cdm $expanded_class $class\"
+					$reply['content'] .= "<div class=\"cdm $hlc_suffix $expanded_class $class\"
 						id=\"RROW-$id\" $mouseover_attrs>";
 
 					$reply['content'] .= "<div class=\"cdmHeader\" style=\"$row_background\">";
@@ -556,8 +556,8 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= "<span id=\"RTITLE-$id\"
 						onclick=\"return cdmClicked(event, $id);\"
-						class=\"titleWrap$hlc_suffix\">
-						<a class=\"title\"
+						class=\"titleWrap $hlc_suffix\">
+						<a class=\"title $hlc_suffix\"
 						target=\"_blank\" href=\"".
 						htmlspecialchars($line["link"])."\">".
 						$line["title"] .
