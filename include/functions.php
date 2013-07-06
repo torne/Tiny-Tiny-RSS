@@ -3958,6 +3958,7 @@
 			$reg_qpart = "REGEXP";
 
 		foreach ($filter["rules"] AS $rule) {
+			$rule['reg_exp'] = str_replace('/', '\/', $rule["reg_exp"]);
 			$regexp_valid = preg_match('/' . $rule['reg_exp'] . '/',
 				$rule['reg_exp']) !== FALSE;
 
