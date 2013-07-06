@@ -110,6 +110,8 @@ class Handler_Public extends Handler {
 					date(DATE_RFC822, strtotime($line["updated"])), true);
 
 				$tpl->setVariable('ARTICLE_AUTHOR', htmlspecialchars($line['author']), true);
+				
+				$tpl->setVariable('ARTICLE_SOURCE_TITLE', htmlspecialchars($line['feed_title']), true);
 
 				$tags = get_article_tags($line["id"], $owner_uid);
 
