@@ -3,7 +3,7 @@ class Handler_Public extends Handler {
 
 	private function generate_syndicated_feed($owner_uid, $feed, $is_cat,
 		$limit, $offset, $search, $search_mode,
-		$view_mode = false, $format = 'atom', $order = false) {
+		$view_mode = false, $format = 'atom', $order = false, $orig_guid = false) {
 
 		require_once "lib/MiniTemplator.class.php";
 
@@ -88,7 +88,10 @@ class Handler_Public extends Handler {
 
 			while ($line = $this->dbh->fetch_assoc($result)) {
 
-				$tpl->setVariable('ARTICLE_ID', htmlspecialchars($line['link']), true);
+				$tpl->setVariable('ARTICLE_ID',
+					htmlspecialchars($orig_guid ? $line['link'] :
+						get_self_url_prefix() .
+							"/public.php?url=" . urlencode($line['link'])), true);
 				$tpl->setVariable('ARTICLE_LINK', htmlspecialchars($line['link']), true);
 				$tpl->setVariable('ARTICLE_TITLE', htmlspecialchars($line['title']), true);
 				$tpl->setVariable('ARTICLE_EXCERPT',
@@ -110,7 +113,8 @@ class Handler_Public extends Handler {
 					date(DATE_RFC822, strtotime($line["updated"])), true);
 
 				$tpl->setVariable('ARTICLE_AUTHOR', htmlspecialchars($line['author']), true);
-				
+
+				$tpl->setVariable('ARTICLE_SOURCE_LINK', htmlspecialchars($line['site_url']), true);
 				$tpl->setVariable('ARTICLE_SOURCE_TITLE', htmlspecialchars($line['feed_title']), true);
 
 				$tags = get_article_tags($line["id"], $owner_uid);
@@ -344,7 +348,7 @@ class Handler_Public extends Handler {
 	function rss() {
 		$feed = $this->dbh->escape_string($_REQUEST["id"]);
 		$key = $this->dbh->escape_string($_REQUEST["key"]);
-		$is_cat = $_REQUEST["is_cat"] != false;
+		$is_cat = $_REQUEST["is_cat"] != "false";
 		$limit = (int)$this->dbh->escape_string($_REQUEST["limit"]);
 		$offset = (int)$this->dbh->escape_string($_REQUEST["offset"]);
 
@@ -354,6 +358,7 @@ class Handler_Public extends Handler {
 		$order = $this->dbh->escape_string($_REQUEST["order"]);
 
 		$format = $this->dbh->escape_string($_REQUEST['format']);
+		$orig_guid = $_REQUEST["orig_guid"] != "false";
 
 		if (!$format) $format = 'atom';
 
@@ -373,7 +378,7 @@ class Handler_Public extends Handler {
 
 		if ($owner_id) {
 			$this->generate_syndicated_feed($owner_id, $feed, $is_cat, $limit,
-				$offset, $search, $search_mode, $view_mode, $format, $order);
+				$offset, $search, $search_mode, $view_mode, $format, $order, $orig_guid);
 		} else {
 			header('HTTP/1.1 403 Forbidden');
 		}
