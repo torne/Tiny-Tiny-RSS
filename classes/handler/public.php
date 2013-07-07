@@ -65,8 +65,8 @@ class Handler_Public extends Handler {
 		$last_error = $qfh_ret[3];
 
 		$feed_self_url = get_self_url_prefix() .
-			"/public.php?op=rss&id=-2&key=" .
-			get_feed_access_key(-2, false, $owner_uid);
+			"/public.php?op=rss&id=$feed&key=" .
+			get_feed_access_key($feed, false, $owner_uid);
 
 		if (!$feed_site_url) $feed_site_url = get_self_url_prefix();
 
