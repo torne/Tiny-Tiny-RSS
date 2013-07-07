@@ -3,7 +3,7 @@ class Handler_Public extends Handler {
 
 	private function generate_syndicated_feed($owner_uid, $feed, $is_cat,
 		$limit, $offset, $search, $search_mode,
-		$view_mode = false, $format = 'atom', $order = false) {
+		$view_mode = false, $format = 'atom', $order = false, $orig_guid = false) {
 
 		require_once "lib/MiniTemplator.class.php";
 
@@ -65,8 +65,8 @@ class Handler_Public extends Handler {
 		$last_error = $qfh_ret[3];
 
 		$feed_self_url = get_self_url_prefix() .
-			"/public.php?op=rss&id=-2&key=" .
-			get_feed_access_key(-2, false, $owner_uid);
+			"/public.php?op=rss&id=$feed&key=" .
+			get_feed_access_key($feed, false, $owner_uid);
 
 		if (!$feed_site_url) $feed_site_url = get_self_url_prefix();
 
@@ -88,7 +88,10 @@ class Handler_Public extends Handler {
 
 			while ($line = $this->dbh->fetch_assoc($result)) {
 
-				$tpl->setVariable('ARTICLE_ID', htmlspecialchars($line['link']), true);
+				$tpl->setVariable('ARTICLE_ID',
+					htmlspecialchars($orig_guid ? $line['link'] :
+						get_self_url_prefix() .
+							"/public.php?url=" . urlencode($line['link'])), true);
 				$tpl->setVariable('ARTICLE_LINK', htmlspecialchars($line['link']), true);
 				$tpl->setVariable('ARTICLE_TITLE', htmlspecialchars($line['title']), true);
 				$tpl->setVariable('ARTICLE_EXCERPT',
@@ -110,6 +113,9 @@ class Handler_Public extends Handler {
 					date(DATE_RFC822, strtotime($line["updated"])), true);
 
 				$tpl->setVariable('ARTICLE_AUTHOR', htmlspecialchars($line['author']), true);
+
+				$tpl->setVariable('ARTICLE_SOURCE_LINK', htmlspecialchars($line['site_url']), true);
+				$tpl->setVariable('ARTICLE_SOURCE_TITLE', htmlspecialchars($line['feed_title']), true);
 
 				$tags = get_article_tags($line["id"], $owner_uid);
 
@@ -342,7 +348,7 @@ class Handler_Public extends Handler {
 	function rss() {
 		$feed = $this->dbh->escape_string($_REQUEST["id"]);
 		$key = $this->dbh->escape_string($_REQUEST["key"]);
-		$is_cat = $_REQUEST["is_cat"] != false;
+		$is_cat = sql_bool_to_bool($_REQUEST["is_cat"]);
 		$limit = (int)$this->dbh->escape_string($_REQUEST["limit"]);
 		$offset = (int)$this->dbh->escape_string($_REQUEST["offset"]);
 
@@ -352,6 +358,7 @@ class Handler_Public extends Handler {
 		$order = $this->dbh->escape_string($_REQUEST["order"]);
 
 		$format = $this->dbh->escape_string($_REQUEST['format']);
+		$orig_guid = !sql_bool_to_bool($_REQUEST["no_orig_guid"]);
 
 		if (!$format) $format = 'atom';
 
@@ -371,7 +378,7 @@ class Handler_Public extends Handler {
 
 		if ($owner_id) {
 			$this->generate_syndicated_feed($owner_id, $feed, $is_cat, $limit,
-				$offset, $search, $search_mode, $view_mode, $format, $order);
+				$offset, $search, $search_mode, $view_mode, $format, $order, $orig_guid);
 		} else {
 			header('HTTP/1.1 403 Forbidden');
 		}
@@ -543,6 +550,7 @@ class Handler_Public extends Handler {
 				}
 			} else {
 				$_SESSION["login_error_msg"] = __("Incorrect username or password");
+				user_error("Failed login attempt from {$_SERVER['REMOTE_ADDR']}", E_USER_WARNING);
 			}
 
 			if ($_REQUEST['return']) {

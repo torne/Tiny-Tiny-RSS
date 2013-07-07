@@ -114,6 +114,7 @@ class GoogleReaderImport extends Plugin {
 					$guid = db_escape_string(mb_substr($item['id'], 0, 250));
 					$title = db_escape_string($item['title']);
 					$updated = date('Y-m-d h:i:s', $item['updated']);
+					$last_marked = date('Y-m-d h:i:s', mb_substr($item['crawlTimeMsec'], 0, 10));
 					$link = '';
 					$content = '';
 					$author = db_escape_string($item['author']);
@@ -165,7 +166,7 @@ class GoogleReaderImport extends Plugin {
 
 					$imported += (int) $this->create_article($owner_uid, $guid, $title,
 						$link, $updated,  $content, $author, $sql_set_marked, $tags,
-						$orig_feed_data);
+						$orig_feed_data, $last_marked);
 
 					if ($file && $processed % 25 == 0) {
 						_debug("processed $processed articles...");
@@ -196,7 +197,7 @@ class GoogleReaderImport extends Plugin {
 	}
 
 	// expects ESCAPED data
-	private function create_article($owner_uid, $guid, $title, $link, $updated,  $content, $author, $marked, $tags, $orig_feed_data) {
+	private function create_article($owner_uid, $guid, $title, $link, $updated,  $content, $author, $marked, $tags, $orig_feed_data, $last_marked) {
 
 		if (!$guid) $guid = sha1($link);
 
@@ -299,7 +300,7 @@ class GoogleReaderImport extends Plugin {
 					(ref_id, uuid, feed_id, orig_feed_id, owner_uid, marked, tag_cache, label_cache,
 						last_read, note, unread, last_marked)
 					VALUES
-					('$ref_id', '', NULL, $orig_feed_id, $owner_uid, $marked, '', '', NOW(), '', false, NOW())");
+					('$ref_id', '', NULL, $orig_feed_id, $owner_uid, $marked, '', '', '$last_marked', '', false, '$last_marked')");
 
 				$result = db_query("SELECT int_id FROM ttrss_user_entries, ttrss_entries
 					WHERE owner_uid = $owner_uid AND ref_id = id AND ref_id = $ref_id");
