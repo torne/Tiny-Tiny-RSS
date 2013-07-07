@@ -2579,7 +2579,7 @@
 				}
 			}
 
-			$content_query_part = "content as content_preview, cached_content, ";
+			$content_query_part = "content, content as content_preview, cached_content, ";
 
 			if (is_numeric($feed)) {
 
