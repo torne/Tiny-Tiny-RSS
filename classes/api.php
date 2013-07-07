@@ -203,7 +203,7 @@ class API extends Handler {
 			$override_order = false;
 			switch ($_REQUEST["order_by"]) {
 				case "date_reverse":
-					$override_order = "date_entered, updated";
+					$override_order = "score DESC, date_entered, updated";
 					break;
 				case "feed_dates":
 					$override_order = "updated DESC";

@@ -265,3 +265,22 @@ div#floatingTitle span.author,
 div#floatingTitle img.tinyFeedIcon {
 	display : none;
 }
+
+.cdm.high .cdmHeader a.title.high, .cdm.high .cdmHeader .cdmExcerpt,
+.cdm.high .cdmHeader span.author {
+	color : #00aa00;
+}
+
+.cdm.Unread.high .cdmHeader a.title.high, .cdm.Unread.high .cdmHeader .cdmExcerpt,
+.cdm.Unread.high .cdmHeader span.author {
+	color : #00dd00;
+}
+
+.cdm .cdmHeader a.title.low, .cdm.low .cdmHeader .cdmExcerpt,
+.cdm.Unread .cdmHeader a.title.low, .cdm.Unread.low .cdmHeader .cdmExcerpt,
+.cdm.low .cdmHeader span.author {
+	color : #909090;
+	text-decoration : line-through;
+}
+
+

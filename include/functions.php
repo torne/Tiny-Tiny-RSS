@@ -2578,7 +2578,9 @@
 				}
 			}
 
+
 			$content_query_part = "content, content AS content_preview, cached_content, ";
+
 
 			if (is_numeric($feed)) {
 
@@ -3784,7 +3786,7 @@
 	 * @return string Absolute URL
 	 */
 	function rewrite_relative_url($url, $rel_url) {
-		if (strpos($rel_url, "magnet:") === 0) {
+		if (strpos($rel_url, ":") !== false) {
 			return $rel_url;
 		} else if (strpos($rel_url, "://") !== false) {
 			return $rel_url;
@@ -3954,6 +3956,7 @@
 			$reg_qpart = "REGEXP";
 
 		foreach ($filter["rules"] AS $rule) {
+			$rule['reg_exp'] = str_replace('/', '\/', $rule["reg_exp"]);
 			$regexp_valid = preg_match('/' . $rule['reg_exp'] . '/',
 				$rule['reg_exp']) !== FALSE;
 

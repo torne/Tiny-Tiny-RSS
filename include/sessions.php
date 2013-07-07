@@ -62,11 +62,17 @@
 			return false;
 		}
 
-		if ($_SESSION["ref_schema_version"] != session_get_schema_version(true))
+		if ($_SESSION["ref_schema_version"] != session_get_schema_version(true)) {
+			$_SESSION["login_error_msg"] =
+				__("Session failed to validate (schema version changed)");
 			return false;
+		}
 
-		if (sha1($_SERVER['HTTP_USER_AGENT']) != $_SESSION["user_agent"])
+		if (sha1($_SERVER['HTTP_USER_AGENT']) != $_SESSION["user_agent"]) {
+			$_SESSION["login_error_msg"] =
+				__("Session failed to validate (user agent changed)");
 			return false;
+		}
 
 		if ($_SESSION["uid"]) {
 			$result = Db::get()->query(
@@ -74,11 +80,19 @@
 
 			// user not found
 			if (Db::get()->num_rows($result) == 0) {
+
+				$_SESSION["login_error_msg"] =
+					__("Session failed to validate (user not found)");
+
 				return false;
 			} else {
 				$pwd_hash = Db::get()->fetch_result($result, 0, "pwd_hash");
 
 				if ($pwd_hash != $_SESSION["pwd_hash"]) {
+
+					$_SESSION["login_error_msg"] =
+						__("Session failed to validate (password changed)");
+
 					return false;
 				}
 			}

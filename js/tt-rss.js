@@ -847,11 +847,16 @@ function hotkey_handler(e) {
 
 		var keycode = false;
 		var shift_key = false;
+		var ctrl_key = false;
+		var alt_key = false;
+		var meta_key = false;
 
 		var cmdline = $('cmdline');
 
 		shift_key = e.shiftKey;
 		ctrl_key = e.ctrlKey;
+		alt_key = e.altKey;
+		meta_key = e.metaKey;
 
 		if (window.event) {
 			keycode = window.event.keyCode;
@@ -893,6 +898,8 @@ function hotkey_handler(e) {
 		// ensure ^*char notation
 		if (shift_key) hotkey = "*" + hotkey;
 		if (ctrl_key) hotkey = "^" + hotkey;
+		if (alt_key) hotkey = "+" + hotkey;
+		if (meta_key) hotkey = "%" + hotkey;
 
 		hotkey = hotkey_prefix ? hotkey_prefix + " " + hotkey : hotkey;
 		hotkey_prefix = false;
