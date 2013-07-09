@@ -1072,6 +1072,7 @@ div.hl.active {
 
 body#ttrssMain #feedTree .dijitTreeRow {
 	padding : 2px 0px 2px;
+	height : 22px;
 	border-width : 1px;
 	border-color : transparent;
 	color : #333;
@@ -1088,6 +1089,11 @@ body#ttrssMain #feedTree .dijitTreeRow {
 
 body#ttrssMain #feedTree .dijitTreeIsRoot > .dijitTreeRow > .dijitTreeExpando {
 	margin-left : 5px;
+}
+
+body#ttrssMain #feedTree .dijitTreeExpando {
+	margin-top : 0px;
+	opacity : 0.6;
 }
 
 body#ttrssMain #feedTree .dijitTreeNode {
@@ -1119,8 +1125,11 @@ body#ttrssMain #feedTree {
 	border-radius : 4px;
 	vertical-align : middle;
 	float : right;
-	margin : 5px 5px 5px 0px;
+	line-height : 14px;
+	margin-right : 4px;
+	margin-top : 3px;
 	min-width : 23px;
+	height : 14px;
 	text-shadow : 1px 1px rgba(0,0,0,0.2);
 }
 
