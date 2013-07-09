@@ -103,7 +103,6 @@ class FeedParser {
 				if (!$articles || $articles->length == 0)
 					$articles = $xpath->query("//atom03:entry");
 
-				$feed = $this->xpath->query("//atom:feed")->item(0);
 				foreach ($articles as $article) {
 					array_push($this->items, new FeedItem_Atom($article, $this->doc, $this->xpath));
 				}
