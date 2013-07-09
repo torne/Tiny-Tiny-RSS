@@ -1,13 +1,6 @@
 <?php
 class FeedItem_Atom extends FeedItem_Common {
 
-   	 private $baseUrl;
-
-  	 function __construct($elem, $doc, $xpath, $baseUrl) {
-  	 	parent::__construct($elem, $doc, $xpath);
-		$this->baseUrl= $baseUrl;
-   	 }
-
 	function get_id() {
 		$id = $this->elem->getElementsByTagName("id")->item(0);
 
@@ -46,8 +39,8 @@ class FeedItem_Atom extends FeedItem_Common {
 				(!$link->hasAttribute("rel")
 					|| $link->getAttribute("rel") == "alternate"
 					|| $link->getAttribute("rel") == "standout")) {
-
-				return $this->baseUrl.$link->getAttribute("href");
+				$base = $this->xpath->evaluate("string(ancestor-or-self::*[@xml:base][1]/@xml:base)",$link);
+				return $base.$link->getAttribute("href");
 			}
 		}
 	}
