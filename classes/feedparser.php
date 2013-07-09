@@ -104,17 +104,9 @@ class FeedParser {
 					$articles = $xpath->query("//atom03:entry");
 
 				$feed = $this->xpath->query("//atom:feed")->item(0);
-				$atts = $feed->attributes;
-				foreach($atts as $attrib)
-				{
-					if($attrib->name == "base"){
-						$base = $attrib->nodeValue;
-					}
-				}
 				foreach ($articles as $article) {
-					array_push($this->items, new FeedItem_Atom($article, $this->doc, $this->xpath, $base));
+					array_push($this->items, new FeedItem_Atom($article, $this->doc, $this->xpath));
 				}
-
 
 				break;
 			case $this::FEED_RSS:
