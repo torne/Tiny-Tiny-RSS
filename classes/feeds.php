@@ -286,12 +286,18 @@ class Feeds extends Handler_Protected {
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("PS", $timing_info);
 
 			$expand_cdm = get_pref('CDM_EXPANDED');
-				
+
 			while ($line = $this->dbh->fetch_assoc($result)) {
-				$line["content_preview"] =  "&mdash; " . truncate_string(strip_tags($line["content_preview"]),250);
+				$line["content_preview"] =  "&mdash; " . truncate_string(strip_tags($line["content_preview"]), 250);
+
 				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
 					$line = $p->hook_query_headlines($line, 250, false);
 				}
+
+				if (get_pref('SHOW_CONTENT_PREVIEW')) {
+					$content_preview =  $line["content_preview"];
+				}
+
 				$id = $line["id"];
 				$feed_id = $line["feed_id"];
 				$label_cache = $line["label_cache"];
@@ -363,10 +369,6 @@ class Feeds extends Handler_Protected {
 				$updated_fmt = make_local_datetime($line["updated"], false);
 				$date_entered_fmt = T_sprintf("Imported at %s",
 					make_local_datetime($line["date_entered"], false));
-
-				if (get_pref('SHOW_CONTENT_PREVIEW') ) {
-						$content_preview =  $line["content_preview"];	
-				}
 
 				$score = $line["score"];
 
