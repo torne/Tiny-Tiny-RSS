@@ -2215,27 +2215,54 @@ function openSelectedAttachment(elem) {
 	}
 }
 
+function scrollToRowId(id) {
+	try {
+		var row = $(id);
+
+		if (row)
+			$("headlines-frame").scrollTop = row.offsetTop;
+
+	} catch (e) {
+		exception_error("scrollToRowId", e);
+	}
+}
+
 function updateFloatingTitle() {
 	try {
 		var hf = $("headlines-frame");
 		var child = $("RROW-" + _active_article_id);
 
-		if (child && child.offsetTop + child.offsetHeight > hf.scrollTop) {
+		var elems;
 
-			var header = child.getElementsByClassName("cdmHeader")[0];
+		if (getInitParam("cdm_auto_catchup"))
+			elems = [$$("RROW-" + _active_article_id)];
+		else
+			elems = $$("#headlines-frame > div[id*=RROW]");
 
-			if (child.id != $("floatingTitle").getAttribute("rowid")) {
-				$("floatingTitle").setAttribute("rowid", child.id);
-				$("floatingTitle").innerHTML = header.innerHTML;
+		for (var i = 0; i < elems.length; i++) {
 
-				PluginHost.run(PluginHost.HOOK_FLOATING_TITLE, child);
+			var child = elems[i];
+
+			if (child && child.offsetTop + child.offsetHeight > hf.scrollTop) {
+
+				var header = child.getElementsByClassName("cdmHeader")[0];
+
+				if (child.id != $("floatingTitle").getAttribute("rowid")) {
+					$("floatingTitle").setAttribute("rowid", child.id);
+					$("floatingTitle").innerHTML = header.innerHTML;
+					$("floatingTitle").firstChild.innerHTML = "<img class='anchor markedPic' src='images/page_white_go.png' onclick=\"scrollToRowId('"+child.id+"')\">" + $("floatingTitle").firstChild.innerHTML;
+
+					PluginHost.run(PluginHost.HOOK_FLOATING_TITLE, child);
+				}
+
+				if (child.offsetTop < hf.scrollTop - header.offsetHeight)
+					Element.show("floatingTitle");
+				else
+					Element.hide("floatingTitle");
+
+				return;
+
 			}
-
-			if (child.offsetTop < hf.scrollTop - header.offsetHeight - 100 &&
-					child.offsetTop + child.offsetHeight - hf.scrollTop > 100)
-				Element.show("floatingTitle");
-			else
-				Element.hide("floatingTitle");
 		}
 
 	} catch (e) {
