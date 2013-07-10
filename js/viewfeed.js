@@ -2232,12 +2232,7 @@ function updateFloatingTitle() {
 		var hf = $("headlines-frame");
 		var child = $("RROW-" + _active_article_id);
 
-		var elems;
-
-		if (getInitParam("cdm_auto_catchup"))
-			elems = [$$("RROW-" + _active_article_id)];
-		else
-			elems = $$("#headlines-frame > div[id*=RROW]");
+		var elems = $$("#headlines-frame > div[id*=RROW]");
 
 		for (var i = 0; i < elems.length; i++) {
 
