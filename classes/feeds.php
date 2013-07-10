@@ -61,7 +61,7 @@ class Feeds extends Handler_Protected {
 				truncate_string($feed_title,30)."</a>";
 
 			if ($error) {
-				$reply .= " (<span class=\"error\" title=\"$error\">Error</span>)";
+				$reply .= "&nbsp;<img title='$error' src='images/error.png' alt='error' class=\"noborder\" style=\"vertical-align : middle\">";
 			}
 
 		} else {
