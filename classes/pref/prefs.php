@@ -767,7 +767,7 @@ class Pref_Prefs extends Handler_Protected {
 
 				$plugin_icon = $checked ? "plugin.png" : "plugin_disabled.png";
 
-				print "<td><img src='images/$plugin_icon' alt=''> $name</td>";
+				print "<td><label><img src='images/$plugin_icon' alt=''> $name</label></td>";
 				print "<td>" . htmlspecialchars($about[1]);
 				if (@$about[4]) {
 					print " &mdash; <a target=\"_blank\" class=\"visibleLink\"
