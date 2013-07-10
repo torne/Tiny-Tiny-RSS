@@ -4090,7 +4090,9 @@
 		return in_array($interface, class_implements($class));
 	}
 
-	function geturl($url){
+	function geturl($url, $depth = 0){
+
+		if ($depth == 20) return $url;
 
 		if (!function_exists('curl_init'))
 			return user_error('CURL Must be installed for geturl function to work. Ask your host to enable it or uncomment extension=php_curl.dll in php.ini', E_USER_ERROR);
@@ -4129,7 +4131,7 @@
 				preg_match("/(Location:|URI:)[^(\n)]*/", $header, $matches);
 				$url = trim(str_replace($matches[1],"",$matches[0]));
 				$url_parsed = parse_url($url);
-				return (isset($url_parsed))? geturl($url):'';
+				return (isset($url_parsed))? geturl($url, $depth + 1):'';
 			}
 
 			global $fetch_last_error;
