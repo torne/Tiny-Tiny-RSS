@@ -309,7 +309,7 @@ class API extends Handler {
 
 		if ($article_id) {
 
-			$query = "SELECT id,title,link,content,cached_content,feed_id,comments,int_id,
+			$query = "SELECT id,title,link,content,feed_id,comments,int_id,
 				marked,unread,published,score,
 				".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 				author,(SELECT title FROM ttrss_feeds WHERE id = feed_id) AS feed_title
@@ -338,7 +338,7 @@ class API extends Handler {
 						"comments" => $line["comments"],
 						"author" => $line["author"],
 						"updated" => (int) strtotime($line["updated"]),
-						"content" => $line["cached_content"] != "" ? $line["cached_content"] : $line["content"],
+						"content" => $line["content"],
 						"feed_id" => $line["feed_id"],
 						"attachments" => $attachments,
 						"score" => (int)$line["score"],
@@ -673,10 +673,6 @@ class API extends Handler {
 					$headline_row["excerpt"] = $line["content_preview"];
 
 				if ($show_content) {
-
-					if ($line["cached_content"] != "") {
-						$line["content"] =& $line["cached_content"];
-					}
 
 					if ($sanitize_content) {
 						$headline_row["content"] = sanitize(

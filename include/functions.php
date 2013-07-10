@@ -2579,7 +2579,7 @@
 			}
 
 
-			$content_query_part = "content, content AS content_preview, cached_content, ";
+			$content_query_part = "content, content AS content_preview, ";
 
 
 			if (is_numeric($feed)) {
@@ -3104,8 +3104,7 @@
 			tag_cache,
 			author,
 			orig_feed_id,
-			note,
-			cached_content
+			note
 			FROM ttrss_entries,ttrss_user_entries
 			WHERE	id = '$id' AND ref_id = id AND owner_uid = $owner_uid");
 
