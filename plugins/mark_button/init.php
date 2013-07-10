@@ -26,7 +26,7 @@ class Mark_Button extends Plugin {
 					onclick='toggleMark($id)'>";
 			} else {
 				$marked_pic = "<img
-					src=\"images/mark_unset.svg\"
+					src=\"images/mark_unset.png\"
 					class=\"markedPic\" alt=\"Star article\"
 					onclick='toggleMark($id)'>";
 			}
