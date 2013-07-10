@@ -85,8 +85,11 @@ class Handler_Public extends Handler {
 			}
 
 			$tpl->setVariable('SELF_URL', htmlspecialchars(get_self_url_prefix()), true);
-
+			$line["content_preview"] = truncate_string(strip_tags($line["content_preview"]), 100, '...');
 			while ($line = $this->dbh->fetch_assoc($result)) {
+				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
+					$line = $p->hook_query_headlines($line);
+				}
 
 				$tpl->setVariable('ARTICLE_ID',
 					htmlspecialchars($orig_guid ? $line['link'] :
@@ -94,10 +97,9 @@ class Handler_Public extends Handler {
 							"/public.php?url=" . urlencode($line['link'])), true);
 				$tpl->setVariable('ARTICLE_LINK', htmlspecialchars($line['link']), true);
 				$tpl->setVariable('ARTICLE_TITLE', htmlspecialchars($line['title']), true);
-				$tpl->setVariable('ARTICLE_EXCERPT',
-					truncate_string(strip_tags($line["content_preview"]), 100, '...'), true);
+				$tpl->setVariable('ARTICLE_EXCERPT', $line["content_preview"], true);
 
-				$content = sanitize($line["content_preview"], false, $owner_uid);
+				$content = sanitize($line["content"], false, $owner_uid);
 
 				if ($line['note']) {
 					$content = "<div style=\"$note_style\">Article note: " . $line['note'] . "</div>" .
@@ -170,13 +172,17 @@ class Handler_Public extends Handler {
 			$feed['articles'] = array();
 
 			while ($line = $this->dbh->fetch_assoc($result)) {
+				$line["content_preview"] = truncate_string(strip_tags($line["content_preview"]), 100, '...');
+				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
+					$line = $p->hook_query_headlines($line, 100);
+				}
 				$article = array();
 
 				$article['id'] = $line['link'];
 				$article['link']	= $line['link'];
 				$article['title'] = $line['title'];
-				$article['excerpt'] = truncate_string(strip_tags($line["content_preview"]), 100, '...');
-				$article['content'] = sanitize($line["content_preview"], false, $owner_uid);
+				$article['excerpt'] = $line["content_preview"];
+				$article['content'] = sanitize($line["content"], false, $owner_uid);
 				$article['updated'] = date('c', strtotime($line["updated"]));
 
 				if ($line['note']) $article['note'] = $line['note'];

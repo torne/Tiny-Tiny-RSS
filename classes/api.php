@@ -636,8 +636,13 @@ class API extends Handler {
 			$feed_title = $qfh_ret[1];
 
 			$headlines = array();
-
+			
 			while ($line = db_fetch_assoc($result)) {
+				$line["content_preview"] = truncate_string(strip_tags($line["content_preview"]), 100);
+				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
+					$line = $p->hook_query_headlines($line, 100, true);
+				}
+				
 				$is_updated = ($line["last_read"] == "" &&
 					($line["unread"] != "t" && $line["unread"] != "1"));
 
@@ -664,24 +669,22 @@ class API extends Handler {
 						$headline_row['attachments'] = get_article_enclosures(
 							$line['id']);
 
-				if ($show_excerpt) {
-					$excerpt = truncate_string(strip_tags($line["content_preview"]), 100);
-					$headline_row["excerpt"] = $excerpt;
-				}
+				if (!$show_excerpt )
+					$headline_row["excerpt"] = $ine["content_preview"];
 
 				if ($show_content) {
 
 					if ($line["cached_content"] != "") {
-						$line["content_preview"] =& $line["cached_content"];
+						$line["content"] =& $line["cached_content"];
 					}
 
 					if ($sanitize_content) {
 						$headline_row["content"] = sanitize(
-							$line["content_preview"],
+							$line["content"],
 							sql_bool_to_bool($line['hide_images']),
 							false, $line["site_url"]);
 					} else {
-						$headline_row["content"] = $line["content_preview"];
+						$headline_row["content"] = $line["content"];
 					}
 				}
 
@@ -699,6 +702,7 @@ class API extends Handler {
 				$headline_row["always_display_attachments"] = sql_bool_to_bool($line["always_display_enclosures"]);
 
 				$headline_row["author"] = $line["author"];
+				
 				$headline_row["score"] = (int)$line["score"];
 
 				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_RENDER_ARTICLE_API) as $p) {
