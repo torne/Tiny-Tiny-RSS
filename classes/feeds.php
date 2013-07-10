@@ -74,7 +74,7 @@ class Feeds extends Handler_Protected {
 			<a href=\"#\"
 				title=\"".__("View as RSS feed")."\"
 				onclick=\"displayDlg('".__("View as RSS")."','generatedFeed', '$feed_id:$is_cat:$rss_link')\">
-				<img class=\"noborder\" style=\"vertical-align : middle\" src=\"images/pub_set.svg\"></a>";
+				<img class=\"noborder\" style=\"vertical-align : middle\" src=\"images/pub_set.png\"></a>";
 
 		$reply .= "</span>";
 
@@ -323,24 +323,24 @@ class Feeds extends Handler_Protected {
 
 				if (sql_bool_to_bool($line["marked"])) {
 					$marked_pic = "<img
-						src=\"images/mark_set.svg\"
+						src=\"images/mark_set.png\"
 						class=\"markedPic\" alt=\"Unstar article\"
 						onclick='toggleMark($id)'>";
 					$class .= " marked";
 				} else {
 					$marked_pic = "<img
-						src=\"images/mark_unset.svg\"
+						src=\"images/mark_unset.png\"
 						class=\"markedPic\" alt=\"Star article\"
 						onclick='toggleMark($id)'>";
 				}
 
 				if (sql_bool_to_bool($line["published"])) {
-					$published_pic = "<img src=\"images/pub_set.svg\"
+					$published_pic = "<img src=\"images/pub_set.png\"
 						class=\"pubPic\"
 							alt=\"Unpublish article\" onclick='togglePub($id)'>";
 					$class .= " published";
 				} else {
-					$published_pic = "<img src=\"images/pub_unset.svg\"
+					$published_pic = "<img src=\"images/pub_unset.png\"
 						class=\"pubPic\"
 						alt=\"Publish article\" onclick='togglePub($id)'>";
 				}
@@ -395,7 +395,7 @@ class Feeds extends Handler_Protected {
 				if ($has_feed_icon) {
 					$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"".ICONS_URL."/$feed_id.ico\" alt=\"\">";
 				} else {
-					$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"images/pub_set.svg\" alt=\"\">";
+					$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"images/pub_set.png\" alt=\"\">";
 				}
 
 				$entry_site_url = $line["site_url"];
@@ -638,7 +638,7 @@ class Feeds extends Handler_Protected {
 							$reply['content'] .= "&nbsp;";
 
 							$reply['content'] .= "<a target='_blank' href='" . htmlspecialchars($tmp_line['feed_url']) . "'>";
-							$reply['content'] .= "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_unset.svg'></a>";
+							$reply['content'] .= "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_unset.png'></a>";
 
 							$reply['content'] .= "</div>";
 						}

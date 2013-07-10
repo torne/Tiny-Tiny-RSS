@@ -418,7 +418,7 @@ class Pref_Users extends Handler_Protected {
 
 				$onclick = "onclick='editUser($uid, event)' title='".__('Click to edit')."'";
 
-				print "<td $onclick>" . $line["login"] . "</td>";
+				print "<td $onclick><img src='images/user.png' class='markedPic' alt=''> " . $line["login"] . "</td>";
 
 				if (!$line["email"]) $line["email"] = "&nbsp;";
 

@@ -299,7 +299,7 @@ div.error {
 }
 
 div.warning img, div.notice img, div.error img {
-	margin-right : 4px;
+	margin : 4px;
 	vertical-align : middle;
 }
 
@@ -660,29 +660,18 @@ div.dlgButtons {
 }
 
 span.labelColorIndicator {
-	height : 14px;
-	width : 14px;
+	height : 16px;
+	width : 16px;
+	border-radius : 4px;
 	line-height : 14px;
+	vertical-align : middle;
 	font-size : 9px;
 	display : inline-block;
-	border : 1px solid black;
+	border : 1px solid #ccc;
 	background-color : #fff7d5;	
 	color : #063064;
 	text-align : center;
-	margin-right : 2px;
-}
-
-span.labelColorIndicator2 {
-	height : 14px;
-	width : 14px;
-	font-size : 9px;
-	display : inline-block;
-	border : 1px solid black;
-	background-color : #fff7d5;	
-	color : #063064;
-	text-align : center;
-	margin-right : 2px;
-	vertical-align : bottom;
+	box-shadow : 0px 0px 1px 0px rgba(0,0,0,0.1);
 }
 
 div#cmdline {
@@ -894,6 +883,7 @@ div.fatalError textarea {
 img.feedIcon, img.tinyFeedIcon {
 	width : 16px;
 	height : 16px;
+	line-height : 16px;
 	vertical-align : middle;
 	display : inline-block;
 }
@@ -1070,6 +1060,11 @@ div.hl.active {
 	margin-right : 25px;
 }
 
+#feedTree img.feedIcon {
+	position : relative;
+	top : -2px;
+}
+
 body#ttrssMain #feedTree .dijitTreeRow {
 	padding : 2px 0px 2px;
 	height : 22px;
@@ -1078,8 +1073,8 @@ body#ttrssMain #feedTree .dijitTreeRow {
 	color : #333;
 }
 
-.dijitFolderClosed,
-.dijitFolderOpened {
+body#ttrssMain #feedTree .dijitFolderClosed,
+body#ttrssMain #feedTree .dijitFolderOpened {
 	display : none;
 }
 

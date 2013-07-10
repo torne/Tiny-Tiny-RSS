@@ -1876,19 +1876,19 @@
 			return "images/archive.png";
 			break;
 		case -1:
-			return "images/mark_set.svg";
+			return "images/star.png";
 			break;
 		case -2:
-			return "images/pub_set.svg";
+			return "images/feed.png";
 			break;
 		case -3:
 			return "images/fresh.png";
 			break;
 		case -4:
-			return "images/tag.png";
+			return "images/folder.png";
 			break;
 		case -6:
-			return "images/recently_read.png";
+			return "images/time.png";
 			break;
 		default:
 			if ($id < LABEL_BASE_INDEX) {
@@ -2996,19 +2996,19 @@
 	function format_warning($msg, $id = "") {
 		global $link;
 		return "<div class=\"warning\" id=\"$id\">
-			<span><img src=\"images/sign_excl.svg\"></span><span>$msg</span></div>";
+			<span><img src=\"images/alert.png\"></span><span>$msg</span></div>";
 	}
 
 	function format_notice($msg, $id = "") {
 		global $link;
 		return "<div class=\"notice\" id=\"$id\">
-			<span><img src=\"images/sign_info.svg\"></span><span>$msg</span></div>";
+			<span><img src=\"images/information.png\"></span><span>$msg</span></div>";
 	}
 
 	function format_error($msg, $id = "") {
 		global $link;
 		return "<div class=\"error\" id=\"$id\">
-			<span><img src=\"images/sign_excl.svg\"></span><span>$msg</span></div>";
+			<span><img src=\"images/alert.png\"></span><span>$msg</span></div>";
 	}
 
 	function print_notice($msg) {

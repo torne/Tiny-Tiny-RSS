@@ -10,6 +10,8 @@ Licensed under GNU GPL version 2
 
 Copyright (c) 2005 Andrew Dolgov (unless explicitly stated otherwise).
 
+Uses Silk icons by Mark James: http://www.famfamfam.com/lab/icons/silk/
+
 ## Requirements
 
 * Compatible web browser (http://tt-rss.org/wiki/CompatibleBrowsers)
