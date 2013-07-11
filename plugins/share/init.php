@@ -18,6 +18,26 @@ class Share extends Plugin {
 		return file_get_contents(dirname(__FILE__) . "/share.js");
 	}
 
+	function unshare() {
+		$id = db_escape_string($_REQUEST['id']);
+
+		db_query("UPDATE ttrss_user_entries SET uuid = '' WHERE int_id = '$id'
+			AND owner_uid = " . $_SESSION['uid']);
+
+		print "OK";
+	}
+
+	function newkey() {
+		$id = db_escape_string($_REQUEST['id']);
+
+		$uuid = db_escape_string(sha1(uniqid(rand(), true)));
+
+		db_query("UPDATE ttrss_user_entries SET uuid = '$uuid' WHERE int_id = '$id'
+			AND owner_uid = " . $_SESSION['uid']);
+
+		print json_encode(array("link" => $uuid));
+	}
+
 	function hook_article_button($line) {
 		return "<img src=\"plugins/share/share.png\"
 			class='tagsPic' style=\"cursor : pointer\"
@@ -50,7 +70,7 @@ class Share extends Plugin {
 			$url_path .= "/public.php?op=share&key=$uuid";
 
 			print "<div class=\"tagCloudContainer\">";
-			print "<a id='pub_opml_url' href='$url_path' target='_blank'>$url_path</a>";
+			print "<a id='gen_article_url' href='$url_path' target='_blank'>$url_path</a>";
 			print "</div>";
 
 			/* if (!label_find_id(__('Shared'), $_SESSION["uid"]))
@@ -60,6 +80,12 @@ class Share extends Plugin {
 		}
 
 		print "<div align='center'>";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('shareArticleDlg').unshare()\">".
+			__('Unshare article')."</button>";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('shareArticleDlg').newurl()\">".
+			__('Generate new URL')."</button>";
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('shareArticleDlg').hide()\">".
 			__('Close this window')."</button>";
