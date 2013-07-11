@@ -1315,7 +1315,7 @@ function headlines_scroll_handler(e) {
 			if (hsp) hsp.innerHTML = "";
 		}
 
-		if (getInitParam("cdm_expanded") && isCdmMode()) {
+		if (isCdmMode()) {
 			updateFloatingTitle();
 		}
 
@@ -1489,6 +1489,12 @@ function cdmCollapseArticle(event, id, unmark) {
 			if (event) Event.stop(event);
 
 			PluginHost.run(PluginHost.HOOK_ARTICLE_COLLAPSED, id);
+
+			if (row.offsetTop < $("headlines-frame").scrollTop)
+				scrollToRowId(row.id);
+
+			Element.hide("floatingTitle");
+			$("floatingTitle").setAttribute("rowid", false);
 		}
 
 	} catch (e) {
@@ -2230,14 +2236,8 @@ function scrollToRowId(id) {
 function updateFloatingTitle() {
 	try {
 		var hf = $("headlines-frame");
-		var child = $("RROW-" + _active_article_id);
 
-		var elems;
-
-		if (getInitParam("cdm_auto_catchup"))
-			elems = [$$("RROW-" + _active_article_id)];
-		else
-			elems = $$("#headlines-frame > div[id*=RROW]");
+		var elems = $$("#headlines-frame > div[id*=RROW]");
 
 		for (var i = 0; i < elems.length; i++) {
 
@@ -2255,7 +2255,8 @@ function updateFloatingTitle() {
 					PluginHost.run(PluginHost.HOOK_FLOATING_TITLE, child);
 				}
 
-				if (child.offsetTop < hf.scrollTop - header.offsetHeight)
+				if (child.offsetTop < hf.scrollTop - header.offsetHeight &&
+						child.offsetTop + child.offsetHeight - hf.scrollTop > header.offsetHeight)
 					Element.show("floatingTitle");
 				else
 					Element.hide("floatingTitle");

@@ -110,6 +110,10 @@ div.cdm.expandable div.cdmHeader span.titleWrap {
 	max-width : 500px;
 }
 
+div.cdm.expandable.active div.cdmHeader span.titleWrap {
+	white-space : normal;
+}
+
 div.cdm.expandable div.cdmHeader a.title {
 	font-weight : bold;
 	color : #555;
@@ -230,11 +234,11 @@ div.cdmHeader span.author {
 div#floatingTitle {
 	position : absolute;
 	z-index : 5;
-	top : 26px;
+	top : 25px;
 	right : 0px;
 	left : 0px;
 	border-color : #ccc;
-	border-width : 0px 0px 1px 0px;
+	border-width : 1px 0px 1px 0px;
 	border-style : solid;
 	background : #fcfcfc;
 	color : #555;
@@ -278,6 +282,12 @@ div#floatingTitle div.hlFeed {
 	white-space : nowrap;
 }
 
+div#floatingTitle div.hlFeed a {
+	border-radius : 4px;
+	display : inline-block;
+	padding : 1px 4px 1px 4px;
+}
+
 div#floatingTitle span.updated {
 	padding-right : 10px;
 	white-space : nowrap;
@@ -291,6 +301,7 @@ div#floatingTitle div.hlFeed a {
 
 div#floatingTitle span.titleWrap {
 	width : 100%;
+	white-space : normal;
 }
 
 div#floatingTitle .dijit,
