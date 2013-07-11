@@ -1315,7 +1315,7 @@ function headlines_scroll_handler(e) {
 			if (hsp) hsp.innerHTML = "";
 		}
 
-		if (getInitParam("cdm_expanded") && isCdmMode()) {
+		if (isCdmMode()) {
 			updateFloatingTitle();
 		}
 
@@ -1489,6 +1489,12 @@ function cdmCollapseArticle(event, id, unmark) {
 			if (event) Event.stop(event);
 
 			PluginHost.run(PluginHost.HOOK_ARTICLE_COLLAPSED, id);
+
+			if (row.offsetTop < $("headlines-frame").scrollTop)
+				scrollToRowId(row.id);
+
+			Element.hide("floatingTitle");
+			$("floatingTitle").setAttribute("rowid", false);
 		}
 
 	} catch (e) {
