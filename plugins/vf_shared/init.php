@@ -37,7 +37,7 @@ class VF_Shared extends Plugin {
 	function get_headlines($feed_id, $options) {
 		$qfh_ret = queryFeedHeadlines(-4,
 			$options['limit'],
-			$this->get_unread() > 0 ? "adaptive" : "all_articles",
+			$this->get_unread(-1) > 0 ? "adaptive" : "all_articles",
 			false,
 			$options['search'],
 			$options['search_mode'],
