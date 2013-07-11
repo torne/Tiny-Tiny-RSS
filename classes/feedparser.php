@@ -20,6 +20,24 @@ class FeedParser {
 
 		$error = libxml_get_last_error();
 
+		// libxml compiled without iconv?
+		if ($error && $error->code == 32) {
+			if (preg_match('/^(<\\?xml .*?)encoding="(.+?)"(.*?\\?>)/', $data, $matches) === 1) {
+				libxml_clear_errors();
+
+				$enc = $matches[2];
+
+	         $data = iconv($enc, 'UTF-8//IGNORE', $data);
+	         $data = preg_replace('/^<\\?xml .*?\\?>/', $matches[1] . $matches[3] , $data);
+
+				$this->doc = new DOMDocument();
+				$this->doc->loadXML($data);
+
+				$error = libxml_get_last_error();
+		   }
+		}
+
+		// some terrible invalid unicode entity?
 		if ($error && $error->code == 9) {
 			libxml_clear_errors();
 
