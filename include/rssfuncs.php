@@ -677,6 +677,7 @@
 							comments,
 							num_comments,
 							plugin_data,
+							cached_content,
 							author)
 						VALUES
 							('$entry_title',
@@ -691,6 +692,7 @@
 							'$entry_comments',
 							'$num_comments',
 							'$entry_plugin_data',
+							'$entry_guid',
 							'$entry_author')");
 
 					$article_labels = array();
