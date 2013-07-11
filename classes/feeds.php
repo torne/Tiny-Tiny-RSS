@@ -316,7 +316,7 @@ class Feeds extends Handler_Protected {
 
 				if (!is_array($labels)) $labels = get_article_labels($id);
 
-				$labels_str = "<span id=\"HLLCTR-$id\">";
+				$labels_str = "<span class=\"HLLCTR-$id\">";
 				$labels_str .= format_article_labels($labels, $id);
 				$labels_str .= "</span>";
 

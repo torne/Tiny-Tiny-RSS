@@ -1599,9 +1599,9 @@ function show_labels_in_headlines(transport) {
 
 		if (data) {
 			data['info-for-headlines'].each(function(elem) {
-				var ctr = $("HLLCTR-" + elem.id);
-
-				if (ctr) ctr.innerHTML = elem.labels;
+				$$(".HLLCTR-" + elem.id).each(function(ctr) {
+					ctr.innerHTML = elem.labels;
+				});
 			});
 		}
 	} catch (e) {
@@ -1916,6 +1916,153 @@ function closeArticlePanel() {
 			dijit.byId("content-insert"));
 }
 
+function initFloatingMenu() {
+	try {
+		if (dijit.byId("floatingMenu"))
+			dijit.byId("floatingMenu").destroyRecursive();
+
+			var menu = new dijit.Menu({
+				id: "floatingMenu",
+				targetNodeIds: ["floatingTitle"]
+			});
+
+			var id = $("floatingTitle").getAttribute("rowid").replace("RROW-", "");
+
+			headlinesMenuCommon(menu, id);
+
+			menu.startup();
+	} catch (e) {
+		exception_error("initFloatingMenu", e);
+	}
+}
+
+function headlinesMenuCommon(menu, base_id) {
+	try {
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Open original article"),
+			onClick: function(event) {
+				openArticleInNewWindow(base_id ? base_id : this.getParent().callerRowId);
+			}}));
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Display article URL"),
+			onClick: function(event) {
+				displayArticleUrl(base_id ? base_id : this.getParent().callerRowId);
+			}}));
+
+		menu.addChild(new dijit.MenuSeparator());
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Toggle unread"),
+			onClick: function(event) {
+				var ids = getSelectedArticleIds2();
+				// cast to string
+				var id = (base_id ? base_id : this.getParent().callerRowId) + "";
+				ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+
+				selectionToggleUnread(undefined, false, true, ids);
+				}}));
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Toggle starred"),
+			onClick: function(event) {
+				var ids = getSelectedArticleIds2();
+				// cast to string
+				var id = (base_id ? base_id : this.getParent().callerRowId) + "";
+				ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+
+				selectionToggleMarked(undefined, false, true, ids);
+				}}));
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Toggle published"),
+			onClick: function(event) {
+				var ids = getSelectedArticleIds2();
+				// cast to string
+				var id = (base_id ? base_id : this.getParent().callerRowId) + "";
+				ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+
+				selectionTogglePublished(undefined, false, true, ids);
+				}}));
+
+		menu.addChild(new dijit.MenuSeparator());
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Mark above as read"),
+			onClick: function(event) {
+				catchupRelativeToArticle(0, base_id ? base_id : this.getParent().callerRowId);
+				}}));
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Mark below as read"),
+			onClick: function(event) {
+				catchupRelativeToArticle(1, base_id ? base_id : this.getParent().callerRowId);
+				}}));
+
+
+		var labels = dijit.byId("feedTree").model.getItemsInCategory(-2);
+
+		if (labels) {
+
+			menu.addChild(new dijit.MenuSeparator());
+
+			var labelAddMenu = new dijit.Menu({ownerMenu: menu});
+			var labelDelMenu = new dijit.Menu({ownerMenu: menu});
+
+			labels.each(function(label) {
+				var id = label.id[0];
+				var bare_id = id.substr(id.indexOf(":")+1);
+				var name = label.name[0];
+
+				bare_id = feed_to_label_id(bare_id);
+
+				labelAddMenu.addChild(new dijit.MenuItem({
+					label: name,
+					labelId: bare_id,
+					onClick: function(event) {
+						var ids = getSelectedArticleIds2();
+						// cast to string
+						var id = (base_id ? base_id : this.getParent().ownerMenu.callerRowId) + "";
+
+						ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+
+						selectionAssignLabel(this.labelId, ids);
+				}}));
+
+				labelDelMenu.addChild(new dijit.MenuItem({
+					label: name,
+					labelId: bare_id,
+					onClick: function(event) {
+						var ids = getSelectedArticleIds2();
+						// cast to string
+						var id = (base_id ? base_id : this.getParent().ownerMenu.callerRowId) + "";
+
+						ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+
+						selectionRemoveLabel(this.labelId, ids);
+				}}));
+
+			});
+
+			menu.addChild(new dijit.PopupMenuItem({
+				label: __("Assign label"),
+				popup: labelAddMenu,
+			}));
+
+			menu.addChild(new dijit.PopupMenuItem({
+				label: __("Remove label"),
+				popup: labelDelMenu,
+			}));
+
+		}
+
+
+	} catch (e) {
+		exception_error("headlinesMenuCommon", e);
+	}
+}
+
 function initHeadlinesMenu() {
 	try {
 		if (dijit.byId("headlinesMenu"))
@@ -1951,130 +2098,7 @@ function initHeadlinesMenu() {
 
 		});
 
-/*		if (!isCdmMode())
-			menu.addChild(new dijit.MenuItem({
-				label: __("View article"),
-				onClick: function(event) {
-					view(this.getParent().callerRowId);
-				}})); */
-
-		menu.addChild(new dijit.MenuItem({
-			label: __("Open original article"),
-			onClick: function(event) {
-				openArticleInNewWindow(this.getParent().callerRowId);
-			}}));
-
-		menu.addChild(new dijit.MenuItem({
-			label: __("Display article URL"),
-			onClick: function(event) {
-				displayArticleUrl(this.getParent().callerRowId);
-			}}));
-
-		menu.addChild(new dijit.MenuSeparator());
-
-		menu.addChild(new dijit.MenuItem({
-			label: __("Toggle unread"),
-			onClick: function(event) {
-				var ids = getSelectedArticleIds2();
-				// cast to string
-				var id = this.getParent().callerRowId + "";
-				ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
-
-				selectionToggleUnread(undefined, false, true, ids);
-				}}));
-
-		menu.addChild(new dijit.MenuItem({
-			label: __("Toggle starred"),
-			onClick: function(event) {
-				var ids = getSelectedArticleIds2();
-				// cast to string
-				var id = this.getParent().callerRowId + "";
-				ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
-
-				selectionToggleMarked(undefined, false, true, ids);
-				}}));
-
-		menu.addChild(new dijit.MenuItem({
-			label: __("Toggle published"),
-			onClick: function(event) {
-				var ids = getSelectedArticleIds2();
-				// cast to string
-				var id = this.getParent().callerRowId + "";
-				ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
-
-				selectionTogglePublished(undefined, false, true, ids);
-				}}));
-
-		menu.addChild(new dijit.MenuSeparator());
-
-		menu.addChild(new dijit.MenuItem({
-			label: __("Mark above as read"),
-			onClick: function(event) {
-				catchupRelativeToArticle(0, this.getParent().callerRowId);
-				}}));
-
-		menu.addChild(new dijit.MenuItem({
-			label: __("Mark below as read"),
-			onClick: function(event) {
-				catchupRelativeToArticle(1, this.getParent().callerRowId);
-				}}));
-
-
-		var labels = dijit.byId("feedTree").model.getItemsInCategory(-2);
-
-		if (labels) {
-
-			menu.addChild(new dijit.MenuSeparator());
-
-			var labelAddMenu = new dijit.Menu({ownerMenu: menu});
-			var labelDelMenu = new dijit.Menu({ownerMenu: menu});
-
-			labels.each(function(label) {
-				var id = label.id[0];
-				var bare_id = id.substr(id.indexOf(":")+1);
-				var name = label.name[0];
-
-				bare_id = feed_to_label_id(bare_id);
-
-				labelAddMenu.addChild(new dijit.MenuItem({
-					label: name,
-					labelId: bare_id,
-					onClick: function(event) {
-						var ids = getSelectedArticleIds2();
-						// cast to string
-						var id = this.getParent().ownerMenu.callerRowId + "";
-
-						ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
-
-						selectionAssignLabel(this.labelId, ids);
-				}}));
-
-				labelDelMenu.addChild(new dijit.MenuItem({
-					label: name,
-					labelId: bare_id,
-					onClick: function(event) {
-						var ids = getSelectedArticleIds2();
-						// cast to string
-						var id = this.getParent().ownerMenu.callerRowId + "";
-
-						ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
-
-						selectionRemoveLabel(this.labelId, ids);
-				}}));
-
-			});
-
-			menu.addChild(new dijit.PopupMenuItem({
-				label: __("Assign label"),
-				popup: labelAddMenu,
-			}));
-
-			menu.addChild(new dijit.PopupMenuItem({
-				label: __("Remove label"),
-				popup: labelDelMenu,
-			}));
-
-		}
+		headlinesMenuCommon(menu, false);
 
 		menu.startup();
 
@@ -2251,6 +2275,8 @@ function updateFloatingTitle() {
 					$("floatingTitle").setAttribute("rowid", child.id);
 					$("floatingTitle").innerHTML = header.innerHTML;
 					$("floatingTitle").firstChild.innerHTML = "<img class='anchor markedPic' src='images/page_white_go.png' onclick=\"scrollToRowId('"+child.id+"')\">" + $("floatingTitle").firstChild.innerHTML;
+
+					initFloatingMenu();
 
 					PluginHost.run(PluginHost.HOOK_FLOATING_TITLE, child);
 				}
