@@ -2645,6 +2645,7 @@
 						num_comments,
 						comments,
 						int_id,
+						uuid,
 						hide_images,
 						unread,feed_id,marked,published,link,last_read,orig_feed_id,
 						last_marked, last_published,
@@ -2687,6 +2688,7 @@
 								"tag_cache," .
 								"label_cache," .
 								"link," .
+								"uuid," .
 								"last_read," .
 								"(SELECT hide_images FROM ttrss_feeds WHERE id = feed_id) AS hide_images," .
 								"last_marked, last_published, " .

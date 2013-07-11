@@ -69,7 +69,9 @@ class Share extends Plugin {
 	}
 
 	function hook_article_button($line) {
-		return "<img src=\"plugins/share/share.png\"
+		$img = $line['uuid'] ? "share.png" : "notshared.png";
+
+		return "<img id='SHARE-IMG-".$line['int_id']."' src=\"plugins/share/$img\"
 			class='tagsPic' style=\"cursor : pointer\"
 			onclick=\"shareArticle(".$line['int_id'].")\"
 			title='".__('Share by URL')."'>";

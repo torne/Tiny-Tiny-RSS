@@ -37,6 +37,9 @@ function shareArticle(id) {
 
 									new Effect.Highlight(e);
 
+									var img = $("SHARE-IMG-" + id);
+									if (img) img.src = img.src.replace("notshared.png", "share.png");
+
 									notify('');
 
 								} else {
@@ -61,6 +64,10 @@ function shareArticle(id) {
 						parameters: query,
 						onComplete: function(transport) {
 							notify("Article unshared.");
+
+							var img = $("SHARE-IMG-" + id);
+							if (img) img.src = img.src.replace("share.png", "notshared.png");
+
 							dialog.hide();
 						} });
 				}
@@ -69,6 +76,9 @@ function shareArticle(id) {
 			href: query});
 
 		dialog.show();
+
+		var img = $("SHARE-IMG-" + id);
+		if (img) img.src = img.src.replace("notshared.png", "share.png");
 
 	} catch (e) {
 		exception_error("shareArticle", e);
