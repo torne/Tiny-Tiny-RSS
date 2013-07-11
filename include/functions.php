@@ -3166,6 +3166,21 @@
 						<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 						<title>Tiny Tiny RSS - ".$line["title"]."</title>
 						<link rel=\"stylesheet\" type=\"text/css\" href=\"css/tt-rss.css\">
+						<script type=\"text/javascript\">
+						function openSelectedAttachment(elem) {
+							try {
+								var url = elem[elem.selectedIndex].value;
+
+								if (url) {
+									window.open(url);
+									elem.selectedIndex = 0;
+								}
+
+							} catch (e) {
+								exception_error(\"openSelectedAttachment\", e);
+							}
+						}
+					</script>
 					</head><body id=\"ttrssZoom\">";
 			}
 
