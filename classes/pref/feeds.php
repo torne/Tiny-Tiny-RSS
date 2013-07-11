@@ -1471,15 +1471,6 @@ class Pref_Feeds extends Handler_Protected {
 
 		print "</p>";
 
-		print_warning(__("You can disable all articles shared by unique URLs here."));
-
-		print "<p>";
-
-		print "<button dojoType=\"dijit.form.Button\" onclick=\"return clearArticleAccessKeys()\">".
-			__('Unshare all articles')."</button> ";
-
-		print "</p>";
-
 		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_TAB_SECTION,
 			"hook_prefs_tab_section", "prefFeedsPublishedGenerated");
 

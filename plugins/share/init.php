@@ -12,11 +12,17 @@ class Share extends Plugin {
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
+		$host->add_hook($host::HOOK_PREFS_TAB_SECTION, $this);
 	}
 
 	function get_js() {
 		return file_get_contents(dirname(__FILE__) . "/share.js");
 	}
+
+	function get_prefs_js() {
+		return file_get_contents(dirname(__FILE__) . "/share_prefs.js");
+	}
+
 
 	function unshare() {
 		$id = db_escape_string($_REQUEST['id']);
@@ -26,6 +32,30 @@ class Share extends Plugin {
 
 		print "OK";
 	}
+
+	function hook_prefs_tab_section($id) {
+		if ($id == "prefFeedsPublishedGenerated") {
+
+			print_warning(__("You can disable all articles shared by unique URLs here."));
+
+			print "<p>";
+
+			print "<button dojoType=\"dijit.form.Button\" onclick=\"return clearArticleAccessKeys()\">".
+				__('Unshare all articles')."</button> ";
+
+			print "</p>";
+
+		}
+	}
+
+	// Silent
+	function clearArticleKeys() {
+		db_query("UPDATE ttrss_user_entries SET uuid = '' WHERE
+			owner_uid = " . $_SESSION["uid"]);
+
+		return;
+	}
+
 
 	function newkey() {
 		$id = db_escape_string($_REQUEST['id']);

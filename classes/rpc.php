@@ -467,14 +467,6 @@ class RPC extends Handler_Protected {
 		print_feed_cat_select("cat_id", $id, '');
 	}
 
-	// Silent
-	function clearArticleKeys() {
-		$this->dbh->query("UPDATE ttrss_user_entries SET uuid = '' WHERE
-			owner_uid = " . $_SESSION["uid"]);
-
-		return;
-	}
-
 	function setpanelmode() {
 		$wide = (int) $_REQUEST["wide"];
 
