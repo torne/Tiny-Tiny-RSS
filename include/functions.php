@@ -1501,7 +1501,11 @@
 			foreach ($feeds as $feed) {
 				$cv = array("id" => PluginHost::pfeed_to_feed_id($feed['id']),
 					"counter" => $feed['sender']->get_unread($feed['id']));
-					array_push($ret_arr, $cv);
+
+				if (method_exists($feed['sender'], 'get_total'))
+					$cv["auxcounter"] = $feed['sender']->get_total($feed['id']);
+
+				array_push($ret_arr, $cv);
 			}
 		}
 
@@ -2313,7 +2317,7 @@
 		return $rv;
 	}
 
-	function queryFeedHeadlines($feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false) {
+	function queryFeedHeadlines($feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false, $override_strategy = false, $override_vfeed = false) {
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
@@ -2515,6 +2519,11 @@
 				$allow_archived = true;
 
 				if (!$override_order) $override_order = "last_read DESC";
+
+/*			} else if ($feed == -7) { // shared
+				$query_strategy_part = "uuid != ''";
+				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
+				$allow_archived = true; */
 			} else if ($feed == -3) { // fresh virtual feed
 				$query_strategy_part = "unread = true AND score >= 0";
 
@@ -2554,6 +2563,14 @@
 
 			if ($override_order) {
 				$order_by = $override_order;
+			}
+
+			if ($override_strategy) {
+				$query_strategy_part = $override_strategy;
+			}
+
+			if ($override_vfeed) {
+				$vfeed_query_part = $override_vfeed;
 			}
 
 			$feed_title = "";
