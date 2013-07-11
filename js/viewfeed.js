@@ -2230,7 +2230,6 @@ function scrollToRowId(id) {
 function updateFloatingTitle() {
 	try {
 		var hf = $("headlines-frame");
-		var child = $("RROW-" + _active_article_id);
 
 		var elems = $$("#headlines-frame > div[id*=RROW]");
 
@@ -2250,7 +2249,8 @@ function updateFloatingTitle() {
 					PluginHost.run(PluginHost.HOOK_FLOATING_TITLE, child);
 				}
 
-				if (child.offsetTop < hf.scrollTop - header.offsetHeight)
+				if (child.offsetTop < hf.scrollTop - header.offsetHeight &&
+						child.offsetTop + child.offsetHeight - hf.scrollTop > header.offsetHeight)
 					Element.show("floatingTitle");
 				else
 					Element.hide("floatingTitle");
