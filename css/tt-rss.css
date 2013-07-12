@@ -845,8 +845,12 @@ div.fatalError textarea {
 	overflow : auto;
 }
 
-.dijitTreeLabel.Unread {
+#feedTree .dijitTreeRow .dijitTreeLabel.Unread {
 	font-weight : bold;
+}
+
+#feedTree .dijitTreeRow.Error .dijitTreeLabel {
+	color : red;
 }
 
 .dijitTreeLabel {
