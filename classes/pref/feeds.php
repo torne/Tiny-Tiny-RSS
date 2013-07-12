@@ -572,8 +572,9 @@ class Pref_Feeds extends Handler_Protected {
 		$last_error = $this->dbh->fetch_result($result, 0, "last_error");
 
 		if ($last_error) {
-			print "&nbsp;<span title=\"".htmlspecialchars($last_error)."\"
-				class=\"feed_error\">(error)</span>";
+			print "&nbsp;<img src=\"images/error.png\" alt=\"(error)\"
+				style=\"vertical-align : middle\"
+				title=\"".htmlspecialchars($last_error)."\">";
 
 		}
 

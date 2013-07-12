@@ -48,9 +48,11 @@ class Feeds extends Handler_Protected {
 
 		// right part
 
+		$error_class = $error ? "error" : "";
+
 		$reply .= "<span class='r'>";
 		$reply .= "<span id='selected_prompt'></span>";
-		$reply .= "<span id='feed_title'>";
+		$reply .= "<span id='feed_title' class='$error_class'>";
 
 		if ($feed_site_url) {
 			$last_updated = T_sprintf("Last updated: %s",
