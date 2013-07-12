@@ -95,7 +95,7 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req, can_w
 
 		var toolbar_query = Form.serialize("main_toolbar_form");
 
-		var query = "?op=feeds&method=view&feed=" + feed + "&" +
+		var query = "?op=feeds&method=view&feed=" + param_escape(feed) + "&" +
 			toolbar_query;
 
 		if (method) {
