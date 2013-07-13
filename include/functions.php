@@ -4270,16 +4270,21 @@
 		}
 
 		function ngettext(msg1, msg2, n) {
-			return (parseInt(n) > 1) ? msg2 : msg1;
+			return __((parseInt(n) > 1) ? msg2 : msg1);
 		}';
 
 		$l10n = _get_reader();
 
 		for ($i = 0; $i < $l10n->total; $i++) {
 			$orig = $l10n->get_original_string($i);
-			$translation = __($orig);
-
-			print T_js_decl($orig, $translation);
+			if(strpos($orig, "\000") !== FALSE) { // Plural forms
+				$key = explode(chr(0), $orig);
+				print T_js_decl($key[0], ngettext($key[0], $key[1], 1)); // Singular
+				print T_js_decl($key[1], ngettext($key[0], $key[1], 2)); // Plural
+			} else {
+				$translation = __($orig);
+				print T_js_decl($orig, $translation);
+			}
 		}
 	}
 
