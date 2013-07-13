@@ -95,7 +95,7 @@
 				}
 			}
 
-			if (SELF_URL_PATH == "http://yourserver/tt-rss/") {
+			if (SELF_URL_PATH == "http://example.org/tt-rss/") {
 				$urlpath = preg_replace("/\w+\.php$/", "", make_self_url_path());
 
 				array_push($errors,
