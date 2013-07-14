@@ -3850,9 +3850,7 @@
 	}
 
 	function sphinx_search($query, $offset = 0, $limit = 30) {
-
-		if (!class_exists("SphinxClient"))
-			require_once 'lib/sphinxapi.php';
+		require_once 'lib/sphinxapi.php';
 
 		$sphinxClient = new SphinxClient();
 
