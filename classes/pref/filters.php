@@ -96,9 +96,9 @@ class Pref_Filters extends Handler_Protected {
 		print "<div class=\"filterTestHolder\">";
 		print "<table width=\"100%\" cellspacing=\"0\" id=\"prefErrorFeedList\">";
 
-		$line["content_preview"] = truncate_string(strip_tags($line["content_preview"]), 100, '...');
-
 		while ($line = $this->dbh->fetch_assoc($result)) {
+			$line["content_preview"] = truncate_string(strip_tags($line["content_preview"]), 100, '...');
+
 			foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
 					$line = $p->hook_query_headlines($line, 100);
 				}
@@ -122,7 +122,7 @@ class Pref_Filters extends Handler_Protected {
 			print "&nbsp;(";
 			print "<b>" . $feed_title . "</b>";
 			print "):&nbsp;";
-			print "<span class=\"insensitive\">" . $line["content_preview"] . "</span>";
+			print "<span class=\"insensitive\">" . $content_preview . "</span>";
 			print " " . mb_substr($line["date_entered"], 0, 16);
 
 			print "</td></tr>";
