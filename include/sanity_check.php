@@ -150,6 +150,11 @@
 				array_push($errors, "PHP support for CURL is required for PubSubHubbub.");
 			}
 
+			if (SPHINX_ENABLED && class_exists("SphinxClient")) {
+				array_push($errors, "Your PHP has a separate systemwide Sphinx client installed which conflicts with the client library used by tt-rss. Either remove the system library or disable Sphinx support.");
+
+			}
+
 			if (!class_exists("DOMDocument")) {
 				array_push($errors, "PHP support for DOMDocument is required, but was not found.");
 			}
