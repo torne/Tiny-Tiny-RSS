@@ -2278,6 +2278,11 @@ function updateFloatingTitle() {
 
 					initFloatingMenu();
 
+					var cb = $$("#floatingTitle .dijitCheckBox")[0];
+
+					if (cb)
+						cb.parentNode.removeChild(cb);
+
 					PluginHost.run(PluginHost.HOOK_FLOATING_TITLE, child);
 				}
 
