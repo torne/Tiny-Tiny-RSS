@@ -157,7 +157,7 @@
 
 		<button dojoType="dijit.form.Button" id="collapse_feeds_btn"
 			onclick="collapse_feedlist()"
-			title="<?php echo __('Collapse feedlist') ?>" style="display : inline">
+			title="<?php echo __('Collapse feedlist') ?>" style="display : none">
 			&lt;&lt;</button>
 
 		<select name="view_mode" title="<?php echo __('Show articles') ?>"
