@@ -835,6 +835,8 @@ function selectionToggleUnread(set_state, callback, no_error, ids) {
 			}
 		}
 
+		updateFloatingTitle(true);
+
 		if (rows.length > 0) {
 
 			var cmode = "";
@@ -1742,6 +1744,7 @@ function cdmClicked(event, id) {
 
 				if (article_is_unread) {
 					decrementFeedCounter(getActiveFeedId(), activeFeedIsCat());
+					updateFloatingTitle(true);
 				}
 
 				var query = "?op=rpc&method=catchupSelected" +
@@ -2257,8 +2260,10 @@ function scrollToRowId(id) {
 	}
 }
 
-function updateFloatingTitle() {
+function updateFloatingTitle(unread_only) {
 	try {
+		if (!isCdmMode()) return;
+
 		var hf = $("headlines-frame");
 
 		var elems = $$("#headlines-frame > div[id*=RROW]");
@@ -2271,17 +2276,24 @@ function updateFloatingTitle() {
 
 				var header = child.getElementsByClassName("cdmHeader")[0];
 
-				if (child.id != $("floatingTitle").getAttribute("rowid")) {
-					$("floatingTitle").setAttribute("rowid", child.id);
-					$("floatingTitle").innerHTML = header.innerHTML;
-					$("floatingTitle").firstChild.innerHTML = "<img class='anchor markedPic' src='images/page_white_go.png' onclick=\"scrollToRowId('"+child.id+"')\">" + $("floatingTitle").firstChild.innerHTML;
+				if (unread_only || child.id != $("floatingTitle").getAttribute("rowid")) {
+					if (child.id != $("floatingTitle").getAttribute("rowid")) {
+						$("floatingTitle").setAttribute("rowid", child.id);
+						$("floatingTitle").innerHTML = header.innerHTML;
+						$("floatingTitle").firstChild.innerHTML = "<img class='anchor markedPic' src='images/page_white_go.png' onclick=\"scrollToRowId('"+child.id+"')\">" + $("floatingTitle").firstChild.innerHTML;
 
-					initFloatingMenu();
+						initFloatingMenu();
 
-					var cb = $$("#floatingTitle .dijitCheckBox")[0];
+						var cb = $$("#floatingTitle .dijitCheckBox")[0];
 
-					if (cb)
-						cb.parentNode.removeChild(cb);
+						if (cb)
+							cb.parentNode.removeChild(cb);
+					}
+
+					if (child.hasClassName("Unread"))
+						$("floatingTitle").addClassName("Unread");
+					else
+						$("floatingTitle").removeClassName("Unread");
 
 					PluginHost.run(PluginHost.HOOK_FLOATING_TITLE, child);
 				}
