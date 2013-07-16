@@ -1383,6 +1383,8 @@ function catchupBatchedArticles() {
 						catchup_id_batch.remove(id);
 					});
 
+					updateFloatingTitle(true);
+
 				} });
 		}
 
