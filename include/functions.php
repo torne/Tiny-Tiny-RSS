@@ -4153,6 +4153,10 @@
 		curl_setopt($curl, CURLOPT_TIMEOUT, 60);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
+		if ((OPENSSL_VERSION_NUMBER >= 0x0090808f) && (OPENSSL_VERSION_NUMBER < 0x10000000)) {
+			curl_setopt($curl, CURLOPT_SSLVERSION, 3);
+		}
+
 		$html = curl_exec($curl);
 
 		$status = curl_getinfo($curl);
