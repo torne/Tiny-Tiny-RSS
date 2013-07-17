@@ -4283,8 +4283,8 @@
 			$orig = $l10n->get_original_string($i);
 			if(strpos($orig, "\000") !== FALSE) { // Plural forms
 				$key = explode(chr(0), $orig);
-				print T_js_decl($key[0], ngettext($key[0], $key[1], 1)); // Singular
-				print T_js_decl($key[1], ngettext($key[0], $key[1], 2)); // Plural
+				print T_js_decl($key[0], _ngettext($key[0], $key[1], 1)); // Singular
+				print T_js_decl($key[1], _ngettext($key[0], $key[1], 2)); // Plural
 			} else {
 				$translation = __($orig);
 				print T_js_decl($orig, $translation);
