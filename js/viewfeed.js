@@ -1283,7 +1283,7 @@ function headlines_scroll_handler(e) {
 			for (var i = 0; i < rows.length; i++) {
 				var child = rows[i];
 
-				if ($("headlines-frame").scrollTop < child.offsetTop &&
+				if ($("headlines-frame").scrollTop <= child.offsetTop &&
 					child.offsetTop - $("headlines-frame").scrollTop < 100 &&
 					child.id.replace("RROW-", "") != _active_article_id) {
 
