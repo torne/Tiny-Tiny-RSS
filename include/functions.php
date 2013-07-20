@@ -350,7 +350,7 @@
 			}
 
 			if ((OPENSSL_VERSION_NUMBER >= 0x0090808f) && (OPENSSL_VERSION_NUMBER < 0x10000000)) {
-				curl_setopt($curl, CURLOPT_SSLVERSION, 3);
+				curl_setopt($ch, CURLOPT_SSLVERSION, 3);
 			}
 
 			if ($login && $pass)
