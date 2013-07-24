@@ -391,13 +391,9 @@ class Handler_Public extends Handler {
 	}
 
 	function globalUpdateFeeds() {
-		include "rssfuncs.php";
-		// Update all feeds needing a update.
-		update_daemon_common(0, true, false);
-		housekeeping_common(false);
+		RPC::updaterandomfeed_real($this->dbh);
 
 		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_UPDATE_TASK, "hook_update_task", $op);
-
 	}
 
 	function sharepopup() {

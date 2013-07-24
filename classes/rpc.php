@@ -476,7 +476,8 @@ class RPC extends Handler_Protected {
 		print json_encode(array("wide" => $wide));
 	}
 
-	function updaterandomfeed() {
+	static function updaterandomfeed_real($dbh) {
+
 		// Test if the feed need a update (update interval exceded).
 		if (DB_TYPE == "pgsql") {
 			$update_limit_qpart = "AND ((
@@ -508,7 +509,7 @@ class RPC extends Handler_Protected {
 		$random_qpart = sql_random_function();
 
 		// We search for feed needing update.
-		$result = $this->dbh->query("SELECT ttrss_feeds.feed_url,ttrss_feeds.id
+		$result = $dbh->query("SELECT ttrss_feeds.feed_url,ttrss_feeds.id
 			FROM
 				ttrss_feeds, ttrss_users, ttrss_user_prefs
 			WHERE
@@ -527,7 +528,7 @@ class RPC extends Handler_Protected {
 
 		$tstart = time();
 
-		while ($line = $this->dbh->fetch_assoc($result)) {
+		while ($line = $dbh->fetch_assoc($result)) {
 			$feed_id = $line["id"];
 
 			if (time() - $tstart < ini_get("max_execution_time") * 0.7) {
@@ -549,6 +550,10 @@ class RPC extends Handler_Protected {
 			print json_encode(array("message" => "NOTHING_TO_UPDATE"));
 		}
 
+	}
+
+	function updaterandomfeed() {
+		RPC::updaterandomfeed_real($this->dbh);
 	}
 
 	private function markArticlesById($ids, $cmode) {
