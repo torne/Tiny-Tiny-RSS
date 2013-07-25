@@ -573,13 +573,17 @@ function init_second_stage() {
 
 			var tmph = dojo.connect(dijit.byId('feeds-holder'), 'resize',
 				function (args) {
-					setCookie("ttrss_fh_width", args.w, getInitParam("cookie_lifetime"));
+					if (args && args.w >= 0) {
+						setCookie("ttrss_fh_width", args.w, getInitParam("cookie_lifetime"));
+					}
 			});
 
 			var tmph = dojo.connect(dijit.byId('content-insert'), 'resize',
 				function (args) {
-					setCookie("ttrss_ci_width", args.w, getInitParam("cookie_lifetime"));
-					setCookie("ttrss_ci_height", args.h, getInitParam("cookie_lifetime"));
+					if (args && args.w >= 0 && args.h >= 0) {
+						setCookie("ttrss_ci_width", args.w, getInitParam("cookie_lifetime"));
+						setCookie("ttrss_ci_height", args.h, getInitParam("cookie_lifetime"));
+					}
 			});
 
 		});
