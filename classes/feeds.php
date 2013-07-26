@@ -621,7 +621,7 @@ class Feeds extends Handler_Protected {
 					}
 					$reply['content'] .= "</div>";
 
-					$reply['content'] .= "<div class=\"cdmContentInner\">";
+					$reply['content'] .= "<div class=\"cdmContentInner\" lang=\"en\">";
 
 			if ($line["orig_feed_id"]) {
 

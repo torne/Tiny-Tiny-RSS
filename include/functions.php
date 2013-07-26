@@ -3286,7 +3286,7 @@
 				}
 			$rv['content'] .= "</div>";
 
-			$rv['content'] .= "<div class=\"postContent\">";
+			$rv['content'] .= "<div class=\"postContent\" lang=\"en\">";
 
 			$rv['content'] .= $line["content"];
 			$rv['content'] .= format_article_enclosures($id,
