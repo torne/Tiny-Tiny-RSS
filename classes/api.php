@@ -430,7 +430,7 @@ class API extends Handler {
 			}
 
 			array_push($rv, array(
-				"id" => (int)$line['id'],
+				"id" => (int)label_to_feed_id($line['id']),
 				"caption" => $line['caption'],
 				"fg_color" => $line['fg_color'],
 				"bg_color" => $line['bg_color'],
