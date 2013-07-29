@@ -42,7 +42,11 @@ class FeedItem_Atom extends FeedItem_Common {
 					|| $link->getAttribute("rel") == "standout")) {
 				$base = $this->xpath->evaluate("string(ancestor-or-self::*[@xml:base][1]/@xml:base)", $link);
 
-				return rewrite_relative_url($base, $link->getAttribute("href"));
+				if ($base)
+					return rewrite_relative_url($base, $link->getAttribute("href"));
+				else
+					return $link->getAttribute("href");
+
 			}
 		}
 	}
