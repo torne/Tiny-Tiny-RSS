@@ -3201,7 +3201,8 @@
 			$parsed_updated = make_local_datetime($line["updated"], true,
 				$owner_uid, true);
 
-			$rv['content'] .= "<div class=\"postDate\">$parsed_updated</div>";
+			if (!$zoom_mode)
+				$rv['content'] .= "<div class=\"postDate\">$parsed_updated</div>";
 
 			if ($line["link"]) {
 				$rv['content'] .= "<div class='postTitle'><a target='_blank'
@@ -3213,6 +3214,9 @@
 			} else {
 				$rv['content'] .= "<div class='postTitle'>" . $line["title"] . "$entry_author</div>";
 			}
+
+			if ($zoom_mode)
+				$rv['content'] .= "<div class=\"postDate\">$parsed_updated</div>";
 
 			$tags_str = format_tags_string($line["tags"], $id);
 			$tags_str_full = join(", ", $line["tags"]);

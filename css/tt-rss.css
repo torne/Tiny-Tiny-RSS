@@ -382,7 +382,7 @@ span.hlLabelRef {
 
 div.postHeader div.postDate {
 	text-align : right;
-	color : #555;
+	color : #909090;
 	float : right;
 }
 
@@ -1014,8 +1014,16 @@ body#ttrssZoom {
 	margin-left : auto;
 	margin-right : auto;
 	padding : 20px;
-	max-width : 800px;
+	max-width : 670px;
 	background : #f9fbff;
+}
+
+body#ttrssZoom div.postHeader div.postDate {
+	float : none;
+	text-align : left;
+	padding-left : 0px;
+	color : #777;
+	font-size : 10px;
 }
 
 body#ttrssZoom div.postContent p {
