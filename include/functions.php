@@ -2865,6 +2865,8 @@
 		if ($highlight_words) {
 			foreach ($highlight_words as $word) {
 
+				// http://stackoverflow.com/questions/4081372/highlight-keywords-in-a-paragraph
+
 				$elements = $xpath->query('//*[contains(.,"'.$word.'")]');
 
 				foreach ($elements as $element) {
