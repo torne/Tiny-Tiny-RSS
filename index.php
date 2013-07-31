@@ -98,7 +98,7 @@
 	<script type="text/javascript">
 		require({cache:{}});
 	<?php
-		require 'lib/jshrink/Minifier.php';
+		require_once 'lib/jshrink/Minifier.php';
 
 		print get_minified_js(array("tt-rss",
 			"functions", "feedlist", "viewfeed", "FeedTree", "PluginHost"));

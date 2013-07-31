@@ -64,7 +64,7 @@
 	<script type="text/javascript">
 		require({cache:{}});
 	<?php
-		require 'lib/jshrink/Minifier.php';
+		require_once 'lib/jshrink/Minifier.php';
 
 		foreach (PluginHost::getInstance()->get_plugins() as $n => $p) {
 			if (method_exists($p, "get_prefs_js")) {
