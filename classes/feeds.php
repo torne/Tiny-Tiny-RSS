@@ -255,6 +255,7 @@ class Feeds extends Handler_Protected {
 		$last_error = $qfh_ret[3];
 		$last_updated = strpos($qfh_ret[4], '1970-') === FALSE ?
 			make_local_datetime($qfh_ret[4], false) : __("Never");
+		$highlight_words = $qfh_ret[5];
 
 		$vgroup_last_feed = $vgr_last_feed;
 
@@ -509,7 +510,7 @@ class Feeds extends Handler_Protected {
 						$tags = false;
 
 					$line["content"] = sanitize($line["content"],
-							sql_bool_to_bool($line['hide_images']), false, $entry_site_url);
+							sql_bool_to_bool($line['hide_images']), false, $entry_site_url, $highlight_words);
 
 					foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_RENDER_ARTICLE_CDM) as $p) {
 						$line = $p->hook_render_article_cdm($line);

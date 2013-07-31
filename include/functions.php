@@ -2204,6 +2204,7 @@
 
 		$keywords = explode(" ", $search);
 		$query_keywords = array();
+		$search_words = array();
 
 		foreach ($keywords as $k) {
 			if (strpos($k, "-") === 0) {
@@ -2223,6 +2224,7 @@
 				} else {
 					array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
 							OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
+					array_push($search_words, $k);
 				}
 				break;
 			case "author":
@@ -2232,6 +2234,7 @@
 				} else {
 					array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
 							OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
+					array_push($search_words, $k);
 				}
 				break;
 			case "note":
@@ -2246,6 +2249,7 @@
 				} else {
 					array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
 							OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
+					if (!$not) array_push($search_words, $k);
 				}
 				break;
 			case "star":
@@ -2258,6 +2262,7 @@
 				} else {
 					array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
 							OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
+					if (!$not) array_push($search_words, $k);
 				}
 				break;
 			case "pub":
@@ -2270,6 +2275,7 @@
 				} else {
 					array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
 							OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
+					if (!$not) array_push($search_words, $k);
 				}
 				break;
 			default:
@@ -2285,13 +2291,15 @@
 				} else {
 					array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
 							OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
+
+					if (!$not) array_push($search_words, $k);
 				}
 			}
 		}
 
 		$search_query_part = implode("AND", $query_keywords);
 
-		return $search_query_part;
+		return array($search_query_part, $search_words);
 	}
 
 	function getParentCategories($cat, $owner_uid) {
@@ -2327,6 +2335,7 @@
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
 		$ext_tables_part = "";
+		$search_words = array();
 
 			if ($search) {
 
@@ -2339,7 +2348,7 @@
 						$search_query_part = "ref_id = -1 AND ";
 
 				} else {
-					$search_query_part = search_to_sql($search);
+					list($search_query_part, $search_words) = search_to_sql($search);
 					$search_query_part .= " AND ";
 				}
 
@@ -2747,11 +2756,11 @@
 				$result = db_query($select_qpart . $from_qpart . $where_qpart);
 			}
 
-			return array($result, $feed_title, $feed_site_url, $last_error, $last_updated);
+			return array($result, $feed_title, $feed_site_url, $last_error, $last_updated, $search_words);
 
 	}
 
-	function sanitize($str, $force_remove_images = false, $owner = false, $site_url = false) {
+	function sanitize($str, $force_remove_images = false, $owner = false, $site_url = false, $highlight_words = false) {
 		if (!$owner) $owner = $_SESSION["uid"];
 
 		$res = trim($str); if (!$res) return '';
@@ -2852,7 +2861,41 @@
 
 		$doc->removeChild($doc->firstChild); //remove doctype
 		$doc = strip_harmful_tags($doc, $allowed_elements, $disallowed_attributes);
+
+		if ($highlight_words) {
+			foreach ($highlight_words as $word) {
+
+				$elements = $xpath->query('//*[contains(.,"'.$word.'")]');
+
+				foreach ($elements as $element) {
+					foreach ($element->childNodes as $child) {
+
+						if (!$child instanceof DomText) continue;
+
+			  			$fragment = $doc->createDocumentFragment();
+				      $text = $child->textContent;
+						$stubs = array();
+
+						while (($pos = stripos($text, $word)) !== false) {
+							$fragment->appendChild(new DomText(substr($text, 0, $pos)));
+							$word = substr($text, $pos, strlen($word));
+							$highlight = $doc->createElement('span');
+							$highlight->appendChild(new DomText($word));
+							$highlight->setAttribute('class', 'highlight');
+							$fragment->appendChild($highlight);
+							$text = substr($text, $pos + strlen($word));
+						}
+
+						if (!empty($text)) $fragment->appendChild(new DomText($text));
+
+						$element->replaceChild($fragment, $child);
+					}
+				}
+			}
+		}
+
 		$res = $doc->saveHTML();
+
 		return $res;
 	}
 
