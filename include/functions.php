@@ -1,6 +1,6 @@
 <?php
 	define('EXPECTED_CONFIG_VERSION', 26);
-	define('SCHEMA_VERSION', 121);
+	define('SCHEMA_VERSION', 122);
 
 	define('LABEL_BASE_INDEX', -1024);
 	define('PLUGIN_FEED_BASE_INDEX', -128);
@@ -87,6 +87,7 @@
 	require_once "lib/accept-to-gettext.php";
 	require_once "lib/gettext/gettext.inc";
 
+	require_once "lib/languagedetect/LanguageDetect.php";
 
 	function startup_gettext() {
 
@@ -2650,6 +2651,7 @@
 						comments,
 						int_id,
 						uuid,
+						lang,
 						hide_images,
 						unread,feed_id,marked,published,link,last_read,orig_feed_id,
 						last_marked, last_published,
@@ -2692,6 +2694,7 @@
 								"tag_cache," .
 								"label_cache," .
 								"link," .
+								"lang," .
 								"uuid," .
 								"last_read," .
 								"(SELECT hide_images FROM ttrss_feeds WHERE id = feed_id) AS hide_images," .
@@ -3118,7 +3121,7 @@
 			ccache_update($feed_id, $owner_uid);
 		}
 
-		$result = db_query("SELECT id,title,link,content,feed_id,comments,int_id,
+		$result = db_query("SELECT id,title,link,content,feed_id,comments,int_id,lang,
 			".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 			(SELECT site_url FROM ttrss_feeds WHERE id = feed_id) as site_url,
 			(SELECT hide_images FROM ttrss_feeds WHERE id = feed_id) as hide_images,
@@ -3290,7 +3293,7 @@
 				}
 			$rv['content'] .= "</div>";
 
-			$rv['content'] .= "<div class=\"postContent\" lang=\"en\">";
+			$rv['content'] .= "<div class=\"postContent\" lang=\"".$line['lang']."\">";
 
 			$rv['content'] .= $line["content"];
 			$rv['content'] .= format_article_enclosures($id,

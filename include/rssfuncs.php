@@ -354,6 +354,11 @@
 			$rss->init();
 		}
 
+		require_once "lib/languagedetect/LanguageDetect.php";
+
+		$lang = new Text_LanguageDetect();
+		$lang->setNameMode(2);
+
 //		print_r($rss);
 
 		$feed = db_escape_string($feed);
@@ -565,6 +570,15 @@
 					print "\n";
 				}
 
+				$entry_language = $lang->detect($entry_content, 1);
+
+				if (count($entry_language) > 0) {
+					$entry_language = array_keys($entry_language);
+					$entry_language = db_escape_string($entry_language[0]);
+
+					_debug("detected language: $entry_language", $debug_enabled);
+				}
+
 				$entry_comments = $item->get_comments_url();
 				$entry_author = $item->get_author();
 
@@ -677,6 +691,7 @@
 							comments,
 							num_comments,
 							plugin_data,
+							lang,
 							author)
 						VALUES
 							('$entry_title',
@@ -691,6 +706,7 @@
 							'$entry_comments',
 							'$num_comments',
 							'$entry_plugin_data',
+							'$entry_language',
 							'$entry_author')");
 
 					$article_labels = array();
