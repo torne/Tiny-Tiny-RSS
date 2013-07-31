@@ -3293,6 +3293,8 @@
 				}
 			$rv['content'] .= "</div>";
 
+			if (!$line['lang']) $line['lang'] = 'en';
+
 			$rv['content'] .= "<div class=\"postContent\" lang=\"".$line['lang']."\">";
 
 			$rv['content'] .= $line["content"];
