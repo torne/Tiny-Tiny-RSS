@@ -561,6 +561,13 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= "</div>";
 
+					if ($highlight_words && count($highlight_words > 0)) {
+						foreach ($highlight_words as $word) {
+							$line["title"] = preg_replace("/(\Q$word\E)/i",
+								"<span class=\"highlight\">$1</span>", $line["title"]);
+						}
+					}
+
 					$reply['content'] .= "<span id=\"RTITLE-$id\"
 						onclick=\"return cdmClicked(event, $id);\"
 						class=\"titleWrap $hlc_suffix\">
