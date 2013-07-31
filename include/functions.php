@@ -2875,14 +2875,14 @@
 				      $text = $child->textContent;
 						$stubs = array();
 
-						while (($pos = stripos($text, $word)) !== false) {
-							$fragment->appendChild(new DomText(substr($text, 0, $pos)));
-							$word = substr($text, $pos, strlen($word));
+						while (($pos = mb_stripos($text, $word)) !== false) {
+							$fragment->appendChild(new DomText(mb_substr($text, 0, $pos)));
+							$word = mb_substr($text, $pos, mb_strlen($word));
 							$highlight = $doc->createElement('span');
 							$highlight->appendChild(new DomText($word));
 							$highlight->setAttribute('class', 'highlight');
 							$fragment->appendChild($highlight);
-							$text = substr($text, $pos + strlen($word));
+							$text = mb_substr($text, $pos + mb_strlen($word));
 						}
 
 						if (!empty($text)) $fragment->appendChild(new DomText($text));
