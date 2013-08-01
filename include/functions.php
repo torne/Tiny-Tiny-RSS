@@ -2867,7 +2867,6 @@
 				$elements = $xpath->query("//*/text()");
 
 				foreach ($elements as $child) {
-					if (!$child instanceof DomText) continue;
 
 					$fragment = $doc->createDocumentFragment();
 					$text = $child->textContent;
