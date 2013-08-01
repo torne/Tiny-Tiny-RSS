@@ -2864,15 +2864,19 @@
 
 				// http://stackoverflow.com/questions/4081372/highlight-keywords-in-a-paragraph
 
-				$elements = $xpath->query('//*[contains(.,"'.$word.'")]');
+				$also_query = '';
+				foreach(array(strtolower($word), strtoupper($word), ucfirst(strtolower($word))) as $word_cap) {
+					$also_query .= ' or contains(.,"'.$word_cap.'")' ;
+				}
+				$elements = $xpath->query('//*[contains(.,"'.$word.'")' . $also_query . ']');
 
 				foreach ($elements as $element) {
 					foreach ($element->childNodes as $child) {
 
 						if (!$child instanceof DomText) continue;
 
-			  			$fragment = $doc->createDocumentFragment();
-				      $text = $child->textContent;
+						$fragment = $doc->createDocumentFragment();
+						$text = $child->textContent;
 						$stubs = array();
 
 						while (($pos = mb_stripos($text, $word)) !== false) {
