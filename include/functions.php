@@ -2864,35 +2864,28 @@
 
 				// http://stackoverflow.com/questions/4081372/highlight-keywords-in-a-paragraph
 
-				$also_query = '';
-				foreach(array(strtolower($word), strtoupper($word), ucfirst(strtolower($word))) as $word_cap) {
-					$also_query .= ' or contains(.,"'.$word_cap.'")' ;
-				}
-				$elements = $xpath->query('//*[contains(.,"'.$word.'")' . $also_query . ']');
+				$elements = $xpath->query("//*/text()");
 
-				foreach ($elements as $element) {
-					foreach ($element->childNodes as $child) {
+				foreach ($elements as $child) {
+					if (!$child instanceof DomText) continue;
 
-						if (!$child instanceof DomText) continue;
+					$fragment = $doc->createDocumentFragment();
+					$text = $child->textContent;
+					$stubs = array();
 
-						$fragment = $doc->createDocumentFragment();
-						$text = $child->textContent;
-						$stubs = array();
-
-						while (($pos = mb_stripos($text, $word)) !== false) {
-							$fragment->appendChild(new DomText(mb_substr($text, 0, $pos)));
-							$word = mb_substr($text, $pos, mb_strlen($word));
-							$highlight = $doc->createElement('span');
-							$highlight->appendChild(new DomText($word));
-							$highlight->setAttribute('class', 'highlight');
-							$fragment->appendChild($highlight);
-							$text = mb_substr($text, $pos + mb_strlen($word));
-						}
-
-						if (!empty($text)) $fragment->appendChild(new DomText($text));
-
-						$element->replaceChild($fragment, $child);
+					while (($pos = mb_stripos($text, $word)) !== false) {
+						$fragment->appendChild(new DomText(mb_substr($text, 0, $pos)));
+						$word = mb_substr($text, $pos, mb_strlen($word));
+						$highlight = $doc->createElement('span');
+						$highlight->appendChild(new DomText($word));
+						$highlight->setAttribute('class', 'highlight');
+						$fragment->appendChild($highlight);
+						$text = mb_substr($text, $pos + mb_strlen($word));
 					}
+
+					if (!empty($text)) $fragment->appendChild(new DomText($text));
+
+					$child->parentNode->replaceChild($fragment, $child);
 				}
 			}
 		}
