@@ -678,7 +678,7 @@ class API extends Handler {
 						$headline_row["content"] = sanitize(
 							$line["content"],
 							sql_bool_to_bool($line['hide_images']),
-							false, $line["site_url"]);
+							false, $line["site_url"], false, $line["id"]);
 					} else {
 						$headline_row["content"] = $line["content"];
 					}
