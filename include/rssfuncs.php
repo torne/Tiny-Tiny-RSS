@@ -1378,5 +1378,10 @@
 		$rc = cleanup_tags( 14, 50000);
 
 		_debug("Cleaned $rc cached tags.");
+
+		foreach ($pluginhost->get_hooks(PluginHost::HOOK_HOUSE_KEEPING) as $plugin) {
+			$plugin->hook_house_keeping();
+		}
+
 	}
 ?>
