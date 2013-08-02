@@ -25,6 +25,7 @@ class Cache_Starred_Images extends Plugin {
 
 			if (is_writable($this->cache_dir)) {
 				$host->add_hook($host::HOOK_UPDATE_TASK, $this);
+				$host->add_hook($host::HOOK_HOUSE_KEEPING, $this);
 				$host->add_hook($host::HOOK_SANITIZE, $this);
 			} else {
 				user_error("Starred cache directory is not writable.", E_USER_WARNING);
@@ -68,6 +69,30 @@ class Cache_Starred_Images extends Plugin {
 		}
 	}
 
+	function hook_house_keeping() {
+		$files = glob($this->cache_dir . "/*.png");
+
+		$last_article_id = 0;
+		$article_exists = 1;
+
+		foreach ($files as $file) {
+			list ($article_id, $hash) = explode("-", basename($file));
+
+			if ($article_id != $last_article_id) {
+				$last_article_id = $article_id;
+				$article_id = db_escape_string($article_id);
+
+				$result = db_query("SELECT id FROM ttrss_entries WHERE id = " . $article_id);
+
+				$article_exists = db_num_rows($result) > 0;
+			}
+
+			if (!$article_exists) {
+				unlink($file);
+			}
+		}
+	}
+
 	function hook_sanitize($doc, $site_url, $allowed_elements, $disallowed_attributes, $article_id) {
 		$xpath = new DOMXpath($doc);
 
@@ -94,8 +119,6 @@ class Cache_Starred_Images extends Plugin {
 	}
 
 	function hook_update_task() {
-		header("Content-type: text/plain");
-
 		$result = db_query("SELECT content, ttrss_user_entries.owner_uid, link, site_url, ttrss_entries.id, plugin_data
 			FROM ttrss_entries, ttrss_user_entries LEFT JOIN ttrss_feeds ON
 				(ttrss_user_entries.feed_id = ttrss_feeds.id)

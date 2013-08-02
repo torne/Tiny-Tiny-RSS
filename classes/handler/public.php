@@ -391,8 +391,11 @@ class Handler_Public extends Handler {
 	}
 
 	function updateTask() {
-
 		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_UPDATE_TASK, "hook_update_task", $op);
+	}
+
+	function housekeepingTask() {
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_HOUSE_KEEPING, "hook_house_keeping", $op);
 	}
 
 	function globalUpdateFeeds() {
