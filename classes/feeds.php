@@ -510,7 +510,7 @@ class Feeds extends Handler_Protected {
 						$tags = false;
 
 					$line["content"] = sanitize($line["content"],
-							sql_bool_to_bool($line['hide_images']), false, $entry_site_url, $highlight_words);
+							sql_bool_to_bool($line['hide_images']), false, $entry_site_url, $highlight_words, $line["id"]);
 
 					foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_RENDER_ARTICLE_CDM) as $p) {
 						$line = $p->hook_render_article_cdm($line);
