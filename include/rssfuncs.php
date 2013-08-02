@@ -1132,16 +1132,15 @@
 					}
 				}
 
-				if (file_exists($local_filename)) {
+				/* if (file_exists($local_filename)) {
 					$entry->setAttribute('src', SELF_URL_PATH . '/image.php?url=' .
 						base64_encode($src));
-				}
+				} */
 			}
 		}
 
-		$node = $doc->getElementsByTagName('body')->item(0);
-
-		return $doc->saveXML($node);
+		//$node = $doc->getElementsByTagName('body')->item(0);
+		//return $doc->saveXML($node);
 	}
 
 	function expire_error_log($debug) {
