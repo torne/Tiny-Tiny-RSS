@@ -18,7 +18,7 @@ class Af_SciAm extends Plugin {
 	function hook_article_filter($article) {
 		$owner_uid = $article["owner_uid"];
 
-		if (strpos($article["link"], "scientificamerican.com") !== FALSE) {
+		if (strpos($article["link"], "scientificamerican.com") !== FALSE || strpos($article["link"], "rss.sciam.com") !== FALSE) {
 			if (strpos($article["plugin_data"], "sciam,$owner_uid:") === FALSE) {
 
 				$doc = new DOMDocument();
@@ -27,7 +27,9 @@ class Af_SciAm extends Plugin {
 				$basenode = false;
 
 				if ($doc) {
-					$basenode = $doc->getElementById("article_content");
+					$xpath = new DOMXpath($doc);
+
+					$basenode = $xpath->query("//*[@id='singleBlogPost' or @id='articleContent']")->item(0);
 
 					if ($basenode) {
 						$article["content"] = $doc->saveXML($basenode);
