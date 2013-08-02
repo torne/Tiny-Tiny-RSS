@@ -574,7 +574,7 @@
 
 				if (count($entry_language) > 0) {
 					$entry_language = array_keys($entry_language);
-					$entry_language = db_escape_string($entry_language[0]);
+					$entry_language = db_escape_string(substr($entry_language[0], 0, 2));
 
 					_debug("detected language: $entry_language", $debug_enabled);
 				}
@@ -1379,9 +1379,7 @@
 
 		_debug("Cleaned $rc cached tags.");
 
-		foreach ($pluginhost->get_hooks(PluginHost::HOOK_HOUSE_KEEPING) as $plugin) {
-			$plugin->hook_house_keeping();
-		}
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_HOUSE_KEEPING, "hook_house_keeping", "");
 
 	}
 ?>
