@@ -27,7 +27,15 @@ class Af_NatGeo extends Plugin {
 				$basenode = false;
 
 				if ($doc) {
+					$xpath = new DOMXPath($doc);
+
 					$basenode = $doc->getElementById("content_mainA");
+
+					$trash = $xpath->query("//*[@class='aside' or @id='livefyre' or @id='powered_by_livefyre' or @class='social_buttons']");
+
+					foreach ($trash as $t) {
+						$t->parentNode->removeChild($t);
+					}
 
 					if ($basenode) {
 						$article["content"] = $doc->saveXML($basenode);
