@@ -35,11 +35,14 @@ class Db_Pgsql implements IDb {
 	}
 
 	function query($query, $die_on_error = true) {
-		$result = pg_query($query);
+		$result = @pg_query($this->link, $query);
 
 		if (!$result) {
+			$error = @pg_last_error($this->link);
+
+			@pg_query($this->link, "ROLLBACK");
 			$query = htmlspecialchars($query); // just in case
-			user_error("Query $query failed: " . ($this->link ? pg_last_error($this->link) : "No connection"),
+			user_error("Query $query failed: " . ($this->link ? $error : "No connection"),
 				$die_on_error ? E_USER_ERROR : E_USER_WARNING);
 		}
 		return $result;
