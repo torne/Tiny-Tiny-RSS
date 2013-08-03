@@ -18,36 +18,46 @@ class FeedParser {
 		$this->doc = new DOMDocument();
 		$this->doc->loadXML($data);
 
+		mb_substitute_character("none");
+
 		$error = libxml_get_last_error();
 
 		// libxml compiled without iconv?
-		if ($error && $error->code == 32) {
+		if ($error && ($error->code == 32 || $error->code == 9)) {
 			if (preg_match('/^(<\?xml[\t\n\r ].*?encoding=["\'])(.+?)(["\'].*?\?>)/s', $data, $matches) === 1) {
-				libxml_clear_errors();
-
 				$enc = $matches[2];
 
-				$data = iconv($enc, 'UTF-8//IGNORE', $data);
+				$data = mb_convert_encoding($data, 'UTF-8', $enc);
+
 				$data = preg_replace('/^<\?xml[\t\n\r ].*?\?>/s', $matches[1] . "UTF-8" . $matches[3] , $data);
 
-				$this->doc = new DOMDocument();
-				$this->doc->loadXML($data);
 
-				$error = libxml_get_last_error();
+				// apparently not all UTF-8 characters are valid for XML
+				$data = preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', ' ', $data);
+
+				if ($data) {
+					libxml_clear_errors();
+
+					$this->doc = new DOMDocument();
+					$this->doc->loadXML($data);
+
+					$error = libxml_get_last_error();
+				}
 		   }
 		}
 
 		// some terrible invalid unicode entity?
 		if ($error && $error->code == 9) {
-			libxml_clear_errors();
+			$data = mb_convert_encoding($data, 'UTF-8', 'UTF-8');
 
-			// we might want to try guessing input encoding here too
-			$data = iconv("UTF-8", "UTF-8//IGNORE", $data);
+			if ($data) {
+				libxml_clear_errors();
 
-			$this->doc = new DOMDocument();
-			$this->doc->loadXML($data);
+				$this->doc = new DOMDocument();
+				$this->doc->loadXML($data);
 
-			$error = libxml_get_last_error();
+				$error = libxml_get_last_error();
+			}
 		}
 
 		$this->error = $this->format_error($error);
