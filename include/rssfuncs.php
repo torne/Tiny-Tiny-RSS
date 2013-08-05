@@ -954,7 +954,7 @@
 				if (is_array($encs)) {
 					foreach ($encs as $e) {
 						$e_item = array(
-							$e->link, $e->type, $e->length);
+							$e->link, $e->type, $e->length, $e->title);
 						array_push($enclosures, $e_item);
 					}
 				}
@@ -966,10 +966,14 @@
 
 				db_query("BEGIN");
 
+//				debugging
+//				db_query("DELETE FROM ttrss_enclosures WHERE post_id = '$entry_ref_id'");
+
 				foreach ($enclosures as $enc) {
 					$enc_url = db_escape_string($enc[0]);
 					$enc_type = db_escape_string($enc[1]);
 					$enc_dur = db_escape_string($enc[2]);
+					$enc_title = db_escape_string($enc[3]);
 
 					$result = db_query("SELECT id FROM ttrss_enclosures
 						WHERE content_url = '$enc_url' AND post_id = '$entry_ref_id'");
@@ -977,7 +981,7 @@
 					if (db_num_rows($result) == 0) {
 						db_query("INSERT INTO ttrss_enclosures
 							(content_url, content_type, title, duration, post_id) VALUES
-							('$enc_url', '$enc_type', '', '$enc_dur', '$entry_ref_id')");
+							('$enc_url', '$enc_type', '$enc_title', '$enc_dur', '$entry_ref_id')");
 					}
 				}
 

@@ -3776,6 +3776,7 @@
 
 				$url = $line["content_url"];
 				$ctype = $line["content_type"];
+				$title = $line["title"];
 
 				if (!$ctype) $ctype = __("unknown type");
 
@@ -3798,6 +3799,7 @@
 				$entry["type"] = $ctype;
 				$entry["filename"] = $filename;
 				$entry["url"] = $url;
+				$entry["title"] = $title;
 
 				array_push($entries, $entry);
 			}
@@ -3819,7 +3821,10 @@
 									$rv .= "<p><a target=\"_blank\"
 									href=\"".htmlspecialchars($entry["url"])."\"
 									>" .htmlspecialchars($entry["url"]) . "</a></p>";
+								}
 
+								if ($entry['title']) {
+									$rv.= "<div class=\"enclosure_title\">${entry['title']}</div>";
 								}
 						}
 					}
@@ -3836,7 +3841,12 @@
 				"<option value=''>" . __('Attachments')."</option>";
 
 			foreach ($entries as $entry) {
-				$rv .= "<option value=\"".htmlspecialchars($entry["url"])."\">" . htmlspecialchars($entry["filename"]) . "</option>";
+				if ($entry["title"])
+					$title = "&mdash; " . truncate_string($entry["title"], 30);
+				else
+					$title = "";
+
+				$rv .= "<option value=\"".htmlspecialchars($entry["url"])."\">" . htmlspecialchars($entry["filename"]) . "$title</option>";
 
 			};
 

@@ -121,6 +121,9 @@ class FeedItem_RSS extends FeedItem_Common {
 			$enc->link = $enclosure->getAttribute("url");
 			$enc->length = $enclosure->getAttribute("length");
 
+			$desc = $this->xpath->query("media:description", $enclosure)->item(0);
+			if ($desc) $enc->title = strip_tags($desc->nodeValue);
+
 			array_push($encs, $enc);
 		}
 
