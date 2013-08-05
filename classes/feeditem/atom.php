@@ -137,19 +137,7 @@ class FeedItem_Atom extends FeedItem_Common {
 			}
 		}
 
-		$enclosures = $this->xpath->query("media:content", $this->elem);
-
-		foreach ($enclosures as $enclosure) {
-			$enc = new FeedEnclosure();
-
-			$enc->type = $enclosure->getAttribute("type");
-			$enc->link = $enclosure->getAttribute("url");
-			$enc->length = $enclosure->getAttribute("length");
-
-			array_push($encs, $enc);
-		}
-
-		$enclosures = $this->xpath->query("media:group/media:content", $this->elem);
+		$enclosures = $this->xpath->query("media:content | media:group/media:content", $this->elem);
 
 		foreach ($enclosures as $enclosure) {
 			$enc = new FeedEnclosure();
