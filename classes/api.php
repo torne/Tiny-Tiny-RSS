@@ -669,7 +669,7 @@ class API extends Handler {
 					$headline_row['attachments'] = get_article_enclosures(
 						$line['id']);
 
-				if (!$show_excerpt)
+				if ($show_excerpt)
 					$headline_row["excerpt"] = $line["content_preview"];
 
 				if ($show_content) {
