@@ -138,10 +138,6 @@
 				array_push($errors, "PHP support for ctype functions are required by HTMLPurifier.");
 			}
 
-			if (!function_exists("iconv")) {
-				array_push($errors, "PHP support for iconv is required to handle multiple charsets.");
-			}
-
 			/* if (ini_get("safe_mode")) {
 				array_push($errors, "PHP safe mode setting is not supported.");
 			} */
