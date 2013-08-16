@@ -97,7 +97,7 @@ class Opml extends Handler_Protected {
 				$html_url_qpart = "";
 			}
 
-			$out .= "<outline type=\"rss\" text=\"$title\" xmlUrl=\"$url\" $html_url_qpart/>\n";
+			$out .= "<outline type=\"rss\" text=\"$title\" title=\"$title\" xmlUrl=\"$url\" $html_url_qpart/>\n";
 		}
 
 		if ($cat_title) $out .= "</outline>\n";
