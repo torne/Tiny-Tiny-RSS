@@ -85,8 +85,9 @@ class Handler_Public extends Handler {
 			}
 
 			$tpl->setVariable('SELF_URL', htmlspecialchars(get_self_url_prefix()), true);
-			$line["content_preview"] = truncate_string(strip_tags($line["content_preview"]), 100, '...');
 			while ($line = $this->dbh->fetch_assoc($result)) {
+				$line["content_preview"] = truncate_string(strip_tags($line["content_preview"]), 100, '...');
+
 				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
 					$line = $p->hook_query_headlines($line);
 				}
