@@ -508,6 +508,13 @@ class RPC extends Handler_Protected {
 
 		$random_qpart = sql_random_function();
 
+		// we could be invoked from public.php with no active session
+		if ($_SESSION["uid"]) {
+			$owner_check_qpart = "AND ttrss_feeds.owner_uid = '".$_SESSION["uid"]."'";
+		} else {
+			$owner_check_qpart = "";
+		}
+
 		// We search for feed needing update.
 		$result = $dbh->query("SELECT ttrss_feeds.feed_url,ttrss_feeds.id
 			FROM
@@ -516,8 +523,9 @@ class RPC extends Handler_Protected {
 				ttrss_feeds.owner_uid = ttrss_users.id
 				AND ttrss_users.id = ttrss_user_prefs.owner_uid
 				AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
-				AND ttrss_feeds.owner_uid = ".$_SESSION["uid"]."
-				$update_limit_qpart $updstart_thresh_qpart
+				$owner_check_qpart
+				$update_limit_qpart
+				$updstart_thresh_qpart
 			ORDER BY $random_qpart LIMIT 30");
 
 		$feed_id = -1;
