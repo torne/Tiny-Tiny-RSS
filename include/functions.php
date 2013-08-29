@@ -3411,6 +3411,11 @@
 
 		$cat_id = (int)getFeedCategory($feed_id);
 
+		if ($cat_id == 0)
+			$null_cat_qpart = "cat_id IS NULL OR";
+		else
+			$null_cat_qpart = "";
+
 		$result = db_query("SELECT * FROM ttrss_filters2 WHERE
 			owner_uid = $owner_uid AND enabled = true ORDER BY order_id, title");
 
@@ -3426,7 +3431,7 @@
 				FROM ttrss_filters2_rules AS r,
 				ttrss_filter_types AS t
 				WHERE
-					(cat_id IS NULL OR cat_id IN ($check_cats)) AND
+					($null_cat_qpart (cat_id IS NULL AND cat_filter = false) OR cat_id IN ($check_cats)) AND
 					(feed_id IS NULL OR feed_id = '$feed_id') AND
 					filter_type = t.id AND filter_id = '$filter_id'");
 
