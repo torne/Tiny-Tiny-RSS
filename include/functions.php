@@ -4058,6 +4058,8 @@
 					$qpart .= " AND $cat_qpart";
 				}
 
+				$qpart .= " AND feed_id IS NOT NULL";
+
 				array_push($query, "($qpart)");
 
 			}
