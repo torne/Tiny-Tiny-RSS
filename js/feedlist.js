@@ -35,10 +35,7 @@ function loadMoreHeadlines() {
 		} else if (_search_query) {
 			offset = num_all;
 		} else if (view_mode == "adaptive") {
-			if (num_unread > 0)
-				offset = unread_in_buffer;
-			else
-				offset = num_all;
+			offset = num_unread > 0 ? unread_in_buffer : num_all;
 		} else {
 			offset = num_all;
 		}
