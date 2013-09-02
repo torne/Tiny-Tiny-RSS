@@ -644,7 +644,11 @@
 					"tags" => $entry_tags,
 					"plugin_data" => $entry_plugin_data,
 					"author" => $entry_author,
-					"stored" => $stored_article);
+					"stored" => $stored_article,
+					"feed" => array("id" => $feed,
+						"fetch_url" => $fetch_url,
+						"site_url" => $site_url)
+					);
 
 				foreach ($pluginhost->get_hooks(PluginHost::HOOK_ARTICLE_FILTER) as $plugin) {
 					$article = $plugin->hook_article_filter($article);
