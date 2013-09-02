@@ -80,7 +80,7 @@
 				$class = ($feedctr % 2) ? "even" : "odd";
 
 				if ($line['articles_archived'] > 0) {
-					$archived = sprintf(ngettext("%d archived article", "%d archived articles", $line['articles_archived']), $line['articles_archived']);
+					$archived = sprintf(_ngettext("%d archived article", "%d archived articles", $line['articles_archived']), $line['articles_archived']);
 					$archived = "&nbsp;<span class='subscribers'>($archived)</span>";
 				} else {
 					$archived = '';
