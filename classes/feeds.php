@@ -1147,7 +1147,7 @@ class Feeds extends Handler_Protected {
 
 		if (!SPHINX_ENABLED) {
 			print "<div style=\"float : left\">
-				<a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/wiki/SearchSyntax\">Search syntax</a>
+				<a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/wiki/SearchSyntax\">".__("Search syntax")."</a>
 				</div>";
 		}
 
