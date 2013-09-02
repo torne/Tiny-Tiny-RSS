@@ -701,10 +701,13 @@ class Feeds extends Handler_Protected {
 						} else {
 							$comments_url = htmlspecialchars($line["link"]);
 						}
-						$entry_comments = "<a target='_blank' href=\"$comments_url\">$num_comments comments</a>";
+						$entry_comments = "<a class=\"postComments\"
+							target='_blank' href=\"$comments_url\">$num_comments ".
+							_ngettext("comment", "comments", $num_comments)."</a>";
+
 					} else {
 						if ($line["comments"] && $line["link"] != $line["comments"]) {
-							$entry_comments = "<a target='_blank' href=\"".htmlspecialchars($line["comments"])."\">comments</a>";
+							$entry_comments = "<a class=\"postComments\" target='_blank' href=\"".htmlspecialchars($line["comments"])."\">".__("comments")."</a>";
 						}
 					}
 

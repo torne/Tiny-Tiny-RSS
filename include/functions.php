@@ -3182,6 +3182,7 @@
 		$result = db_query("SELECT id,title,link,content,feed_id,comments,int_id,lang,
 			".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 			(SELECT site_url FROM ttrss_feeds WHERE id = feed_id) as site_url,
+			(SELECT title FROM ttrss_feeds WHERE id = feed_id) as feed_title,
 			(SELECT hide_images FROM ttrss_feeds WHERE id = feed_id) as hide_images,
 			(SELECT always_display_enclosures FROM ttrss_feeds WHERE id = feed_id) as always_display_enclosures,
 			num_comments,
@@ -3218,10 +3219,13 @@
 				} else {
 					$comments_url = htmlspecialchars($line["link"]);
 				}
-				$entry_comments = "<a target='_blank' href=\"$comments_url\">$num_comments comments</a>";
+				$entry_comments = "<a class=\"postComments\"
+					target='_blank' href=\"$comments_url\">$num_comments ".
+					_ngettext("comment", "comments", $num_comments)."</a>";
+
 			} else {
 				if ($line["comments"] && $line["link"] != $line["comments"]) {
-					$entry_comments = "<a target='_blank' href=\"".htmlspecialchars($line["comments"])."\">comments</a>";
+					$entry_comments = "<a class=\"postComments\" target='_blank' href=\"".htmlspecialchars($line["comments"])."\">".__("comments")."</a>";
 				}
 			}
 
@@ -3276,8 +3280,15 @@
 				$rv['content'] .= "<div class='postTitle'>" . $line["title"] . "$entry_author</div>";
 			}
 
-			if ($zoom_mode)
+			if ($zoom_mode) {
+				$feed_title = "<a href=\"".htmlspecialchars($line["site_url"]).
+					"\" target=\"_blank\">".
+					htmlspecialchars($line["feed_title"])."</a>";
+
+				$rv['content'] .= "<div class=\"postFeedTitle\">$feed_title</div>";
+
 				$rv['content'] .= "<div class=\"postDate\">$parsed_updated</div>";
+			}
 
 			$tags_str = format_tags_string($line["tags"], $id);
 			$tags_str_full = join(", ", $line["tags"]);
