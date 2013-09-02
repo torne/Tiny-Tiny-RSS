@@ -194,6 +194,8 @@
 
 		$debug_enabled = defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug'];
 
+		if (!$debug_enabled) define('SUPPRESS_DEBUGGING', true);
+
 		_debug("start", $debug_enabled);
 
 		$result = db_query("SELECT id,update_interval,auth_login,

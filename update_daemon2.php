@@ -218,10 +218,11 @@
 					register_shutdown_function('task_shutdown');
 
 					$quiet = (isset($options["quiet"])) ? "--quiet" : "";
+					$log = function_exists("flock") && isset($options['log']) ? '--log '.$options['log'] : '';
 
 					$my_pid = posix_getpid();
 
-					passthru(PHP_EXECUTABLE . " update.php --daemon-loop $quiet --task $j --pidlock $my_pid");
+					passthru(PHP_EXECUTABLE . " update.php --daemon-loop $quiet $log --task $j --pidlock $my_pid");
 
 					sleep(1);
 

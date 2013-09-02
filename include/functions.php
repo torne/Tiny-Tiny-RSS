@@ -139,6 +139,8 @@
 	 * @return void
 	 */
 	function _debug($msg, $show = true) {
+		if (defined('SUPPRESS_DEBUGGING'))
+			return false;
 
 		$ts = strftime("%H:%M:%S", time());
 		if (function_exists('posix_getpid')) {
@@ -153,7 +155,29 @@
 			$fp = fopen(LOGFILE, 'a+');
 
 			if ($fp) {
+				$locked = false;
+
+				if (function_exists("flock")) {
+					$tries = 0;
+
+					// try to lock logfile for writing
+					while ($tries < 5 && !$locked = flock($fp, LOCK_EX | LOCK_NB)) {
+						sleep(1);
+						++$tries;
+					}
+
+					if (!$locked) {
+						fclose($fp);
+						return;
+					}
+				}
+
 				fputs($fp, "[$ts] $msg\n");
+
+				if (function_exists("flock")) {
+					flock($fp, LOCK_UN);
+				}
+
 				fclose($fp);
 			}
 		}
