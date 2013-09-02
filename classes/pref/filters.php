@@ -875,6 +875,11 @@ class Pref_Filters extends Handler_Protected {
 
 		print "<div class=\"dlgButtons\">";
 
+		print "<div style=\"float : left\">
+			<a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/wiki/ContentFilters\">".__("Wiki: Filters")."</a>
+		</div>";
+
+
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterNewRuleDlg').execute()\">".
 			($rule ? __("Save rule") : __('Add rule'))."</button> ";
 
