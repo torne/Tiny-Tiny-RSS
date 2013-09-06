@@ -21,7 +21,9 @@ class Cache_Starred_Images extends Plugin {
 		}
 
 		if (is_dir($this->cache_dir)) {
-			chmod($this->cache_dir, 0777);
+
+			if (!is_writable($this->cache_dir))
+				chmod($this->cache_dir, 0777);
 
 			if (is_writable($this->cache_dir)) {
 				$host->add_hook($host::HOOK_UPDATE_TASK, $this);
