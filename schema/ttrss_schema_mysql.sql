@@ -84,7 +84,7 @@ create table ttrss_counters_cache (
 	value integer not null default 0,
 	updated datetime not null,
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE
-);
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 create index ttrss_counters_cache_feed_id_idx on ttrss_counters_cache(feed_id);
 create index ttrss_counters_cache_owner_uid_idx on ttrss_counters_cache(owner_uid);
@@ -96,7 +96,7 @@ create table ttrss_cat_counters_cache (
 	value integer not null default 0,
 	updated datetime not null,
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE
-);
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 create index ttrss_cat_counters_cache_owner_uid_idx on ttrss_cat_counters_cache(owner_uid);
 
@@ -435,7 +435,7 @@ create table ttrss_feedbrowser_cache (
 	feed_url text not null,
 	site_url text not null,
 	title text not null,
-	subscribers integer not null) DEFAULT CHARSET=UTF8;
+	subscribers integer not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 create table ttrss_labels2 (id integer not null primary key auto_increment,
 	owner_uid integer not null,
