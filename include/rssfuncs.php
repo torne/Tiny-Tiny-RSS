@@ -175,6 +175,7 @@
 				while ($tline = db_fetch_assoc($tmp_result)) {
 					if($debug) _debug(" => " . $tline["last_updated"] . ", " . $tline["id"] . " " . $tline["owner_uid"]);
 					update_rss_feed($tline["id"], true);
+					_debug_suppress(false);
 					++$nf;
 				}
 			}
@@ -194,8 +195,7 @@
 
 		$debug_enabled = defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug'];
 
-		if (!$debug_enabled) define('SUPPRESS_DEBUGGING', true);
-
+		_debug_suppress(!$debug_enabled);
 		_debug("start", $debug_enabled);
 
 		$result = db_query("SELECT id,update_interval,auth_login,

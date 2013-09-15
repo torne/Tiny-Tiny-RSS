@@ -11,6 +11,7 @@
 	$fetch_last_error_code = false;
 	$fetch_last_content_type = false;
 	$fetch_curl_used = false;
+	$suppress_debugging = false;
 
 	mb_internal_encoding("UTF-8");
 	date_default_timezone_set('UTC');
@@ -132,6 +133,12 @@
 
 	$schema_version = false;
 
+	function _debug_suppress($suppress) {
+		global $suppress_debugging;
+
+		$suppress_debugging = $suppress;
+	}
+
 	/**
 	 * Print a timestamped debug message.
 	 *
@@ -139,8 +146,11 @@
 	 * @return void
 	 */
 	function _debug($msg, $show = true) {
-		if (defined('SUPPRESS_DEBUGGING'))
-			return false;
+		global $suppress_debugging;
+
+		//echo "[$suppress_debugging] $msg $show\n";
+
+		if ($suppress_debugging) return false;
 
 		$ts = strftime("%H:%M:%S", time());
 		if (function_exists('posix_getpid')) {
