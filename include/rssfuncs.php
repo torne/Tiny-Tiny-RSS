@@ -572,7 +572,7 @@
 					print "\n";
 				}
 
-				$entry_language = $lang->detect($entry_content, 1);
+				$entry_language = $lang->detect($entry_title . " " . $entry_content, 1);
 
 				if (count($entry_language) > 0) {
 					$entry_language = array_keys($entry_language);
