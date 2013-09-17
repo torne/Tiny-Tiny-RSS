@@ -260,7 +260,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (122);
+insert into ttrss_version values (123);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
