@@ -892,7 +892,7 @@ function hotkey_handler(e) {
 			cmdline.innerHTML = keychar;
 			Element.show(cmdline);
 
-			return true;
+			return false;
 		}
 
 		Element.hide(cmdline);
