@@ -62,8 +62,16 @@ class FeedParser {
 				}
 			}
 		}
-
-		$this->error = $this->format_error($error);
+		
+		$this->error = "";
+		if($error) {
+			foreach(libxml_get_errors() as $error) {
+				if($error->level == LIBXML_ERR_FATAL) {
+					$this->error = $this->format_error($error);
+					break; //break here because currently we only show one error
+				}
+			}	
+		}
 		libxml_clear_errors();
 
 		$this->items = array();
