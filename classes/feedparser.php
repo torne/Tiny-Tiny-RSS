@@ -42,11 +42,11 @@ class FeedParser {
 
 		// some terrible invalid unicode entity?
 		if ($error) {
-			foreach(libxml_get_errors() as $err) {
+			foreach (libxml_get_errors() as $err) {
 				if ($err->code == 9) {
 					// remove dangling bytes
 					$data = mb_convert_encoding($data, 'UTF-8', 'UTF-8');
-					
+
 					// apparently not all UTF-8 characters are valid for XML
 					$data = preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', ' ', $data);
 
@@ -62,15 +62,15 @@ class FeedParser {
 				}
 			}
 		}
-		
+
 		$this->error = "";
-		if($error) {
-			foreach(libxml_get_errors() as $error) {
-				if($error->level == LIBXML_ERR_FATAL) {
+		if ($error) {
+			foreach (libxml_get_errors() as $error) {
+				if ($error->level == LIBXML_ERR_FATAL) {
 					$this->error = $this->format_error($error);
 					break; //break here because currently we only show one error
 				}
-			}	
+			}
 		}
 		libxml_clear_errors();
 
