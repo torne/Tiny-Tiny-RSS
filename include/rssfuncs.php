@@ -356,10 +356,12 @@
 			$rss->init();
 		}
 
-		require_once "lib/languagedetect/LanguageDetect.php";
+		if (DETECT_ARTICLE_LANGUAGE) {
+			require_once "lib/languagedetect/LanguageDetect.php";
 
-		$lang = new Text_LanguageDetect();
-		$lang->setNameMode(2);
+			$lang = new Text_LanguageDetect();
+			$lang->setNameMode(2);
+		}
 
 //		print_r($rss);
 
@@ -572,15 +574,17 @@
 					print "\n";
 				}
 
-				$entry_language = $lang->detect($entry_title . " " . $entry_content, 1);
+				$entry_language = "";
 
-				if (count($entry_language) > 0) {
-					$entry_language = array_keys($entry_language);
-					$entry_language = db_escape_string(substr($entry_language[0], 0, 2));
+				if (DETECT_ARTICLE_LANGUAGE) {
+					$entry_language = $lang->detect($entry_title . " " . $entry_content, 1);
 
-					_debug("detected language: $entry_language", $debug_enabled);
-				} else{
-					$entry_language = "";
+					if (count($entry_language) > 0) {
+						$entry_language = array_keys($entry_language);
+						$entry_language = db_escape_string(substr($entry_language[0], 0, 2));
+
+						_debug("detected language: $entry_language", $debug_enabled);
+					}
 				}
 
 				$entry_comments = $item->get_comments_url();
