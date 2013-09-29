@@ -3242,6 +3242,9 @@
 						<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 						<title>Tiny Tiny RSS - ".$line["title"]."</title>
 						<link rel=\"stylesheet\" type=\"text/css\" href=\"css/tt-rss.css\">
+						<link rel=\"shortcut icon\" type=\"image/png\" href=\"images/favicon.png\">
+						<link rel=\"icon\" type=\"image/png\" sizes=\"72x72\" href=\"images/favicon-72px.png\">
+
 						<script type=\"text/javascript\">
 						function openSelectedAttachment(elem) {
 							try {
