@@ -4,7 +4,7 @@ Tiny Tiny RSS
 Web-based news feed aggregator, designed to allow you to read news from 
 any location, while feeling as close to a real desktop application as possible.
 
-http://tt-rss.org
+http://tt-rss.org (http://mirror.tt-rss.org)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
