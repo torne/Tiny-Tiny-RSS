@@ -38,6 +38,10 @@ class Af_Unburn extends Plugin {
 				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, !ini_get("safe_mode") && !ini_get("open_basedir"));
 				curl_setopt($ch, CURLOPT_USERAGENT, SELF_USER_AGENT);
 
+				if (defined('_CURL_HTTP_PROXY')) {
+					curl_setopt($ch, CURLOPT_PROXY, _CURL_HTTP_PROXY);
+				}
+
 				$contents = @curl_exec($ch);
 
 				$real_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
