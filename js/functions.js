@@ -854,6 +854,8 @@ function quickAddFeed() {
 								case 4:
 									feeds = rc['feeds'];
 
+									Element.show("fadd_multiple_notify");
+
 									var select = dijit.byId("feedDlg_feedContainerSelect");
 
 									while (select.getOptions().length > 0)
