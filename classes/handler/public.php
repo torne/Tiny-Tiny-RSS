@@ -15,11 +15,15 @@ class Handler_Public extends Handler {
 		if (!$limit) $limit = 60;
 
 		$date_sort_field = "date_entered DESC, updated DESC";
+		$date_check_field = "date_entered";
 
-		if ($feed == -2)
+		if ($feed == -2 && !$is_cat) {
 			$date_sort_field = "last_published DESC";
-		else if ($feed == -1)
+			$date_check_field = "last_published";
+		} else if ($feed == -1 && !$is_cat) {
 			$date_sort_field = "last_marked DESC";
+			$date_check_field = "last_marked";
+		}
 
 		switch ($order) {
 		case "title":
@@ -41,7 +45,8 @@ class Handler_Public extends Handler {
 		$result = $qfh_ret[0];
 
 		if ($this->dbh->num_rows($result) != 0) {
-			$ts = strtotime($this->dbh->fetch_result($result, 0, "date_entered"));
+
+			$ts = strtotime($this->dbh->fetch_result($result, 0, $date_check_field));
 
 			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) &&
 					strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $ts) {
