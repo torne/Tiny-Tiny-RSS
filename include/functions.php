@@ -378,6 +378,7 @@
 			curl_setopt($ch, CURLOPT_USERAGENT, SELF_USER_AGENT);
 			curl_setopt($ch, CURLOPT_ENCODING, "");
 			curl_setopt($ch, CURLOPT_REFERER, $url);
+			curl_setopt($ch, CURLOPT_COOKIEJAR, "/dev/null");
 
 			if (defined('_CURL_HTTP_PROXY')) {
 				curl_setopt($ch, CURLOPT_PROXY, _CURL_HTTP_PROXY);
