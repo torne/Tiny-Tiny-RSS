@@ -39,6 +39,8 @@ class Cache_Starred_Images extends Plugin {
 	}
 
 	function image() {
+		ob_end_clean();
+
 		$hash = basename($_REQUEST["hash"]);
 
 		if ($hash) {
