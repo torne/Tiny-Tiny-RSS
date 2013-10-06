@@ -123,7 +123,7 @@ class Handler_Public extends Handler {
 				$tpl->setVariable('ARTICLE_AUTHOR', htmlspecialchars($line['author']), true);
 
 				$tpl->setVariable('ARTICLE_SOURCE_LINK', htmlspecialchars($line['site_url']), true);
-				$tpl->setVariable('ARTICLE_SOURCE_TITLE', htmlspecialchars($line['feed_title']), true);
+				$tpl->setVariable('ARTICLE_SOURCE_TITLE', htmlspecialchars($line['feed_title'] ? $line['feed_title'] : $feed_title), true);
 
 				$tags = get_article_tags($line["id"], $owner_uid);
 
