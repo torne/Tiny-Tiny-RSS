@@ -1421,9 +1421,9 @@
 			$intl = get_pref("FRESH_ARTICLE_MAX_AGE", $owner_uid);
 
 			if (DB_TYPE == "pgsql") {
-				$match_part .= " AND updated > NOW() - INTERVAL '$intl hour' ";
+				$match_part .= " AND date_entered > NOW() - INTERVAL '$intl hour' ";
 			} else {
-				$match_part .= " AND updated > DATE_SUB(NOW(), INTERVAL $intl HOUR) ";
+				$match_part .= " AND date_entered > DATE_SUB(NOW(), INTERVAL $intl HOUR) ";
 			}
 
 			$need_entries = true;
