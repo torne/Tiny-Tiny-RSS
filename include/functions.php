@@ -2891,7 +2891,7 @@
 			}
 		}
 
-		$doc->removeChild($doc->firstChild); //remove doctype
+		$doc->removeChild($doc->doctype); //remove doctype
 		$doc = strip_harmful_tags($doc, $allowed_elements, $disallowed_attributes);
 
 		if ($highlight_words) {
@@ -2924,7 +2924,19 @@
 			}
 		}
 
-		$res = $doc->saveHTML();
+		$body = $doc->getElementsByTagName("body")->item(0);
+
+		if ($body) {
+			$div = $doc->createElement("div");
+
+			foreach ($body->childNodes as $child) {
+				$div->appendChild($child);
+			}
+
+			$res = $doc->saveXML($div);
+		} else {
+			$res = $doc->saveHTML();
+		}
 
 		return $res;
 	}
