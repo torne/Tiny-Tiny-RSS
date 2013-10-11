@@ -62,7 +62,7 @@ class Af_RedditImgur extends Plugin {
 										$aentries = $axpath->query('(//img[@src])');
 
 										foreach ($aentries as $aentry) {
-											if (preg_match("/^http:\/\/i.imgur.com\/$token\./", $aentry->getAttribute("src"))) {
+											if (preg_match("/\/\/i.imgur.com\/$token\./", $aentry->getAttribute("src"))) {
 												$img = $doc->createElement('img');
 												$img->setAttribute("src", $aentry->getAttribute("src"));
 
