@@ -447,7 +447,7 @@ class API extends Handler {
 		$assign = (bool) $this->dbh->escape_string($_REQUEST['assign']) == "true";
 
 		$label = $this->dbh->escape_string(label_find_caption(
-			$label_id, $_SESSION["uid"]));
+			feed_to_label_id($label_id), $_SESSION["uid"]));
 
 		$num_updated = 0;
 
