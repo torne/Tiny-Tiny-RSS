@@ -819,6 +819,7 @@
 		if (SINGLE_USER_MODE) {
 			@session_start();
 			authenticate_user("admin", null);
+			startup_gettext();
 			load_user_plugins($_SESSION["uid"]);
 		} else {
 			if (!validate_session()) $_SESSION["uid"] = false;
