@@ -961,10 +961,12 @@ function getLoadedArticleIds() {
 }
 
 // mode = all,none,unread,invert,marked,published
-function selectArticles(mode) {
+function selectArticles(mode, query) {
 	try {
 
-		var children = $$("#headlines-frame > div[id*=RROW]");
+		if (!query) query = "#headlines-frame > div[id*=RROW]";
+
+		var children = $$(query);
 
 		children.each(function(child) {
 			var id = child.id.replace("RROW-", "");
@@ -2106,6 +2108,71 @@ function initHeadlinesMenu() {
 		headlinesMenuCommon(menu, false);
 
 		menu.startup();
+
+		/* vgroup feed title menu */
+
+		var nodes = $$("#headlines-frame > div[class='cdmFeedTitle']");
+		var ids = [];
+
+		nodes.each(function(node) {
+			ids.push(node.id);
+		});
+
+		if (ids.length > 0) {
+			if (dijit.byId("headlinesFeedTitleMenu"))
+				dijit.byId("headlinesFeedTitleMenu").destroyRecursive();
+
+			var menu = new dijit.Menu({
+				id: "headlinesFeedTitleMenu",
+				targetNodeIds: ids,
+			});
+
+			var tmph = dojo.connect(menu, '_openMyself', function (event) {
+				var callerNode = event.target, match = null, tries = 0;
+
+				while (match == null && callerNode && tries <= 3) {
+					console.log(callerNode.id);
+
+					match = callerNode.id.match("^[A-Z]+[-]([0-9]+)$");
+					callerNode = callerNode.parentNode;
+					++tries;
+
+					console.log(match[1]);
+				}
+
+				if (match) this.callerRowId = parseInt(match[1]);
+
+			});
+
+			menu.addChild(new dijit.MenuItem({
+				label: __("Select articles in group"),
+				onClick: function(event) {
+					selectArticles("all",
+						"#headlines-frame > div[id*=RROW]"+
+						"[orig-feed-id='"+menu.callerRowId+"']");
+
+				}}));
+
+			menu.addChild(new dijit.MenuItem({
+				label: __("Mark group as read"),
+				onClick: function(event) {
+					selectArticles("all",
+						"#headlines-frame > div[id*=RROW]"+
+						"[orig-feed-id='"+menu.callerRowId+"']");
+
+					catchupSelection();
+				}}));
+
+
+			menu.addChild(new dijit.MenuItem({
+				label: __("Mark feed as read"),
+				onClick: function(event) {
+					catchupFeedInGroup(menu.callerRowId);
+				}}));
+
+			menu.startup();
+
+		}
 
 	} catch (e) {
 		exception_error("initHeadlinesMenu", e);

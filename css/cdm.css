@@ -341,4 +341,24 @@ div#floatingTitle img.hlScorePic {
 	text-decoration : line-through;
 }
 
+div.cdmFeedTitle > * {
+	display : table-cell;
+	vertical-align : middle;
+}
+
+div.cdmFeedTitle a.title {
+	width : 100%;
+}
+
+div.cdmFeedTitle a.catchup {
+	text-align : right;
+	color : #555;
+	padding-right : 10px;
+	font-size : 11px;
+	white-space : nowrap;
+}
+
+div.cdmFeedTitle a.catchup:hover {
+	color : #4684ff;
+}
 
