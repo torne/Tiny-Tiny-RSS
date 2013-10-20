@@ -176,7 +176,7 @@ class Dlg extends Handler_Protected {
 
 		while ($row = $this->dbh->fetch_assoc($result)) {
 			$tmp = htmlspecialchars($row["tag_name"]);
-			print "<option value=\"" . str_replace(" ", "%20", $tmp) . "\">$tmp</option>";
+			print "<option value=\"$tmp\">$tmp</option>";
 		}
 
 		print "</select>";
