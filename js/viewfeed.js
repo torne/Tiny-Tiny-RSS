@@ -2156,6 +2156,7 @@ function initHeadlinesMenu() {
 			menu.addChild(new dijit.MenuItem({
 				label: __("Mark group as read"),
 				onClick: function(event) {
+					selectArticles("none");
 					selectArticles("all",
 						"#headlines-frame > div[id*=RROW]"+
 						"[orig-feed-id='"+menu.callerRowId+"']");
