@@ -1245,7 +1245,7 @@ function postMouseOut(id) {
 
 function unpackVisibleHeadlines() {
 	try {
-		if (!isCdmMode()) return;
+		if (!isCdmMode() || !getInitParam("cdm_expanded")) return;
 
 		$$("#headlines-frame > div[id*=RROW]").each(
 			function(child) {
