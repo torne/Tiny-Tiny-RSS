@@ -172,9 +172,11 @@
 			ORDER BY ttrss_feeds.id $query_limit");
 
 			if (db_num_rows($tmp_result) > 0) {
+				$rss = false;
+
 				while ($tline = db_fetch_assoc($tmp_result)) {
 					if($debug) _debug(" => " . $tline["last_updated"] . ", " . $tline["id"] . " " . $tline["owner_uid"]);
-					update_rss_feed($tline["id"], true);
+					$rss = update_rss_feed($tline["id"], true, false, $rss);
 					_debug_suppress(false);
 					++$nf;
 				}
@@ -191,7 +193,7 @@
 	} // function update_daemon_common
 
 	// ignore_daemon is not used
-	function update_rss_feed($feed, $ignore_daemon = false, $no_cache = false) {
+	function update_rss_feed($feed, $ignore_daemon = false, $no_cache = false, $rss = false) {
 
 		$debug_enabled = defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug'];
 
@@ -252,26 +254,29 @@
 		$pluginhost->load($user_plugins, PluginHost::KIND_USER, $owner_uid);
 		$pluginhost->load_data();
 
-		$rss = false;
-		$rss_hash = false;
-
-		$force_refetch = isset($_REQUEST["force_refetch"]);
-
-		if (file_exists($cache_filename) &&
-			is_readable($cache_filename) &&
-			!$auth_login && !$auth_pass &&
-			filemtime($cache_filename) > time() - 30) {
-
-			_debug("using local cache.", $debug_enabled);
-
-			@$feed_data = file_get_contents($cache_filename);
-
-			if ($feed_data) {
-				$rss_hash = sha1($feed_data);
-			}
-
+		if ($rss && is_object($rss) && get_class($rss) == "FeedParser") {
+			_debug("using previously initialized parser object");
 		} else {
-			_debug("local cache will not be used for this feed", $debug_enabled);
+			$rss_hash = false;
+
+			$force_refetch = isset($_REQUEST["force_refetch"]);
+
+			if (file_exists($cache_filename) &&
+				is_readable($cache_filename) &&
+				!$auth_login && !$auth_pass &&
+				filemtime($cache_filename) > time() - 30) {
+
+				_debug("using local cache.", $debug_enabled);
+
+				@$feed_data = file_get_contents($cache_filename);
+
+				if ($feed_data) {
+					$rss_hash = sha1($feed_data);
+				}
+
+			} else {
+				_debug("local cache will not be used for this feed", $debug_enabled);
+			}
 		}
 
 		if (!$rss) {
@@ -1109,12 +1114,14 @@
 
 			db_query(
 				"UPDATE ttrss_feeds SET last_error = '$error_msg',
-					last_updated = NOW() WHERE id = '$feed'");
+				last_updated = NOW() WHERE id = '$feed'");
+
+			unset($rss);
 		}
 
-		unset($rss);
-
 		_debug("done", $debug_enabled);
+
+		return $rss;
 	}
 
 	function cache_images($html, $site_url, $debug) {
