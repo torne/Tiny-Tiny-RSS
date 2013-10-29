@@ -1110,7 +1110,13 @@
 
 			$error_msg = db_escape_string(mb_substr($rss->error(), 0, 245));
 
-			_debug("error fetching feed: $error_msg", $debug_enabled);
+			_debug("fetch error: $error_msg", $debug_enabled);
+
+			if (count($rss->errors()) > 1) {
+				foreach ($rss->errors() as $error) {
+					_debug("+ $error");
+				}
+			}
 
 			db_query(
 				"UPDATE ttrss_feeds SET last_error = '$error_msg',

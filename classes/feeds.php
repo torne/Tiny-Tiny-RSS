@@ -148,7 +148,7 @@ class Feeds extends Handler_Protected {
 					$override_order = false, $include_children = false) {
 
 		if (isset($_REQUEST["DevForceUpdate"]))
-			header("Content-Type: text/plain");
+			header("Content-Type: text/plain; charset=utf-8");
 
 		$disable_cache = false;
 

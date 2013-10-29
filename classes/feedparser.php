@@ -13,6 +13,16 @@ class FeedParser {
 	const FEED_RSS = 1;
 	const FEED_ATOM = 2;
 
+	function normalize_encoding($data) {
+		if (preg_match('/^(<\?xml[\t\n\r ].*?encoding[\t\n\r ]*=[\t\n\r ]*["\'])(.+?)(["\'].*?\?>)/s', $data, $matches) === 1) {
+			$data = mb_convert_encoding($data, 'UTF-8', $matches[2]);
+
+			$data = preg_replace('/^<\?xml[\t\n\r ].*?\?>/s', $matches[1] . "UTF-8" . $matches[3] , $data);
+		}
+
+		return $data;
+	}
+
 	function __construct($data) {
 		libxml_use_internal_errors(true);
 		libxml_clear_errors();
@@ -25,19 +35,15 @@ class FeedParser {
 
 		// libxml compiled without iconv?
 		if ($error && $error->code == 32) {
-			if (preg_match('/^(<\?xml[\t\n\r ].*?encoding[\t\n\r ]*=[\t\n\r ]*["\'])(.+?)(["\'].*?\?>)/s', $data, $matches) === 1) {
-				$data = mb_convert_encoding($data, 'UTF-8', $matches[2]);
+			$data = $this->normalize_encoding($data);
 
-				$data = preg_replace('/^<\?xml[\t\n\r ].*?\?>/s', $matches[1] . "UTF-8" . $matches[3] , $data);
+			if ($data) {
+				libxml_clear_errors();
 
-				if ($data) {
-					libxml_clear_errors();
+				$this->doc = new DOMDocument();
+				$this->doc->loadXML($data);
 
-					$this->doc = new DOMDocument();
-					$this->doc->loadXML($data);
-
-					$error = libxml_get_last_error();
-				}
+				$error = libxml_get_last_error();
 			}
 		}
 
@@ -45,6 +51,9 @@ class FeedParser {
 		if ($error) {
 			foreach (libxml_get_errors() as $err) {
 				if ($err->code == 9) {
+					// if the source feed is not in utf8, next conversion will fail
+					$data = $this->normalize_encoding($data);
+
 					// remove dangling bytes
 					$data = mb_convert_encoding($data, 'UTF-8', 'UTF-8');
 
