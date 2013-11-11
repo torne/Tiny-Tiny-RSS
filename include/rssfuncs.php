@@ -502,7 +502,20 @@
 
 				_debug("feed hub url: $feed_hub_url", $debug_enabled);
 
-				if ($feed_hub_url && function_exists('curl_init') &&
+				$feed_self_url = $fetch_url;
+
+				$links = $rss->get_links('self');
+
+				if ($links && is_array($links)) {
+					foreach ($links as $l) {
+						$feed_self_url = $l;
+						break;
+					}
+				}
+
+				_debug("feed self url = $feed_self_url");
+
+				if ($feed_hub_url && $feed_self_url && function_exists('curl_init') &&
 					!ini_get("open_basedir")) {
 
 					require_once 'lib/pubsubhubbub/subscriber.php';
@@ -512,7 +525,7 @@
 
 					$s = new Subscriber($feed_hub_url, $callback_url);
 
-					$rc = $s->subscribe($fetch_url);
+					$rc = $s->subscribe($feed_self_url);
 
 					_debug("feed hub url found, subscribe request sent.", $debug_enabled);
 
