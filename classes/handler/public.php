@@ -274,16 +274,22 @@ class Handler_Public extends Handler {
 
 	function pubsub() {
 		$mode = $this->dbh->escape_string($_REQUEST['hub_mode']);
+		if (!$mode) $mode = $this->dbh->escape_string($_REQUEST['hub.mode']);
+
 		$feed_id = (int) $this->dbh->escape_string($_REQUEST['id']);
 		$feed_url = $this->dbh->escape_string($_REQUEST['hub_topic']);
 
+		if (!$feed_url) $feed_url = $this->dbh->escape_string($_REQUEST['hub.topic']);
+
 		if (!PUBSUBHUBBUB_ENABLED) {
 			header('HTTP/1.0 404 Not Found');
-			echo "404 Not found";
+			echo "404 Not found (Disabled by server)";
 			return;
 		}
 
 		// TODO: implement hub_verifytoken checking
+		// TODO: store requested rel=self or whatever for verification
+		// (may be different from stored feed url) e.g. http://url/ or http://url
 
 		$result = $this->dbh->query("SELECT feed_url FROM ttrss_feeds
 			WHERE id = '$feed_id'");
@@ -292,7 +298,8 @@ class Handler_Public extends Handler {
 
 			$check_feed_url = $this->dbh->fetch_result($result, 0, "feed_url");
 
-			if ($check_feed_url && ($check_feed_url == $feed_url || !$feed_url)) {
+			// ignore url checking for the time being
+			if ($check_feed_url && (true || $check_feed_url == $feed_url || !$feed_url)) {
 				if ($mode == "subscribe") {
 
 					$this->dbh->query("UPDATE ttrss_feeds SET pubsub_state = 2
@@ -321,11 +328,11 @@ class Handler_Public extends Handler {
 				}
 			} else {
 				header('HTTP/1.0 404 Not Found');
-				echo "404 Not found";
+				echo "404 Not found (URL check failed)";
 			}
 		} else {
 			header('HTTP/1.0 404 Not Found');
-			echo "404 Not found";
+			echo "404 Not found (Feed not found)";
 		}
 
 	}
