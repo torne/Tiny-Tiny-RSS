@@ -1458,6 +1458,7 @@
 				$from_where = "ttrss_entries.id = ttrss_user_entries.ref_id AND";
 			} else {
 				$from_qpart = "ttrss_user_entries";
+				$from_where = "";
 			}
 
 			$query = "SELECT count(int_id) AS unread
