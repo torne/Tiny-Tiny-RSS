@@ -599,7 +599,12 @@
 
 					if (count($entry_language) > 0) {
 						$entry_language = array_keys($entry_language);
-						$entry_language = db_escape_string(substr($entry_language[0], 0, 2));
+
+						// the fuck?
+						if (is_array($entry_language))
+							$entry_language = "";
+						else
+							$entry_language = db_escape_string(substr($entry_language[0], 0, 2));
 
 						_debug("detected language: $entry_language", $debug_enabled);
 					}
