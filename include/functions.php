@@ -2243,7 +2243,7 @@
 
 		$search_query_part = "";
 
-		$keywords = explode(" ", $search);
+		$keywords = str_getcsv($search, " ");
 		$query_keywords = array();
 		$search_words = array();
 
