@@ -377,7 +377,7 @@ class Handler_Public extends Handler {
 		$order = $this->dbh->escape_string($_REQUEST["order"]);
 
 		$format = $this->dbh->escape_string($_REQUEST['format']);
-		$orig_guid = !sql_bool_to_bool($_REQUEST["no_orig_guid"]);
+		$orig_guid = sql_bool_to_bool($_REQUEST["orig_guid"]);
 
 		if (!$format) $format = 'atom';
 
