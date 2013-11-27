@@ -427,7 +427,7 @@ class API extends Handler {
 
 			$checked = false;
 			foreach ($article_labels as $al) {
-				if ($al[0] == $line['id']) {
+				if (feed_to_label_id($al[0]) == $line['id']) {
 					$checked = true;
 					break;
 				}
