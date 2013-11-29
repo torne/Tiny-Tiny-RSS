@@ -2651,7 +2651,7 @@
 			}
 
 
-			$content_query_part = "content, content AS content_preview, ";
+			$content_query_part = "content, ";
 
 
 			if (is_numeric($feed)) {

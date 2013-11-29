@@ -292,7 +292,7 @@ class Feeds extends Handler_Protected {
 			$expand_cdm = get_pref('CDM_EXPANDED');
 
 			while ($line = $this->dbh->fetch_assoc($result)) {
-				$line["content_preview"] =  "&mdash; " . truncate_string(strip_tags($line["content_preview"]), 250);
+				$line["content_preview"] =  "&mdash; " . truncate_string(strip_tags($line["content"]), 250);
 
 				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
 					$line = $p->hook_query_headlines($line, 250, false);

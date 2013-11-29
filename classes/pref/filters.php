@@ -97,7 +97,7 @@ class Pref_Filters extends Handler_Protected {
 		print "<table width=\"100%\" cellspacing=\"0\" id=\"prefErrorFeedList\">";
 
 		while ($line = $this->dbh->fetch_assoc($result)) {
-			$line["content_preview"] = truncate_string(strip_tags($line["content_preview"]), 100, '...');
+			$line["content_preview"] = truncate_string(strip_tags($line["content"]), 100, '...');
 
 			foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
 					$line = $p->hook_query_headlines($line, 100);
