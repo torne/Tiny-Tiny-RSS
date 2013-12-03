@@ -313,7 +313,7 @@ class API extends Handler {
 		if ($article_id) {
 
 			$query = "SELECT id,title,link,content,feed_id,comments,int_id,
-				marked,unread,published,score,note,
+				marked,unread,published,score,note,lang,
 				".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
 				author,(SELECT title FROM ttrss_feeds WHERE id = feed_id) AS feed_title
 				FROM ttrss_entries,ttrss_user_entries
@@ -346,7 +346,8 @@ class API extends Handler {
 						"attachments" => $attachments,
 						"score" => (int)$line["score"],
 						"feed_title" => $line["feed_title"],
-						"note" => $line["note"]
+						"note" => $line["note"],
+						"lang" => $line["lang"]
 					);
 
 					foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_RENDER_ARTICLE_API) as $p) {
@@ -705,6 +706,7 @@ class API extends Handler {
 
 				$headline_row["score"] = (int)$line["score"];
 				$headline_row["note"] = $line["note"];
+				$headline_row["lang"] = $line["lang"];
 
 				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_RENDER_ARTICLE_API) as $p) {
 					$headline_row = $p->hook_render_article_api(array("headline" => $headline_row));
