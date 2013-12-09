@@ -80,7 +80,8 @@
 					"pt_BR" => "Portuguese/Brazil",
 					"zh_CN" => "Simplified Chinese",
 					"sv_SE" => "Svenska",
-					"fi_FI" => "Suomi");
+					"fi_FI" => "Suomi",					
+					"tr_TR" => "Türkçe");
 
 		return $tr;
 	}
