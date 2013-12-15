@@ -175,6 +175,17 @@ class FeedItem_Atom extends FeedItem_Common {
 			array_push($encs, $enc);
 		}
 
+		$enclosures = $this->xpath->query("media:thumbnail", $this->elem);
+
+		foreach ($enclosures as $enclosure) {
+			$enc = new FeedEnclosure();
+
+			$enc->type = "image/generic";
+			$enc->link = $enclosure->getAttribute("url");
+
+			array_push($encs, $enc);
+		}
+
 		return $encs;
 	}
 
