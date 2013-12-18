@@ -88,8 +88,10 @@
 				) OR (
 					ttrss_feeds.update_interval > 0
 					AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_feeds.update_interval || ' minutes') AS INTERVAL)
-				) OR ttrss_feeds.last_updated IS NULL
-				OR last_updated = '1970-01-01 00:00:00')";
+				) OR (ttrss_feeds.last_updated IS NULL
+					AND ttrss_user_prefs.value != '-1')
+				OR (last_updated = '1970-01-01 00:00:00'
+					AND ttrss_user_prefs.value != '-1'))";
 		} else {
 			$update_limit_qpart = "AND ((
 					ttrss_feeds.update_interval = 0
@@ -98,8 +100,10 @@
 				) OR (
 					ttrss_feeds.update_interval > 0
 					AND ttrss_feeds.last_updated < DATE_SUB(NOW(), INTERVAL ttrss_feeds.update_interval MINUTE)
-				) OR ttrss_feeds.last_updated IS NULL
-				OR last_updated = '1970-01-01 00:00:00')";
+				) OR (ttrss_feeds.last_updated IS NULL
+					AND ttrss_user_prefs.value != '-1')
+				OR (last_updated = '1970-01-01 00:00:00'
+					AND ttrss_user_prefs.value != '-1'))";
 		}
 
 		// Test if feed is currently being updated by another process.
@@ -118,6 +122,7 @@
 				ttrss_feeds, ttrss_users, ttrss_user_prefs
 			WHERE
 				ttrss_feeds.owner_uid = ttrss_users.id
+				AND ttrss_user_prefs.profile IS NULL
 				AND ttrss_users.id = ttrss_user_prefs.owner_uid
 				AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
 				$login_thresh_qpart $update_limit_qpart
@@ -165,6 +170,7 @@
 				ttrss_user_prefs.owner_uid = ttrss_feeds.owner_uid AND
 				ttrss_users.id = ttrss_user_prefs.owner_uid AND
 				ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL' AND
+				ttrss_user_prefs.profile IS NULL AND
 				feed_url = '".db_escape_string($feed)."' AND
 				(ttrss_feeds.update_interval > 0 OR
 					ttrss_user_prefs.value != '-1')
@@ -176,6 +182,7 @@
 
 				while ($tline = db_fetch_assoc($tmp_result)) {
 					if($debug) _debug(" => " . $tline["last_updated"] . ", " . $tline["id"] . " " . $tline["owner_uid"]);
+
 					$rss = update_rss_feed($tline["id"], true, false, $rss);
 					_debug_suppress(false);
 					++$nf;
