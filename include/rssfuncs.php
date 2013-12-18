@@ -79,7 +79,7 @@
 			$login_thresh_qpart = "";
 		}
 
-		// Test if the feed need a update (update interval exceded).
+		// Test if the feed need a update (update interval exceeded).
 		if (DB_TYPE == "pgsql") {
 			$update_limit_qpart = "AND ((
 					ttrss_feeds.update_interval = 0
