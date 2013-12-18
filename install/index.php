@@ -10,6 +10,12 @@
 <body>
 
 <?php
+
+	// could be needed because of existing config.php
+	function define_default($param, $value) {
+		//
+	}
+
 	function make_password($length = 8) {
 
 		$password = "";
