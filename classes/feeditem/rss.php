@@ -59,16 +59,21 @@ class FeedItem_RSS extends FeedItem_Common {
 	}
 
 	function get_content() {
-		$content = $this->xpath->query("content:encoded", $this->elem)->item(0);
+		$contentA = $this->xpath->query("content:encoded", $this->elem)->item(0);
+		$contentB = $this->elem->getElementsByTagName("description")->item(0);
 
-		if ($content) {
-			return $content->nodeValue;
+		if ($contentA && !$contentB) {
+			return $contentA->nodeValue;
 		}
 
-		$content = $this->elem->getElementsByTagName("description")->item(0);
 
-		if ($content) {
-			return $content->nodeValue;
+		if ($contentB && !$contentA) {
+			return $contentB->nodeValue;
+		}
+
+		if ($contentA && $contentB) {
+			return mb_strlen($contentA->nodeValue) > mb_strlen($contentB->nodeValue) ?
+				$contentA->nodeValue : $contentB->nodeValue;
 		}
 	}
 
