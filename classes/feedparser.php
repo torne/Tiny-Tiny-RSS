@@ -97,6 +97,7 @@ class FeedParser {
 		$xpath->registerNamespace('slash', 'http://purl.org/rss/1.0/modules/slash/');
 		$xpath->registerNamespace('dc', 'http://purl.org/dc/elements/1.1/');
 		$xpath->registerNamespace('content', 'http://purl.org/rss/1.0/modules/content/');
+		$xpath->registerNamespace('thread', 'http://purl.org/syndication/thread/1.0');
 
 		$this->xpath = $xpath;
 
