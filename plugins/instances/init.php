@@ -407,7 +407,7 @@ class Instances extends Plugin implements IHandler {
 
 		print "<hr/>";
 
-		$access_key = sha1(uniqid(rand(), true));
+		$access_key = uniqid();
 
 		/* Access key */
 
@@ -439,7 +439,7 @@ class Instances extends Plugin implements IHandler {
 	}
 
 	function genHash() {
-		$hash = sha1(uniqid(rand(), true));
+		$hash = uniqid();
 
 		print json_encode(array("hash" => $hash));
 	}
