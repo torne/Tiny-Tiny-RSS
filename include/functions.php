@@ -692,6 +692,12 @@
 				$_SERVER["REDIRECT_SSL_CLIENT_V_END"] .
 				$_SERVER["REDIRECT_SSL_CLIENT_S_DN"]);
 		}
+		if ($_SERVER["SSL_CLIENT_M_SERIAL"]) {
+			return sha1($_SERVER["SSL_CLIENT_M_SERIAL"] .
+				$_SERVER["SSL_CLIENT_V_START"] .
+				$_SERVER["SSL_CLIENT_V_END"] .
+				$_SERVER["SSL_CLIENT_S_DN"]);
+		}
 		return "";
 	}
 
