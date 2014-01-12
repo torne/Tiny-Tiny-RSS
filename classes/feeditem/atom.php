@@ -160,19 +160,21 @@ class FeedItem_Atom extends FeedItem_Common {
 
 			$content = $this->xpath->query("media:content", $enclosure)->item(0);
 
-			$enc->type = $content->getAttribute("type");
-			$enc->link = $content->getAttribute("url");
-			$enc->length = $content->getAttribute("length");
+			if ($content) {
+				$enc->type = $content->getAttribute("type");
+				$enc->link = $content->getAttribute("url");
+				$enc->length = $content->getAttribute("length");
 
-			$desc = $this->xpath->query("media:description", $content)->item(0);
-			if ($desc) {
-				$enc->title = strip_tags($desc->nodeValue);
-			} else {
-				$desc = $this->xpath->query("media:description", $enclosure)->item(0);
-				if ($desc) $enc->title = strip_tags($desc->nodeValue);
+				$desc = $this->xpath->query("media:description", $content)->item(0);
+				if ($desc) {
+					$enc->title = strip_tags($desc->nodeValue);
+				} else {
+					$desc = $this->xpath->query("media:description", $enclosure)->item(0);
+					if ($desc) $enc->title = strip_tags($desc->nodeValue);
+				}
+
+				array_push($encs, $enc);
 			}
-
-			array_push($encs, $enc);
 		}
 
 		$enclosures = $this->xpath->query("media:thumbnail", $this->elem);
