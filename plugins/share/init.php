@@ -60,7 +60,7 @@ class Share extends Plugin {
 	function newkey() {
 		$id = db_escape_string($_REQUEST['id']);
 
-		$uuid = db_escape_string(uniqid());
+		$uuid = db_escape_string(uniqid(base_convert(rand(), 10, 36)));
 
 		db_query("UPDATE ttrss_user_entries SET uuid = '$uuid' WHERE int_id = '$id'
 			AND owner_uid = " . $_SESSION['uid']);
@@ -91,7 +91,7 @@ class Share extends Plugin {
 			$ref_id = db_fetch_result($result, 0, "ref_id");
 
 			if (!$uuid) {
-				$uuid = db_escape_string(uniqid());
+				$uuid = db_escape_string(uniqid(base_convert(rand(), 10, 36)));
 				db_query("UPDATE ttrss_user_entries SET uuid = '$uuid' WHERE int_id = '$param'
 					AND owner_uid = " . $_SESSION['uid']);
 			}
