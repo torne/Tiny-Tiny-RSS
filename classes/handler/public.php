@@ -575,7 +575,7 @@ class Handler_Public extends Handler {
 				}
 			} else {
 				$_SESSION["login_error_msg"] = __("Incorrect username or password");
-				user_error("Failed login attempt from {$_SERVER['REMOTE_ADDR']}", E_USER_WARNING);
+				user_error("Failed login attempt for $login from {$_SERVER['REMOTE_ADDR']}", E_USER_WARNING);
 			}
 
 			if ($_REQUEST['return']) {
