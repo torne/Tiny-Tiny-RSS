@@ -516,7 +516,7 @@ class API extends Handler {
 					if ($unread || !$unread_only) {
 
 						$row = array(
-								"id" => $cv["id"],
+								"id" => (int) $cv["id"],
 								"title" => $cv["description"],
 								"unread" => $cv["counter"],
 								"cat_id" => -2,
@@ -562,7 +562,7 @@ class API extends Handler {
 
 					if ($unread || !$unread_only) {
 						$row = array(
-								"id" => $line["id"],
+								"id" => (int) $line["id"],
 								"title" => $line["title"],
 								"unread" => $unread,
 								"is_cat" => true,
