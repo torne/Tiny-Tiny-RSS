@@ -99,7 +99,7 @@ class PluginHost {
 
 	function del_hook($type, $sender) {
 		if (is_array($this->hooks[$type])) {
-			$key = array_Search($this->hooks[$type], $sender);
+			$key = array_Search($sender, $this->hooks[$type]);
 			if ($key !== FALSE) {
 				unset($this->hooks[$type][$key]);
 			}
