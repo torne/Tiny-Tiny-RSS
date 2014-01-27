@@ -1199,6 +1199,10 @@ div.enclosure_title {
 
 }
 
+body#ttrssMain #headlines-frame .dijitCheckBox {
+	border-width : 0px;
+}
+
 .claro .dijitCheckBox {
 	background-image : url("../images/untick.png");
 	background-color : transparent;
@@ -1206,14 +1210,20 @@ div.enclosure_title {
 	height : 16px;
 	background-position : center center;	
 	opacity : 0.6;
-	-webkit-transition : opacity 0.5s;
-	transition : opacity 0.5s;
+	-webkit-transition : opacity 0.25s;
+	transition : opacity 0.25s;
+	border : 1px solid #eee;
+	border-radius : 2px;
+	padding : 1px;
 }
 .claro .dijitCheckBox:hover {
 	opacity : 1;
 }
 
 .claro .dijitCheckBox.dijitCheckBoxChecked {
+	border-color : #ddffdd;
 	background-image : url("../images/tick.png");
 	opacity : 1;
 }
+
+
