@@ -24,8 +24,8 @@ div.postReply {
 div.postReply div.postHeader {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
-	border-color : #c0c0c0;
-	background : #fafafa;
+	border-color : #eee;
+	background : white;
 	box-shadow : 0px 0px 3px 0px rgba(0,0,0,0.1);
 	padding : 5px;
 	color : #909090;
@@ -66,12 +66,12 @@ div.postReply img.tagsPic {
 div.articleNote {
 	background-color : #fff7d5;
 	padding : 5px;
-	border-radius : 4px;
+	/* border-radius : 4px; */
 	margin : 5px;
 	border-style : solid;
 	border-color : #e7d796;
 	border-width : 1px;
-	box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1);
+	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 	background-color : #fff7d5;
 	color : #9a8c59;
 }
@@ -108,8 +108,7 @@ h3 {
 hr {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
-	border-color : #c0c0c0;
-	max-width : 90%;
+	border-color : #ccc;
 }
 
 a {
@@ -138,7 +137,7 @@ a:hover {
 	min-width : 100px;
 	padding : 5px;
 	-width : 200px;
-	box-shadow : 0px 0px 2px rgba(0,0,0,0.2);
+	/* box-shadow : 0px 0px 2px rgba(0,0,0,0.2); */
 }
 
 #notify img {
@@ -190,7 +189,7 @@ a:hover {
 }
 
 .hl.active {
-	box-shadow : inset 0px 0px 3px 0px rgba(0,0,0,0.1);
+	/* box-shadow : inset 0px 0px 3px 0px rgba(0,0,0,0.1); */
 }
 
 .hl.active div.hlTitle a {
@@ -217,7 +216,7 @@ a:hover {
 .hl {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
-	border-color : #c0c0c0;
+	border-color : #eee;
 }
 
 .hl.active {
@@ -232,8 +231,8 @@ div.filterTestHolder {
 	margin : 0px 0px 5px 0px;
 	background-color : #ecf4ff;
 	border-width : 1px;
-	border-radius : 4px;
-	box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1);
+	/* border-radius : 4px; */
+	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 }
 
 
@@ -274,9 +273,9 @@ div.notice, div.warning, div.error {
 	font-size : 12px;
 	border-style : solid;
 	border-color : #ccc;
-	border-radius : 4px;
+	/* border-radius : 4px; */
 	border-width : 1px;
-	box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1);
+	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 }
 
 div.notice div.inner, div.warning div.inner, div.error div.inner {
@@ -325,9 +324,7 @@ div.prefHelp {
 }
 
 div#headlines-toolbar {
-	border-width : 0px 0px 1px 0px;
-	background-color : #fcfcfc;
-	border-color : #c0c0c0;
+	border-width : 0px;
 	font-size : 12px;
 	font-family : "Segoe UI", Tahoma, sans-serif;
 	color : #555;
@@ -337,6 +334,7 @@ div#headlines-toolbar {
 	height : 25px;
 	line-height : 25px;
 	padding-left : 4px;
+	background : #fafafa;
 }
 
 div#headlines-toolbar .dijitSelect {
@@ -377,7 +375,7 @@ span.hlLabelRef {
 	display : inline-block;
 	vertical-align : middle;
 	white-space: nowrap;
-	border-radius : 4px;
+	border-radius : 4px; 
 }
 
 div.postHeader div.postDate {
@@ -408,7 +406,7 @@ a.hlFeed {
 	font-size : 9px;
 	font-style : italic;
 	font-weight : normal;
-	border-radius : 4px;
+	/* border-radius : 4px; */
 	display : inline-block;
 	padding : 1px 2px 1px 2px;
 	margin-bottom : 2px;
@@ -431,8 +429,8 @@ div.tagCloudContainer {
 	margin : 5px 0px 5px 0px;
 	padding : 5px;
 	text-align : center;
-	border-radius : 4px;
-	box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1);
+	/* border-radius : 4px; */
+	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 }
 
 div.errorExplained {
@@ -440,8 +438,8 @@ div.errorExplained {
 	background-color : #ecf4ff;
 	margin : 5px 0px 5px 0px;
 	padding : 5px;
-	border-radius : 4px;
-	box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1);
+	/* border-radius : 4px; */
+	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 }
 
 ul.feedErrorsList {
@@ -452,8 +450,8 @@ ul.feedErrorsList {
 	background-color : #ecf4ff;
 	margin : 0px 0px 5px 0px;
 	padding : 5px;
-	border-radius : 4px;
-	box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1);
+	/* border-radius : 4px; */
+	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 }
 
 ul.feedErrorsList em {
@@ -667,7 +665,7 @@ span.labelColorIndicator {
 	background-color : #fff7d5;	
 	color : #063064;
 	text-align : center;
-	box-shadow : 0px 0px 1px 0px rgba(0,0,0,0.1);
+	/* box-shadow : 0px 0px 1px 0px rgba(0,0,0,0.1); */
 }
 
 div#cmdline {
@@ -771,7 +769,7 @@ div.fatalError textarea {
 
 #content-wrap {
 	padding : 0px;
-	border-width : 0px 0px 0px 1px;
+	border-width : 0px 0px 0px 0px;
 	border-style : solid;
   	border-color : #c0c0c0;
 	margin : 0px;
@@ -779,13 +777,12 @@ div.fatalError textarea {
 
 #feeds-holder {
 	padding : 0px;
-	border-color : #c0c0c0;
-	border-left-width : 0px;
-	border-bottom-width : 0px;
-	border-top-width : 0px;
+	border-width : 0px 1px 0px 0px;
+	border-style : solid;
+  	border-color : #eee;
 	overflow : hidden;
+	background : #fafafa;
 	box-shadow : inset 0px 0px 3px rgba(0,0,0,0.1);
-	background : #f9fbff;
 }
 
 #headlines-wrap-inner {
@@ -800,7 +797,7 @@ div.fatalError textarea {
 	border-style : solid;
 	border-width : 0px;
 	margin-top : 0px;
-	box-shadow : inset 0px 0px 3px rgba(0,0,0,0.1);
+	/* box-shadow : inset 0px 0px 3px rgba(0,0,0,0.1); */
 }
 
 #headlines-toolbar_splitter, #toolbar_splitter {
@@ -813,7 +810,13 @@ div.fatalError textarea {
 	border-width : 0px;
 	white-space: nowrap;
 	font-size : 12px;
-	box-shadow : 0px 0px 2px rgba(0,0,0,0.1);
+	/* box-shadow : 0px 0px 2px rgba(0,0,0,0.1); */
+}
+
+#main-toolbar {
+	background : white;
+	border-width : 0px;
+	padding-left : 0px;
 }
 
 #header {
@@ -837,7 +840,7 @@ div.fatalError textarea {
 
 #content-insert {
 	padding : 0px;
-	border-color : #c0c0c0;
+	border-color : #eee;
 	border-bottom-width : 0px;
 	border-right-width : 0px;
 	border-left-width : 0px;
@@ -937,6 +940,7 @@ img.feedIcon, img.tinyFeedIcon {
 	color : #555;
 }
 
+
 ul#filterDlg_Matches, ul#filterDlg_Actions {
 	max-height : 100px;
 	overflow : auto;
@@ -947,7 +951,7 @@ ul#filterDlg_Matches, ul#filterDlg_Actions {
 	background-color : #ecf4ff;
 	margin : 0px 0px 5px 0px;
 	padding : 0px;
-	box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1);
+	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 }
 
 ul#filterDlg_Matches li, ul#filterDlg_Actions li {
@@ -967,8 +971,8 @@ ul.helpKbList {
 	background-color : #ecf4ff;
 	margin : 0px 0px 5px 0px;
 	padding : 5px;
-	border-radius : 4px;
-	box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1);
+	/* border-radius : 4px; */
+	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 }
 
 ul.helpKbList span.hksequence {
@@ -1057,14 +1061,14 @@ body#ttrssZoom div.postContent p {
 body#ttrssZoom div.postHeader {
 	margin : 10px;
 	border : 1px solid #ccc;
-	box-shadow : none;
-	border-radius : 4px;
+	/* box-shadow : none; */
+	/* border-radius : 4px; */
 }
 
 body#ttrssZoom div.postReply {
 	border : 1px solid #ccc;
-	border-radius : 4px;
-	box-shadow : inset 0px 0px 3px rgba(0,0,0,0.1);
+	/* border-radius : 4px;
+	box-shadow : inset 0px 0px 3px rgba(0,0,0,0.1); */
 	background : white;
 }
 
@@ -1086,10 +1090,6 @@ select.attachments {
 	display : block;
 	margin-top : 10px;
 	max-width : 120px;
-}
-
-div.hl.active {
-	border-color : #88b0f0;
 }
 
 #selected_prompt {
@@ -1157,7 +1157,7 @@ body#ttrssMain #feedTree {
 	float : right;
 	position : relative;
 	line-height : 14px;
-	margin-right : 4px;
+	margin-right : 8px;
 	margin-top : 3px;
 	min-width : 23px;
 	height : 14px;
@@ -1178,6 +1178,41 @@ body#ttrssPrefs hr {
 	font-size : 13px;
 }
 
+body#ttrssMain #feedTree .dijitTreeRowSelected {
+	background : #ecf4ff;
+	/* box-shadow : inset 0px 0px 3px rgba(0,0,0,0.1); */
+}
+
+body#ttrssMain #feedTree .dijitTreeRowHover {
+	background : white;
+}
+
+body#ttrssMain #feedTree .dijitTreeRowActive {
+	background-color : transparent;
+	background-image : none;
+	border-color : transparent;
+}
+
+/* body#ttrssMain .dijitTreeRowHover,
+body#ttrssPrefs .dijitTreeRowHover,
+body#ttrssMain .dijitTreeRowActive,
+body#ttrssPrefs .dijitTreeRowActive {
+	background-color : transparent;
+	background-image : none;
+	border-color : transparent;
+} */
+
+body#ttrssMain .dijitTreeRowSelected .dijitTreeLabel,
+body#ttrssPrefs .dijitTreeRowSelected .dijitTreeLabel {
+	color : #4684ff;
+	font-weight : bold;
+}
+
+body#ttrssMain .dijitTreeRowHover .dijitTreeLabel,
+body#ttrssPrefs .dijitTreeRowHover .dijitTreeLabel {
+	color : #4684ff;
+}
+
 .dijitTreeRowSelected .dijitTreeLabel {
 	text-shadow : 1px 1px 2px #fff;
 }
@@ -1192,7 +1227,18 @@ span.highlight {
 	color : #cc90cc;
 }
 
+#feedTree .dijitTreeRow .dijitTreeExpando {
+	background-image: url("../images/treeExpandImages.png");
+	position : relative;
+	top : -1px;
+}
+
+#feedTree .dijitTreeRow .dijitTreeExpandoLeaf {
+	display : none;
+}
+
 div.enclosure_title {
 
 }
+
 

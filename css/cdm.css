@@ -73,10 +73,16 @@ div.cdm.expanded {
 	margin-bottom : 4px;
 }
 
+div.cdm.expanded div.cdmFooter {
+	border-style : solid;
+	border-width : 0px 0px 1px 0px;
+	border-color : #f0f0f0;
+}
+
 div.cdm.expandable {
 	background-color : #f0f0f0;
 	border-width : 0px 0px 1px 0px;
-	border-color : #c0c0c0;
+	border-color : #ddd;
 	border-style : solid;
 }
 
@@ -98,8 +104,6 @@ div.cdm.expandable.Selected {
 }
 
 div.cdm.expandable.active {
-	box-shadow : inset 0px 0px 3px 0px rgba(0,0,0,0.1);
-	border-color : #88b0f0;
 	background : white ! important;
 }
 
@@ -247,9 +251,9 @@ div#floatingTitle {
 	right : 0px;
 	left : 0px;
 	border-color : #ccc;
-	border-width : 1px 0px 1px 0px;
+	border-width : 0px 0px 1px 0px;
 	border-style : solid;
-	background : #fcfcfc;
+	background : white;
 	color : #555;
 	box-shadow : 0px 1px 1px 0px rgba(0,0,0,0.1);
 }

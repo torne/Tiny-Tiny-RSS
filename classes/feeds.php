@@ -725,7 +725,7 @@ class Feeds extends Handler_Protected {
 					$reply['content'] .= "</div>";
 					$reply['content'] .= "</div>";
 
-					$reply['content'] .= "</div><hr/>";
+					$reply['content'] .= "</div>";
 
 					$reply['content'] .= "</div>";
 

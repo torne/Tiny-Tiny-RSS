@@ -550,9 +550,6 @@ function init_second_stage() {
 			updateFeedList();
 			closeArticlePanel();
 
-			_widescreen_mode = getInitParam("widescreen");
-			switchPanelMode(_widescreen_mode);
-
 			if (parseInt(getCookie("ttrss_fh_width")) > 0) {
 				dijit.byId("feeds-holder").domNode.setStyle(
 					{width: getCookie("ttrss_fh_width") + "px" });
@@ -623,6 +620,9 @@ function init_second_stage() {
 
 		hotkeys[1] = tmp;
 		setInitParam("hotkeys", hotkeys);
+
+		_widescreen_mode = getInitParam("widescreen");
+		switchPanelMode(_widescreen_mode);
 
 		console.log("second stage ok");
 
@@ -1064,11 +1064,8 @@ function switchPanelMode(wide) {
 
 	  		dijit.byId("content-insert").domNode.setStyle({width: '50%',
 				height: 'auto',
-				borderLeftWidth: '1px',
-				borderLeftColor: '#c0c0c0',
 				borderTopWidth: '0px' });
 
-			$("headlines-toolbar").setStyle({ borderBottomWidth: '0px' });
 			$("headlines-frame").setStyle({ borderBottomWidth: '0px' });
 			$("headlines-frame").addClassName("wide");
 
@@ -1078,10 +1075,7 @@ function switchPanelMode(wide) {
 
 	  		dijit.byId("content-insert").domNode.setStyle({width: 'auto',
 				height: '50%',
-				borderLeftWidth: '0px',
 				borderTopWidth: '1px'});
-
-			$("headlines-toolbar").setStyle({ borderBottomWidth: '1px' });
 
 			$("headlines-frame").setStyle({ borderBottomWidth: '1px' });
 			$("headlines-frame").removeClassName("wide");
