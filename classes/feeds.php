@@ -82,13 +82,13 @@ class Feeds extends Handler_Protected {
 		}
 
 		$reply .= "</span>";
-		$reply .= "<span id='selected_prompt'></span>";
 
 #		$reply .= "</span>";
 
 		// left part
 
 		$reply .= "<span class=\"main\">";
+		$reply .= "<span id='selected_prompt'></span>";
 
 		$reply .= "
 			<a href=\"#\" onclick=\"$sel_all_link\">".__('All')."</a>,
