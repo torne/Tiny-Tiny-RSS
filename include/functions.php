@@ -3260,8 +3260,10 @@
 				header("Content-Type: text/html");
 				$rv['content'] .= "<html><head>
 						<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
-						<title>Tiny Tiny RSS - ".$line["title"]."</title>
-						<link rel=\"stylesheet\" type=\"text/css\" href=\"css/tt-rss.css\">
+						<title>Tiny Tiny RSS - ".$line["title"]."</title>".
+						stylesheet_tag("css/tt-rss.css").
+						stylesheet_tag("css/zoom.css")."
+
 						<link rel=\"shortcut icon\" type=\"image/png\" href=\"images/favicon.png\">
 						<link rel=\"icon\" type=\"image/png\" sizes=\"72x72\" href=\"images/favicon-72px.png\">
 
@@ -4306,7 +4308,7 @@
 	function stylesheet_tag($filename) {
 		$timestamp = filemtime($filename);
 
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"$filename?$timestamp\"/>\n";
+		return "<link rel=\"stylesheet\" type=\"text/css\" href=\"$filename?$timestamp\"/>\n";
 	}
 
 	function javascript_tag($filename) {
@@ -4321,7 +4323,7 @@
 
 		if ($query) $timestamp .= "&$query";
 
-		echo "<script type=\"text/javascript\" charset=\"utf-8\" src=\"$filename?$timestamp\"></script>\n";
+		return "<script type=\"text/javascript\" charset=\"utf-8\" src=\"$filename?$timestamp\"></script>\n";
 	}
 
 	function calculate_dep_timestamp() {

@@ -32,15 +32,15 @@
 <head>
 	<title>Tiny Tiny RSS : <?php echo __("Preferences") ?></title>
 
-	<?php stylesheet_tag("lib/dijit/themes/claro/claro.css"); ?>
-	<?php stylesheet_tag("css/layout.css"); ?>
+	<?php echo stylesheet_tag("lib/dijit/themes/claro/claro.css"); ?>
+	<?php echo stylesheet_tag("css/layout.css"); ?>
 
 	<?php if ($_SESSION["uid"]) {
 		$theme = get_pref( "USER_CSS_THEME", $_SESSION["uid"], false);
 		if ($theme && file_exists("themes/$theme")) {
-			stylesheet_tag("themes/$theme");
+			echo stylesheet_tag("themes/$theme");
 		} else {
-			stylesheet_tag("themes/default.css");
+			echo stylesheet_tag("themes/default.css");
 		}
 	}
 	?>
@@ -57,7 +57,7 @@
 				"lib/dojo/tt-rss-layer.js",
 				"errors.php?mode=js") as $jsfile) {
 
-		javascript_tag($jsfile);
+		echo javascript_tag($jsfile);
 
 	} ?>
 

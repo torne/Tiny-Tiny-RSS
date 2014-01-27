@@ -427,9 +427,9 @@ class Handler_Public extends Handler {
 		<link rel=\"shortcut icon\" type=\"image/png\" href=\"images/favicon.png\">
 		<link rel=\"icon\" type=\"image/png\" sizes=\"72x72\" href=\"images/favicon-72px.png\">";
 
-		stylesheet_tag("css/utility.css");
-		javascript_tag("lib/prototype.js");
-		javascript_tag("lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls");
+		echo stylesheet_tag("css/utility.css");
+		echo javascript_tag("lib/prototype.js");
+		echo javascript_tag("lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls");
 		print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 			</head><body id='sharepopup'>";
 
@@ -788,8 +788,8 @@ class Handler_Public extends Handler {
 		<link rel=\"shortcut icon\" type=\"image/png\" href=\"images/favicon.png\">
 		<link rel=\"icon\" type=\"image/png\" sizes=\"72x72\" href=\"images/favicon-72px.png\">";
 
-		stylesheet_tag("css/utility.css");
-		javascript_tag("lib/prototype.js");
+		echo stylesheet_tag("css/utility.css");
+		echo javascript_tag("lib/prototype.js");
 
 		print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 			</head><body id='forgotpass'>";
