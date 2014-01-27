@@ -52,11 +52,10 @@ div.prefProfileHolder, div.prefFeedOPMLHolder, div.inactiveFeedHolder {
 	height : 300px;
 	overflow : auto;
 	border-width : 0px 1px 1px 1px;
-	border-color : #c0c0c0;
+	border-color : #eee;
 	border-style : solid;
 	margin : 0px 0px 5px 0px;
-	background-color : #ecf4ff;
-	box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1);
+	background-color : #fafafa;
 }
 div.filterTestHolder, div.prefFeedOPMLHolder {
 	border-width : 1px;
@@ -66,12 +65,10 @@ ul.selfUpdateList, ul.userFeedList {
 	height : 200px;
 	overflow : auto;
 	list-style-type : none;
-	border : 1px solid #c0c0c0;
-	background-color : #ecf4ff;
+	border : 1px solid #eee;
+	background-color : #fafafa;
 	margin : 0px 0px 5px 0px;
 	padding : 5px;
-	box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1);
-	border-radius : 4px;
 }
 
 div#feedlistLoading, div#filterlistLoading, div#labellistLoading {
@@ -90,7 +87,8 @@ div#feedlistLoading img, div#filterlistLoading img, div#labellistLoading {
 
 a.bookmarklet {
 	color : #4684ff;
-	border : 1px solid #ecf4ff;
+	border : 1px solid #eee;
+	background : #fafafa;
 	padding : 2px;
 }
 
@@ -120,7 +118,28 @@ table.prefErrorLog td.filename, table.prefErrorLog td.login, table.prefErrorLog 
 	color : #555;
 }
 
-.dijitAccordionContainer-child {
-	box-shadow : inset 0px 0px 3px rgba(0,0,0,0.2);
+.claro .dijitTabPaneWrapper, 
+.claro .dijitTabContainerTop-tabs,
+.claro .dijitTab,
+.claro .dijitAccordionInnerContainer {
+	border-color : #ddd;
+}
+
+.claro .dijitAccordionInnerContainer.dijitAccordionInnerContainerSelected {
+	border-color : #ccc;
+}
+
+.claro .dijitToolbar {
+	background : #fafafa;
+	border-color : #eee;
+}
+
+.claro .dijitAccordionContainer .dijitAccordionChildWrapper {
+	border-color : #ddd;
+}
+
+.claro .dijitTreeRow .dijitCheckBox {
+	position : relative;
+	top : -2px;
 }
 

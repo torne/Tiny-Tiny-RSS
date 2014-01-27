@@ -12,7 +12,7 @@ body#ttrssPrefs {
 }
 
 body#ttrssPrefs #footer, body#ttrssPrefs #header {
-	background-color : #ecf4ff; 
+	background-color : #ecf4ff;
 	padding-left : 8px;
 	padding-right : 8px;
 }
@@ -66,12 +66,10 @@ div.postReply img.tagsPic {
 div.articleNote {
 	background-color : #fff7d5;
 	padding : 5px;
-	/* border-radius : 4px; */
 	margin : 5px;
 	border-style : solid;
 	border-color : #e7d796;
 	border-width : 1px;
-	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 	background-color : #fff7d5;
 	color : #9a8c59;
 }
@@ -137,7 +135,6 @@ a:hover {
 	min-width : 100px;
 	padding : 5px;
 	-width : 200px;
-	/* box-shadow : 0px 0px 2px rgba(0,0,0,0.2); */
 }
 
 #notify img {
@@ -188,10 +185,6 @@ a:hover {
 	color : black;
 }
 
-.hl.active {
-	/* box-shadow : inset 0px 0px 3px 0px rgba(0,0,0,0.1); */
-}
-
 .hl.active div.hlTitle a {
 	color : #4684ff;
 	text-shadow : 1px 1px 2px #fff;
@@ -218,13 +211,11 @@ a:hover {
 div.filterTestHolder {
 	height : 300px;
 	overflow : auto;
-	border-color : #c0c0c0;
+	border-color : #eee;
 	border-style : solid;
 	margin : 0px 0px 5px 0px;
-	background-color : #ecf4ff;
+	background-color : #fafafa;
 	border-width : 1px;
-	/* border-radius : 4px; */
-	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 }
 
 
@@ -233,7 +224,7 @@ div.filterTestHolder {
 	color : #555;
 	padding-left : 10px;
 	border-width : 0px 0px 0px 4px;
-	border-color : #c0c0c0;
+	border-color : #ccc;
 	border-style : solid;
 }
 
@@ -250,7 +241,7 @@ div.filterTestHolder {
 	font-family : monospace;
 	font-size : 12px;
 	border-width : 0px;
-	border-color : #c0c0c0;
+	border-color : #ccc;
 	border-style : solid;
 	background : #fafafa;
 	display : block;
@@ -265,9 +256,7 @@ div.notice, div.warning, div.error {
 	font-size : 12px;
 	border-style : solid;
 	border-color : #ccc;
-	/* border-radius : 4px; */
 	border-width : 1px;
-	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 }
 
 div.notice div.inner, div.warning div.inner, div.error div.inner {
@@ -393,7 +382,7 @@ div.postHeader div {
 #allEntryTags {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
-	border-color : #c0c0c0;
+	border-color : #eee;
 	padding-bottom : 5px;
 	display : none;
 }
@@ -404,7 +393,6 @@ a.hlFeed {
 	font-size : 9px;
 	font-style : italic;
 	font-weight : normal;
-	/* border-radius : 4px; */
 	display : inline-block;
 	padding : 1px 2px 1px 2px;
 	margin-bottom : 2px;
@@ -422,34 +410,28 @@ img.markedPic, img.pubPic {
 }
 
 div.tagCloudContainer {
-	border : 1px solid #c0c0c0;
-	background-color : #ecf4ff;
+	border : 1px solid #eee;
+	background-color : #fafafa;
 	margin : 5px 0px 5px 0px;
 	padding : 5px;
 	text-align : center;
-	/* border-radius : 4px; */
-	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 }
 
 div.errorExplained {
-	border : 1px solid #c0c0c0;
-	background-color : #ecf4ff;
+	border : 1px solid #eee;
+	background-color : #fafafa;
 	margin : 5px 0px 5px 0px;
 	padding : 5px;
-	/* border-radius : 4px; */
-	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 }
 
 ul.feedErrorsList {
 	max-height : 300px;
 	overflow : auto;
 	list-style-type : none;
-	border : 1px solid #c0c0c0;
-	background-color : #ecf4ff;
+	border : 1px solid #eee;
+	background-color : #fafafa;
 	margin : 0px 0px 5px 0px;
 	padding : 5px;
-	/* border-radius : 4px; */
-	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 }
 
 ul.feedErrorsList em {
@@ -460,7 +442,7 @@ ul.browseFeedList {
 	height : 300px;
 	overflow : auto;
 	border-width : 0px 1px 1px 1px;
-	border-color : #c0c0c0;
+	border-color : #eee;
 	border-style : solid;
 	margin : 0px 0px 5px 0px;
 	background-color : white;
@@ -535,13 +517,6 @@ div.whiteBox {
 	text-align : center;
 	padding : 1em;
 }
-
-/* html, body#ttrssMain, #main {
-	width: 100%; 
-	height: 100%;
-	padding: 0; 
-	margin: 0;
-} */
 
 div.autocomplete {
 	position : absolute;
@@ -649,7 +624,6 @@ span.labelColorIndicator {
 	background-color : #fff7d5;	
 	color : #063064;
 	text-align : center;
-	/* box-shadow : 0px 0px 1px 0px rgba(0,0,0,0.1); */
 }
 
 div#cmdline {
@@ -753,9 +727,9 @@ div.fatalError textarea {
 
 #content-wrap {
 	padding : 0px;
-	border-width : 0px 0px 0px 0px;
+	border-width : 0px;
 	border-style : solid;
-  	border-color : #c0c0c0;
+  	border-color : #eee;
 	margin : 0px;
 }
 
@@ -780,7 +754,6 @@ div.fatalError textarea {
 	border-style : solid;
 	border-width : 0px;
 	margin-top : 0px;
-	/* box-shadow : inset 0px 0px 3px rgba(0,0,0,0.1); */
 }
 
 #headlines-toolbar_splitter, #toolbar_splitter {
@@ -840,7 +813,7 @@ div.fatalError textarea {
 	color : red;
 }
 
-.dijitTreeLabel {
+.claro .dijitTreeLabel {
 	outline : 0;
 }
 
@@ -884,7 +857,7 @@ img.feedIcon, img.tinyFeedIcon {
 }
 
 .dijitDialog .dijitToolbar {
-	border : 1px solid #c0c0c0;
+	border : 1px solid #eee;
 }
 
 .dijitDialog h2 {
@@ -930,12 +903,11 @@ ul#filterDlg_Matches, ul#filterDlg_Actions {
 	overflow : auto;
 	list-style-type : none;
 	border-style : solid;
-  	border-color : #c0c0c0;
+  	border-color : #eee;
 	border-width : 0px 1px 1px 1px;
-	background-color : #ecf4ff;
+	background-color : #fafafa;
 	margin : 0px 0px 5px 0px;
 	padding : 0px;
-	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 }
 
 ul#filterDlg_Matches li, ul#filterDlg_Actions li {
@@ -951,12 +923,10 @@ ul.helpKbList {
 	max-height : 300px;
 	overflow : auto;
 	list-style-type : none;
-	border : 1px solid #c0c0c0;
-	background-color : #ecf4ff;
+	border : 1px solid #eee;
+	background-color : #fafafa;
 	margin : 0px 0px 5px 0px;
 	padding : 5px;
-	/* border-radius : 4px; */
-	/* box-shadow : inset 0px 0px 2px rgba(0,0,0,0.1); */
 }
 
 ul.helpKbList span.hksequence {
@@ -1045,14 +1015,10 @@ body#ttrssZoom div.postContent p {
 body#ttrssZoom div.postHeader {
 	margin : 10px;
 	border : 1px solid #ccc;
-	/* box-shadow : none; */
-	/* border-radius : 4px; */
 }
 
 body#ttrssZoom div.postReply {
 	border : 1px solid #ccc;
-	/* border-radius : 4px;
-	box-shadow : inset 0px 0px 3px rgba(0,0,0,0.1); */
 	background : white;
 }
 
@@ -1089,29 +1055,32 @@ body#ttrssMain #feedTree .dijitTreeRow {
 	padding : 2px 0px 2px;
 	height : 22px;
 	border-width : 1px;
-	border-color : transparent;
 	color : #333;
 }
 
-body#ttrssMain #feedTree .dijitFolderClosed,
-body#ttrssMain #feedTree .dijitFolderOpened {
+.claro .dijitTreeRow {
+	border-color : transparent;
+}
+
+.claro .dijitFolderClosed,
+.claro .dijitFolderOpened {
 	display : none;
 }
 
-.dijitTreeNode .dijitCheckBox {
+.claro .dijitTreeNode .dijitCheckBox {
 	margin-left : 4px;
 }
 
-body#ttrssMain #feedTree .dijitTreeIsRoot > .dijitTreeRow > .dijitTreeExpando {
+.claro .dijitTreeIsRoot > .dijitTreeRow > .dijitTreeExpando {
 	margin-left : 5px;
 }
 
-body#ttrssMain #feedTree .dijitTreeExpando {
+.claro .dijitTree .dijitTreeExpando {
 	margin-top : 0px;
 	opacity : 0.6;
 }
 
-body#ttrssMain #feedTree .dijitTreeNode {
+.claro .dijitTreeNode {
 	padding : 0px;
 	border-width : 0px;
 }
@@ -1122,13 +1091,13 @@ body#ttrssMain #feedTree {
 	font-family : "Segoe UI", Tahoma, sans-serif;
 }
 
-#feedTree .counterNode.aux {
+body#ttrssMain #feedTree .counterNode.aux {
 	background : #f0f0f0;
 	color : #999;
 	border-color : #f0f0f0;
 }
 
-#feedTree .counterNode {
+body#ttrssMain #feedTree .counterNode {
 	font-weight : bold;
 	display : inline-block;
 	font-size : 9px;
@@ -1147,7 +1116,7 @@ body#ttrssMain #feedTree {
 	height : 14px;
 }
 
-#feedTree .dijitTreeRow {
+.claro .dijitTree .dijitTreeRow {
 	max-width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -1158,46 +1127,36 @@ body#ttrssPrefs hr {
 	max-width : 100%;
 }
 
-.dijitMenuItemLabel {
+.claro .dijitMenuItemLabel {
 	font-size : 13px;
 }
 
-body#ttrssMain #feedTree .dijitTreeRowSelected {
+.claro .dijitTree .dijitTreeRowSelected {
 	background : white;
-	/* box-shadow : inset 0px 0px 3px rgba(0,0,0,0.1); */
 }
 
-body#ttrssMain #feedTree .dijitTreeRowHover {
+.claro .dijitTree .dijitTreeRowHover {
 	background : #ecf4ff;
 }
 
-body#ttrssMain #feedTree .dijitTreeRowActive {
+.claro .dijitTree .dijitTreeRowActive {
 	background-color : transparent;
 	background-image : none;
 	border-color : transparent;
 }
 
-/* body#ttrssMain .dijitTreeRowHover,
-body#ttrssPrefs .dijitTreeRowHover,
-body#ttrssMain .dijitTreeRowActive,
-body#ttrssPrefs .dijitTreeRowActive {
-	background-color : transparent;
-	background-image : none;
-	border-color : transparent;
-} */
-
-body#ttrssMain .dijitTreeRowSelected .dijitTreeLabel,
-body#ttrssPrefs .dijitTreeRowSelected .dijitTreeLabel {
+.claro .dijitTreeRowSelected .dijitTreeLabel,
+.claro .dijitTreeRowSelected .dijitTreeLabel {
 	color : #4684ff;
 	font-weight : bold;
 }
 
-body#ttrssMain .dijitTreeRowHover .dijitTreeLabel,
-body#ttrssPrefs .dijitTreeRowHover .dijitTreeLabel {
+.claro .dijitTreeRowHover .dijitTreeLabel,
+.claro .dijitTreeRowHover .dijitTreeLabel {
 	color : #4684ff;
 }
 
-.dijitTreeRowSelected .dijitTreeLabel {
+.claro .dijitTreeRowSelected .dijitTreeLabel {
 	text-shadow : 1px 1px 2px #fff;
 }
 
@@ -1211,10 +1170,14 @@ span.highlight {
 	color : #cc90cc;
 }
 
-body#ttrssMain #feedTree .dijitTreeRow .dijitTreeExpando {
+.claro .dijitTreeRow .dijitTreeExpando {
 	background-image: url("../images/treeExpandImages.png");
 	position : relative;
 	top : -1px;
+}
+
+.claro .dijitTreeRow .dijitTreeExpandoLeaf {
+	background : none;
 }
 
 body#ttrssMain #feedTree .dijitTreeRow .dijitTreeExpandoLeaf {
@@ -1224,4 +1187,5 @@ body#ttrssMain #feedTree .dijitTreeRow .dijitTreeExpandoLeaf {
 div.enclosure_title {
 
 }
+
 
