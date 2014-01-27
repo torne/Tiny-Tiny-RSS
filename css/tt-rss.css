@@ -334,7 +334,7 @@ div#headlines-toolbar {
 	height : 25px;
 	line-height : 25px;
 	padding-left : 4px;
-	background : #fafafa;
+	background : white;
 }
 
 div#headlines-toolbar .dijitSelect {
@@ -792,7 +792,7 @@ div.fatalError textarea {
 
 #headlines-frame {
 	padding : 0px;
-	border-color : #c0c0c0;
+	border-color : #eee;
 	border-style : solid;
 	border-width : 0px;
 	margin-top : 0px;
@@ -840,9 +840,7 @@ div.fatalError textarea {
 #content-insert {
 	padding : 0px;
 	border-color : #eee;
-	border-bottom-width : 0px;
-	border-right-width : 0px;
-	border-left-width : 0px;
+	border-width : 0px;
 	line-height: 20px;
 	overflow : auto;
 }
@@ -1178,12 +1176,12 @@ body#ttrssPrefs hr {
 }
 
 body#ttrssMain #feedTree .dijitTreeRowSelected {
-	background : #ecf4ff;
+	background : white;
 	/* box-shadow : inset 0px 0px 3px rgba(0,0,0,0.1); */
 }
 
 body#ttrssMain #feedTree .dijitTreeRowHover {
-	background : white;
+	background : #ecf4ff;
 }
 
 body#ttrssMain #feedTree .dijitTreeRowActive {

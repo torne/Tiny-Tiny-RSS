@@ -1075,7 +1075,7 @@ function switchPanelMode(wide) {
 
 	  		dijit.byId("content-insert").domNode.setStyle({width: 'auto',
 				height: '50%',
-				borderTopWidth: '1px'});
+				borderTopWidth: '0px'});
 
 			$("headlines-frame").setStyle({ borderBottomWidth: '1px' });
 			$("headlines-frame").removeClassName("wide");
