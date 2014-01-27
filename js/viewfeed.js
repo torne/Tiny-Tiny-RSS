@@ -87,8 +87,12 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 				dijit.byId("headlines-frame").attr('content',
 					reply['headlines']['content']);
 
-				dijit.byId("headlines-toolbar").attr('content',
-					reply['headlines']['toolbar']);
+				//dijit.byId("headlines-toolbar").attr('content',
+				//	reply['headlines']['toolbar']);
+
+				dojo.html.set($("headlines-toolbar"),
+						reply['headlines']['toolbar'],
+						{parseContent: true});
 
 				$$("#headlines-frame > div[id*=RROW]").each(function(row) {
 					if (loaded_article_ids.indexOf(row.id) != -1) {

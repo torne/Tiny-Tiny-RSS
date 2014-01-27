@@ -43,6 +43,8 @@ class Feeds extends Handler_Protected {
 			$search_q = "";
 		}
 
+		$reply .= "<span class=\"holder\">";
+
 		$rss_link = htmlspecialchars(get_self_url_prefix() .
 			"/public.php?op=rss&id=$feed_id$cat_q$search_q");
 
@@ -50,9 +52,17 @@ class Feeds extends Handler_Protected {
 
 		$error_class = $error ? "error" : "";
 
-		$reply .= "<span class='r'>";
-		$reply .= "<span id='selected_prompt'></span>";
+		$reply .= "<span class='r'>
+			<a href=\"#\"
+				title=\"".__("View as RSS feed")."\"
+				onclick=\"displayDlg('".__("View as RSS")."','generatedFeed', '$feed_id:$is_cat:$rss_link')\">
+				<img class=\"noborder\" src=\"images/pub_set.png\"></a>";
+
+
+#		$reply .= "<span>";
 		$reply .= "<span id='feed_title' class='$error_class'>";
+
+		$reply .= "</span>";
 
 		if ($feed_site_url) {
 			$last_updated = T_sprintf("Last updated: %s",
@@ -72,18 +82,15 @@ class Feeds extends Handler_Protected {
 		}
 
 		$reply .= "</span>";
+		$reply .= "<span id='selected_prompt'></span>";
 
-		$reply .= "
-			<a href=\"#\"
-				title=\"".__("View as RSS feed")."\"
-				onclick=\"displayDlg('".__("View as RSS")."','generatedFeed', '$feed_id:$is_cat:$rss_link')\">
-				<img class=\"noborder\" style=\"vertical-align : middle\" src=\"images/pub_set.png\"></a>";
-
-		$reply .= "</span>";
+#		$reply .= "</span>";
 
 		// left part
 
-		$reply .= __('Select:')."
+		$reply .= "<span class=\"main\">";
+
+		$reply .= "
 			<a href=\"#\" onclick=\"$sel_all_link\">".__('All')."</a>,
 			<a href=\"#\" onclick=\"$sel_unread_link\">".__('Unread')."</a>,
 			<a href=\"#\" onclick=\"$sel_inv_link\">".__('Invert')."</a>,
@@ -132,13 +139,13 @@ class Feeds extends Handler_Protected {
 
 		$reply .= "</select>";
 
-		//$reply .= "</div>";
-
 		//$reply .= "</h2";
 
 		foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_HEADLINE_TOOLBAR_BUTTON) as $p) {
 			 echo $p->hook_headline_toolbar_button($feed_id, $is_cat);
 		}
+
+		$reply .= "</span></span>";
 
 		return $reply;
 	}

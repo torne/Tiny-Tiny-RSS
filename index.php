@@ -153,6 +153,10 @@
 <div id="toolbar" dojoType="dijit.layout.ContentPane" region="top">
 	<div id="main-toolbar" dojoType="dijit.Toolbar">
 
+		<form id="headlines-toolbar" action="" onsubmit='return false'>
+
+		</form>
+
 		<form id="main_toolbar_form" action="" onsubmit='return false'>
 
 		<button dojoType="dijit.form.Button" id="collapse_feeds_btn"
@@ -256,9 +260,6 @@
 </div> <!-- toolbar pane -->
 
 	<div id="headlines-wrap-inner" dojoType="dijit.layout.BorderContainer" region="center">
-
-		<div id="headlines-toolbar" dojoType="dijit.layout.ContentPane" region="top">
-		</div>
 
 		<div id="floatingTitle" style="display : none"></div>
 

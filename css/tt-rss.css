@@ -203,14 +203,6 @@ a:hover {
 	color : #909090;
 }
 
-/* #headlines-frame div.hl:nth-child(even) {
-	background : #fafafa;
-} */
-
-#headlines-frame.normal {
-
-}
-
 .hl {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
@@ -321,39 +313,44 @@ div.prefHelp {
 	color : #555;
 }
 
-div#headlines-toolbar {
-	border-width : 0px;
-	font-size : 12px;
+#main-toolbar > * {
+	white-space : nowrap;
+	display : table-cell;
+	color : #999;
 	font-family : "Segoe UI", Tahoma, sans-serif;
-	color : #555;
-	padding : 0px;
-	margin : 0px;
-	overflow : hidden;
-	height : 25px;
-	line-height : 25px;
-	padding-left : 4px;
-	background : white;
 }
 
-div#headlines-toolbar .dijitSelect {
-	font-size : 11px;
-	position : relative;
-	top : -2px;
+#main-toolbar #headlines-toolbar {
+	padding-right : 4px;
+	width : 100%;
 }
 
-div#headlines-toolbar span.r {
-	float: right;
-   position: relative;
-	padding : 0 4px 0px 4px;
+#main-toolbar #headlines-toolbar span.holder {
+	display : table;
+	width : 100%;
+}
+
+#main-toolbar #headlines-toolbar span.holder > * {
+	display : table-cell;
+}
+
+#main-toolbar #headlines-toolbar .main {
 	text-align : right;
-}	
+}
+
+#headlines-toolbar span.r img {
+	margin-right : 4px;
+	position : relative;
+	top : 3px;
+}
 
 #headlines-toolbar span.r .error a {
 	color : red;
 }
 
-div#headlines-toolbar span.r a {
-	color : #555;
+#main-toolbar #selected_prompt {
+	font-style : italic;
+	text-align : center;
 }
 
 span.contentPreview {
@@ -524,14 +521,6 @@ form {
 	padding : 0px;
 }
 
-#main_toolbar_form {
-	margin : 0px;
-	padding : 0px;
-	display : table-cell;
-	white-space : nowrap;
-	width : 100%;
-}
-
 div.loadingPrompt {
 	padding : 1em;
 	text-align : center;
@@ -550,12 +539,6 @@ div.whiteBox {
 	padding: 0; 
 	margin: 0;
 } */
-
-#toolbar div.actionChooser {
-	display : table-cell;
-	text-align : right;
-	padding-right : 3px;
-}
 
 div.autocomplete {
 	position : absolute;
