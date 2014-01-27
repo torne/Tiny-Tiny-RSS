@@ -407,6 +407,17 @@ a.hlFeed:hover {
 img.markedPic, img.pubPic {
 	cursor : pointer;
 	vertical-align : middle;
+	opacity : 0.5;
+	-webkit-transition : opacity 0.25s;
+	transition : opacity 0.25s;
+}
+
+img.markedPic:hover, img.pubPic:hover {
+	opacity : 1;
+}
+
+img[src*='pub_set.png'], img[src*='mark_set.png'] {
+	opacity : 1;
 }
 
 div.tagCloudContainer {
@@ -1188,4 +1199,21 @@ div.enclosure_title {
 
 }
 
+.claro .dijitCheckBox {
+	background-image : url("../images/untick.png");
+	background-color : transparent;
+	width : 16px;
+	height : 16px;
+	background-position : center center;	
+	opacity : 0.6;
+	-webkit-transition : opacity 0.5s;
+	transition : opacity 0.5s;
+}
+.claro .dijitCheckBox:hover {
+	opacity : 1;
+}
 
+.claro .dijitCheckBox.dijitCheckBoxChecked {
+	background-image : url("../images/tick.png");
+	opacity : 1;
+}
