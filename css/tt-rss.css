@@ -223,6 +223,7 @@ a:hover {
 	border-width : 0px 0px 1px 0px;
 	border-style : solid;
 	border-color : #ddd;
+	padding : 1px;
 }
 
 .hl.active {
@@ -390,6 +391,7 @@ span.contentPreview {
 	font-weight : normal;
 	text-shadow : 1px 1px 2px #fff;
 	font-size : 11px;
+	padding-left : 4px;
 }
 
 span.hlLabelRef {
@@ -425,23 +427,6 @@ div.postHeader div {
 	border-color : #ddd;
 	padding-bottom : 5px;
 	display : none;
-}
-
-a.hlFeed {
-	display : block;
-	white-space : nowrap;
-	font-size : 9px;
-	font-style : italic;
-	font-weight : normal;
-	display : inline-block;
-	padding : 1px 2px 1px 2px;
-	margin-bottom : 2px;
-	margin-top : 2px;
-	color : #555;
-}
-
-a.hlFeed:hover {
-	color : #4684ff;
 }
 
 img.markedPic, img.pubPic {
@@ -597,11 +582,13 @@ div.autocomplete ul li {
 	cursor : pointer;
 }
 
-.hlTitle {
+.hl .hlTitle {
 	overflow : hidden;
 	white-space : nowrap;
 	max-width : 500px;
 	text-overflow : ellipsis;
+	padding-left : 6px;
+	padding-right : 6px;
 }
 
 div#headlines-frame.wide .hlTitle {
@@ -723,14 +710,39 @@ div.hlRight img {
 	max-height : 16px;
 }
 
-span.hlUpdated {
-	color : #555;
-	min-width : 100px;
+.hl span.hlFeed {
 	display : table-cell;
-	width : 100%;
 	vertical-align : middle;
 	text-align : right;
-	font-size : 10px;
+}
+
+.hl span.hlFeed a {
+	border-radius : 4px;
+	display : inline-block;
+	padding : 1px 4px 1px 4px;
+	font-size : 11px;
+	font-style : italic;
+	font-weight : normal;
+	color : #555;
+	white-space : nowrap;
+}
+
+.hl span.hlFeed a:hover {
+	color : #4684ff;
+}
+
+.hl span.hlUpdated {
+	color : #555;
+	display : table-cell;
+	vertical-align : middle;
+	text-align : right;
+	font-size : 11px;
+	white-space : nowrap;
+	padding-left : 10px;
+}
+
+span.hlUpdated div {
+	display : inline-block;
 }
 
 div.hlLeft {

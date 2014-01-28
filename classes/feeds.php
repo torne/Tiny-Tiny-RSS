@@ -480,16 +480,17 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= "</div>";
 
-					$reply['content'] .= "<span class=\"hlUpdated\">";
-
 					if (!get_pref('VFEED_GROUP_BY_FEED')) {
 						if (@$line["feed_title"]) {
 							$rgba = @$rgba_cache[$feed_id];
 
-							$reply['content'] .= "<a class=\"hlFeed\" style=\"background : rgba($rgba, 0.3)\" href=\"#\" onclick=\"viewfeed($feed_id)\">".
-								truncate_string($line["feed_title"],30)."</a>";
+							$reply['content'] .= "<span class=\"hlFeed\"><a style=\"background : rgba($rgba, 0.3)\" href=\"#\" onclick=\"viewfeed($feed_id)\">".
+								truncate_string($line["feed_title"],30)."</a></span>";
 						}
 					}
+
+
+					$reply['content'] .= "<span class=\"hlUpdated\">";
 
 					$reply['content'] .= "<div title='$date_entered_fmt'>$updated_fmt</div>
 						</span>";
