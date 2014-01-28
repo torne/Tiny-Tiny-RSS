@@ -1161,6 +1161,12 @@ body#ttrssMain #headlines-frame .dijitCheckBox {
 	box-shadow : none;
 }
 
+button {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size : 14px;
+}
+
+button,
 .claro .dijitButton,
 .claro .dijitComboButton {
   display: inline-block;
@@ -1187,6 +1193,9 @@ body#ttrssMain #headlines-frame .dijitCheckBox {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
+button:hover,
+button:focus,
+button:active,
 .claro .dijitButton:hover,
 .claro .dijitButton:focus,
 .claro .dijitButton:active,
@@ -1198,6 +1207,7 @@ body#ttrssMain #headlines-frame .dijitCheckBox {
   background-color: #e6e6e6;
 }
 
+button:active,
 .claro .dijitButton:active,
 .claro .dijitComboButton:active {
 	background-color: #cccccc \9;
@@ -1232,6 +1242,8 @@ body#ttrssMain #headlines-frame .dijitCheckBox {
 	font-size : 13px;
 }
 
+button:hover,
+button:focus,
 .claro .dijitButton:hover,
 .claro .dijitToolbar .dijitButton:hover .dijitButtonNode,
 .claro .dijitToolbar .dijitButton.dijitHover .dijitButtonNode,
@@ -1245,6 +1257,7 @@ body#ttrssMain #headlines-frame .dijitCheckBox {
   transition: background-position 0.1s linear;
 }
 
+button:focus,
 .claro .dijitButton:focus,
 .claro .dijitComboButton:focus {
   outline: thin dotted #333;
@@ -1252,6 +1265,7 @@ body#ttrssMain #headlines-frame .dijitCheckBox {
   outline-offset: -2px;
 }
 
+button:active,
 .claro .dijitButton:active,
 .claro .dijitComboButton:active,
 .claro .dijitToolbar .dijitDropDownButton.dijitOpened,
@@ -1263,6 +1277,7 @@ body#ttrssMain #headlines-frame .dijitCheckBox {
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
+button[disabled],
 .claro .dijitButton[disabled],
 .claro .dijitButton.dijitButtonDisabled,
 .claro .dijitComboButton.dijitButtonDisabled {
