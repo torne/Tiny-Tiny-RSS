@@ -1,5 +1,10 @@
 /* Tree */
 
+.claro .dijitTreeRow .dijitCheckBox {
+	position : relative;
+	top : -2px;
+}
+
 .claro .dijitTreeLabel {
 	outline : 0;
 }
@@ -91,6 +96,11 @@
 } 
 
 /* Toolbar */
+
+.claro .dijitToolbar {
+	background : #f5f5f5;
+	border-color : #ddd;
+}
 
 .claro .dijitToolbar {
 	text-shadow : 1px 1px 2px #fff;
@@ -323,4 +333,30 @@ button[disabled],
 	text-shadow : 1px 1px 2px #fff;
 }
 
+.claro .dijitAccordionInnerContainer.dijitAccordionInnerContainerSelected {
+	border-color : #ccc;
+}
+
+.claro .dijitAccordionContainer .dijitAccordionChildWrapper {
+	border-color : #ddd;
+}
+
+/* Tabs */
+
+.claro .dijitTabContent {
+	background : #eee;
+}
+
+.claro .dijitTabContent.dijitTabChecked,
+.claro .dijitTabContent.dijitTabHover,
+.claro .dijitTabContent.dijitFocused {
+	background : white;
+}
+
+.claro .dijitTabPaneWrapper, 
+.claro .dijitTabContainerTop-tabs,
+.claro .dijitTab,
+.claro .dijitAccordionInnerContainer {
+	border-color : #ddd;
+}
 
