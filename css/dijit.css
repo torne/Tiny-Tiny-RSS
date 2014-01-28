@@ -1,0 +1,315 @@
+/* Tree */
+
+.claro .dijitTreeLabel {
+	outline : 0;
+}
+
+.claro .dijitTree .feedParam {
+	color : #555;
+	float : right;
+	margin-right : 1em;
+}
+
+.claro .dijitTree .labelParam {
+	float : right;
+	margin-right : 1em;
+}
+
+.claro .dijitTree .dijitTreeLabel.Disabled, 
+.claro .dijitTree .labelParam.Disabled {
+	color : #555;
+}
+
+.claro .dijitTreeRow.Error {
+	color : red;
+}
+
+.claro .dijitTreeRow.Hidden {
+	display : none;
+}
+
+.claro .dijitTreeNode .loadingNode {
+	margin-left : 3px;
+	height : 9px;
+}
+
+.claro .dijitFolderClosed,
+.claro .dijitFolderOpened {
+	display : none;
+}
+
+.claro .dijitTreeNode .dijitCheckBox {
+	margin-left : 4px;
+}
+
+.claro .dijitTreeIsRoot > .dijitTreeRow > .dijitTreeExpando {
+	margin-left : 5px;
+}
+
+.claro .dijitTree .dijitTreeExpando {
+	margin-top : 0px;
+	opacity : 0.6;
+}
+
+.claro .dijitTree .dijitTreeNode {
+	padding : 0px;
+	border-width : 0px;
+}
+
+.claro .dijitTree .dijitTreeRow {
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.claro .dijitTree .dijitTreeRowSelected {
+	background : white;
+}
+
+.claro .dijitTree .dijitTreeRowHover {
+	background : #f0f0f0;
+	border-color : #ddd;
+}
+
+.claro .dijitTree .dijitTreeRowSelected {
+	background : white;
+	border-color : #ddd;
+}
+
+.claro .dijitTreeRowSelected .dijitTreeLabel {
+	text-shadow : 1px 1px 2px #fff;
+}
+
+.claro .dijitTreeRow .dijitTreeExpando {
+	background-image: url("../images/treeExpandImages.png");
+	position : relative;
+	top : -1px;
+}
+
+.claro .dijitTreeRow .dijitTreeExpandoLeaf {
+	background : none;
+} 
+
+/* Toolbar */
+
+.claro .dijitToolbar {
+	text-shadow : 1px 1px 2px #fff;
+}
+
+/* Dialog */
+
+.claro .dijitDialog .dijitToolbar {
+	border : 1px solid #eee;
+}
+
+.claro .dijitDialog h2 {
+	margin-top : 0px;
+	margin-bottom : 4px;
+	border-width : 0px;
+}
+
+.claro .dijitMenuItemLabel {
+	font-size : 13px;
+}
+
+/* Checkbox */
+
+.claro .dijitCheckBox {
+	background-image : url("../images/untick.png");
+	background-color : transparent;
+	width : 16px;
+	height : 16px;
+	background-position : center center;	
+	opacity : 0.4;
+	-webkit-transition : opacity 0.25s;
+	transition : opacity 0.25s;
+	border : 1px solid #eee;
+	border-radius : 2px;
+	padding : 1px;
+}
+
+.claro .dijitCheckBox:hover {
+	opacity : 1;
+}
+
+.claro .dijitCheckBox.dijitCheckBoxDisabled:hover {
+	opacity : 0.6;
+}
+
+.claro .dijitCheckBox.dijitCheckBoxChecked {
+	border-color : #ddffdd;
+	background-image : url("../images/tick.png");
+	opacity : 1;
+}
+
+/* Various buttons */
+
+.claro .dijitButton .dijitButtonNode,
+.claro .dijitComboButton .dijitButtonNode, 
+.claro .dijitToolbar .dijitDropDownButton .dijitButtonNode,
+.claro .dijitToolbar .dijitComboButton,
+.claro .dijitToolbar .dijitComboButton .dijitButtonNode {
+	background : none;
+	border-color : transparent;
+	box-shadow : none;
+}
+
+button {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size : 14px;
+}
+
+button,
+.claro .dijitButton,
+.claro .dijitComboButton {
+  display: inline-block;
+  padding: 4px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333333;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: #f5f5f5;
+  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+  background-repeat: repeat-x;
+  border: 1px solid #cccccc;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  border-bottom-color: #b3b3b3;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+button:hover,
+button:focus,
+button:active,
+.claro .dijitButton:hover,
+.claro .dijitButton:focus,
+.claro .dijitButton:active,
+.claro .dijitComboButton:hover,
+.claro .dijitComboButton:focus,
+.claro .dijitComboButton:active,
+.claro .dijitButton.dijitButtonDisabled {
+  color: #333333;
+  background-color: #e6e6e6;
+}
+
+button:active,
+.claro .dijitButton:active,
+.claro .dijitComboButton:active {
+	background-color: #cccccc \9;
+}
+
+.claro .dijitToolbar .dijitButton,
+.claro .dijitToolbar .dijitButton.dijitHover,
+.claro .dijitToolbar .dijitComboButton,
+.claro .dijitToolbar .dijitComboButton.dijitHover {
+	background : none;
+	border-color : transparent;
+	box-shadow : none;
+	padding : 0px;
+	margin : 0px;
+	line-height : auto;
+}
+
+.claro .dijitToolbar .dijitButton.dijitHover,
+.claro .dijitToolbar .dijitDropDownButton.dijitHover .dijitButtonNode,
+.claro .dijitToolbar .dijitComboButton.dijitHover {
+	border-color : #ccc;
+}
+
+.claro .dijitToolbar .dijitButton.dijitHover .dijitButtonNode,
+.claro .dijitToolbar .dijitButton.dijitButtonActive .dijitButtonNode {
+	background : none;
+}
+
+.claro .dijitToolbar .dijitButton .dijitButtonContents,
+.claro .dijitToolbar .dijitDropDownButton .dijitButtonContents,
+.claro .dijitToolbar .dijitComboButton .dijitButtonContents {
+	font-size : 13px;
+}
+
+button:hover,
+button:focus,
+.claro .dijitButton:hover,
+.claro .dijitToolbar .dijitButton:hover .dijitButtonNode,
+.claro .dijitToolbar .dijitButton.dijitHover .dijitButtonNode,
+.claro .dijitButton:focus,
+.claro .dijitComboButton:hover,
+.claro .dijitComboButton:focus {
+  color: #333333;
+  text-decoration: none;
+  background-position: 0 -15px;
+  -webkit-transition: background-position 0.1s linear;
+  transition: background-position 0.1s linear;
+}
+
+button:focus,
+.claro .dijitButton:focus,
+.claro .dijitComboButton:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+button:active,
+.claro .dijitButton:active,
+.claro .dijitComboButton:active,
+.claro .dijitToolbar .dijitDropDownButton.dijitOpened,
+.claro .dijitToolbar .dijitComboButton.dijitOpened,
+.claro .dijitToolbar .dijitButton.dijitButtonActive .dijitButtonNode {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+button[disabled],
+.claro .dijitButton[disabled],
+.claro .dijitButton.dijitButtonDisabled,
+.claro .dijitComboButton.dijitButtonDisabled {
+  cursor: default;
+  background-image: none;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.claro .dijitButton .dijitButtonContents,
+.claro .dijitComboButton .dijitButtonContents {
+	font-size : 14px;
+	font-weight : normal;
+	line-height : 20px;
+}
+
+.claro .dijitMenu {
+	border-color : #ccc;
+}
+
+.claro .dijitMenu .dijitMenuItem.dijitHover,
+.claro .dijitMenu .dijitMenuItem.dijitFocused,
+.claro .dijitMenuTable .dijitMenuItem.dijitHover .dijitMenuItemLabel,
+.claro .dijitMenuTable .dijitMenuItem.dijitFocused .dijitMenuItemLabel {
+	background : #eee;
+	border-color : transparent;
+}
+
+.claro .dijitButton .dijitButtonNode,
+.claro .dijitComboButton .dijitButtonNode {
+	padding : 0px;
+}
+
+/* Other stuff */
+
+.claro .dijitAccordionTitleFocus {
+	text-shadow : 1px 1px 2px #fff;
+}
+
+
