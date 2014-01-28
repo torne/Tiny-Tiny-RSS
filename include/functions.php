@@ -3262,7 +3262,8 @@
 						<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
 						<title>Tiny Tiny RSS - ".$line["title"]."</title>".
 						stylesheet_tag("css/tt-rss.css").
-						stylesheet_tag("css/zoom.css")."
+						stylesheet_tag("css/zoom.css").
+						stylesheet_tag("css/dijit.css")."
 
 						<link rel=\"shortcut icon\" type=\"image/png\" href=\"images/favicon.png\">
 						<link rel=\"icon\" type=\"image/png\" sizes=\"72x72\" href=\"images/favicon-72px.png\">

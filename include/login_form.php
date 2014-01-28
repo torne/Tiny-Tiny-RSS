@@ -2,15 +2,22 @@
 <html>
 <head>
 	<title>Tiny Tiny RSS : Login</title>
-	<link rel="stylesheet" type="text/css" href="lib/dijit/themes/claro/claro.css"/>
-	<link rel="stylesheet" type="text/css" href="css/tt-rss.css">
+	<?php echo stylesheet_tag("lib/dijit/themes/claro/claro.css") ?>
+	<?php echo stylesheet_tag("css/tt-rss.css") ?>
+	<?php echo stylesheet_tag("css/dijit.css") ?>
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<script type="text/javascript" src="lib/dojo/dojo.js"></script>
-	<script type="text/javascript" src="lib/dojo/tt-rss-layer.js"></script>
-	<script type="text/javascript" src="lib/prototype.js"></script>
-	<script type="text/javascript" src="js/functions.js"></script>
-	<script type="text/javascript" charset="utf-8" src="errors.php?mode=js"></script>
+	<?php
+	foreach (array("lib/prototype.js",
+				"lib/dojo/dojo.js",
+				"lib/dojo/tt-rss-layer.js",
+				"js/functions.js",
+				"errors.php?mode=js") as $jsfile) {
+
+		echo javascript_tag($jsfile);
+
+	} ?>
+
 	<script type="text/javascript">
 		require({cache:{}});
 		Event.observe(window, 'load', function() {
