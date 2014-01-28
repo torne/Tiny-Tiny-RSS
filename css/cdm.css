@@ -123,11 +123,15 @@ div.cdm.expandable.active div.cdmHeader span.titleWrap {
 }
 
 div.cdm.expandable div.cdmHeader a.title {
-	font-weight : bold;
+	font-weight : 600;
 	color : #555;
 	font-size : 14px;
 	-webkit-transition : color 0.2s;
 	transition : color 0.2s;
+	text-rendering: optimizelegibility;
+	font-family : "Segoe WP Semibold", "Segoe UI Semibold", 
+		"Segoe UI Web Semibold", "Segoe UI", "Helvetica Neue",
+		Helvetica, Arial, sans-serif;
 }
 
 div.cdm.expandable.Unread div.cdmHeader a.title {
@@ -137,6 +141,11 @@ div.cdm.expandable.Unread div.cdmHeader a.title {
 div.cdm.expandable.active div.cdmHeader a.title {
 	color : #4684ff;
 	font-size : 16px;
+	font-weight : 600;
+	text-rendering: optimizelegibility;
+	font-family : "Segoe WP Semibold", "Segoe UI Semibold", 
+		"Segoe UI Web Semibold", "Segoe UI", "Helvetica Neue",
+		Helvetica, Arial, sans-serif;
 }
 
 div.cdm.expanded div.cdmHeader {
@@ -146,9 +155,13 @@ div.cdm.expanded div.cdmHeader {
 div.cdm.expanded div.cdmHeader a.title {
 	font-size : 16px;
 	color : #999;
-	font-weight : bold;
+	font-weight : 600;
 	-webkit-transition : color 0.2s;
 	transition : color 0.2s;
+	text-rendering: optimizelegibility;
+	font-family : "Segoe WP Semibold", "Segoe UI Semibold", 
+		"Segoe UI Web Semibold", "Segoe UI", "Helvetica Neue",
+		Helvetica, Arial, sans-serif;
 }
 
 div.cdm.expanded.active {
@@ -283,9 +296,13 @@ div#floatingTitle span.author {
 div#floatingTitle a.title {
 	font-size : 16px;
 	color : #999;
-	font-weight : bold;
 	-webkit-transition : color 0.2s;
 	transition : color 0.2s;
+	font-weight : 600;
+	text-rendering: optimizelegibility;
+	font-family : "Segoe WP Semibold", "Segoe UI Semibold", 
+		"Segoe UI Web Semibold", "Segoe UI", "Helvetica Neue",
+		Helvetica, Arial, sans-serif;
 }
 
 div#floatingTitle.Unread a.title {
@@ -293,7 +310,6 @@ div#floatingTitle.Unread a.title {
 }
 
 div#floatingTitle img.anchor {
-	margin-right : 1px;
 	margin-left : 0px;
 }
 
