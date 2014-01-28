@@ -52,7 +52,7 @@
 
 	<?php
 	foreach (array("lib/prototype.js",
-				"lib/scriptaculous/scriptaculous.js?load=effects",
+				"lib/scriptaculous/scriptaculous.js?load=effects,controls",
 				"lib/dojo/dojo.js",
 				"lib/dojo/tt-rss-layer.js",
 				"errors.php?mode=js") as $jsfile) {
