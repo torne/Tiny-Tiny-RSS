@@ -329,11 +329,20 @@ div.prefHelp {
 	white-space : nowrap;
 	display : table-cell;
 	color : #999;
+}
+
+#main-toolbar > *,
+#main-toolbar table * {
 	text-rendering: optimizelegibility;
 	font-family : "Segoe WP Semibold", "Segoe UI Semibold", 
 		"Segoe UI Web Semibold", "Segoe UI", "Helvetica Neue",
 		Helvetica, Arial, sans-serif;
 	font-size : 12px;
+
+}
+
+#main-toolbar .dijitDownArrowButton {
+	font-size : 11px;
 }
 
 #main-toolbar #headlines-toolbar {
@@ -352,6 +361,11 @@ div.prefHelp {
 
 #main-toolbar #headlines-toolbar .main {
 	text-align : right;
+}
+
+#main-toolbar #headlines-toolbar .main,
+#main-toolbar #headlines-toolbar .r {
+	line-height : 24px;
 }
 
 #headlines-toolbar span.r img {
