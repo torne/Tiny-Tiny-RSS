@@ -7,16 +7,6 @@ body#ttrssMain, body#ttrssPrefs, body#ttrssLogin, body {
 	font-size: 14px;
 }
 
-body#ttrssPrefs {
-	background-color : #ecf4ff;
-}
-
-body#ttrssPrefs #footer, body#ttrssPrefs #header {
-	background-color : #ecf4ff;
-	padding-left : 8px;
-	padding-right : 8px;
-}
-
 div.postReply {
 	padding : 0px;
 }
@@ -797,6 +787,7 @@ div.fatalError textarea {
   	border-color : #ddd;
 	overflow : hidden;
 	background : #f5f5f5;
+	box-shadow : inset -1px 0px 2px -1px rgba(0,0,0,0.1);
 }
 
 #headlines-wrap-inner {
