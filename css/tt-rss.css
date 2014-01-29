@@ -1009,8 +1009,7 @@ body#ttrssMain #feedTree {
 	height : 100%;
 	overflow-x : hidden;
 	text-rendering: optimizelegibility;
-	font-family : "Segoe WP Semibold", "Segoe UI Semibold", 
-		"Segoe UI Web Semibold", "Segoe UI", "Helvetica Neue",
+	font-family : "Segoe UI Web", "Segoe UI", "Helvetica Neue",
 		Helvetica, Arial, sans-serif;
 }
 
@@ -1049,10 +1048,6 @@ span.highlight {
 	color : #cc90cc;
 }
 
-/* body#ttrssMain #feedTree .dijitTreeRow .dijitTreeExpandoLeaf {
-	display : none;
-} */
-
 div.enclosure_title {
 
 }
@@ -1060,6 +1055,13 @@ div.enclosure_title {
 body#ttrssMain #headlines-frame .dijitCheckBox {
 	border-width : 0px;
 }
+
+body#ttrssMain #feedTree .dijitTreeRow img.dijitTreeExpandoLeaf {
+	width : 16px;
+	height : 16px;
+	vertical-align : middle;
+	position : relative;
+} 
 
 :focus {
 	outline: none; 
