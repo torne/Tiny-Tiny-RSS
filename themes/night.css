@@ -1,8 +1,16 @@
 @import "default.css";
 
-#feeds-holder {
+body#ttrssMain #feeds-holder {
 	background : #222;
   	border-color : #666;
+}
+
+body#ttrssMain #headlines-frame {
+	border-color : #ddd;
+}
+
+body#ttrssMain #content-insert {
+	background : #333;
 }
 
 body#ttrssMain #feedTree .dijitTreeRow {
@@ -37,7 +45,7 @@ body#ttrssMain #feedTree .counterNode {
 
 body#ttrssMain #headlines-frame {
 	background : #333;
-	color : white;
+	color : #ccc;
 }
 
 body#ttrssMain #main-toolbar {
@@ -57,7 +65,7 @@ body#ttrssMain #main-toolbar .dijitSelect {
 body#ttrssMain #main,
 body#ttrssMain #overlay {
 	background : #333;
-	color : white;
+	color : #ccc;
 }
 
 body#ttrssMain .hlFeed a {
@@ -120,9 +128,14 @@ body#ttrssMain .dijitInputField.dijitButtonText {
 body#ttrssMain .cdm .cdmContentInner img,
 body#ttrssMain .cdm img.tinyFeedIcon,
 body#ttrssMain .cdm .cdmFooter img,
-body#ttrssMain #feedTree img {
+body#ttrssMain #feedTree img,
+body#ttrssMain .postContent img {
 	filter: grayscale(1);
 	-webkit-filter: grayscale(1);
+}
+
+body#ttrssMain .hl img.hlScorePic {
+	opacity : 0.5;
 }
 
 body#ttrssMain .cdm .cdmFooter img {
@@ -152,4 +165,23 @@ body#ttrssMain .dijitMenuTable .dijitMenuItem.dijitFocused .dijitMenuItemLabel {
 	background : black;
 	color : white;
 }
+
+body#ttrssMain .hl {
+	border-color : #666;
+}
+
+body#ttrssMain .hl .hlTitle a {
+	color : #ccc;
+}
+
+body#ttrssMain .hl.Selected,
+body#ttrssMain .hl.active {
+	background : #6280AD ! important;
+}
+
+body#ttrssMain .postHeader {
+	background : #333;
+	border-color : #666;
+}
+
 
