@@ -1053,6 +1053,12 @@ div.enclosure_title {
 
 body#ttrssMain #headlines-frame .dijitCheckBox {
 	border-width : 0px;
+	opacity : 0.5;
+}
+
+body#ttrssMain #headlines-frame .dijitCheckBoxHover,
+body#ttrssMain #headlines-frame .dijitCheckBoxChecked {
+	opacity : 1;
 }
 
 body#ttrssMain #feedTree .dijitTreeRow img.dijitTreeExpandoLeaf {

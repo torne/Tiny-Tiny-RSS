@@ -131,27 +131,27 @@
 .claro .dijitCheckBox {
 	background-image : url("../images/untick.png");
 	background-color : transparent;
-	width : 16px;
-	height : 16px;
+	width : 15px;
+	height : 15px;
+	margin : 1px;
+	opacity : 0.7;
 	background-position : center center;	
-	opacity : 0.4;
-	-webkit-transition : opacity 0.25s;
 	transition : opacity 0.25s;
-	border : 1px solid #eee;
-	border-radius : 2px;
+	-webkit-transition : opacity 0.25s;
+	border : 1px solid #b5bcc7;
 	padding : 1px;
 }
 
-.claro .dijitCheckBox:hover {
+ .claro .dijitCheckBox:hover {
 	opacity : 1;
 }
 
 .claro .dijitCheckBox.dijitCheckBoxDisabled:hover {
-	opacity : 0.6;
+	opacity : 0.7;
 }
 
 .claro .dijitCheckBox.dijitCheckBoxChecked {
-	border-color : #ddffdd;
+	border-color : #69C671;
 	background-image : url("../images/tick.png");
 	opacity : 1;
 }
