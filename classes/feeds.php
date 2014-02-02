@@ -62,15 +62,13 @@ class Feeds extends Handler_Protected {
 #		$reply .= "<span>";
 		$reply .= "<span id='feed_title' class='$error_class'>";
 
-		$reply .= "</span>";
-
 		if ($feed_site_url) {
 			$last_updated = T_sprintf("Last updated: %s",
 				$feed_last_updated);
 
 			$target = "target=\"_blank\"";
 			$reply .= "<a title=\"$last_updated\" $target href=\"$feed_site_url\">".
-				truncate_string($feed_title,30)."</a>";
+				truncate_string($feed_title, 20)."</a>";
 
 			if ($error) {
 				$error = htmlspecialchars($error);
@@ -80,6 +78,8 @@ class Feeds extends Handler_Protected {
 		} else {
 			$reply .= $feed_title;
 		}
+
+		$reply .= "</span>";
 
 		$reply .= "</span>";
 
