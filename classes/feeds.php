@@ -68,7 +68,7 @@ class Feeds extends Handler_Protected {
 
 			$target = "target=\"_blank\"";
 			$reply .= "<a title=\"$last_updated\" $target href=\"$feed_site_url\">".
-				truncate_string($feed_title, 20)."</a>";
+				truncate_string($feed_title, 30)."</a>";
 
 			if ($error) {
 				$error = htmlspecialchars($error);

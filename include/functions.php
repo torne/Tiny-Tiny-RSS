@@ -879,7 +879,7 @@
 	}
 
 	function truncate_string($str, $max_len, $suffix = '&hellip;') {
-		if (mb_strlen($str, "utf-8") > $max_len - 3) {
+		if (mb_strlen($str, "utf-8") > $max_len) {
 			return mb_substr($str, 0, $max_len, "utf-8") . $suffix;
 		} else {
 			return $str;
