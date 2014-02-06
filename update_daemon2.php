@@ -24,10 +24,11 @@
 	require_once "db.php";
 	require_once "db-prefs.php";
 
-
 	if (!function_exists('pcntl_fork')) {
 		die("error: This script requires PHP compiled with PCNTL module.\n");
 	}
+
+	$options = getopt("");
 
 	if (!is_array($options)) {
 		die("error: getopt() failed. ".
@@ -35,6 +36,7 @@
 			"instead of required PHP CLI. Check tt-rss wiki page on updating feeds for ".
 			"additional information.\n");
 	}
+
 
 	$master_handlers_installed = false;
 
