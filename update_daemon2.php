@@ -29,6 +29,13 @@
 		die("error: This script requires PHP compiled with PCNTL module.\n");
 	}
 
+	if (!is_array($options)) {
+		die("error: getopt() failed. ".
+			"Most probably you are using PHP CGI to run this script ".
+			"instead of required PHP CLI. Check tt-rss wiki page on updating feeds for ".
+			"additional information.\n");
+	}
+
 	$master_handlers_installed = false;
 
 	$children = array();
