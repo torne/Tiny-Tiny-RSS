@@ -30,6 +30,7 @@ class Af_Comics extends Plugin {
 		<li>Dilbert</li>
 		<li>Explosm</li>
 		<li>GoComics</li>
+		<li>Happy Jar</li>
 		<li>Penny Arcade</li>
 		<li>Three word phrase</li>
 		<li>Whomp</li>";
@@ -48,12 +49,21 @@ class Af_Comics extends Plugin {
 		if (strpos($article["guid"], "bunicomic.com") !== FALSE ||
 				strpos($article["guid"], "buttersafe.com") !== FALSE ||
 				strpos($article["guid"], "whompcomic.com") !== FALSE ||
+				strpos($article["guid"], "happyjar.com") !== FALSE ||
 				strpos($article["guid"], "csectioncomics.com") !== FALSE) {
 
 			 if (strpos($article["plugin_data"], "af_comics,$owner_uid:") === FALSE) {
 
+
+				// lol at people who block clients by user agent
+				// oh noes my ad revenue Q_Q
+
+				$res = fetch_file_contents($article["link"], false, false, false,
+					 false, false, 0,
+					 "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)");
+
 				$doc = new DOMDocument();
-				@$doc->loadHTML(fetch_file_contents($article["link"]));
+				@$doc->loadHTML($res);
 
 				$basenode = false;
 

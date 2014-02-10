@@ -339,7 +339,7 @@
 		}
 	}
 
-	function fetch_file_contents($url, $type = false, $login = false, $pass = false, $post_query = false, $timeout = false, $timestamp = 0) {
+	function fetch_file_contents($url, $type = false, $login = false, $pass = false, $post_query = false, $timeout = false, $timestamp = 0, $useragent = false) {
 
 		global $fetch_last_error;
 		global $fetch_last_error_code;
@@ -376,7 +376,8 @@
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-			curl_setopt($ch, CURLOPT_USERAGENT, SELF_USER_AGENT);
+			curl_setopt($ch, CURLOPT_USERAGENT, $useragent ? $useragent :
+				SELF_USER_AGENT);
 			curl_setopt($ch, CURLOPT_ENCODING, "");
 			curl_setopt($ch, CURLOPT_REFERER, $url);
 
