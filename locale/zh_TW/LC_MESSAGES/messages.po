@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-09 09:22+0400\n"
-"PO-Revision-Date: 2014-02-13 02:45+0800\n"
+"PO-Revision-Date: 2014-02-13 03:01+0800\n"
 "Last-Translator: Yuan Chiu <me@yuaner.tw>\n"
 "Language-Team: Yuan Chiu <me@yuaner.tw>\n"
 "Language: zh_TW\n"
@@ -248,7 +248,7 @@ msgstr "兩個禮拜以前"
 
 #: index.php:211
 msgid "Communication problem with server."
-msgstr ""
+msgstr "無法連接到伺服器"
 
 #: index.php:219
 msgid "New version of Tiny Tiny RSS is available!"
@@ -1658,13 +1658,13 @@ msgid "Digest"
 msgstr ""
 
 #: classes/pref/prefs.php:25
-#, fuzzy
 msgid "Allow duplicate articles"
-msgstr "允許重復文章"
+msgstr "允許重復的文章"
 
 #: classes/pref/prefs.php:26
+#, fuzzy
 msgid "Assign articles to labels automatically"
-msgstr ""
+msgstr "自動套用文章標籤"
 
 #: classes/pref/prefs.php:27
 msgid "Blacklisted tags"
@@ -1711,7 +1711,6 @@ msgid "Amount of articles to display at once"
 msgstr "同時顯示的文章數量"
 
 #: classes/pref/prefs.php:33
-#, fuzzy
 msgid "Default feed update interval"
 msgstr "預設摘要更新間隔"
 
@@ -1766,9 +1765,8 @@ msgid "Maximum age of fresh articles (in hours)"
 msgstr "最新更新文章的保鮮期（以小時為單位）"
 
 #: classes/pref/prefs.php:41
-#, fuzzy
 msgid "Hide feeds with no unread articles"
-msgstr "隱藏沒有未讀信息的摘要"
+msgstr "隱藏已全部讀過的摘要"
 
 #: classes/pref/prefs.php:42
 #, fuzzy
@@ -1795,7 +1793,6 @@ msgid ""
 msgstr ""
 
 #: classes/pref/prefs.php:45
-#, fuzzy
 msgid "Purge articles after this number of days (0 - disables)"
 msgstr "清除多少天之前的文章？（0為不啟用）"
 
@@ -1832,7 +1829,6 @@ msgid "Click to register your SSL client certificate with tt-rss"
 msgstr "在 tt-rss 處註冊您的 SSL 證書"
 
 #: classes/pref/prefs.php:52
-#, fuzzy
 msgid "Do not embed images in articles"
 msgstr "不要顯示文章中的圖片"
 
@@ -1871,11 +1867,11 @@ msgstr "語言："
 
 #: classes/pref/prefs.php:58
 msgid "Theme"
-msgstr ""
+msgstr "佈景主題"
 
 #: classes/pref/prefs.php:58
 msgid "Select one of the available CSS themes"
-msgstr ""
+msgstr "選擇一個可以套用的CSS佈景"
 
 #: classes/pref/prefs.php:69
 msgid "Old password cannot be blank."
@@ -2054,6 +2050,10 @@ msgid ""
 "target=\"_blank\" class=\"visibleLink\" href=\"http://tt-rss.org/wiki/Plugins"
 "\">wiki</a>."
 msgstr ""
+"從 tt-rss.org下載更多 plugins  <a class=\"visibleLink\" target=\"_blank\" "
+"href=\"http://tt-rss.org/forum/viewforum.php?f=22\">討論區</a> or <a target="
+"\"_blank\" class=\"visibleLink\" href=\"http://tt-rss.org/wiki/Plugins"
+"\">wiki</a>."
 
 #: classes/pref/prefs.php:736
 msgid "System plugins"
@@ -2065,7 +2065,7 @@ msgstr ""
 
 #: classes/pref/prefs.php:741 classes/pref/prefs.php:797
 msgid "Description"
-msgstr ""
+msgstr "描述"
 
 #: classes/pref/prefs.php:742 classes/pref/prefs.php:798
 msgid "Version"
@@ -2088,9 +2088,8 @@ msgid "User plugins"
 msgstr ""
 
 #: classes/pref/prefs.php:857
-#, fuzzy
 msgid "Enable selected plugins"
-msgstr "啟用摘要分類"
+msgstr "啟用所選取的 plugins"
 
 #: classes/pref/prefs.php:924
 #, fuzzy
@@ -2208,9 +2207,8 @@ msgid "Feeds with errors"
 msgstr "有錯誤的摘要"
 
 #: classes/pref/feeds.php:1273
-#, fuzzy
 msgid "Inactive feeds"
-msgstr "刷新活動的摘要"
+msgstr "不活躍的摘要"
 
 #: classes/pref/feeds.php:1310
 msgid "Edit selected feeds"
