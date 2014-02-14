@@ -240,7 +240,19 @@ class Af_Comics extends Plugin {
 						$basenode = $entry;
 					}
 
-					$uninteresting = $xpath->query('(//div[@class="heading"])');
+					$meta = $xpath->query('(//div[@class="meta"])')->item(0);
+					if ($meta->parentNode) { $meta->parentNode->removeChild($meta); }
+
+					$header = $xpath->query('(//div[@class="postBody"]/h2)')->item(0);
+					if ($header->parentNode) { $header->parentNode->removeChild($header); }
+
+					$header = $xpath->query('(//div[@class="postBody"]/div[@class="comicPost"])')->item(0);
+					if ($header->parentNode) { $header->parentNode->removeChild($header); }
+
+					$avatar = $xpath->query('(//div[@class="avatar"]//img)')->item(0);
+					$basenode->insertBefore($avatar, $basenode->firstChild);
+
+					$uninteresting = $xpath->query('(//div[@class="avatar"])');
 					foreach ($uninteresting as $i) {
 						$i->parentNode->removeChild($i);
 					}
