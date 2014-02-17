@@ -79,6 +79,7 @@
 					"ru_RU" => "Русский",
 					"pt_BR" => "Portuguese/Brazil",
 					"zh_CN" => "Simplified Chinese",
+					"zh_TW" => "Traditional Chinese",
 					"sv_SE" => "Svenska",
 					"fi_FI" => "Suomi",
 					"tr_TR" => "Türkçe");
