@@ -27,6 +27,7 @@ class Af_Comics extends Plugin {
 		print "<li>Buni</li>
 		<li>Buttersafe</li>
 		<li>CSection</li>
+		<li>Ctrl+Alt+Del</li>
 		<li>Dilbert</li>
 		<li>Explosm</li>
 		<li>GoComics</li>
@@ -145,6 +146,29 @@ class Af_Comics extends Plugin {
 						$article["plugin_data"] = "af_comics,$owner_uid:" . $article["plugin_data"];
 					}
 				}
+			} else if (isset($article["stored"]["content"])) {
+				$article["content"] = $article["stored"]["content"];
+			}
+		}
+
+		if (strpos($article["link"], "cad-comic.com/cad/") !== FALSE) {
+			if (strpos($article["plugin_data"], "af_comics,$owner_uid:") === FALSE) {
+
+				$doc = new DOMDocument();
+				@$doc->loadHTML(fetch_file_contents($article["link"]));
+
+				$basenode = false;
+
+				if ($doc) {
+					$xpath = new DOMXPath($doc);
+					$basenode = $xpath->query('(//img[contains(@src, "/comics/cad-")])')->item(0);
+
+					if ($basenode) {
+						$article["content"] = $doc->saveXML($basenode);
+						$article["plugin_data"] = "af_comics,$owner_uid:" . $article["plugin_data"];
+					}
+				}
+
 			} else if (isset($article["stored"]["content"])) {
 				$article["content"] = $article["stored"]["content"];
 			}
