@@ -1613,7 +1613,6 @@
 				AND ttrss_counters_cache.feed_id = id";
 
 		$result = db_query($query);
-		$fctrs_modified = false;
 
 		while ($line = db_fetch_assoc($result)) {
 
@@ -2922,7 +2921,6 @@
 
 					$fragment = $doc->createDocumentFragment();
 					$text = $child->textContent;
-					$stubs = array();
 
 					while (($pos = mb_stripos($text, $word)) !== false) {
 						$fragment->appendChild(new DomText(mb_substr($text, 0, $pos)));
@@ -3104,19 +3102,16 @@
 	}
 
 	function format_warning($msg, $id = "") {
-		global $link;
 		return "<div class=\"warning\" id=\"$id\">
 			<span><img src=\"images/alert.png\"></span><span>$msg</span></div>";
 	}
 
 	function format_notice($msg, $id = "") {
-		global $link;
 		return "<div class=\"notice\" id=\"$id\">
 			<span><img src=\"images/information.png\"></span><span>$msg</span></div>";
 	}
 
 	function format_error($msg, $id = "") {
-		global $link;
 		return "<div class=\"error\" id=\"$id\">
 			<span><img src=\"images/alert.png\"></span><span>$msg</span></div>";
 	}
@@ -3224,8 +3219,6 @@
 		if ($result) {
 
 			$line = db_fetch_assoc($result);
-
-			$tag_cache = $line["tag_cache"];
 
 			$line["tags"] = get_article_tags($id, $owner_uid, $line["tag_cache"]);
 			unset($line["tag_cache"]);
@@ -3382,7 +3375,7 @@
 					$rv['content'] .= "&nbsp;";
 
 					$rv['content'] .= "<a target='_blank' href='" . htmlspecialchars($tmp_line['feed_url']) . "'>";
-					$rv['content'] .= "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_set.svg'></a>";
+					$rv['content'] .= "<img title='".__('Feed URL')."' class='tinyFeedIcon' src='images/pub_set.png'></a>";
 
 					$rv['content'] .= "</div>";
 				}
@@ -4268,9 +4261,9 @@
 			$fetch_last_error = curl_errno($curl) . " " . curl_error($curl);
 			curl_close($curl);
 
-			$oline='';
-			foreach($status as $key=>$eline){$oline.='['.$key.']'.$eline.' ';}
-			$line =$oline." \r\n ".$url."\r\n-----------------\r\n";
+#			$oline='';
+#			foreach($status as $key=>$eline){$oline.='['.$key.']'.$eline.' ';}
+#			$line =$oline." \r\n ".$url."\r\n-----------------\r\n";
 #			$handle = @fopen('./curl.error.log', 'a');
 #			fwrite($handle, $line);
 			return FALSE;

@@ -16,7 +16,6 @@ class Dlg extends Handler_Protected {
 		print __("If you have imported labels and/or filters, you might need to reload preferences to see your new data.") . "</p>";
 
 		print "<div class=\"prefFeedOPMLHolder\">";
-		$owner_uid = $_SESSION["uid"];
 
 		$this->dbh->query("BEGIN");
 

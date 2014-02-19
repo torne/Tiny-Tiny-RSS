@@ -109,7 +109,7 @@
 
 		if (!$label_id) return;
 
-		$result = db_query(
+		db_query(
 			"DELETE FROM ttrss_user_labels2
 			WHERE
 				label_id = '$label_id' AND

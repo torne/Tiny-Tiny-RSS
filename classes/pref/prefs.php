@@ -887,7 +887,6 @@ class Pref_Prefs extends Handler_Protected {
 
 		if (!$otp_enabled) {
 			$secret = $base32->encode(sha1($this->dbh->fetch_result($result, 0, "salt")));
-			$topt = new \OTPHP\TOTP($secret);
 	      print QRcode::png("otpauth://totp/".urlencode($login).
 				"?secret=$secret&issuer=".urlencode("Tiny Tiny RSS"));
 

@@ -395,7 +395,7 @@ class Pref_Feeds extends Handler_Protected {
 #		print_r($data['items']);
 
 		if (is_array($data) && is_array($data['items'])) {
-			$cat_order_id = 0;
+#			$cat_order_id = 0;
 
 			$data_map = array();
 			$root_item = false;
@@ -962,7 +962,7 @@ class Pref_Feeds extends Handler_Protected {
 
 		if (!$batch) {
 
-			$result = $this->dbh->query("UPDATE ttrss_feeds SET
+			$this->dbh->query("UPDATE ttrss_feeds SET
 				$category_qpart
 				title = '$feed_title', feed_url = '$feed_link',
 				update_interval = '$upd_intl',
@@ -1573,8 +1573,6 @@ class Pref_Feeds extends Handler_Protected {
 			# class needed for selectTableRows()
 			print "<tr class=\"placeholder\" $this_row_id>";
 
-			$edit_title = htmlspecialchars($line["title"]);
-
 			# id needed for selectTableRows()
 			print "<td width='5%' align='center'><input
 				onclick='toggleSelectRow2(this);' dojoType=\"dijit.form.CheckBox\"
@@ -1638,8 +1636,6 @@ class Pref_Feeds extends Handler_Protected {
 
 			# class needed for selectTableRows()
 			print "<tr class=\"placeholder\" $this_row_id>";
-
-			$edit_title = htmlspecialchars($line["title"]);
 
 			# id needed for selectTableRows()
 			print "<td width='5%' align='center'><input

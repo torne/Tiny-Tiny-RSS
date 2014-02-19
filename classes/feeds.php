@@ -13,12 +13,6 @@ class Feeds extends Handler_Protected {
 			$feed_id, $is_cat, $search,
 			$search_mode, $view_mode, $error, $feed_last_updated) {
 
-		$page_prev_link = "viewFeedGoPage(-1)";
-		$page_next_link = "viewFeedGoPage(1)";
-		$page_first_link = "viewFeedGoPage(0)";
-
-		$catchup_page_link = "catchupPage()";
-		$catchup_feed_link = "catchupCurrentFeed()";
 		$catchup_sel_link = "catchupSelection()";
 
 		$archive_sel_link = "archiveSelection()";
@@ -292,8 +286,6 @@ class Feeds extends Handler_Protected {
 			$num_unread = 0;
 			$cur_feed_title = '';
 
-			$fresh_intl = get_pref("FRESH_ARTICLE_MAX_AGE") * 60 * 60;
-
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("PS", $timing_info);
 
 			$expand_cdm = get_pref('CDM_EXPANDED');
@@ -557,7 +549,7 @@ class Feeds extends Handler_Protected {
 					$reply['content'] .= "<div class=\"cdm $hlc_suffix $expanded_class $class\"
 						id=\"RROW-$id\" orig-feed-id='$feed_id' $mouseover_attrs>";
 
-					$reply['content'] .= "<div class=\"cdmHeader\" style=\"$row_background\">";
+					$reply['content'] .= "<div class=\"cdmHeader\">";
 					$reply['content'] .= "<div style=\"vertical-align : middle\">";
 
 					$reply['content'] .= "<input dojoType=\"dijit.form.CheckBox\"
@@ -811,8 +803,6 @@ class Feeds extends Handler_Protected {
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("0", $timing_info);
 
-		$omode = $this->dbh->escape_string($_REQUEST["omode"]);
-
 		$feed = $this->dbh->escape_string($_REQUEST["feed"]);
 		$method = $this->dbh->escape_string($_REQUEST["m"]);
 		$view_mode = $this->dbh->escape_string($_REQUEST["view_mode"]);
@@ -905,7 +895,7 @@ class Feeds extends Handler_Protected {
 
 		//$topmost_article_ids = $ret[0];
 		$headlines_count = $ret[1];
-		$returned_feed = $ret[2];
+		/* $returned_feed = $ret[2]; */
 		$disable_cache = $ret[3];
 		$vgroup_last_feed = $ret[4];
 
@@ -1085,20 +1075,18 @@ class Feeds extends Handler_Protected {
 		print " <select dojoType=\"dijit.form.Select\" name=\"limit\" onchange=\"dijit.byId('feedBrowserDlg').update()\">";
 
 		foreach (array(25, 50, 100, 200) as $l) {
-			$issel = ($l == $limit) ? "selected=\"1\"" : "";
-			print "<option $issel value=\"$l\">$l</option>";
+			//$issel = ($l == $limit) ? "selected=\"1\"" : "";
+			print "<option value=\"$l\">$l</option>";
 		}
 
 		print "</select> ";
 
 		print "</div>";
 
-		$owner_uid = $_SESSION["uid"];
-
 		require_once "feedbrowser.php";
 
 		print "<ul class='browseFeedList' id='browseFeedList'>";
-		print make_feed_browser($search, 25);
+		print make_feed_browser("", 25);
 		print "</ul>";
 
 		print "<div align='center'>

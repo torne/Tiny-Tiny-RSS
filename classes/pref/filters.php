@@ -88,7 +88,6 @@ class Pref_Filters extends Handler_Protected {
 
 		$result = $qfh_ret[0];
 
-		$articles = array();
 		$found = 0;
 
 		print __("Articles matching this filter:");
@@ -102,9 +101,6 @@ class Pref_Filters extends Handler_Protected {
 			foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
 					$line = $p->hook_query_headlines($line, 100);
 				}
-
-			$entry_timestamp = strtotime($line["updated"]);
-			$entry_tags = get_article_tags($line["id"], $_SESSION["uid"]);
 
 			$content_preview = $line["content_preview"];
 
@@ -174,23 +170,10 @@ class Pref_Filters extends Handler_Protected {
 			owner_uid = ".$_SESSION["uid"]." ORDER BY order_id, title");
 
 
-		$action_id = -1;
 		$folder = array();
 		$folder['items'] = array();
 
 		while ($line = $this->dbh->fetch_assoc($result)) {
-
-			/* if ($action_id != $line["action_id"]) {
-				if (count($folder['items']) > 0) {
-					array_push($root['items'], $folder);
-				}
-
-				$folder = array();
-				$folder['id'] = $line["action_id"];
-				$folder['name'] = __($line["action_name"]);
-				$folder['items'] = array();
-				$action_id = $line["action_id"];
-			} */
 
 			$name = $this->getFilterName($line["id"]);
 
@@ -471,7 +454,7 @@ class Pref_Filters extends Handler_Protected {
 		$inverse = checkbox_to_sql_bool($this->dbh->escape_string($_REQUEST["inverse"]));
 		$title = $this->dbh->escape_string($_REQUEST["title"]);
 
-		$result = $this->dbh->query("UPDATE ttrss_filters2 SET enabled = $enabled,
+		$this->dbh->query("UPDATE ttrss_filters2 SET enabled = $enabled,
 			match_any_rule = $match_any_rule,
 			inverse = $inverse,
 			title = '$title'

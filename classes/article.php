@@ -30,7 +30,6 @@ class Article extends Handler_Protected {
 		$id = $this->dbh->escape_string($_REQUEST["id"]);
 		$cids = explode(",", $this->dbh->escape_string($_REQUEST["cids"]));
 		$mode = $this->dbh->escape_string($_REQUEST["mode"]);
-		$omode = $this->dbh->escape_string($_REQUEST["omode"]);
 
 		// in prefetch mode we only output requested cids, main article
 		// just gets marked as read (it already exists in client cache)

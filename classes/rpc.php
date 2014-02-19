@@ -95,7 +95,7 @@ class RPC extends Handler_Protected {
 							WHERE orig_feed_id = '$id') = 0 AND
 		id = '$id' AND owner_uid = ".$_SESSION["uid"]);
 
-			$rc = $this->dbh->affected_rows($result);
+			$this->dbh->affected_rows($result);
 		}
 	}
 
@@ -138,7 +138,7 @@ class RPC extends Handler_Protected {
 			$mark = "false";
 		}
 
-		$result = $this->dbh->query("UPDATE ttrss_user_entries SET marked = $mark,
+		$this->dbh->query("UPDATE ttrss_user_entries SET marked = $mark,
 					last_marked = NOW()
 					WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
@@ -148,8 +148,8 @@ class RPC extends Handler_Protected {
 	function delete() {
 		$ids = $this->dbh->escape_string($_REQUEST["ids"]);
 
-		$result = $this->dbh->query("DELETE FROM ttrss_user_entries
-		WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
+		$this->dbh->query("DELETE FROM ttrss_user_entries
+			WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
 		purge_orphans();
 
@@ -258,7 +258,6 @@ class RPC extends Handler_Protected {
 	function publ() {
 		$pub = $_REQUEST["pub"];
 		$id = $this->dbh->escape_string($_REQUEST["id"]);
-		$note = trim(strip_tags($this->dbh->escape_string($_REQUEST["note"])));
 
 		if ($pub == "1") {
 			$pub = "true";
@@ -266,7 +265,7 @@ class RPC extends Handler_Protected {
 			$pub = "false";
 		}
 
-		$result = $this->dbh->query("UPDATE ttrss_user_entries SET
+		$this->dbh->query("UPDATE ttrss_user_entries SET
 			published = $pub, last_published = NOW()
 			WHERE ref_id = '$id' AND owner_uid = " . $_SESSION["uid"]);
 
@@ -620,7 +619,7 @@ class RPC extends Handler_Protected {
 
 			$p = new Publisher(PUBSUBHUBBUB_HUB);
 
-			$pubsub_result = $p->publish_update($rss_link);
+			/* $pubsub_result = */ $p->publish_update($rss_link);
 		}
 	}
 

@@ -67,7 +67,7 @@ class Handler_Public extends Handler {
 		$result = $qfh_ret[0];
 		$feed_title = htmlspecialchars($qfh_ret[1]);
 		$feed_site_url = $qfh_ret[2];
-		$last_error = $qfh_ret[3];
+		/* $last_error = $qfh_ret[3]; */
 
 		$feed_self_url = get_self_url_prefix() .
 			"/public.php?op=rss&id=$feed&key=" .
@@ -404,17 +404,17 @@ class Handler_Public extends Handler {
 	}
 
 	function updateTask() {
-		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_UPDATE_TASK, "hook_update_task", $op);
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_UPDATE_TASK, "hook_update_task", false);
 	}
 
 	function housekeepingTask() {
-		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_HOUSE_KEEPING, "hook_house_keeping", $op);
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_HOUSE_KEEPING, "hook_house_keeping", false);
 	}
 
 	function globalUpdateFeeds() {
 		RPC::updaterandomfeed_real($this->dbh);
 
-		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_UPDATE_TASK, "hook_update_task", $op);
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_UPDATE_TASK, "hook_update_task", false);
 	}
 
 	function sharepopup() {
@@ -692,7 +692,7 @@ class Handler_Public extends Handler {
 	function subscribe2() {
 		$feed_url = $this->dbh->escape_string(trim($_REQUEST["feed_url"]));
 		$cat_id = $this->dbh->escape_string($_REQUEST["cat_id"]);
-		$from = $this->dbh->escape_string($_REQUEST["from"]);
+		/* $from = $this->dbh->escape_string($_REQUEST["from"]); */
 		$feed_urls = array();
 
 		/* only read authentication information from POST */
