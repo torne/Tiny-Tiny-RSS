@@ -208,7 +208,7 @@
 		_debug("start", $debug_enabled);
 
 		$result = db_query("SELECT id,update_interval,auth_login,
-			feed_url,auth_pass,cache_images,last_updated,
+			feed_url,auth_pass,cache_images,
 			mark_unread_on_update, owner_uid,
 			pubsub_state, auth_pass_encrypted,
 			(SELECT max(date_entered) FROM
@@ -220,7 +220,6 @@
 			return false;
 		}
 
-		$last_updated = db_fetch_result($result, 0, "last_updated");
 		$last_article_timestamp = @strtotime(db_fetch_result($result, 0, "last_article_timestamp"));
 
 		if (defined('_DISABLE_HTTP_304'))
@@ -383,7 +382,7 @@
 
 			// cache data for later
 			if (!$auth_pass && !$auth_login && is_writable(CACHE_DIR . "/simplepie")) {
-				$new_rss_hash = sha1($rss_data);
+				$new_rss_hash = sha1($feed_data);
 
 				if ($new_rss_hash != $rss_hash && count($rss->get_items()) > 0 ) {
 					_debug("saving $cache_filename", $debug_enabled);
@@ -534,7 +533,7 @@
 
 					$rc = $s->subscribe($feed_self_url);
 
-					_debug("feed hub url found, subscribe request sent.", $debug_enabled);
+					_debug("feed hub url found, subscribe request sent. [rc=$rc]", $debug_enabled);
 
 					db_query("UPDATE ttrss_feeds SET pubsub_state = 1
 						WHERE id = '$feed'");
@@ -570,9 +569,6 @@
 
 				if ($entry_timestamp == -1 || !$entry_timestamp || $entry_timestamp > time()) {
 					$entry_timestamp = time();
-					$no_orig_date = 'true';
-				} else {
-					$no_orig_date = 'false';
 				}
 
 				$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
@@ -742,7 +738,7 @@
 							'$entry_timestamp_fmt',
 							'$entry_content',
 							'$content_hash',
-							$no_orig_date,
+							false,
 							NOW(),
 							'$date_feed_processed',
 							'$entry_comments',
@@ -770,9 +766,7 @@
 				// now it should exist, if not - bad luck then
 
 				$result = db_query("SELECT
-						id,content_hash,no_orig_date,title,plugin_data,guid,
-						".SUBSTRING_FOR_DATE."(date_updated,1,19) as date_updated,
-						".SUBSTRING_FOR_DATE."(updated,1,19) as updated,
+						id,content_hash,title,plugin_data,guid,
 						num_comments
 					FROM
 						ttrss_entries
@@ -789,8 +783,6 @@
 					$orig_content_hash = db_fetch_result($result, 0, "content_hash");
 					$orig_title = db_fetch_result($result, 0, "title");
 					$orig_num_comments = db_fetch_result($result, 0, "num_comments");
-					$orig_date_updated = strtotime(db_fetch_result($result,
-						0, "date_updated"));
 					$orig_plugin_data = db_fetch_result($result, 0, "plugin_data");
 
 					$ref_id = db_fetch_result($result, 0, "id");
@@ -906,7 +898,7 @@
 
 							$p = new Publisher(PUBSUBHUBBUB_HUB);
 
-							$pubsub_result = $p->publish_update($rss_link);
+							/* $pubsub_result = */ $p->publish_update($rss_link);
 						}
 
 						$result = db_query(
@@ -1156,8 +1148,6 @@
 	}
 
 	function cache_images($html, $site_url, $debug) {
-		$cache_dir = CACHE_DIR . "/images";
-
 		libxml_use_internal_errors(true);
 
 		$charset_hack = '<head>
