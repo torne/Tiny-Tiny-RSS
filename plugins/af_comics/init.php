@@ -38,8 +38,6 @@ class Af_Comics extends Plugin {
 
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Feeds supported by af_comics')."\">";
 
-		print_notice("This plugin can be easily extended by adding filters to <code>plugins/af_comics/filters</code>.");
-
 		print "<p>" . __("The following comics are currently supported:") . "</p>";
 
 		$comics = array();
