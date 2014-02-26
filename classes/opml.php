@@ -257,8 +257,8 @@ class Opml extends Handler_Protected {
 		$feed_title = $this->dbh->escape_string(mb_substr($attrs->getNamedItem('text')->nodeValue, 0, 250));
 		if (!$feed_title) $feed_title = $this->dbh->escape_string(mb_substr($attrs->getNamedItem('title')->nodeValue, 0, 250));
 
-		$feed_url = $this->dbh->escape_string(mb_substr($attrs->getNamedItem('xmlUrl')->nodeValue, 0, 250));
-		if (!$feed_url) $feed_url = $this->dbh->escape_string(mb_substr($attrs->getNamedItem('xmlURL')->nodeValue, 0, 250));
+		$feed_url = $this->dbh->escape_string($attrs->getNamedItem('xmlUrl')->nodeValue);
+		if (!$feed_url) $feed_url = $this->dbh->escape_string($attrs->getNamedItem('xmlURL')->nodeValue);
 
 		$site_url = $this->dbh->escape_string(mb_substr($attrs->getNamedItem('htmlUrl')->nodeValue, 0, 250));
 
