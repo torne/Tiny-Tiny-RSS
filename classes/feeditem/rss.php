@@ -33,20 +33,20 @@ class FeedItem_RSS extends FeedItem_Common {
 					|| $link->getAttribute("rel") == "alternate"
 					|| $link->getAttribute("rel") == "standout")) {
 
-				return $link->getAttribute("href");
+				return trim($link->getAttribute("href"));
 			}
 		}
 
 		$link = $this->elem->getElementsByTagName("guid")->item(0);
 
 		if ($link && $link->hasAttributes() && $link->getAttribute("isPermaLink") == "true") {
-			return $link->nodeValue;
+			return trim($link->nodeValue);
 		}
 
 		$link = $this->elem->getElementsByTagName("link")->item(0);
 
 		if ($link) {
-			return $link->nodeValue;
+			return trim($link->nodeValue);
 		}
 	}
 
@@ -54,7 +54,7 @@ class FeedItem_RSS extends FeedItem_Common {
 		$title = $this->elem->getElementsByTagName("title")->item(0);
 
 		if ($title) {
-			return $title->nodeValue;
+			return trim($title->nodeValue);
 		}
 	}
 
@@ -90,13 +90,13 @@ class FeedItem_RSS extends FeedItem_Common {
 		$cats = array();
 
 		foreach ($categories as $cat) {
-			array_push($cats, $cat->nodeValue);
+			array_push($cats, trim($cat->nodeValue));
 		}
 
 		$categories = $this->xpath->query("dc:subject", $this->elem);
 
 		foreach ($categories as $cat) {
-			array_push($cats, $cat->nodeValue);
+			array_push($cats, trim($cat->nodeValue));
 		}
 
 		return $cats;
