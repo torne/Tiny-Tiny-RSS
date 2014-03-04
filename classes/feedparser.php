@@ -27,7 +27,6 @@ class FeedParser {
 		libxml_use_internal_errors(true);
 		libxml_clear_errors();
 		$this->doc = new DOMDocument();
-		$this->doc->preserveWhiteSpace = false;
 		$this->doc->loadXML($data);
 
 		mb_substitute_character("none");
@@ -42,7 +41,6 @@ class FeedParser {
 				libxml_clear_errors();
 
 				$this->doc = new DOMDocument();
-				$this->doc->preserveWhiteSpace = false;
 				$this->doc->loadXML($data);
 
 				$error = libxml_get_last_error();
@@ -66,7 +64,6 @@ class FeedParser {
 						libxml_clear_errors();
 
 						$this->doc = new DOMDocument();
-						$this->doc->preserveWhiteSpace = false;
 						$this->doc->loadXML($data);
 
 						$error = libxml_get_last_error();
