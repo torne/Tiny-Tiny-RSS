@@ -587,6 +587,18 @@ class Handler_Public extends Handler {
 		}
 	}
 
+	function subtest() {
+		header("Content-type: text/plain; charset=utf-8");
+
+		$url = $_REQUEST["url"];
+
+		print "$url\n\n";
+
+
+		print_r(get_feeds_from_html($url, fetch_file_contents($url)));
+
+	}
+
 	function subscribe() {
 		if (SINGLE_USER_MODE) {
 			login_sequence();
