@@ -1000,6 +1000,7 @@
 
 	function sanity_check() {
 		require_once 'errors.php';
+		global $ERRORS;
 
 		$error_code = 0;
 		$schema_version = get_schema_version(true);
