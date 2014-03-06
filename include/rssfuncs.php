@@ -610,6 +610,8 @@
 							$entry_language = db_escape_string(substr($entry_language[0], 0, 2));
 
 						_debug("detected language: $entry_language", $debug_enabled);
+					} else {
+						$entry_language = "";
 					}
 				}
 
