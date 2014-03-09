@@ -258,7 +258,7 @@ class Pref_Users extends Handler_Protected {
 
 			$pwd_hash = encrypt_password($tmp_user_pwd, $new_salt, true);
 
-			db_query("UPDATE ttrss_users SET pwd_hash = '$pwd_hash', salt = '$new_salt'
+			db_query("UPDATE ttrss_users SET pwd_hash = '$pwd_hash', salt = '$new_salt', otp_enabled = false
 				WHERE id = '$uid'");
 
 			if ($show_password) {
