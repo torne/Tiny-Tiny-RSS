@@ -700,7 +700,7 @@
 
 				if ($start_ts) {
 					$start_ts_formatted = date("Y/m/d H:i:s", strtotime($start_ts));
-					$start_ts_query_part = "updated >= '$start_ts_formatted' AND";
+					$start_ts_query_part = "date_entered >= '$start_ts_formatted' AND";
 				} else {
 					$start_ts_query_part = "";
 				}
