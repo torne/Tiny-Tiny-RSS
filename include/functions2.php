@@ -382,7 +382,7 @@
 		return $rv;
 	}
 
-	function queryFeedHeadlines($feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false, $override_strategy = false, $override_vfeed = false) {
+	function queryFeedHeadlines($feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false, $override_strategy = false, $override_vfeed = false, $start_ts = false) {
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
 
@@ -698,6 +698,13 @@
 				if ($vfeed_query_part)
 					$vfeed_query_part .= "favicon_avg_color,";
 
+				if ($start_ts) {
+					$start_ts_formatted = date("Y/m/d H:i:s", strtotime($start_ts));
+					$start_ts_query_part = "updated >= '$start_ts_formatted' AND";
+				} else {
+					$start_ts_query_part = "";
+				}
+
 				$query = "SELECT DISTINCT
 						date_entered,
 						guid,
@@ -726,6 +733,7 @@
 					ttrss_user_entries.ref_id = ttrss_entries.id AND
 					ttrss_user_entries.owner_uid = '$owner_uid' AND
 					$search_query_part
+					$start_ts_query_part
 					$filter_query_part
 					$view_query_part
 					$since_id_part
