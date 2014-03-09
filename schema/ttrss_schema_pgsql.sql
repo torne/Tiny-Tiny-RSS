@@ -49,6 +49,7 @@ create table ttrss_users (id serial not null primary key,
 	salt varchar(250) not null default '',
 	twitter_oauth text default null,
 	otp_enabled boolean not null default false,
+	resetpass_token varchar(250) default null,
 	created timestamp default null);
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin',
@@ -260,7 +261,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (123);
+insert into ttrss_version values (124);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,

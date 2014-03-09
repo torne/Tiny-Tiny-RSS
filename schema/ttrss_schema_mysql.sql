@@ -53,6 +53,7 @@ create table ttrss_users (id integer primary key not null auto_increment,
 	created datetime default null,
 	twitter_oauth longtext default null,
 	otp_enabled boolean not null default false,
+	resetpass_token varchar(250) default null,
 	index (theme_id)) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin',
@@ -302,7 +303,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (123);
+insert into ttrss_version values (124);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,
