@@ -829,7 +829,14 @@ function quickAddFeed() {
 						onComplete: function(transport) {
 							try {
 
-								var reply = JSON.parse(transport.responseText);
+								try {
+									var reply = JSON.parse(transport.responseText);
+								} catch (e) {
+									Element.hide("feed_add_spinner");
+									alert(__("Failed to parse output. This can indicate server timeout and/or network issues. Backend output was logged to browser console."));
+									console.log('quickAddFeed, backend returned:' + transport.responseText);
+									return;
+								}
 
 								var rc = reply['result'];
 
