@@ -987,7 +987,12 @@ function newVersionDlg() {
 
 function handle_rpc_json(transport, scheduled_call) {
 	try {
-		var reply = JSON.parse(transport.responseText);
+		try {
+			var reply = JSON.parse(transport.responseText);
+		} catch (e) {
+			alert(__("Failed to parse server reply. This could be caused by a server or network timeout. Backend output was logged to the browser console."));
+			console.log("handle_rpc_json, received: " + transport.responseText);
+		}
 
 		if (reply) {
 
