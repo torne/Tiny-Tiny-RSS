@@ -583,6 +583,7 @@
 				$query_strategy_part = "unread = false AND last_read IS NOT NULL";
 				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 				$allow_archived = true;
+				$ignore_vfeed_group = true;
 
 				if (!$override_order) $override_order = "last_read DESC";
 
