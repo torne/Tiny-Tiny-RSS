@@ -18,6 +18,11 @@
 		$params["bw_limit"] = (int) $_SESSION["bw_limit"];
 		$params["label_base_index"] = (int) LABEL_BASE_INDEX;
 
+		$params["php_platform"] = PHP_OS;
+		$params["php_version"] = PHP_VERSION;
+
+		$params["sanity_checksum"] = sha1(file_get_contents("include/sanity_check.php"));
+
 		$result = db_query("SELECT MAX(id) AS mid, COUNT(*) AS nf FROM
 			ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
 
