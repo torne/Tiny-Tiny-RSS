@@ -44,13 +44,8 @@ function exception_error(location, e, ext_info) {
 
 	try {
 
-		if (ext_info) {
-			if (ext_info.responseText) {
-				ext_info = ext_info.responseText;
-			} else {
-				ext_info = JSON.stringify(ext_info);
-			}
-		}
+		if (ext_info)
+			ext_info = JSON.stringify(ext_info);
 
 		try {
 			new Ajax.Request("backend.php", {
