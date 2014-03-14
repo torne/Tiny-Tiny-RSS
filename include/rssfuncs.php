@@ -183,7 +183,7 @@
 				while ($tline = db_fetch_assoc($tmp_result)) {
 					if($debug) _debug(" => " . $tline["last_updated"] . ", " . $tline["id"] . " " . $tline["owner_uid"]);
 
-					$rss = update_rss_feed($tline["id"], true, false, $rss);
+					$rss = update_rss_feed($tline["id"], true, false);
 					_debug_suppress(false);
 					++$nf;
 				}
@@ -267,7 +267,13 @@
 
 			$force_refetch = isset($_REQUEST["force_refetch"]);
 
-			if (file_exists($cache_filename) &&
+			foreach ($pluginhost->get_hooks(PluginHost::HOOK_FETCH_FEED) as $plugin) {
+				$feed_data = $plugin->hook_fetch_feed($feed_data, $fetch_url, $owner_uid, $feed);
+			}
+
+			// try cache
+			if (!$feed_data &&
+				file_exists($cache_filename) &&
 				is_readable($cache_filename) &&
 				!$auth_login && !$auth_pass &&
 				filemtime($cache_filename) > time() - 30) {
@@ -283,14 +289,8 @@
 			} else {
 				_debug("local cache will not be used for this feed", $debug_enabled);
 			}
-		}
 
-		if (!$rss) {
-
-			foreach ($pluginhost->get_hooks(PluginHost::HOOK_FETCH_FEED) as $plugin) {
-				$feed_data = $plugin->hook_fetch_feed($feed_data, $fetch_url, $owner_uid, $feed);
-			}
-
+			// fetch feed from source
 			if (!$feed_data) {
 				_debug("fetching [$fetch_url]...", $debug_enabled);
 				_debug("If-Modified-Since: ".gmdate('D, d M Y H:i:s \G\M\T', $last_article_timestamp), $debug_enabled);
@@ -329,6 +329,16 @@
 						}
 					}
 				} */
+
+				// cache vanilla feed data for re-use
+				if ($feed_data && !$auth_pass && !$auth_login && is_writable(CACHE_DIR . "/simplepie")) {
+					$new_rss_hash = sha1($feed_data);
+
+					if ($new_rss_hash != $rss_hash) {
+						_debug("saving $cache_filename", $debug_enabled);
+						@file_put_contents($cache_filename, $feed_data);
+					}
+				}
 			}
 
 			if (!$feed_data) {
@@ -379,16 +389,6 @@
 		$feed = db_escape_string($feed);
 
 		if (!$rss->error()) {
-
-			// cache data for later
-			if (!$auth_pass && !$auth_login && is_writable(CACHE_DIR . "/simplepie")) {
-				$new_rss_hash = sha1($feed_data);
-
-				if ($new_rss_hash != $rss_hash && count($rss->get_items()) > 0 ) {
-					_debug("saving $cache_filename", $debug_enabled);
-					@file_put_contents($cache_filename, $feed_data);
-				}
-			}
 
 			// We use local pluginhost here because we need to load different per-user feed plugins
 			$pluginhost->run_hooks(PluginHost::HOOK_FEED_PARSED, "hook_feed_parsed", $rss);
