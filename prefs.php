@@ -32,6 +32,10 @@
 <head>
 	<title>Tiny Tiny RSS : <?php echo __("Preferences") ?></title>
 
+	<script type="text/javascript">
+		var __ttrss_version = "<?php echo VERSION ?>"
+	</script>
+
 	<?php echo stylesheet_tag("lib/dijit/themes/claro/claro.css"); ?>
 	<?php echo stylesheet_tag("css/layout.css"); ?>
 

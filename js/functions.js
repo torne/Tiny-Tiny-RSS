@@ -111,6 +111,8 @@ function exception_error(location, e, ext_info) {
 						browserVersion: navigator.appVersion,
 						browserPlatform: navigator.platform,
 						browserCookies: navigator.cookieEnabled,
+						ttrssVersion: __ttrss_version,
+						initParams: JSON.stringify(init_params),
 					}).toQueryString();
 
 					document.forms['exceptionForm'].submit();
