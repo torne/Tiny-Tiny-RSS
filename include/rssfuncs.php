@@ -183,7 +183,7 @@
 				while ($tline = db_fetch_assoc($tmp_result)) {
 					if($debug) _debug(" => " . $tline["last_updated"] . ", " . $tline["id"] . " " . $tline["owner_uid"]);
 
-					$rss = update_rss_feed($tline["id"], true, false, $rss);
+					$rss = update_rss_feed($tline["id"], true, false);
 					_debug_suppress(false);
 					++$nf;
 				}
