@@ -18,6 +18,7 @@
 		$params["bw_limit"] = (int) $_SESSION["bw_limit"];
 		$params["label_base_index"] = (int) LABEL_BASE_INDEX;
 		$params["theme"] = get_pref("USER_CSS_THEME", false, false);
+		$params["plugins"] = implode(", ", PluginHost::getInstance()->get_plugin_names());
 
 		$params["php_platform"] = PHP_OS;
 		$params["php_version"] = PHP_VERSION;

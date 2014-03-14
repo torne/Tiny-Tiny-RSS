@@ -75,6 +75,16 @@ class PluginHost {
 		return $this->dbh;
 	}
 
+	function get_plugin_names() {
+		$names = array();
+
+		foreach ($this->plugins as $p) {
+			array_push($names, get_class($p));
+		}
+
+		return $names;
+	}
+
 	function get_plugins() {
 		return $this->plugins;
 	}
