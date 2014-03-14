@@ -989,6 +989,12 @@ function handle_rpc_json(transport, scheduled_call) {
 	try {
 		var reply = JSON.parse(transport.responseText);
 
+		var netalert_dijit = dijit.byId("net-alert");
+		var netalert = false;
+
+		if (netalert_dijit)
+			netalert = netalert_dijit.domNode;
+
 		if (reply) {
 
 			var error = reply['error'];
@@ -1035,16 +1041,21 @@ function handle_rpc_json(transport, scheduled_call) {
 			if (runtime_info)
 				parse_runtime_info(runtime_info);
 
-			Element.hide(dijit.byId("net-alert").domNode);
+			if (netalert) Element.hide(netalert);
 
 		} else {
-			//notify_error("Error communicating with server.");
-			Element.show(dijit.byId("net-alert").domNode);
+			if (netalert)
+				Element.show(netalert);
+			else
+				notify_error("Communication problem with server.");
 		}
 
 	} catch (e) {
-		Element.show(dijit.byId("net-alert").domNode);
-		//notify_error("Error communicating with server.");
+		if (netalert)
+			Element.show(netalert);
+		else
+			notify_error("Communication problem with server.");
+
 		console.log(e);
 		//exception_error("handle_rpc_json", e, transport);
 	}

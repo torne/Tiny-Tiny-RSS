@@ -194,14 +194,11 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 			else
 				request_counters(true);
 
-		} else if (transport.responseText) {
+		} else {
 			console.error("Invalid object received: " + transport.responseText);
 			dijit.byId("headlines-frame").attr('content', "<div class='whiteBox'>" +
 					__('Could not update headlines (invalid object received - see error console for details)') +
 					"</div>");
-		} else {
-			//notify_error("Error communicating with server.");
-			Element.show(dijit.byId("net-alert").domNode);
 		}
 
 		_infscroll_request_sent = 0;
@@ -318,13 +315,11 @@ function article_callback2(transport, id) {
 //				return;
 //			}
 
-		} else if (transport.responseText) {
+		} else {
 			console.error("Invalid object received: " + transport.responseText);
 
 			render_article("<div class='whiteBox'>" +
 					__('Could not display article (invalid object received - see error console for details)') + "</div>");
-		} else {
-			Element.show(dijit.byId("net-alert").domNode);
 		}
 
 		var unread_in_buffer = $$("#headlines-frame > div[id*=RROW][class*=Unread]").length
