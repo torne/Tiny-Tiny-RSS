@@ -104,7 +104,7 @@ function exception_error(location, e, ext_info) {
 			title: "Unhandled exception",
 			style: "width: 600px",
 			report: function() {
-				if (confirm(__("Are you sure to report this exception to tt-rss.org? The report will include your browser information. Your IP would be saved in the database."))) {
+				if (confirm(__("Are you sure to report this exception to tt-rss.org? The report will include information about your web browser and tt-rss configuration. Your IP will be saved in the database."))) {
 
 					document.forms['exceptionForm'].params.value = $H({
 						browserName: navigator.appName,
