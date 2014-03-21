@@ -78,6 +78,7 @@
 					"pl_PL" => "Polski",
 					"ru_RU" => "Русский",
 					"pt_BR" => "Portuguese/Brazil",
+					"pt_PT" => "Portuguese/Portugal",
 					"zh_CN" => "Simplified Chinese",
 					"zh_TW" => "Traditional Chinese",
 					"sv_SE" => "Svenska",
