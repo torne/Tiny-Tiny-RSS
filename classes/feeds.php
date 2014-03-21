@@ -498,7 +498,7 @@ class Feeds extends Handler_Protected {
 						$reply['content'] .= "<span onclick=\"viewfeed($feed_id)\"
 							style=\"cursor : pointer\"
 							title=\"".htmlspecialchars($line['feed_title'])."\">
-							$feed_icon_img<span>";
+							$feed_icon_img</span>";
 					}
 
 					$reply['content'] .= "</div>";
