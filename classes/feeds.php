@@ -66,7 +66,7 @@ class Feeds extends Handler_Protected {
 
 			if ($error) {
 				$error = htmlspecialchars($error);
-				$reply .= "&nbsp;<img title=\"$error\" src='images/error.png' alt='error' class=\"noborder\" style=\"vertical-align : middle\">";
+				$reply .= "&nbsp;<img title=\"$error\" src='images/error.png' alt='error' class=\"noborder\">";
 			}
 
 		} else {
