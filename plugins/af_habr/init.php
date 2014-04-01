@@ -27,7 +27,7 @@ class Af_Habr extends Plugin {
 				if ($doc) {
 					$xpath = new DOMXPath($doc);
 
-					$basenode = $xpath->query("//div[@class='content_html_format']")->item(0);
+					$basenode = $xpath->query("//div[contains(@class,'content') and contains(@class, 'html_format')]")->item(0);
 
 					if ($basenode) {
 						$article["content"] = $doc->saveXML($basenode);
