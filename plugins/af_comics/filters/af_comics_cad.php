@@ -9,7 +9,7 @@ class Af_Comics_Cad extends Af_ComicFilter {
 		$owner_uid = $article["owner_uid"];
 
 		if (strpos($article["link"], "cad-comic.com/cad/") !== FALSE) {
-			if (strpos($article["plugin_data"], "af_comics,$owner_uid:") === FALSE) {
+			if (strpos($article["title"], "News:") === FALSE && strpos($article["plugin_data"], "af_comics,$owner_uid:") === FALSE) {
 
 				$doc = new DOMDocument();
 				@$doc->loadHTML(fetch_file_contents($article["link"]));
