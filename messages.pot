@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-19 15:44+0400\n"
+"POT-Creation-Date: 2014-04-02 08:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -154,7 +154,7 @@ msgstr ""
 
 #: index.php:133 index.php:150 index.php:273 prefs.php:102
 #: classes/backend.php:5 classes/pref/labels.php:296
-#: classes/pref/filters.php:666 classes/pref/feeds.php:1361 js/feedlist.js:126
+#: classes/pref/filters.php:702 classes/pref/feeds.php:1361 js/feedlist.js:126
 #: js/feedlist.js:450 js/functions.js:445 js/functions.js:783
 #: js/functions.js:1217 js/functions.js:1351 js/functions.js:1663
 #: js/prefs.js:653 js/prefs.js:854 js/prefs.js:1441 js/prefs.js:1494
@@ -337,11 +337,11 @@ msgstr ""
 msgid "Feeds"
 msgstr ""
 
-#: prefs.php:126 classes/pref/filters.php:154
+#: prefs.php:126 classes/pref/filters.php:186
 msgid "Filters"
 msgstr ""
 
-#: prefs.php:129 include/functions.php:1255 include/functions.php:1915
+#: prefs.php:129 include/functions.php:1256 include/functions.php:1916
 #: classes/pref/labels.php:90
 msgid "Labels"
 msgstr ""
@@ -422,9 +422,9 @@ msgstr ""
 msgid "Tiny Tiny RSS data update script."
 msgstr ""
 
-#: include/digest.php:109 include/functions.php:1264
-#: include/functions.php:1816 include/functions.php:1901
-#: include/functions.php:1923 classes/opml.php:421 classes/pref/feeds.php:225
+#: include/digest.php:109 include/functions.php:1265
+#: include/functions.php:1817 include/functions.php:1902
+#: include/functions.php:1924 classes/opml.php:421 classes/pref/feeds.php:225
 msgid "Uncategorized"
 msgstr ""
 
@@ -624,7 +624,7 @@ msgstr ""
 msgid "Go to"
 msgstr ""
 
-#: include/functions2.php:97 include/functions.php:1974
+#: include/functions2.php:97 include/functions.php:1977
 msgid "All articles"
 msgstr ""
 
@@ -644,7 +644,7 @@ msgstr ""
 msgid "Create label"
 msgstr ""
 
-#: include/functions2.php:105 classes/pref/filters.php:640
+#: include/functions2.php:105 classes/pref/filters.php:676
 msgid "Create filter"
 msgstr ""
 
@@ -722,32 +722,32 @@ msgstr ""
 msgid "LibXML error %s at line %d (column %d): %s"
 msgstr ""
 
-#: include/functions.php:1253 include/functions.php:1913
+#: include/functions.php:1254 include/functions.php:1914
 msgid "Special"
 msgstr ""
 
-#: include/functions.php:1764 classes/feeds.php:1118
-#: classes/pref/filters.php:412
+#: include/functions.php:1765 include/functions.php:1969
+#: classes/feeds.php:1118 classes/pref/filters.php:445
 msgid "All feeds"
 msgstr ""
 
-#: include/functions.php:1968
+#: include/functions.php:1971
 msgid "Starred articles"
 msgstr ""
 
-#: include/functions.php:1970
+#: include/functions.php:1973
 msgid "Published articles"
 msgstr ""
 
-#: include/functions.php:1972
+#: include/functions.php:1975
 msgid "Fresh articles"
 msgstr ""
 
-#: include/functions.php:1976
+#: include/functions.php:1979
 msgid "Archived articles"
 msgstr ""
 
-#: include/functions.php:1978
+#: include/functions.php:1981
 msgid "Recently read"
 msgstr ""
 
@@ -818,7 +818,7 @@ msgid "Tags for this article (separated by commas):"
 msgstr ""
 
 #: classes/article.php:203 classes/pref/users.php:168
-#: classes/pref/labels.php:79 classes/pref/filters.php:390
+#: classes/pref/labels.php:79 classes/pref/filters.php:423
 #: classes/pref/prefs.php:985 classes/pref/feeds.php:772
 #: classes/pref/feeds.php:899 plugins/nsfw/init.php:85
 #: plugins/note/init.php:51 plugins/instances/init.php:245
@@ -828,9 +828,9 @@ msgstr ""
 #: classes/article.php:205 classes/handler/public.php:502
 #: classes/handler/public.php:536 classes/feeds.php:1047
 #: classes/feeds.php:1097 classes/feeds.php:1157 classes/pref/users.php:170
-#: classes/pref/labels.php:81 classes/pref/filters.php:393
-#: classes/pref/filters.php:789 classes/pref/filters.php:870
-#: classes/pref/filters.php:937 classes/pref/prefs.php:987
+#: classes/pref/labels.php:81 classes/pref/filters.php:426
+#: classes/pref/filters.php:825 classes/pref/filters.php:906
+#: classes/pref/filters.php:973 classes/pref/prefs.php:987
 #: classes/pref/feeds.php:773 classes/pref/feeds.php:902
 #: classes/pref/feeds.php:1811 plugins/mail/init.php:129
 #: plugins/note/init.php:53 plugins/instances/init.php:248
@@ -1047,9 +1047,9 @@ msgid "Last updated: %s"
 msgstr ""
 
 #: classes/feeds.php:88 classes/pref/users.php:337 classes/pref/labels.php:275
-#: classes/pref/filters.php:267 classes/pref/filters.php:315
-#: classes/pref/filters.php:634 classes/pref/filters.php:722
-#: classes/pref/filters.php:749 classes/pref/prefs.php:999
+#: classes/pref/filters.php:300 classes/pref/filters.php:348
+#: classes/pref/filters.php:670 classes/pref/filters.php:758
+#: classes/pref/filters.php:785 classes/pref/prefs.php:999
 #: classes/pref/feeds.php:1299 classes/pref/feeds.php:1556
 #: classes/pref/feeds.php:1620 plugins/instances/init.php:287
 msgid "All"
@@ -1060,9 +1060,9 @@ msgid "Invert"
 msgstr ""
 
 #: classes/feeds.php:91 classes/pref/users.php:339 classes/pref/labels.php:277
-#: classes/pref/filters.php:269 classes/pref/filters.php:317
-#: classes/pref/filters.php:636 classes/pref/filters.php:724
-#: classes/pref/filters.php:751 classes/pref/prefs.php:1001
+#: classes/pref/filters.php:302 classes/pref/filters.php:350
+#: classes/pref/filters.php:672 classes/pref/filters.php:760
+#: classes/pref/filters.php:787 classes/pref/prefs.php:1001
 #: classes/pref/feeds.php:1301 classes/pref/feeds.php:1558
 #: classes/pref/feeds.php:1622 plugins/instances/init.php:289
 msgid "None"
@@ -1092,9 +1092,9 @@ msgstr ""
 msgid "Move back"
 msgstr ""
 
-#: classes/feeds.php:114 classes/pref/filters.php:276
-#: classes/pref/filters.php:324 classes/pref/filters.php:731
-#: classes/pref/filters.php:758
+#: classes/feeds.php:114 classes/pref/filters.php:309
+#: classes/pref/filters.php:357 classes/pref/filters.php:767
+#: classes/pref/filters.php:794
 msgid "Delete"
 msgstr ""
 
@@ -1207,7 +1207,7 @@ msgid "More feeds"
 msgstr ""
 
 #: classes/feeds.php:1067 classes/feeds.php:1156 classes/pref/users.php:324
-#: classes/pref/filters.php:627 classes/pref/feeds.php:1292 js/tt-rss.js:174
+#: classes/pref/filters.php:663 classes/pref/feeds.php:1292 js/tt-rss.js:174
 msgid "Search"
 msgstr ""
 
@@ -1224,8 +1224,8 @@ msgid "limit:"
 msgstr ""
 
 #: classes/feeds.php:1096 classes/pref/users.php:350
-#: classes/pref/labels.php:284 classes/pref/filters.php:383
-#: classes/pref/filters.php:653 classes/pref/feeds.php:743
+#: classes/pref/labels.php:284 classes/pref/filters.php:416
+#: classes/pref/filters.php:689 classes/pref/feeds.php:743
 #: plugins/instances/init.php:294
 msgid "Remove"
 msgstr ""
@@ -1400,9 +1400,9 @@ msgid "[tt-rss] Password change notification"
 msgstr ""
 
 #: classes/pref/users.php:334 classes/pref/labels.php:272
-#: classes/pref/filters.php:264 classes/pref/filters.php:312
-#: classes/pref/filters.php:631 classes/pref/filters.php:719
-#: classes/pref/filters.php:746 classes/pref/prefs.php:996
+#: classes/pref/filters.php:297 classes/pref/filters.php:345
+#: classes/pref/filters.php:667 classes/pref/filters.php:755
+#: classes/pref/filters.php:782 classes/pref/prefs.php:996
 #: classes/pref/feeds.php:1296 classes/pref/feeds.php:1553
 #: classes/pref/feeds.php:1617 plugins/instances/init.php:284
 msgid "Select"
@@ -1416,7 +1416,7 @@ msgstr ""
 msgid "Details"
 msgstr ""
 
-#: classes/pref/users.php:348 classes/pref/filters.php:646
+#: classes/pref/users.php:348 classes/pref/filters.php:682
 #: plugins/instances/init.php:293
 msgid "Edit"
 msgstr ""
@@ -1441,8 +1441,8 @@ msgstr ""
 msgid "No matching users found."
 msgstr ""
 
-#: classes/pref/labels.php:22 classes/pref/filters.php:253
-#: classes/pref/filters.php:710
+#: classes/pref/labels.php:22 classes/pref/filters.php:286
+#: classes/pref/filters.php:746
 msgid "Caption"
 msgstr ""
 
@@ -1481,114 +1481,114 @@ msgid ""
 "database server regexp implementation."
 msgstr ""
 
-#: classes/pref/filters.php:259 classes/pref/filters.php:714
-#: classes/pref/filters.php:829
-msgid "Match"
-msgstr ""
-
-#: classes/pref/filters.php:273 classes/pref/filters.php:321
-#: classes/pref/filters.php:728 classes/pref/filters.php:755
-msgid "Add"
-msgstr ""
-
-#: classes/pref/filters.php:307 classes/pref/filters.php:741
-msgid "Apply actions"
-msgstr ""
-
-#: classes/pref/filters.php:357 classes/pref/filters.php:770
-msgid "Enabled"
-msgstr ""
-
-#: classes/pref/filters.php:366 classes/pref/filters.php:773
-msgid "Match any rule"
-msgstr ""
-
-#: classes/pref/filters.php:375 classes/pref/filters.php:776
-msgid "Inverse matching"
-msgstr ""
-
-#: classes/pref/filters.php:387 classes/pref/filters.php:783
-msgid "Test"
-msgstr ""
-
-#: classes/pref/filters.php:420
+#: classes/pref/filters.php:177 classes/pref/filters.php:456
 msgid "(inverse)"
 msgstr ""
 
-#: classes/pref/filters.php:419
+#: classes/pref/filters.php:173 classes/pref/filters.php:455
 #, php-format
 msgid "%s on %s in %s %s"
 msgstr ""
 
-#: classes/pref/filters.php:643
+#: classes/pref/filters.php:292 classes/pref/filters.php:750
+#: classes/pref/filters.php:865
+msgid "Match"
+msgstr ""
+
+#: classes/pref/filters.php:306 classes/pref/filters.php:354
+#: classes/pref/filters.php:764 classes/pref/filters.php:791
+msgid "Add"
+msgstr ""
+
+#: classes/pref/filters.php:340 classes/pref/filters.php:777
+msgid "Apply actions"
+msgstr ""
+
+#: classes/pref/filters.php:390 classes/pref/filters.php:806
+msgid "Enabled"
+msgstr ""
+
+#: classes/pref/filters.php:399 classes/pref/filters.php:809
+msgid "Match any rule"
+msgstr ""
+
+#: classes/pref/filters.php:408 classes/pref/filters.php:812
+msgid "Inverse matching"
+msgstr ""
+
+#: classes/pref/filters.php:420 classes/pref/filters.php:819
+msgid "Test"
+msgstr ""
+
+#: classes/pref/filters.php:679
 msgid "Combine"
 msgstr ""
 
-#: classes/pref/filters.php:649 classes/pref/feeds.php:1312
+#: classes/pref/filters.php:685 classes/pref/feeds.php:1312
 #: classes/pref/feeds.php:1326
 msgid "Reset sort order"
 msgstr ""
 
-#: classes/pref/filters.php:657 classes/pref/feeds.php:1348
+#: classes/pref/filters.php:693 classes/pref/feeds.php:1348
 msgid "Rescore articles"
 msgstr ""
 
-#: classes/pref/filters.php:786
+#: classes/pref/filters.php:822
 msgid "Create"
 msgstr ""
 
-#: classes/pref/filters.php:841
+#: classes/pref/filters.php:877
 msgid "Inverse regular expression matching"
 msgstr ""
 
-#: classes/pref/filters.php:843
+#: classes/pref/filters.php:879
 msgid "on field"
 msgstr ""
 
-#: classes/pref/filters.php:849 js/PrefFilterTree.js:53
+#: classes/pref/filters.php:885 js/PrefFilterTree.js:61
 msgid "in"
 msgstr ""
 
-#: classes/pref/filters.php:862
+#: classes/pref/filters.php:898
 msgid "Wiki: Filters"
 msgstr ""
 
-#: classes/pref/filters.php:867
+#: classes/pref/filters.php:903
 msgid "Save rule"
 msgstr ""
 
-#: classes/pref/filters.php:867 js/functions.js:1021
+#: classes/pref/filters.php:903 js/functions.js:1021
 msgid "Add rule"
 msgstr ""
 
-#: classes/pref/filters.php:890
+#: classes/pref/filters.php:926
 msgid "Perform Action"
 msgstr ""
 
-#: classes/pref/filters.php:916
+#: classes/pref/filters.php:952
 msgid "with parameters:"
 msgstr ""
 
-#: classes/pref/filters.php:934
+#: classes/pref/filters.php:970
 msgid "Save action"
 msgstr ""
 
-#: classes/pref/filters.php:934 js/functions.js:1047
+#: classes/pref/filters.php:970 js/functions.js:1047
 msgid "Add action"
 msgstr ""
 
-#: classes/pref/filters.php:957
+#: classes/pref/filters.php:993
 msgid "[No caption]"
 msgstr ""
 
-#: classes/pref/filters.php:959
+#: classes/pref/filters.php:995
 #, php-format
 msgid "%s (%d rule)"
 msgid_plural "%s (%d rules)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/pref/filters.php:974
+#: classes/pref/filters.php:1010
 #, php-format
 msgid "%s (+%d action)"
 msgid_plural "%s (+%d actions)"
@@ -2830,7 +2830,7 @@ msgstr ""
 msgid "Remove category"
 msgstr ""
 
-#: js/PrefFilterTree.js:56
+#: js/PrefFilterTree.js:64
 msgid "Inverse"
 msgstr ""
 

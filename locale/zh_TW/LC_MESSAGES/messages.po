@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-19 15:44+0400\n"
+"POT-Creation-Date: 2014-04-02 08:18+0000\n"
 "PO-Revision-Date: 2014-02-17 23:12+0800\n"
 "Last-Translator: Yuan Chiu <me@yuaner.tw>\n"
 "Language-Team: Yuan Chiu <me@yuaner.tw>\n"
@@ -160,7 +160,7 @@ msgstr "SQL 脫出測試失敗，請檢查您的資料庫和 PHP 設定。"
 #: prefs.php:102
 #: classes/backend.php:5
 #: classes/pref/labels.php:296
-#: classes/pref/filters.php:666
+#: classes/pref/filters.php:702
 #: classes/pref/feeds.php:1361
 #: js/feedlist.js:126
 #: js/feedlist.js:450
@@ -380,13 +380,13 @@ msgid "Feeds"
 msgstr "摘要"
 
 #: prefs.php:126
-#: classes/pref/filters.php:154
+#: classes/pref/filters.php:186
 msgid "Filters"
 msgstr "過濾器"
 
 #: prefs.php:129
-#: include/functions.php:1255
-#: include/functions.php:1915
+#: include/functions.php:1256
+#: include/functions.php:1916
 #: classes/pref/labels.php:90
 msgid "Labels"
 msgstr "預定義標籤"
@@ -477,10 +477,10 @@ msgid "Tiny Tiny RSS data update script."
 msgstr "Tiny Tiny RSS 資料庫是最新版。"
 
 #: include/digest.php:109
-#: include/functions.php:1264
-#: include/functions.php:1816
-#: include/functions.php:1901
-#: include/functions.php:1923
+#: include/functions.php:1265
+#: include/functions.php:1817
+#: include/functions.php:1902
+#: include/functions.php:1924
 #: classes/opml.php:421
 #: classes/pref/feeds.php:225
 msgid "Uncategorized"
@@ -702,7 +702,7 @@ msgid "Go to"
 msgstr "跳到……"
 
 #: include/functions2.php:97
-#: include/functions.php:1974
+#: include/functions.php:1977
 msgid "All articles"
 msgstr "全部文章"
 
@@ -726,7 +726,7 @@ msgid "Create label"
 msgstr "建立預定義標籤"
 
 #: include/functions2.php:105
-#: classes/pref/filters.php:640
+#: classes/pref/filters.php:676
 msgid "Create filter"
 msgstr "建立過濾器"
 
@@ -822,34 +822,35 @@ msgstr "附件："
 msgid "LibXML error %s at line %d (column %d): %s"
 msgstr ""
 
-#: include/functions.php:1253
-#: include/functions.php:1913
+#: include/functions.php:1254
+#: include/functions.php:1914
 msgid "Special"
 msgstr "特殊區域"
 
-#: include/functions.php:1764
+#: include/functions.php:1765
+#: include/functions.php:1969
 #: classes/feeds.php:1118
-#: classes/pref/filters.php:412
+#: classes/pref/filters.php:445
 msgid "All feeds"
 msgstr "全部摘要"
 
-#: include/functions.php:1968
+#: include/functions.php:1971
 msgid "Starred articles"
 msgstr "加星標文章"
 
-#: include/functions.php:1970
+#: include/functions.php:1973
 msgid "Published articles"
 msgstr "已發布文章"
 
-#: include/functions.php:1972
+#: include/functions.php:1975
 msgid "Fresh articles"
 msgstr "最新更新的文章"
 
-#: include/functions.php:1976
+#: include/functions.php:1979
 msgid "Archived articles"
 msgstr "已儲存的文章"
 
-#: include/functions.php:1978
+#: include/functions.php:1981
 msgid "Recently read"
 msgstr "閱讀紀錄"
 
@@ -930,7 +931,7 @@ msgstr "本文的標籤，請用逗號分開："
 #: classes/article.php:203
 #: classes/pref/users.php:168
 #: classes/pref/labels.php:79
-#: classes/pref/filters.php:390
+#: classes/pref/filters.php:423
 #: classes/pref/prefs.php:985
 #: classes/pref/feeds.php:772
 #: classes/pref/feeds.php:899
@@ -948,10 +949,10 @@ msgstr "儲存"
 #: classes/feeds.php:1157
 #: classes/pref/users.php:170
 #: classes/pref/labels.php:81
-#: classes/pref/filters.php:393
-#: classes/pref/filters.php:789
-#: classes/pref/filters.php:870
-#: classes/pref/filters.php:937
+#: classes/pref/filters.php:426
+#: classes/pref/filters.php:825
+#: classes/pref/filters.php:906
+#: classes/pref/filters.php:973
 #: classes/pref/prefs.php:987
 #: classes/pref/feeds.php:773
 #: classes/pref/feeds.php:902
@@ -1177,11 +1178,11 @@ msgstr "上次更新： %s"
 #: classes/feeds.php:88
 #: classes/pref/users.php:337
 #: classes/pref/labels.php:275
-#: classes/pref/filters.php:267
-#: classes/pref/filters.php:315
-#: classes/pref/filters.php:634
-#: classes/pref/filters.php:722
-#: classes/pref/filters.php:749
+#: classes/pref/filters.php:300
+#: classes/pref/filters.php:348
+#: classes/pref/filters.php:670
+#: classes/pref/filters.php:758
+#: classes/pref/filters.php:785
 #: classes/pref/prefs.php:999
 #: classes/pref/feeds.php:1299
 #: classes/pref/feeds.php:1556
@@ -1197,11 +1198,11 @@ msgstr "反向選取"
 #: classes/feeds.php:91
 #: classes/pref/users.php:339
 #: classes/pref/labels.php:277
-#: classes/pref/filters.php:269
-#: classes/pref/filters.php:317
-#: classes/pref/filters.php:636
-#: classes/pref/filters.php:724
-#: classes/pref/filters.php:751
+#: classes/pref/filters.php:302
+#: classes/pref/filters.php:350
+#: classes/pref/filters.php:672
+#: classes/pref/filters.php:760
+#: classes/pref/filters.php:787
 #: classes/pref/prefs.php:1001
 #: classes/pref/feeds.php:1301
 #: classes/pref/feeds.php:1558
@@ -1235,10 +1236,10 @@ msgid "Move back"
 msgstr "移回原位"
 
 #: classes/feeds.php:114
-#: classes/pref/filters.php:276
-#: classes/pref/filters.php:324
-#: classes/pref/filters.php:731
-#: classes/pref/filters.php:758
+#: classes/pref/filters.php:309
+#: classes/pref/filters.php:357
+#: classes/pref/filters.php:767
+#: classes/pref/filters.php:794
 msgid "Delete"
 msgstr "刪除"
 
@@ -1371,7 +1372,7 @@ msgstr "更多摘要"
 #: classes/feeds.php:1067
 #: classes/feeds.php:1156
 #: classes/pref/users.php:324
-#: classes/pref/filters.php:627
+#: classes/pref/filters.php:663
 #: classes/pref/feeds.php:1292
 #: js/tt-rss.js:174
 msgid "Search"
@@ -1392,8 +1393,8 @@ msgstr "限制："
 #: classes/feeds.php:1096
 #: classes/pref/users.php:350
 #: classes/pref/labels.php:284
-#: classes/pref/filters.php:383
-#: classes/pref/filters.php:653
+#: classes/pref/filters.php:416
+#: classes/pref/filters.php:689
 #: classes/pref/feeds.php:743
 #: plugins/instances/init.php:294
 msgid "Remove"
@@ -1581,11 +1582,11 @@ msgstr "[tt-rss] 密碼更換提醒"
 
 #: classes/pref/users.php:334
 #: classes/pref/labels.php:272
-#: classes/pref/filters.php:264
-#: classes/pref/filters.php:312
-#: classes/pref/filters.php:631
-#: classes/pref/filters.php:719
-#: classes/pref/filters.php:746
+#: classes/pref/filters.php:297
+#: classes/pref/filters.php:345
+#: classes/pref/filters.php:667
+#: classes/pref/filters.php:755
+#: classes/pref/filters.php:782
 #: classes/pref/prefs.php:996
 #: classes/pref/feeds.php:1296
 #: classes/pref/feeds.php:1553
@@ -1603,7 +1604,7 @@ msgid "Details"
 msgstr "詳細"
 
 #: classes/pref/users.php:348
-#: classes/pref/filters.php:646
+#: classes/pref/filters.php:682
 #: plugins/instances/init.php:293
 msgid "Edit"
 msgstr "編輯"
@@ -1630,8 +1631,8 @@ msgid "No matching users found."
 msgstr "沒有匹配的使用者。"
 
 #: classes/pref/labels.php:22
-#: classes/pref/filters.php:253
-#: classes/pref/filters.php:710
+#: classes/pref/filters.php:286
+#: classes/pref/filters.php:746
 msgid "Caption"
 msgstr "標題"
 
@@ -1669,133 +1670,135 @@ msgstr "本過濾器下沒有匹配到文章。"
 msgid "Complex expressions might not give results while testing due to issues with database server regexp implementation."
 msgstr ""
 
-#: classes/pref/filters.php:259
-#: classes/pref/filters.php:714
-#: classes/pref/filters.php:829
-msgid "Match"
-msgstr "匹配"
-
-#: classes/pref/filters.php:273
-#: classes/pref/filters.php:321
-#: classes/pref/filters.php:728
-#: classes/pref/filters.php:755
-msgid "Add"
-msgstr "新增"
-
-#: classes/pref/filters.php:307
-#: classes/pref/filters.php:741
-#, fuzzy
-msgid "Apply actions"
-msgstr "摘要動作"
-
-#: classes/pref/filters.php:357
-#: classes/pref/filters.php:770
-msgid "Enabled"
-msgstr "已啟用"
-
-#: classes/pref/filters.php:366
-#: classes/pref/filters.php:773
-msgid "Match any rule"
-msgstr ""
-
-#: classes/pref/filters.php:375
-#: classes/pref/filters.php:776
-#, fuzzy
-msgid "Inverse matching"
-msgstr "反向匹配"
-
-#: classes/pref/filters.php:387
-#: classes/pref/filters.php:783
-msgid "Test"
-msgstr "測試"
-
-#: classes/pref/filters.php:420
+#: classes/pref/filters.php:177
+#: classes/pref/filters.php:456
 msgid "(inverse)"
 msgstr "反向選取"
 
-#: classes/pref/filters.php:419
+#: classes/pref/filters.php:173
+#: classes/pref/filters.php:455
 #, php-format
 msgid "%s on %s in %s %s"
 msgstr ""
 
-#: classes/pref/filters.php:643
+#: classes/pref/filters.php:292
+#: classes/pref/filters.php:750
+#: classes/pref/filters.php:865
+msgid "Match"
+msgstr "匹配"
+
+#: classes/pref/filters.php:306
+#: classes/pref/filters.php:354
+#: classes/pref/filters.php:764
+#: classes/pref/filters.php:791
+msgid "Add"
+msgstr "新增"
+
+#: classes/pref/filters.php:340
+#: classes/pref/filters.php:777
+#, fuzzy
+msgid "Apply actions"
+msgstr "摘要動作"
+
+#: classes/pref/filters.php:390
+#: classes/pref/filters.php:806
+msgid "Enabled"
+msgstr "已啟用"
+
+#: classes/pref/filters.php:399
+#: classes/pref/filters.php:809
+msgid "Match any rule"
+msgstr ""
+
+#: classes/pref/filters.php:408
+#: classes/pref/filters.php:812
+#, fuzzy
+msgid "Inverse matching"
+msgstr "反向匹配"
+
+#: classes/pref/filters.php:420
+#: classes/pref/filters.php:819
+msgid "Test"
+msgstr "測試"
+
+#: classes/pref/filters.php:679
 msgid "Combine"
 msgstr ""
 
-#: classes/pref/filters.php:649
+#: classes/pref/filters.php:685
 #: classes/pref/feeds.php:1312
 #: classes/pref/feeds.php:1326
 msgid "Reset sort order"
 msgstr "重新排序"
 
-#: classes/pref/filters.php:657
+#: classes/pref/filters.php:693
 #: classes/pref/feeds.php:1348
 msgid "Rescore articles"
 msgstr "為文章重新評分"
 
-#: classes/pref/filters.php:786
+#: classes/pref/filters.php:822
 msgid "Create"
 msgstr "建立"
 
-#: classes/pref/filters.php:841
+#: classes/pref/filters.php:877
 msgid "Inverse regular expression matching"
 msgstr ""
 
-#: classes/pref/filters.php:843
+#: classes/pref/filters.php:879
 msgid "on field"
 msgstr "on field"
 
-#: classes/pref/filters.php:849
-#: js/PrefFilterTree.js:53
+#: classes/pref/filters.php:885
+#: js/PrefFilterTree.js:61
 msgid "in"
 msgstr "在"
 
-#: classes/pref/filters.php:862
+#: classes/pref/filters.php:898
 #, fuzzy
 msgid "Wiki: Filters"
 msgstr "過濾器"
 
-#: classes/pref/filters.php:867
+#: classes/pref/filters.php:903
 #, fuzzy
 msgid "Save rule"
 msgstr "保存"
 
-#: classes/pref/filters.php:867
+#: classes/pref/filters.php:903
 #: js/functions.js:1021
 msgid "Add rule"
 msgstr "新增規則"
 
-#: classes/pref/filters.php:890
+#: classes/pref/filters.php:926
 msgid "Perform Action"
 msgstr "執行動作"
 
-#: classes/pref/filters.php:916
+#: classes/pref/filters.php:952
 msgid "with parameters:"
 msgstr "指定參數："
 
-#: classes/pref/filters.php:934
+#: classes/pref/filters.php:970
 #, fuzzy
 msgid "Save action"
 msgstr "版面動作"
 
-#: classes/pref/filters.php:934
+#: classes/pref/filters.php:970
 #: js/functions.js:1047
 #, fuzzy
 msgid "Add action"
 msgstr "摘要動作"
 
-#: classes/pref/filters.php:957
+#: classes/pref/filters.php:993
 #, fuzzy
 msgid "[No caption]"
 msgstr "標題"
 
-#: classes/pref/filters.php:959
+#: classes/pref/filters.php:995
 #, php-format
 msgid "%s (%d rule)"
 msgid_plural "%s (%d rules)"
 msgstr[0] ""
 
-#: classes/pref/filters.php:974
+#: classes/pref/filters.php:1010
 #, fuzzy, php-format
 msgid "%s (+%d action)"
 msgid_plural "%s (+%d actions)"
@@ -3050,7 +3053,7 @@ msgstr "編輯類別"
 msgid "Remove category"
 msgstr "移除類別"
 
-#: js/PrefFilterTree.js:56
+#: js/PrefFilterTree.js:64
 msgid "Inverse"
 msgstr "反向選取"
 
