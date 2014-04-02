@@ -1965,6 +1965,8 @@
 	function getFeedTitle($id, $cat = false) {
 		if ($cat) {
 			return getCategoryTitle($id);
+		} else if ($id == 0) {
+			return __("All feeds");
 		} else if ($id == -1) {
 			return __("Starred articles");
 		} else if ($id == -2) {

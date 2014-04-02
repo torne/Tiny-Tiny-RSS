@@ -147,6 +147,38 @@ class Pref_Filters extends Handler_Protected {
 
 	}
 
+	private function getfilterrules_concise($filter_id) {
+		$result = $this->dbh->query("SELECT reg_exp,
+			inverse,
+			feed_id,
+			cat_id,
+			cat_filter,
+			ttrss_filter_types.description AS field
+			FROM
+				ttrss_filters2_rules, ttrss_filter_types
+			WHERE
+				filter_id = '$filter_id' AND filter_type = ttrss_filter_types.id");
+
+		$rv = "";
+
+		while ($line = $this->dbh->fetch_assoc($result)) {
+
+			$where = sql_bool_to_bool($line["cat_filter"]) ?
+				getCategoryTitle($line["cat_id"]) : getFeedTitle($line["feed_id"]);
+
+#			$where = $line["cat_id"] . "/" . $line["feed_id"];
+
+			$inverse = sql_bool_to_bool($line["inverse"]) ? "inverse" : "";
+
+			$rv .= "<span class='$inverse'>" . T_sprintf("%s on %s in %s %s",
+				strip_tags($line["reg_exp"]),
+				$line["field"],
+				$where,
+				sql_bool_to_bool($line["inverse"]) ? __("(inverse)") : "") . "</span>";
+		}
+
+		return $rv;
+	}
 
 	function getfiltertree() {
 		$root = array();
@@ -210,6 +242,7 @@ class Pref_Filters extends Handler_Protected {
 			$filter['param'] = $name[1];
 			$filter['checkbox'] = false;
 			$filter['enabled'] = sql_bool_to_bool($line["enabled"]);
+			$filter['rules'] = $this->getfilterrules_concise($line['id']);
 
 			if (!$filter_search || $match_ok) {
 				array_push($folder['items'], $filter);
@@ -416,8 +449,11 @@ class Pref_Filters extends Handler_Protected {
 			WHERE id = ".(int)$rule["filter_type"]);
 		$filter_type = $this->dbh->fetch_result($result, 0, "description");
 
-		return T_sprintf("%s on %s in %s %s", strip_tags($rule["reg_exp"]),
-			$filter_type, $feed, isset($rule["inverse"]) ? __("(inverse)") : "");
+		$inverse = isset($rule["inverse"]) ? "inverse" : "";
+
+		return "<span class='filterRule $inverse'>" .
+			T_sprintf("%s on %s in %s %s", strip_tags($rule["reg_exp"]),
+			$filter_type, $feed, isset($rule["inverse"]) ? __("(inverse)") : "") . "</span>";
 	}
 
 	function printRuleName() {
