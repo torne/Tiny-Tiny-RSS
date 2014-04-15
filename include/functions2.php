@@ -397,20 +397,15 @@
 		$search_words = array();
 
 			if ($search) {
-
-				if (SPHINX_ENABLED) {
-					$ids = join(",", @sphinx_search($search, 0, 500));
-
-					if ($ids)
-						$search_query_part = "ref_id IN ($ids) AND ";
-					else
-						$search_query_part = "ref_id = -1 AND ";
-
-				} else {
-					list($search_query_part, $search_words) = search_to_sql($search);
-					$search_query_part .= " AND ";
+				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_SEARCH) as $plugin) {
+					list($search_query_part, $search_words) = $plugin->hook_search($search);
 				}
 
+				// fall back in case of no plugins
+				if (!$search_query_part) {
+					list($search_query_part, $search_words) = search_to_sql($search);
+				}
+				$search_query_part .= " AND ";
 			} else {
 				$search_query_part = "";
 			}
@@ -1992,39 +1987,6 @@
 
 			return build_url($parts);
 		}
-	}
-
-	function sphinx_search($query, $offset = 0, $limit = 30) {
-		require_once 'lib/sphinxapi.php';
-
-		$sphinxClient = new SphinxClient();
-
-		$sphinxpair = explode(":", SPHINX_SERVER, 2);
-
-		$sphinxClient->SetServer($sphinxpair[0], (int)$sphinxpair[1]);
-		$sphinxClient->SetConnectTimeout(1);
-
-		$sphinxClient->SetFieldWeights(array('title' => 70, 'content' => 30,
-			'feed_title' => 20));
-
-		$sphinxClient->SetMatchMode(SPH_MATCH_EXTENDED2);
-		$sphinxClient->SetRankingMode(SPH_RANK_PROXIMITY_BM25);
-		$sphinxClient->SetLimits($offset, $limit, 1000);
-		$sphinxClient->SetArrayResult(false);
-		$sphinxClient->SetFilter('owner_uid', array($_SESSION['uid']));
-
-		$result = $sphinxClient->Query($query, SPHINX_INDEX);
-
-		$ids = array();
-
-		if (is_array($result['matches'])) {
-			foreach (array_keys($result['matches']) as $int_id) {
-				$ref_id = $result['matches'][$int_id]['attrs']['ref_id'];
-				array_push($ids, $ref_id);
-			}
-		}
-
-		return $ids;
 	}
 
 	function cleanup_tags($days = 14, $limit = 1000) {

@@ -1147,7 +1147,7 @@ class Feeds extends Handler_Protected {
 
 		print "<div class=\"dlgButtons\">";
 
-		if (!SPHINX_ENABLED) {
+		if (count(PluginHost::getInstance()->get_hooks(PluginHost::HOOK_SEARCH)) == 0) {
 			print "<div style=\"float : left\">
 				<a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/wiki/SearchSyntax\">".__("Search syntax")."</a>
 				</div>";
