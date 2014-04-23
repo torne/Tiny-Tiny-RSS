@@ -11,6 +11,10 @@ class Search_Sphinx extends Plugin {
 	function init($host) {
 		$host->add_hook($host::HOOK_SEARCH, $this);
 
+		if (class_exists("SphinxClient")) {
+			user_error("Your PHP has a separate systemwide Sphinx client installed which conflicts with the client library used by tt-rss. Either remove the system library or disable Sphinx support.");
+		}
+
 		require_once __DIR__ . "/sphinxapi.php";
 	}
 
