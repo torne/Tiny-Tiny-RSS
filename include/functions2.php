@@ -399,6 +399,7 @@
 			if ($search) {
 				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_SEARCH) as $plugin) {
 					list($search_query_part, $search_words) = $plugin->hook_search($search);
+					break;
 				}
 
 				// fall back in case of no plugins
