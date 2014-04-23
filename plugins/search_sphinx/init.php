@@ -3,7 +3,7 @@
 class Search_Sphinx extends Plugin {
 	function about() {
 		return array(1.0,
-			"Delegate searching for articles to Sphinx",
+			"Delegate searching for articles to Sphinx (don't forget to set options in config.php)",
 			"hoelzro",
 			true);
 	}
