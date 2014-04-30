@@ -278,7 +278,7 @@
 				!$auth_login && !$auth_pass &&
 				filemtime($cache_filename) > time() - 30) {
 
-				_debug("using local cache.", $debug_enabled);
+				_debug("using local cache [$cache_filename].", $debug_enabled);
 
 				@$feed_data = file_get_contents($cache_filename);
 
