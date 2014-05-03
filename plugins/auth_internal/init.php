@@ -58,6 +58,9 @@ class Auth_Internal extends Plugin implements IAuthModule {
 								<input type="hidden" name="op" value="login">
 								<input type="hidden" name="login" value="<?php echo htmlspecialchars($login) ?>">
 								<input type="hidden" name="password" value="<?php echo htmlspecialchars($password) ?>">
+								<input type="hidden" name="bw_limit" value="<?php echo htmlspecialchars($_POST["bw_limit"]) ?>">
+								<input type="hidden" name="remember_me" value="<?php echo htmlspecialchars($_POST["remember_me"]) ?>">
+								<input type="hidden" name="profile" value="<?php echo htmlspecialchars($_POST["profile"]) ?>">
 
 								<label><?php echo __("Please enter your one time password:") ?></label>
 								<input autocomplete="off" size="6" name="otp" value=""/>
