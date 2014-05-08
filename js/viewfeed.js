@@ -1762,7 +1762,8 @@ function cdmClicked(event, id) {
 				return !event.shiftKey;
 			}
 
-		} else {
+		} else if (event.target.parents(".cdmHeader").length > 0) {
+
 			toggleSelected(id, true);
 
 			var elem = $("RROW-" + id);
