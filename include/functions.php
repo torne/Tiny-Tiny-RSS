@@ -381,7 +381,7 @@
 			curl_setopt($ch, CURLOPT_USERAGENT, $useragent ? $useragent :
 				SELF_USER_AGENT);
 			curl_setopt($ch, CURLOPT_ENCODING, "");
-			curl_setopt($ch, CURLOPT_REFERER, $url);
+			//curl_setopt($ch, CURLOPT_REFERER, $url);
 
 			if (!ini_get("safe_mode") && !ini_get("open_basedir")) {
 				curl_setopt($ch, CURLOPT_COOKIEJAR, "/dev/null");
