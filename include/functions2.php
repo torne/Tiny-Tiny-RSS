@@ -1856,7 +1856,7 @@
 			}
 		}
 
-		if ($rv === '' && is_array($result)) {
+		if ($rv === '' && !empty($result)) {
 			$entries_html = array();
 			$entries = array();
 			$entries_inline = array();
