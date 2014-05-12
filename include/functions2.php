@@ -1846,8 +1846,17 @@
 		$result = get_article_enclosures($id);
 		$rv = '';
 
-		if (count($result) > 0) {
+		foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_FORMAT_ENCLOSURES) as $plugin) {
+			$retval = $plugin->hook_format_enclosures($rv, $result, $id, $always_display_enclosures, $article_content, $hide_images);
+			if (is_array($retval)) {
+				$rv = $retval[0];
+				$result = $retval[1];
+			} else {
+				$rv = $retval;
+			}
+		}
 
+		if ($rv === '' && is_array($result)) {
 			$entries_html = array();
 			$entries = array();
 			$entries_inline = array();
