@@ -1687,6 +1687,10 @@
 			return array("code" => 5, "message" => $fetch_last_error);
 		}
 
+		foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_SUBSCRIBE_FEED) as $plugin) {
+			$contents = $plugin->hook_subscribe_feed($contents, $url, $auth_login, $auth_pass);
+		}
+
 		if (is_html($contents)) {
 			$feedUrls = get_feeds_from_html($url, $contents);
 
