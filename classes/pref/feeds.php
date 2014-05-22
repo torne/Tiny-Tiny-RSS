@@ -1259,13 +1259,18 @@ class Pref_Feeds extends Handler_Protected {
 			$interval_qpart = "DATE_SUB(NOW(), INTERVAL 3 MONTH)";
 		}
 
-		$result = $this->dbh->query("SELECT COUNT(*) AS num_inactive FROM ttrss_feeds WHERE
+		// could be performance-intensive and prevent feeds pref-panel from showing
+		if (!defined('_DISABLE_INACTIVE_FEEDS') || !_DISABLE_INACTIVE_FEEDS) {
+			$result = $this->dbh->query("SELECT COUNT(*) AS num_inactive FROM ttrss_feeds WHERE
 					(SELECT MAX(updated) FROM ttrss_entries, ttrss_user_entries WHERE
 						ttrss_entries.id = ref_id AND
 							ttrss_user_entries.feed_id = ttrss_feeds.id) < $interval_qpart AND
 			ttrss_feeds.owner_uid = ".$_SESSION["uid"]);
 
-		$num_inactive = $this->dbh->fetch_result($result, 0, "num_inactive");
+			$num_inactive = $this->dbh->fetch_result($result, 0, "num_inactive");
+		} else {
+			$num_inactive = 0;
+		}
 
 		if ($num_inactive > 0) {
 			$inactive_button = "<button dojoType=\"dijit.form.Button\"
