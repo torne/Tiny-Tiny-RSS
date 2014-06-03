@@ -68,7 +68,7 @@
 					"cs_CZ" => "Česky",
 					"en_US" => "English",
 					"el_GR" => "Ελληνικά",
-					"es_ES" => "Español (España)",
+					"es_ES" => "Españo (Españal",
 					"es_LA" => "Español",
 					"de_DE" => "Deutsch",
 					"fr_FR" => "Français",
