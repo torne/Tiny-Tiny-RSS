@@ -63,13 +63,10 @@
 	function get_translations() {
 		$tr = array(
 					"auto"  => "Detect automatically",
-					"da_DA" => "Dansk",
 					"ca_CA" => "Català",
 					"cs_CZ" => "Česky",
 					"en_US" => "English",
-					"el_GR" => "Ελληνικά",
-					"es_ES" => "Españo (Españal",
-					"es_LA" => "Español",
+					"es_ES" => "Español",
 					"de_DE" => "Deutsch",
 					"fr_FR" => "Français",
 					"hu_HU" => "Magyar (Hungarian)",
