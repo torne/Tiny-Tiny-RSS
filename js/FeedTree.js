@@ -539,7 +539,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 		}
 
 		items = this.model.store._arrayOfAllItems;
-		var item = items[0];
+		var item = items[0] == treeItem ? items[items.length-1] : items[0];
 
 		for (var i = 0; i < items.length; i++) {
 			if (items[i] == treeItem) {
