@@ -1203,7 +1203,7 @@
 							SET unread = false, last_read = NOW() WHERE ref_id IN
 								(SELECT id FROM
 									(SELECT id FROM ttrss_entries, ttrss_user_entries WHERE ref_id = id
-										AND owner_uid = $owner_uid AND unread = true AND $date_qpart AND $match_part) as tmp)");
+										AND owner_uid = $owner_uid AND score >= 0 AND unread = true AND $date_qpart AND $match_part) as tmp)");
 					}
 
 					if ($feed == -4) {
