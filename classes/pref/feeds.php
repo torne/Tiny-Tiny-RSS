@@ -55,6 +55,7 @@ class Pref_Feeds extends Handler_Protected {
 			$cat['unread'] = 0;
 			$cat['child_unread'] = 0;
 			$cat['auxcounter'] = 0;
+			$cat['parent_id'] = $cat_id;
 
 			$cat['items'] = $this->get_category_items($line['id']);
 
