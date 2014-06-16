@@ -2,7 +2,8 @@
 class Af_Comics_ComicPress extends Af_ComicFilter {
 
 	function supported() {
-		return array("Buni", "Buttersafe", "Whomp!", "Happy Jar", "CSection");
+		return array("Buni", "Buttersafe", "Whomp!", "Happy Jar", "CSection",
+			"Extra Fabulous Comics");
 	}
 
 	function process(&$article) {
@@ -11,6 +12,7 @@ class Af_Comics_ComicPress extends Af_ComicFilter {
 		if (strpos($article["guid"], "bunicomic.com") !== FALSE ||
 				strpos($article["guid"], "buttersafe.com") !== FALSE ||
 				strpos($article["guid"], "whompcomic.com") !== FALSE ||
+				strpos($article["guid"], "extrafabulouscomics.com") !== FALSE ||
 				strpos($article["guid"], "happyjar.com") !== FALSE ||
 				strpos($article["guid"], "csectioncomics.com") !== FALSE) {
 
