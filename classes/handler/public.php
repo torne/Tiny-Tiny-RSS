@@ -108,7 +108,8 @@ class Handler_Public extends Handler {
 				$tpl->setVariable('ARTICLE_TITLE', htmlspecialchars($line['title']), true);
 				$tpl->setVariable('ARTICLE_EXCERPT', $line["content_preview"], true);
 
-				$content = sanitize($line["content"], false, $owner_uid);
+				$content = sanitize($line["content"], false, $owner_uid,
+					$feed_site_url);
 
 				if ($line['note']) {
 					$content = "<div style=\"$note_style\">Article note: " . $line['note'] . "</div>" .
