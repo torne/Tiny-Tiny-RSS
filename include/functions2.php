@@ -426,8 +426,10 @@
 				// Try to check if SQL regexp implementation chokes on a valid regexp
 
 
-				$result = db_query("SELECT true AS true_val FROM ttrss_entries,
-					ttrss_user_entries, ttrss_feeds
+				$result = db_query("SELECT true AS true_val
+                                        FROM ttrss_entries
+                                        JOIN ttrss_user_entries ON ttrss_entries.id = ttrss_user_entries.ref_id
+                                        JOIN ttrss_feeds ON ttrss_feeds.id = ttrss_user_entries.feed_id
 					WHERE $filter_query_part LIMIT 1", false);
 
 				if ($result) {
