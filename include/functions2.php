@@ -2220,6 +2220,7 @@
 		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0 Firefox/5.0');
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
 		curl_setopt($curl, CURLOPT_HEADER, true);
+		curl_setopt($curl, CURLOPT_NOBODY, true);
 		curl_setopt($curl, CURLOPT_REFERER, $url);
 		curl_setopt($curl, CURLOPT_ENCODING, 'gzip,deflate');
 		curl_setopt($curl, CURLOPT_AUTOREFERER, true);
