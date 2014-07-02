@@ -1747,7 +1747,7 @@
 		return $rv;
 	}
 
-	function save_email_address($email) {
+	/* function save_email_address($email) {
 		// FIXME: implement persistent storage of emails
 
 		if (!$_SESSION['stored_emails'])
@@ -1755,7 +1755,7 @@
 
 		if (!in_array($email, $_SESSION['stored_emails']))
 			array_push($_SESSION['stored_emails'], $email);
-	}
+	} */
 
 
 	function get_feed_access_key($feed_id, $is_cat, $owner_uid = false) {

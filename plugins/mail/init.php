@@ -13,10 +13,59 @@ class Mail extends Plugin {
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
+		$host->add_hook($host::HOOK_PREFS_TAB, $this);
 	}
 
 	function get_js() {
 		return file_get_contents(dirname(__FILE__) . "/mail.js");
+	}
+
+	function save() {
+		$addresslist = db_escape_string($_POST["addresslist"]);
+
+		$this->host->set($this, "addresslist", $addresslist);
+
+		echo __("Mail addresses saved.");
+	}
+
+	function hook_prefs_tab($args) {
+		if ($args != "prefPrefs") return;
+
+		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Mail plugin')."\">";
+
+		print "<p>" . __("You can set predefined email addressed here (comma-separated list):") . "</p>";
+
+		print "<form dojoType=\"dijit.form.Form\">";
+
+		print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
+			evt.preventDefault();
+			if (this.validate()) {
+				console.log(dojo.objectToQuery(this.getValues()));
+				new Ajax.Request('backend.php', {
+					parameters: dojo.objectToQuery(this.getValues()),
+					onComplete: function(transport) {
+						notify_info(transport.responseText);
+					}
+				});
+				//this.reset();
+			}
+			</script>";
+
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pluginhandler\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"save\">";
+			print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"plugin\" value=\"mail\">";
+
+			$addresslist = $this->host->get($this, "addresslist");
+
+			print "<textarea dojoType=\"dijit.form.SimpleTextarea\" style='font-size : 12px; width : 50%' rows=\"3\"
+				name='addresslist'>$addresslist</textarea>";
+
+			print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
+				__("Save")."</button>";
+
+			print "</form>";
+
+		print "</div>";
 	}
 
 	function hook_article_button($line) {
@@ -48,7 +97,6 @@ class Mail extends Plugin {
 		require_once "lib/MiniTemplator.class.php";
 
 		$tpl = new MiniTemplator;
-		$tpl_t = new MiniTemplator;
 
 		$tpl->readTemplateFromFile("templates/email_article_template.txt");
 
@@ -96,16 +144,20 @@ class Mail extends Plugin {
 
 		print "</td></tr><tr><td>";
 
+		$addresslist = explode(",", $this->host->get($this, "addresslist"));
+
 		print __('To:');
 
 		print "</td><td>";
 
-		print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"true\"
+/*		print "<input dojoType=\"dijit.form.ValidationTextBox\" required=\"true\"
 				style=\"width : 30em;\"
-				name=\"destination\" id=\"emailArticleDlg_destination\">";
+				name=\"destination\" id=\"emailArticleDlg_destination\">"; */
 
-		print "<div class=\"autocomplete\" id=\"emailArticleDlg_dst_choices\"
-				style=\"z-index: 30; display : none\"></div>";
+		print_select("destination", "", $addresslist, 'dojoType="dijit.form.FilteringSelect"');
+
+/*		print "<div class=\"autocomplete\" id=\"emailArticleDlg_dst_choices\"
+	style=\"z-index: 30; display : none\"></div>"; */
 
 		print "</td></tr><tr><td>";
 
@@ -155,14 +207,14 @@ class Mail extends Plugin {
 		if (!$rc) {
 			$reply['error'] =  $mail->ErrorInfo;
 		} else {
-			save_email_address(db_escape_string($destination));
+			//save_email_address(db_escape_string($destination));
 			$reply['message'] = "UPDATE_COUNTERS";
 		}
 
 		print json_encode($reply);
 	}
 
-	function completeEmails() {
+	/* function completeEmails() {
 		$search = db_escape_string($_REQUEST["search"]);
 
 		print "<ul>";
@@ -174,7 +226,7 @@ class Mail extends Plugin {
 		}
 
 		print "</ul>";
-	}
+	} */
 
 	function api_version() {
 		return 2;
