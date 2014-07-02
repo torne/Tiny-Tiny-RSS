@@ -154,7 +154,7 @@ class Mail extends Plugin {
 				style=\"width : 30em;\"
 				name=\"destination\" id=\"emailArticleDlg_destination\">"; */
 
-		print_select("destination", "", $addresslist, 'dojoType="dijit.form.FilteringSelect"');
+		print_select("destination", "", $addresslist, 'style="width: 30em" dojoType="dijit.form.FilteringSelect"');
 
 /*		print "<div class=\"autocomplete\" id=\"emailArticleDlg_dst_choices\"
 	style=\"z-index: 30; display : none\"></div>"; */
