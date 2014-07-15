@@ -989,7 +989,7 @@
 				if (is_array($encs)) {
 					foreach ($encs as $e) {
 						$e_item = array(
-							$e->link, $e->type, $e->length, $e->title);
+							$e->link, $e->type, $e->length, $e->title, $e->width, $e->height);
 						array_push($enclosures, $e_item);
 					}
 				}
@@ -1009,14 +1009,16 @@
 					$enc_type = db_escape_string($enc[1]);
 					$enc_dur = db_escape_string($enc[2]);
 					$enc_title = db_escape_string($enc[3]);
+					$enc_width = intval($enc[4]);
+					$enc_height = intval($enc[5]);
 
 					$result = db_query("SELECT id FROM ttrss_enclosures
 						WHERE content_url = '$enc_url' AND post_id = '$entry_ref_id'");
 
 					if (db_num_rows($result) == 0) {
 						db_query("INSERT INTO ttrss_enclosures
-							(content_url, content_type, title, duration, post_id) VALUES
-							('$enc_url', '$enc_type', '$enc_title', '$enc_dur', '$entry_ref_id')");
+							(content_url, content_type, title, duration, post_id, width, height) VALUES
+							('$enc_url', '$enc_type', '$enc_title', '$enc_dur', '$entry_ref_id', $enc_width, $enc_height)");
 					}
 				}
 

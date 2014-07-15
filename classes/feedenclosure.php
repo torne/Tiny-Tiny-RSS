@@ -4,5 +4,7 @@ class FeedEnclosure {
 	public $type;
 	public $length;
 	public $title;
+	public $height;
+	public $width;
 }
 ?>
