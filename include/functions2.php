@@ -1868,6 +1868,8 @@
 				$url = $line["content_url"];
 				$ctype = $line["content_type"];
 				$title = $line["title"];
+				$width = $line["width"];
+				$height = $line["height"];
 
 				if (!$ctype) $ctype = __("unknown type");
 
@@ -1891,6 +1893,8 @@
 				$entry["filename"] = $filename;
 				$entry["url"] = $url;
 				$entry["title"] = $title;
+				$entry["width"] = $width;
+				$entry["height"] = $height;
 
 				array_push($entries, $entry);
 			}
@@ -1905,9 +1909,15 @@
 								preg_match("/\.(jpg|png|gif|bmp)/i", $entry["filename"])) {
 
 								if (!$hide_images) {
+									$encsize = '';
+									if ($entry['height'] > 0)
+										$encsize .= ' height="' . intval($entry['width']) . '"';
+									if ($entry['width'] > 0)
+										$encsize .= ' width="' . intval($entry['height']) . '"';
 									$rv .= "<p><img
 									alt=\"".htmlspecialchars($entry["filename"])."\"
-									src=\"" .htmlspecialchars($entry["url"]) . "\"/></p>";
+									src=\"" .htmlspecialchars($entry["url"]) . "\"
+									" . $encsize . " /></p>";
 								} else {
 									$rv .= "<p><a target=\"_blank\"
 									href=\"".htmlspecialchars($entry["url"])."\"
