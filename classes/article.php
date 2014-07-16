@@ -107,7 +107,7 @@ class Article extends Handler_Protected {
 
 		// only check for our user data here, others might have shared this with different content etc
 		$result = db_query("SELECT id FROM ttrss_entries, ttrss_user_entries WHERE
-			link = '$url' AND ref_id = id AND owner_uid = '$owner_uid' LIMIT 1");
+			guid = '$guid' AND ref_id = id AND owner_uid = '$owner_uid' LIMIT 1");
 
 		if (db_num_rows($result) != 0) {
 			$ref_id = db_fetch_result($result, 0, "id");
