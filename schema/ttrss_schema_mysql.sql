@@ -301,7 +301,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (125);
+insert into ttrss_version values (126);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,
@@ -309,6 +309,8 @@ create table ttrss_enclosures (id integer primary key auto_increment,
 	post_id integer not null,
 	title text not null,
 	duration text not null,
+	width integer not null default 0,
+	height integer not null default 0,
 	index (post_id),
 	foreign key (post_id) references ttrss_entries(id) ON DELETE cascade) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 

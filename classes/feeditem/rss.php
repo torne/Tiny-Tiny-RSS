@@ -113,6 +113,8 @@ class FeedItem_RSS extends FeedItem_Common {
 			$enc->type = $enclosure->getAttribute("type");
 			$enc->link = $enclosure->getAttribute("url");
 			$enc->length = $enclosure->getAttribute("length");
+			$enc->height = $enclosure->getAttribute("height");
+			$enc->width = $enclosure->getAttribute("width");
 
 			array_push($encs, $enc);
 		}
@@ -125,6 +127,8 @@ class FeedItem_RSS extends FeedItem_Common {
 			$enc->type = $enclosure->getAttribute("type");
 			$enc->link = $enclosure->getAttribute("url");
 			$enc->length = $enclosure->getAttribute("length");
+			$enc->height = $enclosure->getAttribute("height");
+			$enc->width = $enclosure->getAttribute("width");
 
 			$desc = $this->xpath->query("media:description", $enclosure)->item(0);
 			if ($desc) $enc->title = strip_tags($desc->nodeValue);
@@ -144,6 +148,8 @@ class FeedItem_RSS extends FeedItem_Common {
 				$enc->type = $content->getAttribute("type");
 				$enc->link = $content->getAttribute("url");
 				$enc->length = $content->getAttribute("length");
+				$enc->height = $content->getAttribute("height");
+				$enc->width = $content->getAttribute("width");
 
 				$desc = $this->xpath->query("media:description", $content)->item(0);
 				if ($desc) {
@@ -164,6 +170,8 @@ class FeedItem_RSS extends FeedItem_Common {
 
 			$enc->type = "image/generic";
 			$enc->link = $enclosure->getAttribute("url");
+			$enc->height = $enclosure->getAttribute("height");
+			$enc->width = $enclosure->getAttribute("width");
 
 			array_push($encs, $enc);
 		}

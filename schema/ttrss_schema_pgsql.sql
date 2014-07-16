@@ -261,13 +261,15 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (125);
+insert into ttrss_version values (126);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
 	content_type varchar(250) not null,
 	title text not null,
 	duration text not null,
+	width integer not null default 0,
+	height integer not null default 0,
 	post_id integer references ttrss_entries(id) ON DELETE cascade NOT NULL);
 
 create index ttrss_enclosures_post_id_idx on ttrss_enclosures(post_id);
