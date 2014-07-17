@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tt-rss unstable\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-18 16:09+0400\n"
+"POT-Creation-Date: 2014-07-17 20:09+0400\n"
 "PO-Revision-Date: 2013-07-13 11:05+0900\n"
 "Last-Translator: Yak! <yak_ex@mx.scn.tv>\n"
 "Language-Team: \n"
@@ -179,8 +179,8 @@ msgstr "SQLのエスケープ処理のテストに失敗しました。データ
 #: js/prefs.js:1794
 #: js/tt-rss.js:510
 #: js/tt-rss.js:527
-#: js/viewfeed.js:854
-#: js/viewfeed.js:1311
+#: js/viewfeed.js:855
+#: js/viewfeed.js:1312
 #: plugins/import_export/import_export.js:17
 #: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
@@ -538,17 +538,17 @@ msgid "Article"
 msgstr "記事"
 
 #: include/functions2.php:60
-#: js/viewfeed.js:1975
+#: js/viewfeed.js:1992
 msgid "Toggle starred"
 msgstr "お気に入りを切り替える"
 
 #: include/functions2.php:61
-#: js/viewfeed.js:1986
+#: js/viewfeed.js:2003
 msgid "Toggle published"
 msgstr "公開を切り替える"
 
 #: include/functions2.php:62
-#: js/viewfeed.js:1964
+#: js/viewfeed.js:1981
 msgid "Toggle unread"
 msgstr "未読/既読を切り替える"
 
@@ -569,12 +569,12 @@ msgid "Open in new window"
 msgstr "新しいウィンドウで開く"
 
 #: include/functions2.php:67
-#: js/viewfeed.js:2005
+#: js/viewfeed.js:2022
 msgid "Mark below as read"
 msgstr "これより下を既読にする"
 
 #: include/functions2.php:68
-#: js/viewfeed.js:1999
+#: js/viewfeed.js:2016
 msgid "Mark above as read"
 msgstr "これより上を既読にする"
 
@@ -726,50 +726,50 @@ msgstr "サイドバーを開閉する"
 msgid "Show help dialog"
 msgstr "ヘルプダイアログを表示する"
 
-#: include/functions2.php:649
+#: include/functions2.php:651
 #, php-format
 msgid "Search results: %s"
 msgstr "検索結果: %s"
 
-#: include/functions2.php:1261
+#: include/functions2.php:1263
 #: classes/feeds.php:708
 msgid "comment"
 msgid_plural "comments"
 msgstr[0] ""
 
-#: include/functions2.php:1265
+#: include/functions2.php:1267
 #: classes/feeds.php:712
 #, fuzzy
 msgid "comments"
 msgstr "添付"
 
-#: include/functions2.php:1306
+#: include/functions2.php:1308
 msgid " - "
 msgstr " - "
 
-#: include/functions2.php:1339
-#: include/functions2.php:1587
+#: include/functions2.php:1341
+#: include/functions2.php:1589
 #: classes/article.php:280
 msgid "no tags"
 msgstr "タグがありません"
 
-#: include/functions2.php:1349
+#: include/functions2.php:1351
 #: classes/feeds.php:694
 msgid "Edit tags for this article"
 msgstr "この記事のタグを編集する"
 
-#: include/functions2.php:1381
+#: include/functions2.php:1383
 #: classes/feeds.php:646
 msgid "Originally from:"
 msgstr "元の記事:"
 
-#: include/functions2.php:1394
+#: include/functions2.php:1396
 #: classes/feeds.php:659
 #: classes/pref/feeds.php:569
 msgid "Feed URL"
 msgstr "フィード URL"
 
-#: include/functions2.php:1428
+#: include/functions2.php:1430
 #: classes/dlg.php:36
 #: classes/dlg.php:59
 #: classes/dlg.php:92
@@ -792,19 +792,19 @@ msgstr "フィード URL"
 msgid "Close this window"
 msgstr "このウィンドウを閉じる"
 
-#: include/functions2.php:1624
+#: include/functions2.php:1626
 msgid "(edit note)"
 msgstr "(ノートの編集)"
 
-#: include/functions2.php:1870
+#: include/functions2.php:1874
 msgid "unknown type"
 msgstr "未知の種類"
 
-#: include/functions2.php:1930
+#: include/functions2.php:1942
 msgid "Attachments"
 msgstr "添付"
 
-#: include/functions2.php:2381
+#: include/functions2.php:2394
 #, php-format
 msgid "LibXML error %s at line %d (column %d): %s"
 msgstr "LibXML エラー %s が %d 行 %d 列 で発生しました: %s"
@@ -920,6 +920,7 @@ msgstr "この記事のタグ (カンマで区切ります):"
 #: classes/pref/feeds.php:773
 #: classes/pref/feeds.php:900
 #: plugins/nsfw/init.php:85
+#: plugins/mail/init.php:64
 #: plugins/note/init.php:51
 #: plugins/instances/init.php:245
 msgid "Save"
@@ -941,7 +942,7 @@ msgstr "保存"
 #: classes/pref/feeds.php:774
 #: classes/pref/feeds.php:903
 #: classes/pref/feeds.php:1817
-#: plugins/mail/init.php:129
+#: plugins/mail/init.php:181
 #: plugins/note/init.php:53
 #: plugins/instances/init.php:248
 #: plugins/instances/init.php:436
@@ -1229,7 +1230,7 @@ msgstr "削除"
 #: classes/feeds.php:119
 #: classes/feeds.php:124
 #: plugins/mailto/init.php:25
-#: plugins/mail/init.php:26
+#: plugins/mail/init.php:75
 msgid "Forward by email"
 msgstr "メールで転送する"
 
@@ -2513,13 +2514,13 @@ msgstr "古いパスワードが不正確です。"
 
 #: plugins/mailto/init.php:49
 #: plugins/mailto/init.php:55
-#: plugins/mail/init.php:64
-#: plugins/mail/init.php:70
+#: plugins/mail/init.php:112
+#: plugins/mail/init.php:118
 msgid "[Forwarded]"
 msgstr "[Forwarded]"
 
 #: plugins/mailto/init.php:49
-#: plugins/mail/init.php:64
+#: plugins/mail/init.php:112
 msgid "Multiple articles"
 msgstr "複数記事"
 
@@ -2619,19 +2620,32 @@ msgstr "データの準備"
 msgid "No file uploaded."
 msgstr "ファイルがアップロードされていません。"
 
-#: plugins/mail/init.php:90
+#: plugins/mail/init.php:28
+msgid "Mail addresses saved."
+msgstr ""
+
+#: plugins/mail/init.php:34
+#, fuzzy
+msgid "Mail plugin"
+msgstr "ユーザープラグイン"
+
+#: plugins/mail/init.php:36
+msgid "You can set predefined email addressed here (comma-separated list):"
+msgstr ""
+
+#: plugins/mail/init.php:138
 msgid "From:"
 msgstr "From:"
 
-#: plugins/mail/init.php:99
+#: plugins/mail/init.php:149
 msgid "To:"
 msgstr "To:"
 
-#: plugins/mail/init.php:112
+#: plugins/mail/init.php:164
 msgid "Subject:"
 msgstr "題名:"
 
-#: plugins/mail/init.php:128
+#: plugins/mail/init.php:180
 msgid "Send e-mail"
 msgstr "電子メールを送信する"
 
@@ -3326,135 +3340,135 @@ msgstr "記事のスコアを再計算しています..."
 msgid "New version available!"
 msgstr "新しいバージョンが利用できます!"
 
-#: js/viewfeed.js:113
+#: js/viewfeed.js:114
 msgid "Cancel search"
 msgstr "検索の取り消し"
 
-#: js/viewfeed.js:471
+#: js/viewfeed.js:472
 msgid "Unstar article"
 msgstr "記事のお気に入りを解除"
 
-#: js/viewfeed.js:475
+#: js/viewfeed.js:476
 msgid "Star article"
 msgstr "記事をお気に入りにする"
 
-#: js/viewfeed.js:529
+#: js/viewfeed.js:530
 msgid "Unpublish article"
 msgstr "記事の公開を解除"
 
-#: js/viewfeed.js:533
+#: js/viewfeed.js:534
 msgid "Publish article"
 msgstr "記事を公開"
 
-#: js/viewfeed.js:685
+#: js/viewfeed.js:686
 msgid "%d article selected"
 msgid_plural "%d articles selected"
 msgstr[0] "%d 件の記事を選択"
 
-#: js/viewfeed.js:757
-#: js/viewfeed.js:785
-#: js/viewfeed.js:812
-#: js/viewfeed.js:877
-#: js/viewfeed.js:911
-#: js/viewfeed.js:1033
-#: js/viewfeed.js:1076
-#: js/viewfeed.js:1129
-#: js/viewfeed.js:2255
+#: js/viewfeed.js:758
+#: js/viewfeed.js:786
+#: js/viewfeed.js:813
+#: js/viewfeed.js:878
+#: js/viewfeed.js:912
+#: js/viewfeed.js:1034
+#: js/viewfeed.js:1077
+#: js/viewfeed.js:1130
+#: js/viewfeed.js:2272
 #: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "記事が選択されていません。"
 
-#: js/viewfeed.js:1041
+#: js/viewfeed.js:1042
 msgid "Delete %d selected article in %s?"
 msgid_plural "Delete %d selected articles in %s?"
 msgstr[0] "選択した「%s」の %d 件の記事を削除しますか?"
 
-#: js/viewfeed.js:1043
+#: js/viewfeed.js:1044
 msgid "Delete %d selected article?"
 msgid_plural "Delete %d selected articles?"
 msgstr[0] "選択した %d 件の記事を削除しますか?"
 
-#: js/viewfeed.js:1085
+#: js/viewfeed.js:1086
 msgid "Archive %d selected article in %s?"
 msgid_plural "Archive %d selected articles in %s?"
 msgstr[0] "選択した「%s」の %d 件の記事を保管しますか?"
 
-#: js/viewfeed.js:1088
+#: js/viewfeed.js:1089
 msgid "Move %d archived article back?"
 msgid_plural "Move %d archived articles back?"
 msgstr[0] "%d 件の保管された記事を元に戻しますか?"
 
-#: js/viewfeed.js:1090
+#: js/viewfeed.js:1091
 msgid "Please note that unstarred articles might get purged on next feed update."
 msgstr "お気に入りから外した記事は次回フィード更新時に削除されるかもしれない点に注意してください。"
 
-#: js/viewfeed.js:1135
+#: js/viewfeed.js:1136
 msgid "Mark %d selected article in %s as read?"
 msgid_plural "Mark %d selected articles in %s as read?"
 msgstr[0] "選択した「%s」の %d 件の記事を既読に設定しますか?"
 
-#: js/viewfeed.js:1159
+#: js/viewfeed.js:1160
 msgid "Edit article Tags"
 msgstr "記事のタグを編集"
 
-#: js/viewfeed.js:1165
+#: js/viewfeed.js:1166
 msgid "Saving article tags..."
 msgstr "記事のタグを保存しています..."
 
-#: js/viewfeed.js:1404
+#: js/viewfeed.js:1421
 msgid "No article is selected."
 msgstr "記事が選択されていません。"
 
-#: js/viewfeed.js:1439
+#: js/viewfeed.js:1456
 msgid "No articles found to mark"
 msgstr "記事が選択されていません。"
 
-#: js/viewfeed.js:1441
+#: js/viewfeed.js:1458
 msgid "Mark %d article as read?"
 msgid_plural "Mark %d articles as read?"
 msgstr[0] "%d 件の記事を既読として設定しますか?"
 
-#: js/viewfeed.js:1950
+#: js/viewfeed.js:1967
 msgid "Open original article"
 msgstr "元の記事内容を表示"
 
-#: js/viewfeed.js:1956
+#: js/viewfeed.js:1973
 msgid "Display article URL"
 msgstr "記事の URL を表示"
 
-#: js/viewfeed.js:2056
+#: js/viewfeed.js:2073
 msgid "Assign label"
 msgstr "ラベルの割り当て"
 
-#: js/viewfeed.js:2061
+#: js/viewfeed.js:2078
 msgid "Remove label"
 msgstr "ラベルの削除"
 
-#: js/viewfeed.js:2148
+#: js/viewfeed.js:2165
 #, fuzzy
 msgid "Select articles in group"
 msgstr "マウスカーソルの下の記事を選択する"
 
-#: js/viewfeed.js:2157
+#: js/viewfeed.js:2174
 #, fuzzy
 msgid "Mark group as read"
 msgstr "既読にする"
 
-#: js/viewfeed.js:2169
+#: js/viewfeed.js:2186
 #, fuzzy
 msgid "Mark feed as read"
 msgstr "すべてのフィードを既読に設定する"
 
-#: js/viewfeed.js:2224
+#: js/viewfeed.js:2241
 msgid "Please enter new score for selected articles:"
 msgstr "選択した記事の新しいスコアを入力してください:"
 
-#: js/viewfeed.js:2266
+#: js/viewfeed.js:2283
 msgid "Please enter new score for this article:"
 msgstr "この記事の新しいスコアを入力してください:"
 
-#: js/viewfeed.js:2299
+#: js/viewfeed.js:2316
 msgid "Article URL:"
 msgstr "記事の URL:"
 

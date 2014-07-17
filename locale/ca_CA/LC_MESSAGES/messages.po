@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-18 16:09+0400\n"
+"POT-Creation-Date: 2014-07-17 20:09+0400\n"
 "PO-Revision-Date: 2009-11-19 09:40+0100\n"
 "Last-Translator: Alfred Galitó <bratac@bratac.cat>\n"
 "Language-Team: Català <bratac@bratac.cat>\n"
@@ -184,8 +184,8 @@ msgstr "Ha fallat la sortida de prova de SQL, reviseu la base configuració de l
 #: js/prefs.js:1794
 #: js/tt-rss.js:510
 #: js/tt-rss.js:527
-#: js/viewfeed.js:854
-#: js/viewfeed.js:1311
+#: js/viewfeed.js:855
+#: js/viewfeed.js:1312
 #: plugins/import_export/import_export.js:17
 #: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
@@ -555,17 +555,17 @@ msgid "Article"
 msgstr "Tots els articles"
 
 #: include/functions2.php:60
-#: js/viewfeed.js:1975
+#: js/viewfeed.js:1992
 msgid "Toggle starred"
 msgstr "Commuta els marcats"
 
 #: include/functions2.php:61
-#: js/viewfeed.js:1986
+#: js/viewfeed.js:2003
 msgid "Toggle published"
 msgstr "Commuta els publicats"
 
 #: include/functions2.php:62
-#: js/viewfeed.js:1964
+#: js/viewfeed.js:1981
 msgid "Toggle unread"
 msgstr "Commuta els no llegits"
 
@@ -589,13 +589,13 @@ msgid "Open in new window"
 msgstr "Obre l'article en una finestra nova"
 
 #: include/functions2.php:67
-#: js/viewfeed.js:2005
+#: js/viewfeed.js:2022
 #, fuzzy
 msgid "Mark below as read"
 msgstr "Marca'l com a llegit"
 
 #: include/functions2.php:68
-#: js/viewfeed.js:1999
+#: js/viewfeed.js:2016
 #, fuzzy
 msgid "Mark above as read"
 msgstr "Marca'l com a llegit"
@@ -773,12 +773,12 @@ msgstr "Redueix la barra lateral"
 msgid "Show help dialog"
 msgstr "Mostra el diàleg de cerca"
 
-#: include/functions2.php:649
+#: include/functions2.php:651
 #, fuzzy, php-format
 msgid "Search results: %s"
 msgstr "Resultats de la cerca"
 
-#: include/functions2.php:1261
+#: include/functions2.php:1263
 #: classes/feeds.php:708
 #, fuzzy
 msgid "comment"
@@ -786,40 +786,40 @@ msgid_plural "comments"
 msgstr[0] "comentaris"
 msgstr[1] "comentaris"
 
-#: include/functions2.php:1265
+#: include/functions2.php:1267
 #: classes/feeds.php:712
 msgid "comments"
 msgstr "comentaris"
 
-#: include/functions2.php:1306
+#: include/functions2.php:1308
 msgid " - "
 msgstr " - "
 
-#: include/functions2.php:1339
-#: include/functions2.php:1587
+#: include/functions2.php:1341
+#: include/functions2.php:1589
 #: classes/article.php:280
 msgid "no tags"
 msgstr "sense etiqueta"
 
-#: include/functions2.php:1349
+#: include/functions2.php:1351
 #: classes/feeds.php:694
 msgid "Edit tags for this article"
 msgstr "Edita les etiquetes d'aquest article"
 
-#: include/functions2.php:1381
+#: include/functions2.php:1383
 #: classes/feeds.php:646
 #, fuzzy
 msgid "Originally from:"
 msgstr "Mostra el contingut original de l'article"
 
-#: include/functions2.php:1394
+#: include/functions2.php:1396
 #: classes/feeds.php:659
 #: classes/pref/feeds.php:569
 #, fuzzy
 msgid "Feed URL"
 msgstr "Canal"
 
-#: include/functions2.php:1428
+#: include/functions2.php:1430
 #: classes/dlg.php:36
 #: classes/dlg.php:59
 #: classes/dlg.php:92
@@ -842,21 +842,21 @@ msgstr "Canal"
 msgid "Close this window"
 msgstr "Tanca la finestra"
 
-#: include/functions2.php:1624
+#: include/functions2.php:1626
 #, fuzzy
 msgid "(edit note)"
 msgstr "edita la nota"
 
-#: include/functions2.php:1870
+#: include/functions2.php:1874
 msgid "unknown type"
 msgstr "tipus desconegut"
 
-#: include/functions2.php:1930
+#: include/functions2.php:1942
 #, fuzzy
 msgid "Attachments"
 msgstr "Adjuncions:"
 
-#: include/functions2.php:2381
+#: include/functions2.php:2394
 #, php-format
 msgid "LibXML error %s at line %d (column %d): %s"
 msgstr ""
@@ -981,6 +981,7 @@ msgstr "Etiquetes per aquest article (separades per comes):"
 #: classes/pref/feeds.php:773
 #: classes/pref/feeds.php:900
 #: plugins/nsfw/init.php:85
+#: plugins/mail/init.php:64
 #: plugins/note/init.php:51
 #: plugins/instances/init.php:245
 msgid "Save"
@@ -1002,7 +1003,7 @@ msgstr "Desa"
 #: classes/pref/feeds.php:774
 #: classes/pref/feeds.php:903
 #: classes/pref/feeds.php:1817
-#: plugins/mail/init.php:129
+#: plugins/mail/init.php:181
 #: plugins/note/init.php:53
 #: plugins/instances/init.php:248
 #: plugins/instances/init.php:436
@@ -1308,7 +1309,7 @@ msgstr "Per defecte"
 #: classes/feeds.php:119
 #: classes/feeds.php:124
 #: plugins/mailto/init.php:25
-#: plugins/mail/init.php:26
+#: plugins/mail/init.php:75
 #, fuzzy
 msgid "Forward by email"
 msgstr "Marca l'article"
@@ -2700,13 +2701,13 @@ msgstr "La contrasenya antiga és incorrecta."
 
 #: plugins/mailto/init.php:49
 #: plugins/mailto/init.php:55
-#: plugins/mail/init.php:64
-#: plugins/mail/init.php:70
+#: plugins/mail/init.php:112
+#: plugins/mail/init.php:118
 msgid "[Forwarded]"
 msgstr ""
 
 #: plugins/mailto/init.php:49
-#: plugins/mail/init.php:64
+#: plugins/mail/init.php:112
 #, fuzzy
 msgid "Multiple articles"
 msgstr "Tots els articles"
@@ -2817,21 +2818,33 @@ msgstr "Desa"
 msgid "No file uploaded."
 msgstr "No hi ha cap fitxer OPML per a carregar."
 
-#: plugins/mail/init.php:90
+#: plugins/mail/init.php:28
+msgid "Mail addresses saved."
+msgstr ""
+
+#: plugins/mail/init.php:34
+msgid "Mail plugin"
+msgstr ""
+
+#: plugins/mail/init.php:36
+msgid "You can set predefined email addressed here (comma-separated list):"
+msgstr ""
+
+#: plugins/mail/init.php:138
 msgid "From:"
 msgstr ""
 
-#: plugins/mail/init.php:99
+#: plugins/mail/init.php:149
 #, fuzzy
 msgid "To:"
 msgstr "Dalt"
 
-#: plugins/mail/init.php:112
+#: plugins/mail/init.php:164
 #, fuzzy
 msgid "Subject:"
 msgstr "Selecciona:"
 
-#: plugins/mail/init.php:128
+#: plugins/mail/init.php:180
 #, fuzzy
 msgid "Send e-mail"
 msgstr "Canvieu l'adreça electrònica"
@@ -3597,155 +3610,155 @@ msgstr "S'estan canviant la puntuació dels articles"
 msgid "New version available!"
 msgstr "Hi ha una nova versió de Tiny Tiny RSS!"
 
-#: js/viewfeed.js:113
+#: js/viewfeed.js:114
 #, fuzzy
 msgid "Cancel search"
 msgstr "Cancel·la"
 
-#: js/viewfeed.js:471
+#: js/viewfeed.js:472
 msgid "Unstar article"
 msgstr "Treu la marca de l'article"
 
-#: js/viewfeed.js:475
+#: js/viewfeed.js:476
 msgid "Star article"
 msgstr "Marca l'article"
 
-#: js/viewfeed.js:529
+#: js/viewfeed.js:530
 msgid "Unpublish article"
 msgstr "Deixa de publicar l'article"
 
-#: js/viewfeed.js:533
+#: js/viewfeed.js:534
 msgid "Publish article"
 msgstr "Publica l'article"
 
-#: js/viewfeed.js:685
+#: js/viewfeed.js:686
 #, fuzzy
 msgid "%d article selected"
 msgid_plural "%d articles selected"
 msgstr[0] "No hi ha cap article seleccionat."
 msgstr[1] "No hi ha cap article seleccionat."
 
-#: js/viewfeed.js:757
-#: js/viewfeed.js:785
-#: js/viewfeed.js:812
-#: js/viewfeed.js:877
-#: js/viewfeed.js:911
-#: js/viewfeed.js:1033
-#: js/viewfeed.js:1076
-#: js/viewfeed.js:1129
-#: js/viewfeed.js:2255
+#: js/viewfeed.js:758
+#: js/viewfeed.js:786
+#: js/viewfeed.js:813
+#: js/viewfeed.js:878
+#: js/viewfeed.js:912
+#: js/viewfeed.js:1034
+#: js/viewfeed.js:1077
+#: js/viewfeed.js:1130
+#: js/viewfeed.js:2272
 #: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "No hi ha cap article seleccionat."
 
-#: js/viewfeed.js:1041
+#: js/viewfeed.js:1042
 #, fuzzy
 msgid "Delete %d selected article in %s?"
 msgid_plural "Delete %d selected articles in %s?"
 msgstr[0] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 msgstr[1] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 
-#: js/viewfeed.js:1043
+#: js/viewfeed.js:1044
 #, fuzzy
 msgid "Delete %d selected article?"
 msgid_plural "Delete %d selected articles?"
 msgstr[0] "Esteu segur que voleu eliminar els articles seleccionats de l'etiqueta?"
 msgstr[1] "Esteu segur que voleu eliminar els articles seleccionats de l'etiqueta?"
 
-#: js/viewfeed.js:1085
+#: js/viewfeed.js:1086
 #, fuzzy
 msgid "Archive %d selected article in %s?"
 msgid_plural "Archive %d selected articles in %s?"
 msgstr[0] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 msgstr[1] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 
-#: js/viewfeed.js:1088
+#: js/viewfeed.js:1089
 #, fuzzy
 msgid "Move %d archived article back?"
 msgid_plural "Move %d archived articles back?"
 msgstr[0] "Articles marcats"
 msgstr[1] "Articles marcats"
 
-#: js/viewfeed.js:1090
+#: js/viewfeed.js:1091
 msgid "Please note that unstarred articles might get purged on next feed update."
 msgstr ""
 
-#: js/viewfeed.js:1135
+#: js/viewfeed.js:1136
 #, fuzzy
 msgid "Mark %d selected article in %s as read?"
 msgid_plural "Mark %d selected articles in %s as read?"
 msgstr[0] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 msgstr[1] "Esteu segur que voleu marcar els %d articles seleccionats de %s com a llegits?"
 
-#: js/viewfeed.js:1159
+#: js/viewfeed.js:1160
 #, fuzzy
 msgid "Edit article Tags"
 msgstr "Edita les etiquetes"
 
-#: js/viewfeed.js:1165
+#: js/viewfeed.js:1166
 msgid "Saving article tags..."
 msgstr "S'estan desant les etiquetes de l'article"
 
-#: js/viewfeed.js:1404
+#: js/viewfeed.js:1421
 msgid "No article is selected."
 msgstr "No hi ha cap article seleccionat."
 
-#: js/viewfeed.js:1439
+#: js/viewfeed.js:1456
 msgid "No articles found to mark"
 msgstr "No s'han trobat articles per a marcar."
 
-#: js/viewfeed.js:1441
+#: js/viewfeed.js:1458
 #, fuzzy
 msgid "Mark %d article as read?"
 msgid_plural "Mark %d articles as read?"
 msgstr[0] "Esteu segur que voleu marcar  %d article(s) com a llegit(s) ?"
 msgstr[1] "Esteu segur que voleu marcar  %d article(s) com a llegit(s) ?"
 
-#: js/viewfeed.js:1950
+#: js/viewfeed.js:1967
 #, fuzzy
 msgid "Open original article"
 msgstr "Mostra el contingut original de l'article"
 
-#: js/viewfeed.js:1956
+#: js/viewfeed.js:1973
 #, fuzzy
 msgid "Display article URL"
 msgstr "afficher les étiquettes"
 
-#: js/viewfeed.js:2056
+#: js/viewfeed.js:2073
 msgid "Assign label"
 msgstr "Assigna-li l'etiqueta"
 
-#: js/viewfeed.js:2061
+#: js/viewfeed.js:2078
 #, fuzzy
 msgid "Remove label"
 msgstr "Esteu segur que voleu suprimir les etiquetes seleccionades?"
 
-#: js/viewfeed.js:2148
+#: js/viewfeed.js:2165
 #, fuzzy
 msgid "Select articles in group"
 msgstr "Seleccioneu un article mitjançant el ratolí."
 
-#: js/viewfeed.js:2157
+#: js/viewfeed.js:2174
 #, fuzzy
 msgid "Mark group as read"
 msgstr "Marca'l com a llegit"
 
-#: js/viewfeed.js:2169
+#: js/viewfeed.js:2186
 msgid "Mark feed as read"
 msgstr "Marca el canal com a llegit"
 
-#: js/viewfeed.js:2224
+#: js/viewfeed.js:2241
 #, fuzzy
 msgid "Please enter new score for selected articles:"
 msgstr "Si us plau, escriviu una nota per aquest article:"
 
-#: js/viewfeed.js:2266
+#: js/viewfeed.js:2283
 #, fuzzy
 msgid "Please enter new score for this article:"
 msgstr "Si us plau, escriviu una nota per aquest article:"
 
-#: js/viewfeed.js:2299
+#: js/viewfeed.js:2316
 #, fuzzy
 msgid "Article URL:"
 msgstr "Tots els articles"

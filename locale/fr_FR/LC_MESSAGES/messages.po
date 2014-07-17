@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-18 16:09+0400\n"
+"POT-Creation-Date: 2014-07-17 20:09+0400\n"
 "PO-Revision-Date: 2014-05-21 23:53+0200\n"
 "Last-Translator: Étienne Gilli <etienne.gilli@gmail.com>\n"
 "Language-Team: French\n"
@@ -185,8 +185,8 @@ msgstr "Le test d'échappement SQL a échoué, veuillez vérifier votre configur
 #: js/prefs.js:1794
 #: js/tt-rss.js:510
 #: js/tt-rss.js:527
-#: js/viewfeed.js:854
-#: js/viewfeed.js:1311
+#: js/viewfeed.js:855
+#: js/viewfeed.js:1312
 #: plugins/import_export/import_export.js:17
 #: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
@@ -545,17 +545,17 @@ msgid "Article"
 msgstr "Article"
 
 #: include/functions2.php:60
-#: js/viewfeed.js:1975
+#: js/viewfeed.js:1992
 msgid "Toggle starred"
 msgstr "Marquer comme (non) remarquable"
 
 #: include/functions2.php:61
-#: js/viewfeed.js:1986
+#: js/viewfeed.js:2003
 msgid "Toggle published"
 msgstr "Marquer comme (non) publié"
 
 #: include/functions2.php:62
-#: js/viewfeed.js:1964
+#: js/viewfeed.js:1981
 msgid "Toggle unread"
 msgstr "Marquer comme (non) lu"
 
@@ -576,12 +576,12 @@ msgid "Open in new window"
 msgstr "Ouvrir dans une nouvelle fenêtre"
 
 #: include/functions2.php:67
-#: js/viewfeed.js:2005
+#: js/viewfeed.js:2022
 msgid "Mark below as read"
 msgstr "Marquer les articles en-dessous comme lus"
 
 #: include/functions2.php:68
-#: js/viewfeed.js:1999
+#: js/viewfeed.js:2016
 msgid "Mark above as read"
 msgstr "Marquer les articles au-dessus comme lus"
 
@@ -733,50 +733,50 @@ msgstr "Ouvrir/fermer la barre latérale"
 msgid "Show help dialog"
 msgstr "Afficher la fenêtre d'aide"
 
-#: include/functions2.php:649
+#: include/functions2.php:651
 #, php-format
 msgid "Search results: %s"
 msgstr "Résultats de recherche : %s"
 
-#: include/functions2.php:1261
+#: include/functions2.php:1263
 #: classes/feeds.php:708
 msgid "comment"
 msgid_plural "comments"
 msgstr[0] "Commentaire"
 msgstr[1] "Commentaires"
 
-#: include/functions2.php:1265
+#: include/functions2.php:1267
 #: classes/feeds.php:712
 msgid "comments"
 msgstr "Commentaires"
 
-#: include/functions2.php:1306
+#: include/functions2.php:1308
 msgid " - "
 msgstr " - "
 
-#: include/functions2.php:1339
-#: include/functions2.php:1587
+#: include/functions2.php:1341
+#: include/functions2.php:1589
 #: classes/article.php:280
 msgid "no tags"
 msgstr "aucun tag"
 
-#: include/functions2.php:1349
+#: include/functions2.php:1351
 #: classes/feeds.php:694
 msgid "Edit tags for this article"
 msgstr "Modifier les tags pour cet article"
 
-#: include/functions2.php:1381
+#: include/functions2.php:1383
 #: classes/feeds.php:646
 msgid "Originally from:"
 msgstr "Origine :"
 
-#: include/functions2.php:1394
+#: include/functions2.php:1396
 #: classes/feeds.php:659
 #: classes/pref/feeds.php:569
 msgid "Feed URL"
 msgstr "URL du flux"
 
-#: include/functions2.php:1428
+#: include/functions2.php:1430
 #: classes/dlg.php:36
 #: classes/dlg.php:59
 #: classes/dlg.php:92
@@ -799,19 +799,19 @@ msgstr "URL du flux"
 msgid "Close this window"
 msgstr "Fermer cette fenêtre"
 
-#: include/functions2.php:1624
+#: include/functions2.php:1626
 msgid "(edit note)"
 msgstr "(modifier l'annotation)"
 
-#: include/functions2.php:1870
+#: include/functions2.php:1874
 msgid "unknown type"
 msgstr "type inconnu"
 
-#: include/functions2.php:1930
+#: include/functions2.php:1942
 msgid "Attachments"
 msgstr "Fichier attaché"
 
-#: include/functions2.php:2381
+#: include/functions2.php:2394
 #, php-format
 msgid "LibXML error %s at line %d (column %d): %s"
 msgstr "Erreur LibXML %s ligne %d (colonne %d): %s"
@@ -927,6 +927,7 @@ msgstr "Tags pour cet article (séparés par des virgules) :"
 #: classes/pref/feeds.php:773
 #: classes/pref/feeds.php:900
 #: plugins/nsfw/init.php:85
+#: plugins/mail/init.php:64
 #: plugins/note/init.php:51
 #: plugins/instances/init.php:245
 msgid "Save"
@@ -948,7 +949,7 @@ msgstr "Enregistrer"
 #: classes/pref/feeds.php:774
 #: classes/pref/feeds.php:903
 #: classes/pref/feeds.php:1817
-#: plugins/mail/init.php:129
+#: plugins/mail/init.php:181
 #: plugins/note/init.php:53
 #: plugins/instances/init.php:248
 #: plugins/instances/init.php:436
@@ -1234,7 +1235,7 @@ msgstr "Supprimer"
 #: classes/feeds.php:119
 #: classes/feeds.php:124
 #: plugins/mailto/init.php:25
-#: plugins/mail/init.php:26
+#: plugins/mail/init.php:75
 msgid "Forward by email"
 msgstr "Transférer par email"
 
@@ -2518,13 +2519,13 @@ msgstr "L'ancien mot de passe n'est pas correct."
 
 #: plugins/mailto/init.php:49
 #: plugins/mailto/init.php:55
-#: plugins/mail/init.php:64
-#: plugins/mail/init.php:70
+#: plugins/mail/init.php:112
+#: plugins/mail/init.php:118
 msgid "[Forwarded]"
 msgstr "[Transféré]"
 
 #: plugins/mailto/init.php:49
-#: plugins/mail/init.php:64
+#: plugins/mail/init.php:112
 msgid "Multiple articles"
 msgstr "Articles multiples"
 
@@ -2627,19 +2628,32 @@ msgstr "Préparer les données"
 msgid "No file uploaded."
 msgstr "Aucun fichier envoyé."
 
-#: plugins/mail/init.php:90
+#: plugins/mail/init.php:28
+msgid "Mail addresses saved."
+msgstr ""
+
+#: plugins/mail/init.php:34
+#, fuzzy
+msgid "Mail plugin"
+msgstr "Plugins utilisateur"
+
+#: plugins/mail/init.php:36
+msgid "You can set predefined email addressed here (comma-separated list):"
+msgstr ""
+
+#: plugins/mail/init.php:138
 msgid "From:"
 msgstr "De :"
 
-#: plugins/mail/init.php:99
+#: plugins/mail/init.php:149
 msgid "To:"
 msgstr "À :"
 
-#: plugins/mail/init.php:112
+#: plugins/mail/init.php:164
 msgid "Subject:"
 msgstr "Sujet :"
 
-#: plugins/mail/init.php:128
+#: plugins/mail/init.php:180
 msgid "Send e-mail"
 msgstr "Envoyer le mail"
 
@@ -3332,139 +3346,139 @@ msgstr "Recalcul des scores des articles..."
 msgid "New version available!"
 msgstr "Une nouvelle version est disponible !"
 
-#: js/viewfeed.js:113
+#: js/viewfeed.js:114
 msgid "Cancel search"
 msgstr "Annuler la recherche"
 
-#: js/viewfeed.js:471
+#: js/viewfeed.js:472
 msgid "Unstar article"
 msgstr "Ne plus marquer comme remarquable"
 
-#: js/viewfeed.js:475
+#: js/viewfeed.js:476
 msgid "Star article"
 msgstr "Marquer comme remarquable"
 
-#: js/viewfeed.js:529
+#: js/viewfeed.js:530
 msgid "Unpublish article"
 msgstr "Ne plus publier l'article"
 
-#: js/viewfeed.js:533
+#: js/viewfeed.js:534
 msgid "Publish article"
 msgstr "Publier l'article"
 
-#: js/viewfeed.js:685
+#: js/viewfeed.js:686
 msgid "%d article selected"
 msgid_plural "%d articles selected"
 msgstr[0] "%d article sélectionné"
 msgstr[1] "%d articles sélectionnés"
 
-#: js/viewfeed.js:757
-#: js/viewfeed.js:785
-#: js/viewfeed.js:812
-#: js/viewfeed.js:877
-#: js/viewfeed.js:911
-#: js/viewfeed.js:1033
-#: js/viewfeed.js:1076
-#: js/viewfeed.js:1129
-#: js/viewfeed.js:2255
+#: js/viewfeed.js:758
+#: js/viewfeed.js:786
+#: js/viewfeed.js:813
+#: js/viewfeed.js:878
+#: js/viewfeed.js:912
+#: js/viewfeed.js:1034
+#: js/viewfeed.js:1077
+#: js/viewfeed.js:1130
+#: js/viewfeed.js:2272
 #: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "Aucun article sélectionné."
 
-#: js/viewfeed.js:1041
+#: js/viewfeed.js:1042
 msgid "Delete %d selected article in %s?"
 msgid_plural "Delete %d selected articles in %s?"
 msgstr[0] "Supprimer %d article sélectionné de %s ?"
 msgstr[1] "Supprimer les %d articles sélectionnés de %s ?"
 
-#: js/viewfeed.js:1043
+#: js/viewfeed.js:1044
 msgid "Delete %d selected article?"
 msgid_plural "Delete %d selected articles?"
 msgstr[0] "Supprimer %d article sélectionné ?"
 msgstr[1] "Supprimer les %d articles sélectionnés ?"
 
-#: js/viewfeed.js:1085
+#: js/viewfeed.js:1086
 msgid "Archive %d selected article in %s?"
 msgid_plural "Archive %d selected articles in %s?"
 msgstr[0] "Archiver %d article sélectionné de %s ?"
 msgstr[1] "Archiver les %d articles sélectionnés de %s ?"
 
-#: js/viewfeed.js:1088
+#: js/viewfeed.js:1089
 msgid "Move %d archived article back?"
 msgid_plural "Move %d archived articles back?"
 msgstr[0] "Restaurer %d article archivé ?"
 msgstr[1] "Restaurer %d articles archivés ?"
 
-#: js/viewfeed.js:1090
+#: js/viewfeed.js:1091
 msgid "Please note that unstarred articles might get purged on next feed update."
 msgstr "Veuillez noter que les articles non marqués risquent d'être purgés à la prochaine mise à jour du flux."
 
-#: js/viewfeed.js:1135
+#: js/viewfeed.js:1136
 msgid "Mark %d selected article in %s as read?"
 msgid_plural "Mark %d selected articles in %s as read?"
 msgstr[0] "Marquer %d article sélectionné de %s comme lu ?"
 msgstr[1] "Marquer %d articles sélectionnés de %s comme lus ?"
 
-#: js/viewfeed.js:1159
+#: js/viewfeed.js:1160
 msgid "Edit article Tags"
 msgstr "Modifier les tags de l'article"
 
-#: js/viewfeed.js:1165
+#: js/viewfeed.js:1166
 msgid "Saving article tags..."
 msgstr "Sauvegarde des tags de l'article..."
 
-#: js/viewfeed.js:1404
+#: js/viewfeed.js:1421
 msgid "No article is selected."
 msgstr "Aucun article sélectionné."
 
-#: js/viewfeed.js:1439
+#: js/viewfeed.js:1456
 msgid "No articles found to mark"
 msgstr "Aucun article à marquer"
 
-#: js/viewfeed.js:1441
+#: js/viewfeed.js:1458
 msgid "Mark %d article as read?"
 msgid_plural "Mark %d articles as read?"
 msgstr[0] "Marquer %d article comme lu ?"
 msgstr[1] "Marquer %d articles comme lus ?"
 
-#: js/viewfeed.js:1950
+#: js/viewfeed.js:1967
 msgid "Open original article"
 msgstr "Ouvrir l'article original"
 
-#: js/viewfeed.js:1956
+#: js/viewfeed.js:1973
 msgid "Display article URL"
 msgstr "Afficher l'URL"
 
-#: js/viewfeed.js:2056
+#: js/viewfeed.js:2073
 msgid "Assign label"
 msgstr "Assigner l'étiquette"
 
-#: js/viewfeed.js:2061
+#: js/viewfeed.js:2078
 msgid "Remove label"
 msgstr "Supprimer l'étiquette"
 
-#: js/viewfeed.js:2148
+#: js/viewfeed.js:2165
 msgid "Select articles in group"
 msgstr "Sélectionner les articles du groupe"
 
-#: js/viewfeed.js:2157
+#: js/viewfeed.js:2174
 msgid "Mark group as read"
 msgstr "Marquer le groupe comme lu"
 
-#: js/viewfeed.js:2169
+#: js/viewfeed.js:2186
 msgid "Mark feed as read"
 msgstr "Marquer le flux comme lu"
 
-#: js/viewfeed.js:2224
+#: js/viewfeed.js:2241
 msgid "Please enter new score for selected articles:"
 msgstr "Nouveau score des articles sélectionnés :"
 
-#: js/viewfeed.js:2266
+#: js/viewfeed.js:2283
 msgid "Please enter new score for this article:"
 msgstr "Nouveau score pour cet article :"
 
-#: js/viewfeed.js:2299
+#: js/viewfeed.js:2316
 msgid "Article URL:"
 msgstr "URL de l'article :"
 

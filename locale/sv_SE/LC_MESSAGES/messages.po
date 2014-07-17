@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS sv_SE\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-18 16:09+0400\n"
+"POT-Creation-Date: 2014-07-17 20:09+0400\n"
 "PO-Revision-Date: 2013-05-24 19:41+0100\n"
 "Last-Translator: Mattias Tengblad <mst@eyesx.com>\n"
 "Language-Team: Mattias Tengblad <mst@eyesx.com>\n"
@@ -185,8 +185,8 @@ msgstr "Test för \"SQL escaping\" misslyckades, kontrollera databas och PHP-kon
 #: js/prefs.js:1794
 #: js/tt-rss.js:510
 #: js/tt-rss.js:527
-#: js/viewfeed.js:854
-#: js/viewfeed.js:1311
+#: js/viewfeed.js:855
+#: js/viewfeed.js:1312
 #: plugins/import_export/import_export.js:17
 #: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
@@ -545,17 +545,17 @@ msgid "Article"
 msgstr "Artikel"
 
 #: include/functions2.php:60
-#: js/viewfeed.js:1975
+#: js/viewfeed.js:1992
 msgid "Toggle starred"
 msgstr "Växla stjärnmarkering"
 
 #: include/functions2.php:61
-#: js/viewfeed.js:1986
+#: js/viewfeed.js:2003
 msgid "Toggle published"
 msgstr "Växla publicering"
 
 #: include/functions2.php:62
-#: js/viewfeed.js:1964
+#: js/viewfeed.js:1981
 msgid "Toggle unread"
 msgstr "Växla olästa"
 
@@ -576,12 +576,12 @@ msgid "Open in new window"
 msgstr "Öppna i nytt fönster"
 
 #: include/functions2.php:67
-#: js/viewfeed.js:2005
+#: js/viewfeed.js:2022
 msgid "Mark below as read"
 msgstr "Märk nedanstående som lästa"
 
 #: include/functions2.php:68
-#: js/viewfeed.js:1999
+#: js/viewfeed.js:2016
 msgid "Mark above as read"
 msgstr "Märk ovanstående som lästa"
 
@@ -733,12 +733,12 @@ msgstr "Visa/dölj sidofält"
 msgid "Show help dialog"
 msgstr "Visa hjälpfönster"
 
-#: include/functions2.php:649
+#: include/functions2.php:651
 #, php-format
 msgid "Search results: %s"
 msgstr "Sökresultat: %s"
 
-#: include/functions2.php:1261
+#: include/functions2.php:1263
 #: classes/feeds.php:708
 #, fuzzy
 msgid "comment"
@@ -746,39 +746,39 @@ msgid_plural "comments"
 msgstr[0] "Kommentarer?"
 msgstr[1] "Kommentarer?"
 
-#: include/functions2.php:1265
+#: include/functions2.php:1267
 #: classes/feeds.php:712
 #, fuzzy
 msgid "comments"
 msgstr "Kommentarer?"
 
-#: include/functions2.php:1306
+#: include/functions2.php:1308
 msgid " - "
 msgstr " - "
 
-#: include/functions2.php:1339
-#: include/functions2.php:1587
+#: include/functions2.php:1341
+#: include/functions2.php:1589
 #: classes/article.php:280
 msgid "no tags"
 msgstr "Inga taggar"
 
-#: include/functions2.php:1349
+#: include/functions2.php:1351
 #: classes/feeds.php:694
 msgid "Edit tags for this article"
 msgstr "Redigera taggar för denna artikel"
 
-#: include/functions2.php:1381
+#: include/functions2.php:1383
 #: classes/feeds.php:646
 msgid "Originally from:"
 msgstr "Ursprungligen från:"
 
-#: include/functions2.php:1394
+#: include/functions2.php:1396
 #: classes/feeds.php:659
 #: classes/pref/feeds.php:569
 msgid "Feed URL"
 msgstr "URL för flöde"
 
-#: include/functions2.php:1428
+#: include/functions2.php:1430
 #: classes/dlg.php:36
 #: classes/dlg.php:59
 #: classes/dlg.php:92
@@ -801,19 +801,19 @@ msgstr "URL för flöde"
 msgid "Close this window"
 msgstr "Stäng fönstret"
 
-#: include/functions2.php:1624
+#: include/functions2.php:1626
 msgid "(edit note)"
 msgstr "(Redigera notering)"
 
-#: include/functions2.php:1870
+#: include/functions2.php:1874
 msgid "unknown type"
 msgstr "Okänd typ"
 
-#: include/functions2.php:1930
+#: include/functions2.php:1942
 msgid "Attachments"
 msgstr "Bilagor"
 
-#: include/functions2.php:2381
+#: include/functions2.php:2394
 #, php-format
 msgid "LibXML error %s at line %d (column %d): %s"
 msgstr "LibXML-fel %s på rad %d (kolumn %d): %s"
@@ -933,6 +933,7 @@ msgstr "Taggar för denna artikel (kommaseparerade):"
 #: classes/pref/feeds.php:773
 #: classes/pref/feeds.php:900
 #: plugins/nsfw/init.php:85
+#: plugins/mail/init.php:64
 #: plugins/note/init.php:51
 #: plugins/instances/init.php:245
 msgid "Save"
@@ -954,7 +955,7 @@ msgstr "Spara"
 #: classes/pref/feeds.php:774
 #: classes/pref/feeds.php:903
 #: classes/pref/feeds.php:1817
-#: plugins/mail/init.php:129
+#: plugins/mail/init.php:181
 #: plugins/note/init.php:53
 #: plugins/instances/init.php:248
 #: plugins/instances/init.php:436
@@ -1242,7 +1243,7 @@ msgstr "Radera"
 #: classes/feeds.php:119
 #: classes/feeds.php:124
 #: plugins/mailto/init.php:25
-#: plugins/mail/init.php:26
+#: plugins/mail/init.php:75
 msgid "Forward by email"
 msgstr "Skicka med e-post"
 
@@ -2530,13 +2531,13 @@ msgstr "Felaktigt gammalt lösenord."
 
 #: plugins/mailto/init.php:49
 #: plugins/mailto/init.php:55
-#: plugins/mail/init.php:64
-#: plugins/mail/init.php:70
+#: plugins/mail/init.php:112
+#: plugins/mail/init.php:118
 msgid "[Forwarded]"
 msgstr "[Vidarebefordrat]"
 
 #: plugins/mailto/init.php:49
-#: plugins/mail/init.php:64
+#: plugins/mail/init.php:112
 msgid "Multiple articles"
 msgstr "Flera artiklar"
 
@@ -2640,19 +2641,32 @@ msgstr "Förbered data"
 msgid "No file uploaded."
 msgstr "Ingen fil uppladdad."
 
-#: plugins/mail/init.php:90
+#: plugins/mail/init.php:28
+msgid "Mail addresses saved."
+msgstr ""
+
+#: plugins/mail/init.php:34
+#, fuzzy
+msgid "Mail plugin"
+msgstr "Användartillägg"
+
+#: plugins/mail/init.php:36
+msgid "You can set predefined email addressed here (comma-separated list):"
+msgstr ""
+
+#: plugins/mail/init.php:138
 msgid "From:"
 msgstr "Från:"
 
-#: plugins/mail/init.php:99
+#: plugins/mail/init.php:149
 msgid "To:"
 msgstr "Till:"
 
-#: plugins/mail/init.php:112
+#: plugins/mail/init.php:164
 msgid "Subject:"
 msgstr "Ämne:"
 
-#: plugins/mail/init.php:128
+#: plugins/mail/init.php:180
 msgid "Send e-mail"
 msgstr "Skicka e-post"
 
@@ -3349,141 +3363,141 @@ msgstr "Räknar om artikelpoäng..."
 msgid "New version available!"
 msgstr "Ny version tillgänglig!"
 
-#: js/viewfeed.js:113
+#: js/viewfeed.js:114
 msgid "Cancel search"
 msgstr "Avbryt sökning"
 
-#: js/viewfeed.js:471
+#: js/viewfeed.js:472
 msgid "Unstar article"
 msgstr "Ta bort stjärnmarkering från artikeln"
 
-#: js/viewfeed.js:475
+#: js/viewfeed.js:476
 msgid "Star article"
 msgstr "Stjärnmärk artikel"
 
-#: js/viewfeed.js:529
+#: js/viewfeed.js:530
 msgid "Unpublish article"
 msgstr "Avpublicera artikeln"
 
-#: js/viewfeed.js:533
+#: js/viewfeed.js:534
 msgid "Publish article"
 msgstr "Publicera artikel"
 
-#: js/viewfeed.js:685
+#: js/viewfeed.js:686
 msgid "%d article selected"
 msgid_plural "%d articles selected"
 msgstr[0] "%d artikel vald"
 msgstr[1] "%d artiklar valda"
 
-#: js/viewfeed.js:757
-#: js/viewfeed.js:785
-#: js/viewfeed.js:812
-#: js/viewfeed.js:877
-#: js/viewfeed.js:911
-#: js/viewfeed.js:1033
-#: js/viewfeed.js:1076
-#: js/viewfeed.js:1129
-#: js/viewfeed.js:2255
+#: js/viewfeed.js:758
+#: js/viewfeed.js:786
+#: js/viewfeed.js:813
+#: js/viewfeed.js:878
+#: js/viewfeed.js:912
+#: js/viewfeed.js:1034
+#: js/viewfeed.js:1077
+#: js/viewfeed.js:1130
+#: js/viewfeed.js:2272
 #: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "Inga artiklar valda."
 
-#: js/viewfeed.js:1041
+#: js/viewfeed.js:1042
 msgid "Delete %d selected article in %s?"
 msgid_plural "Delete %d selected articles in %s?"
 msgstr[0] "Radera %d vald artikel i %s?"
 msgstr[1] "Radera %d valda artiklar i %s?"
 
-#: js/viewfeed.js:1043
+#: js/viewfeed.js:1044
 msgid "Delete %d selected article?"
 msgid_plural "Delete %d selected articles?"
 msgstr[0] "Radera %d vald artikel?"
 msgstr[1] "Radera %d valda artiklar?"
 
-#: js/viewfeed.js:1085
+#: js/viewfeed.js:1086
 msgid "Archive %d selected article in %s?"
 msgid_plural "Archive %d selected articles in %s?"
 msgstr[0] "Arkivera %d vald artikel i %s?"
 msgstr[1] "Arkivera %d valda artiklar i %s?"
 
-#: js/viewfeed.js:1088
+#: js/viewfeed.js:1089
 msgid "Move %d archived article back?"
 msgid_plural "Move %d archived articles back?"
 msgstr[0] "Flytta tillbaka %d arkiverad artikel?"
 msgstr[1] "Flytta tillbaka %d arkiverade artiklar?"
 
-#: js/viewfeed.js:1090
+#: js/viewfeed.js:1091
 msgid "Please note that unstarred articles might get purged on next feed update."
 msgstr "Vänligen notera att icke stjärnmärkta artiklar kanske rensas vid nästa flödesuppdatering."
 
-#: js/viewfeed.js:1135
+#: js/viewfeed.js:1136
 msgid "Mark %d selected article in %s as read?"
 msgid_plural "Mark %d selected articles in %s as read?"
 msgstr[0] "Markera %d vald artikel i %s som läst?"
 msgstr[1] "Markera %d valda artiklar i %s som läst?"
 
-#: js/viewfeed.js:1159
+#: js/viewfeed.js:1160
 msgid "Edit article Tags"
 msgstr "Redigera artikeltaggar"
 
-#: js/viewfeed.js:1165
+#: js/viewfeed.js:1166
 msgid "Saving article tags..."
 msgstr "Sparar artikeltaggar..."
 
-#: js/viewfeed.js:1404
+#: js/viewfeed.js:1421
 msgid "No article is selected."
 msgstr "Ingen artikel vald."
 
-#: js/viewfeed.js:1439
+#: js/viewfeed.js:1456
 msgid "No articles found to mark"
 msgstr "Hittade inga artiklar att flagga"
 
-#: js/viewfeed.js:1441
+#: js/viewfeed.js:1458
 msgid "Mark %d article as read?"
 msgid_plural "Mark %d articles as read?"
 msgstr[0] "Markera %d artikel som läst?"
 msgstr[1] "Markera %d artiklar som lästa?"
 
-#: js/viewfeed.js:1950
+#: js/viewfeed.js:1967
 msgid "Open original article"
 msgstr "Öppna orginalartikeln"
 
-#: js/viewfeed.js:1956
+#: js/viewfeed.js:1973
 msgid "Display article URL"
 msgstr "Visa artikel-URL"
 
-#: js/viewfeed.js:2056
+#: js/viewfeed.js:2073
 msgid "Assign label"
 msgstr "Ange etikett"
 
-#: js/viewfeed.js:2061
+#: js/viewfeed.js:2078
 msgid "Remove label"
 msgstr "Ta bort etikett"
 
-#: js/viewfeed.js:2148
+#: js/viewfeed.js:2165
 #, fuzzy
 msgid "Select articles in group"
 msgstr "Välj artikel under pekare"
 
-#: js/viewfeed.js:2157
+#: js/viewfeed.js:2174
 #, fuzzy
 msgid "Mark group as read"
 msgstr "Markera som läst"
 
-#: js/viewfeed.js:2169
+#: js/viewfeed.js:2186
 msgid "Mark feed as read"
 msgstr "Flagga kanal som läst"
 
-#: js/viewfeed.js:2224
+#: js/viewfeed.js:2241
 msgid "Please enter new score for selected articles:"
 msgstr "Ange ny poäng för markerade artiklar:"
 
-#: js/viewfeed.js:2266
+#: js/viewfeed.js:2283
 msgid "Please enter new score for this article:"
 msgstr "Ange ny poäng för denna artikel:"
 
-#: js/viewfeed.js:2299
+#: js/viewfeed.js:2316
 msgid "Article URL:"
 msgstr "URL för artikel:"
 

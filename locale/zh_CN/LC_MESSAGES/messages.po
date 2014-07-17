@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-18 16:09+0400\n"
+"POT-Creation-Date: 2014-07-17 20:09+0400\n"
 "PO-Revision-Date: 2012-02-14 08:32+0000\n"
 "Last-Translator: Hao Wu\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/tt-rss/language/zh_CN/)\n"
@@ -184,8 +184,8 @@ msgstr "SQL 脱出测试失败，请检查您的数据库和 PHP 设置。"
 #: js/prefs.js:1794
 #: js/tt-rss.js:510
 #: js/tt-rss.js:527
-#: js/viewfeed.js:854
-#: js/viewfeed.js:1311
+#: js/viewfeed.js:855
+#: js/viewfeed.js:1312
 #: plugins/import_export/import_export.js:17
 #: plugins/updater/updater.js:17
 msgid "Loading, please wait..."
@@ -551,17 +551,17 @@ msgid "Article"
 msgstr "全部文章"
 
 #: include/functions2.php:60
-#: js/viewfeed.js:1975
+#: js/viewfeed.js:1992
 msgid "Toggle starred"
 msgstr "锁定加星标的项"
 
 #: include/functions2.php:61
-#: js/viewfeed.js:1986
+#: js/viewfeed.js:2003
 msgid "Toggle published"
 msgstr "锁定发布的项"
 
 #: include/functions2.php:62
-#: js/viewfeed.js:1964
+#: js/viewfeed.js:1981
 msgid "Toggle unread"
 msgstr "锁定未读项"
 
@@ -585,12 +585,12 @@ msgid "Open in new window"
 msgstr "在新窗口打开文章"
 
 #: include/functions2.php:67
-#: js/viewfeed.js:2005
+#: js/viewfeed.js:2022
 msgid "Mark below as read"
 msgstr "将下面文章标为已读"
 
 #: include/functions2.php:68
-#: js/viewfeed.js:1999
+#: js/viewfeed.js:2016
 msgid "Mark above as read"
 msgstr "将上面文章标为已读"
 
@@ -764,51 +764,51 @@ msgstr "收起侧边栏"
 msgid "Show help dialog"
 msgstr "显示帮助对话框"
 
-#: include/functions2.php:649
+#: include/functions2.php:651
 #, php-format
 msgid "Search results: %s"
 msgstr "搜索结果：%s"
 
-#: include/functions2.php:1261
+#: include/functions2.php:1263
 #: classes/feeds.php:708
 #, fuzzy
 msgid "comment"
 msgid_plural "comments"
 msgstr[0] "评论些什么？"
 
-#: include/functions2.php:1265
+#: include/functions2.php:1267
 #: classes/feeds.php:712
 #, fuzzy
 msgid "comments"
 msgstr "评论些什么？"
 
-#: include/functions2.php:1306
+#: include/functions2.php:1308
 msgid " - "
 msgstr " - "
 
-#: include/functions2.php:1339
-#: include/functions2.php:1587
+#: include/functions2.php:1341
+#: include/functions2.php:1589
 #: classes/article.php:280
 msgid "no tags"
 msgstr "无标签"
 
-#: include/functions2.php:1349
+#: include/functions2.php:1351
 #: classes/feeds.php:694
 msgid "Edit tags for this article"
 msgstr "为本文编辑自定义标签"
 
-#: include/functions2.php:1381
+#: include/functions2.php:1383
 #: classes/feeds.php:646
 msgid "Originally from:"
 msgstr "来源："
 
-#: include/functions2.php:1394
+#: include/functions2.php:1396
 #: classes/feeds.php:659
 #: classes/pref/feeds.php:569
 msgid "Feed URL"
 msgstr "信息源 URL"
 
-#: include/functions2.php:1428
+#: include/functions2.php:1430
 #: classes/dlg.php:36
 #: classes/dlg.php:59
 #: classes/dlg.php:92
@@ -831,20 +831,20 @@ msgstr "信息源 URL"
 msgid "Close this window"
 msgstr "关闭本窗口"
 
-#: include/functions2.php:1624
+#: include/functions2.php:1626
 msgid "(edit note)"
 msgstr "（编辑注记）"
 
-#: include/functions2.php:1870
+#: include/functions2.php:1874
 msgid "unknown type"
 msgstr "未知类型"
 
-#: include/functions2.php:1930
+#: include/functions2.php:1942
 #, fuzzy
 msgid "Attachments"
 msgstr "附件："
 
-#: include/functions2.php:2381
+#: include/functions2.php:2394
 #, php-format
 msgid "LibXML error %s at line %d (column %d): %s"
 msgstr ""
@@ -965,6 +965,7 @@ msgstr "本文的标签，请用逗号分开："
 #: classes/pref/feeds.php:773
 #: classes/pref/feeds.php:900
 #: plugins/nsfw/init.php:85
+#: plugins/mail/init.php:64
 #: plugins/note/init.php:51
 #: plugins/instances/init.php:245
 msgid "Save"
@@ -986,7 +987,7 @@ msgstr "保存"
 #: classes/pref/feeds.php:774
 #: classes/pref/feeds.php:903
 #: classes/pref/feeds.php:1817
-#: plugins/mail/init.php:129
+#: plugins/mail/init.php:181
 #: plugins/note/init.php:53
 #: plugins/instances/init.php:248
 #: plugins/instances/init.php:436
@@ -1284,7 +1285,7 @@ msgstr "删除"
 #: classes/feeds.php:119
 #: classes/feeds.php:124
 #: plugins/mailto/init.php:25
-#: plugins/mail/init.php:26
+#: plugins/mail/init.php:75
 msgid "Forward by email"
 msgstr "通过邮件转发"
 
@@ -2617,13 +2618,13 @@ msgstr "原密码输入错误。"
 
 #: plugins/mailto/init.php:49
 #: plugins/mailto/init.php:55
-#: plugins/mail/init.php:64
-#: plugins/mail/init.php:70
+#: plugins/mail/init.php:112
+#: plugins/mail/init.php:118
 msgid "[Forwarded]"
 msgstr "[已转发]"
 
 #: plugins/mailto/init.php:49
-#: plugins/mail/init.php:64
+#: plugins/mail/init.php:112
 msgid "Multiple articles"
 msgstr "多个文章"
 
@@ -2725,19 +2726,32 @@ msgstr "准备数据"
 msgid "No file uploaded."
 msgstr "没有文件上传。"
 
-#: plugins/mail/init.php:90
+#: plugins/mail/init.php:28
+msgid "Mail addresses saved."
+msgstr ""
+
+#: plugins/mail/init.php:34
+#, fuzzy
+msgid "Mail plugin"
+msgstr "用户插件"
+
+#: plugins/mail/init.php:36
+msgid "You can set predefined email addressed here (comma-separated list):"
+msgstr ""
+
+#: plugins/mail/init.php:138
 msgid "From:"
 msgstr "发信人："
 
-#: plugins/mail/init.php:99
+#: plugins/mail/init.php:149
 msgid "To:"
 msgstr "收信人："
 
-#: plugins/mail/init.php:112
+#: plugins/mail/init.php:164
 msgid "Subject:"
 msgstr "主题："
 
-#: plugins/mail/init.php:128
+#: plugins/mail/init.php:180
 msgid "Send e-mail"
 msgstr "发送邮件"
 
@@ -3481,146 +3495,146 @@ msgstr "为文章重新评分"
 msgid "New version available!"
 msgstr "有可用的新版本啦！"
 
-#: js/viewfeed.js:113
+#: js/viewfeed.js:114
 #, fuzzy
 msgid "Cancel search"
 msgstr "取消"
 
-#: js/viewfeed.js:471
+#: js/viewfeed.js:472
 msgid "Unstar article"
 msgstr "取消星标"
 
-#: js/viewfeed.js:475
+#: js/viewfeed.js:476
 msgid "Star article"
 msgstr "加星标"
 
-#: js/viewfeed.js:529
+#: js/viewfeed.js:530
 msgid "Unpublish article"
 msgstr "取消发布文章"
 
-#: js/viewfeed.js:533
+#: js/viewfeed.js:534
 msgid "Publish article"
 msgstr "发布文章"
 
-#: js/viewfeed.js:685
+#: js/viewfeed.js:686
 #, fuzzy
 msgid "%d article selected"
 msgid_plural "%d articles selected"
 msgstr[0] "未选中任何文章。"
 
-#: js/viewfeed.js:757
-#: js/viewfeed.js:785
-#: js/viewfeed.js:812
-#: js/viewfeed.js:877
-#: js/viewfeed.js:911
-#: js/viewfeed.js:1033
-#: js/viewfeed.js:1076
-#: js/viewfeed.js:1129
-#: js/viewfeed.js:2255
+#: js/viewfeed.js:758
+#: js/viewfeed.js:786
+#: js/viewfeed.js:813
+#: js/viewfeed.js:878
+#: js/viewfeed.js:912
+#: js/viewfeed.js:1034
+#: js/viewfeed.js:1077
+#: js/viewfeed.js:1130
+#: js/viewfeed.js:2272
 #: plugins/mailto/init.js:7
 #: plugins/mail/mail.js:7
 msgid "No articles are selected."
 msgstr "没有选中任何文章。"
 
-#: js/viewfeed.js:1041
+#: js/viewfeed.js:1042
 #, fuzzy
 msgid "Delete %d selected article in %s?"
 msgid_plural "Delete %d selected articles in %s?"
 msgstr[0] "删除 %s 中选择的 %d 篇文章？"
 
-#: js/viewfeed.js:1043
+#: js/viewfeed.js:1044
 #, fuzzy
 msgid "Delete %d selected article?"
 msgid_plural "Delete %d selected articles?"
 msgstr[0] "删除选中的 %d 篇文章？"
 
-#: js/viewfeed.js:1085
+#: js/viewfeed.js:1086
 #, fuzzy
 msgid "Archive %d selected article in %s?"
 msgid_plural "Archive %d selected articles in %s?"
 msgstr[0] "将 %s 中的 %d 篇选中的文章存档？"
 
-#: js/viewfeed.js:1088
+#: js/viewfeed.js:1089
 #, fuzzy
 msgid "Move %d archived article back?"
 msgid_plural "Move %d archived articles back?"
 msgstr[0] "将存档的 %d 篇文章移回原处？"
 
-#: js/viewfeed.js:1090
+#: js/viewfeed.js:1091
 msgid "Please note that unstarred articles might get purged on next feed update."
 msgstr ""
 
-#: js/viewfeed.js:1135
+#: js/viewfeed.js:1136
 #, fuzzy
 msgid "Mark %d selected article in %s as read?"
 msgid_plural "Mark %d selected articles in %s as read?"
 msgstr[0] "将 %s 中选中的 %d 篇文章标记为已读？"
 
-#: js/viewfeed.js:1159
+#: js/viewfeed.js:1160
 msgid "Edit article Tags"
 msgstr "编辑文章的自定义标签"
 
-#: js/viewfeed.js:1165
+#: js/viewfeed.js:1166
 #, fuzzy
 msgid "Saving article tags..."
 msgstr "编辑文章的自定义标签"
 
-#: js/viewfeed.js:1404
+#: js/viewfeed.js:1421
 msgid "No article is selected."
 msgstr "未选中任何文章。"
 
-#: js/viewfeed.js:1439
+#: js/viewfeed.js:1456
 msgid "No articles found to mark"
 msgstr "未找到需要标记的文章"
 
-#: js/viewfeed.js:1441
+#: js/viewfeed.js:1458
 #, fuzzy
 msgid "Mark %d article as read?"
 msgid_plural "Mark %d articles as read?"
 msgstr[0] "将 %d 篇文章标记为已读？"
 
-#: js/viewfeed.js:1950
+#: js/viewfeed.js:1967
 msgid "Open original article"
 msgstr "打开原文"
 
-#: js/viewfeed.js:1956
+#: js/viewfeed.js:1973
 #, fuzzy
 msgid "Display article URL"
 msgstr "显示 URL"
 
-#: js/viewfeed.js:2056
+#: js/viewfeed.js:2073
 msgid "Assign label"
 msgstr "添加预定义标签"
 
-#: js/viewfeed.js:2061
+#: js/viewfeed.js:2078
 msgid "Remove label"
 msgstr "移除预定义标签"
 
-#: js/viewfeed.js:2148
+#: js/viewfeed.js:2165
 #, fuzzy
 msgid "Select articles in group"
 msgstr "选择鼠标指向的文章"
 
-#: js/viewfeed.js:2157
+#: js/viewfeed.js:2174
 #, fuzzy
 msgid "Mark group as read"
 msgstr "标记为已读"
 
-#: js/viewfeed.js:2169
+#: js/viewfeed.js:2186
 msgid "Mark feed as read"
 msgstr "标记信息源为已读"
 
-#: js/viewfeed.js:2224
+#: js/viewfeed.js:2241
 #, fuzzy
 msgid "Please enter new score for selected articles:"
 msgstr "删除选中的 %d 篇文章？"
 
-#: js/viewfeed.js:2266
+#: js/viewfeed.js:2283
 #, fuzzy
 msgid "Please enter new score for this article:"
 msgstr "请填写类别名称："
 
-#: js/viewfeed.js:2299
+#: js/viewfeed.js:2316
 #, fuzzy
 msgid "Article URL:"
 msgstr "全部文章"
