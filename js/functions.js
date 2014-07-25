@@ -204,6 +204,7 @@ function notify_real(msg, no_hide, n_type) {
 		return;
 	} else {
 		Element.show(n);
+		new Effect.Highlight(n);
 	}
 
 	/* types:

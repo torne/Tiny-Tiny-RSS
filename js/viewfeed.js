@@ -108,6 +108,10 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 				initHeadlinesMenu();
 
+				if (_infscroll_disable)
+					hsp.innerHTML = "<a href='#' onclick='openNextUnreadFeed()'>" +
+						__("Click to open next unread feed.") + "</a>";
+
 				if (_search_query) {
 					$("feed_title").innerHTML += "<span id='cancel_search'>" +
 						" (<a href='#' onclick='cancelSearch()'>" + __("Cancel search") + "</a>)" +
@@ -176,7 +180,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					var hsp = $("headlines-spacer");
 
-					if (hsp) hsp.innerHTML = "";
+					if (hsp) hsp.innerHTML = "Click to open next unread feed.";
 				}
 			}
 
@@ -1315,7 +1319,12 @@ function headlines_scroll_handler(e) {
 
 			}
 		} else {
-			if (hsp) hsp.innerHTML = "";
+			if (hsp)
+				if (_infscroll_disable)
+					hsp.innerHTML = "<a href='#' onclick='openNextUnreadFeed()'>" +
+						__("Click to open next unread feed.") + "</a>";
+				else
+					hsp.innerHTML = "";
 		}
 
 		if (isCdmMode()) {
@@ -1361,10 +1370,7 @@ function headlines_scroll_handler(e) {
 					console.log("we seem to be at an end");
 
 					if (getInitParam("on_catchup_show_next_feed") == "1") {
-						var is_cat = activeFeedIsCat();
-						var nuf = getNextUnreadFeed(getActiveFeedId(), is_cat);
-
-						if (nuf) viewfeed(nuf, '', is_cat);
+						openNextUnreadFeed();
 					}
 				}
 			}
@@ -1372,6 +1378,16 @@ function headlines_scroll_handler(e) {
 
 	} catch (e) {
 		console.warn("headlines_scroll_handler: " + e);
+	}
+}
+
+function openNextUnreadFeed() {
+	try {
+		var is_cat = activeFeedIsCat();
+		var nuf = getNextUnreadFeed(getActiveFeedId(), is_cat);
+		if (nuf) viewfeed(nuf, '', is_cat);
+	} catch (e) {
+		exception_error("openNextUnreadFeed", e);
 	}
 }
 
