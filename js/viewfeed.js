@@ -1365,7 +1365,7 @@ function headlines_scroll_handler(e) {
 				var child = $$("#headlines-frame div[id*=RROW]").last();
 
 				if (child && $("headlines-frame").scrollTop >
-						(child.offsetTop + child.offsetHeight/2)) {
+						(child.offsetTop + child.offsetHeight - 50)) {
 
 					console.log("we seem to be at an end");
 
