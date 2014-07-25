@@ -1350,6 +1350,21 @@ function headlines_scroll_handler(e) {
 					catchup_timeout_id = window.setTimeout('catchupBatchedArticles()',
 						500);
 				}
+			} else if (_infscroll_disable) {
+				var child = $$("#headlines-frame div[id*=RROW]").last();
+
+				if (child && $("headlines-frame").scrollTop >
+						(child.offsetTop + child.offsetHeight/2)) {
+
+					console.log("we seem to be at an end");
+
+					if (getInitParam("on_catchup_show_next_feed") == "1") {
+						var is_cat = activeFeedIsCat();
+						var nuf = getNextUnreadFeed(getActiveFeedId(), is_cat);
+
+						if (nuf) viewfeed(nuf, '', is_cat);
+					}
+				}
 			}
 		}
 
