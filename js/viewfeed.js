@@ -1350,7 +1350,9 @@ function headlines_scroll_handler(e) {
 					catchup_timeout_id = window.setTimeout('catchupBatchedArticles()',
 						500);
 				}
-			} else if (_infscroll_disable) {
+			}
+
+			if (_infscroll_disable) {
 				var child = $$("#headlines-frame div[id*=RROW]").last();
 
 				if (child && $("headlines-frame").scrollTop >
