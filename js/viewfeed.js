@@ -8,7 +8,6 @@ var post_under_pointer = false;
 var last_requested_article = false;
 
 var catchup_id_batch = [];
-var catchup_go_next = false;
 var catchup_timeout_id = false;
 
 var cids_requested = [];
@@ -1329,8 +1328,6 @@ function headlines_scroll_handler(e) {
 			var ts = new Date().getTime();
 			if (ts - _last_headlines_update < 100) return;
 
-			var atend = true;
-
 			$$("#headlines-frame > div[id*=RROW][class*=Unread]").each(
 				function(child) {
 					if (child.hasClassName("Unread") && $("headlines-frame").scrollTop >
@@ -1342,17 +1339,9 @@ function headlines_scroll_handler(e) {
 							catchup_id_batch.push(id);
 
 						//console.log("auto_catchup_batch: " + catchup_id_batch.toString());
-					} else {
-						atend = false;
 					}
 
 				});
-
-			if (atend) {
-				if (getInitParam("on_catchup_show_next_feed") == "1") {
-					catchup_go_next = true;
-				}
-			}
 
 			if (catchup_id_batch.length > 0) {
 				window.clearTimeout(catchup_timeout_id);
@@ -1398,12 +1387,6 @@ function catchupBatchedArticles() {
 					updateFloatingTitle(true);
 
 				} });
-		}
-		if (catchup_go_next) {
-			catchup_go_next = false;
-			var is_cat = activeFeedIsCat();
-			var nuf = getNextUnreadFeed(getActiveFeedId(), is_cat);
-			if (nuf) viewfeed(nuf, '', is_cat);
 		}
 
 	} catch (e) {
