@@ -546,6 +546,9 @@ div.whiteBox {
 	text-align : center;
 	padding : 1em 1em 0px 1em;
 	font-size : 11px;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	border-color : #ddd;
 }
 
 div.autocomplete {
@@ -916,8 +919,14 @@ img.feedIcon, img.tinyFeedIcon {
 	font-style : italic;
 }
 
-#headlines-spacer a {
+#headlines-spacer a, #headlines-spacer span {
 	color : #555;
+	padding : 10px;
+	display : block;
+}
+
+#headlines-spacer a:hover {
+	color : #88b0f0;
 }
 
 ul#filterDlg_Matches, ul#filterDlg_Actions {

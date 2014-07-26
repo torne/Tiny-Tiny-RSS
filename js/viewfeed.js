@@ -180,7 +180,8 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					var hsp = $("headlines-spacer");
 
-					if (hsp) hsp.innerHTML = "Click to open next unread feed.";
+					if (hsp) hsp.innerHTML = "<a href='#' onclick='openNextUnreadFeed()'>" +
+						__("Click to open next unread feed.") + "</a>";
 				}
 			}
 
@@ -1311,8 +1312,8 @@ function headlines_scroll_handler(e) {
 					 	((e.scrollTop + e.offsetHeight) / e.scrollHeight >= 0.7))) {
 
 				if (hsp)
-					hsp.innerHTML = "<img src='images/indicator_tiny.gif'> " +
-						__("Loading, please wait...");
+					hsp.innerHTML = "<span class='loading'><img src='images/indicator_tiny.gif'> " +
+						__("Loading, please wait...") + "</span>";
 
 				loadMoreHeadlines();
 				return;
