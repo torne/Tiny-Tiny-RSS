@@ -151,9 +151,9 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
 
-					if (getInitParam("cdm_auto_catchup") == 1) {
+//					if (getInitParam("cdm_auto_catchup") == 1) {
 						c.domNode.appendChild(hsp);
-					}
+//					}
 
 					console.log("added " + new_elems.size() + " headlines");
 
