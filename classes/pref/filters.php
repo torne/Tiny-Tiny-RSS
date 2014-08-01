@@ -164,7 +164,9 @@ class Pref_Filters extends Handler_Protected {
 		while ($line = $this->dbh->fetch_assoc($result)) {
 
 			$where = sql_bool_to_bool($line["cat_filter"]) ?
-				getCategoryTitle($line["cat_id"]) : getFeedTitle($line["feed_id"]);
+				getCategoryTitle($line["cat_id"]) :
+				($line["feed_id"] ?
+					getFeedTitle($line["feed_id"]) : __("All feeds"));
 
 #			$where = $line["cat_id"] . "/" . $line["feed_id"];
 
