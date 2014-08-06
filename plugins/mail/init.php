@@ -182,7 +182,8 @@ class Mail extends Plugin {
 
 		$mail = new ttrssMailer();
 
-		$mail->AddReplyTo(strip_tags($_REQUEST['from_email'], $_REQUEST['from_name']));
+		$mail->AddReplyTo(strip_tags($_REQUEST['from_email']),
+			strip_tags($_REQUEST['from_name']));
 		//$mail->AddAddress($_REQUEST['destination']);
 		$addresses = explode(';', $_REQUEST['destination']);
 		foreach($addresses as $nextaddr)
