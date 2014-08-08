@@ -32,8 +32,6 @@ class Af_Fsckportal extends Plugin {
 				$xpath = new DOMXPath($doc);
 				$entries = $xpath->query('(//img[@src]|//a[@href])');
 
-				$matches = array();
-
 				foreach ($entries as $entry) {
 					if (preg_match("/feedsportal.com/", $entry->getAttribute("src"))) {
 						$entry->parentNode->removeChild($entry);
@@ -42,7 +40,7 @@ class Af_Fsckportal extends Plugin {
 					}
 				}
 
-				$article["content"] = $doc->saveXML($basenode);
+				$article["content"] = $doc->saveXML();
 				$article["plugin_data"] = "fsckportal,$owner_uid:" . $article["plugin_data"];
 
 			}
