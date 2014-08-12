@@ -10,6 +10,7 @@
 	$fetch_last_error = false;
 	$fetch_last_error_code = false;
 	$fetch_last_content_type = false;
+	$fetch_last_error_content = false; // curl only for the time being
 	$fetch_curl_used = false;
 	$suppress_debugging = false;
 
@@ -348,6 +349,7 @@
 
 		global $fetch_last_error;
 		global $fetch_last_error_code;
+		global $fetch_last_error_content;
 		global $fetch_last_content_type;
 		global $fetch_curl_used;
 
@@ -430,6 +432,7 @@
 				} else {
 					$fetch_last_error = "HTTP Code: $http_code";
 				}
+				$fetch_last_error_content = $contents;
 				curl_close($ch);
 				return false;
 			}
