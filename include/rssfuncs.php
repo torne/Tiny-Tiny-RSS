@@ -687,6 +687,12 @@
 
 				foreach ($pluginhost->get_hooks(PluginHost::HOOK_ARTICLE_FILTER) as $plugin) {
 					$article = $plugin->hook_article_filter($article);
+
+					$article["stored"] = array("title" => $article["title"],
+						"content" => $article["content"],
+						"link" => $article["link"],
+						"tags" => $article["tags"],
+						"author" => $article["author"]);
 				}
 
 				$entry_tags = $article["tags"];
@@ -696,7 +702,6 @@
 				$entry_link = db_escape_string($article["link"]);
 				$entry_plugin_data = db_escape_string($article["plugin_data"]);
 				$entry_content = $article["content"]; // escaped below
-
 
 				_debug("plugin data: $entry_plugin_data", $debug_enabled);
 
