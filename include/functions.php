@@ -64,7 +64,7 @@
 	function get_translations() {
 		$tr = array(
 					"auto"  => "Detect automatically",
-					"ar_SA" => "العربيّة",
+					"ar_SA" => "العربيّة (Arabic)",
 					"da_DA" => "Dansk",
 					"ca_CA" => "Català",
 					"cs_CZ" => "Česky",
