@@ -16,9 +16,6 @@ class Af_Fsckportal extends Plugin {
 	}
 
 	function hook_article_filter($article) {
-		$owner_uid = $article["owner_uid"];
-
-		if (strpos($article["plugin_data"], "fsckportal,$owner_uid:") === FALSE) {
 
 			$doc = new DOMDocument();
 
@@ -41,11 +38,7 @@ class Af_Fsckportal extends Plugin {
 				}
 
 				$article["content"] = $doc->saveXML();
-				$article["plugin_data"] = "fsckportal,$owner_uid:" . $article["plugin_data"];
 
-			}
-		} else if (isset($article["stored"]["content"])) {
-			$article["content"] = $article["stored"]["content"];
 		}
 
 		return $article;

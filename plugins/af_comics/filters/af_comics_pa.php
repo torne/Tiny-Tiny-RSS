@@ -6,10 +6,7 @@ class Af_Comics_Pa extends Af_ComicFilter {
 	}
 
 	function process(&$article) {
-		$owner_uid = $article["owner_uid"];
-
 		if (strpos($article["link"], "penny-arcade.com") !== FALSE && strpos($article["title"], "Comic:") !== FALSE) {
-			if (strpos($article["plugin_data"], "af_comics,$owner_uid:") === FALSE) {
 
 				if ($debug_enabled) {
 					_debug("af_pennyarcade: Processing comic");
@@ -26,18 +23,13 @@ class Af_Comics_Pa extends Af_ComicFilter {
 
 					if ($basenode) {
 						$article["content"] = $doc->saveXML($basenode);
-						$article["plugin_data"] = "af_comics,$owner_uid:" . $article["plugin_data"];
 					}
 				}
-			} else if (isset($article["stored"]["content"])) {
-				$article["content"] = $article["stored"]["content"];
-			}
 
 			return true;
 		}
 
 		if (strpos($article["link"], "penny-arcade.com") !== FALSE && strpos($article["title"], "News Post:") !== FALSE) {
-			if (strpos($article["plugin_data"], "af_comics,$owner_uid:") === FALSE) {
 				if ($debug_enabled) {
 					_debug("af_pennyarcade: Processing news post");
 				}
@@ -73,12 +65,8 @@ class Af_Comics_Pa extends Af_ComicFilter {
 
 					if ($basenode){
 						$article["content"] = $doc->saveXML($basenode);
-						$article["plugin_data"] = "af_comics,$owner_uid:" . $article["plugin_data"];
 					}
 				}
-			} else if (isset($article["stored"]["content"])) {
-				$article["content"] = $article["stored"]["content"];
-			}
 
 			return true;
 		}

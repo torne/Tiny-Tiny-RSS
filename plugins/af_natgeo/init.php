@@ -19,7 +19,6 @@ class Af_NatGeo extends Plugin {
 		$owner_uid = $article["owner_uid"];
 
 		if (strpos($article["link"], "nationalgeographic.com") !== FALSE) {
-			if (strpos($article["plugin_data"], "natgeo,$owner_uid:") === FALSE) {
 
 				$doc = new DOMDocument();
 				@$doc->loadHTML(fetch_file_contents($article["link"]));
@@ -39,12 +38,8 @@ class Af_NatGeo extends Plugin {
 
 					if ($basenode) {
 						$article["content"] = $doc->saveXML($basenode);
-						$article["plugin_data"] = "natgeo,$owner_uid:" . $article["plugin_data"];
 					}
 				}
-			} else if (isset($article["stored"]["content"])) {
-				$article["content"] = $article["stored"]["content"];
-			}
 		}
 
 		return $article;

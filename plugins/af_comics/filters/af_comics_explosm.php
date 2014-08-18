@@ -9,7 +9,6 @@ class Af_Comics_Explosm extends Af_ComicFilter {
 		$owner_uid = $article["owner_uid"];
 
 		if (strpos($article["link"], "explosm.net/comics") !== FALSE) {
-			if (strpos($article["plugin_data"], "af_comics,$owner_uid:") === FALSE) {
 
 				$doc = new DOMDocument();
 				@$doc->loadHTML(fetch_file_contents($article["link"]));
@@ -33,12 +32,8 @@ class Af_Comics_Explosm extends Af_ComicFilter {
 
 					if ($basenode) {
 						$article["content"] = $doc->saveXML($basenode);
-						$article["plugin_data"] = "af_comics,$owner_uid:" . $article["plugin_data"];
 					}
 				}
-			} else if (isset($article["stored"]["content"])) {
-				$article["content"] = $article["stored"]["content"];
-			}
 
 			return true;
 		}

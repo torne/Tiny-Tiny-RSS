@@ -19,7 +19,6 @@ class Af_SciAm extends Plugin {
 		$owner_uid = $article["owner_uid"];
 
 		if (strpos($article["link"], "scientificamerican.com") !== FALSE || strpos($article["link"], "rss.sciam.com") !== FALSE) {
-			if (strpos($article["plugin_data"], "sciam,$owner_uid:") === FALSE) {
 
 				$doc = new DOMDocument();
 				@$doc->loadHTML(fetch_file_contents($article["link"]));
@@ -33,12 +32,8 @@ class Af_SciAm extends Plugin {
 
 					if ($basenode) {
 						$article["content"] = $doc->saveXML($basenode);
-						$article["plugin_data"] = "sciam,$owner_uid:" . $article["plugin_data"];
 					}
 				}
-			} else if (isset($article["stored"]["content"])) {
-				$article["content"] = $article["stored"]["content"];
-			}
 		}
 
 		return $article;
