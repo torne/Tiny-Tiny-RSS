@@ -5,8 +5,15 @@
 	define_default('_MIN_CACHE_IMAGE_SIZE', 1024);
 
 	function calculate_article_hash($article) {
-		$ph = PluginHost::getInstance();
-		return sha1(implode(":", $ph->get_plugin_names()) . serialize($article));
+		$tmp = "";
+
+		foreach ($article as $k => $v) {
+			if ($k != "feed" && isset($v)) {
+				$tmp .= sha1("$k:" . (is_array($v) ? implode(",", $v) : $v));
+			}
+		}
+
+		return sha1(implode(",", PluginHost::getInstance()->get_plugin_names())) . ":" . sha1($tmp);
 	}
 
 	function update_feedbrowser_cache() {
