@@ -4,6 +4,11 @@
 	define_default('DAEMON_SLEEP_INTERVAL', 120);
 	define_default('_MIN_CACHE_IMAGE_SIZE', 1024);
 
+	function calculate_article_hash($article) {
+		$ph = PluginHost::getInstance();
+		return sha1(implode(":", $ph->get_plugin_names()) . serialize($article));
+	}
+
 	function update_feedbrowser_cache() {
 
 		$result = db_query("SELECT feed_url, site_url, title, COUNT(id) AS subscribers
@@ -651,24 +656,15 @@
 
 				_debug("done collecting data.", $debug_enabled);
 
-				// TODO: less memory-hungry implementation
-
-				_debug("applying plugin filters..", $debug_enabled);
-
-				// FIXME not sure if owner_uid is a good idea here, we may have a base entry without user entry (?)
-				$result = db_query("SELECT plugin_data,title,content,link,tag_cache,author FROM ttrss_entries, ttrss_user_entries
-					WHERE ref_id = id AND (guid = '".db_escape_string($entry_guid)."' OR guid = '$entry_guid_hashed') AND owner_uid = $owner_uid");
+				$result = db_query("SELECT id, content_hash FROM ttrss_entries
+					WHERE guid = '".db_escape_string($entry_guid)."' OR guid = '$entry_guid_hashed'");
 
 				if (db_num_rows($result) != 0) {
-					$entry_plugin_data = db_fetch_result($result, 0, "plugin_data");
-					$stored_article = array("title" => db_fetch_result($result, 0, "title"),
-						"content" => db_fetch_result($result, 0, "content"),
-						"link" => db_fetch_result($result, 0, "link"),
-						"tags" => explode(",", db_fetch_result($result, 0, "tag_cache")),
-						"author" => db_fetch_result($result, 0, "author"));
+					$base_entry_id = db_fetch_result($result, 0, "id");
+					$entry_stored_hash = db_fetch_result($result, 0, "content_hash");
 				} else {
-					$entry_plugin_data = "";
-					$stored_article = array();
+					$base_entry_id = false;
+					$entry_stored_hash = "";
 				}
 
 				$article = array("owner_uid" => $owner_uid, // read only
@@ -677,40 +673,61 @@
 					"content" => $entry_content,
 					"link" => $entry_link,
 					"tags" => $entry_tags,
-					"plugin_data" => $entry_plugin_data,
 					"author" => $entry_author,
-					"stored" => $stored_article,
 					"feed" => array("id" => $feed,
 						"fetch_url" => $fetch_url,
 						"site_url" => $site_url)
 					);
 
+				$entry_plugin_data = "";
+				$entry_current_hash = calculate_article_hash($article);
+
+				_debug("article hash: $entry_current_hash [stored=$entry_stored_hash]", $debug_enabled);
+
+				if ($entry_current_hash == $entry_stored_hash) {
+					_debug("stored article seems up to date [IID: $base_entry_id], updating timestamp only", $debug_enabled);
+
+					// we keep encountering the entry in feeds, so we need to
+					// update date_updated column so that we don't get horrible
+					// dupes when the entry gets purged and reinserted again e.g.
+					// in the case of SLOW SLOW OMG SLOW updating feeds
+
+					$base_entry_id = db_fetch_result($result, 0, "id");
+
+					db_query("UPDATE ttrss_entries SET date_updated = NOW()
+						WHERE id = '$base_entry_id'");
+
+					continue;
+				}
+
+				_debug("hash differs, applying plugin filters:", $debug_enabled);
+
 				foreach ($pluginhost->get_hooks(PluginHost::HOOK_ARTICLE_FILTER) as $plugin) {
+					_debug("... " . get_class($plugin), $debug_enabled);
+
+					$start = microtime(true);
 					$article = $plugin->hook_article_filter($article);
 
-					$article["stored"] = array("title" => $article["title"],
-						"content" => $article["content"],
-						"link" => $article["link"],
-						"tags" => $article["tags"],
-						"author" => $article["author"]);
+					_debug("=== " . sprintf("%.4f (sec)", microtime(true) - $start), $debug_enabled);
+
+					$entry_plugin_data .= mb_strtolower(get_class($plugin)) . ",";
 				}
+
+				$entry_plugin_data = db_escape_string($entry_plugin_data);
+
+				_debug("plugin data: $entry_plugin_data", $debug_enabled);
 
 				$entry_tags = $article["tags"];
 				$entry_guid = db_escape_string($entry_guid);
 				$entry_title = db_escape_string($article["title"]);
 				$entry_author = db_escape_string($article["author"]);
 				$entry_link = db_escape_string($article["link"]);
-				$entry_plugin_data = db_escape_string($article["plugin_data"]);
 				$entry_content = $article["content"]; // escaped below
-
-				_debug("plugin data: $entry_plugin_data", $debug_enabled);
 
 				if ($cache_images && is_writable(CACHE_DIR . '/images'))
 					cache_images($entry_content, $site_url, $debug_enabled);
 
 				$entry_content = db_escape_string($entry_content, false);
-
-				$content_hash = "SHA1:" . sha1($entry_content);
 
 				db_query("BEGIN");
 
@@ -745,7 +762,7 @@
 							'$entry_link',
 							'$entry_timestamp_fmt',
 							'$entry_content',
-							'$content_hash',
+							'$entry_current_hash',
 							false,
 							NOW(),
 							'$date_feed_processed',
@@ -758,26 +775,14 @@
 					$article_labels = array();
 
 				} else {
-					// we keep encountering the entry in feeds, so we need to
-					// update date_updated column so that we don't get horrible
-					// dupes when the entry gets purged and reinserted again e.g.
-					// in the case of SLOW SLOW OMG SLOW updating feeds
-
 					$base_entry_id = db_fetch_result($result, 0, "id");
-
-					db_query("UPDATE ttrss_entries SET date_updated = NOW()
-						WHERE id = '$base_entry_id'");
 
 					$article_labels = get_article_labels($base_entry_id, $owner_uid);
 				}
 
 				// now it should exist, if not - bad luck then
 
-				$result = db_query("SELECT
-						id,content_hash,title,plugin_data,guid,
-						num_comments
-					FROM
-						ttrss_entries
+				$result = db_query("SELECT id FROM ttrss_entries
 					WHERE guid = '$entry_guid' OR guid = '$entry_guid_hashed'");
 
 				$entry_ref_id = 0;
@@ -786,12 +791,6 @@
 				if (db_num_rows($result) == 1) {
 
 					_debug("base guid found, checking for user record", $debug_enabled);
-
-					// this will be used below in update handler
-					$orig_content_hash = db_fetch_result($result, 0, "content_hash");
-					$orig_title = db_fetch_result($result, 0, "title");
-					$orig_num_comments = db_fetch_result($result, 0, "num_comments");
-					$orig_plugin_data = db_fetch_result($result, 0, "plugin_data");
 
 					$ref_id = db_fetch_result($result, 0, "id");
 					$entry_ref_id = $ref_id;
@@ -926,53 +925,20 @@
 
 					_debug("RID: $entry_ref_id, IID: $entry_int_id", $debug_enabled);
 
-					$post_needs_update = false;
-					$update_insignificant = false;
+					db_query("UPDATE ttrss_entries
+						SET title = '$entry_title',
+							content = '$entry_content',
+							content_hash = '$entry_current_hash',
+							updated = '$entry_timestamp_fmt',
+							num_comments = '$num_comments',
+							plugin_data = '$entry_plugin_data',
+							author = '$entry_author',
+							lang = '$entry_language'
+						WHERE id = '$ref_id'");
 
-					if ($orig_num_comments != $num_comments) {
-						$post_needs_update = true;
-						$update_insignificant = true;
-					}
-
-					if ($entry_plugin_data != $orig_plugin_data) {
-						$post_needs_update = true;
-						$update_insignificant = true;
-					}
-
-					if ($content_hash != $orig_content_hash) {
-						$post_needs_update = true;
-						$update_insignificant = false;
-					}
-
-					if (db_escape_string($orig_title) != $entry_title) {
-						$post_needs_update = true;
-						$update_insignificant = false;
-					}
-
-					// if post needs update, update it and mark all user entries
-					// linking to this post as updated
-					if ($post_needs_update) {
-
-						if (defined('DAEMON_EXTENDED_DEBUG')) {
-							_debug("post $entry_guid_hashed needs update...", $debug_enabled);
-						}
-
-//						print "<!-- post $orig_title needs update : $post_needs_update -->";
-
-						db_query("UPDATE ttrss_entries
-							SET title = '$entry_title', content = '$entry_content',
-								content_hash = '$content_hash',
-								updated = '$entry_timestamp_fmt',
-								num_comments = '$num_comments',
-								plugin_data = '$entry_plugin_data'
-							WHERE id = '$ref_id'");
-
-						if (!$update_insignificant) {
-							if ($mark_unread_on_update) {
-								db_query("UPDATE ttrss_user_entries
-									SET last_read = null, unread = true WHERE ref_id = '$ref_id'");
-							}
-						}
+					if ($mark_unread_on_update) {
+						db_query("UPDATE ttrss_user_entries
+							SET last_read = null, unread = true WHERE ref_id = '$ref_id'");
 					}
 				}
 
