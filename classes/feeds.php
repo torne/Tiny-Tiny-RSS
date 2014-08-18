@@ -136,7 +136,7 @@ class Feeds extends Handler_Protected {
 		//$reply .= "</h2";
 
 		foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_HEADLINE_TOOLBAR_BUTTON) as $p) {
-			 echo $p->hook_headline_toolbar_button($feed_id, $is_cat);
+			 $reply .= $p->hook_headline_toolbar_button($feed_id, $is_cat);
 		}
 
 		$reply .= "</span></span>";
