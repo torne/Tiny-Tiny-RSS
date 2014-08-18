@@ -4,7 +4,7 @@
 	define_default('DAEMON_SLEEP_INTERVAL', 120);
 	define_default('_MIN_CACHE_IMAGE_SIZE', 1024);
 
-	function calculate_article_hash($article) {
+	function calculate_article_hash($article, $pluginhost) {
 		$tmp = "";
 
 		foreach ($article as $k => $v) {
@@ -13,7 +13,7 @@
 			}
 		}
 
-		return sha1(implode(",", PluginHost::getInstance()->get_plugin_names())) . ":" . sha1($tmp);
+		return sha1(implode(",", $pluginhost->get_plugin_names()) . $tmp);
 	}
 
 	function update_feedbrowser_cache() {
@@ -687,7 +687,7 @@
 					);
 
 				$entry_plugin_data = "";
-				$entry_current_hash = calculate_article_hash($article);
+				$entry_current_hash = calculate_article_hash($article, $pluginhost);
 
 				_debug("article hash: $entry_current_hash [stored=$entry_stored_hash]", $debug_enabled);
 
