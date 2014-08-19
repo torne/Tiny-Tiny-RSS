@@ -42,6 +42,7 @@ class PluginHost {
 	const HOOK_SEARCH = 25;
 	const HOOK_FORMAT_ENCLOSURES = 26;
 	const HOOK_SUBSCRIBE_FEED = 27;
+	const HOOK_HEADLINES_BEFORE = 28;
 
 	const KIND_ALL = 1;
 	const KIND_SYSTEM = 2;

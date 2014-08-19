@@ -281,6 +281,12 @@ class Feeds extends Handler_Protected {
 			}
 		} */
 
+		if ($offset == 0) {
+			foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_HEADLINES_BEFORE) as $p) {
+				 $reply['content'] .= $p->hook_headlines_before($feed, $cat_view, $qfh_ret);
+			}
+		}
+
 		if ($this->dbh->num_rows($result) > 0) {
 
 			$lnum = $offset;
