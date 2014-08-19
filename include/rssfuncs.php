@@ -682,6 +682,7 @@
 					"link" => $entry_link,
 					"tags" => $entry_tags,
 					"author" => $entry_author,
+					"language" => $entry_language,
 					"feed" => array("id" => $feed,
 						"fetch_url" => $fetch_url,
 						"site_url" => $site_url)
