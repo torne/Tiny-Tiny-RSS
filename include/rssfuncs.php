@@ -169,6 +169,7 @@
 		}
 
 		$nf = 0;
+		$bstarted = microtime(true);
 
 		// For each feed, we call the feed update function.
 		foreach ($feeds_to_update as $feed) {
@@ -196,11 +197,20 @@
 				while ($tline = db_fetch_assoc($tmp_result)) {
 					if($debug) _debug(" => " . $tline["last_updated"] . ", " . $tline["id"] . " " . $tline["owner_uid"]);
 
+					$fstarted = microtime(true);
 					$rss = update_rss_feed($tline["id"], true, false);
 					_debug_suppress(false);
+
+					_debug(sprintf("    %.4f (sec)", microtime(true) - $fstarted));
+
 					++$nf;
 				}
 			}
+		}
+
+		if ($nf > 0) {
+			_debug(sprintf("Processed %d feeds in %.4f (sec), %.4f (sec/feed avg)", $nf,
+				microtime(true) - $bstarted, (microtime(true) - $bstarted) / $nf));
 		}
 
 		require_once "digest.php";
