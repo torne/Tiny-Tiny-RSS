@@ -563,9 +563,6 @@
 				$entry_guid = $item->get_id();
 				if (!$entry_guid) $entry_guid = $item->get_link();
 				if (!$entry_guid) $entry_guid = make_guid_from_title($item->get_title());
-
-				_debug("f_guid $entry_guid", $debug_enabled);
-
 				if (!$entry_guid) continue;
 
 				$entry_guid = "$owner_uid,$entry_guid";
@@ -614,13 +611,7 @@
 					$entry_language = $lang->detect($entry_title . " " . $entry_content, 1);
 
 					if (count($entry_language) > 0) {
-						$entry_language = array_keys($entry_language);
-
-						// the fuck?
-						if (is_array($entry_language))
-							$entry_language = "";
-						else
-							$entry_language = db_escape_string(substr($entry_language[0], 0, 2));
+						@$entry_language = array_keys($entry_language)[0];
 
 						_debug("detected language: $entry_language", $debug_enabled);
 					} else {
