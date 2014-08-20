@@ -1710,18 +1710,6 @@
 			$url = key($feedUrls);
 		}
 
-		/* libxml_use_internal_errors(true);
-		$doc = new DOMDocument();
-		$doc->loadXML($contents);
-		$error = libxml_get_last_error();
-		libxml_clear_errors();
-
-		if ($error) {
-			$error_message = format_libxml_error($error);
-
-			return array("code" => 6, "message" => $error_message);
-		} */
-
 		if ($cat_id == "0" || !$cat_id) {
 			$cat_qpart = "NULL";
 		} else {

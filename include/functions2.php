@@ -2404,9 +2404,4 @@
 		return LABEL_BASE_INDEX - 1 + abs($feed);
 	}
 
-	function format_libxml_error($error) {
-		return T_sprintf("LibXML error %s at line %d (column %d): %s",
-				$error->code, $error->line, $error->column,
-				$error->message);
-	}
 ?>
