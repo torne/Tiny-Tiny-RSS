@@ -2209,7 +2209,7 @@
 		return in_array($interface, class_implements($class));
 	}
 
-	function geturl($url, $depth = 0){
+	function geturl($url, $depth = 0, $nobody = true){
 
 		if ($depth == 20) return $url;
 
@@ -2230,7 +2230,7 @@
 		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0 Firefox/5.0');
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
 		curl_setopt($curl, CURLOPT_HEADER, true);
-		curl_setopt($curl, CURLOPT_NOBODY, true);
+		curl_setopt($curl, CURLOPT_NOBODY, $nobody);
 		curl_setopt($curl, CURLOPT_REFERER, $url);
 		curl_setopt($curl, CURLOPT_ENCODING, 'gzip,deflate');
 		curl_setopt($curl, CURLOPT_AUTOREFERER, true);
@@ -2252,6 +2252,13 @@
 		$status = curl_getinfo($curl);
 
 		if($status['http_code']!=200){
+
+			// idiot site not allowing http get
+			if($status['http_code'] == 405) {
+				curl_close($curl);
+				return geturl($url, $depth +1, false);
+			}
+
 			if($status['http_code'] == 301 || $status['http_code'] == 302) {
 				curl_close($curl);
 				list($header) = explode("\r\n\r\n", $html, 2);
