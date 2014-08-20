@@ -621,7 +621,8 @@
 					$entry_language = $lang->detect($entry_title . " " . $entry_content, 1);
 
 					if (count($entry_language) > 0) {
-						@$entry_language = array_keys($entry_language)[0];
+						$possible = array_keys($entry_language);
+						$entry_language = $possible[0];
 
 						_debug("detected language: $entry_language", $debug_enabled);
 					} else {
