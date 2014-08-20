@@ -2253,7 +2253,7 @@
 
 		if($status['http_code']!=200){
 
-			// idiot site not allowing http get
+			// idiot site not allowing http head
 			if($status['http_code'] == 405) {
 				curl_close($curl);
 				return geturl($url, $depth +1, false);
