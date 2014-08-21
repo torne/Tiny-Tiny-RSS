@@ -694,7 +694,7 @@
 
 				_debug("article hash: $entry_current_hash [stored=$entry_stored_hash]", $debug_enabled);
 
-				if ($entry_current_hash == $entry_stored_hash) {
+				if ($entry_current_hash == $entry_stored_hash && !isset($_REQUEST["force_rehash"])) {
 					_debug("stored article seems up to date [IID: $base_entry_id], updating timestamp only", $debug_enabled);
 
 					// we keep encountering the entry in feeds, so we need to
