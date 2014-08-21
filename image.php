@@ -41,8 +41,6 @@
 				header("Content-type: image/png");
 				$stamp = gmdate("D, d M Y H:i:s", filemtime($filename)). " GMT";
 				header("Last-Modified: $stamp", true);
-				ob_clean();   // discard any data in the output buffer (if possible)
-				flush();      // flush headers (if possible)
 				readfile($filename);
 			}
 		} else {
