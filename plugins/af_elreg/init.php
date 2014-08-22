@@ -24,6 +24,14 @@ class Af_ElReg extends Plugin {
 				$basenode = false;
 
 				if ($doc) {
+					$xpath = new DOMXPath($doc);
+
+					$trash = $xpath->query("//*[@class='wptl top' or @class='wptl btm']");
+
+					foreach ($trash as $t) {
+						$t->parentNode->removeChild($t);
+					}
+
 					$basenode = $doc->getElementById("body");
 
 					if ($basenode) {
