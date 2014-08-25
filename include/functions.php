@@ -354,6 +354,7 @@
 		global $fetch_last_content_type;
 		global $fetch_curl_used;
 
+		$url = ltrim($url, ' ');
 		$url = str_replace(' ', '%20', $url);
 
 		if (!defined('NO_CURL') && function_exists('curl_init')) {
