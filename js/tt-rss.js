@@ -231,6 +231,7 @@ function init() {
 		dojo.require("dijit.form.Select");
 		dojo.require("dijit.form.SimpleTextarea");
 		dojo.require("dijit.form.TextBox");
+		dojo.require("dijit.form.ComboBox");
 		dojo.require("dijit.form.ValidationTextBox");
 		dojo.require("dijit.InlineEditBox");
 		dojo.require("dijit.layout.AccordionContainer");
