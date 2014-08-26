@@ -65,7 +65,7 @@ class MailTo extends Plugin {
 		$content = "";
 		$tpl->generateOutputToString($content);
 
-		$mailto_link = htmlspecialchars("mailto: ?subject=".rawurlencode($subject).
+		$mailto_link = htmlspecialchars("mailto:?subject=".rawurlencode($subject).
 			"&body=".rawurlencode($content));
 
 		print __("Clicking the following link to invoke your mail client:");
