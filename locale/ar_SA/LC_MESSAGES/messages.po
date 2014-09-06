@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TinyTinyRSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-14 12:07+0400\n"
+"POT-Creation-Date: 2014-09-06 15:10+0400\n"
 "PO-Revision-Date: 2014-08-13 19:15+0300\n"
 "Last-Translator: عبد الناصر سعيد الثبيتي <abdunnasir@althobaity.com>\n"
 "Language-Team: Arabic <abdunnasir@althobaity.com>\n"
@@ -162,26 +162,17 @@ msgstr "فشل فحص هروب شفرة SQL ، تحقق من إعدادات قا
 #: classes/pref/filters.php:704
 #: classes/pref/feeds.php:1367
 #: js/feedlist.js:126
-#: js/feedlist.js:450
-#: js/functions.js:446
-#: js/functions.js:784
 #: js/functions.js:1218
 #: js/functions.js:1352
 #: js/functions.js:1664
 #: js/prefs.js:653
 #: js/prefs.js:854
-#: js/prefs.js:1441
-#: js/prefs.js:1494
-#: js/prefs.js:1534
-#: js/prefs.js:1551
-#: js/prefs.js:1567
-#: js/prefs.js:1587
 #: js/prefs.js:1760
 #: js/prefs.js:1776
 #: js/prefs.js:1794
-#: js/tt-rss.js:514
-#: js/tt-rss.js:531
-#: js/viewfeed.js:859
+#: js/tt-rss.js:55
+#: js/tt-rss.js:515
+#: js/viewfeed.js:741
 #: js/viewfeed.js:1316
 #: plugins/import_export/import_export.js:17
 #: plugins/updater/updater.js:17
@@ -384,8 +375,8 @@ msgid "Filters"
 msgstr "المرشِّحات"
 
 #: prefs.php:129
-#: include/functions.php:1263
-#: include/functions.php:1927
+#: include/functions.php:1264
+#: include/functions.php:1916
 #: classes/pref/labels.php:90
 msgid "Labels"
 msgstr "الأسماء"
@@ -476,10 +467,10 @@ msgid "Tiny Tiny RSS data update script."
 msgstr "برنامج تحديث بيانات Tiny Tiny RSS"
 
 #: include/digest.php:109
-#: include/functions.php:1272
-#: include/functions.php:1828
-#: include/functions.php:1913
-#: include/functions.php:1935
+#: include/functions.php:1273
+#: include/functions.php:1817
+#: include/functions.php:1902
+#: include/functions.php:1924
 #: classes/opml.php:421
 #: classes/pref/feeds.php:226
 msgid "Uncategorized"
@@ -572,7 +563,6 @@ msgid "Open in new window"
 msgstr "فتح في نافذة جديدة"
 
 #: include/functions2.php:67
-#: js/viewfeed.js:2039
 msgid "Mark below as read"
 msgstr "علِّم أسفله مقروءاً"
 
@@ -693,7 +683,7 @@ msgid "Go to"
 msgstr "إذهب إلى"
 
 #: include/functions2.php:97
-#: include/functions.php:1986
+#: include/functions.php:1975
 msgid "All articles"
 msgstr "كل البنود"
 
@@ -702,8 +692,7 @@ msgid "Fresh"
 msgstr "طازج"
 
 #: include/functions2.php:101
-#: js/tt-rss.js:460
-#: js/tt-rss.js:642
+#: js/tt-rss.js:461
 msgid "Tag cloud"
 msgstr "سحابة العلامات"
 
@@ -735,14 +724,14 @@ msgid "Search results: %s"
 msgstr "نتائج البحث: %s"
 
 #: include/functions2.php:1263
-#: classes/feeds.php:708
+#: classes/feeds.php:714
 msgid "comment"
 msgid_plural "comments"
 msgstr[0] "تعليق"
 msgstr[1] "تعليقات"
 
 #: include/functions2.php:1267
-#: classes/feeds.php:712
+#: classes/feeds.php:718
 msgid "comments"
 msgstr "تعليقات"
 
@@ -757,17 +746,17 @@ msgid "no tags"
 msgstr "لا علامات"
 
 #: include/functions2.php:1351
-#: classes/feeds.php:694
+#: classes/feeds.php:700
 msgid "Edit tags for this article"
 msgstr "حرِّر علامات هذا البند"
 
 #: include/functions2.php:1383
-#: classes/feeds.php:646
+#: classes/feeds.php:652
 msgid "Originally from:"
 msgstr "أصله من:"
 
 #: include/functions2.php:1396
-#: classes/feeds.php:659
+#: classes/feeds.php:665
 #: classes/pref/feeds.php:569
 msgid "Feed URL"
 msgstr "عنوان URL للخلاصة"
@@ -807,40 +796,35 @@ msgstr "نوع غير معروف"
 msgid "Attachments"
 msgstr "مرفقات"
 
-#: include/functions2.php:2394
-#, php-format
-msgid "LibXML error %s at line %d (column %d): %s"
-msgstr "خطأ LibXML %s في السطر %d (العمود %d(: %s"
-
-#: include/functions.php:1261
-#: include/functions.php:1925
+#: include/functions.php:1262
+#: include/functions.php:1914
 msgid "Special"
 msgstr "خاص"
 
-#: include/functions.php:1776
-#: classes/feeds.php:1118
+#: include/functions.php:1765
+#: classes/feeds.php:1124
 #: classes/pref/filters.php:169
 #: classes/pref/filters.php:447
 msgid "All feeds"
 msgstr "كل الخلاصات"
 
-#: include/functions.php:1980
+#: include/functions.php:1969
 msgid "Starred articles"
 msgstr "البنود بنجمة"
 
-#: include/functions.php:1982
+#: include/functions.php:1971
 msgid "Published articles"
 msgstr "البنود المنشورة"
 
-#: include/functions.php:1984
+#: include/functions.php:1973
 msgid "Fresh articles"
 msgstr "البنود الطازجة"
 
-#: include/functions.php:1988
+#: include/functions.php:1977
 msgid "Archived articles"
 msgstr "البنود المحفوظة"
 
-#: include/functions.php:1990
+#: include/functions.php:1979
 msgid "Recently read"
 msgstr "قُرِأَت حديثاً"
 
@@ -932,9 +916,9 @@ msgstr "إحفظ"
 #: classes/article.php:205
 #: classes/handler/public.php:503
 #: classes/handler/public.php:537
-#: classes/feeds.php:1047
-#: classes/feeds.php:1097
-#: classes/feeds.php:1157
+#: classes/feeds.php:1053
+#: classes/feeds.php:1103
+#: classes/feeds.php:1163
 #: classes/pref/users.php:170
 #: classes/pref/labels.php:81
 #: classes/pref/filters.php:428
@@ -1240,7 +1224,7 @@ msgid "Feed:"
 msgstr "خلاصة:"
 
 #: classes/feeds.php:201
-#: classes/feeds.php:843
+#: classes/feeds.php:849
 msgid "Feed not found."
 msgstr "لم أجد الخلاصة."
 
@@ -1248,79 +1232,79 @@ msgstr "لم أجد الخلاصة."
 msgid "Never"
 msgstr "أبداً"
 
-#: classes/feeds.php:375
+#: classes/feeds.php:381
 #, php-format
 msgid "Imported at %s"
 msgstr "تم استيراده في %s"
 
-#: classes/feeds.php:434
-#: classes/feeds.php:529
+#: classes/feeds.php:440
+#: classes/feeds.php:535
 msgid "mark feed as read"
 msgstr "علِّم الخلاصة مقروءة"
 
-#: classes/feeds.php:586
+#: classes/feeds.php:592
 msgid "Collapse article"
 msgstr "طيّ البند"
 
-#: classes/feeds.php:746
+#: classes/feeds.php:752
 msgid "No unread articles found to display."
 msgstr "لم أجد بنوداً غير مقروءة لأعرضها."
 
-#: classes/feeds.php:749
+#: classes/feeds.php:755
 msgid "No updated articles found to display."
 msgstr "لم أجد بنوداً محدَّثة لأعرضها."
 
-#: classes/feeds.php:752
+#: classes/feeds.php:758
 msgid "No starred articles found to display."
 msgstr "لم أجد بنوداً معلَّمة بنجمة لأعرضها."
 
-#: classes/feeds.php:756
+#: classes/feeds.php:762
 msgid "No articles found to display. You can assign articles to labels manually from article header context menu (applies to all selected articles) or use a filter."
 msgstr "لم أجد بنوداً للعرض.  يمكنك إسناد بنود للتسميات يدوياً من قائمة سياق ترويسة البند (هذا ينطبق على جميع البنود المختارة) أو استخدام مرشِّح."
 
-#: classes/feeds.php:758
+#: classes/feeds.php:764
 msgid "No articles found to display."
 msgstr "لم أجد بنوداًلأعرضها."
 
-#: classes/feeds.php:773
-#: classes/feeds.php:938
+#: classes/feeds.php:779
+#: classes/feeds.php:944
 #, php-format
 msgid "Feeds last updated at %s"
 msgstr "آخر تحديث للخلاصات في %s"
 
-#: classes/feeds.php:783
-#: classes/feeds.php:948
+#: classes/feeds.php:789
+#: classes/feeds.php:954
 msgid "Some feeds have update errors (click for details)"
 msgstr "توجد أخطاء في تحديث بعض الخلاصات (أنقر للتفاصيل)"
 
-#: classes/feeds.php:928
+#: classes/feeds.php:934
 msgid "No feed selected."
 msgstr "لم تختر خلاصة."
 
-#: classes/feeds.php:985
-#: classes/feeds.php:993
+#: classes/feeds.php:991
+#: classes/feeds.php:999
 msgid "Feed or site URL"
 msgstr "عنوان URL للخلاصة أو الموقع"
 
-#: classes/feeds.php:999
+#: classes/feeds.php:1005
 #: classes/pref/feeds.php:590
 #: classes/pref/feeds.php:801
 #: classes/pref/feeds.php:1781
 msgid "Place in category:"
 msgstr "ضعه في التصنيف:"
 
-#: classes/feeds.php:1007
+#: classes/feeds.php:1013
 msgid "Available feeds"
 msgstr "الخلاصات المتوفّرة"
 
-#: classes/feeds.php:1019
+#: classes/feeds.php:1025
 #: classes/pref/users.php:133
 #: classes/pref/feeds.php:620
 #: classes/pref/feeds.php:837
 msgid "Authentication"
 msgstr "الإستيثاق"
 
-#: classes/feeds.php:1023
+#: classes/feeds.php:1029
 #: classes/pref/users.php:397
 #: classes/pref/feeds.php:626
 #: classes/pref/feeds.php:841
@@ -1328,7 +1312,7 @@ msgstr "الإستيثاق"
 msgid "Login"
 msgstr "الدخول"
 
-#: classes/feeds.php:1026
+#: classes/feeds.php:1032
 #: classes/pref/prefs.php:261
 #: classes/pref/feeds.php:639
 #: classes/pref/feeds.php:847
@@ -1336,22 +1320,22 @@ msgstr "الدخول"
 msgid "Password"
 msgstr "كلمة المرور"
 
-#: classes/feeds.php:1036
+#: classes/feeds.php:1042
 msgid "This feed requires authentication."
 msgstr "هذه الخلاصة تتطلب الإستيثاق."
 
-#: classes/feeds.php:1041
-#: classes/feeds.php:1095
+#: classes/feeds.php:1047
+#: classes/feeds.php:1101
 #: classes/pref/feeds.php:1816
 msgid "Subscribe"
 msgstr "إشترك"
 
-#: classes/feeds.php:1044
+#: classes/feeds.php:1050
 msgid "More feeds"
 msgstr "المزيد من الخلاصات"
 
-#: classes/feeds.php:1067
-#: classes/feeds.php:1156
+#: classes/feeds.php:1073
+#: classes/feeds.php:1162
 #: classes/pref/users.php:324
 #: classes/pref/filters.php:665
 #: classes/pref/feeds.php:1298
@@ -1359,19 +1343,19 @@ msgstr "المزيد من الخلاصات"
 msgid "Search"
 msgstr "إبحث"
 
-#: classes/feeds.php:1071
+#: classes/feeds.php:1077
 msgid "Popular feeds"
 msgstr "الخلاصات الشعبيَّة"
 
-#: classes/feeds.php:1072
+#: classes/feeds.php:1078
 msgid "Feed archive"
 msgstr "محفوظات الخلاصة"
 
-#: classes/feeds.php:1075
+#: classes/feeds.php:1081
 msgid "limit:"
 msgstr "حدّ:"
 
-#: classes/feeds.php:1096
+#: classes/feeds.php:1102
 #: classes/pref/users.php:350
 #: classes/pref/labels.php:284
 #: classes/pref/filters.php:418
@@ -1381,19 +1365,19 @@ msgstr "حدّ:"
 msgid "Remove"
 msgstr "إحذف"
 
-#: classes/feeds.php:1107
+#: classes/feeds.php:1113
 msgid "Look for"
 msgstr "إبحث عن"
 
-#: classes/feeds.php:1115
+#: classes/feeds.php:1121
 msgid "Limit search to:"
 msgstr "ضيِّق البحث إلى:"
 
-#: classes/feeds.php:1131
+#: classes/feeds.php:1137
 msgid "This feed"
 msgstr "هذه الخلاصة"
 
-#: classes/feeds.php:1152
+#: classes/feeds.php:1158
 msgid "Search syntax"
 msgstr "نحو البحث"
 
@@ -1737,7 +1721,6 @@ msgid "Save rule"
 msgstr "إحفظ القاعدة"
 
 #: classes/pref/filters.php:905
-#: js/functions.js:1022
 msgid "Add rule"
 msgstr "أضف قاعدة"
 
@@ -1957,7 +1940,6 @@ msgid "Strip all but most common HTML tags when reading articles."
 msgstr "نزع كل وسوم HTML عدا الشائع منها عند قراءة البنود."
 
 #: classes/pref/prefs.php:54
-#: js/prefs.js:1687
 msgid "Customize stylesheet"
 msgstr "تخصيص صفحات الطُّرُز"
 
@@ -2805,26 +2787,17 @@ msgstr "جاهز للتحديث."
 msgid "Start update"
 msgstr "إبدأ التحديث"
 
-#: js/feedlist.js:406
-#: js/feedlist.js:434
-msgid "Mark all articles in %s as read?"
-msgstr "تعليم جميع البنود في %s مقروءة؟"
-
-#: js/feedlist.js:425
-msgid "Mark all articles in %s older than 1 day as read?"
-msgstr "تعليم جميع البنود في %s الأقدم من يوم واحد مقروءة؟"
-
-#: js/feedlist.js:428
-msgid "Mark all articles in %s older than 1 week as read?"
-msgstr "تعليم جميع البنود في %s الأقدم من أسبوع مقروءة؟"
-
-#: js/feedlist.js:431
-msgid "Mark all articles in %s older than 2 weeks as read?"
-msgstr "تعليم جميع البنود في %s الأقدم من أسبوعين مقروءة؟"
-
 #: js/functions.js:62
 msgid "The error will be reported to the configured log destination."
 msgstr "سيتم الرفع بالتقرير لوجهة السجل المذكورة في الإعدادات."
+
+#: js/functions.js:90
+msgid "Report to tt-rss.org"
+msgstr ""
+
+#: js/functions.js:93
+msgid "Close"
+msgstr ""
 
 #: js/functions.js:104
 msgid "Are you sure to report this exception to tt-rss.org? The report will include information about your web browser and tt-rss configuration. Your IP will be saved in the database."
@@ -2833,86 +2806,6 @@ msgstr "هل أنت متأكد من رغبتك إرسال تقرير عن هذا
 #: js/functions.js:236
 msgid "Click to close"
 msgstr "أنقر للإغلاق"
-
-#: js/functions.js:612
-msgid "Error explained"
-msgstr "شرح الخطأ"
-
-#: js/functions.js:694
-msgid "Upload complete."
-msgstr "إكتمل التحميل."
-
-#: js/functions.js:718
-msgid "Remove stored feed icon?"
-msgstr "أحذف رمز الخلاصة المخزَّن؟"
-
-#: js/functions.js:723
-msgid "Removing feed icon..."
-msgstr "جارٍ حذف رمز الخلاصة..."
-
-#: js/functions.js:728
-msgid "Feed icon removed."
-msgstr "حذف رمز الخلاصة."
-
-#: js/functions.js:750
-msgid "Please select an image file to upload."
-msgstr "فضلاً إختر ملف صورة للتحميل."
-
-#: js/functions.js:752
-msgid "Upload new icon for this feed?"
-msgstr "تحميل رمز جديد لهذه الخلاصة؟"
-
-#: js/functions.js:753
-msgid "Uploading, please wait..."
-msgstr "التحميل جارٍ،فضلاً إنتظر..."
-
-#: js/functions.js:769
-msgid "Please enter label caption:"
-msgstr "فضلاً أدخل عنوان التسمية:"
-
-#: js/functions.js:774
-msgid "Can't create label: missing caption."
-msgstr "لم أتمكن من إنشاء التسمية: التسمية التوضيحية مفقودة."
-
-#: js/functions.js:817
-msgid "Subscribe to Feed"
-msgstr "إشترك في الخلاصة"
-
-#: js/functions.js:836
-msgid "Failed to parse output. This can indicate server timeout and/or network issues. Backend output was logged to browser console."
-msgstr "فشل تفسير الخَرج.  قد يشير هذا إلى انتهاء مهلة الخادم و/أو مشكلة في الشبكة.  تم تسجيل خرج برنامج الخلفية في وحدة تحكّم المستعرض ( التفضيلات-> النظام -> سجل الأخطاء )."
-
-#: js/functions.js:851
-msgid "Subscribed to %s"
-msgstr "تم الإشتراك في %s"
-
-#: js/functions.js:856
-msgid "Specified URL seems to be invalid."
-msgstr "يبدو أن عنوان URL المعطى غير صحيح."
-
-#: js/functions.js:859
-msgid "Specified URL doesn't seem to contain any feeds."
-msgstr "يبدو أن عنوان URL المعطى لايحوي أي خلاصة."
-
-#: js/functions.js:871
-msgid "Expand to select feed"
-msgstr "وسِّع لتختار الخلاصة"
-
-#: js/functions.js:883
-msgid "Couldn't download the specified URL: %s"
-msgstr "لم أتمكن من تنزيل عنوان URL المحدد: s"
-
-#: js/functions.js:887
-msgid "XML validation failed: %s"
-msgstr "فشل اختبار صحة XML: %s"
-
-#: js/functions.js:892
-msgid "You are already subscribed to this feed."
-msgstr "أنت مشترك بالفعل في هذه الخلاصة."
-
-#: js/functions.js:1022
-msgid "Edit rule"
-msgstr "تحرير القاعدة"
 
 #: js/functions.js:1048
 msgid "Edit action"
@@ -2931,7 +2824,8 @@ msgid "Subscription reset."
 msgstr "إعادة تعيين الإشتراك."
 
 #: js/functions.js:1236
-#: js/tt-rss.js:677
+#: js/tt-rss.js:678
+#, perl-format
 msgid "Unsubscribe from %s?"
 msgstr "إلغاء الإشتراك في %s ؟"
 
@@ -2948,30 +2842,8 @@ msgid "Generate new syndication address for this feed?"
 msgstr "توليد عنوان "
 
 #: js/functions.js:1381
-#: js/prefs.js:1218
 msgid "Trying to change address..."
 msgstr "محاولة تغيير العنوان..."
-
-#: js/functions.js:1568
-#: js/tt-rss.js:425
-#: js/tt-rss.js:658
-msgid "You can't edit this kind of feed."
-msgstr "لايمكنك تحرير هذا النوع من الخلاصات."
-
-#: js/functions.js:1583
-msgid "Edit Feed"
-msgstr "حرِّر الخلاصة"
-
-#: js/functions.js:1589
-#: js/prefs.js:99
-#: js/prefs.js:211
-#: js/prefs.js:736
-msgid "Saving data..."
-msgstr "أحفظُ البيانات..."
-
-#: js/functions.js:1621
-msgid "More Feeds"
-msgstr "خلاصات أكثر"
 
 #: js/functions.js:1682
 #: js/functions.js:1792
@@ -2980,8 +2852,6 @@ msgstr "خلاصات أكثر"
 #: js/prefs.js:476
 #: js/prefs.js:629
 #: js/prefs.js:649
-#: js/prefs.js:1194
-#: js/prefs.js:1339
 msgid "No feeds are selected."
 msgstr "لم يتم اختيار خلاصة"
 
@@ -2994,18 +2864,12 @@ msgid "Feeds with update errors"
 msgstr "الخلاصات التي حصلت أخطاء أثناء تحديثها"
 
 #: js/functions.js:1774
-#: js/prefs.js:1176
 msgid "Remove selected feeds?"
 msgstr "أحذف الخلاصات المختارة؟"
 
 #: js/functions.js:1777
-#: js/prefs.js:1179
 msgid "Removing selected feeds..."
 msgstr "يجري حذف الخلاصات المختارة..."
-
-#: js/functions.js:1875
-msgid "Help"
-msgstr "مساعدة"
 
 #: js/PrefFeedTree.js:48
 msgid "Edit category"
@@ -3035,6 +2899,14 @@ msgstr "تتم إضافة المستخدم..."
 msgid "User Editor"
 msgstr "محرِّر المستخدم"
 
+#: js/prefs.js:99
+#: js/prefs.js:211
+#: js/prefs.js:736
+#: plugins/instances/instances.js:26
+#: plugins/instances/instances.js:89
+msgid "Saving data..."
+msgstr "أحفظُ البيانات..."
+
 #: js/prefs.js:134
 msgid "Edit Filter"
 msgstr "حرِّر المرشِّح"
@@ -3056,7 +2928,6 @@ msgid "Removing selected labels..."
 msgstr "يجري حذف الأسماء المختارة..."
 
 #: js/prefs.js:312
-#: js/prefs.js:1380
 msgid "No labels are selected."
 msgstr "لم يتم اختيار أسماء."
 
@@ -3173,113 +3044,6 @@ msgstr "الإستيراد جارٍ ، يرجى الإنتظار..."
 msgid "Reset to defaults?"
 msgstr "إعادة التعيين إلى الإعدادات الافتراضية؟"
 
-#: js/prefs.js:1083
-msgid "Remove category %s? Any nested feeds would be placed into Uncategorized."
-msgstr "أحذف التصنيف %s ؟ ستوضع أي خلاصة ضمن هذا التصنيف في \"غير مصنَّف\""
-
-#: js/prefs.js:1089
-msgid "Removing category..."
-msgstr "يجري حذف التصنيف..."
-
-#: js/prefs.js:1110
-msgid "Remove selected categories?"
-msgstr "أحذف التصنيفات المختارة؟"
-
-#: js/prefs.js:1113
-msgid "Removing selected categories..."
-msgstr "يجري حذف التصنيفات المختارة..."
-
-#: js/prefs.js:1126
-msgid "No categories are selected."
-msgstr "لم يتم اختيار أي تصنيف."
-
-#: js/prefs.js:1134
-msgid "Category title:"
-msgstr "عنوان التصنيف:"
-
-#: js/prefs.js:1138
-msgid "Creating category..."
-msgstr "إنشاء التصنيف..."
-
-#: js/prefs.js:1165
-msgid "Feeds without recent updates"
-msgstr "الخلاصات بلا تحديثات مؤخراً"
-
-#: js/prefs.js:1214
-msgid "Replace current OPML publishing address with a new one?"
-msgstr "أستبدل عنوان النشر الحالي للـ OPML بعنوان جديد؟"
-
-#: js/prefs.js:1303
-msgid "Clearing feed..."
-msgstr "يجري مسح الخلاصة..."
-
-#: js/prefs.js:1323
-msgid "Rescore articles in selected feeds?"
-msgstr "هل تريد إعادة حساب نقاط البنود في الخلاصات المختارة؟"
-
-#: js/prefs.js:1326
-msgid "Rescoring selected feeds..."
-msgstr "إعادة حساب نقاط الخلاصات المختارة..."
-
-#: js/prefs.js:1346
-msgid "Rescore all articles? This operation may take a lot of time."
-msgstr "هل تريد حقاً إعادة حساب نقاط كل البنود؟ قد تستغرق هذه العملية وقتاً طويلاً."
-
-#: js/prefs.js:1349
-msgid "Rescoring feeds..."
-msgstr "إعادة حساب نقاط الخلاصات..."
-
-#: js/prefs.js:1366
-msgid "Reset selected labels to default colors?"
-msgstr "أعيد تعيين الألوان الافتراضية للأسماء المختارة ؟"
-
-#: js/prefs.js:1403
-msgid "Settings Profiles"
-msgstr "ملفات شخصية للضبط"
-
-#: js/prefs.js:1412
-msgid "Remove selected profiles? Active and default profiles will not be removed."
-msgstr "هل ترغب حذف الملفات الشخصية المختارة ؟ الملفات الفعالة والافتراضية لن تحذف."
-
-#: js/prefs.js:1415
-msgid "Removing selected profiles..."
-msgstr "حذف الملفات الشخصية المختارة..."
-
-#: js/prefs.js:1430
-msgid "No profiles are selected."
-msgstr "لم تخترملفاً شخصياً."
-
-#: js/prefs.js:1438
-#: js/prefs.js:1491
-msgid "Activate selected profile?"
-msgstr "تفعيل الملف الشخصي المختار ؟"
-
-#: js/prefs.js:1454
-#: js/prefs.js:1507
-msgid "Please choose a profile to activate."
-msgstr "فضلاً إختر الملف الشخصي للتفعيل."
-
-#: js/prefs.js:1459
-msgid "Creating profile..."
-msgstr "إنشاء الملف الشخصي..."
-
-#: js/prefs.js:1515
-msgid "This will invalidate all previously generated feed URLs. Continue?"
-msgstr "هذا سيُبطل كل عناوين URL للخلاصات المشارَكة سابقاً.  إستمرار ؟"
-
-#: js/prefs.js:1518
-#: plugins/share/share_prefs.js:6
-msgid "Clearing URLs..."
-msgstr "يجري مسح عناوين URL..."
-
-#: js/prefs.js:1525
-msgid "Generated URLs cleared."
-msgstr "تم مسح عناوين الـ URL المولَّدة."
-
-#: js/prefs.js:1616
-msgid "Label Editor"
-msgstr "محرر التسميات"
-
 #: js/prefs.js:1738
 msgid "Subscribing to feeds..."
 msgstr "يجري الاشتراك في الخلاصات..."
@@ -3300,53 +3064,40 @@ msgstr "أعلّم جميع البنود بـ مقروءة؟"
 msgid "Marking all feeds as read..."
 msgstr "يجري تعليم جميع البنود مقروءة..."
 
-#: js/tt-rss.js:384
+#: js/tt-rss.js:385
 msgid "Please enable mail plugin first."
 msgstr "فضلاً فعِّل إضافة البريد قبل البدء."
 
-#: js/tt-rss.js:496
+#: js/tt-rss.js:426
+#: js/tt-rss.js:659
+msgid "You can't edit this kind of feed."
+msgstr "لايمكنك تحرير هذا النوع من الخلاصات."
+
+#: js/tt-rss.js:497
 msgid "Please enable embed_original plugin first."
 msgstr "فضلاً فعِّل إضافة تضمين الأصل قبل البدء."
 
-#: js/tt-rss.js:645
-msgid "Select item(s) by tags"
-msgstr "إختر البند/البنود عبر العلامات"
-
-#: js/tt-rss.js:666
+#: js/tt-rss.js:667
 msgid "You can't unsubscribe from the category."
 msgstr "لايمكنك إلغاء الإشتراك من التصنيف."
 
-#: js/tt-rss.js:671
-#: js/tt-rss.js:824
+#: js/tt-rss.js:672
+#: js/tt-rss.js:825
 msgid "Please select some feed first."
 msgstr "فضلاً إختر أي خلاصة في البداية."
 
-#: js/tt-rss.js:819
+#: js/tt-rss.js:820
 msgid "You can't rescore this kind of feed."
 msgstr "لا يمكنك إعادة حساب نقاط هذا النوع من الخلاصات."
 
-#: js/tt-rss.js:829
+#: js/tt-rss.js:830
+#, perl-format
 msgid "Rescore articles in %s?"
 msgstr "إعادة حساب نقاط البنود في %s؟"
 
-#: js/tt-rss.js:832
+#: js/tt-rss.js:833
 msgid "Rescoring articles..."
 msgstr "إعادة حساب نقاط البنود..."
-
-#: js/tt-rss.js:973
-msgid "New version available!"
-msgstr "يتوفر إصدار جديد!"
-
-#: js/viewfeed.js:113
-#: js/viewfeed.js:184
-#: js/viewfeed.js:1326
-#, fuzzy
-msgid "Click to open next unread feed."
-msgstr "أنقر لتحرير الخلاصة"
-
-#: js/viewfeed.js:117
-msgid "Cancel search"
-msgstr "ألغ البحث"
 
 #: js/viewfeed.js:476
 msgid "Unstar article"
@@ -3365,6 +3116,7 @@ msgid "Publish article"
 msgstr "أنشر البند"
 
 #: js/viewfeed.js:690
+#, perl-format
 msgid "%d article selected"
 msgid_plural "%d articles selected"
 msgstr[0] "%d بند مختار"
@@ -3372,9 +3124,6 @@ msgstr[1] "%d بنود مختارة"
 
 #: js/viewfeed.js:762
 #: js/viewfeed.js:790
-#: js/viewfeed.js:817
-#: js/viewfeed.js:882
-#: js/viewfeed.js:916
 #: js/viewfeed.js:1038
 #: js/viewfeed.js:1081
 #: js/viewfeed.js:1134
@@ -3385,24 +3134,28 @@ msgid "No articles are selected."
 msgstr "لم يتم اختيار أي بند."
 
 #: js/viewfeed.js:1046
+#, perl-format
 msgid "Delete %d selected article in %s?"
 msgid_plural "Delete %d selected articles in %s?"
 msgstr[0] "أحذف %d البند المختار في %s ؟"
 msgstr[1] "أحذف %d البنود المختارة في %s ؟"
 
 #: js/viewfeed.js:1048
+#, perl-format
 msgid "Delete %d selected article?"
 msgid_plural "Delete %d selected articles?"
 msgstr[0] "حذف البند %d المختار ؟"
 msgstr[1] "حذف البنود %d المختارة ؟"
 
 #: js/viewfeed.js:1090
+#, perl-format
 msgid "Archive %d selected article in %s?"
 msgid_plural "Archive %d selected articles in %s?"
 msgstr[0] "حفظ البند %d الذي اخترته في %s ؟"
 msgstr[1] "حفظ البنود %d التي اخترتها في %s ؟"
 
 #: js/viewfeed.js:1093
+#, perl-format
 msgid "Move %d archived article back?"
 msgid_plural "Move %d archived articles back?"
 msgstr[0] "استعادة البند المحفوظ  %d ؟"
@@ -3413,6 +3166,7 @@ msgid "Please note that unstarred articles might get purged on next feed update.
 msgstr "يرجى ملاحظة أن البنود غير المعلّمة بنجمة قد يتم تنظيفها في تحديث الخلاصات القادم."
 
 #: js/viewfeed.js:1140
+#, perl-format
 msgid "Mark %d selected article in %s as read?"
 msgid_plural "Mark %d selected articles in %s as read?"
 msgstr[0] "تعليم البند %d المختار في %s مقروءاً ؟"
@@ -3426,27 +3180,14 @@ msgstr "حرِّر علامات البند"
 msgid "Saving article tags..."
 msgstr "يجري حفظ علامات البند..."
 
-#: js/viewfeed.js:1438
-msgid "No article is selected."
-msgstr "لم يتم اختيار بند."
-
-#: js/viewfeed.js:1473
-msgid "No articles found to mark"
-msgstr "لاتوجد بنود لأعلمها"
-
-#: js/viewfeed.js:1475
-msgid "Mark %d article as read?"
-msgid_plural "Mark %d articles as read?"
-msgstr[0] "تعليم البند %d مقروءاً ؟"
-msgstr[1] "تعليم البنود %d مقروءة ؟"
+#: js/viewfeed.js:1326
+#, fuzzy
+msgid "Click to open next unread feed."
+msgstr "أنقر لتحرير الخلاصة"
 
 #: js/viewfeed.js:1984
 msgid "Open original article"
 msgstr "فتح البند الأصلي"
-
-#: js/viewfeed.js:1990
-msgid "Display article URL"
-msgstr "إعرض عنوان URL للبند"
 
 #: js/viewfeed.js:2090
 msgid "Assign label"
@@ -3494,6 +3235,7 @@ msgid "Export Data"
 msgstr "صدِّر البيانات"
 
 #: plugins/import_export/import_export.js:40
+#, perl-format
 msgid "Finished, exported %d article. You can download the data <a class='visibleLink' href='%u'>here</a>."
 msgid_plural "Finished, exported %d articles. You can download the data <a class='visibleLink' href='%u'>here</a>."
 msgstr[0] "إنتهيت من تصدير البند %d .  يمكنك تنزيل البيانات <a class='visibleLink' href='%u'>من هنا</a>."
@@ -3506,6 +3248,15 @@ msgstr "إستيراد البيانات"
 #: plugins/import_export/import_export.js:112
 msgid "Please choose the file first."
 msgstr "فضلاً إختر الملف أولاً."
+
+#: plugins/mail/mail.js:36
+msgid "Error sending email:"
+msgstr ""
+
+#: plugins/mail/mail.js:38
+#, fuzzy
+msgid "Your message has been sent."
+msgstr "تم حفظ بياناتك الشخصية."
 
 #: plugins/note/note.js:17
 msgid "Saving article note..."
@@ -3552,6 +3303,10 @@ msgstr "فضلاً إختر مثيلة واحدة فقط."
 msgid "This will invalidate all previously shared article URLs. Continue?"
 msgstr "هذا سيُبطل كل عناوين URL للبنود المشارَكة سابقاً.  إستمرار ؟"
 
+#: plugins/share/share_prefs.js:6
+msgid "Clearing URLs..."
+msgstr "يجري مسح عناوين URL..."
+
 #: plugins/share/share_prefs.js:13
 msgid "Shared URLs cleared."
 msgstr "تم مسح عناوين URL المشارَكة."
@@ -3579,6 +3334,188 @@ msgstr "أحاول إلغاء المشاركة..."
 #: plugins/updater/updater.js:58
 msgid "Backup your tt-rss directory before continuing. Please type 'yes' to continue."
 msgstr "أنشئ نسخة احتياطية لمجلد tt-rss الخاص بك قبل التقدم.  فضلاً أكتب 'yes' للإستمرار."
+
+#~ msgid "Mark all articles in %s as read?"
+#~ msgstr "تعليم جميع البنود في %s مقروءة؟"
+
+#~ msgid "Mark all articles in %s older than 1 day as read?"
+#~ msgstr "تعليم جميع البنود في %s الأقدم من يوم واحد مقروءة؟"
+
+#~ msgid "Mark all articles in %s older than 1 week as read?"
+#~ msgstr "تعليم جميع البنود في %s الأقدم من أسبوع مقروءة؟"
+
+#~ msgid "Mark all articles in %s older than 2 weeks as read?"
+#~ msgstr "تعليم جميع البنود في %s الأقدم من أسبوعين مقروءة؟"
+
+#~ msgid "Error explained"
+#~ msgstr "شرح الخطأ"
+
+#~ msgid "Upload complete."
+#~ msgstr "إكتمل التحميل."
+
+#~ msgid "Remove stored feed icon?"
+#~ msgstr "أحذف رمز الخلاصة المخزَّن؟"
+
+#~ msgid "Removing feed icon..."
+#~ msgstr "جارٍ حذف رمز الخلاصة..."
+
+#~ msgid "Feed icon removed."
+#~ msgstr "حذف رمز الخلاصة."
+
+#~ msgid "Please select an image file to upload."
+#~ msgstr "فضلاً إختر ملف صورة للتحميل."
+
+#~ msgid "Upload new icon for this feed?"
+#~ msgstr "تحميل رمز جديد لهذه الخلاصة؟"
+
+#~ msgid "Uploading, please wait..."
+#~ msgstr "التحميل جارٍ،فضلاً إنتظر..."
+
+#~ msgid "Please enter label caption:"
+#~ msgstr "فضلاً أدخل عنوان التسمية:"
+
+#~ msgid "Can't create label: missing caption."
+#~ msgstr "لم أتمكن من إنشاء التسمية: التسمية التوضيحية مفقودة."
+
+#~ msgid "Subscribe to Feed"
+#~ msgstr "إشترك في الخلاصة"
+
+#~ msgid "Failed to parse output. This can indicate server timeout and/or network issues. Backend output was logged to browser console."
+#~ msgstr "فشل تفسير الخَرج.  قد يشير هذا إلى انتهاء مهلة الخادم و/أو مشكلة في الشبكة.  تم تسجيل خرج برنامج الخلفية في وحدة تحكّم المستعرض ( التفضيلات-> النظام -> سجل الأخطاء )."
+
+#~ msgid "Subscribed to %s"
+#~ msgstr "تم الإشتراك في %s"
+
+#~ msgid "Specified URL seems to be invalid."
+#~ msgstr "يبدو أن عنوان URL المعطى غير صحيح."
+
+#~ msgid "Specified URL doesn't seem to contain any feeds."
+#~ msgstr "يبدو أن عنوان URL المعطى لايحوي أي خلاصة."
+
+#~ msgid "Expand to select feed"
+#~ msgstr "وسِّع لتختار الخلاصة"
+
+#~ msgid "Couldn't download the specified URL: %s"
+#~ msgstr "لم أتمكن من تنزيل عنوان URL المحدد: s"
+
+#~ msgid "XML validation failed: %s"
+#~ msgstr "فشل اختبار صحة XML: %s"
+
+#~ msgid "You are already subscribed to this feed."
+#~ msgstr "أنت مشترك بالفعل في هذه الخلاصة."
+
+#~ msgid "Edit rule"
+#~ msgstr "تحرير القاعدة"
+
+#~ msgid "Edit Feed"
+#~ msgstr "حرِّر الخلاصة"
+
+#~ msgid "More Feeds"
+#~ msgstr "خلاصات أكثر"
+
+#~ msgid "Help"
+#~ msgstr "مساعدة"
+
+#~ msgid "Remove category %s? Any nested feeds would be placed into Uncategorized."
+#~ msgstr "أحذف التصنيف %s ؟ ستوضع أي خلاصة ضمن هذا التصنيف في \"غير مصنَّف\""
+
+#~ msgid "Removing category..."
+#~ msgstr "يجري حذف التصنيف..."
+
+#~ msgid "Remove selected categories?"
+#~ msgstr "أحذف التصنيفات المختارة؟"
+
+#~ msgid "Removing selected categories..."
+#~ msgstr "يجري حذف التصنيفات المختارة..."
+
+#~ msgid "No categories are selected."
+#~ msgstr "لم يتم اختيار أي تصنيف."
+
+#~ msgid "Category title:"
+#~ msgstr "عنوان التصنيف:"
+
+#~ msgid "Creating category..."
+#~ msgstr "إنشاء التصنيف..."
+
+#~ msgid "Feeds without recent updates"
+#~ msgstr "الخلاصات بلا تحديثات مؤخراً"
+
+#~ msgid "Replace current OPML publishing address with a new one?"
+#~ msgstr "أستبدل عنوان النشر الحالي للـ OPML بعنوان جديد؟"
+
+#~ msgid "Clearing feed..."
+#~ msgstr "يجري مسح الخلاصة..."
+
+#~ msgid "Rescore articles in selected feeds?"
+#~ msgstr "هل تريد إعادة حساب نقاط البنود في الخلاصات المختارة؟"
+
+#~ msgid "Rescoring selected feeds..."
+#~ msgstr "إعادة حساب نقاط الخلاصات المختارة..."
+
+#~ msgid "Rescore all articles? This operation may take a lot of time."
+#~ msgstr "هل تريد حقاً إعادة حساب نقاط كل البنود؟ قد تستغرق هذه العملية وقتاً طويلاً."
+
+#~ msgid "Rescoring feeds..."
+#~ msgstr "إعادة حساب نقاط الخلاصات..."
+
+#~ msgid "Reset selected labels to default colors?"
+#~ msgstr "أعيد تعيين الألوان الافتراضية للأسماء المختارة ؟"
+
+#~ msgid "Settings Profiles"
+#~ msgstr "ملفات شخصية للضبط"
+
+#~ msgid "Remove selected profiles? Active and default profiles will not be removed."
+#~ msgstr "هل ترغب حذف الملفات الشخصية المختارة ؟ الملفات الفعالة والافتراضية لن تحذف."
+
+#~ msgid "Removing selected profiles..."
+#~ msgstr "حذف الملفات الشخصية المختارة..."
+
+#~ msgid "No profiles are selected."
+#~ msgstr "لم تخترملفاً شخصياً."
+
+#~ msgid "Activate selected profile?"
+#~ msgstr "تفعيل الملف الشخصي المختار ؟"
+
+#~ msgid "Please choose a profile to activate."
+#~ msgstr "فضلاً إختر الملف الشخصي للتفعيل."
+
+#~ msgid "Creating profile..."
+#~ msgstr "إنشاء الملف الشخصي..."
+
+#~ msgid "This will invalidate all previously generated feed URLs. Continue?"
+#~ msgstr "هذا سيُبطل كل عناوين URL للخلاصات المشارَكة سابقاً.  إستمرار ؟"
+
+#~ msgid "Generated URLs cleared."
+#~ msgstr "تم مسح عناوين الـ URL المولَّدة."
+
+#~ msgid "Label Editor"
+#~ msgstr "محرر التسميات"
+
+#~ msgid "Select item(s) by tags"
+#~ msgstr "إختر البند/البنود عبر العلامات"
+
+#~ msgid "New version available!"
+#~ msgstr "يتوفر إصدار جديد!"
+
+#~ msgid "Cancel search"
+#~ msgstr "ألغ البحث"
+
+#~ msgid "No article is selected."
+#~ msgstr "لم يتم اختيار بند."
+
+#~ msgid "No articles found to mark"
+#~ msgstr "لاتوجد بنود لأعلمها"
+
+#~ msgid "Mark %d article as read?"
+#~ msgid_plural "Mark %d articles as read?"
+#~ msgstr[0] "تعليم البند %d مقروءاً ؟"
+#~ msgstr[1] "تعليم البنود %d مقروءة ؟"
+
+#~ msgid "Display article URL"
+#~ msgstr "إعرض عنوان URL للبند"
+
+#~ msgid "LibXML error %s at line %d (column %d): %s"
+#~ msgstr "خطأ LibXML %s في السطر %d (العمود %d(: %s"
 
 #~ msgid "From:"
 #~ msgstr "من:"

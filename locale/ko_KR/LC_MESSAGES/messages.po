@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tt-rss unstable\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-14 12:07+0400\n"
+"POT-Creation-Date: 2014-09-06 15:10+0400\n"
 "PO-Revision-Date: 2013-06-19 10:45+0900\n"
 "Last-Translator: YoungMin Park <tfympark1@gmail.com>\n"
 "Language-Team: YoungMin Park <tfympark1@gmail.com>\n"
@@ -161,26 +161,17 @@ msgstr "SQL escaping 테스트에 실패했습니다. 데이터베이스 및 PHP
 #: classes/pref/filters.php:704
 #: classes/pref/feeds.php:1367
 #: js/feedlist.js:126
-#: js/feedlist.js:450
-#: js/functions.js:446
-#: js/functions.js:784
 #: js/functions.js:1218
 #: js/functions.js:1352
 #: js/functions.js:1664
 #: js/prefs.js:653
 #: js/prefs.js:854
-#: js/prefs.js:1441
-#: js/prefs.js:1494
-#: js/prefs.js:1534
-#: js/prefs.js:1551
-#: js/prefs.js:1567
-#: js/prefs.js:1587
 #: js/prefs.js:1760
 #: js/prefs.js:1776
 #: js/prefs.js:1794
-#: js/tt-rss.js:514
-#: js/tt-rss.js:531
-#: js/viewfeed.js:859
+#: js/tt-rss.js:55
+#: js/tt-rss.js:515
+#: js/viewfeed.js:741
 #: js/viewfeed.js:1316
 #: plugins/import_export/import_export.js:17
 #: plugins/updater/updater.js:17
@@ -383,8 +374,8 @@ msgid "Filters"
 msgstr "필터"
 
 #: prefs.php:129
-#: include/functions.php:1263
-#: include/functions.php:1927
+#: include/functions.php:1264
+#: include/functions.php:1916
 #: classes/pref/labels.php:90
 msgid "Labels"
 msgstr "라벨"
@@ -475,10 +466,10 @@ msgid "Tiny Tiny RSS data update script."
 msgstr "Tiny Tiny RSS 데이터 업데이트 스크립트."
 
 #: include/digest.php:109
-#: include/functions.php:1272
-#: include/functions.php:1828
-#: include/functions.php:1913
-#: include/functions.php:1935
+#: include/functions.php:1273
+#: include/functions.php:1817
+#: include/functions.php:1902
+#: include/functions.php:1924
 #: classes/opml.php:421
 #: classes/pref/feeds.php:226
 msgid "Uncategorized"
@@ -570,7 +561,6 @@ msgid "Open in new window"
 msgstr "새창에서 열기"
 
 #: include/functions2.php:67
-#: js/viewfeed.js:2039
 msgid "Mark below as read"
 msgstr "아래 글 읽음 표시"
 
@@ -691,7 +681,7 @@ msgid "Go to"
 msgstr "이동"
 
 #: include/functions2.php:97
-#: include/functions.php:1986
+#: include/functions.php:1975
 msgid "All articles"
 msgstr "전체 글"
 
@@ -700,8 +690,7 @@ msgid "Fresh"
 msgstr "새 글"
 
 #: include/functions2.php:101
-#: js/tt-rss.js:460
-#: js/tt-rss.js:642
+#: js/tt-rss.js:461
 msgid "Tag cloud"
 msgstr "태그 클라우드"
 
@@ -733,14 +722,14 @@ msgid "Search results: %s"
 msgstr "검색 결과: %s"
 
 #: include/functions2.php:1263
-#: classes/feeds.php:708
+#: classes/feeds.php:714
 #, fuzzy
 msgid "comment"
 msgid_plural "comments"
 msgstr[0] "コメント"
 
 #: include/functions2.php:1267
-#: classes/feeds.php:712
+#: classes/feeds.php:718
 msgid "comments"
 msgstr "コメント"
 
@@ -755,17 +744,17 @@ msgid "no tags"
 msgstr "태그 없음"
 
 #: include/functions2.php:1351
-#: classes/feeds.php:694
+#: classes/feeds.php:700
 msgid "Edit tags for this article"
 msgstr "이 글의 태그 편집"
 
 #: include/functions2.php:1383
-#: classes/feeds.php:646
+#: classes/feeds.php:652
 msgid "Originally from:"
 msgstr "원 출처:"
 
 #: include/functions2.php:1396
-#: classes/feeds.php:659
+#: classes/feeds.php:665
 #: classes/pref/feeds.php:569
 msgid "Feed URL"
 msgstr "피드 주소"
@@ -805,40 +794,35 @@ msgstr "알수 없는 종류"
 msgid "Attachments"
 msgstr "첨부"
 
-#: include/functions2.php:2394
-#, php-format
-msgid "LibXML error %s at line %d (column %d): %s"
-msgstr ""
-
-#: include/functions.php:1261
-#: include/functions.php:1925
+#: include/functions.php:1262
+#: include/functions.php:1914
 msgid "Special"
 msgstr "자동 분류"
 
-#: include/functions.php:1776
-#: classes/feeds.php:1118
+#: include/functions.php:1765
+#: classes/feeds.php:1124
 #: classes/pref/filters.php:169
 #: classes/pref/filters.php:447
 msgid "All feeds"
 msgstr "모든 피드"
 
-#: include/functions.php:1980
+#: include/functions.php:1969
 msgid "Starred articles"
 msgstr "중요 표시된 글"
 
-#: include/functions.php:1982
+#: include/functions.php:1971
 msgid "Published articles"
 msgstr "공개 글"
 
-#: include/functions.php:1984
+#: include/functions.php:1973
 msgid "Fresh articles"
 msgstr "새 글"
 
-#: include/functions.php:1988
+#: include/functions.php:1977
 msgid "Archived articles"
 msgstr "보관 처리된 글"
 
-#: include/functions.php:1990
+#: include/functions.php:1979
 msgid "Recently read"
 msgstr "최근에 읽은 글"
 
@@ -934,9 +918,9 @@ msgstr "저장"
 #: classes/article.php:205
 #: classes/handler/public.php:503
 #: classes/handler/public.php:537
-#: classes/feeds.php:1047
-#: classes/feeds.php:1097
-#: classes/feeds.php:1157
+#: classes/feeds.php:1053
+#: classes/feeds.php:1103
+#: classes/feeds.php:1163
 #: classes/pref/users.php:170
 #: classes/pref/labels.php:81
 #: classes/pref/filters.php:428
@@ -1243,7 +1227,7 @@ msgid "Feed:"
 msgstr "피드"
 
 #: classes/feeds.php:201
-#: classes/feeds.php:843
+#: classes/feeds.php:849
 msgid "Feed not found."
 msgstr "피드가 없습니다."
 
@@ -1251,80 +1235,80 @@ msgstr "피드가 없습니다."
 msgid "Never"
 msgstr "영원히"
 
-#: classes/feeds.php:375
+#: classes/feeds.php:381
 #, php-format
 msgid "Imported at %s"
 msgstr "%s에서 불러옴"
 
-#: classes/feeds.php:434
-#: classes/feeds.php:529
+#: classes/feeds.php:440
+#: classes/feeds.php:535
 #, fuzzy
 msgid "mark feed as read"
 msgstr "マークしたフィードを既読にする"
 
-#: classes/feeds.php:586
+#: classes/feeds.php:592
 msgid "Collapse article"
 msgstr "글 접기"
 
-#: classes/feeds.php:746
+#: classes/feeds.php:752
 msgid "No unread articles found to display."
 msgstr "읽지 않은 글이 없습니다."
 
-#: classes/feeds.php:749
+#: classes/feeds.php:755
 msgid "No updated articles found to display."
 msgstr "업데이트된 글이 없습니다."
 
-#: classes/feeds.php:752
+#: classes/feeds.php:758
 msgid "No starred articles found to display."
 msgstr "중요 표시된 글이 없습니다."
 
-#: classes/feeds.php:756
+#: classes/feeds.php:762
 msgid "No articles found to display. You can assign articles to labels manually from article header context menu (applies to all selected articles) or use a filter."
 msgstr "표시할 글이 없습니다. 필터를 사용하거나 글 제목을 우클릭해서 라벨을 추가할 수 있습니다."
 
-#: classes/feeds.php:758
+#: classes/feeds.php:764
 msgid "No articles found to display."
 msgstr "표시할 글이 없습니다."
 
-#: classes/feeds.php:773
-#: classes/feeds.php:938
+#: classes/feeds.php:779
+#: classes/feeds.php:944
 #, php-format
 msgid "Feeds last updated at %s"
 msgstr "%s에 마지막으로 업데이트 되었습니다."
 
-#: classes/feeds.php:783
-#: classes/feeds.php:948
+#: classes/feeds.php:789
+#: classes/feeds.php:954
 msgid "Some feeds have update errors (click for details)"
 msgstr "일부 피드에 업데이트 오류가 있습니다 (상세 정보는 클릭)"
 
-#: classes/feeds.php:928
+#: classes/feeds.php:934
 msgid "No feed selected."
 msgstr "선택된 피드가 없습니다."
 
-#: classes/feeds.php:985
-#: classes/feeds.php:993
+#: classes/feeds.php:991
+#: classes/feeds.php:999
 msgid "Feed or site URL"
 msgstr "피드나 사이트 URL"
 
-#: classes/feeds.php:999
+#: classes/feeds.php:1005
 #: classes/pref/feeds.php:590
 #: classes/pref/feeds.php:801
 #: classes/pref/feeds.php:1781
 msgid "Place in category:"
 msgstr "카테고리 위치:"
 
-#: classes/feeds.php:1007
+#: classes/feeds.php:1013
 msgid "Available feeds"
 msgstr "사용 가능한 피드"
 
-#: classes/feeds.php:1019
+#: classes/feeds.php:1025
 #: classes/pref/users.php:133
 #: classes/pref/feeds.php:620
 #: classes/pref/feeds.php:837
 msgid "Authentication"
 msgstr "인증"
 
-#: classes/feeds.php:1023
+#: classes/feeds.php:1029
 #: classes/pref/users.php:397
 #: classes/pref/feeds.php:626
 #: classes/pref/feeds.php:841
@@ -1332,7 +1316,7 @@ msgstr "인증"
 msgid "Login"
 msgstr "로그인"
 
-#: classes/feeds.php:1026
+#: classes/feeds.php:1032
 #: classes/pref/prefs.php:261
 #: classes/pref/feeds.php:639
 #: classes/pref/feeds.php:847
@@ -1340,22 +1324,22 @@ msgstr "로그인"
 msgid "Password"
 msgstr "암호"
 
-#: classes/feeds.php:1036
+#: classes/feeds.php:1042
 msgid "This feed requires authentication."
 msgstr "이 피드는 로그인이 필요합니다."
 
-#: classes/feeds.php:1041
-#: classes/feeds.php:1095
+#: classes/feeds.php:1047
+#: classes/feeds.php:1101
 #: classes/pref/feeds.php:1816
 msgid "Subscribe"
 msgstr "구독"
 
-#: classes/feeds.php:1044
+#: classes/feeds.php:1050
 msgid "More feeds"
 msgstr "기타 피드"
 
-#: classes/feeds.php:1067
-#: classes/feeds.php:1156
+#: classes/feeds.php:1073
+#: classes/feeds.php:1162
 #: classes/pref/users.php:324
 #: classes/pref/filters.php:665
 #: classes/pref/feeds.php:1298
@@ -1363,19 +1347,19 @@ msgstr "기타 피드"
 msgid "Search"
 msgstr "검색"
 
-#: classes/feeds.php:1071
+#: classes/feeds.php:1077
 msgid "Popular feeds"
 msgstr "인기 피드"
 
-#: classes/feeds.php:1072
+#: classes/feeds.php:1078
 msgid "Feed archive"
 msgstr "피드 보관"
 
-#: classes/feeds.php:1075
+#: classes/feeds.php:1081
 msgid "limit:"
 msgstr "제한:"
 
-#: classes/feeds.php:1096
+#: classes/feeds.php:1102
 #: classes/pref/users.php:350
 #: classes/pref/labels.php:284
 #: classes/pref/filters.php:418
@@ -1385,19 +1369,19 @@ msgstr "제한:"
 msgid "Remove"
 msgstr "삭제"
 
-#: classes/feeds.php:1107
+#: classes/feeds.php:1113
 msgid "Look for"
 msgstr ""
 
-#: classes/feeds.php:1115
+#: classes/feeds.php:1121
 msgid "Limit search to:"
 msgstr "검색 제한:"
 
-#: classes/feeds.php:1131
+#: classes/feeds.php:1137
 msgid "This feed"
 msgstr "이 피드"
 
-#: classes/feeds.php:1152
+#: classes/feeds.php:1158
 #, fuzzy
 msgid "Search syntax"
 msgstr "ラベルの検索"
@@ -1743,7 +1727,6 @@ msgid "Save rule"
 msgstr "규칙 저장"
 
 #: classes/pref/filters.php:905
-#: js/functions.js:1022
 msgid "Add rule"
 msgstr "규칙 추가"
 
@@ -1961,7 +1944,6 @@ msgid "Strip all but most common HTML tags when reading articles."
 msgstr ""
 
 #: classes/pref/prefs.php:54
-#: js/prefs.js:1687
 msgid "Customize stylesheet"
 msgstr "스타일시트 변경"
 
@@ -2810,25 +2792,16 @@ msgstr "업데이트 준비 완료."
 msgid "Start update"
 msgstr "업데이트 시작"
 
-#: js/feedlist.js:406
-#: js/feedlist.js:434
-msgid "Mark all articles in %s as read?"
-msgstr "%s의 모든 글을 읽음 표시 할까요?"
-
-#: js/feedlist.js:425
-msgid "Mark all articles in %s older than 1 day as read?"
-msgstr "하루 이상 지난 %s의 모든 글을 읽음 표시 할까요?"
-
-#: js/feedlist.js:428
-msgid "Mark all articles in %s older than 1 week as read?"
-msgstr "1주일 이상 지난 %s의 모든 글을 읽음 표시 할까요?"
-
-#: js/feedlist.js:431
-msgid "Mark all articles in %s older than 2 weeks as read?"
-msgstr "2주일 이상 지난 %s의 모든 글을 읽음 표시 할까요?"
-
 #: js/functions.js:62
 msgid "The error will be reported to the configured log destination."
+msgstr ""
+
+#: js/functions.js:90
+msgid "Report to tt-rss.org"
+msgstr ""
+
+#: js/functions.js:93
+msgid "Close"
 msgstr ""
 
 #: js/functions.js:104
@@ -2838,86 +2811,6 @@ msgstr ""
 #: js/functions.js:236
 msgid "Click to close"
 msgstr "클릭하여 닫기"
-
-#: js/functions.js:612
-msgid "Error explained"
-msgstr ""
-
-#: js/functions.js:694
-msgid "Upload complete."
-msgstr "업로드 완료."
-
-#: js/functions.js:718
-msgid "Remove stored feed icon?"
-msgstr "저장된 피드 아이콘을 제거할까요?"
-
-#: js/functions.js:723
-msgid "Removing feed icon..."
-msgstr "피드 아이콘 제거중..."
-
-#: js/functions.js:728
-msgid "Feed icon removed."
-msgstr "피드 아이콘이 제거되었습니다."
-
-#: js/functions.js:750
-msgid "Please select an image file to upload."
-msgstr "업로드할 이미지 파일을 선택하세요."
-
-#: js/functions.js:752
-msgid "Upload new icon for this feed?"
-msgstr ""
-
-#: js/functions.js:753
-msgid "Uploading, please wait..."
-msgstr "업로드중입니다. 잠깐 웹서핑하고 계세요."
-
-#: js/functions.js:769
-msgid "Please enter label caption:"
-msgstr "라벨 이름을 입력하세요:"
-
-#: js/functions.js:774
-msgid "Can't create label: missing caption."
-msgstr "라벨 생성 실패: 이름을 입력하세요."
-
-#: js/functions.js:817
-msgid "Subscribe to Feed"
-msgstr "피드 구독"
-
-#: js/functions.js:836
-msgid "Failed to parse output. This can indicate server timeout and/or network issues. Backend output was logged to browser console."
-msgstr ""
-
-#: js/functions.js:851
-msgid "Subscribed to %s"
-msgstr "%s를 구독함"
-
-#: js/functions.js:856
-msgid "Specified URL seems to be invalid."
-msgstr ""
-
-#: js/functions.js:859
-msgid "Specified URL doesn't seem to contain any feeds."
-msgstr ""
-
-#: js/functions.js:871
-msgid "Expand to select feed"
-msgstr "선택된 피드로 확장"
-
-#: js/functions.js:883
-msgid "Couldn't download the specified URL: %s"
-msgstr "URL %s를 다운로드 할 수 없습니다."
-
-#: js/functions.js:887
-msgid "XML validation failed: %s"
-msgstr ""
-
-#: js/functions.js:892
-msgid "You are already subscribed to this feed."
-msgstr "이미 구독중인 피드입니다."
-
-#: js/functions.js:1022
-msgid "Edit rule"
-msgstr "규칙 편집"
 
 #: js/functions.js:1048
 msgid "Edit action"
@@ -2936,7 +2829,8 @@ msgid "Subscription reset."
 msgstr "구독이 초기화되었습니다."
 
 #: js/functions.js:1236
-#: js/tt-rss.js:677
+#: js/tt-rss.js:678
+#, perl-format
 msgid "Unsubscribe from %s?"
 msgstr "%s를 구독 해제 할까요?"
 
@@ -2953,30 +2847,8 @@ msgid "Generate new syndication address for this feed?"
 msgstr ""
 
 #: js/functions.js:1381
-#: js/prefs.js:1218
 msgid "Trying to change address..."
 msgstr "주소 변경중..."
-
-#: js/functions.js:1568
-#: js/tt-rss.js:425
-#: js/tt-rss.js:658
-msgid "You can't edit this kind of feed."
-msgstr "이 형식의 피드는 편집할 수 없습니다."
-
-#: js/functions.js:1583
-msgid "Edit Feed"
-msgstr "피드 편집"
-
-#: js/functions.js:1589
-#: js/prefs.js:99
-#: js/prefs.js:211
-#: js/prefs.js:736
-msgid "Saving data..."
-msgstr "데이터 저장중..."
-
-#: js/functions.js:1621
-msgid "More Feeds"
-msgstr "기타 피드"
 
 #: js/functions.js:1682
 #: js/functions.js:1792
@@ -2985,8 +2857,6 @@ msgstr "기타 피드"
 #: js/prefs.js:476
 #: js/prefs.js:629
 #: js/prefs.js:649
-#: js/prefs.js:1194
-#: js/prefs.js:1339
 msgid "No feeds are selected."
 msgstr "선택된 피드가 없습니다."
 
@@ -2999,18 +2869,12 @@ msgid "Feeds with update errors"
 msgstr "업데이트 오류가 있는 피드"
 
 #: js/functions.js:1774
-#: js/prefs.js:1176
 msgid "Remove selected feeds?"
 msgstr "선택된 피드를 제거할까요?"
 
 #: js/functions.js:1777
-#: js/prefs.js:1179
 msgid "Removing selected feeds..."
 msgstr "선택된 피드 제거중..."
-
-#: js/functions.js:1875
-msgid "Help"
-msgstr "도움말"
 
 #: js/PrefFeedTree.js:48
 msgid "Edit category"
@@ -3040,6 +2904,14 @@ msgstr "사용자 추가중..."
 msgid "User Editor"
 msgstr "사용자 편집기"
 
+#: js/prefs.js:99
+#: js/prefs.js:211
+#: js/prefs.js:736
+#: plugins/instances/instances.js:26
+#: plugins/instances/instances.js:89
+msgid "Saving data..."
+msgstr "데이터 저장중..."
+
 #: js/prefs.js:134
 msgid "Edit Filter"
 msgstr "필터 편집"
@@ -3061,7 +2933,6 @@ msgid "Removing selected labels..."
 msgstr "라벨 삭제중..."
 
 #: js/prefs.js:312
-#: js/prefs.js:1380
 msgid "No labels are selected."
 msgstr "선택된 라벨이 없습니다."
 
@@ -3178,113 +3049,6 @@ msgstr "불러오는 중입니다. 화장실이라도 다녀오시죠?"
 msgid "Reset to defaults?"
 msgstr "초기화 할까요?"
 
-#: js/prefs.js:1083
-msgid "Remove category %s? Any nested feeds would be placed into Uncategorized."
-msgstr ""
-
-#: js/prefs.js:1089
-msgid "Removing category..."
-msgstr "카테고리 제거중..."
-
-#: js/prefs.js:1110
-msgid "Remove selected categories?"
-msgstr "선택한 카테고리를 삭제할까요?"
-
-#: js/prefs.js:1113
-msgid "Removing selected categories..."
-msgstr "카테고리 삭제중..."
-
-#: js/prefs.js:1126
-msgid "No categories are selected."
-msgstr "선택된 카테고리가 없습니다."
-
-#: js/prefs.js:1134
-msgid "Category title:"
-msgstr "카테고리 제목:"
-
-#: js/prefs.js:1138
-msgid "Creating category..."
-msgstr "카테고리 생성중..."
-
-#: js/prefs.js:1165
-msgid "Feeds without recent updates"
-msgstr ""
-
-#: js/prefs.js:1214
-msgid "Replace current OPML publishing address with a new one?"
-msgstr "현재 OPML 공개 주소를 새 주소로 교체할까요?"
-
-#: js/prefs.js:1303
-msgid "Clearing feed..."
-msgstr "피드 정리중..."
-
-#: js/prefs.js:1323
-msgid "Rescore articles in selected feeds?"
-msgstr "선택한 피드에서 글의 점수를 다시 매길까요?"
-
-#: js/prefs.js:1326
-msgid "Rescoring selected feeds..."
-msgstr "선택된 피드의 점수 다시 매기는중..."
-
-#: js/prefs.js:1346
-msgid "Rescore all articles? This operation may take a lot of time."
-msgstr "모든 글에 점수를 다시 매기겠습니까? (한참 걸릴 수도 있습니다.)"
-
-#: js/prefs.js:1349
-msgid "Rescoring feeds..."
-msgstr "피드 점수 다시매기는 중..."
-
-#: js/prefs.js:1366
-msgid "Reset selected labels to default colors?"
-msgstr "선택된 라벨의 색을 기본값으로 초기화 할까요?"
-
-#: js/prefs.js:1403
-msgid "Settings Profiles"
-msgstr ""
-
-#: js/prefs.js:1412
-msgid "Remove selected profiles? Active and default profiles will not be removed."
-msgstr ""
-
-#: js/prefs.js:1415
-msgid "Removing selected profiles..."
-msgstr "선택된 프로필 제거중..."
-
-#: js/prefs.js:1430
-msgid "No profiles are selected."
-msgstr "선택된 프로필이 없습니다."
-
-#: js/prefs.js:1438
-#: js/prefs.js:1491
-msgid "Activate selected profile?"
-msgstr "선택된 프로필을 활성화 할까요?"
-
-#: js/prefs.js:1454
-#: js/prefs.js:1507
-msgid "Please choose a profile to activate."
-msgstr "활성화할 프로필을 선택하세요."
-
-#: js/prefs.js:1459
-msgid "Creating profile..."
-msgstr "프로필 생성중..."
-
-#: js/prefs.js:1515
-msgid "This will invalidate all previously generated feed URLs. Continue?"
-msgstr ""
-
-#: js/prefs.js:1518
-#: plugins/share/share_prefs.js:6
-msgid "Clearing URLs..."
-msgstr "URL 지우는중..."
-
-#: js/prefs.js:1525
-msgid "Generated URLs cleared."
-msgstr "생성된 URL이 지워졌습니다."
-
-#: js/prefs.js:1616
-msgid "Label Editor"
-msgstr "라벨 편집기"
-
 #: js/prefs.js:1738
 msgid "Subscribing to feeds..."
 msgstr "피드 구독하는중..."
@@ -3305,53 +3069,40 @@ msgstr "모든 글을 읽음 표시 할까요?"
 msgid "Marking all feeds as read..."
 msgstr "모든 피드를 읽음 표시중..."
 
-#: js/tt-rss.js:384
+#: js/tt-rss.js:385
 msgid "Please enable mail plugin first."
 msgstr "먼저 메일 플러그인을 켜세요."
 
-#: js/tt-rss.js:496
+#: js/tt-rss.js:426
+#: js/tt-rss.js:659
+msgid "You can't edit this kind of feed."
+msgstr "이 형식의 피드는 편집할 수 없습니다."
+
+#: js/tt-rss.js:497
 msgid "Please enable embed_original plugin first."
 msgstr "먼저 embed_original 플러그인을 켜세요."
 
-#: js/tt-rss.js:645
-msgid "Select item(s) by tags"
-msgstr ""
-
-#: js/tt-rss.js:666
+#: js/tt-rss.js:667
 msgid "You can't unsubscribe from the category."
 msgstr "카테고리에서는 구독 해제 할 수 없습니다."
 
-#: js/tt-rss.js:671
-#: js/tt-rss.js:824
+#: js/tt-rss.js:672
+#: js/tt-rss.js:825
 msgid "Please select some feed first."
 msgstr "피드를 먼저 선택하세요."
 
-#: js/tt-rss.js:819
+#: js/tt-rss.js:820
 msgid "You can't rescore this kind of feed."
 msgstr "이 형식의 피드는 점수를 새로 매길 수 없습니다."
 
-#: js/tt-rss.js:829
+#: js/tt-rss.js:830
+#, perl-format
 msgid "Rescore articles in %s?"
 msgstr "%s의 글의 점수를 다시 매길까요?"
 
-#: js/tt-rss.js:832
+#: js/tt-rss.js:833
 msgid "Rescoring articles..."
 msgstr "글 점수 다시 매기는중..."
-
-#: js/tt-rss.js:973
-msgid "New version available!"
-msgstr "새 버전 나왔어요!"
-
-#: js/viewfeed.js:113
-#: js/viewfeed.js:184
-#: js/viewfeed.js:1326
-#, fuzzy
-msgid "Click to open next unread feed."
-msgstr "클릭하여 피드 편집"
-
-#: js/viewfeed.js:117
-msgid "Cancel search"
-msgstr "검색 취소"
 
 #: js/viewfeed.js:476
 msgid "Unstar article"
@@ -3370,15 +3121,13 @@ msgid "Publish article"
 msgstr "글 공개"
 
 #: js/viewfeed.js:690
+#, perl-format
 msgid "%d article selected"
 msgid_plural "%d articles selected"
 msgstr[0] "%d개의 글이 선택되었습니다."
 
 #: js/viewfeed.js:762
 #: js/viewfeed.js:790
-#: js/viewfeed.js:817
-#: js/viewfeed.js:882
-#: js/viewfeed.js:916
 #: js/viewfeed.js:1038
 #: js/viewfeed.js:1081
 #: js/viewfeed.js:1134
@@ -3389,21 +3138,25 @@ msgid "No articles are selected."
 msgstr "선택된 글이 없습니다."
 
 #: js/viewfeed.js:1046
+#, fuzzy, perl-format
 msgid "Delete %d selected article in %s?"
 msgid_plural "Delete %d selected articles in %s?"
 msgstr[0] "%s에서 선택된 %d개 글을 삭제 할까요?"
 
 #: js/viewfeed.js:1048
+#, perl-format
 msgid "Delete %d selected article?"
 msgid_plural "Delete %d selected articles?"
 msgstr[0] "선택된 %d개 글을 삭제할까요?"
 
 #: js/viewfeed.js:1090
+#, fuzzy, perl-format
 msgid "Archive %d selected article in %s?"
 msgid_plural "Archive %d selected articles in %s?"
 msgstr[0] "%s에서 선택된 %d개 글을 보관 처리 할까요?"
 
 #: js/viewfeed.js:1093
+#, perl-format
 msgid "Move %d archived article back?"
 msgid_plural "Move %d archived articles back?"
 msgstr[0] "보관 처리된 %d개의 글을 다시 옮길까요?"
@@ -3413,6 +3166,7 @@ msgid "Please note that unstarred articles might get purged on next feed update.
 msgstr ""
 
 #: js/viewfeed.js:1140
+#, fuzzy, perl-format
 msgid "Mark %d selected article in %s as read?"
 msgid_plural "Mark %d selected articles in %s as read?"
 msgstr[0] "%s에서 선택된 %d개 글을 읽음 표시 할까요?"
@@ -3425,26 +3179,14 @@ msgstr "글 태그 편집"
 msgid "Saving article tags..."
 msgstr "글의 태그 저장 중..."
 
-#: js/viewfeed.js:1438
-msgid "No article is selected."
-msgstr "선택된 글이 없습니다."
-
-#: js/viewfeed.js:1473
-msgid "No articles found to mark"
-msgstr "표시할 글이 없습니다."
-
-#: js/viewfeed.js:1475
-msgid "Mark %d article as read?"
-msgid_plural "Mark %d articles as read?"
-msgstr[0] "%d 글을 읽음 표시 할까요?"
+#: js/viewfeed.js:1326
+#, fuzzy
+msgid "Click to open next unread feed."
+msgstr "클릭하여 피드 편집"
 
 #: js/viewfeed.js:1984
 msgid "Open original article"
 msgstr "원본 글 열기"
-
-#: js/viewfeed.js:1990
-msgid "Display article URL"
-msgstr "글 URL 표시"
 
 #: js/viewfeed.js:2090
 msgid "Assign label"
@@ -3494,6 +3236,7 @@ msgid "Export Data"
 msgstr "데이터 내보내기"
 
 #: plugins/import_export/import_export.js:40
+#, perl-format
 msgid "Finished, exported %d article. You can download the data <a class='visibleLink' href='%u'>here</a>."
 msgid_plural "Finished, exported %d articles. You can download the data <a class='visibleLink' href='%u'>here</a>."
 msgstr[0] ""
@@ -3506,6 +3249,15 @@ msgstr "데이터 불러오기"
 #: plugins/import_export/import_export.js:112
 msgid "Please choose the file first."
 msgstr "먼저 파일을 선택하세요."
+
+#: plugins/mail/mail.js:36
+msgid "Error sending email:"
+msgstr ""
+
+#: plugins/mail/mail.js:38
+#, fuzzy
+msgid "Your message has been sent."
+msgstr "개인 정보가 저장되었습니다."
 
 #: plugins/note/note.js:17
 msgid "Saving article note..."
@@ -3552,6 +3304,10 @@ msgstr "항목을 하나만 선택하세요."
 msgid "This will invalidate all previously shared article URLs. Continue?"
 msgstr ""
 
+#: plugins/share/share_prefs.js:6
+msgid "Clearing URLs..."
+msgstr "URL 지우는중..."
+
 #: plugins/share/share_prefs.js:13
 msgid "Shared URLs cleared."
 msgstr ""
@@ -3583,6 +3339,148 @@ msgstr "주소 변경중..."
 #: plugins/updater/updater.js:58
 msgid "Backup your tt-rss directory before continuing. Please type 'yes' to continue."
 msgstr ""
+
+#~ msgid "Mark all articles in %s as read?"
+#~ msgstr "%s의 모든 글을 읽음 표시 할까요?"
+
+#~ msgid "Mark all articles in %s older than 1 day as read?"
+#~ msgstr "하루 이상 지난 %s의 모든 글을 읽음 표시 할까요?"
+
+#~ msgid "Mark all articles in %s older than 1 week as read?"
+#~ msgstr "1주일 이상 지난 %s의 모든 글을 읽음 표시 할까요?"
+
+#~ msgid "Mark all articles in %s older than 2 weeks as read?"
+#~ msgstr "2주일 이상 지난 %s의 모든 글을 읽음 표시 할까요?"
+
+#~ msgid "Upload complete."
+#~ msgstr "업로드 완료."
+
+#~ msgid "Remove stored feed icon?"
+#~ msgstr "저장된 피드 아이콘을 제거할까요?"
+
+#~ msgid "Removing feed icon..."
+#~ msgstr "피드 아이콘 제거중..."
+
+#~ msgid "Feed icon removed."
+#~ msgstr "피드 아이콘이 제거되었습니다."
+
+#~ msgid "Please select an image file to upload."
+#~ msgstr "업로드할 이미지 파일을 선택하세요."
+
+#~ msgid "Uploading, please wait..."
+#~ msgstr "업로드중입니다. 잠깐 웹서핑하고 계세요."
+
+#~ msgid "Please enter label caption:"
+#~ msgstr "라벨 이름을 입력하세요:"
+
+#~ msgid "Can't create label: missing caption."
+#~ msgstr "라벨 생성 실패: 이름을 입력하세요."
+
+#~ msgid "Subscribe to Feed"
+#~ msgstr "피드 구독"
+
+#~ msgid "Subscribed to %s"
+#~ msgstr "%s를 구독함"
+
+#~ msgid "Expand to select feed"
+#~ msgstr "선택된 피드로 확장"
+
+#~ msgid "Couldn't download the specified URL: %s"
+#~ msgstr "URL %s를 다운로드 할 수 없습니다."
+
+#~ msgid "You are already subscribed to this feed."
+#~ msgstr "이미 구독중인 피드입니다."
+
+#~ msgid "Edit rule"
+#~ msgstr "규칙 편집"
+
+#~ msgid "Edit Feed"
+#~ msgstr "피드 편집"
+
+#~ msgid "More Feeds"
+#~ msgstr "기타 피드"
+
+#~ msgid "Help"
+#~ msgstr "도움말"
+
+#~ msgid "Removing category..."
+#~ msgstr "카테고리 제거중..."
+
+#~ msgid "Remove selected categories?"
+#~ msgstr "선택한 카테고리를 삭제할까요?"
+
+#~ msgid "Removing selected categories..."
+#~ msgstr "카테고리 삭제중..."
+
+#~ msgid "No categories are selected."
+#~ msgstr "선택된 카테고리가 없습니다."
+
+#~ msgid "Category title:"
+#~ msgstr "카테고리 제목:"
+
+#~ msgid "Creating category..."
+#~ msgstr "카테고리 생성중..."
+
+#~ msgid "Replace current OPML publishing address with a new one?"
+#~ msgstr "현재 OPML 공개 주소를 새 주소로 교체할까요?"
+
+#~ msgid "Clearing feed..."
+#~ msgstr "피드 정리중..."
+
+#~ msgid "Rescore articles in selected feeds?"
+#~ msgstr "선택한 피드에서 글의 점수를 다시 매길까요?"
+
+#~ msgid "Rescoring selected feeds..."
+#~ msgstr "선택된 피드의 점수 다시 매기는중..."
+
+#~ msgid "Rescore all articles? This operation may take a lot of time."
+#~ msgstr "모든 글에 점수를 다시 매기겠습니까? (한참 걸릴 수도 있습니다.)"
+
+#~ msgid "Rescoring feeds..."
+#~ msgstr "피드 점수 다시매기는 중..."
+
+#~ msgid "Reset selected labels to default colors?"
+#~ msgstr "선택된 라벨의 색을 기본값으로 초기화 할까요?"
+
+#~ msgid "Removing selected profiles..."
+#~ msgstr "선택된 프로필 제거중..."
+
+#~ msgid "No profiles are selected."
+#~ msgstr "선택된 프로필이 없습니다."
+
+#~ msgid "Activate selected profile?"
+#~ msgstr "선택된 프로필을 활성화 할까요?"
+
+#~ msgid "Please choose a profile to activate."
+#~ msgstr "활성화할 프로필을 선택하세요."
+
+#~ msgid "Creating profile..."
+#~ msgstr "프로필 생성중..."
+
+#~ msgid "Generated URLs cleared."
+#~ msgstr "생성된 URL이 지워졌습니다."
+
+#~ msgid "Label Editor"
+#~ msgstr "라벨 편집기"
+
+#~ msgid "New version available!"
+#~ msgstr "새 버전 나왔어요!"
+
+#~ msgid "Cancel search"
+#~ msgstr "검색 취소"
+
+#~ msgid "No article is selected."
+#~ msgstr "선택된 글이 없습니다."
+
+#~ msgid "No articles found to mark"
+#~ msgstr "표시할 글이 없습니다."
+
+#~ msgid "Mark %d article as read?"
+#~ msgid_plural "Mark %d articles as read?"
+#~ msgstr[0] "%d 글을 읽음 표시 할까요?"
+
+#~ msgid "Display article URL"
+#~ msgstr "글 URL 표시"
 
 #~ msgid "Select:"
 #~ msgstr "선택"
