@@ -63,6 +63,20 @@ class Updater extends Plugin {
 				putenv("PATH=" . getenv("PATH") . PATH_SEPARATOR . "/bin" .
 					PATH_SEPARATOR . "/usr/bin");
 
+                                array_push($log, "Checking for system() call...");
+
+                                $disabled = explode(',', ini_get('disable_functions'));
+                                foreach ($disabled as $function) {
+                                        if ( trim($function) == 'system' ) {
+                                                array_push($log, "Can not execute commands with PHP's system() function.");
+                                                $stop = true;
+                                        }
+                                }
+
+                                if ( $stop == true ) {
+                                        break;
+                                }
+
 				array_push($log, "Checking for tar...");
 
 				$system_rc = 0;
