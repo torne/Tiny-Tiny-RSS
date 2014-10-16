@@ -2,7 +2,7 @@
 
 class API extends Handler {
 
-	const API_LEVEL  = 8;
+	const API_LEVEL  = 9;
 
 	const STATUS_OK  = 0;
 	const STATUS_ERR = 1;
@@ -200,6 +200,7 @@ class API extends Handler {
 			$include_nested = sql_bool_to_bool($_REQUEST["include_nested"]);
 			$sanitize_content = !isset($_REQUEST["sanitize"]) ||
 				sql_bool_to_bool($_REQUEST["sanitize"]);
+			$force_update = sql_bool_to_bool($_REQUEST["force_update"]);
 
 			$override_order = false;
 			switch ($_REQUEST["order_by"]) {
@@ -222,7 +223,7 @@ class API extends Handler {
 			$headlines = $this->api_get_headlines($feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $override_order,
 				$include_attachments, $since_id, $search, $search_mode,
-				$include_nested, $sanitize_content);
+				$include_nested, $sanitize_content, $force_update);
 
 			$this->wrap(self::STATUS_OK, $headlines);
 		} else {
@@ -632,7 +633,28 @@ class API extends Handler {
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $order,
 				$include_attachments, $since_id,
 				$search = "", $search_mode = "",
-				$include_nested = false, $sanitize_content = true) {
+				$include_nested = false, $sanitize_content = true, $force_update = false) {
+
+			if ($force_update && $feed_id > 0 && is_numeric($feed_id)) {
+				// Update the feed if required with some basic flood control
+
+				$result = db_query(
+					"SELECT cache_images,".SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
+						FROM ttrss_feeds WHERE id = '$feed_id'");
+
+				if (db_num_rows($result) != 0) {
+					$last_updated = strtotime(db_fetch_result($result, 0, "last_updated"));
+					$cache_images = sql_bool_to_bool(db_fetch_result($result, 0, "cache_images"));
+
+					if (!$cache_images && time() - $last_updated > 120) {
+						include "rssfuncs.php";
+						update_rss_feed($feed_id, true, true);
+					} else {
+						db_query("UPDATE ttrss_feeds SET last_updated = '1970-01-01', last_update_started = '1970-01-01'
+							WHERE id = '$feed_id'");
+					}
+				}
+			}
 
 			$qfh_ret = queryFeedHeadlines($feed_id, $limit,
 				$view_mode, $is_cat, $search, $search_mode,
