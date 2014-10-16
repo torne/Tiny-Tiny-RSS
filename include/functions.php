@@ -403,10 +403,6 @@
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $post_query);
 			}
 
-			if ((OPENSSL_VERSION_NUMBER >= 0x0090808f) && (OPENSSL_VERSION_NUMBER < 0x10000000)) {
-				curl_setopt($ch, CURLOPT_SSLVERSION, 3);
-			}
-
 			if ($login && $pass)
 				curl_setopt($ch, CURLOPT_USERPWD, "$login:$pass");
 
