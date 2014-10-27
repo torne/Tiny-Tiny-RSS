@@ -675,7 +675,22 @@ class API extends Handler {
 					($line["unread"] != "t" && $line["unread"] != "1"));
 
 				$tags = explode(",", $line["tag_cache"]);
-				$labels = json_decode($line["label_cache"], true);
+
+				$label_cache = $line["label_cache"];
+				$labels = false;
+
+				if ($label_cache) {
+					$label_cache = json_decode($label_cache, true);
+
+					if ($label_cache) {
+						if ($label_cache["no-labels"] == 1)
+							$labels = array();
+						else
+							$labels = $label_cache;
+					}
+				}
+
+				if (!is_array($labels)) $labels = get_article_labels($line["id"]);
 
 				//if (!$tags) $tags = get_article_tags($line["id"]);
 				//if (!$labels) $labels = get_article_labels($line["id"]);
