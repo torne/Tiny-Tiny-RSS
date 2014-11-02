@@ -707,7 +707,11 @@
 					db_query("UPDATE ttrss_entries SET date_updated = NOW()
 						WHERE id = '$base_entry_id'");
 
-					continue;
+                    // if we allow duplicate posts, we have to continue to 
+                    // create the user entries for this feed
+                    if (!get_pref("ALLOW_DUPLICATE_POSTS", $owner_uid, false)) {
+                        continue;
+                    }
 				}
 
 				_debug("hash differs, applying plugin filters:", $debug_enabled);
