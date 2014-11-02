@@ -481,7 +481,7 @@
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
 
-				$feed_title = db_escape_string($rss->get_title());
+				$feed_title = db_escape_string(mb_substr($rss->get_title(), 0, 199);
 
 				if ($feed_title) {
 					_debug("registering title: $feed_title", $debug_enabled);
