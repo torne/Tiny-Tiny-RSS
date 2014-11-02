@@ -481,7 +481,7 @@
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
 
-				$feed_title = db_escape_string(mb_substr($rss->get_title(), 0, 199);
+				$feed_title = db_escape_string(mb_substr($rss->get_title(), 0, 199));
 
 				if ($feed_title) {
 					_debug("registering title: $feed_title", $debug_enabled);
@@ -707,7 +707,7 @@
 					db_query("UPDATE ttrss_entries SET date_updated = NOW()
 						WHERE id = '$base_entry_id'");
 
-                    // if we allow duplicate posts, we have to continue to 
+                    // if we allow duplicate posts, we have to continue to
                     // create the user entries for this feed
                     if (!get_pref("ALLOW_DUPLICATE_POSTS", $owner_uid, false)) {
                         continue;
