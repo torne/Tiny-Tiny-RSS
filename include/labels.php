@@ -42,7 +42,8 @@
 			ORDER BY caption");
 
 		while ($line = db_fetch_assoc($result)) {
-			$rk = array($line["label_id"], $line["caption"], $line["fg_color"],
+			$rk = array(label_to_feed_id($line["label_id"]),
+				$line["caption"], $line["fg_color"],
 				$line["bg_color"]);
 			array_push($rv, $rk);
 		}
@@ -108,7 +109,7 @@
 
 		if (!$label_id) return;
 
-		$result = db_query(
+		db_query(
 			"DELETE FROM ttrss_user_labels2
 			WHERE
 				label_id = '$label_id' AND

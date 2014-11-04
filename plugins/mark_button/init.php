@@ -21,12 +21,12 @@ class Mark_Button extends Plugin {
 		if (get_pref("COMBINED_DISPLAY_MODE")) {
 			if (sql_bool_to_bool($line["marked"])) {
 				$marked_pic = "<img
-					src=\"images/mark_set.svg\"
+					src=\"images/mark_set.png\"
 					class=\"markedPic\" alt=\"Unstar article\"
 					onclick='toggleMark($id)'>";
 			} else {
 				$marked_pic = "<img
-					src=\"images/mark_unset.svg\"
+					src=\"images/mark_unset.png\"
 					class=\"markedPic\" alt=\"Star article\"
 					onclick='toggleMark($id)'>";
 			}

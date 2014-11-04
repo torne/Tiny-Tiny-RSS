@@ -24,12 +24,28 @@ dojo.declare("fox.PrefFilterTree", lib.CheckBoxTree, {
 
 		var enabled = this.model.store.getValue(args.item, 'enabled');
 		var param = this.model.store.getValue(args.item, 'param');
+		var rules = this.model.store.getValue(args.item, 'rules');
 
 		if (param) {
 			param = dojo.doc.createElement('span');
 			param.className = (enabled != false) ? 'labelParam' : 'labelParam Disabled';
 			param.innerHTML = args.item.param[0];
 			dojo.place(param, tnode.rowNode, 'first');
+		}
+
+		if (rules) {
+			param = dojo.doc.createElement('span');
+			param.className = 'filterRules';
+			param.innerHTML = rules;
+			dojo.place(param, tnode.rowNode, 'next');
+		}
+
+		if (this.model.store.getValue(args.item, 'id') != 'root') {
+			var img = dojo.doc.createElement('img');
+			img.src ='images/filter.png';
+			img.className = 'markedPic';
+			tnode._filterIconNode = img;
+			dojo.place(tnode._filterIconNode, tnode.labelNode, 'before');
 		}
 
 		return tnode;

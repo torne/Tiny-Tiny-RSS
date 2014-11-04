@@ -97,7 +97,7 @@ class Opml extends Handler_Protected {
 				$html_url_qpart = "";
 			}
 
-			$out .= "<outline text=\"$title\" xmlUrl=\"$url\" $html_url_qpart/>\n";
+			$out .= "<outline type=\"rss\" text=\"$title\" xmlUrl=\"$url\" $html_url_qpart/>\n";
 		}
 
 		if ($cat_title) $out .= "</outline>\n";
@@ -190,6 +190,7 @@ class Opml extends Handler_Protected {
 					}
 
 					$tmp_line["cat_filter"] = sql_bool_to_bool($tmp_line["cat_filter"]);
+					$tmp_line["inverse"] = sql_bool_to_bool($tmp_line["inverse"]);
 
 					unset($tmp_line["feed_id"]);
 					unset($tmp_line["cat_id"]);
@@ -256,8 +257,8 @@ class Opml extends Handler_Protected {
 		$feed_title = $this->dbh->escape_string(mb_substr($attrs->getNamedItem('text')->nodeValue, 0, 250));
 		if (!$feed_title) $feed_title = $this->dbh->escape_string(mb_substr($attrs->getNamedItem('title')->nodeValue, 0, 250));
 
-		$feed_url = $this->dbh->escape_string(mb_substr($attrs->getNamedItem('xmlUrl')->nodeValue, 0, 250));
-		if (!$feed_url) $feed_url = $this->dbh->escape_string(mb_substr($attrs->getNamedItem('xmlURL')->nodeValue, 0, 250));
+		$feed_url = $this->dbh->escape_string($attrs->getNamedItem('xmlUrl')->nodeValue);
+		if (!$feed_url) $feed_url = $this->dbh->escape_string($attrs->getNamedItem('xmlURL')->nodeValue);
 
 		$site_url = $this->dbh->escape_string(mb_substr($attrs->getNamedItem('htmlUrl')->nodeValue, 0, 250));
 
@@ -363,9 +364,10 @@ class Opml extends Handler_Protected {
 						$cat_filter = bool_to_sql_bool($rule["cat_filter"]);
 						$reg_exp = $this->dbh->escape_string($rule["reg_exp"]);
 						$filter_type = (int)$rule["filter_type"];
+						$inverse = bool_to_sql_bool($rule["inverse"]);
 
-						$this->dbh->query("INSERT INTO ttrss_filters2_rules (feed_id,cat_id,filter_id,filter_type,reg_exp,cat_filter)
-							VALUES ($feed_id, $cat_id, $filter_id, $filter_type, '$reg_exp', $cat_filter)");
+						$this->dbh->query("INSERT INTO ttrss_filters2_rules (feed_id,cat_id,filter_id,filter_type,reg_exp,cat_filter,inverse)
+							VALUES ($feed_id, $cat_id, $filter_id, $filter_type, '$reg_exp', $cat_filter,$inverse)");
 					}
 
 					foreach ($filter["actions"] as $action) {

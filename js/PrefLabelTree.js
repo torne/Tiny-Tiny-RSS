@@ -22,7 +22,7 @@ dojo.declare("fox.PrefLabelTree", lib.CheckBoxTree, {
 		if (type == 'label') {
 			var span = dojo.doc.createElement('span');
 			span.innerHTML = '&alpha;';
-			span.className = 'labelColorIndicator2';
+			span.className = 'labelColorIndicator';
 			span.id = 'LICID-' + bare_id;
 
 			span.setStyle({
@@ -38,6 +38,6 @@ dojo.declare("fox.PrefLabelTree", lib.CheckBoxTree, {
 	},
 	getIconClass: function (item, opened) {
 		return (!item || this.model.mayHaveChildren(item)) ? (opened ? "dijitFolderOpened" : "dijitFolderClosed") : "invisible";
-	}, 
+	},
 });
 

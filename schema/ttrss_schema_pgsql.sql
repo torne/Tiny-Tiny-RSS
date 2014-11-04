@@ -49,6 +49,7 @@ create table ttrss_users (id serial not null primary key,
 	salt varchar(250) not null default '',
 	twitter_oauth text default null,
 	otp_enabled boolean not null default false,
+	resetpass_token varchar(250) default null,
 	created timestamp default null);
 
 insert into ttrss_users (login,pwd_hash,access_level) values ('admin',
@@ -144,6 +145,7 @@ create table ttrss_entries (id serial not null primary key,
 	num_comments integer not null default 0,
 	comments varchar(250) not null default '',
 	plugin_data text,
+	lang varchar(2),
 	author varchar(250) not null default '');
 
 create index ttrss_entries_guid_index on ttrss_entries(guid);
@@ -259,13 +261,15 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (121);
+insert into ttrss_version values (126);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
 	content_type varchar(250) not null,
 	title text not null,
 	duration text not null,
+	width integer not null default 0,
+	height integer not null default 0,
 	post_id integer references ttrss_entries(id) ON DELETE cascade NOT NULL);
 
 create index ttrss_enclosures_post_id_idx on ttrss_enclosures(post_id);

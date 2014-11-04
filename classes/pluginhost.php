@@ -37,6 +37,12 @@ class PluginHost {
 	const HOOK_PREFS_EDIT_FEED = 20;
 	const HOOK_PREFS_SAVE_FEED = 21;
 	const HOOK_FETCH_FEED = 22;
+	const HOOK_QUERY_HEADLINES = 23;
+	const HOOK_HOUSE_KEEPING = 24;
+	const HOOK_SEARCH = 25;
+	const HOOK_FORMAT_ENCLOSURES = 26;
+	const HOOK_SUBSCRIBE_FEED = 27;
+	const HOOK_HEADLINES_BEFORE = 28;
 
 	const KIND_ALL = 1;
 	const KIND_SYSTEM = 2;
@@ -73,6 +79,16 @@ class PluginHost {
 		return $this->dbh;
 	}
 
+	function get_plugin_names() {
+		$names = array();
+
+		foreach ($this->plugins as $p) {
+			array_push($names, get_class($p));
+		}
+
+		return $names;
+	}
+
 	function get_plugins() {
 		return $this->plugins;
 	}
@@ -97,7 +113,7 @@ class PluginHost {
 
 	function del_hook($type, $sender) {
 		if (is_array($this->hooks[$type])) {
-			$key = array_Search($this->hooks[$type], $sender);
+			$key = array_Search($sender, $this->hooks[$type]);
 			if ($key !== FALSE) {
 				unset($this->hooks[$type][$key]);
 			}

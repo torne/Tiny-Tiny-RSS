@@ -95,7 +95,7 @@
 				}
 			}
 
-			if (SELF_URL_PATH == "http://yourserver/tt-rss/") {
+			if (SELF_URL_PATH == "http://example.org/tt-rss/") {
 				$urlpath = preg_replace("/\w+\.php$/", "", make_self_url_path());
 
 				array_push($errors,
@@ -136,10 +136,6 @@
 
 			if (!function_exists("ctype_lower")) {
 				array_push($errors, "PHP support for ctype functions are required by HTMLPurifier.");
-			}
-
-			if (!function_exists("iconv")) {
-				array_push($errors, "PHP support for iconv is required to handle multiple charsets.");
 			}
 
 			/* if (ini_get("safe_mode")) {

@@ -88,7 +88,6 @@ class Pref_Filters extends Handler_Protected {
 
 		$result = $qfh_ret[0];
 
-		$articles = array();
 		$found = 0;
 
 		print __("Articles matching this filter:");
@@ -97,12 +96,13 @@ class Pref_Filters extends Handler_Protected {
 		print "<table width=\"100%\" cellspacing=\"0\" id=\"prefErrorFeedList\">";
 
 		while ($line = $this->dbh->fetch_assoc($result)) {
+			$line["content_preview"] = truncate_string(strip_tags($line["content"]), 100, '...');
 
-			$entry_timestamp = strtotime($line["updated"]);
-			$entry_tags = get_article_tags($line["id"], $_SESSION["uid"]);
+			foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
+					$line = $p->hook_query_headlines($line, 100);
+				}
 
-			$content_preview = truncate_string(
-				strip_tags($line["content_preview"]), 100, '...');
+			$content_preview = $line["content_preview"];
 
 			if ($line["feed_title"])
 				$feed_title = $line["feed_title"];
@@ -147,6 +147,40 @@ class Pref_Filters extends Handler_Protected {
 
 	}
 
+	private function getfilterrules_concise($filter_id) {
+		$result = $this->dbh->query("SELECT reg_exp,
+			inverse,
+			feed_id,
+			cat_id,
+			cat_filter,
+			ttrss_filter_types.description AS field
+			FROM
+				ttrss_filters2_rules, ttrss_filter_types
+			WHERE
+				filter_id = '$filter_id' AND filter_type = ttrss_filter_types.id");
+
+		$rv = "";
+
+		while ($line = $this->dbh->fetch_assoc($result)) {
+
+			$where = sql_bool_to_bool($line["cat_filter"]) ?
+				getCategoryTitle($line["cat_id"]) :
+				($line["feed_id"] ?
+					getFeedTitle($line["feed_id"]) : __("All feeds"));
+
+#			$where = $line["cat_id"] . "/" . $line["feed_id"];
+
+			$inverse = sql_bool_to_bool($line["inverse"]) ? "inverse" : "";
+
+			$rv .= "<span class='$inverse'>" . T_sprintf("%s on %s in %s %s",
+				strip_tags($line["reg_exp"]),
+				$line["field"],
+				$where,
+				sql_bool_to_bool($line["inverse"]) ? __("(inverse)") : "") . "</span>";
+		}
+
+		return $rv;
+	}
 
 	function getfiltertree() {
 		$root = array();
@@ -170,23 +204,10 @@ class Pref_Filters extends Handler_Protected {
 			owner_uid = ".$_SESSION["uid"]." ORDER BY order_id, title");
 
 
-		$action_id = -1;
 		$folder = array();
 		$folder['items'] = array();
 
 		while ($line = $this->dbh->fetch_assoc($result)) {
-
-			/* if ($action_id != $line["action_id"]) {
-				if (count($folder['items']) > 0) {
-					array_push($root['items'], $folder);
-				}
-
-				$folder = array();
-				$folder['id'] = $line["action_id"];
-				$folder['name'] = __($line["action_name"]);
-				$folder['items'] = array();
-				$action_id = $line["action_id"];
-			} */
 
 			$name = $this->getFilterName($line["id"]);
 
@@ -223,6 +244,7 @@ class Pref_Filters extends Handler_Protected {
 			$filter['param'] = $name[1];
 			$filter['checkbox'] = false;
 			$filter['enabled'] = sql_bool_to_bool($line["enabled"]);
+			$filter['rules'] = $this->getfilterrules_concise($line['id']);
 
 			if (!$filter_search || $match_ok) {
 				array_push($folder['items'], $filter);
@@ -429,8 +451,11 @@ class Pref_Filters extends Handler_Protected {
 			WHERE id = ".(int)$rule["filter_type"]);
 		$filter_type = $this->dbh->fetch_result($result, 0, "description");
 
-		return T_sprintf("%s on %s in %s %s", strip_tags($rule["reg_exp"]),
-			$filter_type, $feed, isset($rule["inverse"]) ? __("(inverse)") : "");
+		$inverse = isset($rule["inverse"]) ? "inverse" : "";
+
+		return "<span class='filterRule $inverse'>" .
+			T_sprintf("%s on %s in %s %s", strip_tags($rule["reg_exp"]),
+			$filter_type, $feed, isset($rule["inverse"]) ? __("(inverse)") : "") . "</span>";
 	}
 
 	function printRuleName() {
@@ -467,7 +492,7 @@ class Pref_Filters extends Handler_Protected {
 		$inverse = checkbox_to_sql_bool($this->dbh->escape_string($_REQUEST["inverse"]));
 		$title = $this->dbh->escape_string($_REQUEST["title"]);
 
-		$result = $this->dbh->query("UPDATE ttrss_filters2 SET enabled = $enabled,
+		$this->dbh->query("UPDATE ttrss_filters2 SET enabled = $enabled,
 			match_any_rule = $match_any_rule,
 			inverse = $inverse,
 			title = '$title'
@@ -585,14 +610,15 @@ class Pref_Filters extends Handler_Protected {
 		$enabled = checkbox_to_sql_bool($_REQUEST["enabled"]);
 		$match_any_rule = checkbox_to_sql_bool($_REQUEST["match_any_rule"]);
 		$title = $this->dbh->escape_string($_REQUEST["title"]);
+		$inverse = checkbox_to_sql_bool($_REQUEST["inverse"]);
 
 		$this->dbh->query("BEGIN");
 
 		/* create base filter */
 
 		$result = $this->dbh->query("INSERT INTO ttrss_filters2
-			(owner_uid, match_any_rule, enabled, title) VALUES
-			(".$_SESSION["uid"].",$match_any_rule,$enabled, '$title')");
+			(owner_uid, match_any_rule, enabled, title, inverse) VALUES
+			(".$_SESSION["uid"].",$match_any_rule,$enabled, '$title', $inverse)");
 
 		$result = $this->dbh->query("SELECT MAX(id) AS id FROM ttrss_filters2
 			WHERE owner_uid = ".$_SESSION["uid"]);
@@ -869,6 +895,11 @@ class Pref_Filters extends Handler_Protected {
 		print "</div>";
 
 		print "<div class=\"dlgButtons\">";
+
+		print "<div style=\"float : left\">
+			<a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/wiki/ContentFilters\">".__("Wiki: Filters")."</a>
+		</div>";
+
 
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('filterNewRuleDlg').execute()\">".
 			($rule ? __("Save rule") : __('Add rule'))."</button> ";

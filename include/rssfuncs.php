@@ -2,6 +2,19 @@
 	define_default('DAEMON_UPDATE_LOGIN_LIMIT', 30);
 	define_default('DAEMON_FEED_LIMIT', 500);
 	define_default('DAEMON_SLEEP_INTERVAL', 120);
+	define_default('_MIN_CACHE_IMAGE_SIZE', 1024);
+
+	function calculate_article_hash($article, $pluginhost) {
+		$tmp = "";
+
+		foreach ($article as $k => $v) {
+			if ($k != "feed" && isset($v)) {
+				$tmp .= sha1("$k:" . (is_array($v) ? implode(",", $v) : $v));
+			}
+		}
+
+		return sha1(implode(",", $pluginhost->get_plugin_names()) . $tmp);
+	}
 
 	function update_feedbrowser_cache() {
 
@@ -79,7 +92,7 @@
 			$login_thresh_qpart = "";
 		}
 
-		// Test if the feed need a update (update interval exceded).
+		// Test if the feed need a update (update interval exceeded).
 		if (DB_TYPE == "pgsql") {
 			$update_limit_qpart = "AND ((
 					ttrss_feeds.update_interval = 0
@@ -88,8 +101,10 @@
 				) OR (
 					ttrss_feeds.update_interval > 0
 					AND ttrss_feeds.last_updated < NOW() - CAST((ttrss_feeds.update_interval || ' minutes') AS INTERVAL)
-				) OR ttrss_feeds.last_updated IS NULL
-				OR last_updated = '1970-01-01 00:00:00')";
+				) OR (ttrss_feeds.last_updated IS NULL
+					AND ttrss_user_prefs.value != '-1')
+				OR (last_updated = '1970-01-01 00:00:00'
+					AND ttrss_user_prefs.value != '-1'))";
 		} else {
 			$update_limit_qpart = "AND ((
 					ttrss_feeds.update_interval = 0
@@ -98,8 +113,10 @@
 				) OR (
 					ttrss_feeds.update_interval > 0
 					AND ttrss_feeds.last_updated < DATE_SUB(NOW(), INTERVAL ttrss_feeds.update_interval MINUTE)
-				) OR ttrss_feeds.last_updated IS NULL
-				OR last_updated = '1970-01-01 00:00:00')";
+				) OR (ttrss_feeds.last_updated IS NULL
+					AND ttrss_user_prefs.value != '-1')
+				OR (last_updated = '1970-01-01 00:00:00'
+					AND ttrss_user_prefs.value != '-1'))";
 		}
 
 		// Test if feed is currently being updated by another process.
@@ -118,6 +135,7 @@
 				ttrss_feeds, ttrss_users, ttrss_user_prefs
 			WHERE
 				ttrss_feeds.owner_uid = ttrss_users.id
+				AND ttrss_user_prefs.profile IS NULL
 				AND ttrss_users.id = ttrss_user_prefs.owner_uid
 				AND ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL'
 				$login_thresh_qpart $update_limit_qpart
@@ -151,6 +169,7 @@
 		}
 
 		$nf = 0;
+		$bstarted = microtime(true);
 
 		// For each feed, we call the feed update function.
 		foreach ($feeds_to_update as $feed) {
@@ -165,6 +184,7 @@
 				ttrss_user_prefs.owner_uid = ttrss_feeds.owner_uid AND
 				ttrss_users.id = ttrss_user_prefs.owner_uid AND
 				ttrss_user_prefs.pref_name = 'DEFAULT_UPDATE_INTERVAL' AND
+				ttrss_user_prefs.profile IS NULL AND
 				feed_url = '".db_escape_string($feed)."' AND
 				(ttrss_feeds.update_interval > 0 OR
 					ttrss_user_prefs.value != '-1')
@@ -172,12 +192,25 @@
 			ORDER BY ttrss_feeds.id $query_limit");
 
 			if (db_num_rows($tmp_result) > 0) {
+				$rss = false;
+
 				while ($tline = db_fetch_assoc($tmp_result)) {
 					if($debug) _debug(" => " . $tline["last_updated"] . ", " . $tline["id"] . " " . $tline["owner_uid"]);
-					update_rss_feed($tline["id"], true);
+
+					$fstarted = microtime(true);
+					$rss = update_rss_feed($tline["id"], true, false);
+					_debug_suppress(false);
+
+					_debug(sprintf("    %.4f (sec)", microtime(true) - $fstarted));
+
 					++$nf;
 				}
 			}
+		}
+
+		if ($nf > 0) {
+			_debug(sprintf("Processed %d feeds in %.4f (sec), %.4f (sec/feed avg)", $nf,
+				microtime(true) - $bstarted, (microtime(true) - $bstarted) / $nf));
 		}
 
 		require_once "digest.php";
@@ -190,14 +223,15 @@
 	} // function update_daemon_common
 
 	// ignore_daemon is not used
-	function update_rss_feed($feed, $ignore_daemon = false, $no_cache = false) {
+	function update_rss_feed($feed, $ignore_daemon = false, $no_cache = false, $rss = false) {
 
 		$debug_enabled = defined('DAEMON_EXTENDED_DEBUG') || $_REQUEST['xdebug'];
 
+		_debug_suppress(!$debug_enabled);
 		_debug("start", $debug_enabled);
 
 		$result = db_query("SELECT id,update_interval,auth_login,
-			feed_url,auth_pass,cache_images,last_updated,
+			feed_url,auth_pass,cache_images,
 			mark_unread_on_update, owner_uid,
 			pubsub_state, auth_pass_encrypted,
 			(SELECT max(date_entered) FROM
@@ -209,7 +243,6 @@
 			return false;
 		}
 
-		$last_updated = db_fetch_result($result, 0, "last_updated");
 		$last_article_timestamp = @strtotime(db_fetch_result($result, 0, "last_article_timestamp"));
 
 		if (defined('_DISABLE_HTTP_304'))
@@ -250,34 +283,37 @@
 		$pluginhost->load($user_plugins, PluginHost::KIND_USER, $owner_uid);
 		$pluginhost->load_data();
 
-		$rss = false;
-		$rss_hash = false;
-
-		$force_refetch = isset($_REQUEST["force_refetch"]);
-
-		if (file_exists($cache_filename) &&
-			is_readable($cache_filename) &&
-			!$auth_login && !$auth_pass &&
-			filemtime($cache_filename) > time() - 30) {
-
-			_debug("using local cache.", $debug_enabled);
-
-			@$feed_data = file_get_contents($cache_filename);
-
-			if ($feed_data) {
-				$rss_hash = sha1($feed_data);
-			}
-
+		if ($rss && is_object($rss) && get_class($rss) == "FeedParser") {
+			_debug("using previously initialized parser object");
 		} else {
-			_debug("local cache will not be used for this feed", $debug_enabled);
-		}
+			$rss_hash = false;
 
-		if (!$rss) {
+			$force_refetch = isset($_REQUEST["force_refetch"]);
 
 			foreach ($pluginhost->get_hooks(PluginHost::HOOK_FETCH_FEED) as $plugin) {
-				$feed_data = $plugin->hook_fetch_feed($feed_data, $fetch_url, $owner_uid, $feed);
+				$feed_data = $plugin->hook_fetch_feed($feed_data, $fetch_url, $owner_uid, $feed, $last_article_timestamp, $auth_login, $auth_pass);
 			}
 
+			// try cache
+			if (!$feed_data &&
+				file_exists($cache_filename) &&
+				is_readable($cache_filename) &&
+				!$auth_login && !$auth_pass &&
+				filemtime($cache_filename) > time() - 30) {
+
+				_debug("using local cache [$cache_filename].", $debug_enabled);
+
+				@$feed_data = file_get_contents($cache_filename);
+
+				if ($feed_data) {
+					$rss_hash = sha1($feed_data);
+				}
+
+			} else {
+				_debug("local cache will not be used for this feed", $debug_enabled);
+			}
+
+			// fetch feed from source
 			if (!$feed_data) {
 				_debug("fetching [$fetch_url]...", $debug_enabled);
 				_debug("If-Modified-Since: ".gmdate('D, d M Y H:i:s \G\M\T', $last_article_timestamp), $debug_enabled);
@@ -316,6 +352,16 @@
 						}
 					}
 				} */
+
+				// cache vanilla feed data for re-use
+				if ($feed_data && !$auth_pass && !$auth_login && is_writable(CACHE_DIR . "/simplepie")) {
+					$new_rss_hash = sha1($feed_data);
+
+					if ($new_rss_hash != $rss_hash) {
+						_debug("saving $cache_filename", $debug_enabled);
+						@file_put_contents($cache_filename, $feed_data);
+					}
+				}
 			}
 
 			if (!$feed_data) {
@@ -354,21 +400,18 @@
 			$rss->init();
 		}
 
+		if (DETECT_ARTICLE_LANGUAGE) {
+			require_once "lib/languagedetect/LanguageDetect.php";
+
+			$lang = new Text_LanguageDetect();
+			$lang->setNameMode(2);
+		}
+
 //		print_r($rss);
 
 		$feed = db_escape_string($feed);
 
 		if (!$rss->error()) {
-
-			// cache data for later
-			if (!$auth_pass && !$auth_login && is_writable(CACHE_DIR . "/simplepie")) {
-				$new_rss_hash = sha1($rss_data);
-
-				if ($new_rss_hash != $rss_hash && count($rss->get_items()) > 0 ) {
-					_debug("saving $cache_filename", $debug_enabled);
-					@file_put_contents($cache_filename, $feed_data);
-				}
-			}
 
 			// We use local pluginhost here because we need to load different per-user feed plugins
 			$pluginhost->run_hooks(PluginHost::HOOK_FEED_PARSED, "hook_feed_parsed", $rss);
@@ -438,7 +481,7 @@
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
 
-				$feed_title = db_escape_string($rss->get_title());
+				$feed_title = db_escape_string(mb_substr($rss->get_title(), 0, 199));
 
 				if ($feed_title) {
 					_debug("registering title: $feed_title", $debug_enabled);
@@ -488,7 +531,20 @@
 
 				_debug("feed hub url: $feed_hub_url", $debug_enabled);
 
-				if ($feed_hub_url && function_exists('curl_init') &&
+				$feed_self_url = $fetch_url;
+
+				$links = $rss->get_links('self');
+
+				if ($links && is_array($links)) {
+					foreach ($links as $l) {
+						$feed_self_url = $l;
+						break;
+					}
+				}
+
+				_debug("feed self url = $feed_self_url");
+
+				if ($feed_hub_url && $feed_self_url && function_exists('curl_init') &&
 					!ini_get("open_basedir")) {
 
 					require_once 'lib/pubsubhubbub/subscriber.php';
@@ -498,9 +554,9 @@
 
 					$s = new Subscriber($feed_hub_url, $callback_url);
 
-					$rc = $s->subscribe($fetch_url);
+					$rc = $s->subscribe($feed_self_url);
 
-					_debug("feed hub url found, subscribe request sent.", $debug_enabled);
+					_debug("feed hub url found, subscribe request sent. [rc=$rc]", $debug_enabled);
 
 					db_query("UPDATE ttrss_feeds SET pubsub_state = 1
 						WHERE id = '$feed'");
@@ -517,9 +573,6 @@
 				$entry_guid = $item->get_id();
 				if (!$entry_guid) $entry_guid = $item->get_link();
 				if (!$entry_guid) $entry_guid = make_guid_from_title($item->get_title());
-
-				_debug("f_guid $entry_guid", $debug_enabled);
-
 				if (!$entry_guid) continue;
 
 				$entry_guid = "$owner_uid,$entry_guid";
@@ -536,9 +589,6 @@
 
 				if ($entry_timestamp == -1 || !$entry_timestamp || $entry_timestamp > time()) {
 					$entry_timestamp = time();
-					$no_orig_date = 'true';
-				} else {
-					$no_orig_date = 'false';
 				}
 
 				$entry_timestamp_fmt = strftime("%Y/%m/%d %H:%M:%S", $entry_timestamp);
@@ -563,6 +613,21 @@
 					print "content: ";
 					print $entry_content;
 					print "\n";
+				}
+
+				$entry_language = "";
+
+				if (DETECT_ARTICLE_LANGUAGE) {
+					$entry_language = $lang->detect($entry_title . " " . $entry_content, 1);
+
+					if (count($entry_language) > 0) {
+						$possible = array_keys($entry_language);
+						$entry_language = $possible[0];
+
+						_debug("detected language: $entry_language", $debug_enabled);
+					} else {
+						$entry_language = "";
+					}
 				}
 
 				$entry_comments = $item->get_comments_url();
@@ -600,24 +665,15 @@
 
 				_debug("done collecting data.", $debug_enabled);
 
-				// TODO: less memory-hungry implementation
-
-				_debug("applying plugin filters..", $debug_enabled);
-
-				// FIXME not sure if owner_uid is a good idea here, we may have a base entry without user entry (?)
-				$result = db_query("SELECT plugin_data,title,content,link,tag_cache,author FROM ttrss_entries, ttrss_user_entries
-					WHERE ref_id = id AND (guid = '".db_escape_string($entry_guid)."' OR guid = '$entry_guid_hashed') AND owner_uid = $owner_uid");
+				$result = db_query("SELECT id, content_hash FROM ttrss_entries
+					WHERE guid = '".db_escape_string($entry_guid)."' OR guid = '$entry_guid_hashed'");
 
 				if (db_num_rows($result) != 0) {
-					$entry_plugin_data = db_fetch_result($result, 0, "plugin_data");
-					$stored_article = array("title" => db_fetch_result($result, 0, "title"),
-						"content" => db_fetch_result($result, 0, "content"),
-						"link" => db_fetch_result($result, 0, "link"),
-						"tags" => explode(",", db_fetch_result($result, 0, "tag_cache")),
-						"author" => db_fetch_result($result, 0, "author"));
+					$base_entry_id = db_fetch_result($result, 0, "id");
+					$entry_stored_hash = db_fetch_result($result, 0, "content_hash");
 				} else {
-					$entry_plugin_data = "";
-					$stored_article = array();
+					$base_entry_id = false;
+					$entry_stored_hash = "";
 				}
 
 				$article = array("owner_uid" => $owner_uid, // read only
@@ -626,31 +682,66 @@
 					"content" => $entry_content,
 					"link" => $entry_link,
 					"tags" => $entry_tags,
-					"plugin_data" => $entry_plugin_data,
 					"author" => $entry_author,
-					"stored" => $stored_article);
+					"language" => $entry_language, // read only
+					"feed" => array("id" => $feed,
+						"fetch_url" => $fetch_url,
+						"site_url" => $site_url)
+					);
+
+				$entry_plugin_data = "";
+				$entry_current_hash = calculate_article_hash($article, $pluginhost);
+
+				_debug("article hash: $entry_current_hash [stored=$entry_stored_hash]", $debug_enabled);
+
+				if ($entry_current_hash == $entry_stored_hash && !isset($_REQUEST["force_rehash"])) {
+					_debug("stored article seems up to date [IID: $base_entry_id], updating timestamp only", $debug_enabled);
+
+					// we keep encountering the entry in feeds, so we need to
+					// update date_updated column so that we don't get horrible
+					// dupes when the entry gets purged and reinserted again e.g.
+					// in the case of SLOW SLOW OMG SLOW updating feeds
+
+					$base_entry_id = db_fetch_result($result, 0, "id");
+
+					db_query("UPDATE ttrss_entries SET date_updated = NOW()
+						WHERE id = '$base_entry_id'");
+
+                    // if we allow duplicate posts, we have to continue to
+                    // create the user entries for this feed
+                    if (!get_pref("ALLOW_DUPLICATE_POSTS", $owner_uid, false)) {
+                        continue;
+                    }
+				}
+
+				_debug("hash differs, applying plugin filters:", $debug_enabled);
 
 				foreach ($pluginhost->get_hooks(PluginHost::HOOK_ARTICLE_FILTER) as $plugin) {
+					_debug("... " . get_class($plugin), $debug_enabled);
+
+					$start = microtime(true);
 					$article = $plugin->hook_article_filter($article);
+
+					_debug("=== " . sprintf("%.4f (sec)", microtime(true) - $start), $debug_enabled);
+
+					$entry_plugin_data .= mb_strtolower(get_class($plugin)) . ",";
 				}
+
+				$entry_plugin_data = db_escape_string($entry_plugin_data);
+
+				_debug("plugin data: $entry_plugin_data", $debug_enabled);
 
 				$entry_tags = $article["tags"];
 				$entry_guid = db_escape_string($entry_guid);
 				$entry_title = db_escape_string($article["title"]);
 				$entry_author = db_escape_string($article["author"]);
 				$entry_link = db_escape_string($article["link"]);
-				$entry_plugin_data = db_escape_string($article["plugin_data"]);
 				$entry_content = $article["content"]; // escaped below
-
-
-				_debug("plugin data: $entry_plugin_data", $debug_enabled);
 
 				if ($cache_images && is_writable(CACHE_DIR . '/images'))
 					cache_images($entry_content, $site_url, $debug_enabled);
 
 				$entry_content = db_escape_string($entry_content, false);
-
-				$content_hash = "SHA1:" . sha1($entry_content);
 
 				db_query("BEGIN");
 
@@ -671,13 +762,13 @@
 							updated,
 							content,
 							content_hash,
-							cached_content,
 							no_orig_date,
 							date_updated,
 							date_entered,
 							comments,
 							num_comments,
 							plugin_data,
+							lang,
 							author)
 						VALUES
 							('$entry_title',
@@ -685,41 +776,27 @@
 							'$entry_link',
 							'$entry_timestamp_fmt',
 							'$entry_content',
-							'$content_hash',
-							'',
-							$no_orig_date,
+							'$entry_current_hash',
+							false,
 							NOW(),
 							'$date_feed_processed',
 							'$entry_comments',
 							'$num_comments',
 							'$entry_plugin_data',
+							'$entry_language',
 							'$entry_author')");
 
 					$article_labels = array();
 
 				} else {
-					// we keep encountering the entry in feeds, so we need to
-					// update date_updated column so that we don't get horrible
-					// dupes when the entry gets purged and reinserted again e.g.
-					// in the case of SLOW SLOW OMG SLOW updating feeds
-
 					$base_entry_id = db_fetch_result($result, 0, "id");
-
-					db_query("UPDATE ttrss_entries SET date_updated = NOW()
-						WHERE id = '$base_entry_id'");
 
 					$article_labels = get_article_labels($base_entry_id, $owner_uid);
 				}
 
 				// now it should exist, if not - bad luck then
 
-				$result = db_query("SELECT
-						id,content_hash,no_orig_date,title,plugin_data,guid,
-						".SUBSTRING_FOR_DATE."(date_updated,1,19) as date_updated,
-						".SUBSTRING_FOR_DATE."(updated,1,19) as updated,
-						num_comments
-					FROM
-						ttrss_entries
+				$result = db_query("SELECT id FROM ttrss_entries
 					WHERE guid = '$entry_guid' OR guid = '$entry_guid_hashed'");
 
 				$entry_ref_id = 0;
@@ -728,14 +805,6 @@
 				if (db_num_rows($result) == 1) {
 
 					_debug("base guid found, checking for user record", $debug_enabled);
-
-					// this will be used below in update handler
-					$orig_content_hash = db_fetch_result($result, 0, "content_hash");
-					$orig_title = db_fetch_result($result, 0, "title");
-					$orig_num_comments = db_fetch_result($result, 0, "num_comments");
-					$orig_date_updated = strtotime(db_fetch_result($result,
-						0, "date_updated"));
-					$orig_plugin_data = db_fetch_result($result, 0, "plugin_data");
 
 					$ref_id = db_fetch_result($result, 0, "id");
 					$entry_ref_id = $ref_id;
@@ -850,7 +919,7 @@
 
 							$p = new Publisher(PUBSUBHUBBUB_HUB);
 
-							$pubsub_result = $p->publish_update($rss_link);
+							/* $pubsub_result = */ $p->publish_update($rss_link);
 						}
 
 						$result = db_query(
@@ -870,53 +939,20 @@
 
 					_debug("RID: $entry_ref_id, IID: $entry_int_id", $debug_enabled);
 
-					$post_needs_update = false;
-					$update_insignificant = false;
+					db_query("UPDATE ttrss_entries
+						SET title = '$entry_title',
+							content = '$entry_content',
+							content_hash = '$entry_current_hash',
+							updated = '$entry_timestamp_fmt',
+							num_comments = '$num_comments',
+							plugin_data = '$entry_plugin_data',
+							author = '$entry_author',
+							lang = '$entry_language'
+						WHERE id = '$ref_id'");
 
-					if ($orig_num_comments != $num_comments) {
-						$post_needs_update = true;
-						$update_insignificant = true;
-					}
-
-					if ($entry_plugin_data != $orig_plugin_data) {
-						$post_needs_update = true;
-						$update_insignificant = true;
-					}
-
-					if ($content_hash != $orig_content_hash) {
-						$post_needs_update = true;
-						$update_insignificant = false;
-					}
-
-					if (db_escape_string($orig_title) != $entry_title) {
-						$post_needs_update = true;
-						$update_insignificant = false;
-					}
-
-					// if post needs update, update it and mark all user entries
-					// linking to this post as updated
-					if ($post_needs_update) {
-
-						if (defined('DAEMON_EXTENDED_DEBUG')) {
-							_debug("post $entry_guid_hashed needs update...", $debug_enabled);
-						}
-
-//						print "<!-- post $orig_title needs update : $post_needs_update -->";
-
-						db_query("UPDATE ttrss_entries
-							SET title = '$entry_title', content = '$entry_content',
-								content_hash = '$content_hash',
-								updated = '$entry_timestamp_fmt',
-								num_comments = '$num_comments',
-								plugin_data = '$entry_plugin_data'
-							WHERE id = '$ref_id'");
-
-						if (!$update_insignificant) {
-							if ($mark_unread_on_update) {
-								db_query("UPDATE ttrss_user_entries
-									SET last_read = null, unread = true WHERE ref_id = '$ref_id'");
-							}
-						}
+					if ($mark_unread_on_update) {
+						db_query("UPDATE ttrss_user_entries
+							SET last_read = null, unread = true WHERE ref_id = '$ref_id'");
 					}
 				}
 
@@ -938,7 +974,7 @@
 				if (is_array($encs)) {
 					foreach ($encs as $e) {
 						$e_item = array(
-							$e->link, $e->type, $e->length);
+							$e->link, $e->type, $e->length, $e->title, $e->width, $e->height);
 						array_push($enclosures, $e_item);
 					}
 				}
@@ -950,18 +986,24 @@
 
 				db_query("BEGIN");
 
+//				debugging
+//				db_query("DELETE FROM ttrss_enclosures WHERE post_id = '$entry_ref_id'");
+
 				foreach ($enclosures as $enc) {
 					$enc_url = db_escape_string($enc[0]);
 					$enc_type = db_escape_string($enc[1]);
 					$enc_dur = db_escape_string($enc[2]);
+					$enc_title = db_escape_string($enc[3]);
+					$enc_width = intval($enc[4]);
+					$enc_height = intval($enc[5]);
 
 					$result = db_query("SELECT id FROM ttrss_enclosures
 						WHERE content_url = '$enc_url' AND post_id = '$entry_ref_id'");
 
 					if (db_num_rows($result) == 0) {
 						db_query("INSERT INTO ttrss_enclosures
-							(content_url, content_type, title, duration, post_id) VALUES
-							('$enc_url', '$enc_type', '', '$enc_dur', '$entry_ref_id')");
+							(content_url, content_type, title, duration, post_id, width, height) VALUES
+							('$enc_url', '$enc_type', '$enc_title', '$enc_dur', '$entry_ref_id', $enc_width, $enc_height)");
 					}
 				}
 
@@ -1062,11 +1104,6 @@
 				_debug("article processed", $debug_enabled);
 			}
 
-			if (!$last_updated) {
-				_debug("new feed, catching it up...", $debug_enabled);
-				catchup_feed($feed, false, $owner_uid);
-			}
-
 			_debug("purging feed...", $debug_enabled);
 
 			purge_feed($feed, 0, $debug_enabled);
@@ -1080,21 +1117,27 @@
 
 			$error_msg = db_escape_string(mb_substr($rss->error(), 0, 245));
 
-			_debug("error fetching feed: $error_msg", $debug_enabled);
+			_debug("fetch error: $error_msg", $debug_enabled);
+
+			if (count($rss->errors()) > 1) {
+				foreach ($rss->errors() as $error) {
+					_debug("+ $error");
+				}
+			}
 
 			db_query(
 				"UPDATE ttrss_feeds SET last_error = '$error_msg',
-					last_updated = NOW() WHERE id = '$feed'");
+				last_updated = NOW() WHERE id = '$feed'");
+
+			unset($rss);
 		}
 
-		unset($rss);
-
 		_debug("done", $debug_enabled);
+
+		return $rss;
 	}
 
 	function cache_images($html, $site_url, $debug) {
-		$cache_dir = CACHE_DIR . "/images";
-
 		libxml_use_internal_errors(true);
 
 		$charset_hack = '<head>
@@ -1118,21 +1161,20 @@
 				if (!file_exists($local_filename)) {
 					$file_content = fetch_file_contents($src);
 
-					if ($file_content && strlen($file_content) > 1024) {
+					if ($file_content && strlen($file_content) > _MIN_CACHE_IMAGE_SIZE) {
 						file_put_contents($local_filename, $file_content);
 					}
 				}
 
-				if (file_exists($local_filename)) {
+				/* if (file_exists($local_filename)) {
 					$entry->setAttribute('src', SELF_URL_PATH . '/image.php?url=' .
 						base64_encode($src));
-				}
+				} */
 			}
 		}
 
-		$node = $doc->getElementsByTagName('body')->item(0);
-
-		return $doc->saveXML($node);
+		//$node = $doc->getElementsByTagName('body')->item(0);
+		//return $doc->saveXML($node);
 	}
 
 	function expire_error_log($debug) {
@@ -1370,5 +1412,8 @@
 		$rc = cleanup_tags( 14, 50000);
 
 		_debug("Cleaned $rc cached tags.");
+
+		PluginHost::getInstance()->run_hooks(PluginHost::HOOK_HOUSE_KEEPING, "hook_house_keeping", "");
+
 	}
 ?>

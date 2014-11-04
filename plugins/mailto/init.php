@@ -41,7 +41,7 @@ class MailTo extends Plugin {
 		$tpl->setVariable('TTRSS_HOST', $_SERVER["HTTP_HOST"], true);
 
 
-		$result = db_query("SELECT link, content, title
+		$result = db_query("SELECT DISTINCT link, content, title
 			FROM ttrss_user_entries, ttrss_entries WHERE id = ref_id AND
 			id IN ($param) AND owner_uid = " . $_SESSION["uid"]);
 
@@ -65,7 +65,7 @@ class MailTo extends Plugin {
 		$content = "";
 		$tpl->generateOutputToString($content);
 
-		$mailto_link = htmlspecialchars("mailto: ?subject=".rawurlencode($subject).
+		$mailto_link = htmlspecialchars("mailto:?subject=".rawurlencode($subject).
 			"&body=".rawurlencode($content));
 
 		print __("Clicking the following link to invoke your mail client:");

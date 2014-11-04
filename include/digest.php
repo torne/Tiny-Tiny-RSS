@@ -127,8 +127,6 @@
 			ORDER BY ttrss_feed_categories.title, ttrss_feeds.title, score DESC, date_updated DESC
 			LIMIT $limit");
 
-		$cur_feed_title = "";
-
 		$headlines_count = db_num_rows($result);
 
 		$headlines = array();

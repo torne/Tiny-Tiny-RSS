@@ -44,11 +44,8 @@ function exception_error(location, e, ext_info) {
 
 	try {
 
-		if (ext_info) {
-			if (ext_info.responseText) {
-				ext_info = ext_info.responseText;
-			}
-		}
+		if (ext_info)
+			ext_info = JSON.stringify(ext_info);
 
 		try {
 			new Ajax.Request("backend.php", {
@@ -104,13 +101,15 @@ function exception_error(location, e, ext_info) {
 			title: "Unhandled exception",
 			style: "width: 600px",
 			report: function() {
-				if (confirm(__("Are you sure to report this exception to tt-rss.org? The report will include your browser information. Your IP would be saved in the database."))) {
+				if (confirm(__("Are you sure to report this exception to tt-rss.org? The report will include information about your web browser and tt-rss configuration. Your IP will be saved in the database."))) {
 
 					document.forms['exceptionForm'].params.value = $H({
 						browserName: navigator.appName,
 						browserVersion: navigator.appVersion,
 						browserPlatform: navigator.platform,
 						browserCookies: navigator.cookieEnabled,
+						ttrssVersion: __ttrss_version,
+						initParams: JSON.stringify(init_params),
 					}).toQueryString();
 
 					document.forms['exceptionForm'].submit();
@@ -183,11 +182,6 @@ function param_unescape(arg) {
 		return unescape(arg);
 }
 
-
-function hide_notify() {
-	Element.hide('notify');
-}
-
 function notify_real(msg, no_hide, n_type) {
 
 	var n = $("notify");
@@ -199,12 +193,11 @@ function notify_real(msg, no_hide, n_type) {
 	}
 
 	if (msg == "") {
-		if (Element.visible(n)) {
-			notify_hide_timerid = window.setTimeout("hide_notify()", 0);
+		if (n.hasClassName("visible")) {
+			notify_hide_timerid = window.setTimeout(function() {
+				n.removeClassName("visible") }, 0);
 		}
 		return;
-	} else {
-		Element.show(n);
 	}
 
 	/* types:
@@ -218,21 +211,21 @@ function notify_real(msg, no_hide, n_type) {
 
 	msg = "<span class=\"msg\"> " + __(msg) + "</span>";
 
-	if (n_type == 1) {
-		n.className = "notify";
-	} else if (n_type == 2) {
-		n.className = "notify progress";
+	if (n_type == 2) {
+		n.className = "notify notify_progress visible";
 		msg = "<span><img src='images/indicator_white.gif'></span>" + msg;
 		no_hide = true;
 	} else if (n_type == 3) {
-		n.className = "notify error";
-		msg = "<span><img src='images/sign_excl.svg'></span>" + msg;
+		n.className = "notify notify_error visible";
+		msg = "<span><img src='images/alert.png'></span>" + msg;
 	} else if (n_type == 4) {
-		n.className = "notify info";
-		msg = "<span><img src='images/sign_info.svg'></span>" + msg;
+		n.className = "notify notify_info visible";
+		msg = "<span><img src='images/information.png'></span>" + msg;
+	} else {
+		n.className = "notify visible";
 	}
 
-	msg += " <span><img src=\"images/close_notify.svg\" class=\"close\" title=\"" +
+	msg += " <span><img src=\"images/cross.png\" class=\"close\" title=\"" +
 		__("Click to close") + "\" onclick=\"notify('')\"></span>";
 
 //	msg = "<img src='images/live_com_loading.gif'> " + msg;
@@ -240,7 +233,8 @@ function notify_real(msg, no_hide, n_type) {
 	n.innerHTML = msg;
 
 	if (!no_hide) {
-		notify_hide_timerid = window.setTimeout("hide_notify()", 5*1000);
+		notify_hide_timerid = window.setTimeout(function() {
+				n.removeClassName("visible") }, 5*1000);
 	}
 }
 
@@ -829,7 +823,14 @@ function quickAddFeed() {
 						onComplete: function(transport) {
 							try {
 
-								var reply = JSON.parse(transport.responseText);
+								try {
+									var reply = JSON.parse(transport.responseText);
+								} catch (e) {
+									Element.hide("feed_add_spinner");
+									alert(__("Failed to parse output. This can indicate server timeout and/or network issues. Backend output was logged to browser console."));
+									console.log('quickAddFeed, backend returned:' + transport.responseText);
+									return;
+								}
 
 								var rc = reply['result'];
 
@@ -853,6 +854,8 @@ function quickAddFeed() {
 									break;
 								case 4:
 									feeds = rc['feeds'];
+
+									Element.show("fadd_multiple_notify");
 
 									var select = dijit.byId("feedDlg_feedContainerSelect");
 
@@ -1148,33 +1151,48 @@ function quickAddFilter() {
 			href: query});
 
 		if (!inPreferences()) {
+			var selectedText = getSelectionText();
+
 			var lh = dojo.connect(dialog, "onLoad", function(){
 				dojo.disconnect(lh);
 
-				var query = "op=rpc&method=getlinktitlebyid&id=" + getActiveArticleId();
+				if (selectedText != "") {
 
-				new Ajax.Request("backend.php", {
-				parameters: query,
-				onComplete: function(transport) {
-					var reply = JSON.parse(transport.responseText);
+					var feed_id = activeFeedIsCat() ? 'CAT:' + parseInt(getActiveFeedId()) :
+						getActiveFeedId();
 
-					var title = false;
+					var rule = { reg_exp: selectedText, feed_id: feed_id, filter_type: 1 };
 
-					if (reply && reply) title = reply.title;
+					addFilterRule(null, dojo.toJson(rule));
 
-					if (title || getActiveFeedId() || activeFeedIsCat()) {
+				} else {
 
-						console.log(title + " " + getActiveFeedId());
+					var query = "op=rpc&method=getlinktitlebyid&id=" + getActiveArticleId();
 
-						var feed_id = activeFeedIsCat() ? 'CAT:' + parseInt(getActiveFeedId()) :
-							getActiveFeedId();
+					new Ajax.Request("backend.php", {
+					parameters: query,
+					onComplete: function(transport) {
+						var reply = JSON.parse(transport.responseText);
 
-						var rule = { reg_exp: title, feed_id: feed_id, filter_type: 1 };
+						var title = false;
 
-						addFilterRule(null, dojo.toJson(rule));
-					}
+						if (reply && reply) title = reply.title;
 
-				} });
+						if (title || getActiveFeedId() || activeFeedIsCat()) {
+
+							console.log(title + " " + getActiveFeedId());
+
+							var feed_id = activeFeedIsCat() ? 'CAT:' + parseInt(getActiveFeedId()) :
+								getActiveFeedId();
+
+							var rule = { reg_exp: title, feed_id: feed_id, filter_type: 1 };
+
+							addFilterRule(null, dojo.toJson(rule));
+						}
+
+					} });
+
+				}
 
 			});
 		}
@@ -1270,10 +1288,8 @@ function backend_sanity_check_callback(transport) {
 			console.log('reading init-params...');
 
 			for (k in params) {
-				var v = params[k];
-				console.log("IP: " + k + " => " + v);
-
-				if (k == "label_base_index") _label_base_index = parseInt(v);
+				console.log("IP: " + k + " => " + JSON.stringify(params[k]));
+				if (k == "label_base_index") _label_base_index = parseInt(params[k]);
 			}
 
 			init_params = params;
@@ -1934,3 +1950,25 @@ function feed_to_label_id(feed) {
 	return _label_base_index - 1 + Math.abs(feed);
 }
 
+// http://stackoverflow.com/questions/6251937/how-to-get-selecteduser-highlighted-text-in-contenteditable-element-and-replac
+
+function getSelectionText() {
+	var text = "";
+
+	if (typeof window.getSelection != "undefined") {
+		var sel = window.getSelection();
+		if (sel.rangeCount) {
+			var container = document.createElement("div");
+			for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+				container.appendChild(sel.getRangeAt(i).cloneContents());
+			}
+			text = container.innerHTML;
+		}
+	} else if (typeof document.selection != "undefined") {
+		if (document.selection.type == "Text") {
+			text = document.selection.createRange().textText;
+		}
+	}
+
+	return text.stripTags();
+}

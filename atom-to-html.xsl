@@ -21,9 +21,6 @@
 
 		<div class="rss">
 
-		<img class="feedicon" src="images/pub_set.svg" style="width : 64px; height : 64px;" 
-			alt="feed icon"/>
-
 		<h1><xsl:value-of select="atom:title"/></h1>
 
 		<p class="description">This feed has been exported from

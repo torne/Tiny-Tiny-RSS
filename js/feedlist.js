@@ -2,6 +2,7 @@ var _infscroll_disable = 0;
 var _infscroll_request_sent = 0;
 var _search_query = false;
 var _viewfeed_last = 0;
+var _viewfeed_timeout = false;
 
 var counters_last_request = 0;
 
@@ -34,10 +35,7 @@ function loadMoreHeadlines() {
 		} else if (_search_query) {
 			offset = num_all;
 		} else if (view_mode == "adaptive") {
-			if (num_unread > 0)
-				offset = unread_in_buffer;
-			else
-				offset = num_all;
+			offset = num_unread > 0 ? unread_in_buffer : num_all;
 		} else {
 			offset = num_all;
 		}
@@ -52,7 +50,7 @@ function loadMoreHeadlines() {
 }
 
 
-function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
+function viewfeed(feed, method, is_cat, offset, background, infscroll_req, can_wait) {
 	try {
 		if (is_cat == undefined)
 			is_cat = false;
@@ -94,7 +92,7 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 
 		var toolbar_query = Form.serialize("main_toolbar_form");
 
-		var query = "?op=feeds&method=view&feed=" + feed + "&" +
+		var query = "?op=feeds&method=view&feed=" + param_escape(feed) + "&" +
 			toolbar_query;
 
 		if (method) {
@@ -132,15 +130,24 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req) {
 
 		console.log(query);
 
+		if (can_wait && _viewfeed_timeout) {
+			setFeedExpandoIcon(getActiveFeedId(), activeFeedIsCat(), 'images/blank_icon.gif');
+			clearTimeout(_viewfeed_timeout);
+		}
+
 		setActiveFeedId(feed, is_cat);
 
-		new Ajax.Request("backend.php", {
-			parameters: query,
-			onComplete: function(transport) {
-				setFeedExpandoIcon(feed, is_cat, 'images/blank_icon.gif');
-				headlines_callback2(transport, offset, background, infscroll_req);
-				PluginHost.run(PluginHost.HOOK_FEED_LOADED, [feed, is_cat]);
-			} });
+		timeout_ms = can_wait ? 250 : 0;
+		_viewfeed_timeout = setTimeout(function() {
+
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) {
+					setFeedExpandoIcon(feed, is_cat, 'images/blank_icon.gif');
+					headlines_callback2(transport, offset, background, infscroll_req);
+					PluginHost.run(PluginHost.HOOK_FEED_LOADED, [feed, is_cat]);
+				} });
+		}, timeout_ms); // Wait 250ms
 
 	} catch (e) {
 		exception_error("viewfeed", e);

@@ -92,7 +92,7 @@
 	}
 
 	function ccache_update($feed_id, $owner_uid, $is_cat = false,
-		$update_pcat = true) {
+		$update_pcat = true, $pcat_fast = false) {
 
 		if (!is_numeric($feed_id)) return;
 
@@ -127,11 +127,13 @@
 
 			/* Recalculate counters for child feeds */
 
-			$result = db_query("SELECT id FROM ttrss_feeds
+			if (!$pcat_fast) {
+				$result = db_query("SELECT id FROM ttrss_feeds
 						WHERE owner_uid = '$owner_uid' AND $cat_qpart");
 
-			while ($line = db_fetch_assoc($result)) {
-				ccache_update($line["id"], $owner_uid, false, false);
+				while ($line = db_fetch_assoc($result)) {
+					ccache_update($line["id"], $owner_uid, false, false);
+				}
 			}
 
 			$result = db_query("SELECT SUM(value) AS sv
@@ -177,7 +179,7 @@
 
 					$cat_id = (int) db_fetch_result($result, 0, "cat_id");
 
-					ccache_update($cat_id, $owner_uid, true);
+					ccache_update($cat_id, $owner_uid, true, true, true);
 
 				}
 			}

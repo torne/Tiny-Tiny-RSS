@@ -33,20 +33,20 @@ class FeedItem_RSS extends FeedItem_Common {
 					|| $link->getAttribute("rel") == "alternate"
 					|| $link->getAttribute("rel") == "standout")) {
 
-				return $link->getAttribute("href");
+				return trim($link->getAttribute("href"));
 			}
 		}
 
 		$link = $this->elem->getElementsByTagName("guid")->item(0);
 
 		if ($link && $link->hasAttributes() && $link->getAttribute("isPermaLink") == "true") {
-			return $link->nodeValue;
+			return trim($link->nodeValue);
 		}
 
 		$link = $this->elem->getElementsByTagName("link")->item(0);
 
 		if ($link) {
-			return $link->nodeValue;
+			return trim($link->nodeValue);
 		}
 	}
 
@@ -54,21 +54,26 @@ class FeedItem_RSS extends FeedItem_Common {
 		$title = $this->elem->getElementsByTagName("title")->item(0);
 
 		if ($title) {
-			return $title->nodeValue;
+			return trim($title->nodeValue);
 		}
 	}
 
 	function get_content() {
-		$content = $this->xpath->query("content:encoded", $this->elem)->item(0);
+		$contentA = $this->xpath->query("content:encoded", $this->elem)->item(0);
+		$contentB = $this->elem->getElementsByTagName("description")->item(0);
 
-		if ($content) {
-			return $content->nodeValue;
+		if ($contentA && !$contentB) {
+			return $contentA->nodeValue;
 		}
 
-		$content = $this->elem->getElementsByTagName("description")->item(0);
 
-		if ($content) {
-			return $content->nodeValue;
+		if ($contentB && !$contentA) {
+			return $contentB->nodeValue;
+		}
+
+		if ($contentA && $contentB) {
+			return mb_strlen($contentA->nodeValue) > mb_strlen($contentB->nodeValue) ?
+				$contentA->nodeValue : $contentB->nodeValue;
 		}
 	}
 
@@ -85,13 +90,13 @@ class FeedItem_RSS extends FeedItem_Common {
 		$cats = array();
 
 		foreach ($categories as $cat) {
-			array_push($cats, $cat->nodeValue);
+			array_push($cats, trim($cat->nodeValue));
 		}
 
 		$categories = $this->xpath->query("dc:subject", $this->elem);
 
 		foreach ($categories as $cat) {
-			array_push($cats, $cat->nodeValue);
+			array_push($cats, trim($cat->nodeValue));
 		}
 
 		return $cats;
@@ -108,6 +113,8 @@ class FeedItem_RSS extends FeedItem_Common {
 			$enc->type = $enclosure->getAttribute("type");
 			$enc->link = $enclosure->getAttribute("url");
 			$enc->length = $enclosure->getAttribute("length");
+			$enc->height = $enclosure->getAttribute("height");
+			$enc->width = $enclosure->getAttribute("width");
 
 			array_push($encs, $enc);
 		}
@@ -120,6 +127,51 @@ class FeedItem_RSS extends FeedItem_Common {
 			$enc->type = $enclosure->getAttribute("type");
 			$enc->link = $enclosure->getAttribute("url");
 			$enc->length = $enclosure->getAttribute("length");
+			$enc->height = $enclosure->getAttribute("height");
+			$enc->width = $enclosure->getAttribute("width");
+
+			$desc = $this->xpath->query("media:description", $enclosure)->item(0);
+			if ($desc) $enc->title = strip_tags($desc->nodeValue);
+
+			array_push($encs, $enc);
+		}
+
+
+		$enclosures = $this->xpath->query("media:group", $this->elem);
+
+		foreach ($enclosures as $enclosure) {
+			$enc = new FeedEnclosure();
+
+			$content = $this->xpath->query("media:content", $enclosure)->item(0);
+
+			if ($content) {
+				$enc->type = $content->getAttribute("type");
+				$enc->link = $content->getAttribute("url");
+				$enc->length = $content->getAttribute("length");
+				$enc->height = $content->getAttribute("height");
+				$enc->width = $content->getAttribute("width");
+
+				$desc = $this->xpath->query("media:description", $content)->item(0);
+				if ($desc) {
+					$enc->title = strip_tags($desc->nodeValue);
+				} else {
+					$desc = $this->xpath->query("media:description", $enclosure)->item(0);
+					if ($desc) $enc->title = strip_tags($desc->nodeValue);
+				}
+
+				array_push($encs, $enc);
+			}
+		}
+
+		$enclosures = $this->xpath->query("media:thumbnail", $this->elem);
+
+		foreach ($enclosures as $enclosure) {
+			$enc = new FeedEnclosure();
+
+			$enc->type = "image/generic";
+			$enc->link = $enclosure->getAttribute("url");
+			$enc->height = $enclosure->getAttribute("height");
+			$enc->width = $enclosure->getAttribute("width");
 
 			array_push($encs, $enc);
 		}

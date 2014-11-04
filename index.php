@@ -56,15 +56,19 @@
 <head>
 	<title>Tiny Tiny RSS</title>
 
-	<?php stylesheet_tag("lib/dijit/themes/claro/claro.css"); ?>
-	<?php stylesheet_tag("css/layout.css"); ?>
+	<script type="text/javascript">
+		var __ttrss_version = "<?php echo VERSION ?>"
+	</script>
+
+	<?php echo stylesheet_tag("lib/dijit/themes/claro/claro.css"); ?>
+	<?php echo stylesheet_tag("css/layout.css"); ?>
 
 	<?php if ($_SESSION["uid"]) {
 		$theme = get_pref( "USER_CSS_THEME", $_SESSION["uid"], false);
 		if ($theme && file_exists("themes/$theme")) {
-			stylesheet_tag("themes/$theme");
+			echo stylesheet_tag("themes/$theme");
 		} else {
-			stylesheet_tag("themes/default.css");
+			echo stylesheet_tag("themes/default.css");
 		}
 	}
 	?>
@@ -86,19 +90,19 @@
 
 	<?php
 	foreach (array("lib/prototype.js",
-				"lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls",
+				"lib/scriptaculous/scriptaculous.js?load=effects,controls",
 				"lib/dojo/dojo.js",
 				"lib/dojo/tt-rss-layer.js",
 				"errors.php?mode=js") as $jsfile) {
 
-		javascript_tag($jsfile);
+		echo javascript_tag($jsfile);
 
 	} ?>
 
 	<script type="text/javascript">
 		require({cache:{}});
 	<?php
-		require 'lib/jshrink/Minifier.php';
+		require_once 'lib/jshrink/Minifier.php';
 
 		print get_minified_js(array("tt-rss",
 			"functions", "feedlist", "viewfeed", "FeedTree", "PluginHost"));
@@ -134,7 +138,7 @@
 	</div>
 </div>
 
-<div id="notify" class="notify" style="display : none"></div>
+<div id="notify" class="notify"></div>
 <div id="cmdline" style="display : none"></div>
 <div id="headlines-tmp" style="display : none"></div>
 
@@ -153,11 +157,15 @@
 <div id="toolbar" dojoType="dijit.layout.ContentPane" region="top">
 	<div id="main-toolbar" dojoType="dijit.Toolbar">
 
+		<form id="headlines-toolbar" action="" onsubmit='return false'>
+
+		</form>
+
 		<form id="main_toolbar_form" action="" onsubmit='return false'>
 
 		<button dojoType="dijit.form.Button" id="collapse_feeds_btn"
 			onclick="collapse_feedlist()"
-			title="<?php echo __('Collapse feedlist') ?>" style="display : inline">
+			title="<?php echo __('Collapse feedlist') ?>" style="display : none">
 			&lt;&lt;</button>
 
 		<select name="view_mode" title="<?php echo __('Show articles') ?>"
@@ -210,7 +218,7 @@
 			<button id="net-alert" dojoType="dijit.form.Button" style="display : none" disabled="true"
 				title="<?php echo __("Communication problem with server.") ?>">
 			<img
-				src="images/alert.png" />
+				src="images/error.png" />
 			</button>
 
 			<button id="newVersionIcon" dojoType="dijit.form.Button" style="display : none">
@@ -256,9 +264,6 @@
 </div> <!-- toolbar pane -->
 
 	<div id="headlines-wrap-inner" dojoType="dijit.layout.BorderContainer" region="center">
-
-		<div id="headlines-toolbar" dojoType="dijit.layout.ContentPane" region="top">
-		</div>
 
 		<div id="floatingTitle" style="display : none"></div>
 

@@ -24,8 +24,6 @@ class Af_Unburn extends Plugin {
 		  		strpos($article["link"], "/~r/") !== FALSE ||
 				strpos($article["link"], "feedsportal.com") !== FALSE)) {
 
-			if (strpos($article["plugin_data"], "unburn,$owner_uid:") === FALSE) {
-
 				if (ini_get("safe_mode") || ini_get("open_basedir")) {
 					$ch = curl_init(geturl($article["link"]));
 				} else {
@@ -38,7 +36,11 @@ class Af_Unburn extends Plugin {
 				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, !ini_get("safe_mode") && !ini_get("open_basedir"));
 				curl_setopt($ch, CURLOPT_USERAGENT, SELF_USER_AGENT);
 
-				$contents = @curl_exec($ch);
+				if (defined('_CURL_HTTP_PROXY')) {
+					curl_setopt($ch, CURLOPT_PROXY, _CURL_HTTP_PROXY);
+				}
+
+				@curl_exec($ch);
 
 				$real_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
 
@@ -69,9 +71,6 @@ class Af_Unburn extends Plugin {
 					$article["plugin_data"] = "unburn,$owner_uid:" . $article["plugin_data"];
 					$article["link"] = $real_url;
 				}
-			} else if (isset($article["stored"]["link"])) {
-				$article["link"] = $article["stored"]["link"];
-			}
 		}
 
 		return $article;

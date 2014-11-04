@@ -87,8 +87,12 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 				dijit.byId("headlines-frame").attr('content',
 					reply['headlines']['content']);
 
-				dijit.byId("headlines-toolbar").attr('content',
-					reply['headlines']['toolbar']);
+				//dijit.byId("headlines-toolbar").attr('content',
+				//	reply['headlines']['toolbar']);
+
+				dojo.html.set($("headlines-toolbar"),
+						reply['headlines']['toolbar'],
+						{parseContent: true});
 
 				$$("#headlines-frame > div[id*=RROW]").each(function(row) {
 					if (loaded_article_ids.indexOf(row.id) != -1) {
@@ -103,6 +107,10 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 				dijit.byId('headlines-frame').domNode.appendChild(hsp);
 
 				initHeadlinesMenu();
+
+				if (_infscroll_disable)
+					hsp.innerHTML = "<a href='#' onclick='openNextUnreadFeed()'>" +
+						__("Click to open next unread feed.") + "</a>";
 
 				if (_search_query) {
 					$("feed_title").innerHTML += "<span id='cancel_search'>" +
@@ -143,9 +151,9 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
 
-					if (getInitParam("cdm_auto_catchup") == 1) {
+//					if (getInitParam("cdm_auto_catchup") == 1) {
 						c.domNode.appendChild(hsp);
-					}
+//					}
 
 					console.log("added " + new_elems.size() + " headlines");
 
@@ -172,7 +180,8 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					var hsp = $("headlines-spacer");
 
-					if (hsp) hsp.innerHTML = "";
+					if (hsp) hsp.innerHTML = "<a href='#' onclick='openNextUnreadFeed()'>" +
+						__("Click to open next unread feed.") + "</a>";
 				}
 			}
 
@@ -190,14 +199,11 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 			else
 				request_counters(true);
 
-		} else if (transport.responseText) {
+		} else {
 			console.error("Invalid object received: " + transport.responseText);
 			dijit.byId("headlines-frame").attr('content', "<div class='whiteBox'>" +
 					__('Could not update headlines (invalid object received - see error console for details)') +
 					"</div>");
-		} else {
-			//notify_error("Error communicating with server.");
-			Element.show(dijit.byId("net-alert").domNode);
 		}
 
 		_infscroll_request_sent = 0;
@@ -314,13 +320,11 @@ function article_callback2(transport, id) {
 //				return;
 //			}
 
-		} else if (transport.responseText) {
+		} else {
 			console.error("Invalid object received: " + transport.responseText);
 
 			render_article("<div class='whiteBox'>" +
 					__('Could not display article (invalid object received - see error console for details)') + "</div>");
-		} else {
-			Element.show(dijit.byId("net-alert").domNode);
 		}
 
 		var unread_in_buffer = $$("#headlines-frame > div[id*=RROW][class*=Unread]").length
@@ -835,6 +839,8 @@ function selectionToggleUnread(set_state, callback, no_error, ids) {
 			}
 		}
 
+		updateFloatingTitle(true);
+
 		if (rows.length > 0) {
 
 			var cmode = "";
@@ -959,10 +965,12 @@ function getLoadedArticleIds() {
 }
 
 // mode = all,none,unread,invert,marked,published
-function selectArticles(mode) {
+function selectArticles(mode, query) {
 	try {
 
-		var children = $$("#headlines-frame > div[id*=RROW]");
+		if (!query) query = "#headlines-frame > div[id*=RROW]";
+
+		var children = $$(query);
 
 		children.each(function(child) {
 			var id = child.id.replace("RROW-", "");
@@ -1241,7 +1249,7 @@ function postMouseOut(id) {
 
 function unpackVisibleHeadlines() {
 	try {
-		if (!isCdmMode()) return;
+		if (!isCdmMode() || !getInitParam("cdm_expanded")) return;
 
 		$$("#headlines-frame > div[id*=RROW]").each(
 			function(child) {
@@ -1273,15 +1281,17 @@ function headlines_scroll_handler(e) {
 		unpackVisibleHeadlines();
 
 		// set topmost child in the buffer as active
-		if (getInitParam("cdm_auto_catchup") == 1 &&
-				(!isCdmMode() || getInitParam("cdm_expanded"))) {
+		if (isCdmMode() && getInitParam("cdm_auto_catchup") == 1 &&
+				getSelectedArticleIds2().length <= 1 &&
+				getInitParam("cdm_expanded")) {
 			var rows = $$("#headlines-frame > div[id*=RROW]");
 
 			for (var i = 0; i < rows.length; i++) {
 				var child = rows[i];
 
-				if ($("headlines-frame").scrollTop < child.offsetTop &&
-					child.offsetTop - $("headlines-frame").scrollTop < 100) {
+				if ($("headlines-frame").scrollTop <= child.offsetTop &&
+					child.offsetTop - $("headlines-frame").scrollTop < 100 &&
+					child.id.replace("RROW-", "") != _active_article_id) {
 
 					if (_active_article_id) {
 						var row = $("RROW-" + _active_article_id);
@@ -1302,18 +1312,23 @@ function headlines_scroll_handler(e) {
 					 	((e.scrollTop + e.offsetHeight) / e.scrollHeight >= 0.7))) {
 
 				if (hsp)
-					hsp.innerHTML = "<img src='images/indicator_tiny.gif'> " +
-						__("Loading, please wait...");
+					hsp.innerHTML = "<span class='loading'><img src='images/indicator_tiny.gif'> " +
+						__("Loading, please wait...") + "</span>";
 
 				loadMoreHeadlines();
 				return;
 
 			}
 		} else {
-			if (hsp) hsp.innerHTML = "";
+			if (hsp)
+				if (_infscroll_disable)
+					hsp.innerHTML = "<a href='#' onclick='openNextUnreadFeed()'>" +
+						__("Click to open next unread feed.") + "</a>";
+				else
+					hsp.innerHTML = "";
 		}
 
-		if (getInitParam("cdm_expanded") && isCdmMode()) {
+		if (isCdmMode()) {
 			updateFloatingTitle();
 		}
 
@@ -1346,10 +1361,34 @@ function headlines_scroll_handler(e) {
 						500);
 				}
 			}
+
+			if (_infscroll_disable) {
+				var child = $$("#headlines-frame div[id*=RROW]").last();
+
+				if (child && $("headlines-frame").scrollTop >
+						(child.offsetTop + child.offsetHeight - 50)) {
+
+					console.log("we seem to be at an end");
+
+					if (getInitParam("on_catchup_show_next_feed") == "1") {
+						openNextUnreadFeed();
+					}
+				}
+			}
 		}
 
 	} catch (e) {
 		console.warn("headlines_scroll_handler: " + e);
+	}
+}
+
+function openNextUnreadFeed() {
+	try {
+		var is_cat = activeFeedIsCat();
+		var nuf = getNextUnreadFeed(getActiveFeedId(), is_cat);
+		if (nuf) viewfeed(nuf, '', is_cat);
+	} catch (e) {
+		exception_error("openNextUnreadFeed", e);
 	}
 }
 
@@ -1378,6 +1417,8 @@ function catchupBatchedArticles() {
 						if (elem) elem.removeClassName("Unread");
 						catchup_id_batch.remove(id);
 					});
+
+					updateFloatingTitle(true);
 
 				} });
 		}
@@ -1487,6 +1528,12 @@ function cdmCollapseArticle(event, id, unmark) {
 			if (event) Event.stop(event);
 
 			PluginHost.run(PluginHost.HOOK_ARTICLE_COLLAPSED, id);
+
+			if (row.offsetTop < $("headlines-frame").scrollTop)
+				scrollToRowId(row.id);
+
+			Element.hide("floatingTitle");
+			$("floatingTitle").setAttribute("rowid", false);
 		}
 
 	} catch (e) {
@@ -1591,9 +1638,9 @@ function show_labels_in_headlines(transport) {
 
 		if (data) {
 			data['info-for-headlines'].each(function(elem) {
-				var ctr = $("HLLCTR-" + elem.id);
-
-				if (ctr) ctr.innerHTML = elem.labels;
+				$$(".HLLCTR-" + elem.id).each(function(ctr) {
+					ctr.innerHTML = elem.labels;
+				});
 			});
 		}
 	} catch (e) {
@@ -1610,6 +1657,12 @@ function dismissArticle(id) {
 		toggleUnread(id, 0, true);
 
 		new Effect.Fade(elem, {duration : 0.5});
+
+		// Remove the content, too
+		var elem_content = $("CICD-" + id);
+		if (elem_content) {
+			Element.remove(elem_content);
+		}
 
 		if (id == getActiveArticleId()) {
 			setActiveArticleId(0);
@@ -1634,6 +1687,12 @@ function dismissSelectedArticles() {
 					ids[i] != getActiveArticleId()) {
 				new Effect.Fade(elem, {duration : 0.5});
 				sel.push(ids[i]);
+
+				// Remove the content, too
+				var elem_content = $("CICD-" + ids[i]);
+				if (elem_content) {
+					Element.remove(elem_content);
+				}
 			} else {
 				tmp.push(ids[i]);
 			}
@@ -1661,13 +1720,19 @@ function dismissReadArticles() {
 					!elem.hasClassName("Selected")) {
 
 				new Effect.Fade(elem, {duration : 0.5});
+
+				// Remove the content, too
+				var elem_content = $("CICD-" + ids[i]);
+				if (elem_content) {
+					Element.remove(elem_content);
+				}
 			} else {
 				tmp.push(ids[i]);
 			}
 		}
 
 	} catch (e) {
-		exception_error("dismissSelectedArticles", e);
+		exception_error("dismissReadArticles", e);
 	}
 }
 
@@ -1716,6 +1781,7 @@ function cdmClicked(event, id) {
 
 				if (article_is_unread) {
 					decrementFeedCounter(getActiveFeedId(), activeFeedIsCat());
+					updateFloatingTitle(true);
 				}
 
 				var query = "?op=rpc&method=catchupSelected" +
@@ -1730,7 +1796,8 @@ function cdmClicked(event, id) {
 				return !event.shiftKey;
 			}
 
-		} else {
+		} else if (event.target.parents(".cdmHeader").length > 0) {
+
 			toggleSelected(id, true);
 
 			var elem = $("RROW-" + id);
@@ -1890,6 +1957,153 @@ function closeArticlePanel() {
 			dijit.byId("content-insert"));
 }
 
+function initFloatingMenu() {
+	try {
+		if (dijit.byId("floatingMenu"))
+			dijit.byId("floatingMenu").destroyRecursive();
+
+			var menu = new dijit.Menu({
+				id: "floatingMenu",
+				targetNodeIds: ["floatingTitle"]
+			});
+
+			var id = $("floatingTitle").getAttribute("rowid").replace("RROW-", "");
+
+			headlinesMenuCommon(menu, id);
+
+			menu.startup();
+	} catch (e) {
+		exception_error("initFloatingMenu", e);
+	}
+}
+
+function headlinesMenuCommon(menu, base_id) {
+	try {
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Open original article"),
+			onClick: function(event) {
+				openArticleInNewWindow(base_id ? base_id : this.getParent().callerRowId);
+			}}));
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Display article URL"),
+			onClick: function(event) {
+				displayArticleUrl(base_id ? base_id : this.getParent().callerRowId);
+			}}));
+
+		menu.addChild(new dijit.MenuSeparator());
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Toggle unread"),
+			onClick: function(event) {
+				var ids = getSelectedArticleIds2();
+				// cast to string
+				var id = (base_id ? base_id : this.getParent().callerRowId) + "";
+				ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+
+				selectionToggleUnread(undefined, false, true, ids);
+				}}));
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Toggle starred"),
+			onClick: function(event) {
+				var ids = getSelectedArticleIds2();
+				// cast to string
+				var id = (base_id ? base_id : this.getParent().callerRowId) + "";
+				ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+
+				selectionToggleMarked(undefined, false, true, ids);
+				}}));
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Toggle published"),
+			onClick: function(event) {
+				var ids = getSelectedArticleIds2();
+				// cast to string
+				var id = (base_id ? base_id : this.getParent().callerRowId) + "";
+				ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+
+				selectionTogglePublished(undefined, false, true, ids);
+				}}));
+
+		menu.addChild(new dijit.MenuSeparator());
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Mark above as read"),
+			onClick: function(event) {
+				catchupRelativeToArticle(0, base_id ? base_id : this.getParent().callerRowId);
+				}}));
+
+		menu.addChild(new dijit.MenuItem({
+			label: __("Mark below as read"),
+			onClick: function(event) {
+				catchupRelativeToArticle(1, base_id ? base_id : this.getParent().callerRowId);
+				}}));
+
+
+		var labels = dijit.byId("feedTree").model.getItemsInCategory(-2);
+
+		if (labels) {
+
+			menu.addChild(new dijit.MenuSeparator());
+
+			var labelAddMenu = new dijit.Menu({ownerMenu: menu});
+			var labelDelMenu = new dijit.Menu({ownerMenu: menu});
+
+			labels.each(function(label) {
+				var id = label.id[0];
+				var bare_id = id.substr(id.indexOf(":")+1);
+				var name = label.name[0];
+
+				bare_id = feed_to_label_id(bare_id);
+
+				labelAddMenu.addChild(new dijit.MenuItem({
+					label: name,
+					labelId: bare_id,
+					onClick: function(event) {
+						var ids = getSelectedArticleIds2();
+						// cast to string
+						var id = (base_id ? base_id : this.getParent().ownerMenu.callerRowId) + "";
+
+						ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+
+						selectionAssignLabel(this.labelId, ids);
+				}}));
+
+				labelDelMenu.addChild(new dijit.MenuItem({
+					label: name,
+					labelId: bare_id,
+					onClick: function(event) {
+						var ids = getSelectedArticleIds2();
+						// cast to string
+						var id = (base_id ? base_id : this.getParent().ownerMenu.callerRowId) + "";
+
+						ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+
+						selectionRemoveLabel(this.labelId, ids);
+				}}));
+
+			});
+
+			menu.addChild(new dijit.PopupMenuItem({
+				label: __("Assign label"),
+				popup: labelAddMenu,
+			}));
+
+			menu.addChild(new dijit.PopupMenuItem({
+				label: __("Remove label"),
+				popup: labelDelMenu,
+			}));
+
+		}
+
+
+	} catch (e) {
+		exception_error("headlinesMenuCommon", e);
+	}
+}
+
 function initHeadlinesMenu() {
 	try {
 		if (dijit.byId("headlinesMenu"))
@@ -1925,132 +2139,75 @@ function initHeadlinesMenu() {
 
 		});
 
-/*		if (!isCdmMode())
-			menu.addChild(new dijit.MenuItem({
-				label: __("View article"),
-				onClick: function(event) {
-					view(this.getParent().callerRowId);
-				}})); */
+		headlinesMenuCommon(menu, false);
 
-		menu.addChild(new dijit.MenuItem({
-			label: __("Open original article"),
-			onClick: function(event) {
-				openArticleInNewWindow(this.getParent().callerRowId);
-			}}));
+		menu.startup();
 
-		menu.addChild(new dijit.MenuItem({
-			label: __("Display article URL"),
-			onClick: function(event) {
-				displayArticleUrl(this.getParent().callerRowId);
-			}}));
+		/* vgroup feed title menu */
 
-		menu.addChild(new dijit.MenuSeparator());
+		var nodes = $$("#headlines-frame > div[class='cdmFeedTitle']");
+		var ids = [];
 
-		menu.addChild(new dijit.MenuItem({
-			label: __("Toggle unread"),
-			onClick: function(event) {
-				var ids = getSelectedArticleIds2();
-				// cast to string
-				var id = this.getParent().callerRowId + "";
-				ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+		nodes.each(function(node) {
+			ids.push(node.id);
+		});
 
-				selectionToggleUnread(undefined, false, true, ids);
-				}}));
+		if (ids.length > 0) {
+			if (dijit.byId("headlinesFeedTitleMenu"))
+				dijit.byId("headlinesFeedTitleMenu").destroyRecursive();
 
-		menu.addChild(new dijit.MenuItem({
-			label: __("Toggle starred"),
-			onClick: function(event) {
-				var ids = getSelectedArticleIds2();
-				// cast to string
-				var id = this.getParent().callerRowId + "";
-				ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+			var menu = new dijit.Menu({
+				id: "headlinesFeedTitleMenu",
+				targetNodeIds: ids,
+			});
 
-				selectionToggleMarked(undefined, false, true, ids);
-				}}));
+			var tmph = dojo.connect(menu, '_openMyself', function (event) {
+				var callerNode = event.target, match = null, tries = 0;
 
-		menu.addChild(new dijit.MenuItem({
-			label: __("Toggle published"),
-			onClick: function(event) {
-				var ids = getSelectedArticleIds2();
-				// cast to string
-				var id = this.getParent().callerRowId + "";
-				ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
+				while (match == null && callerNode && tries <= 3) {
+					console.log(callerNode.id);
 
-				selectionTogglePublished(undefined, false, true, ids);
-				}}));
+					match = callerNode.id.match("^[A-Z]+[-]([0-9]+)$");
+					callerNode = callerNode.parentNode;
+					++tries;
 
-		menu.addChild(new dijit.MenuSeparator());
+					console.log(match[1]);
+				}
 
-		menu.addChild(new dijit.MenuItem({
-			label: __("Mark above as read"),
-			onClick: function(event) {
-				catchupRelativeToArticle(0, this.getParent().callerRowId);
-				}}));
-
-		menu.addChild(new dijit.MenuItem({
-			label: __("Mark below as read"),
-			onClick: function(event) {
-				catchupRelativeToArticle(1, this.getParent().callerRowId);
-				}}));
-
-
-		var labels = dijit.byId("feedTree").model.getItemsInCategory(-2);
-
-		if (labels) {
-
-			menu.addChild(new dijit.MenuSeparator());
-
-			var labelAddMenu = new dijit.Menu({ownerMenu: menu});
-			var labelDelMenu = new dijit.Menu({ownerMenu: menu});
-
-			labels.each(function(label) {
-				var id = label.id[0];
-				var bare_id = id.substr(id.indexOf(":")+1);
-				var name = label.name[0];
-
-				bare_id = feed_to_label_id(bare_id);
-
-				labelAddMenu.addChild(new dijit.MenuItem({
-					label: name,
-					labelId: bare_id,
-					onClick: function(event) {
-						var ids = getSelectedArticleIds2();
-						// cast to string
-						var id = this.getParent().ownerMenu.callerRowId + "";
-
-						ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
-
-						selectionAssignLabel(this.labelId, ids);
-				}}));
-
-				labelDelMenu.addChild(new dijit.MenuItem({
-					label: name,
-					labelId: bare_id,
-					onClick: function(event) {
-						var ids = getSelectedArticleIds2();
-						// cast to string
-						var id = this.getParent().ownerMenu.callerRowId + "";
-
-						ids = ids.size() != 0 && ids.indexOf(id) != -1 ? ids : [id];
-
-						selectionRemoveLabel(this.labelId, ids);
-				}}));
+				if (match) this.callerRowId = parseInt(match[1]);
 
 			});
 
-			menu.addChild(new dijit.PopupMenuItem({
-				label: __("Assign label"),
-				popup: labelAddMenu,
-			}));
+			menu.addChild(new dijit.MenuItem({
+				label: __("Select articles in group"),
+				onClick: function(event) {
+					selectArticles("all",
+						"#headlines-frame > div[id*=RROW]"+
+						"[orig-feed-id='"+menu.callerRowId+"']");
 
-			menu.addChild(new dijit.PopupMenuItem({
-				label: __("Remove label"),
-				popup: labelDelMenu,
-			}));
+				}}));
+
+			menu.addChild(new dijit.MenuItem({
+				label: __("Mark group as read"),
+				onClick: function(event) {
+					selectArticles("none");
+					selectArticles("all",
+						"#headlines-frame > div[id*=RROW]"+
+						"[orig-feed-id='"+menu.callerRowId+"']");
+
+					catchupSelection();
+				}}));
+
+
+			menu.addChild(new dijit.MenuItem({
+				label: __("Mark feed as read"),
+				onClick: function(event) {
+					catchupFeedInGroup(menu.callerRowId);
+				}}));
+
+			menu.startup();
 
 		}
-
-		menu.startup();
 
 	} catch (e) {
 		exception_error("initHeadlinesMenu", e);
@@ -2195,33 +2352,67 @@ function openSelectedAttachment(elem) {
 	}
 }
 
-function updateFloatingTitle() {
+function scrollToRowId(id) {
 	try {
+		var row = $(id);
+
+		if (row)
+			$("headlines-frame").scrollTop = row.offsetTop;
+
+	} catch (e) {
+		exception_error("scrollToRowId", e);
+	}
+}
+
+function updateFloatingTitle(unread_only) {
+	try {
+		if (!isCdmMode()) return;
+
 		var hf = $("headlines-frame");
 
 		var elems = $$("#headlines-frame > div[id*=RROW]");
 
 		for (var i = 0; i < elems.length; i++) {
+
 			var child = elems[i];
 
-			if (child.offsetTop + child.offsetHeight > hf.scrollTop) {
+			if (child && child.offsetTop + child.offsetHeight > hf.scrollTop) {
 
 				var header = child.getElementsByClassName("cdmHeader")[0];
 
-				if (child.id != $("floatingTitle").getAttribute("rowid")) {
-					$("floatingTitle").setAttribute("rowid", child.id);
-					$("floatingTitle").innerHTML = header.innerHTML;
+				if (unread_only || child.id != $("floatingTitle").getAttribute("rowid")) {
+					if (child.id != $("floatingTitle").getAttribute("rowid")) {
+						$("floatingTitle").setAttribute("rowid", child.id);
+						$("floatingTitle").innerHTML = header.innerHTML;
+						$("floatingTitle").firstChild.innerHTML = "<img class='anchor markedPic' src='images/page_white_go.png' onclick=\"scrollToRowId('"+child.id+"')\">" + $("floatingTitle").firstChild.innerHTML;
+
+						initFloatingMenu();
+
+						var cb = $$("#floatingTitle .dijitCheckBox")[0];
+
+						if (cb)
+							cb.parentNode.removeChild(cb);
+					}
+
+					if (child.hasClassName("Unread"))
+						$("floatingTitle").addClassName("Unread");
+					else
+						$("floatingTitle").removeClassName("Unread");
+
+					PluginHost.run(PluginHost.HOOK_FLOATING_TITLE, child);
 				}
 
-				if (child.offsetTop < hf.scrollTop - header.offsetHeight - 100 &&
-						child.offsetTop + child.offsetHeight - hf.scrollTop > 100)
+				if (child.offsetTop < hf.scrollTop - header.offsetHeight &&
+						child.offsetTop + child.offsetHeight - hf.scrollTop > header.offsetHeight)
 					Element.show("floatingTitle");
 				else
 					Element.hide("floatingTitle");
 
-				break;
+				return;
+
 			}
 		}
+
 	} catch (e) {
 		exception_error("updateFloatingTitle", e);
 	}

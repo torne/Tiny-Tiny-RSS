@@ -9,9 +9,9 @@
 	define('DISABLE_SESSIONS', true);
 
 	require_once "version.php";
-	require_once "config.php";
 	require_once "autoload.php";
 	require_once "functions.php";
+	require_once "config.php";
 	require_once "rssfuncs.php";
 
 	// defaults
@@ -24,10 +24,19 @@
 	require_once "db.php";
 	require_once "db-prefs.php";
 
-
 	if (!function_exists('pcntl_fork')) {
 		die("error: This script requires PHP compiled with PCNTL module.\n");
 	}
+
+	$options = getopt("");
+
+	if (!is_array($options)) {
+		die("error: getopt() failed. ".
+			"Most probably you are using PHP CGI to run this script ".
+			"instead of required PHP CLI. Check tt-rss wiki page on updating feeds for ".
+			"additional information.\n");
+	}
+
 
 	$master_handlers_installed = false;
 
@@ -218,10 +227,11 @@
 					register_shutdown_function('task_shutdown');
 
 					$quiet = (isset($options["quiet"])) ? "--quiet" : "";
+					$log = function_exists("flock") && isset($options['log']) ? '--log '.$options['log'] : '';
 
 					$my_pid = posix_getpid();
 
-					passthru(PHP_EXECUTABLE . " update.php --daemon-loop $quiet --task $j --pidlock $my_pid");
+					passthru(PHP_EXECUTABLE . " update.php --daemon-loop $quiet $log --task $j --pidlock $my_pid");
 
 					sleep(1);
 

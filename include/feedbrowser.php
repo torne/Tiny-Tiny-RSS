@@ -63,7 +63,7 @@
 				htmlspecialchars($line["title"])."</span></a>";
 
 				$feed_url = "<a target=\"_blank\" class=\"fb_feedUrl\"
-							href=\"$feed_url\"><img src='images/pub_set.svg'
+							href=\"$feed_url\"><img src='images/pub_set.png'
 							style='vertical-align : middle'></a>";
 
 				$rv .= "<li>$check_box $feed_url $site_url".
@@ -72,7 +72,6 @@
 			} else if ($mode == 2) {
 				$feed_url = htmlspecialchars($line["feed_url"]);
 				$site_url = htmlspecialchars($line["site_url"]);
-				$title = htmlspecialchars($line["title"]);
 
 				$check_box = "<input onclick='toggleSelectListRow2(this)' dojoType=\"dijit.form.CheckBox\"
 							type=\"checkbox\">";
@@ -80,7 +79,7 @@
 				$class = ($feedctr % 2) ? "even" : "odd";
 
 				if ($line['articles_archived'] > 0) {
-					$archived = sprintf(ngettext("%d archived article", "%d archived articles", $line['articles_archived']), $line['articles_archived']);
+					$archived = sprintf(_ngettext("%d archived article", "%d archived articles", $line['articles_archived']), $line['articles_archived']);
 					$archived = "&nbsp;<span class='subscribers'>($archived)</span>";
 				} else {
 					$archived = '';
@@ -92,7 +91,7 @@
 				htmlspecialchars($line["title"])."</span></a>";
 
 				$feed_url = "<a target=\"_blank\" class=\"fb_feedUrl\"
-							href=\"$feed_url\"><img src='images/pub_set.svg'
+							href=\"$feed_url\"><img src='images/pub_set.png'
 							style='vertical-align : middle'></a>";
 
 

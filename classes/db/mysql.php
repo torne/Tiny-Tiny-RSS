@@ -26,9 +26,12 @@ class Db_Mysql implements IDb {
 	}
 
 	function query($query, $die_on_error = true) {
-		$result = mysql_query($query, $this->link);
+		$result = @mysql_query($query, $this->link);
 		if (!$result) {
-			user_error("Query $query failed: " . ($this->link ? mysql_error($this->link) : "No connection"),
+			$error = @mysql_error($this->link);
+
+			@mysql_query("ROLLBACK", $this->link);
+			user_error("Query $query failed: " . ($this->link ? $error : "No connection"),
 				$die_on_error ? E_USER_ERROR : E_USER_WARNING);
 		}
 		return $result;

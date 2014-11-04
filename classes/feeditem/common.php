@@ -8,6 +8,17 @@ abstract class FeedItem_Common extends FeedItem {
 		$this->elem = $elem;
 		$this->xpath = $xpath;
 		$this->doc = $doc;
+
+		try {
+
+			$source = $elem->getElementsByTagName("source")->item(0);
+
+			// we don't need <source> element
+			if ($source)
+				$elem->removeChild($source);
+		} catch (DOMException $e) {
+			//
+		}
 	}
 
 	function get_author() {
@@ -33,13 +44,26 @@ abstract class FeedItem_Common extends FeedItem {
 		}
 	}
 
-	// todo
 	function get_comments_url() {
+		//RSS only. Use a query here to avoid namespace clashes (e.g. with slash).
+		//might give a wrong result if a default namespace was declared (possible with XPath 2.0)
+		$com_url = $this->xpath->query("comments", $this->elem)->item(0);
 
+		if($com_url)
+			return $com_url->nodeValue;
+
+		//Atom Threading Extension (RFC 4685) stuff. Could be used in RSS feeds, so it's in common.
+		//'text/html' for type is too restrictive?
+		$com_url = $this->xpath->query("atom:link[@rel='replies' and contains(@type,'text/html')]/@href", $this->elem)->item(0);
+
+		if($com_url)
+			return $com_url->nodeValue;
 	}
 
 	function get_comments_count() {
-		$comments = $this->xpath->query("slash:comments", $this->elem)->item(0);
+		//also query for ATE stuff here
+		$query = "slash:comments|thread:total|atom:link[@rel='replies']/@thread:count";
+		$comments = $this->xpath->query($query, $this->elem)->item(0);
 
 		if ($comments) {
 			return $comments->nodeValue;

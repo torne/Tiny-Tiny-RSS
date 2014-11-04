@@ -42,6 +42,13 @@
 
 	$options = getopt("", $longopts);
 
+	if (!is_array($options)) {
+		die("error: getopt() failed. ".
+			"Most probably you are using PHP CGI to run this script ".
+			"instead of required PHP CLI. Check tt-rss wiki page on updating feeds for ".
+			"additional information.\n");
+	}
+
 	if (count($options) == 0 && !defined('STDIN')) {
 		?> <html>
 		<head>
@@ -162,8 +169,9 @@
 	if (isset($options["daemon"])) {
 		while (true) {
 			$quiet = (isset($options["quiet"])) ? "--quiet" : "";
+         $log = isset($options['log']) ? '--log '.$options['log'] : '';
 
-			passthru(PHP_EXECUTABLE . " " . $argv[0] ." --daemon-loop $quiet");
+			passthru(PHP_EXECUTABLE . " " . $argv[0] ." --daemon-loop $quiet $log");
 			_debug("Sleeping for " . DAEMON_SLEEP_INTERVAL . " seconds...");
 			sleep(DAEMON_SLEEP_INTERVAL);
 		}
