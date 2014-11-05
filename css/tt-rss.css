@@ -9,6 +9,7 @@ body#ttrssMain, body#ttrssPrefs, body#ttrssLogin, body {
 
 body#ttrssMain {
 	overflow : hidden;
+	max-height : 100%;
 }
 
 div.postReply {
@@ -161,7 +162,7 @@ a:hover {
 	left : 0px;
 	border-width : 1px 0px 0px 0px;
 	border-style : solid;
-	position : absolute;	
+	position : fixed;	
 	font-size : 12px;
 	z-index : 99;
 	padding : 5px;
