@@ -212,30 +212,39 @@ function notify_real(msg, no_hide, n_type) {
 	msg = "<span class=\"msg\"> " + __(msg) + "</span>";
 
 	if (n_type == 2) {
-		n.className = "notify notify_progress visible";
 		msg = "<span><img src='images/indicator_white.gif'></span>" + msg;
 		no_hide = true;
 	} else if (n_type == 3) {
-		n.className = "notify notify_error visible";
 		msg = "<span><img src='images/alert.png'></span>" + msg;
 	} else if (n_type == 4) {
-		n.className = "notify notify_info visible";
 		msg = "<span><img src='images/information.png'></span>" + msg;
-	} else {
-		n.className = "notify visible";
 	}
 
 	msg += " <span><img src=\"images/cross.png\" class=\"close\" title=\"" +
 		__("Click to close") + "\" onclick=\"notify('')\"></span>";
 
-//	msg = "<img src='images/live_com_loading.gif'> " + msg;
-
 	n.innerHTML = msg;
 
-	if (!no_hide) {
-		notify_hide_timerid = window.setTimeout(function() {
+	window.setTimeout(function() {
+		// goddamnit firefox
+		if (n_type == 2) {
+		n.className = "notify notify_progress visible";
+			} else if (n_type == 3) {
+			n.className = "notify notify_error visible";
+			msg = "<span><img src='images/alert.png'></span>" + msg;
+		} else if (n_type == 4) {
+			n.className = "notify notify_info visible";
+		} else {
+			n.className = "notify visible";
+		}
+
+		if (!no_hide) {
+			notify_hide_timerid = window.setTimeout(function() {
 				n.removeClassName("visible") }, 5*1000);
-	}
+		}
+
+	}, 10);
+
 }
 
 function notify(msg, no_hide) {
