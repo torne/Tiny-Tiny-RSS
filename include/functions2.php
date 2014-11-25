@@ -826,6 +826,21 @@
 
 	}
 
+	function iframe_whitelisted($entry) {
+		$whitelist = array("youtube.com", "youtu.be", "vimeo.com");
+
+		@$src = parse_url($entry->getAttribute("src"), PHP_URL_HOST);
+
+		if ($src) {
+			foreach ($whitelist as $w) {
+				if ($src == $w || $src == "www.$w")
+					return true;
+			}
+		}
+
+		return false;
+	}
+
 	function sanitize($str, $force_remove_images = false, $owner = false, $site_url = false, $highlight_words = false, $article_id = false) {
 		if (!$owner) $owner = $_SESSION["uid"];
 
@@ -894,7 +909,9 @@
 
 		$entries = $xpath->query('//iframe');
 		foreach ($entries as $entry) {
-			$entry->setAttribute('sandbox', 'allow-scripts');
+			if (!iframe_whitelisted($entry)) {
+				$entry->setAttribute('sandbox', 'allow-scripts');
+			}
 
 		}
 
