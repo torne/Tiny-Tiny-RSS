@@ -2,7 +2,7 @@
 
 class API extends Handler {
 
-	const API_LEVEL  = 9;
+	const API_LEVEL  = 10;
 
 	const STATUS_OK  = 0;
 	const STATUS_ERR = 1;
@@ -201,6 +201,9 @@ class API extends Handler {
 			$sanitize_content = !isset($_REQUEST["sanitize"]) ||
 				sql_bool_to_bool($_REQUEST["sanitize"]);
 			$force_update = sql_bool_to_bool($_REQUEST["force_update"]);
+			$has_sandbox = sql_bool_to_bool($_REQUEST["has_sandbox"]);
+
+			$_SESSION['hasSandbox'] = $has_sandbox;
 
 			$override_order = false;
 			switch ($_REQUEST["order_by"]) {
