@@ -1975,8 +1975,8 @@
 	}
 
 	function getLastArticleId() {
-		$result = db_query("SELECT MAX(ref_id) AS id FROM ttrss_user_entries
-			WHERE owner_uid = " . $_SESSION["uid"]);
+		$result = db_query("SELECT ref_id AS id FROM ttrss_user_entries
+			WHERE owner_uid = " . $_SESSION["uid"] . " ORDER BY ref_id DESC LIMIT 1");
 
 		if (db_num_rows($result) == 1) {
 			return db_fetch_result($result, 0, "id");
