@@ -2,7 +2,7 @@
 
 class API extends Handler {
 
-	const API_LEVEL  = 10;
+	const API_LEVEL  = 11;
 
 	const STATUS_OK  = 0;
 	const STATUS_ERR = 1;
@@ -202,6 +202,7 @@ class API extends Handler {
 				sql_bool_to_bool($_REQUEST["sanitize"]);
 			$force_update = sql_bool_to_bool($_REQUEST["force_update"]);
 			$has_sandbox = sql_bool_to_bool($_REQUEST["has_sandbox"]);
+			$excerpt_length = (int)$this->dbh->escape_string($_REQUEST["excerpt_length"]);
 
 			$_SESSION['hasSandbox'] = $has_sandbox;
 
@@ -226,7 +227,7 @@ class API extends Handler {
 			$headlines = $this->api_get_headlines($feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $override_order,
 				$include_attachments, $since_id, $search, $search_mode,
-				$include_nested, $sanitize_content, $force_update);
+				$include_nested, $sanitize_content, $force_update, $excerpt_length);
 
 			$this->wrap(self::STATUS_OK, $headlines);
 		} else {
@@ -636,7 +637,7 @@ class API extends Handler {
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $order,
 				$include_attachments, $since_id,
 				$search = "", $search_mode = "",
-				$include_nested = false, $sanitize_content = true, $force_update = false) {
+				$include_nested = false, $sanitize_content = true, $force_update = false, $excerpt_length = 100) {
 
 			if ($force_update && $feed_id > 0 && is_numeric($feed_id)) {
 				// Update the feed if required with some basic flood control
@@ -669,9 +670,9 @@ class API extends Handler {
 			$headlines = array();
 
 			while ($line = db_fetch_assoc($result)) {
-				$line["content_preview"] = truncate_string(strip_tags($line["content"]), 100);
+				$line["content_preview"] = truncate_string(strip_tags($line["content"]), $excerpt_length);
 				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
-					$line = $p->hook_query_headlines($line, 100, true);
+					$line = $p->hook_query_headlines($line, $excerpt_length, true);
 				}
 
 				$is_updated = ($line["last_read"] == "" &&
