@@ -357,6 +357,9 @@
 		$url = ltrim($url, ' ');
 		$url = str_replace(' ', '%20', $url);
 
+		if (strpos($url, "//") === 0)
+			$url = 'http:' . $url;
+
 		if (!defined('NO_CURL') && function_exists('curl_init')) {
 
 			$fetch_curl_used = true;
