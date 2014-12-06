@@ -911,8 +911,13 @@
 		foreach ($entries as $entry) {
 			if (!iframe_whitelisted($entry)) {
 				$entry->setAttribute('sandbox', 'allow-scripts');
+			} else {
+				if ($_SERVER['HTTPS'] == "on") {
+					$entry->setAttribute("src",
+						str_replace("http://", "https://",
+							$entry->getAttribute("src")));
+				}
 			}
-
 		}
 
 		$allowed_elements = array('a', 'address', 'audio', 'article', 'aside',
