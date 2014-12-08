@@ -14,6 +14,8 @@
 	$fetch_curl_used = false;
 	$suppress_debugging = false;
 
+	libxml_disable_entity_loader(true);
+
 	mb_internal_encoding("UTF-8");
 	date_default_timezone_set('UTC');
 	if (defined('E_DEPRECATED')) {
