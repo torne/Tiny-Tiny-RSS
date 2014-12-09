@@ -2426,7 +2426,7 @@
 	}
 
 	function theme_valid($file) {
-		if ($file == "default.css") return true; // needed for array_filter
+		if ($file == "default.css" || $file == "night.css") return true; // needed for array_filter
 		$file = "themes/" . basename($file);
 
 		if (file_exists($file) && is_readable($file)) {
