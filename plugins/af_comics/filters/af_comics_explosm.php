@@ -17,18 +17,7 @@ class Af_Comics_Explosm extends Af_ComicFilter {
 
 				if ($doc) {
 					$xpath = new DOMXPath($doc);
-					$entries = $xpath->query('(//img[@src])'); // we might also check for img[@class='strip'] I guess...
-
-					$matches = array();
-
-					foreach ($entries as $entry) {
-
-						if (preg_match("/(http:\/\/.*\/db\/files\/Comics\/.*)/i", $entry->getAttribute("src"), $matches)) {
-
-							$basenode = $entry;
-							break;
-						}
-					}
+					$basenode = $xpath->query('(//img[@id="main-comic"])')->item(0);
 
 					if ($basenode) {
 						$article["content"] = $doc->saveXML($basenode);
