@@ -148,7 +148,6 @@ create table ttrss_entries (id serial not null primary key,
 	lang varchar(2),
 	author varchar(250) not null default '');
 
-create index ttrss_entries_guid_index on ttrss_entries(guid);
 -- create index ttrss_entries_title_index on ttrss_entries(title);
 create index ttrss_entries_date_entered_index on ttrss_entries(date_entered);
 create index ttrss_entries_updated_idx on ttrss_entries(updated);
@@ -261,7 +260,7 @@ create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
 
 create table ttrss_version (schema_version int not null);
 
-insert into ttrss_version values (126);
+insert into ttrss_version values (127);
 
 create table ttrss_enclosures (id serial not null primary key,
 	content_url text not null,
@@ -299,8 +298,6 @@ create table ttrss_prefs (pref_name varchar(250) not null primary key,
 	section_id integer not null default 1 references ttrss_prefs_sections(id),
 	access_level integer not null default 0,
 	def_value text not null);
-
-create index ttrss_prefs_pref_name_idx on ttrss_prefs(pref_name);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('PURGE_OLD_DAYS', 3, '60', 1);
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('DEFAULT_UPDATE_INTERVAL', 3, '30', 1);
@@ -374,7 +371,7 @@ create index ttrss_user_prefs_owner_uid_index on ttrss_user_prefs(owner_uid);
 create index ttrss_user_prefs_pref_name_idx on ttrss_user_prefs(pref_name);
 -- create index ttrss_user_prefs_value_index on ttrss_user_prefs(value);
 
-create table ttrss_sessions (id varchar(250) unique not null primary key,
+create table ttrss_sessions (id varchar(250) not null primary key,
 	data text,
 	expire integer not null);
 
