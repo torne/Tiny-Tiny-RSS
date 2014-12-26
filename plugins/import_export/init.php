@@ -189,6 +189,8 @@ class Import_Export extends Plugin implements IHandler {
 		$num_processed = 0;
 		$num_feeds_created = 0;
 
+		libxml_disable_entity_loader(false);
+
 		$doc = @DOMDocument::load($filename);
 
 		if (!$doc) {
@@ -205,6 +207,8 @@ class Import_Export extends Plugin implements IHandler {
 			if ($data)
 				$doc = DOMDocument::loadXML($data);
 		}
+
+		libxml_disable_entity_loader(true);
 
 		if ($doc) {
 
