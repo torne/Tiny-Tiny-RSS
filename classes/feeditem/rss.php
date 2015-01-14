@@ -51,10 +51,14 @@ class FeedItem_RSS extends FeedItem_Common {
 	}
 
 	function get_title() {
-		$title = $this->elem->getElementsByTagName("title")->item(0);
+		$titles = $this->elem->getElementsByTagName("title");
 
-		if ($title) {
-			return trim($title->nodeValue);
+		foreach ($titles as $title) {
+			$nv = trim($title->nodeValue);
+
+			if (!empty($nv)) {
+				return $nv;
+			}
 		}
 	}
 
