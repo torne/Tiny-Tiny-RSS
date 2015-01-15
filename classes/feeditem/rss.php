@@ -51,7 +51,7 @@ class FeedItem_RSS extends FeedItem_Common {
 	}
 
 	function get_title() {
-		$title = $this->elem->getElementsByTagName("title")->item(0);
+		$title = $this->xpath->query("title", $this->elem)->item(0);
 
 		if ($title) {
 			return trim($title->nodeValue);
