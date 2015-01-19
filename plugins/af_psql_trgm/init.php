@@ -65,7 +65,7 @@ class Af_Psql_Trgm extends Plugin {
 				ttrss_entries.id = ref_id AND
 				ttrss_user_entries.owner_uid = $owner_uid AND
 				ttrss_entries.id != $id AND
-				date_entered >= NOW() - INTERVAL '1 week'
+				date_entered >= NOW() - INTERVAL '2 weeks'
 			ORDER BY
 				sm DESC, date_entered DESC
 			LIMIT 10");
