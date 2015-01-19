@@ -2,7 +2,6 @@
 class Af_Psql_Trgm extends Plugin {
 
 	private $host;
-	private $filters = array();
 
 	function about() {
 		return array(1.0,
@@ -98,13 +97,29 @@ class Af_Psql_Trgm extends Plugin {
 			placeholder=\"32\"
 			required=\"1\" name=\"min_title_length\" value=\"$min_title_length\"></td></tr>";
 
-
 		print "</table>";
 
 		print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
 			__("Save")."</button>";
 
 		print "</form>";
+
+		$enabled_feeds = $this->host->get($this, "enabled_feeds");
+		if (!array($enabled_feeds)) $enabled_feeds = array();
+
+		if (count($enabled_feeds) > 0) {
+			print "<h3>" . __("Currently enabled for (click to edit):") . "</h3>";
+
+			print "<ul class=\"browseFeedList\" style=\"border-width : 1px\">";
+			foreach ($enabled_feeds as $f) {
+				print "<li>" .
+					"<img src='images/pub_set.png'
+						style='vertical-align : middle'> <a href='#'
+						onclick='editFeed($f)'>".
+					getFeedTitle($f) . "</a></li>";
+			}
+			print "</ul>";
+		}
 
 		print "</div>";
 	}
