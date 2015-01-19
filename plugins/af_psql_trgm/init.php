@@ -33,8 +33,55 @@ class Af_Psql_Trgm extends Plugin {
 		$host->add_hook($host::HOOK_PREFS_TAB, $this);
 		$host->add_hook($host::HOOK_PREFS_EDIT_FEED, $this);
 		$host->add_hook($host::HOOK_PREFS_SAVE_FEED, $this);
+		//$host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
 
 	}
+
+	/* function get_js() {
+		return file_get_contents(__DIR__ . "/init.js");
+	}
+
+	function showrelated() {
+		$id = (int) db_escape_string($_REQUEST['param']);
+		$owner_uid = $_SESSION["uid"];
+
+		$result = db_query("SELECT title FROM ttrss_entries, ttrss_user_entries
+			WHERE ref_id = id AND id = $id AND owner_uid = $owner_uid");
+
+		$title = db_fetch_result($result, 0, "title");
+
+		print "<h2>$title</h2>";
+
+		$title = db_escape_string($title);
+		$result = db_query("SELECT id,title,updated
+			FROM ttrss_entries, ttrss_user_entries
+			WHERE owner_uid = $owner_uid AND
+				id = ref_id AND
+				id != $id AND
+				date_entered >= NOW() - INTERVAL '1 day' AND
+				SIMILARITY(title, '$title') >= 0.5
+			LIMIT 30");
+
+		print "<ul class=\"browseFeedList\" style=\"border-width : 1px\">";
+
+		while ($line = db_fetch_assoc($result)) {
+			print "<li>";
+			print "<div style='float : right'>" . smart_date_time($line["updated"])
+				. "</div>";
+			print $line["title"];
+			print "</li>";
+		}
+
+		print "</ul>";
+
+	} */
+
+	/* function hook_article_button($line) {
+		return "<img src=\"plugins/af_psql_trgm/button.png\"
+			style=\"cursor : pointer\" style=\"cursor : pointer\"
+			onclick=\"showTrgmRelated(".$line["id"].")\"
+			class='tagsPic' title='".__('Show related articles')."'>";
+	} */
 
 	function hook_prefs_tab($args) {
 		if ($args != "prefFeeds") return;
