@@ -683,6 +683,7 @@
 					"link" => $entry_link,
 					"tags" => $entry_tags,
 					"author" => $entry_author,
+					"force_catchup" => false, // ugly hack for the time being
 					"language" => $entry_language, // read only
 					"feed" => array("id" => $feed,
 						"fetch_url" => $fetch_url,
@@ -737,6 +738,9 @@
 				$entry_author = db_escape_string($article["author"]);
 				$entry_link = db_escape_string($article["link"]);
 				$entry_content = $article["content"]; // escaped below
+				$entry_force_catchup = $article["force_catchup"];
+
+				_debug("force catchup: $entry_force_catchup");
 
 				if ($cache_images && is_writable(CACHE_DIR . '/images'))
 					cache_images($entry_content, $site_url, $debug_enabled);
@@ -861,7 +865,7 @@
 
 						_debug("user record not found, creating...", $debug_enabled);
 
-						if ($score >= -500 && !find_article_filter($article_filters, 'catchup')) {
+						if ($score >= -500 && !find_article_filter($article_filters, 'catchup') && !$entry_force_catchup) {
 							$unread = 'true';
 							$last_read_qpart = 'NULL';
 						} else {
@@ -883,7 +887,7 @@
 
 						// N-grams
 
-						if (DB_TYPE == "pgsql" and defined('_NGRAM_TITLE_DUPLICATE_THRESHOLD')) {
+						/* if (DB_TYPE == "pgsql" and defined('_NGRAM_TITLE_DUPLICATE_THRESHOLD')) {
 
 							$result = db_query("SELECT COUNT(*) AS similar FROM
 									ttrss_entries,ttrss_user_entries
@@ -898,7 +902,7 @@
 							if ($ngram_similar > 0) {
 								$unread = 'false';
 							}
-						}
+						} */
 
 						$last_marked = ($marked == 'true') ? 'NOW()' : 'NULL';
 						$last_published = ($published == 'true') ? 'NOW()' : 'NULL';
