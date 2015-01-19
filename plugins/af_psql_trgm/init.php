@@ -33,11 +33,11 @@ class Af_Psql_Trgm extends Plugin {
 		$host->add_hook($host::HOOK_PREFS_TAB, $this);
 		$host->add_hook($host::HOOK_PREFS_EDIT_FEED, $this);
 		$host->add_hook($host::HOOK_PREFS_SAVE_FEED, $this);
-		//$host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
+		$host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
 
 	}
 
-	/* function get_js() {
+	function get_js() {
 		return file_get_contents(__DIR__ . "/init.js");
 	}
 
@@ -53,35 +53,59 @@ class Af_Psql_Trgm extends Plugin {
 		print "<h2>$title</h2>";
 
 		$title = db_escape_string($title);
-		$result = db_query("SELECT id,title,updated
-			FROM ttrss_entries, ttrss_user_entries
-			WHERE owner_uid = $owner_uid AND
-				id = ref_id AND
-				id != $id AND
-				date_entered >= NOW() - INTERVAL '1 day' AND
-				SIMILARITY(title, '$title') >= 0.5
-			LIMIT 30");
+		$result = db_query("SELECT ttrss_entries.id AS id,
+				feed_id,
+				ttrss_entries.title AS title,
+				updated, link,
+				ttrss_feeds.title AS feed_title,
+				SIMILARITY(ttrss_entries.title, '$title') AS sm
+			FROM
+				ttrss_entries, ttrss_user_entries LEFT JOIN ttrss_feeds ON (ttrss_feeds.id = feed_id)
+			WHERE
+				ttrss_entries.id = ref_id AND
+				ttrss_user_entries.owner_uid = $owner_uid AND
+				ttrss_entries.id != $id AND
+				date_entered >= NOW() - INTERVAL '1 week'
+			ORDER BY
+				sm DESC, date_entered DESC
+			LIMIT 10");
 
 		print "<ul class=\"browseFeedList\" style=\"border-width : 1px\">";
 
 		while ($line = db_fetch_assoc($result)) {
 			print "<li>";
-			print "<div style='float : right'>" . smart_date_time($line["updated"])
+			print "<div class='insensitive small' style='margin-left : 20px; float : right'>" .
+				smart_date_time(strtotime($line["updated"]))
 				. "</div>";
-			print $line["title"];
+
+			print "<img src='images/score_high.png' title='".sprintf("%.2f", $line['sm'])."'
+				style='vertical-align : middle'>";
+
+			$article_link = htmlspecialchars($line["link"]);
+			print " <a target=\"_blank\" href=\"$article_link\">".
+				$line["title"]."</a>";
+
+			print " (<a href=\"#\" onclick=\"viewfeed(".$line["feed_id"].")\">".
+				htmlspecialchars($line["feed_title"])."</a>)";
+
 			print "</li>";
 		}
 
 		print "</ul>";
 
-	} */
+		print "<div style='text-align : center'>";
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('trgmRelatedDlg').hide()\">".__('Close this window')."</button>";
+		print "</div>";
 
-	/* function hook_article_button($line) {
+
+	}
+
+	function hook_article_button($line) {
 		return "<img src=\"plugins/af_psql_trgm/button.png\"
 			style=\"cursor : pointer\" style=\"cursor : pointer\"
 			onclick=\"showTrgmRelated(".$line["id"].")\"
 			class='tagsPic' title='".__('Show related articles')."'>";
-	} */
+	}
 
 	function hook_prefs_tab($args) {
 		if ($args != "prefFeeds") return;

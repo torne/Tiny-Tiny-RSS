@@ -3,11 +3,11 @@ function showTrgmRelated(id) {
 
 		var query = "backend.php?op=pluginhandler&plugin=af_psql_trgm&method=showrelated&param=" + param_escape(id);
 
-		if (dijit.byId("editNoteDlg"))
-			dijit.byId("editNoteDlg").destroyRecursive();
+		if (dijit.byId("trgmRelatedDlg"))
+			dijit.byId("trgmRelatedDlg").destroyRecursive();
 
 		dialog = new dijit.Dialog({
-			id: "editNoteDlg",
+			id: "trgmRelatedDlg",
 			title: __("Related articles"),
 			style: "width: 600px",
 			execute: function() {
