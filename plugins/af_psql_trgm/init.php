@@ -81,9 +81,6 @@ class Af_Psql_Trgm extends Plugin {
 		print_notice("PostgreSQL trigram extension returns string similarity as a floating point number (0-1). Setting it too low might produce false positives, zero disables checking.");
 
 		print "<br/>";
-		print_notice("Only data in other feeds is checked, i.e. sequential duplicate posts in one feed will not be detected by this plugin.");
-
-		print "<br/>";
 		print_notice("Enable the plugin for specific feeds in the feed editor.");
 
 		print "<h3>" . __("Global settings") . "</h3>";
@@ -111,11 +108,6 @@ class Af_Psql_Trgm extends Plugin {
 
 		print "</div>";
 	}
-
-	//PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_EDIT_FEED,
-	//		"hook_prefs_edit_feed", $feed_id);
-	//	PluginHost::getInstance()->run_hooks(PluginHost::HOOK_PREFS_SAVE_FEED,
-	//		"hook_prefs_save_feed", $feed_id);
 
 	function hook_prefs_edit_feed($feed_id) {
 		print "<div class=\"dlgSec\">".__("Similarity (pg_trgm)")."</div>";
@@ -179,7 +171,6 @@ class Af_Psql_Trgm extends Plugin {
 		$result = db_query("SELECT MAX(SIMILARITY(title, '$title_escaped')) AS ms
 		  FROM ttrss_entries, ttrss_user_entries WHERE ref_id = id AND
 		  date_entered >= NOW() - interval '1 day' AND
-		  feed_id != $feed_id AND
 		  owner_uid = $owner_uid");
 
 		$similarity_result = db_fetch_result($result, 0, "ms");
