@@ -56,6 +56,14 @@ class FeedItem_RSS extends FeedItem_Common {
 		if ($title) {
 			return trim($title->nodeValue);
 		}
+
+		// if the document has a default namespace then querying for
+		// title would fail because of reasons so let's try the old way
+		$title = $this->elem->getElementsByTagName("title")->item(0);
+
+		if ($title) {
+			return trim($title->nodeValue);
+		}
 	}
 
 	function get_content() {
