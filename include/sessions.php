@@ -39,7 +39,7 @@
 	function validate_session() {
 		if (SINGLE_USER_MODE) return true;
 
-		if (VERSION_STATIC != $_SESSION["version"]) return false;
+		//if (VERSION_STATIC != $_SESSION["version"]) return false;
 
 		$check_ip = $_SESSION['ip_address'];
 
@@ -68,11 +68,11 @@
 			return false;
 		}
 
-		if (sha1($_SERVER['HTTP_USER_AGENT']) != $_SESSION["user_agent"]) {
+		/* if (sha1($_SERVER['HTTP_USER_AGENT']) != $_SESSION["user_agent"]) {
 			$_SESSION["login_error_msg"] =
 				__("Session failed to validate (user agent changed)");
 			return false;
-		}
+		} */
 
 		if ($_SESSION["uid"]) {
 			$result = Db::get()->query(
