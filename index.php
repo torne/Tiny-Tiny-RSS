@@ -221,13 +221,6 @@
 				src="images/error.png" />
 			</button>
 
-			<button id="newVersionIcon" dojoType="dijit.form.Button" style="display : none">
-			<img onclick="newVersionDlg()"
-				src="images/new_version.png"
-				title="<?php echo __('New version of Tiny Tiny RSS is available!') ?>" />
-			</button>
-
-
 			<div dojoType="dijit.form.DropDownButton">
 				<span><?php echo __('Actions...') ?></span>
 				<div dojoType="dijit.Menu" style="display: none">

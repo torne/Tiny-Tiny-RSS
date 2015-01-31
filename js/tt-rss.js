@@ -756,15 +756,6 @@ function parse_runtime_info(data) {
 
 //		console.log("RI: " + k + " => " + v);
 
-		if (k == "new_version_available") {
-			if (v == "1") {
-				Element.show(dijit.byId("newVersionIcon").domNode);
-			} else {
-				Element.hide(dijit.byId("newVersionIcon").domNode);
-			}
-			return;
-		}
-
 		if (k == "dep_ts" && parseInt(getInitParam("dep_ts")) > 0) {
 			if (parseInt(getInitParam("dep_ts")) < parseInt(v) && getInitParam("reload_on_ts_change")) {
 				window.location.reload();
@@ -965,27 +956,6 @@ function reverseHeadlineOrder() {
 
 	} catch (e) {
 		exception_error("reverseHeadlineOrder", e);
-	}
-}
-
-function newVersionDlg() {
-	try {
-		var query = "backend.php?op=dlg&method=newVersion";
-
-		if (dijit.byId("newVersionDlg"))
-			dijit.byId("newVersionDlg").destroyRecursive();
-
-		dialog = new dijit.Dialog({
-			id: "newVersionDlg",
-			title: __("New version available!"),
-			style: "width: 600px",
-			href: query,
-		});
-
-		dialog.show();
-
-	} catch (e) {
-		exception_error("newVersionDlg", e);
 	}
 }
 
