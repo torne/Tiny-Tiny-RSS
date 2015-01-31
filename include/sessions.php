@@ -62,7 +62,7 @@
 			return false;
 		}
 
-		if ($_SESSION["ref_schema_version"] != session_get_schema_version(true)) {
+		if (isset($_SESSION["ref_schema_version"]) && $_SESSION["ref_schema_version"] != session_get_schema_version(true)) {
 			$_SESSION["login_error_msg"] =
 				__("Session failed to validate (schema version changed)");
 			return false;
