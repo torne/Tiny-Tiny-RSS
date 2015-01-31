@@ -265,7 +265,7 @@
 
 	<div id="headlines-wrap-inner" dojoType="dijit.layout.BorderContainer" region="center">
 
-		<div id="floatingTitle" style="display : none"></div>
+		<div id="floatingTitle" style="visibility : hidden"></div>
 
 		<div id="headlines-frame" dojoType="dijit.layout.ContentPane"
 				onscroll="headlines_scroll_handler(this)" region="center">
