@@ -806,10 +806,6 @@
 	function initialize_user($uid) {
 
 		db_query("insert into ttrss_feeds (owner_uid,title,feed_url)
-			values ('$uid', 'Tiny Tiny RSS: New Releases',
-			'http://tt-rss.org/releases.rss')");
-
-		db_query("insert into ttrss_feeds (owner_uid,title,feed_url)
 			values ('$uid', 'Tiny Tiny RSS: Forum',
 				'http://tt-rss.org/forum/rss.php')");
 	}
