@@ -115,6 +115,7 @@ class FeedParser {
 					$this->type = $this::FEED_RSS;
 					break;
 				case "feed":
+				case "atom:feed":
 					$this->type = $this::FEED_ATOM;
 					break;
 				default:
