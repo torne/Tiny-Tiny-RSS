@@ -242,7 +242,7 @@
 		$data['reload_on_ts_change'] = !defined('_NO_RELOAD_ON_TS_CHANGE');
 
 
-		if ($_SESSION["last_version_check"] + 86400 + rand(-1000, 1000) < time()) {
+		if (CHECK_FOR_UPDATES && $_SESSION["last_version_check"] + 86400 + rand(-1000, 1000) < time()) {
 			$update_result = @check_for_update();
 
 			$data["update_result"] = $update_result;
