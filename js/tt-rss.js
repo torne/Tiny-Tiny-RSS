@@ -770,7 +770,7 @@ function parse_runtime_info(data) {
 		if (k == "update_result") {
 			var updatesIcon = dijit.byId("updatesIcon").domNode;
 
-			if (v != "") {
+			if (v) {
 				Element.show(updatesIcon);
 			} else {
 				Element.hide(updatesIcon);

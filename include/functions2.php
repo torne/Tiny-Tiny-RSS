@@ -220,7 +220,7 @@
 			}
 		}
 
-		return false;
+		return "";
 	}
 
 	function make_runtime_info() {
