@@ -42,7 +42,7 @@ class Af_RedditImgur extends Plugin {
 
 							// links to imgur pages
 							$matches = array();
-							if (preg_match("/^http:\/\/imgur.com\/([^\.\/]+$)/", $entry->getAttribute("href"), $matches)) {
+							if (preg_match("/^https?:\/\/imgur.com\/([^\.\/]+$)/", $entry->getAttribute("href"), $matches)) {
 
 								$token = $matches[1];
 
@@ -77,7 +77,7 @@ class Af_RedditImgur extends Plugin {
 							}
 
 							// linked albums, ffs
-							if (preg_match("/^http:\/\/imgur.com\/(a|album)\/[^\.]+$/", $entry->getAttribute("href"), $matches)) {
+							if (preg_match("/^https?:\/\/imgur.com\/(a|album)\/[^\.]+$/", $entry->getAttribute("href"), $matches)) {
 
 								$album_content = fetch_file_contents($entry->getAttribute("href"),
 									false, false, false, false, 10);
@@ -88,11 +88,11 @@ class Af_RedditImgur extends Plugin {
 
 									if ($adoc) {
 										$axpath = new DOMXPath($adoc);
-										$aentries = $axpath->query("//div[@class='image']//a[@href and @class='zoom']");
+										$aentries = $axpath->query("//meta[@property='og:image']");
 
 										foreach ($aentries as $aentry) {
 											$img = $doc->createElement('img');
-											$img->setAttribute("src", $aentry->getAttribute("href"));
+											$img->setAttribute("src", $aentry->getAttribute("content"));
 											$entry->parentNode->insertBefore($doc->createElement('br'), $entry);
 
 											$br = $doc->createElement('br');
