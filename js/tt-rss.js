@@ -767,6 +767,16 @@ function parse_runtime_info(data) {
 			return;
 		}
 
+		if (k == "update_result") {
+			var updatesIcon = dijit.byId("updatesIcon").domNode;
+
+			if (v != "") {
+				Element.show(updatesIcon);
+			} else {
+				Element.hide(updatesIcon);
+			}
+		}
+
 		if (k == "daemon_stamp_ok" && v != 1) {
 			notify_error("<span onclick=\"javascript:explainError(3)\">Update daemon is not updating feeds.</span>", true);
 			return;

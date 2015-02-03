@@ -252,6 +252,10 @@
 					<?php } ?>
 				</div>
 			</div>
+
+			<button id="updatesIcon" dojoType="dijit.form.Button" style="display : none">
+				<img src="images/new_version.png" title="<?php echo __('Updates are available from Git.') ?>"/>
+			</button>
 		</div>
 	</div> <!-- toolbar -->
 </div> <!-- toolbar pane -->

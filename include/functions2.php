@@ -203,6 +203,26 @@
 		return array($prefixes, $hotkeys);
 	}
 
+	function check_for_update() {
+		if (defined("GIT_VERSION_TIMESTAMP")) {
+			$content = @fetch_file_contents("http://tt-rss.org/version.json");
+
+			if ($content) {
+				$content = json_decode($content, true);
+
+				if ($content && isset($content["changeset"])) {
+					if ((int)GIT_VERSION_TIMESTAMP < (int)$content["changeset"]["timestamp"] &&
+						GIT_VERSION_HEAD != $content["changeset"]["id"]) {
+
+						return $content["changeset"]["id"];
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
 	function make_runtime_info() {
 		$data = array();
 
@@ -220,6 +240,15 @@
 
 		$data['dep_ts'] = calculate_dep_timestamp();
 		$data['reload_on_ts_change'] = !defined('_NO_RELOAD_ON_TS_CHANGE');
+
+
+		if (true || $_SESSION["last_version_check"] + 86400 + rand(-1000, 1000) < time()) {
+			$update_result = @check_for_update();
+
+			$data["update_result"] = $update_result;
+
+			$_SESSION["last_version_check"] = time();
+		}
 
 		if (file_exists(LOCK_DIRECTORY . "/update_daemon.lock")) {
 
