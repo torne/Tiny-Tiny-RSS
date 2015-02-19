@@ -41,7 +41,7 @@
 
 	<?php if ($_SESSION["uid"]) {
 		$theme = get_pref( "USER_CSS_THEME", $_SESSION["uid"], false);
-		if ($theme && file_exists("themes/$theme")) {
+		if ($theme && theme_valid("$theme")) {
 			echo stylesheet_tag("themes/$theme");
 		} else {
 			echo stylesheet_tag("themes/default.css");
@@ -94,7 +94,7 @@
 
 <body id="ttrssPrefs" class="claro">
 
-<div id="notify" class="notify" style="display : none"></div>
+<div id="notify" class="notify"></div>
 <div id="cmdline" style="display : none"></div>
 
 <div id="overlay">

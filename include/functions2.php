@@ -17,7 +17,10 @@
 		$params["default_view_order_by"] = get_pref("_DEFAULT_VIEW_ORDER_BY");
 		$params["bw_limit"] = (int) $_SESSION["bw_limit"];
 		$params["label_base_index"] = (int) LABEL_BASE_INDEX;
-		$params["theme"] = get_pref("USER_CSS_THEME", false, false);
+
+		$theme = get_pref( "USER_CSS_THEME", false, false);
+		$params["theme"] = theme_valid("$theme") ? $theme : "";
+
 		$params["plugins"] = implode(", ", PluginHost::getInstance()->get_plugin_names());
 
 		$params["php_platform"] = PHP_OS;
@@ -200,6 +203,26 @@
 		return array($prefixes, $hotkeys);
 	}
 
+	function check_for_update() {
+		if (defined("GIT_VERSION_TIMESTAMP")) {
+			$content = @fetch_file_contents("http://tt-rss.org/version.json");
+
+			if ($content) {
+				$content = json_decode($content, true);
+
+				if ($content && isset($content["changeset"])) {
+					if ((int)GIT_VERSION_TIMESTAMP < (int)$content["changeset"]["timestamp"] &&
+						GIT_VERSION_HEAD != $content["changeset"]["id"]) {
+
+						return $content["changeset"]["id"];
+					}
+				}
+			}
+		}
+
+		return "";
+	}
+
 	function make_runtime_info() {
 		$data = array();
 
@@ -217,6 +240,15 @@
 
 		$data['dep_ts'] = calculate_dep_timestamp();
 		$data['reload_on_ts_change'] = !defined('_NO_RELOAD_ON_TS_CHANGE');
+
+
+		if (CHECK_FOR_UPDATES && $_SESSION["last_version_check"] + 86400 + rand(-1000, 1000) < time()) {
+			$update_result = @check_for_update();
+
+			$data["update_result"] = $update_result;
+
+			$_SESSION["last_version_check"] = time();
+		}
 
 		if (file_exists(LOCK_DIRECTORY . "/update_daemon.lock")) {
 
@@ -243,15 +275,6 @@
 					$data['daemon_stamp'] = $stamp_fmt;
 				}
 			}
-		}
-
-		if ($_SESSION["last_version_check"] + 86400 + rand(-1000, 1000) < time()) {
-				$new_version_details = @check_for_update();
-
-				$data['new_version_available'] = (int) ($new_version_details != false);
-
-				$_SESSION["last_version_check"] = time();
-				$_SESSION["version_data"] = $new_version_details;
 		}
 
 		return $data;
@@ -826,6 +849,21 @@
 
 	}
 
+	function iframe_whitelisted($entry) {
+		$whitelist = array("youtube.com", "youtu.be", "vimeo.com");
+
+		@$src = parse_url($entry->getAttribute("src"), PHP_URL_HOST);
+
+		if ($src) {
+			foreach ($whitelist as $w) {
+				if ($src == $w || $src == "www.$w")
+					return true;
+			}
+		}
+
+		return false;
+	}
+
 	function sanitize($str, $force_remove_images = false, $owner = false, $site_url = false, $highlight_words = false, $article_id = false) {
 		if (!$owner) $owner = $_SESSION["uid"];
 
@@ -894,8 +932,15 @@
 
 		$entries = $xpath->query('//iframe');
 		foreach ($entries as $entry) {
-			$entry->setAttribute('sandbox', 'allow-scripts');
-
+			if (!iframe_whitelisted($entry)) {
+				$entry->setAttribute('sandbox', 'allow-scripts');
+			} else {
+				if ($_SERVER['HTTPS'] == "on") {
+					$entry->setAttribute("src",
+						str_replace("http://", "https://",
+							$entry->getAttribute("src")));
+				}
+			}
 		}
 
 		$allowed_elements = array('a', 'address', 'audio', 'article', 'aside',
@@ -992,25 +1037,6 @@
 		}
 
 		return $doc;
-	}
-
-	function check_for_update() {
-		if (CHECK_FOR_NEW_VERSION && $_SESSION['access_level'] >= 10) {
-			$version_url = "http://tt-rss.org/version.php?ver=" . VERSION .
-				"&iid=" . sha1(SELF_URL_PATH);
-
-			$version_data = @fetch_file_contents($version_url);
-
-			if ($version_data) {
-				$version_data = json_decode($version_data, true);
-				if ($version_data && $version_data['version']) {
-					if (version_compare(VERSION_STATIC, $version_data['version']) == -1) {
-						return $version_data;
-					}
-				}
-			}
-		}
-		return false;
 	}
 
 	function catchupArticlesById($ids, $cmode, $owner_uid = false) {
@@ -1958,8 +1984,8 @@
 	}
 
 	function getLastArticleId() {
-		$result = db_query("SELECT MAX(ref_id) AS id FROM ttrss_user_entries
-			WHERE owner_uid = " . $_SESSION["uid"]);
+		$result = db_query("SELECT ref_id AS id FROM ttrss_user_entries
+			WHERE owner_uid = " . $_SESSION["uid"] . " ORDER BY ref_id DESC LIMIT 1");
 
 		if (db_num_rows($result) == 1) {
 			return db_fetch_result($result, 0, "id");
@@ -2243,10 +2269,6 @@
 			curl_setopt($curl, CURLOPT_PROXY, _CURL_HTTP_PROXY);
 		}
 
-		if ((OPENSSL_VERSION_NUMBER >= 0x0090808f) && (OPENSSL_VERSION_NUMBER < 0x10000000)) {
-			curl_setopt($curl, CURLOPT_SSLVERSION, 3);
-		}
-
 		$html = curl_exec($curl);
 
 		$status = curl_getinfo($curl);
@@ -2404,4 +2426,21 @@
 		return LABEL_BASE_INDEX - 1 + abs($feed);
 	}
 
+	function theme_valid($file) {
+		if ($file == "default.css" || $file == "night.css") return true; // needed for array_filter
+		$file = "themes/" . basename($file);
+
+		if (file_exists($file) && is_readable($file)) {
+			$fh = fopen($file, "r");
+
+			if ($fh) {
+				$header = fgets($fh);
+				fclose($fh);
+
+				return strpos($header, "supports-version:" . VERSION_STATIC) !== FALSE;
+			}
+		}
+
+		return false;
+	}
 ?>

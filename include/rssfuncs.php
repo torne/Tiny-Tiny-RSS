@@ -481,7 +481,7 @@
 
 			if (!$registered_title || $registered_title == "[Unknown]") {
 
-				$feed_title = db_escape_string($rss->get_title());
+				$feed_title = db_escape_string(mb_substr($rss->get_title(), 0, 199));
 
 				if ($feed_title) {
 					_debug("registering title: $feed_title", $debug_enabled);
@@ -683,6 +683,7 @@
 					"link" => $entry_link,
 					"tags" => $entry_tags,
 					"author" => $entry_author,
+					"force_catchup" => false, // ugly hack for the time being
 					"language" => $entry_language, // read only
 					"feed" => array("id" => $feed,
 						"fetch_url" => $fetch_url,
@@ -707,7 +708,11 @@
 					db_query("UPDATE ttrss_entries SET date_updated = NOW()
 						WHERE id = '$base_entry_id'");
 
-					continue;
+                    // if we allow duplicate posts, we have to continue to
+                    // create the user entries for this feed
+                    if (!get_pref("ALLOW_DUPLICATE_POSTS", $owner_uid, false)) {
+                        continue;
+                    }
 				}
 
 				_debug("hash differs, applying plugin filters:", $debug_enabled);
@@ -733,6 +738,9 @@
 				$entry_author = db_escape_string($article["author"]);
 				$entry_link = db_escape_string($article["link"]);
 				$entry_content = $article["content"]; // escaped below
+				$entry_force_catchup = $article["force_catchup"];
+
+				_debug("force catchup: $entry_force_catchup");
 
 				if ($cache_images && is_writable(CACHE_DIR . '/images'))
 					cache_images($entry_content, $site_url, $debug_enabled);
@@ -857,7 +865,7 @@
 
 						_debug("user record not found, creating...", $debug_enabled);
 
-						if ($score >= -500 && !find_article_filter($article_filters, 'catchup')) {
+						if ($score >= -500 && !find_article_filter($article_filters, 'catchup') && !$entry_force_catchup) {
 							$unread = 'true';
 							$last_read_qpart = 'NULL';
 						} else {
@@ -879,7 +887,7 @@
 
 						// N-grams
 
-						if (DB_TYPE == "pgsql" and defined('_NGRAM_TITLE_DUPLICATE_THRESHOLD')) {
+						/* if (DB_TYPE == "pgsql" and defined('_NGRAM_TITLE_DUPLICATE_THRESHOLD')) {
 
 							$result = db_query("SELECT COUNT(*) AS similar FROM
 									ttrss_entries,ttrss_user_entries
@@ -894,7 +902,7 @@
 							if ($ngram_similar > 0) {
 								$unread = 'false';
 							}
-						}
+						} */
 
 						$last_marked = ($marked == 'true') ? 'NOW()' : 'NULL';
 						$last_published = ($published == 'true') ? 'NOW()' : 'NULL';

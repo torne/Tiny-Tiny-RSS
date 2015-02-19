@@ -93,6 +93,10 @@
 	background : white;
 }
 
+.claro #feedTree.dijitTree .dijitTreeRowSelected {
+	box-shadow : -1px 0px 2px -1px rgba(0,0,0,0.1);
+}
+
 .claro .dijitTree .dijitTreeRowHover {
 	background : #f0f0f0;
 	border-color : #ddd;
@@ -344,6 +348,10 @@ button[disabled],
 	font-size : 14px;
 	font-weight : normal;
 	line-height : 20px;
+}
+
+.claro .dijitButton.small .dijitButtonText {
+	font-size : 11px;
 }
 
 .claro .dijitMenu {

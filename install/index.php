@@ -270,7 +270,7 @@
 
 <fieldset>
 	<label>Password</label>
-	<input required name="DB_PASS" size="20" type="password" value="<?php echo $DB_PASS ?>"/>
+	<input name="DB_PASS" size="20" type="password" value="<?php echo $DB_PASS ?>"/>
 </fieldset>
 
 <fieldset>

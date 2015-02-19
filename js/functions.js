@@ -182,11 +182,6 @@ function param_unescape(arg) {
 		return unescape(arg);
 }
 
-
-function hide_notify() {
-	Element.hide('notify');
-}
-
 function notify_real(msg, no_hide, n_type) {
 
 	var n = $("notify");
@@ -198,13 +193,11 @@ function notify_real(msg, no_hide, n_type) {
 	}
 
 	if (msg == "") {
-		if (Element.visible(n)) {
-			notify_hide_timerid = window.setTimeout("hide_notify()", 0);
+		if (n.hasClassName("visible")) {
+			notify_hide_timerid = window.setTimeout(function() {
+				n.removeClassName("visible") }, 0);
 		}
 		return;
-	} else {
-		Element.show(n);
-		new Effect.Highlight(n);
 	}
 
 	/* types:
@@ -218,30 +211,40 @@ function notify_real(msg, no_hide, n_type) {
 
 	msg = "<span class=\"msg\"> " + __(msg) + "</span>";
 
-	if (n_type == 1) {
-		n.className = "notify";
-	} else if (n_type == 2) {
-		n.className = "notify progress";
+	if (n_type == 2) {
 		msg = "<span><img src='images/indicator_white.gif'></span>" + msg;
 		no_hide = true;
 	} else if (n_type == 3) {
-		n.className = "notify error";
 		msg = "<span><img src='images/alert.png'></span>" + msg;
 	} else if (n_type == 4) {
-		n.className = "notify info";
 		msg = "<span><img src='images/information.png'></span>" + msg;
 	}
 
 	msg += " <span><img src=\"images/cross.png\" class=\"close\" title=\"" +
 		__("Click to close") + "\" onclick=\"notify('')\"></span>";
 
-//	msg = "<img src='images/live_com_loading.gif'> " + msg;
-
 	n.innerHTML = msg;
 
-	if (!no_hide) {
-		notify_hide_timerid = window.setTimeout("hide_notify()", 5*1000);
-	}
+	window.setTimeout(function() {
+		// goddamnit firefox
+		if (n_type == 2) {
+		n.className = "notify notify_progress visible";
+			} else if (n_type == 3) {
+			n.className = "notify notify_error visible";
+			msg = "<span><img src='images/alert.png'></span>" + msg;
+		} else if (n_type == 4) {
+			n.className = "notify notify_info visible";
+		} else {
+			n.className = "notify visible";
+		}
+
+		if (!no_hide) {
+			notify_hide_timerid = window.setTimeout(function() {
+				n.removeClassName("visible") }, 5*1000);
+		}
+
+	}, 10);
+
 }
 
 function notify(msg, no_hide) {

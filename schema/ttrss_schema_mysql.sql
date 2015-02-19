@@ -133,9 +133,7 @@ create table ttrss_feeds (id integer not null auto_increment primary key,
 	view_settings varchar(250) not null default '',
 	pubsub_state integer not null default 0,
 	favicon_last_checked datetime default null,
-	index(owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
-	index(cat_id),
 	foreign key (cat_id) references ttrss_feed_categories(id) ON DELETE SET NULL,
 	index(parent_feed),
 	foreign key (parent_feed) references ttrss_feeds(id) ON DELETE SET NULL) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
@@ -167,7 +165,6 @@ create table ttrss_entries (id integer not null primary key auto_increment,
 	author varchar(250) not null default '') ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 create index ttrss_entries_date_entered_index on ttrss_entries(date_entered);
-create index ttrss_entries_guid_index on ttrss_entries(guid);
 create index ttrss_entries_updated_idx on ttrss_entries(updated);
 
 create table ttrss_user_entries (
@@ -187,13 +184,10 @@ create table ttrss_user_entries (
 	last_marked datetime,
 	last_published datetime,
 	unread bool not null default 1,
-	index (ref_id),
 	foreign key (ref_id) references ttrss_entries(id) ON DELETE CASCADE,
-	index (feed_id),
 	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE,
 	index (orig_feed_id),
 	foreign key (orig_feed_id) references ttrss_archived_feeds(id) ON DELETE SET NULL,
-	index (owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 create index ttrss_user_entries_owner_uid_index on ttrss_user_entries(owner_uid);
@@ -301,7 +295,7 @@ create table ttrss_tags (id integer primary key auto_increment,
 
 create table ttrss_version (schema_version int not null) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-insert into ttrss_version values (126);
+insert into ttrss_version values (127);
 
 create table ttrss_enclosures (id integer primary key auto_increment,
 	content_url text not null,
@@ -311,7 +305,6 @@ create table ttrss_enclosures (id integer primary key auto_increment,
 	duration text not null,
 	width integer not null default 0,
 	height integer not null default 0,
-	index (post_id),
 	foreign key (post_id) references ttrss_entries(id) ON DELETE cascade) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 create index ttrss_enclosures_post_id_idx on ttrss_enclosures(post_id);
@@ -346,8 +339,6 @@ create table ttrss_prefs (pref_name varchar(250) not null primary key,
 	foreign key (type_id) references ttrss_prefs_types(id),
 	index(section_id),
 	foreign key (section_id) references ttrss_prefs_sections(id)) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
-
-create index ttrss_prefs_pref_name_idx on ttrss_prefs(pref_name);
 
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('PURGE_OLD_DAYS', 3, '60', 1);
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('DEFAULT_UPDATE_INTERVAL', 3, '30', 1);
@@ -418,18 +409,15 @@ create table ttrss_user_prefs (
 	profile integer,
 	index (profile),
   	foreign key (profile) references ttrss_settings_profiles(id) ON DELETE CASCADE,
-	index (owner_uid),
  	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
-	index (pref_name),
 	foreign key (pref_name) references ttrss_prefs(pref_name) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 create index ttrss_user_prefs_owner_uid_index on ttrss_user_prefs(owner_uid);
 create index ttrss_user_prefs_pref_name_idx on ttrss_user_prefs(pref_name);
 
-create table ttrss_sessions (id varchar(250) unique not null primary key,
+create table ttrss_sessions (id varchar(250) not null primary key,
 	data text,
 	expire integer not null,
-	index (id),
 	index (expire)) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 create table ttrss_feedbrowser_cache (

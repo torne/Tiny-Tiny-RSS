@@ -4,7 +4,7 @@ class No_Iframes extends Plugin {
 
 	function about() {
 		return array(1.0,
-			"Remove embedded iframes",
+			"Remove embedded iframes (unless whitelisted)",
 			"fox");
 	}
 
@@ -16,7 +16,13 @@ class No_Iframes extends Plugin {
 
 	function hook_sanitize($doc, $site_url, $allowed_elements, $disallowed_attributes) {
 
-		$allowed_elements = array_diff($allowed_elements, array("iframe"));
+		$xpath = new DOMXpath($doc);
+		$entries = $xpath->query('//iframe');
+
+		foreach ($entries as $entry) {
+			if (!iframe_whitelisted($entry))
+				$entry->parentNode->removeChild($entry);
+		}
 
 		return array($doc, $allowed_elements, $disallowed_attributes);
 	}

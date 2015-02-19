@@ -491,7 +491,9 @@ class Opml extends Handler_Protected {
 
 		if (is_file($tmp_file)) {
 			$doc = new DOMDocument();
+			libxml_disable_entity_loader(false);
 			$doc->load($tmp_file);
+			libxml_disable_entity_loader(true);
 			unlink($tmp_file);
 		} else if (!$doc) {
 			print_error(__('Error: unable to find moved OPML file.'));
