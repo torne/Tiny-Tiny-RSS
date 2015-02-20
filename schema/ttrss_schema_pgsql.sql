@@ -98,6 +98,9 @@ create table ttrss_feeds (id serial not null primary key,
 	favicon_last_checked timestamp default null,
 	auth_pass_encrypted boolean not null default false);
 
+create index ttrss_feeds_owner_uid_index on ttrss_feeds(owner_uid);
+create index ttrss_feeds_cat_id_idx on ttrss_feeds(cat_id);
+
 insert into ttrss_feeds (owner_uid, title, feed_url) values
 	(1, 'Tiny Tiny RSS: New Releases', 'http://tt-rss.org/releases.rss');
 
@@ -117,6 +120,7 @@ create table ttrss_counters_cache (
 	value integer not null default 0);
 
 create index ttrss_counters_cache_feed_id_idx on ttrss_counters_cache(feed_id);
+create index ttrss_counters_cache_owner_uid_idx on ttrss_counters_cache(owner_uid);
 create index ttrss_counters_cache_value_idx on ttrss_counters_cache(value);
 
 create table ttrss_cat_counters_cache (
@@ -124,6 +128,8 @@ create table ttrss_cat_counters_cache (
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
 	updated timestamp not null,
 	value integer not null default 0);
+
+create index ttrss_cat_counters_cache_owner_uid_idx on ttrss_cat_counters_cache(owner_uid);
 
 create table ttrss_entries (id serial not null primary key,
 	title text not null,
@@ -142,6 +148,7 @@ create table ttrss_entries (id serial not null primary key,
 	lang varchar(2),
 	author varchar(250) not null default '');
 
+-- create index ttrss_entries_title_index on ttrss_entries(title);
 create index ttrss_entries_date_entered_index on ttrss_entries(date_entered);
 create index ttrss_entries_updated_idx on ttrss_entries(updated);
 
@@ -163,6 +170,10 @@ create table ttrss_user_entries (
 	note text,
 	unread boolean not null default true);
 
+-- create index ttrss_user_entries_feed_id_index on ttrss_user_entries(feed_id);
+create index ttrss_user_entries_owner_uid_index on ttrss_user_entries(owner_uid);
+create index ttrss_user_entries_ref_id_index on ttrss_user_entries(ref_id);
+create index ttrss_user_entries_feed_id on ttrss_user_entries(feed_id);
 create index ttrss_user_entries_unread_idx on ttrss_user_entries(unread);
 
 create table ttrss_entry_comments (id serial not null primary key,
@@ -170,6 +181,9 @@ create table ttrss_entry_comments (id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) ON DELETE CASCADE,
 	private boolean not null default false,
 	date_entered timestamp not null);
+
+create index ttrss_entry_comments_ref_id_index on ttrss_entry_comments(ref_id);
+-- create index ttrss_entry_comments_owner_uid_index on ttrss_entry_comments(owner_uid);
 
 create table ttrss_filter_types (id integer not null primary key,
 	name varchar(120) unique not null,
@@ -241,6 +255,9 @@ create table ttrss_tags (id serial not null primary key,
 	owner_uid integer not null references ttrss_users(id) on delete cascade,
 	post_int_id integer references ttrss_user_entries(int_id) ON DELETE CASCADE not null);
 
+create index ttrss_tags_owner_uid_index on ttrss_tags(owner_uid);
+create index ttrss_tags_post_int_id_idx on ttrss_tags(post_int_id);
+
 create table ttrss_version (schema_version int not null);
 
 insert into ttrss_version values (127);
@@ -253,6 +270,8 @@ create table ttrss_enclosures (id serial not null primary key,
 	width integer not null default 0,
 	height integer not null default 0,
 	post_id integer references ttrss_entries(id) ON DELETE cascade NOT NULL);
+
+create index ttrss_enclosures_post_id_idx on ttrss_enclosures(post_id);
 
 create table ttrss_settings_profiles(id serial not null primary key,
 	title varchar(250) not null,
@@ -348,9 +367,15 @@ create table ttrss_user_prefs (
 	profile integer references ttrss_settings_profiles(id) ON DELETE CASCADE,
 	value text not null);
 
+create index ttrss_user_prefs_owner_uid_index on ttrss_user_prefs(owner_uid);
+create index ttrss_user_prefs_pref_name_idx on ttrss_user_prefs(pref_name);
+-- create index ttrss_user_prefs_value_index on ttrss_user_prefs(value);
+
 create table ttrss_sessions (id varchar(250) not null primary key,
 	data text,
 	expire integer not null);
+
+create index ttrss_sessions_expire_index on ttrss_sessions(expire);
 
 create function SUBSTRING_FOR_DATE(timestamp, int, int) RETURNS text AS 'SELECT SUBSTRING(CAST($1 AS text), $2, $3)' LANGUAGE 'sql';
 
