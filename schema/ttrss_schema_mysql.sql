@@ -86,7 +86,6 @@ create table ttrss_counters_cache (
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 create index ttrss_counters_cache_feed_id_idx on ttrss_counters_cache(feed_id);
-create index ttrss_counters_cache_owner_uid_idx on ttrss_counters_cache(owner_uid);
 create index ttrss_counters_cache_value_idx on ttrss_counters_cache(value);
 
 create table ttrss_cat_counters_cache (
@@ -96,8 +95,6 @@ create table ttrss_cat_counters_cache (
 	updated datetime not null,
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
-
-create index ttrss_cat_counters_cache_owner_uid_idx on ttrss_cat_counters_cache(owner_uid);
 
 create table ttrss_feeds (id integer not null auto_increment primary key,
 	owner_uid integer not null,
@@ -135,11 +132,7 @@ create table ttrss_feeds (id integer not null auto_increment primary key,
 	favicon_last_checked datetime default null,
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
 	foreign key (cat_id) references ttrss_feed_categories(id) ON DELETE SET NULL,
-	index(parent_feed),
 	foreign key (parent_feed) references ttrss_feeds(id) ON DELETE SET NULL) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
-
-create index ttrss_feeds_owner_uid_index on ttrss_feeds(owner_uid);
-create index ttrss_feeds_cat_id_idx on ttrss_feeds(cat_id);
 
 insert into ttrss_feeds (owner_uid, title, feed_url) values
 	(1, 'Tiny Tiny RSS: New Releases', 'http://tt-rss.org/releases.rss');
@@ -186,13 +179,9 @@ create table ttrss_user_entries (
 	unread bool not null default 1,
 	foreign key (ref_id) references ttrss_entries(id) ON DELETE CASCADE,
 	foreign key (feed_id) references ttrss_feeds(id) ON DELETE CASCADE,
-	index (orig_feed_id),
 	foreign key (orig_feed_id) references ttrss_archived_feeds(id) ON DELETE SET NULL,
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-create index ttrss_user_entries_owner_uid_index on ttrss_user_entries(owner_uid);
-create index ttrss_user_entries_ref_id_index on ttrss_user_entries(ref_id);
-create index ttrss_user_entries_feed_id on ttrss_user_entries(feed_id);
 create index ttrss_user_entries_unread_idx on ttrss_user_entries(unread);
 
 create table ttrss_entry_comments (id integer not null primary key,
@@ -307,8 +296,6 @@ create table ttrss_enclosures (id integer primary key auto_increment,
 	height integer not null default 0,
 	foreign key (post_id) references ttrss_entries(id) ON DELETE cascade) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-create index ttrss_enclosures_post_id_idx on ttrss_enclosures(post_id);
-
 create table ttrss_settings_profiles(id integer primary key auto_increment,
 	title varchar(250) not null,
 	owner_uid integer not null,
@@ -411,9 +398,6 @@ create table ttrss_user_prefs (
   	foreign key (profile) references ttrss_settings_profiles(id) ON DELETE CASCADE,
  	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE,
 	foreign key (pref_name) references ttrss_prefs(pref_name) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
-
-create index ttrss_user_prefs_owner_uid_index on ttrss_user_prefs(owner_uid);
-create index ttrss_user_prefs_pref_name_idx on ttrss_user_prefs(pref_name);
 
 create table ttrss_sessions (id varchar(250) not null primary key,
 	data text,
