@@ -64,9 +64,7 @@ create table ttrss_feed_categories(id integer not null primary key auto_incremen
 	order_id integer not null default 0,
 	parent_cat integer,
 	view_settings varchar(250) not null default '',
-	index(parent_cat),
 	foreign key (parent_cat) references ttrss_feed_categories(id) ON DELETE SET NULL,
-	index(owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 create table ttrss_archived_feeds (id integer not null primary key,
@@ -74,7 +72,6 @@ create table ttrss_archived_feeds (id integer not null primary key,
 	title varchar(200) not null,
 	feed_url text not null,
 	site_url varchar(250) not null default '',
-	index(owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 create table ttrss_counters_cache (
@@ -244,7 +241,6 @@ create table ttrss_filters2(id integer primary key auto_increment,
 	inverse bool not null default false,
 	title varchar(250) not null default '',
 	order_id integer not null default 0,
-	index(owner_uid),
 	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 create table ttrss_filters2_rules(id integer primary key auto_increment,
@@ -322,9 +318,7 @@ create table ttrss_prefs (pref_name varchar(250) not null primary key,
 	section_id integer not null default 1,
 	access_level integer not null default 0,
 	def_value text not null,
-	index(type_id),
 	foreign key (type_id) references ttrss_prefs_types(id),
-	index(section_id),
 	foreign key (section_id) references ttrss_prefs_sections(id)) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 insert into ttrss_prefs (pref_name,type_id,def_value,section_id) values('PURGE_OLD_DAYS', 3, '60', 1);
