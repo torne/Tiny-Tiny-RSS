@@ -23,7 +23,6 @@ class Pref_Prefs extends Handler_Protected {
 
 		$this->pref_help = array(
 			"ALLOW_DUPLICATE_POSTS" => array(__("Allow duplicate articles"), ""),
-			"AUTO_ASSIGN_LABELS" => array(__("Assign articles to labels automatically"), ""),
 			"BLACKLISTED_TAGS" => array(__("Blacklisted tags"), __("When auto-detecting tags in articles these tags will not be applied (comma-separated list).")),
 			"CDM_AUTO_CATCHUP" => array(__("Automatically mark articles as read"), __("This option enables marking articles as read automatically while you scroll article list.")),
 			"CDM_EXPANDED" => array(__("Automatically expand articles in combined mode"), ""),
