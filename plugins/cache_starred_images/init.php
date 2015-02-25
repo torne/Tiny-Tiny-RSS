@@ -1,5 +1,5 @@
 <?php
-class Cache_Starred_Images extends Plugin {
+class Cache_Starred_Images extends Plugin implements IHandler {
 
 	private $host;
 	private $cache_dir;
@@ -9,6 +9,18 @@ class Cache_Starred_Images extends Plugin {
 			"Automatically cache images in Starred articles",
 			"fox",
 			true);
+	}
+
+	function csrf_ignore($method) {
+		return false;
+	}
+
+	function before($method) {
+		return true;
+	}
+
+	function after() {
+		return true;
 	}
 
 	function init($host) {
@@ -29,6 +41,8 @@ class Cache_Starred_Images extends Plugin {
 				$host->add_hook($host::HOOK_UPDATE_TASK, $this);
 				$host->add_hook($host::HOOK_HOUSE_KEEPING, $this);
 				$host->add_hook($host::HOOK_SANITIZE, $this);
+				$host->add_handler("public", "cache_starred_images_getimage", $this);
+
 			} else {
 				user_error("Starred cache directory is not writable.", E_USER_WARNING);
 			}
@@ -38,7 +52,7 @@ class Cache_Starred_Images extends Plugin {
 		}
 	}
 
-	function image() {
+	function cache_starred_images_getimage() {
 		ob_end_clean();
 
 		$hash = basename($_REQUEST["hash"]);
@@ -109,7 +123,7 @@ class Cache_Starred_Images extends Plugin {
 
 					if (file_exists($local_filename)) {
 						$entry->setAttribute("src", get_self_url_prefix() .
-							"/backend.php?op=pluginhandler&plugin=cache_starred_images&method=image&hash=" .
+							"/public.php?op=cache_starred_images_getimage&method=image&hash=" .
 							$article_id . "-" . sha1($src));
 					}
 
