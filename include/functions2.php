@@ -900,7 +900,7 @@
 					$cached_filename = CACHE_DIR . '/images/' . sha1($src) . '.png';
 
 					if (file_exists($cached_filename)) {
-						$src = SELF_URL_PATH . '/image.php?hash=' . sha1($src);
+						$src = SELF_URL_PATH . '/public.php?op=cached_image&hash=' . sha1($src);
 					}
 
 					$entry->setAttribute('src', $src);
