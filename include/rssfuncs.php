@@ -671,9 +671,11 @@
 				if (db_num_rows($result) != 0) {
 					$base_entry_id = db_fetch_result($result, 0, "id");
 					$entry_stored_hash = db_fetch_result($result, 0, "content_hash");
+					$article_labels = get_article_labels($base_entry_id, $owner_uid);
 				} else {
 					$base_entry_id = false;
 					$entry_stored_hash = "";
+					$article_labels = array();
 				}
 
 				$article = array("owner_uid" => $owner_uid, // read only
@@ -681,6 +683,7 @@
 					"title" => $entry_title,
 					"content" => $entry_content,
 					"link" => $entry_link,
+					"labels" => $article_labels, // current limitation: can add labels to article, can't remove them
 					"tags" => $entry_tags,
 					"author" => $entry_author,
 					"force_catchup" => false, // ugly hack for the time being
@@ -739,6 +742,12 @@
 				$entry_link = db_escape_string($article["link"]);
 				$entry_content = $article["content"]; // escaped below
 				$entry_force_catchup = $article["force_catchup"];
+				$article_labels = $article["labels"];
+
+				if ($debug_enabled) {
+					_debug("article labels:", $debug_enabled);
+					print_r($article_labels);
+				}
 
 				_debug("force catchup: $entry_force_catchup");
 
@@ -790,12 +799,8 @@
 							'$entry_language',
 							'$entry_author')");
 
-					$article_labels = array();
-
 				} else {
 					$base_entry_id = db_fetch_result($result, 0, "id");
-
-					$article_labels = get_article_labels($base_entry_id, $owner_uid);
 				}
 
 				// now it should exist, if not - bad luck then
@@ -962,7 +967,13 @@
 
 				db_query("COMMIT");
 
-				_debug("assigning labels...", $debug_enabled);
+				_debug("assigning labels [other]...", $debug_enabled);
+
+				foreach ($article_labels as $label) {
+					label_add_article($entry_ref_id, $label[1], $owner_uid);
+				}
+
+				_debug("assigning labels [filters]...", $debug_enabled);
 
 				assign_article_to_label_filters($entry_ref_id, $article_filters,
 					$owner_uid, $article_labels);
