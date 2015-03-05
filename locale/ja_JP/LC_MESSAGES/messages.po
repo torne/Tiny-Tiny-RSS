@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tt-rss unstable\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-18 18:25+0300\n"
+"POT-Creation-Date: 2015-03-05 23:48+0300\n"
 "PO-Revision-Date: 2013-07-13 11:05+0900\n"
 "Last-Translator: Yak! <yak_ex@mx.scn.tv>\n"
 "Language-Team: \n"
@@ -153,7 +153,7 @@ msgstr "SQLのエスケープ処理のテストに失敗しました。データ
 
 #: index.php:133
 #: index.php:150
-#: index.php:273
+#: index.php:270
 #: prefs.php:102
 #: classes/backend.php:5
 #: classes/pref/feeds.php:1367
@@ -172,7 +172,6 @@ msgstr "SQLのエスケープ処理のテストに失敗しました。データ
 #: js/tt-rss.js:521
 #: js/viewfeed.js:741
 #: js/viewfeed.js:1316
-#: plugins/updater/updater.js:17
 #: plugins/import_export/import_export.js:17
 #: js/feedlist.js:450
 #: js/functions.js:449
@@ -255,7 +254,7 @@ msgid "Title"
 msgstr "題名"
 
 #: index.php:194
-#: index.php:242
+#: index.php:235
 #: include/functions2.php:92
 #: classes/feeds.php:107
 #: js/FeedTree.js:132
@@ -279,87 +278,87 @@ msgstr "2週間前より古い項目"
 msgid "Communication problem with server."
 msgstr "サーバーとの通信に問題が発生しました。"
 
-#: index.php:227
-msgid "New version of Tiny Tiny RSS is available!"
-msgstr "Tiny Tiny RSS の新しいバージョンが利用できます!"
-
-#: index.php:232
+#: index.php:225
 msgid "Actions..."
 msgstr "操作..."
 
-#: index.php:234
+#: index.php:227
 msgid "Preferences..."
 msgstr "設定..."
 
-#: index.php:235
+#: index.php:228
 msgid "Search..."
 msgstr "検索..."
 
-#: index.php:236
+#: index.php:229
 msgid "Feed actions:"
 msgstr "フィード操作:"
 
-#: index.php:237
+#: index.php:230
 #: classes/handler/public.php:628
 msgid "Subscribe to feed..."
 msgstr "フィードを購読する..."
 
-#: index.php:238
+#: index.php:231
 msgid "Edit this feed..."
 msgstr "フィードを編集する..."
 
-#: index.php:239
+#: index.php:232
 msgid "Rescore feed"
 msgstr "フィードのスコアを再計算しています..."
 
-#: index.php:240
+#: index.php:233
 #: classes/pref/feeds.php:757
 #: classes/pref/feeds.php:1322
 #: js/PrefFeedTree.js:74
 msgid "Unsubscribe"
 msgstr "購読をやめる"
 
-#: index.php:241
+#: index.php:234
 msgid "All feeds:"
 msgstr "すべてのフィード:"
 
-#: index.php:243
+#: index.php:236
 msgid "(Un)hide read feeds"
 msgstr "読んだフィードを隠す/再表示する"
 
-#: index.php:244
+#: index.php:237
 msgid "Other actions:"
 msgstr "その他の操作:"
 
-#: index.php:245
+#: index.php:238
 #: include/functions2.php:78
 msgid "Toggle widescreen mode"
 msgstr "ワイド表示モードの切り替え"
 
-#: index.php:246
+#: index.php:239
 msgid "Select by tags..."
 msgstr "タグで選択..."
 
-#: index.php:247
+#: index.php:240
 msgid "Create label..."
 msgstr "ラベルを作成する..."
 
-#: index.php:248
+#: index.php:241
 msgid "Create filter..."
 msgstr "フィルターを作成しています..."
 
-#: index.php:249
+#: index.php:242
 msgid "Keyboard shortcuts help"
 msgstr "キーボードショートカット"
 
-#: index.php:258
+#: index.php:251
 msgid "Logout"
 msgstr "ログアウト"
+
+#: index.php:257
+msgid "Updates are available from Git."
+msgstr ""
 
 #: prefs.php:33
 #: prefs.php:120
 #: include/functions2.php:105
-#: classes/pref/prefs.php:441
+#: classes/pref/prefs.php:440
 msgid "Preferences"
 msgstr "設定"
 
@@ -384,8 +383,8 @@ msgid "Filters"
 msgstr "フィルター"
 
 #: prefs.php:129
-#: include/functions.php:1265
-#: include/functions.php:1917
+#: include/functions.php:1261
+#: include/functions.php:1913
 #: classes/pref/labels.php:90
 msgid "Labels"
 msgstr "ラベル"
@@ -476,10 +475,10 @@ msgid "Tiny Tiny RSS data update script."
 msgstr "Tiny Tiny RSS データ更新スクリプト。"
 
 #: include/digest.php:109
-#: include/functions.php:1274
-#: include/functions.php:1818
-#: include/functions.php:1903
-#: include/functions.php:1925
+#: include/functions.php:1270
+#: include/functions.php:1814
+#: include/functions.php:1899
+#: include/functions.php:1921
 #: classes/opml.php:421
 #: classes/pref/feeds.php:226
 msgid "Uncategorized"
@@ -692,7 +691,7 @@ msgid "Go to"
 msgstr "移動"
 
 #: include/functions2.php:100
-#: include/functions.php:1976
+#: include/functions.php:1972
 msgid "All articles"
 msgstr "すべての記事"
 
@@ -728,113 +727,111 @@ msgstr "サイドバーを開閉する"
 msgid "Show help dialog"
 msgstr "ヘルプダイアログを表示する"
 
-#: include/functions2.php:654
+#: include/functions2.php:687
 #, php-format
 msgid "Search results: %s"
 msgstr "検索結果: %s"
 
-#: include/functions2.php:1288
+#: include/functions2.php:1302
 #: classes/feeds.php:714
 msgid "comment"
 msgid_plural "comments"
 msgstr[0] ""
 
-#: include/functions2.php:1292
+#: include/functions2.php:1306
 #: classes/feeds.php:718
 #, fuzzy
 msgid "comments"
 msgstr "添付"
 
-#: include/functions2.php:1333
+#: include/functions2.php:1347
 msgid " - "
 msgstr " - "
 
-#: include/functions2.php:1366
-#: include/functions2.php:1614
+#: include/functions2.php:1380
+#: include/functions2.php:1628
 #: classes/article.php:280
 msgid "no tags"
 msgstr "タグがありません"
 
-#: include/functions2.php:1376
+#: include/functions2.php:1390
 #: classes/feeds.php:700
 msgid "Edit tags for this article"
 msgstr "この記事のタグを編集する"
 
-#: include/functions2.php:1408
+#: include/functions2.php:1422
 #: classes/feeds.php:652
 msgid "Originally from:"
 msgstr "元の記事:"
 
-#: include/functions2.php:1421
+#: include/functions2.php:1435
 #: classes/feeds.php:665
 #: classes/pref/feeds.php:569
 msgid "Feed URL"
 msgstr "フィード URL"
 
-#: include/functions2.php:1455
+#: include/functions2.php:1469
 #: classes/backend.php:105
 #: classes/pref/users.php:95
 #: classes/pref/feeds.php:1611
 #: classes/pref/feeds.php:1677
 #: classes/pref/filters.php:145
-#: classes/pref/prefs.php:1103
+#: classes/pref/prefs.php:1102
 #: classes/dlg.php:36
 #: classes/dlg.php:59
 #: classes/dlg.php:92
 #: classes/dlg.php:158
 #: classes/dlg.php:189
 #: classes/dlg.php:216
-#: classes/dlg.php:249
-#: classes/dlg.php:261
+#: plugins/af_psql_trgm/init.php:98
 #: plugins/googlereaderimport/init.php:194
-#: plugins/updater/init.php:389
-#: plugins/import_export/init.php:407
-#: plugins/import_export/init.php:452
+#: plugins/import_export/init.php:411
+#: plugins/import_export/init.php:456
 #: plugins/share/init.php:123
 msgid "Close this window"
 msgstr "このウィンドウを閉じる"
 
-#: include/functions2.php:1651
+#: include/functions2.php:1665
 msgid "(edit note)"
 msgstr "(ノートの編集)"
 
-#: include/functions2.php:1899
+#: include/functions2.php:1913
 msgid "unknown type"
 msgstr "未知の種類"
 
-#: include/functions2.php:1967
+#: include/functions2.php:1981
 msgid "Attachments"
 msgstr "添付"
 
-#: include/functions.php:1263
-#: include/functions.php:1915
+#: include/functions.php:1259
+#: include/functions.php:1911
 msgid "Special"
 msgstr "特別"
 
-#: include/functions.php:1766
+#: include/functions.php:1762
 #: classes/feeds.php:1124
 #: classes/pref/filters.php:169
 #: classes/pref/filters.php:447
 msgid "All feeds"
 msgstr "すべてのフィード"
 
-#: include/functions.php:1970
+#: include/functions.php:1966
 msgid "Starred articles"
 msgstr "お気に入りの記事"
 
-#: include/functions.php:1972
+#: include/functions.php:1968
 msgid "Published articles"
 msgstr "公開済みの記事"
 
-#: include/functions.php:1974
+#: include/functions.php:1970
 msgid "Fresh articles"
 msgstr "新しい記事"
 
-#: include/functions.php:1978
+#: include/functions.php:1974
 msgid "Archived articles"
 msgstr "保管された記事"
 
-#: include/functions.php:1980
+#: include/functions.php:1976
 msgid "Recently read"
 msgstr "最近読んだ"
 
@@ -860,7 +857,7 @@ msgstr "プロファイル:"
 #: include/login_form.php:216
 #: classes/handler/public.php:266
 #: classes/rpc.php:63
-#: classes/pref/prefs.php:1041
+#: classes/pref/prefs.php:1040
 msgid "Default profile"
 msgstr "標準のプロファイル"
 
@@ -888,10 +885,6 @@ msgstr "セッションの検査に失敗しました (IP が正しくありま�
 #: include/sessions.php:67
 msgid "Session failed to validate (schema version changed)"
 msgstr "セッションの検査に失敗しました (スキーマのバージョンが変更されました)"
-
-#: include/sessions.php:73
-msgid "Session failed to validate (user agent changed)"
-msgstr "セッションの検査に失敗しました (ユーザーエージェントが変更されました)"
 
 #: include/sessions.php:85
 msgid "Session failed to validate (user not found)"
@@ -968,7 +961,7 @@ msgstr "共有"
 #: classes/pref/filters.php:908
 #: classes/pref/filters.php:975
 #: classes/pref/labels.php:81
-#: classes/pref/prefs.php:989
+#: classes/pref/prefs.php:988
 #: plugins/note/init.php:53
 #: plugins/mail/init.php:172
 #: plugins/instances/init.php:248
@@ -1091,7 +1084,7 @@ msgstr "最終更新: %s"
 #: classes/pref/filters.php:760
 #: classes/pref/filters.php:787
 #: classes/pref/labels.php:275
-#: classes/pref/prefs.php:1001
+#: classes/pref/prefs.php:1000
 #: plugins/instances/init.php:287
 msgid "All"
 msgstr "すべて"
@@ -1111,7 +1104,7 @@ msgstr "反転"
 #: classes/pref/filters.php:762
 #: classes/pref/filters.php:789
 #: classes/pref/labels.php:277
-#: classes/pref/prefs.php:1003
+#: classes/pref/prefs.php:1002
 #: plugins/instances/init.php:289
 msgid "None"
 msgstr "なし"
@@ -1253,7 +1246,7 @@ msgstr "ログイン"
 #: classes/pref/feeds.php:639
 #: classes/pref/feeds.php:847
 #: classes/pref/feeds.php:1798
-#: classes/pref/prefs.php:261
+#: classes/pref/prefs.php:260
 msgid "Password"
 msgstr "パスワード"
 
@@ -1333,7 +1326,8 @@ msgstr "この記事のタグ (カンマで区切ります):"
 #: classes/pref/feeds.php:900
 #: classes/pref/filters.php:425
 #: classes/pref/labels.php:79
-#: classes/pref/prefs.php:987
+#: classes/pref/prefs.php:986
+#: plugins/af_psql_trgm/init.php:175
 #: plugins/note/init.php:51
 #: plugins/nsfw/init.php:85
 #: plugins/mail/init.php:64
@@ -1390,20 +1384,20 @@ msgstr "処理中のカテゴリ: %s"
 
 #: classes/opml.php:470
 #: plugins/googlereaderimport/init.php:66
-#: plugins/import_export/init.php:420
+#: plugins/import_export/init.php:424
 #, php-format
 msgid "Upload failed with error code %d"
 msgstr "エラーコード %d でアップロードが失敗しました"
 
 #: classes/opml.php:484
 #: plugins/googlereaderimport/init.php:80
-#: plugins/import_export/init.php:434
+#: plugins/import_export/init.php:438
 msgid "Unable to move uploaded file."
 msgstr "アップロードされたファイルを移動できません。"
 
 #: classes/opml.php:488
 #: plugins/googlereaderimport/init.php:84
-#: plugins/import_export/init.php:438
+#: plugins/import_export/init.php:442
 msgid "Error: please upload OPML file."
 msgstr "エラー: OPML ファイルをアップロードしてください。"
 
@@ -1520,7 +1514,7 @@ msgstr "[tt-rss] パスワード変更通知"
 #: classes/pref/filters.php:757
 #: classes/pref/filters.php:784
 #: classes/pref/labels.php:272
-#: classes/pref/prefs.php:998
+#: classes/pref/prefs.php:997
 #: plugins/instances/init.php:284
 msgid "Select"
 msgstr "選択"
@@ -1970,435 +1964,431 @@ msgid "Allow duplicate articles"
 msgstr "重複記事の許可"
 
 #: classes/pref/prefs.php:26
-msgid "Assign articles to labels automatically"
-msgstr "自動的に記事にラベルを割り当てる"
-
-#: classes/pref/prefs.php:27
 msgid "Blacklisted tags"
 msgstr "ブラックリスト化したタグ"
 
-#: classes/pref/prefs.php:27
+#: classes/pref/prefs.php:26
 msgid "When auto-detecting tags in articles these tags will not be applied (comma-separated list)."
 msgstr "タグを自動的に検出する際、以下のタグを無視する。 (カンマ区切りリストで指定)"
 
-#: classes/pref/prefs.php:28
+#: classes/pref/prefs.php:27
 msgid "Automatically mark articles as read"
 msgstr "自動的に記事を既読にする"
 
-#: classes/pref/prefs.php:28
+#: classes/pref/prefs.php:27
 msgid "This option enables marking articles as read automatically while you scroll article list."
 msgstr "記事のリストをスクロールした際、自動的に記事を既読にする。"
 
-#: classes/pref/prefs.php:29
+#: classes/pref/prefs.php:28
 msgid "Automatically expand articles in combined mode"
 msgstr "組み合わせモードで記事を自動的に展開する"
 
-#: classes/pref/prefs.php:30
+#: classes/pref/prefs.php:29
 msgid "Combined feed display"
 msgstr "フィード表示の組み合わせ"
 
-#: classes/pref/prefs.php:30
+#: classes/pref/prefs.php:29
 msgid "Display expanded list of feed articles, instead of separate displays for headlines and article content"
 msgstr "ヘッドラインと記事の内容を分けて表示するのではなく、展開された記事のリストを表示する。"
 
-#: classes/pref/prefs.php:31
+#: classes/pref/prefs.php:30
 msgid "Confirm marking feed as read"
 msgstr "フィードを既読にする際確認する"
 
-#: classes/pref/prefs.php:32
+#: classes/pref/prefs.php:31
 msgid "Amount of articles to display at once"
 msgstr "一度に表示する記事数"
 
-#: classes/pref/prefs.php:33
+#: classes/pref/prefs.php:32
 msgid "Default feed update interval"
 msgstr "標準の更新間隔"
 
-#: classes/pref/prefs.php:33
+#: classes/pref/prefs.php:32
 msgid "Shortest interval at which a feed will be checked for updates regardless of update method"
 msgstr "更新方法に関わらない、フィードの更新チェックの最短間隔"
 
-#: classes/pref/prefs.php:34
+#: classes/pref/prefs.php:33
 msgid "Mark articles in e-mail digest as read"
 msgstr "電子メールのダイジェストに含まれる記事を既読として設定する"
 
-#: classes/pref/prefs.php:35
+#: classes/pref/prefs.php:34
 msgid "Enable e-mail digest"
 msgstr "電子メールでのダイジェストを有効にする"
 
-#: classes/pref/prefs.php:35
+#: classes/pref/prefs.php:34
 msgid "This option enables sending daily digest of new (and unread) headlines on your configured e-mail address"
 msgstr "設定された電子メールアドレスに毎日新しい(かつ未読の)ヘッドラインのダイジェストを送る"
 
-#: classes/pref/prefs.php:36
+#: classes/pref/prefs.php:35
 msgid "Try to send digests around specified time"
 msgstr "指定された時刻前後にダイジェストの送信を試みる"
 
-#: classes/pref/prefs.php:36
+#: classes/pref/prefs.php:35
 msgid "Uses UTC timezone"
 msgstr "UTC タイムゾーンを使用する"
 
-#: classes/pref/prefs.php:37
+#: classes/pref/prefs.php:36
 msgid "Enable API access"
 msgstr "API アクセスを有効にする"
 
-#: classes/pref/prefs.php:37
+#: classes/pref/prefs.php:36
 msgid "Allows external clients to access this account through the API"
 msgstr "このアカウントに対する API 経由での外部クライアントのアクセスを許可する"
 
-#: classes/pref/prefs.php:38
+#: classes/pref/prefs.php:37
 msgid "Enable feed categories"
 msgstr "フィードカテゴリーを有効にする"
 
-#: classes/pref/prefs.php:39
+#: classes/pref/prefs.php:38
 msgid "Sort feeds by unread articles count"
 msgstr "未読記事数によるフィードの並び替え"
 
-#: classes/pref/prefs.php:40
+#: classes/pref/prefs.php:39
 msgid "Maximum age of fresh articles (in hours)"
 msgstr "新規記事としての取り扱い期限 (単位: 時間)"
 
-#: classes/pref/prefs.php:41
+#: classes/pref/prefs.php:40
 msgid "Hide feeds with no unread articles"
 msgstr "未読記事がないフィードを非表示にする"
 
-#: classes/pref/prefs.php:42
+#: classes/pref/prefs.php:41
 msgid "Show special feeds when hiding read feeds"
 msgstr "既読フィードを非表示にした際、特別フィードを表示する"
 
-#: classes/pref/prefs.php:43
+#: classes/pref/prefs.php:42
 msgid "Long date format"
 msgstr "完全な日付の形式"
 
-#: classes/pref/prefs.php:43
+#: classes/pref/prefs.php:42
 msgid "The syntax used is identical to the PHP <a href='http://php.net/manual/function.date.php'>date()</a> function."
 msgstr "日付の構文は PHP の <a href='http://php.net/manual/function.date.php'>date()</a> 関数と同じです。"
 
-#: classes/pref/prefs.php:44
+#: classes/pref/prefs.php:43
 msgid "On catchup show next feed"
 msgstr "キャッチアップ時に次のフィードを表示する"
 
-#: classes/pref/prefs.php:44
+#: classes/pref/prefs.php:43
 msgid "Automatically open next feed with unread articles after marking one as read"
 msgstr "フィードを既読にした後で自動的に未読記事のある次のフィードを開く"
 
-#: classes/pref/prefs.php:45
+#: classes/pref/prefs.php:44
 msgid "Purge articles after this number of days (0 - disables)"
 msgstr "この日数よりあとの古い投稿を削除する (0 は無効です)"
 
-#: classes/pref/prefs.php:46
+#: classes/pref/prefs.php:45
 msgid "Purge unread articles"
 msgstr "未読記事を削除する"
 
-#: classes/pref/prefs.php:47
+#: classes/pref/prefs.php:46
 msgid "Reverse headline order (oldest first)"
 msgstr "ヘッドラインの順序を逆転する (古いものが上)"
 
-#: classes/pref/prefs.php:48
+#: classes/pref/prefs.php:47
 msgid "Short date format"
 msgstr "短い日付の形式"
 
-#: classes/pref/prefs.php:49
+#: classes/pref/prefs.php:48
 msgid "Show content preview in headlines list"
 msgstr "ヘッドライン一覧に内容のプレビューを表示する"
 
-#: classes/pref/prefs.php:50
+#: classes/pref/prefs.php:49
 msgid "Sort headlines by feed date"
 msgstr "フィード日時によるヘッドラインの並び替え"
 
-#: classes/pref/prefs.php:50
+#: classes/pref/prefs.php:49
 msgid "Use feed-specified date to sort headlines instead of local import date."
 msgstr "ヘッドラインの並び替えにインポート日時ではなくフィードが設定する日時を使う。"
 
-#: classes/pref/prefs.php:51
+#: classes/pref/prefs.php:50
 msgid "Login with an SSL certificate"
 msgstr "SSL 証明書でログインする"
 
-#: classes/pref/prefs.php:51
+#: classes/pref/prefs.php:50
 msgid "Click to register your SSL client certificate with tt-rss"
 msgstr "クリックして tt-rss に SSL クライアント証明書を登録する"
 
-#: classes/pref/prefs.php:52
+#: classes/pref/prefs.php:51
 msgid "Do not embed images in articles"
 msgstr "記事内に画像を表示しない"
 
-#: classes/pref/prefs.php:53
+#: classes/pref/prefs.php:52
 msgid "Strip unsafe tags from articles"
 msgstr "記事から安全でないタグを取り除く"
 
-#: classes/pref/prefs.php:53
+#: classes/pref/prefs.php:52
 msgid "Strip all but most common HTML tags when reading articles."
 msgstr "記事を読み込む際、最も一般的な HTML タグ以外を除去する。"
 
-#: classes/pref/prefs.php:54
+#: classes/pref/prefs.php:53
 #: js/prefs.js:1687
 msgid "Customize stylesheet"
 msgstr "スタイルシートのカスタマイズ"
 
-#: classes/pref/prefs.php:54
+#: classes/pref/prefs.php:53
 msgid "Customize CSS stylesheet to your liking"
 msgstr "あなたの好みの CSS スタイルシートにカスタマイズします。"
 
-#: classes/pref/prefs.php:55
+#: classes/pref/prefs.php:54
 msgid "Time zone"
 msgstr "タイムゾーン"
 
-#: classes/pref/prefs.php:56
+#: classes/pref/prefs.php:55
 msgid "Group headlines in virtual feeds"
 msgstr "仮想フィードのグループヘッドライン"
 
-#: classes/pref/prefs.php:56
+#: classes/pref/prefs.php:55
 msgid "Special feeds, labels, and categories are grouped by originating feeds"
 msgstr "特別フィード、ラベル、カテゴリを元のフィードでグループ化します。"
 
-#: classes/pref/prefs.php:57
+#: classes/pref/prefs.php:56
 msgid "Language"
 msgstr "言語"
 
-#: classes/pref/prefs.php:58
+#: classes/pref/prefs.php:57
 msgid "Theme"
 msgstr "テーマ"
 
-#: classes/pref/prefs.php:58
+#: classes/pref/prefs.php:57
 msgid "Select one of the available CSS themes"
 msgstr "CSS テーマを選択してください"
 
-#: classes/pref/prefs.php:69
+#: classes/pref/prefs.php:68
 msgid "Old password cannot be blank."
 msgstr "古いパスワードを空にできません。"
 
-#: classes/pref/prefs.php:74
+#: classes/pref/prefs.php:73
 msgid "New password cannot be blank."
 msgstr "新しいパスワードを空にできません。"
 
-#: classes/pref/prefs.php:79
+#: classes/pref/prefs.php:78
 msgid "Entered passwords do not match."
 msgstr "パスワードが一致しません。"
 
-#: classes/pref/prefs.php:88
+#: classes/pref/prefs.php:87
 msgid "Function not supported by authentication module."
 msgstr "認証モジュールが機能をサポートしていません。"
 
-#: classes/pref/prefs.php:127
+#: classes/pref/prefs.php:126
 msgid "The configuration was saved."
 msgstr "設定を保存しました。"
 
-#: classes/pref/prefs.php:142
+#: classes/pref/prefs.php:141
 #, php-format
 msgid "Unknown option: %s"
 msgstr "不明なオプション: %s"
 
-#: classes/pref/prefs.php:156
+#: classes/pref/prefs.php:155
 msgid "Your personal data has been saved."
 msgstr "個人データを変更しました。"
 
-#: classes/pref/prefs.php:176
+#: classes/pref/prefs.php:175
 msgid "Your preferences are now set to default values."
 msgstr "あなたの設定は標準値に設定されました。"
 
-#: classes/pref/prefs.php:199
+#: classes/pref/prefs.php:198
 msgid "Personal data / Authentication"
 msgstr "個人データ / 認証"
 
-#: classes/pref/prefs.php:219
+#: classes/pref/prefs.php:218
 msgid "Personal data"
 msgstr "個人データ"
 
-#: classes/pref/prefs.php:229
+#: classes/pref/prefs.php:228
 msgid "Full name"
 msgstr "フルネーム"
 
-#: classes/pref/prefs.php:233
+#: classes/pref/prefs.php:232
 msgid "E-mail"
 msgstr "電子メール"
 
-#: classes/pref/prefs.php:239
+#: classes/pref/prefs.php:238
 msgid "Access level"
 msgstr "アクセスレベル"
 
-#: classes/pref/prefs.php:249
+#: classes/pref/prefs.php:248
 msgid "Save data"
 msgstr "保存"
 
-#: classes/pref/prefs.php:268
+#: classes/pref/prefs.php:267
 msgid "Your password is at default value, please change it."
 msgstr "パスワードが標準のままです。変更してください。"
 
-#: classes/pref/prefs.php:295
+#: classes/pref/prefs.php:294
 msgid "Changing your current password will disable OTP."
 msgstr "現在のパスワードを変更すると OTP が無効化されます。"
 
-#: classes/pref/prefs.php:300
+#: classes/pref/prefs.php:299
 msgid "Old password"
 msgstr "現在のパスワード"
 
-#: classes/pref/prefs.php:303
+#: classes/pref/prefs.php:302
 msgid "New password"
 msgstr "新しいパスワード"
 
-#: classes/pref/prefs.php:308
+#: classes/pref/prefs.php:307
 msgid "Confirm password"
 msgstr "新しいパスワード(確認)"
 
-#: classes/pref/prefs.php:318
+#: classes/pref/prefs.php:317
 msgid "Change password"
 msgstr "パスワードを変更する"
 
-#: classes/pref/prefs.php:324
+#: classes/pref/prefs.php:323
 msgid "One time passwords / Authenticator"
 msgstr "ワンタイムパスワード / Authenticator"
 
-#: classes/pref/prefs.php:328
+#: classes/pref/prefs.php:327
 msgid "One time passwords are currently enabled. Enter your current password below to disable."
 msgstr "ワンタイムパスワードが現在有効です。無効にするには以下に現在のパスワードを入力してください。"
 
-#: classes/pref/prefs.php:353
-#: classes/pref/prefs.php:404
+#: classes/pref/prefs.php:352
+#: classes/pref/prefs.php:403
 msgid "Enter your password"
 msgstr "パスワードの入力"
 
-#: classes/pref/prefs.php:364
+#: classes/pref/prefs.php:363
 msgid "Disable OTP"
 msgstr "OTP を無効にする"
 
-#: classes/pref/prefs.php:370
+#: classes/pref/prefs.php:369
 msgid "You will need a compatible Authenticator to use this. Changing your password would automatically disable OTP."
 msgstr "この機能を使用するには互換性のある Authenticator が必要です。現在のパスワードを変更すると OTP が無効化されます。"
 
-#: classes/pref/prefs.php:372
+#: classes/pref/prefs.php:371
 msgid "Scan the following code by the Authenticator application:"
 msgstr "認証アプリケーションで以下のコードをスキャンしてください:"
 
-#: classes/pref/prefs.php:409
+#: classes/pref/prefs.php:408
 msgid "Enter the generated one time password"
 msgstr "生成されたワンタイムパスワードを入力してください"
 
-#: classes/pref/prefs.php:423
+#: classes/pref/prefs.php:422
 msgid "Enable OTP"
 msgstr "OTP を有効にする"
 
-#: classes/pref/prefs.php:429
+#: classes/pref/prefs.php:428
 msgid "PHP GD functions are required for OTP support."
 msgstr "OTP には PHP GD 機能が必要です。"
 
-#: classes/pref/prefs.php:472
+#: classes/pref/prefs.php:471
 msgid "Some preferences are only available in default profile."
 msgstr "いくつかの設定は標準プロファイルでのみ有効です。"
 
-#: classes/pref/prefs.php:570
+#: classes/pref/prefs.php:569
 msgid "Customize"
 msgstr "カスタマイズ"
 
-#: classes/pref/prefs.php:631
+#: classes/pref/prefs.php:630
 msgid "Register"
 msgstr "登録"
 
-#: classes/pref/prefs.php:635
+#: classes/pref/prefs.php:634
 msgid "Clear"
 msgstr "消去"
 
-#: classes/pref/prefs.php:641
+#: classes/pref/prefs.php:640
 #, php-format
 msgid "Current server time: %s (UTC)"
 msgstr "現在のサーバー時刻: %s (UTC)"
 
-#: classes/pref/prefs.php:673
+#: classes/pref/prefs.php:672
 msgid "Save configuration"
 msgstr "設定を保存する"
 
-#: classes/pref/prefs.php:677
+#: classes/pref/prefs.php:676
 msgid "Save and exit preferences"
 msgstr "設定を保存して終了する"
 
-#: classes/pref/prefs.php:682
+#: classes/pref/prefs.php:681
 msgid "Manage profiles"
 msgstr "プロファイルを管理する"
 
-#: classes/pref/prefs.php:685
+#: classes/pref/prefs.php:684
 msgid "Reset to defaults"
 msgstr "標準に戻す"
 
-#: classes/pref/prefs.php:708
+#: classes/pref/prefs.php:707
 msgid "Plugins"
 msgstr "プラグイン"
 
-#: classes/pref/prefs.php:710
+#: classes/pref/prefs.php:709
 msgid "You will need to reload Tiny Tiny RSS for plugin changes to take effect."
 msgstr "プラグインの変更を反映するためには Tiny Tiny RSS を再読み込みする必要があります。"
 
-#: classes/pref/prefs.php:712
+#: classes/pref/prefs.php:711
 msgid "Download more plugins at tt-rss.org <a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/forum/viewforum.php?f=22\">forums</a> or <a target=\"_blank\" class=\"visibleLink\" href=\"http://tt-rss.org/wiki/Plugins\">wiki</a>."
 msgstr "tt-rss.org の <a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/forum/viewforum.php?f=22\">forums</a> か <a target=\"_blank\" class=\"visibleLink\" href=\"http://tt-rss.org/wiki/Plugins\">wiki</a> で他のプラグインをダウンロードできます。"
 
-#: classes/pref/prefs.php:738
+#: classes/pref/prefs.php:737
 msgid "System plugins"
 msgstr "システムプラグイン"
 
-#: classes/pref/prefs.php:742
-#: classes/pref/prefs.php:798
+#: classes/pref/prefs.php:741
+#: classes/pref/prefs.php:797
 msgid "Plugin"
 msgstr "プラグイン"
 
-#: classes/pref/prefs.php:743
-#: classes/pref/prefs.php:799
+#: classes/pref/prefs.php:742
+#: classes/pref/prefs.php:798
 msgid "Description"
 msgstr "説明"
 
-#: classes/pref/prefs.php:744
-#: classes/pref/prefs.php:800
+#: classes/pref/prefs.php:743
+#: classes/pref/prefs.php:799
 msgid "Version"
 msgstr "バージョン"
 
-#: classes/pref/prefs.php:745
-#: classes/pref/prefs.php:801
+#: classes/pref/prefs.php:744
+#: classes/pref/prefs.php:800
 msgid "Author"
 msgstr "作者"
 
-#: classes/pref/prefs.php:776
-#: classes/pref/prefs.php:835
+#: classes/pref/prefs.php:775
+#: classes/pref/prefs.php:834
 msgid "more info"
 msgstr "その他情報"
 
-#: classes/pref/prefs.php:785
-#: classes/pref/prefs.php:844
+#: classes/pref/prefs.php:784
+#: classes/pref/prefs.php:843
 msgid "Clear data"
 msgstr "データの消去"
 
-#: classes/pref/prefs.php:794
+#: classes/pref/prefs.php:793
 msgid "User plugins"
 msgstr "ユーザープラグイン"
 
-#: classes/pref/prefs.php:859
+#: classes/pref/prefs.php:858
 msgid "Enable selected plugins"
 msgstr "選択したプラグインを有効にする"
 
-#: classes/pref/prefs.php:927
+#: classes/pref/prefs.php:926
 msgid "Incorrect one time password"
 msgstr "ワンタイムパスワードが正しくありません"
 
-#: classes/pref/prefs.php:930
-#: classes/pref/prefs.php:947
+#: classes/pref/prefs.php:929
+#: classes/pref/prefs.php:946
 msgid "Incorrect password"
 msgstr "パスワードが正しくありません"
 
-#: classes/pref/prefs.php:972
+#: classes/pref/prefs.php:971
 #, php-format
 msgid "You can override colors, fonts and layout of your currently selected theme with custom CSS declarations here. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">This file</a> can be used as a baseline."
 msgstr "現在選択されているテーマの色、フォント、レイアウトをこのカスタム CSS 宣言で上書きできます。<a target=\"_blank\" class=\"visibleLink\" href=\"%s\">このファイル</a>がベースラインとして使えます。"
 
-#: classes/pref/prefs.php:1012
+#: classes/pref/prefs.php:1011
 msgid "Create profile"
 msgstr "プロファイルを作成する"
 
-#: classes/pref/prefs.php:1035
-#: classes/pref/prefs.php:1063
+#: classes/pref/prefs.php:1034
+#: classes/pref/prefs.php:1062
 msgid "(active)"
 msgstr "(有効)"
 
-#: classes/pref/prefs.php:1097
+#: classes/pref/prefs.php:1096
 msgid "Remove selected profiles"
 msgstr "選択したプロファイルを削除しますか"
 
-#: classes/pref/prefs.php:1099
+#: classes/pref/prefs.php:1098
 msgid "Activate profile"
 msgstr "プロファイルを有効にする"
 
@@ -2453,28 +2443,42 @@ msgstr "項目の表示"
 msgid "You can view this feed as RSS using the following URL:"
 msgstr "このフィードは以下の URL で RSS として見られます:"
 
-#: classes/dlg.php:232
-#: plugins/updater/init.php:348
+#: plugins/af_psql_trgm/init.php:26
 #, php-format
-msgid "New version of Tiny Tiny RSS is available (%s)."
-msgstr "Tiny Tiny RSS の新しいバージョン(%s)が利用できます。"
+msgid "Data saved (%s)"
+msgstr ""
 
-#: classes/dlg.php:240
-msgid "You can update using built-in updater in the Preferences or by using update.php"
-msgstr "設定にある組み込みの更新機能か、update.php を使って更新できます"
+#: plugins/af_psql_trgm/init.php:108
+#, fuzzy
+msgid "Show related articles"
+msgstr "共有した記事"
 
-#: classes/dlg.php:244
-#: plugins/updater/init.php:352
-msgid "See the release notes"
-msgstr "リリースノートを見る"
+#: plugins/af_psql_trgm/init.php:114
+#: plugins/af_psql_trgm/init.php:211
+#, fuzzy
+msgid "Mark similar articles as read"
+msgstr "すべての記事を既読にしますか?"
 
-#: classes/dlg.php:246
-msgid "Download"
-msgstr "ダウンロード"
+#: plugins/af_psql_trgm/init.php:157
+#, fuzzy
+msgid "Global settings"
+msgstr "設定を含める"
 
-#: classes/dlg.php:254
-msgid "Error receiving version information or no new version available."
-msgstr "バージョン情報の取得エラーか、新しいバージョンがありません。"
+#: plugins/af_psql_trgm/init.php:161
+msgid "Minimum similarity:"
+msgstr ""
+
+#: plugins/af_psql_trgm/init.php:166
+msgid "Minimum title length:"
+msgstr ""
+
+#: plugins/af_psql_trgm/init.php:183
+msgid "Currently enabled for (click to edit):"
+msgstr ""
+
+#: plugins/af_psql_trgm/init.php:200
+msgid "Similarity (pg_trgm)"
+msgstr ""
 
 #: plugins/af_comics/init.php:39
 msgid "Feeds supported by af_comics"
@@ -2490,7 +2494,7 @@ msgid "Edit article note"
 msgstr "記事のノートを編集する"
 
 #: plugins/googlereaderimport/init.php:92
-#: plugins/import_export/init.php:446
+#: plugins/import_export/init.php:450
 msgid "No file uploaded."
 msgstr "ファイルがアップロードされていません。"
 
@@ -2543,45 +2547,6 @@ msgstr "送信前にあなたの電子メールクライアントでメッセー
 msgid "Close this dialog"
 msgstr "このダイアログを閉じる"
 
-#: plugins/updater/init.php:338
-#: plugins/updater/init.php:355
-#: plugins/updater/updater.js:10
-msgid "Update Tiny Tiny RSS"
-msgstr "Tiny Tiny RSS を更新する"
-
-#: plugins/updater/init.php:358
-msgid "Your Tiny Tiny RSS installation is up to date."
-msgstr "Tiny Tiny RSS は最新です。"
-
-#: plugins/updater/init.php:361
-#, fuzzy
-msgid "Force update"
-msgstr "更新の実行"
-
-#: plugins/updater/init.php:370
-msgid "Do not close this dialog until updating is finished."
-msgstr "更新が終了するまでこのダイアログを閉じないでください。"
-
-#: plugins/updater/init.php:379
-msgid "It is suggested to backup your tt-rss directory first."
-msgstr "まず tt-rss ディレクトリをバックアップすることをお勧めします。"
-
-#: plugins/updater/init.php:380
-msgid "Your database will not be modified."
-msgstr "データベースは変更されません。"
-
-#: plugins/updater/init.php:381
-msgid "Your current tt-rss installation directory will not be modified. It will be renamed and left in the parent directory. You will be able to migrate all your customized files after update finishes."
-msgstr "現在の tt-rss インストールディレクトリの内容は変更されません。リネームされ、親ディレクトリに残されます。更新終了後、カスタマイズしたファイル全てを移行することができます。"
-
-#: plugins/updater/init.php:382
-msgid "Ready to update."
-msgstr "更新準備は完了です。"
-
-#: plugins/updater/init.php:387
-msgid "Start update"
-msgstr "更新を開始する"
-
 #: plugins/import_export/init.php:58
 msgid "Import and export"
 msgstr "インポート・エクスポート"
@@ -2598,41 +2563,41 @@ msgstr "データのエクスポート"
 msgid "Import"
 msgstr "インポート"
 
-#: plugins/import_export/init.php:219
+#: plugins/import_export/init.php:223
 msgid "Could not import: incorrect schema version."
 msgstr "インポートできませんでした: スキーマのバージョンが不正です。"
 
-#: plugins/import_export/init.php:224
+#: plugins/import_export/init.php:228
 msgid "Could not import: unrecognized document format."
 msgstr "インポートできませんでした: フォーマットが認識できません。"
 
-#: plugins/import_export/init.php:383
+#: plugins/import_export/init.php:387
 msgid "Finished: "
 msgstr "完了: "
 
-#: plugins/import_export/init.php:384
+#: plugins/import_export/init.php:388
 #, php-format
 msgid "%d article processed, "
 msgid_plural "%d articles processed, "
 msgstr[0] "%d 件の記事を処理, "
 
-#: plugins/import_export/init.php:385
+#: plugins/import_export/init.php:389
 #, php-format
 msgid "%d imported, "
 msgid_plural "%d imported, "
 msgstr[0] "%d 件インポート済み, "
 
-#: plugins/import_export/init.php:386
+#: plugins/import_export/init.php:390
 #, php-format
 msgid "%d feed created."
 msgid_plural "%d feeds created."
 msgstr[0] "%d 件のフィードを作成。"
 
-#: plugins/import_export/init.php:391
+#: plugins/import_export/init.php:395
 msgid "Could not load XML document."
 msgstr "XML 文書を読み込めません。"
 
-#: plugins/import_export/init.php:403
+#: plugins/import_export/init.php:407
 msgid "Prepare data"
 msgstr "データの準備"
 
@@ -3104,20 +3069,20 @@ msgid "You can't unsubscribe from the category."
 msgstr "カテゴリーから購読をやめることができません。"
 
 #: js/tt-rss.js:678
-#: js/tt-rss.js:831
+#: js/tt-rss.js:832
 msgid "Please select some feed first."
 msgstr "はじめにいくつかのフィードを選択してください。"
 
-#: js/tt-rss.js:826
+#: js/tt-rss.js:827
 msgid "You can't rescore this kind of feed."
 msgstr "この種類のフィードはスコアを再計算できません。"
 
-#: js/tt-rss.js:836
+#: js/tt-rss.js:837
 #, perl-format
 msgid "Rescore articles in %s?"
 msgstr "%s の記事のスコアを再計算しますか?"
 
-#: js/tt-rss.js:839
+#: js/tt-rss.js:840
 msgid "Rescoring articles..."
 msgstr "記事のスコアを再計算しています..."
 
@@ -3249,6 +3214,11 @@ msgstr "記事の URL:"
 msgid "Sorry, your browser does not support sandboxed iframes."
 msgstr "あなたのブラウザはサンドボックス化された iframe をサポートしていません。"
 
+#: plugins/af_psql_trgm/init.js:11
+#, fuzzy
+msgid "Related articles"
+msgstr "共有した記事"
+
 #: plugins/note/note.js:17
 msgid "Saving article note..."
 msgstr "記事のノートを保存しています..."
@@ -3265,10 +3235,6 @@ msgstr "はじめにファイルを選択してください。"
 #: plugins/mail/mail.js:21
 msgid "Forward article by email"
 msgstr "電子メールで記事を転送する"
-
-#: plugins/updater/updater.js:58
-msgid "Backup your tt-rss directory before continuing. Please type 'yes' to continue."
-msgstr "続ける前に tt-rss ディレクトリをバックアップしてください。続けるには 'yes' と入力してください。"
 
 #: plugins/import_export/import_export.js:13
 msgid "Export Data"
@@ -3575,10 +3541,6 @@ msgstr "ラベルエディター"
 msgid "Select item(s) by tags"
 msgstr "タグで項目を選択"
 
-#: js/tt-rss.js:980
-msgid "New version available!"
-msgstr "新しいバージョンが利用できます!"
-
 #: js/viewfeed.js:117
 msgid "Cancel search"
 msgstr "検索の取り消し"
@@ -3599,6 +3561,64 @@ msgstr[0] "%d 件の記事を既読として設定しますか?"
 #: js/viewfeed.js:1990
 msgid "Display article URL"
 msgstr "記事の URL を表示"
+
+#~ msgid "New version of Tiny Tiny RSS is available!"
+#~ msgstr "Tiny Tiny RSS の新しいバージョンが利用できます!"
+
+#~ msgid "Session failed to validate (user agent changed)"
+#~ msgstr "セッションの検査に失敗しました (ユーザーエージェントが変更されました)"
+
+#~ msgid "Assign articles to labels automatically"
+#~ msgstr "自動的に記事にラベルを割り当てる"
+
+#~ msgid "New version of Tiny Tiny RSS is available (%s)."
+#~ msgstr "Tiny Tiny RSS の新しいバージョン(%s)が利用できます。"
+
+#~ msgid "You can update using built-in updater in the Preferences or by using update.php"
+#~ msgstr "設定にある組み込みの更新機能か、update.php を使って更新できます"
+
+#~ msgid "See the release notes"
+#~ msgstr "リリースノートを見る"
+
+#~ msgid "Download"
+#~ msgstr "ダウンロード"
+
+#~ msgid "Error receiving version information or no new version available."
+#~ msgstr "バージョン情報の取得エラーか、新しいバージョンがありません。"
+
+#~ msgid "Update Tiny Tiny RSS"
+#~ msgstr "Tiny Tiny RSS を更新する"
+
+#~ msgid "Your Tiny Tiny RSS installation is up to date."
+#~ msgstr "Tiny Tiny RSS は最新です。"
+
+#, fuzzy
+#~ msgid "Force update"
+#~ msgstr "更新の実行"
+
+#~ msgid "Do not close this dialog until updating is finished."
+#~ msgstr "更新が終了するまでこのダイアログを閉じないでください。"
+
+#~ msgid "It is suggested to backup your tt-rss directory first."
+#~ msgstr "まず tt-rss ディレクトリをバックアップすることをお勧めします。"
+
+#~ msgid "Your database will not be modified."
+#~ msgstr "データベースは変更されません。"
+
+#~ msgid "Your current tt-rss installation directory will not be modified. It will be renamed and left in the parent directory. You will be able to migrate all your customized files after update finishes."
+#~ msgstr "現在の tt-rss インストールディレクトリの内容は変更されません。リネームされ、親ディレクトリに残されます。更新終了後、カスタマイズしたファイル全てを移行することができます。"
+
+#~ msgid "Ready to update."
+#~ msgstr "更新準備は完了です。"
+
+#~ msgid "Start update"
+#~ msgstr "更新を開始する"
+
+#~ msgid "Backup your tt-rss directory before continuing. Please type 'yes' to continue."
+#~ msgstr "続ける前に tt-rss ディレクトリをバックアップしてください。続けるには 'yes' と入力してください。"
+
+#~ msgid "New version available!"
+#~ msgstr "新しいバージョンが利用できます!"
 
 #~ msgid "LibXML error %s at line %d (column %d): %s"
 #~ msgstr "LibXML エラー %s が %d 行 %d 列 で発生しました: %s"

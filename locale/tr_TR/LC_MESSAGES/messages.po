@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS Turkish translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-18 18:25+0300\n"
+"POT-Creation-Date: 2015-03-05 23:48+0300\n"
 "PO-Revision-Date: 2013-12-08 20:20+0200\n"
 "Last-Translator: akapar <akapar@gmail.com>\n"
 "Language-Team: TURKISH <akapar@gmail.com>\n"
@@ -154,7 +154,7 @@ msgstr "SQL kaçış testi başarılı olmadı, lütfen veri tabanınızı ve PH
 
 #: index.php:133
 #: index.php:150
-#: index.php:273
+#: index.php:270
 #: prefs.php:102
 #: classes/backend.php:5
 #: classes/pref/feeds.php:1367
@@ -173,7 +173,6 @@ msgstr "SQL kaçış testi başarılı olmadı, lütfen veri tabanınızı ve PH
 #: js/tt-rss.js:521
 #: js/viewfeed.js:741
 #: js/viewfeed.js:1316
-#: plugins/updater/updater.js:17
 #: plugins/import_export/import_export.js:17
 #: js/feedlist.js:450
 #: js/functions.js:449
@@ -256,7 +255,7 @@ msgid "Title"
 msgstr "Başlık"
 
 #: index.php:194
-#: index.php:242
+#: index.php:235
 #: include/functions2.php:92
 #: classes/feeds.php:107
 #: js/FeedTree.js:132
@@ -280,87 +279,87 @@ msgstr "2 haftadan eski"
 msgid "Communication problem with server."
 msgstr "Sunucu ile iletişimde problem var."
 
-#: index.php:227
-msgid "New version of Tiny Tiny RSS is available!"
-msgstr "Tiny Tiny RSS'in yeni versiyonu çıktı!"
-
-#: index.php:232
+#: index.php:225
 msgid "Actions..."
 msgstr "Daha fazla..."
 
-#: index.php:234
+#: index.php:227
 msgid "Preferences..."
 msgstr "Tercihler"
 
-#: index.php:235
+#: index.php:228
 msgid "Search..."
 msgstr "Ara..."
 
-#: index.php:236
+#: index.php:229
 msgid "Feed actions:"
 msgstr "Özet akışı ile ilgili..."
 
-#: index.php:237
+#: index.php:230
 #: classes/handler/public.php:628
 msgid "Subscribe to feed..."
 msgstr "Özet akışına üye ol"
 
-#: index.php:238
+#: index.php:231
 msgid "Edit this feed..."
 msgstr "Bu özet akışını düzenle..."
 
-#: index.php:239
+#: index.php:232
 msgid "Rescore feed"
 msgstr "Özet akışını yeniden değerlendir..."
 
-#: index.php:240
+#: index.php:233
 #: classes/pref/feeds.php:757
 #: classes/pref/feeds.php:1322
 #: js/PrefFeedTree.js:74
 msgid "Unsubscribe"
 msgstr "Üyelikten çık"
 
-#: index.php:241
+#: index.php:234
 msgid "All feeds:"
 msgstr "Tüm özet akışları:"
 
-#: index.php:243
+#: index.php:236
 msgid "(Un)hide read feeds"
 msgstr "Okunmuş özet akışlarını görüntüle(me)"
 
-#: index.php:244
+#: index.php:237
 msgid "Other actions:"
 msgstr "Diğerleri:"
 
-#: index.php:245
+#: index.php:238
 #: include/functions2.php:78
 msgid "Toggle widescreen mode"
 msgstr "Tam ekran görüntüle"
 
-#: index.php:246
+#: index.php:239
 msgid "Select by tags..."
 msgstr "Etiketlerle seç..."
 
-#: index.php:247
+#: index.php:240
 msgid "Create label..."
 msgstr "Arama başlığı tanımla..."
 
-#: index.php:248
+#: index.php:241
 msgid "Create filter..."
 msgstr "Filtre tanımla..."
 
-#: index.php:249
+#: index.php:242
 msgid "Keyboard shortcuts help"
 msgstr "Klavye kısayolları yardım"
 
-#: index.php:258
+#: index.php:251
 msgid "Logout"
 msgstr "Oturumu kapat"
+
+#: index.php:257
+msgid "Updates are available from Git."
+msgstr ""
 
 #: prefs.php:33
 #: prefs.php:120
 #: include/functions2.php:105
-#: classes/pref/prefs.php:441
+#: classes/pref/prefs.php:440
 msgid "Preferences"
 msgstr "Tercihler"
 
@@ -385,8 +384,8 @@ msgid "Filters"
 msgstr "Filtreler"
 
 #: prefs.php:129
-#: include/functions.php:1265
-#: include/functions.php:1917
+#: include/functions.php:1261
+#: include/functions.php:1913
 #: classes/pref/labels.php:90
 msgid "Labels"
 msgstr "Arama başlıkları"
@@ -477,10 +476,10 @@ msgid "Tiny Tiny RSS data update script."
 msgstr "Tiny Tiny RSS veri yenileme komut dosyası."
 
 #: include/digest.php:109
-#: include/functions.php:1274
-#: include/functions.php:1818
-#: include/functions.php:1903
-#: include/functions.php:1925
+#: include/functions.php:1270
+#: include/functions.php:1814
+#: include/functions.php:1899
+#: include/functions.php:1921
 #: classes/opml.php:421
 #: classes/pref/feeds.php:226
 msgid "Uncategorized"
@@ -694,7 +693,7 @@ msgid "Go to"
 msgstr "Git"
 
 #: include/functions2.php:100
-#: include/functions.php:1976
+#: include/functions.php:1972
 msgid "All articles"
 msgstr "Tüm yazılar"
 
@@ -730,113 +729,111 @@ msgstr "Kenar çubuğunu aç/kapa"
 msgid "Show help dialog"
 msgstr "Yardım diyaloğunu göster"
 
-#: include/functions2.php:654
+#: include/functions2.php:687
 #, php-format
 msgid "Search results: %s"
 msgstr "Arama sonuçları: %s"
 
-#: include/functions2.php:1288
+#: include/functions2.php:1302
 #: classes/feeds.php:714
 msgid "comment"
 msgid_plural "comments"
 msgstr[0] "yorum"
 msgstr[1] "yorumlar"
 
-#: include/functions2.php:1292
+#: include/functions2.php:1306
 #: classes/feeds.php:718
 msgid "comments"
 msgstr "Yorumlar"
 
-#: include/functions2.php:1333
+#: include/functions2.php:1347
 msgid " - "
 msgstr "-"
 
-#: include/functions2.php:1366
-#: include/functions2.php:1614
+#: include/functions2.php:1380
+#: include/functions2.php:1628
 #: classes/article.php:280
 msgid "no tags"
 msgstr "Etiketi yok"
 
-#: include/functions2.php:1376
+#: include/functions2.php:1390
 #: classes/feeds.php:700
 msgid "Edit tags for this article"
 msgstr "Bu yazı için etiketler tanımla"
 
-#: include/functions2.php:1408
+#: include/functions2.php:1422
 #: classes/feeds.php:652
 msgid "Originally from:"
 msgstr "Asıl kaynağı:"
 
-#: include/functions2.php:1421
+#: include/functions2.php:1435
 #: classes/feeds.php:665
 #: classes/pref/feeds.php:569
 msgid "Feed URL"
 msgstr "Özet akışı internet adresi"
 
-#: include/functions2.php:1455
+#: include/functions2.php:1469
 #: classes/backend.php:105
 #: classes/pref/users.php:95
 #: classes/pref/feeds.php:1611
 #: classes/pref/feeds.php:1677
 #: classes/pref/filters.php:145
-#: classes/pref/prefs.php:1103
+#: classes/pref/prefs.php:1102
 #: classes/dlg.php:36
 #: classes/dlg.php:59
 #: classes/dlg.php:92
 #: classes/dlg.php:158
 #: classes/dlg.php:189
 #: classes/dlg.php:216
-#: classes/dlg.php:249
-#: classes/dlg.php:261
+#: plugins/af_psql_trgm/init.php:98
 #: plugins/googlereaderimport/init.php:194
-#: plugins/updater/init.php:389
-#: plugins/import_export/init.php:407
-#: plugins/import_export/init.php:452
+#: plugins/import_export/init.php:411
+#: plugins/import_export/init.php:456
 #: plugins/share/init.php:123
 msgid "Close this window"
 msgstr "Bu pencereyi kapa"
 
-#: include/functions2.php:1651
+#: include/functions2.php:1665
 msgid "(edit note)"
 msgstr "(notu değiştir)"
 
-#: include/functions2.php:1899
+#: include/functions2.php:1913
 msgid "unknown type"
 msgstr "bilinmeyen tür"
 
-#: include/functions2.php:1967
+#: include/functions2.php:1981
 msgid "Attachments"
 msgstr "Ekler"
 
-#: include/functions.php:1263
-#: include/functions.php:1915
+#: include/functions.php:1259
+#: include/functions.php:1911
 msgid "Special"
 msgstr "Özet"
 
-#: include/functions.php:1766
+#: include/functions.php:1762
 #: classes/feeds.php:1124
 #: classes/pref/filters.php:169
 #: classes/pref/filters.php:447
 msgid "All feeds"
 msgstr "Tüm özet akışları"
 
-#: include/functions.php:1970
+#: include/functions.php:1966
 msgid "Starred articles"
 msgstr "Favori yazılar"
 
-#: include/functions.php:1972
+#: include/functions.php:1968
 msgid "Published articles"
 msgstr "Yayınlanmış yazılar"
 
-#: include/functions.php:1974
+#: include/functions.php:1970
 msgid "Fresh articles"
 msgstr "Tazeler"
 
-#: include/functions.php:1978
+#: include/functions.php:1974
 msgid "Archived articles"
 msgstr "Arşivlenmiş yazılar"
 
-#: include/functions.php:1980
+#: include/functions.php:1976
 msgid "Recently read"
 msgstr "Yakın zamanda okunanlar"
 
@@ -862,7 +859,7 @@ msgstr "Profil:"
 #: include/login_form.php:216
 #: classes/handler/public.php:266
 #: classes/rpc.php:63
-#: classes/pref/prefs.php:1041
+#: classes/pref/prefs.php:1040
 msgid "Default profile"
 msgstr "Öntanımlı profil"
 
@@ -890,10 +887,6 @@ msgstr "Oturum doğrulanamadı (doğru olmayan IP adresi)"
 #: include/sessions.php:67
 msgid "Session failed to validate (schema version changed)"
 msgstr "Oturum doğrulanamadı (şema versiyonu değişti)"
-
-#: include/sessions.php:73
-msgid "Session failed to validate (user agent changed)"
-msgstr "Oturum doğrulanamadı (kullanıcı aracısı değişti)"
 
 #: include/sessions.php:85
 msgid "Session failed to validate (user not found)"
@@ -970,7 +963,7 @@ msgstr "Paylaş"
 #: classes/pref/filters.php:908
 #: classes/pref/filters.php:975
 #: classes/pref/labels.php:81
-#: classes/pref/prefs.php:989
+#: classes/pref/prefs.php:988
 #: plugins/note/init.php:53
 #: plugins/mail/init.php:172
 #: plugins/instances/init.php:248
@@ -1093,7 +1086,7 @@ msgstr "Son yenileme: %s"
 #: classes/pref/filters.php:760
 #: classes/pref/filters.php:787
 #: classes/pref/labels.php:275
-#: classes/pref/prefs.php:1001
+#: classes/pref/prefs.php:1000
 #: plugins/instances/init.php:287
 msgid "All"
 msgstr "Tümü"
@@ -1113,7 +1106,7 @@ msgstr "Ters çevir"
 #: classes/pref/filters.php:762
 #: classes/pref/filters.php:789
 #: classes/pref/labels.php:277
-#: classes/pref/prefs.php:1003
+#: classes/pref/prefs.php:1002
 #: plugins/instances/init.php:289
 msgid "None"
 msgstr "Hiçbiri"
@@ -1255,7 +1248,7 @@ msgstr "Oturum aç"
 #: classes/pref/feeds.php:639
 #: classes/pref/feeds.php:847
 #: classes/pref/feeds.php:1798
-#: classes/pref/prefs.php:261
+#: classes/pref/prefs.php:260
 msgid "Password"
 msgstr "Şifre"
 
@@ -1335,7 +1328,8 @@ msgstr "Bu yazı için etiketler (virgülle ayrılmış):"
 #: classes/pref/feeds.php:900
 #: classes/pref/filters.php:425
 #: classes/pref/labels.php:79
-#: classes/pref/prefs.php:987
+#: classes/pref/prefs.php:986
+#: plugins/af_psql_trgm/init.php:175
 #: plugins/note/init.php:51
 #: plugins/nsfw/init.php:85
 #: plugins/mail/init.php:64
@@ -1392,20 +1386,20 @@ msgstr "Kategori işleniyor: %s"
 
 #: classes/opml.php:470
 #: plugins/googlereaderimport/init.php:66
-#: plugins/import_export/init.php:420
+#: plugins/import_export/init.php:424
 #, php-format
 msgid "Upload failed with error code %d"
 msgstr "Yükleme başarısız oldu hata kodu %d"
 
 #: classes/opml.php:484
 #: plugins/googlereaderimport/init.php:80
-#: plugins/import_export/init.php:434
+#: plugins/import_export/init.php:438
 msgid "Unable to move uploaded file."
 msgstr "Yüklenen dosya taşınamadı."
 
 #: classes/opml.php:488
 #: plugins/googlereaderimport/init.php:84
-#: plugins/import_export/init.php:438
+#: plugins/import_export/init.php:442
 msgid "Error: please upload OPML file."
 msgstr "Hata: lütfen OPML dosyasını yükleyin."
 
@@ -1522,7 +1516,7 @@ msgstr "[tt-rss] Şifre değiştirme hatırlatması"
 #: classes/pref/filters.php:757
 #: classes/pref/filters.php:784
 #: classes/pref/labels.php:272
-#: classes/pref/prefs.php:998
+#: classes/pref/prefs.php:997
 #: plugins/instances/init.php:284
 msgid "Select"
 msgstr "Seç"
@@ -1973,435 +1967,431 @@ msgid "Allow duplicate articles"
 msgstr "Aynı olan yazılara izin ver"
 
 #: classes/pref/prefs.php:26
-msgid "Assign articles to labels automatically"
-msgstr "Yazıları arama başlıklarına otomatik olarak ata"
-
-#: classes/pref/prefs.php:27
 msgid "Blacklisted tags"
 msgstr "Kara listedeki etiketler"
 
-#: classes/pref/prefs.php:27
+#: classes/pref/prefs.php:26
 msgid "When auto-detecting tags in articles these tags will not be applied (comma-separated list)."
 msgstr "Yazılardaki etiketler otomatik olarak algılanırken şu etiketler uygulanmayacak (virgülle ayrılmış liste)."
 
-#: classes/pref/prefs.php:28
+#: classes/pref/prefs.php:27
 msgid "Automatically mark articles as read"
 msgstr "Yazıları otomatik olarak okundu işaretle"
 
-#: classes/pref/prefs.php:28
+#: classes/pref/prefs.php:27
 msgid "This option enables marking articles as read automatically while you scroll article list."
 msgstr "Bu seçenek siz yazı listesinde gezinirken yazıları otomatik olarak okundu olarak işaretler."
 
-#: classes/pref/prefs.php:29
+#: classes/pref/prefs.php:28
 msgid "Automatically expand articles in combined mode"
 msgstr "Birleşik modda yazıları otomatik olarak genişlet"
 
-#: classes/pref/prefs.php:30
+#: classes/pref/prefs.php:29
 msgid "Combined feed display"
 msgstr "Birleşik özet akışı görünümü"
 
-#: classes/pref/prefs.php:30
+#: classes/pref/prefs.php:29
 msgid "Display expanded list of feed articles, instead of separate displays for headlines and article content"
 msgstr "Başlık ve içeriği ayrı ayrı gösterme yerine genişletilmiş yazı listesi göster"
 
-#: classes/pref/prefs.php:31
+#: classes/pref/prefs.php:30
 msgid "Confirm marking feed as read"
 msgstr "Okundu olarak işaretlemede onay iste"
 
-#: classes/pref/prefs.php:32
+#: classes/pref/prefs.php:31
 msgid "Amount of articles to display at once"
 msgstr "Bir seferde gösterilecek yazı sayısı"
 
-#: classes/pref/prefs.php:33
+#: classes/pref/prefs.php:32
 msgid "Default feed update interval"
 msgstr "Öntanımlı özet akışı yenileme zaman aralığı"
 
-#: classes/pref/prefs.php:33
+#: classes/pref/prefs.php:32
 msgid "Shortest interval at which a feed will be checked for updates regardless of update method"
 msgstr "Yenileme metodundan bağımsız olarak özet akışının yenileceği en kısa zaman aralığı"
 
-#: classes/pref/prefs.php:34
+#: classes/pref/prefs.php:33
 msgid "Mark articles in e-mail digest as read"
 msgstr "E-posta özetindeki yazıları okundu işaretle"
 
-#: classes/pref/prefs.php:35
+#: classes/pref/prefs.php:34
 msgid "Enable e-mail digest"
 msgstr "E-posta ile özet yollamayı etkin kıl"
 
-#: classes/pref/prefs.php:35
+#: classes/pref/prefs.php:34
 msgid "This option enables sending daily digest of new (and unread) headlines on your configured e-mail address"
 msgstr "Bu seçenek günlük bazda yeni ve okunmamış başlıkların tanımlı e-posta adresinize yollanmasını sağlar"
 
-#: classes/pref/prefs.php:36
+#: classes/pref/prefs.php:35
 msgid "Try to send digests around specified time"
 msgstr "Özetleri bu saat civarında gönder"
 
-#: classes/pref/prefs.php:36
+#: classes/pref/prefs.php:35
 msgid "Uses UTC timezone"
 msgstr "Koordine Evrensel Saat dilimini (UTC) kullanır"
 
-#: classes/pref/prefs.php:37
+#: classes/pref/prefs.php:36
 msgid "Enable API access"
 msgstr "API erişimini etkinleştir"
 
-#: classes/pref/prefs.php:37
+#: classes/pref/prefs.php:36
 msgid "Allows external clients to access this account through the API"
 msgstr "Dış uygulamaların bu hesaba API vasıtasıyla erişimine izin verir"
 
-#: classes/pref/prefs.php:38
+#: classes/pref/prefs.php:37
 msgid "Enable feed categories"
 msgstr "Özet akışı kategorilerini etkinleştir"
 
-#: classes/pref/prefs.php:39
+#: classes/pref/prefs.php:38
 msgid "Sort feeds by unread articles count"
 msgstr "Özet akışlarını okunmamış yazı sayısına göre sırala"
 
-#: classes/pref/prefs.php:40
+#: classes/pref/prefs.php:39
 msgid "Maximum age of fresh articles (in hours)"
 msgstr "Bir yazının taze kabul edilmesi için gereken maksimum zaman (saat olarak)"
 
-#: classes/pref/prefs.php:41
+#: classes/pref/prefs.php:40
 msgid "Hide feeds with no unread articles"
 msgstr "Yazılarının tamamı okunmuş ise özet akışını gizle"
 
-#: classes/pref/prefs.php:42
+#: classes/pref/prefs.php:41
 msgid "Show special feeds when hiding read feeds"
 msgstr "Yazılarının tamamı okunmuş ise özet akışını gizlerken Özet kısımını açık tut"
 
-#: classes/pref/prefs.php:43
+#: classes/pref/prefs.php:42
 msgid "Long date format"
 msgstr "Uzun tarih formatı"
 
-#: classes/pref/prefs.php:43
+#: classes/pref/prefs.php:42
 msgid "The syntax used is identical to the PHP <a href='http://php.net/manual/function.date.php'>date()</a> function."
 msgstr "Kullanılan sözdizim PHP'deki <a href='http://php.net/manual/function.date.php'>date()</a> fonksiyonuna eştir."
 
-#: classes/pref/prefs.php:44
+#: classes/pref/prefs.php:43
 msgid "On catchup show next feed"
 msgstr "Yetişmede bir sonraki özet akışını göster"
 
-#: classes/pref/prefs.php:44
+#: classes/pref/prefs.php:43
 msgid "Automatically open next feed with unread articles after marking one as read"
 msgstr "Bir yazı okundu işaretlendiğinde otomatik olarak okunmamış yazılarıyla bir sonraki özet akışını aç"
 
-#: classes/pref/prefs.php:45
+#: classes/pref/prefs.php:44
 msgid "Purge articles after this number of days (0 - disables)"
 msgstr "Yazıları bu kadar günden sonra temizle (0 - silme)"
 
-#: classes/pref/prefs.php:46
+#: classes/pref/prefs.php:45
 msgid "Purge unread articles"
 msgstr "Okunmamış yazıları temizle"
 
-#: classes/pref/prefs.php:47
+#: classes/pref/prefs.php:46
 msgid "Reverse headline order (oldest first)"
 msgstr "Başlık sırasını terse çevir (en eski en üstte)"
 
-#: classes/pref/prefs.php:48
+#: classes/pref/prefs.php:47
 msgid "Short date format"
 msgstr "Kısa tarih formatı"
 
-#: classes/pref/prefs.php:49
+#: classes/pref/prefs.php:48
 msgid "Show content preview in headlines list"
 msgstr "Başlıklar listesinde yazı içeriğini göster"
 
-#: classes/pref/prefs.php:50
+#: classes/pref/prefs.php:49
 msgid "Sort headlines by feed date"
 msgstr "Başlıkları özet akışı tarihine göre sırala"
 
-#: classes/pref/prefs.php:50
+#: classes/pref/prefs.php:49
 msgid "Use feed-specified date to sort headlines instead of local import date."
 msgstr "İçe aktarım tarihi yerine özet akışında geçen tarihi kullanarak başlıkları sırala"
 
-#: classes/pref/prefs.php:51
+#: classes/pref/prefs.php:50
 msgid "Login with an SSL certificate"
 msgstr "Güvenli oturum aç (SSL)"
 
-#: classes/pref/prefs.php:51
+#: classes/pref/prefs.php:50
 msgid "Click to register your SSL client certificate with tt-rss"
 msgstr "SSL müşteri sertifikanızı buraya kaydetmek için tıklayın"
 
-#: classes/pref/prefs.php:52
+#: classes/pref/prefs.php:51
 msgid "Do not embed images in articles"
 msgstr "Yazılarda resim gösterme"
 
-#: classes/pref/prefs.php:53
+#: classes/pref/prefs.php:52
 msgid "Strip unsafe tags from articles"
 msgstr "Yazılarda güvenli olmayan işaretleri kaldır"
 
-#: classes/pref/prefs.php:53
+#: classes/pref/prefs.php:52
 msgid "Strip all but most common HTML tags when reading articles."
 msgstr "Yazılarda HTML işaretlemelerini kaldır"
 
-#: classes/pref/prefs.php:54
+#: classes/pref/prefs.php:53
 #: js/prefs.js:1687
 msgid "Customize stylesheet"
 msgstr "Stil sayfasını biçimlendir"
 
-#: classes/pref/prefs.php:54
+#: classes/pref/prefs.php:53
 msgid "Customize CSS stylesheet to your liking"
 msgstr "Stil sayfasını kendi beğenizine göre biçimlendirin"
 
-#: classes/pref/prefs.php:55
+#: classes/pref/prefs.php:54
 msgid "Time zone"
 msgstr "Saat dilimi"
 
-#: classes/pref/prefs.php:56
+#: classes/pref/prefs.php:55
 msgid "Group headlines in virtual feeds"
 msgstr "Sanal özet akışlarında başlıkları gruplandır"
 
-#: classes/pref/prefs.php:56
+#: classes/pref/prefs.php:55
 msgid "Special feeds, labels, and categories are grouped by originating feeds"
 msgstr "Özel özet akışları, arama başlıkları ve kategoriler kaynak özet akışlarına göre gruplanmıştır."
 
-#: classes/pref/prefs.php:57
+#: classes/pref/prefs.php:56
 msgid "Language"
 msgstr "Dil"
 
-#: classes/pref/prefs.php:58
+#: classes/pref/prefs.php:57
 msgid "Theme"
 msgstr "Tema"
 
-#: classes/pref/prefs.php:58
+#: classes/pref/prefs.php:57
 msgid "Select one of the available CSS themes"
 msgstr "Varolan temalardan birini seçin"
 
-#: classes/pref/prefs.php:69
+#: classes/pref/prefs.php:68
 msgid "Old password cannot be blank."
 msgstr "Eski şifre boş olamaz"
 
-#: classes/pref/prefs.php:74
+#: classes/pref/prefs.php:73
 msgid "New password cannot be blank."
 msgstr "Yeni şifre boş olamaz"
 
-#: classes/pref/prefs.php:79
+#: classes/pref/prefs.php:78
 msgid "Entered passwords do not match."
 msgstr "Girilen şifreler farklı."
 
-#: classes/pref/prefs.php:88
+#: classes/pref/prefs.php:87
 msgid "Function not supported by authentication module."
 msgstr "İşlem yetkilendirme modülü tarafından desteklenmiyor."
 
-#: classes/pref/prefs.php:127
+#: classes/pref/prefs.php:126
 msgid "The configuration was saved."
 msgstr "Konfigürasyon kaydedildi."
 
-#: classes/pref/prefs.php:142
+#: classes/pref/prefs.php:141
 #, php-format
 msgid "Unknown option: %s"
 msgstr "Bilinmeyen opsiyon: %s"
 
-#: classes/pref/prefs.php:156
+#: classes/pref/prefs.php:155
 msgid "Your personal data has been saved."
 msgstr "Kişisel bilgileriniz kaydedildi."
 
-#: classes/pref/prefs.php:176
+#: classes/pref/prefs.php:175
 msgid "Your preferences are now set to default values."
 msgstr "Tercihleriniz şimdi öntanımlı tercihlere çevrildi."
 
-#: classes/pref/prefs.php:199
+#: classes/pref/prefs.php:198
 msgid "Personal data / Authentication"
 msgstr "Kişisel bilgi / Yetkilendirme"
 
-#: classes/pref/prefs.php:219
+#: classes/pref/prefs.php:218
 msgid "Personal data"
 msgstr "Kişisel bilgi "
 
-#: classes/pref/prefs.php:229
+#: classes/pref/prefs.php:228
 msgid "Full name"
 msgstr "İsim soyisim"
 
-#: classes/pref/prefs.php:233
+#: classes/pref/prefs.php:232
 msgid "E-mail"
 msgstr "E-posta"
 
-#: classes/pref/prefs.php:239
+#: classes/pref/prefs.php:238
 msgid "Access level"
 msgstr "Erişim seviyesi"
 
-#: classes/pref/prefs.php:249
+#: classes/pref/prefs.php:248
 msgid "Save data"
 msgstr "Bilgiyi kaydet"
 
-#: classes/pref/prefs.php:268
+#: classes/pref/prefs.php:267
 msgid "Your password is at default value, please change it."
 msgstr "Şifreniz öntanımlı şifre, güvenliğiniz için lütfen şifrenizi değiştirin"
 
-#: classes/pref/prefs.php:295
+#: classes/pref/prefs.php:294
 msgid "Changing your current password will disable OTP."
 msgstr "Şifrenizi değiştirmek OTP'yi etkisizleştirecek."
 
-#: classes/pref/prefs.php:300
+#: classes/pref/prefs.php:299
 msgid "Old password"
 msgstr "Eski şifre"
 
-#: classes/pref/prefs.php:303
+#: classes/pref/prefs.php:302
 msgid "New password"
 msgstr "Yeni şifre"
 
-#: classes/pref/prefs.php:308
+#: classes/pref/prefs.php:307
 msgid "Confirm password"
 msgstr "Şifreyi onayla"
 
-#: classes/pref/prefs.php:318
+#: classes/pref/prefs.php:317
 msgid "Change password"
 msgstr "Şifreyi değiştir"
 
-#: classes/pref/prefs.php:324
+#: classes/pref/prefs.php:323
 msgid "One time passwords / Authenticator"
 msgstr "Tek seferlik şifreler / Yetkilendirici"
 
-#: classes/pref/prefs.php:328
+#: classes/pref/prefs.php:327
 msgid "One time passwords are currently enabled. Enter your current password below to disable."
 msgstr "Tek seferlik şifreler etkinleştirilmiştir. Etkisizleştirmek için mevcut şifrenizi aşağı girin."
 
-#: classes/pref/prefs.php:353
-#: classes/pref/prefs.php:404
+#: classes/pref/prefs.php:352
+#: classes/pref/prefs.php:403
 msgid "Enter your password"
 msgstr "Şifrenizi girin"
 
-#: classes/pref/prefs.php:364
+#: classes/pref/prefs.php:363
 msgid "Disable OTP"
 msgstr "OTP'yi etkisizleştir"
 
-#: classes/pref/prefs.php:370
+#: classes/pref/prefs.php:369
 msgid "You will need a compatible Authenticator to use this. Changing your password would automatically disable OTP."
 msgstr "Bunun için ilgili Yetkilendirici gerekiyor. Şifrenizi değiştirmek otomatik olarak OTP'yi etkisizleştirir."
 
-#: classes/pref/prefs.php:372
+#: classes/pref/prefs.php:371
 msgid "Scan the following code by the Authenticator application:"
 msgstr "Yetkilendirici uygulamaya aşağıdaki kodu okutun:"
 
-#: classes/pref/prefs.php:409
+#: classes/pref/prefs.php:408
 msgid "Enter the generated one time password"
 msgstr "Tek seferlik şifrenizi girin"
 
-#: classes/pref/prefs.php:423
+#: classes/pref/prefs.php:422
 msgid "Enable OTP"
 msgstr "OTP'yi etkinleştir"
 
-#: classes/pref/prefs.php:429
+#: classes/pref/prefs.php:428
 msgid "PHP GD functions are required for OTP support."
 msgstr "OTP desteği için PHP GD fonksiyonları gerekiyor."
 
-#: classes/pref/prefs.php:472
+#: classes/pref/prefs.php:471
 msgid "Some preferences are only available in default profile."
 msgstr "Bazı tercihler sadece öntanımlı profilde görünür."
 
-#: classes/pref/prefs.php:570
+#: classes/pref/prefs.php:569
 msgid "Customize"
 msgstr "Özelleştir"
 
-#: classes/pref/prefs.php:631
+#: classes/pref/prefs.php:630
 msgid "Register"
 msgstr "Kaydet"
 
-#: classes/pref/prefs.php:635
+#: classes/pref/prefs.php:634
 msgid "Clear"
 msgstr "Temizle"
 
-#: classes/pref/prefs.php:641
+#: classes/pref/prefs.php:640
 #, php-format
 msgid "Current server time: %s (UTC)"
 msgstr "Sunucu zamanı: %s (UTC)"
 
-#: classes/pref/prefs.php:673
+#: classes/pref/prefs.php:672
 msgid "Save configuration"
 msgstr "Konfigürasyonu kaydet"
 
-#: classes/pref/prefs.php:677
+#: classes/pref/prefs.php:676
 msgid "Save and exit preferences"
 msgstr "Kaydet ve Tercihlerden çık"
 
-#: classes/pref/prefs.php:682
+#: classes/pref/prefs.php:681
 msgid "Manage profiles"
 msgstr "Profilleri yönet"
 
-#: classes/pref/prefs.php:685
+#: classes/pref/prefs.php:684
 msgid "Reset to defaults"
 msgstr "Öntanımlılara geri dön"
 
-#: classes/pref/prefs.php:708
+#: classes/pref/prefs.php:707
 msgid "Plugins"
 msgstr "Eklentiler"
 
-#: classes/pref/prefs.php:710
+#: classes/pref/prefs.php:709
 msgid "You will need to reload Tiny Tiny RSS for plugin changes to take effect."
 msgstr "Eklenti değişikliklerinin etkin olması için Tiny Tiny RSS'in yeniden yüklenmesi gerekiyor."
 
-#: classes/pref/prefs.php:712
+#: classes/pref/prefs.php:711
 msgid "Download more plugins at tt-rss.org <a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/forum/viewforum.php?f=22\">forums</a> or <a target=\"_blank\" class=\"visibleLink\" href=\"http://tt-rss.org/wiki/Plugins\">wiki</a>."
 msgstr "Daha fazla ekletiyi şu adreslerde bulabilirsiniz:  tt-rss.org <a class=\"visibleLink\" target=\"_blank\" href=\"http://tt-rss.org/forum/viewforum.php?f=22\">forums</a> ya da <a target=\"_blank\" class=\"visibleLink\" href=\"http://tt-rss.org/wiki/Plugins\">wiki</a>."
 
-#: classes/pref/prefs.php:738
+#: classes/pref/prefs.php:737
 msgid "System plugins"
 msgstr "Sistem eklentileri"
 
-#: classes/pref/prefs.php:742
-#: classes/pref/prefs.php:798
+#: classes/pref/prefs.php:741
+#: classes/pref/prefs.php:797
 msgid "Plugin"
 msgstr "Eklenti"
 
-#: classes/pref/prefs.php:743
-#: classes/pref/prefs.php:799
+#: classes/pref/prefs.php:742
+#: classes/pref/prefs.php:798
 msgid "Description"
 msgstr "Tanım"
 
-#: classes/pref/prefs.php:744
-#: classes/pref/prefs.php:800
+#: classes/pref/prefs.php:743
+#: classes/pref/prefs.php:799
 msgid "Version"
 msgstr "Versiyon"
 
-#: classes/pref/prefs.php:745
-#: classes/pref/prefs.php:801
+#: classes/pref/prefs.php:744
+#: classes/pref/prefs.php:800
 msgid "Author"
 msgstr "Yazar"
 
-#: classes/pref/prefs.php:776
-#: classes/pref/prefs.php:835
+#: classes/pref/prefs.php:775
+#: classes/pref/prefs.php:834
 msgid "more info"
 msgstr "daha fazla bilgi"
 
-#: classes/pref/prefs.php:785
-#: classes/pref/prefs.php:844
+#: classes/pref/prefs.php:784
+#: classes/pref/prefs.php:843
 msgid "Clear data"
 msgstr "Veriyi temizle"
 
-#: classes/pref/prefs.php:794
+#: classes/pref/prefs.php:793
 msgid "User plugins"
 msgstr "Kullanıcı eklentileri"
 
-#: classes/pref/prefs.php:859
+#: classes/pref/prefs.php:858
 msgid "Enable selected plugins"
 msgstr "Seçili eklentileri etkinleştir"
 
-#: classes/pref/prefs.php:927
+#: classes/pref/prefs.php:926
 msgid "Incorrect one time password"
 msgstr "Yanlış tek seferlik şifre"
 
-#: classes/pref/prefs.php:930
-#: classes/pref/prefs.php:947
+#: classes/pref/prefs.php:929
+#: classes/pref/prefs.php:946
 msgid "Incorrect password"
 msgstr "Yanlış şifre"
 
-#: classes/pref/prefs.php:972
+#: classes/pref/prefs.php:971
 #, php-format
 msgid "You can override colors, fonts and layout of your currently selected theme with custom CSS declarations here. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">This file</a> can be used as a baseline."
 msgstr "Temanızdaki renkleri, fontları ve yerleşimi değiştirebilirsiniz. <a target=\"_blank\" class=\"visibleLink\" href=\"%s\">This file</a> baz olarak kullanılabilir."
 
-#: classes/pref/prefs.php:1012
+#: classes/pref/prefs.php:1011
 msgid "Create profile"
 msgstr "Profil tanımla"
 
-#: classes/pref/prefs.php:1035
-#: classes/pref/prefs.php:1063
+#: classes/pref/prefs.php:1034
+#: classes/pref/prefs.php:1062
 msgid "(active)"
 msgstr "(aktif)"
 
-#: classes/pref/prefs.php:1097
+#: classes/pref/prefs.php:1096
 msgid "Remove selected profiles"
 msgstr "Seçili profilleri kaldır"
 
-#: classes/pref/prefs.php:1099
+#: classes/pref/prefs.php:1098
 msgid "Activate profile"
 msgstr "Profili aktifleştir"
 
@@ -2456,28 +2446,42 @@ msgstr "Girişleri göster"
 msgid "You can view this feed as RSS using the following URL:"
 msgstr "Bu özet akışını RSS olarak şu adresten görüntüleyebilirsiniz:"
 
-#: classes/dlg.php:232
-#: plugins/updater/init.php:348
+#: plugins/af_psql_trgm/init.php:26
 #, php-format
-msgid "New version of Tiny Tiny RSS is available (%s)."
-msgstr "Tiny Tiny RSS'in yeni bir versiyonu mevcut (%s)."
+msgid "Data saved (%s)"
+msgstr ""
 
-#: classes/dlg.php:240
-msgid "You can update using built-in updater in the Preferences or by using update.php"
-msgstr "Yenilemeyi Tercihlerde bulunan yenileyiciyi kullanarak ya da update.php programını çalıştırarak yapabilirsiniz."
+#: plugins/af_psql_trgm/init.php:108
+#, fuzzy
+msgid "Show related articles"
+msgstr "Paylaşılmış yazılar"
 
-#: classes/dlg.php:244
-#: plugins/updater/init.php:352
-msgid "See the release notes"
-msgstr "Sürüm notlarına bakın."
+#: plugins/af_psql_trgm/init.php:114
+#: plugins/af_psql_trgm/init.php:211
+#, fuzzy
+msgid "Mark similar articles as read"
+msgstr "Tüm yazıları okundu işaretle?"
 
-#: classes/dlg.php:246
-msgid "Download"
-msgstr "İndir"
+#: plugins/af_psql_trgm/init.php:157
+#, fuzzy
+msgid "Global settings"
+msgstr "Ayarları dahil et"
 
-#: classes/dlg.php:254
-msgid "Error receiving version information or no new version available."
-msgstr "Yeni versiyon bilgisi almada hata ya da yeni versiyon yok."
+#: plugins/af_psql_trgm/init.php:161
+msgid "Minimum similarity:"
+msgstr ""
+
+#: plugins/af_psql_trgm/init.php:166
+msgid "Minimum title length:"
+msgstr ""
+
+#: plugins/af_psql_trgm/init.php:183
+msgid "Currently enabled for (click to edit):"
+msgstr ""
+
+#: plugins/af_psql_trgm/init.php:200
+msgid "Similarity (pg_trgm)"
+msgstr ""
 
 #: plugins/af_comics/init.php:39
 msgid "Feeds supported by af_comics"
@@ -2493,7 +2497,7 @@ msgid "Edit article note"
 msgstr "Yazı notunu düzenle"
 
 #: plugins/googlereaderimport/init.php:92
-#: plugins/import_export/init.php:446
+#: plugins/import_export/init.php:450
 msgid "No file uploaded."
 msgstr "Dosya yüklenemedi."
 
@@ -2546,45 +2550,6 @@ msgstr "Mesajı e-posta uygulamanıza göndermeden önce düzenleyebilirsiniz. "
 msgid "Close this dialog"
 msgstr "Bu ekranı kapatın"
 
-#: plugins/updater/init.php:338
-#: plugins/updater/init.php:355
-#: plugins/updater/updater.js:10
-msgid "Update Tiny Tiny RSS"
-msgstr "Tiny Tiny RSS'i güncelle"
-
-#: plugins/updater/init.php:358
-msgid "Your Tiny Tiny RSS installation is up to date."
-msgstr "Tiny Tiny RSS kurulumunuz en güncel sürümde."
-
-#: plugins/updater/init.php:361
-#, fuzzy
-msgid "Force update"
-msgstr "Yenilemeleri yap"
-
-#: plugins/updater/init.php:370
-msgid "Do not close this dialog until updating is finished."
-msgstr "Yenileme bitene kadar bu pencereyi kapatmayın."
-
-#: plugins/updater/init.php:379
-msgid "It is suggested to backup your tt-rss directory first."
-msgstr "İlk önce tt-rss dizinini yedeklemeniz tavsiye edilir."
-
-#: plugins/updater/init.php:380
-msgid "Your database will not be modified."
-msgstr "Veritabanınızda değişiklik yapılmayacak."
-
-#: plugins/updater/init.php:381
-msgid "Your current tt-rss installation directory will not be modified. It will be renamed and left in the parent directory. You will be able to migrate all your customized files after update finishes."
-msgstr "Mevcut tt-rss dizininde değişiklik yapılmayacak. İsmi değiştirilecek ve ana dizinde bırakılacak. Yenileme bittikten sonra tüm özelleştirilmiş dosyalarınızı taşıyabileceksiniz."
-
-#: plugins/updater/init.php:382
-msgid "Ready to update."
-msgstr "Yenileme için hazır."
-
-#: plugins/updater/init.php:387
-msgid "Start update"
-msgstr "Yenilemeyi başlat"
-
 #: plugins/import_export/init.php:58
 msgid "Import and export"
 msgstr "İçe alma ve dışa aktarma"
@@ -2601,43 +2566,43 @@ msgstr "Verilerimi dışa aktar"
 msgid "Import"
 msgstr "İçe aktar"
 
-#: plugins/import_export/init.php:219
+#: plugins/import_export/init.php:223
 msgid "Could not import: incorrect schema version."
 msgstr "İçe aktarılamadı: doğru olmayan şema versiyonu"
 
-#: plugins/import_export/init.php:224
+#: plugins/import_export/init.php:228
 msgid "Could not import: unrecognized document format."
 msgstr "İçe aktarılamadı: tanınmayan dosya formatı"
 
-#: plugins/import_export/init.php:383
+#: plugins/import_export/init.php:387
 msgid "Finished: "
 msgstr "Tamamlandı:"
 
-#: plugins/import_export/init.php:384
+#: plugins/import_export/init.php:388
 #, php-format
 msgid "%d article processed, "
 msgid_plural "%d articles processed, "
 msgstr[0] "%d yazı işlendi,"
 
-#: plugins/import_export/init.php:385
+#: plugins/import_export/init.php:389
 #, php-format
 msgid "%d imported, "
 msgid_plural "%d imported, "
 msgstr[0] "% içe aktarıldı"
 msgstr[1] "% içe aktarıldı"
 
-#: plugins/import_export/init.php:386
+#: plugins/import_export/init.php:390
 #, php-format
 msgid "%d feed created."
 msgid_plural "%d feeds created."
 msgstr[0] "%d özet akışı tanımlandı."
 msgstr[1] "%d özet akışları tanımlandı."
 
-#: plugins/import_export/init.php:391
+#: plugins/import_export/init.php:395
 msgid "Could not load XML document."
 msgstr "XML dokümanı yüklenemedi."
 
-#: plugins/import_export/init.php:403
+#: plugins/import_export/init.php:407
 msgid "Prepare data"
 msgstr "Verileri hazırla"
 
@@ -3109,20 +3074,20 @@ msgid "You can't unsubscribe from the category."
 msgstr "Kategori aboneliğinden ayrılamazsınız."
 
 #: js/tt-rss.js:678
-#: js/tt-rss.js:831
+#: js/tt-rss.js:832
 msgid "Please select some feed first."
 msgstr "Lütfen önce özet akışı seçin."
 
-#: js/tt-rss.js:826
+#: js/tt-rss.js:827
 msgid "You can't rescore this kind of feed."
 msgstr "Bu tipte bir özet akışını tekrar skorlayamazsınız."
 
-#: js/tt-rss.js:836
+#: js/tt-rss.js:837
 #, perl-format
 msgid "Rescore articles in %s?"
 msgstr "%s'deki yazılar tekrar skorlansın mı?"
 
-#: js/tt-rss.js:839
+#: js/tt-rss.js:840
 msgid "Rescoring articles..."
 msgstr "Yazılar tekrar skorlanıyor..."
 
@@ -3254,6 +3219,11 @@ msgstr "Yazı adresi:"
 msgid "Sorry, your browser does not support sandboxed iframes."
 msgstr "Üzgünüm, tarayıcınız sandboxed iframes'i desteklemiyor"
 
+#: plugins/af_psql_trgm/init.js:11
+#, fuzzy
+msgid "Related articles"
+msgstr "Paylaşılmış yazılar"
+
 #: plugins/note/note.js:17
 msgid "Saving article note..."
 msgstr "Not kaydediliyor..."
@@ -3270,10 +3240,6 @@ msgstr "Lütfen ilk önce bir dosya seçin."
 #: plugins/mail/mail.js:21
 msgid "Forward article by email"
 msgstr "Yazıyı e-posta ile yolla"
-
-#: plugins/updater/updater.js:58
-msgid "Backup your tt-rss directory before continuing. Please type 'yes' to continue."
-msgstr "Devam etmeden önce tt-rss dizininin yedeğini alın. Devam etmek için 'evet'e tıklayın."
 
 #: plugins/import_export/import_export.js:13
 msgid "Export Data"
@@ -3579,10 +3545,6 @@ msgstr "Arama başlığı editörü"
 msgid "Select item(s) by tags"
 msgstr "Yazıları etikete göre seçin"
 
-#: js/tt-rss.js:980
-msgid "New version available!"
-msgstr "Yeni versiyon çıktı!"
-
 #: js/viewfeed.js:117
 msgid "Cancel search"
 msgstr "Aramayı iptal et"
@@ -3603,6 +3565,64 @@ msgstr[0] "%d yazı okudu olarak işaretlensin mi?"
 #: js/viewfeed.js:1990
 msgid "Display article URL"
 msgstr "Yazı adresini göster "
+
+#~ msgid "New version of Tiny Tiny RSS is available!"
+#~ msgstr "Tiny Tiny RSS'in yeni versiyonu çıktı!"
+
+#~ msgid "Session failed to validate (user agent changed)"
+#~ msgstr "Oturum doğrulanamadı (kullanıcı aracısı değişti)"
+
+#~ msgid "Assign articles to labels automatically"
+#~ msgstr "Yazıları arama başlıklarına otomatik olarak ata"
+
+#~ msgid "New version of Tiny Tiny RSS is available (%s)."
+#~ msgstr "Tiny Tiny RSS'in yeni bir versiyonu mevcut (%s)."
+
+#~ msgid "You can update using built-in updater in the Preferences or by using update.php"
+#~ msgstr "Yenilemeyi Tercihlerde bulunan yenileyiciyi kullanarak ya da update.php programını çalıştırarak yapabilirsiniz."
+
+#~ msgid "See the release notes"
+#~ msgstr "Sürüm notlarına bakın."
+
+#~ msgid "Download"
+#~ msgstr "İndir"
+
+#~ msgid "Error receiving version information or no new version available."
+#~ msgstr "Yeni versiyon bilgisi almada hata ya da yeni versiyon yok."
+
+#~ msgid "Update Tiny Tiny RSS"
+#~ msgstr "Tiny Tiny RSS'i güncelle"
+
+#~ msgid "Your Tiny Tiny RSS installation is up to date."
+#~ msgstr "Tiny Tiny RSS kurulumunuz en güncel sürümde."
+
+#, fuzzy
+#~ msgid "Force update"
+#~ msgstr "Yenilemeleri yap"
+
+#~ msgid "Do not close this dialog until updating is finished."
+#~ msgstr "Yenileme bitene kadar bu pencereyi kapatmayın."
+
+#~ msgid "It is suggested to backup your tt-rss directory first."
+#~ msgstr "İlk önce tt-rss dizinini yedeklemeniz tavsiye edilir."
+
+#~ msgid "Your database will not be modified."
+#~ msgstr "Veritabanınızda değişiklik yapılmayacak."
+
+#~ msgid "Your current tt-rss installation directory will not be modified. It will be renamed and left in the parent directory. You will be able to migrate all your customized files after update finishes."
+#~ msgstr "Mevcut tt-rss dizininde değişiklik yapılmayacak. İsmi değiştirilecek ve ana dizinde bırakılacak. Yenileme bittikten sonra tüm özelleştirilmiş dosyalarınızı taşıyabileceksiniz."
+
+#~ msgid "Ready to update."
+#~ msgstr "Yenileme için hazır."
+
+#~ msgid "Start update"
+#~ msgstr "Yenilemeyi başlat"
+
+#~ msgid "Backup your tt-rss directory before continuing. Please type 'yes' to continue."
+#~ msgstr "Devam etmeden önce tt-rss dizininin yedeğini alın. Devam etmek için 'evet'e tıklayın."
+
+#~ msgid "New version available!"
+#~ msgstr "Yeni versiyon çıktı!"
 
 #~ msgid "LibXML error %s at line %d (column %d): %s"
 #~ msgstr "%s de %d satırında LibXML hatası (kolon %d): %s"
