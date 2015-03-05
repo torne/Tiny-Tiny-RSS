@@ -360,6 +360,19 @@
 					if (!$not) array_push($search_words, $k);
 				}
 				break;
+			case "unread":
+				if ($commandpair[1]) {
+					if ($commandpair[1] == "true")
+						array_push($query_keywords, "($not (unread = true))");
+					else
+						array_push($query_keywords, "($not (unread = false))");
+
+				} else {
+					array_push($query_keywords, "(UPPER(ttrss_entries.title) $not LIKE UPPER('%$k%')
+							OR UPPER(ttrss_entries.content) $not LIKE UPPER('%$k%'))");
+					if (!$not) array_push($search_words, $k);
+				}
+				break;
 			default:
 				if (strpos($k, "@") === 0) {
 
