@@ -393,7 +393,7 @@ dojo.declare("fox.FeedTree", dijit.Tree, {
 				if (node) {
 					var check_unread = tree.model.getFeedUnread(bare_id, true);
 
-					if (hide && cat_unread == 0 && check_unread == 0) {
+					if (hide && cat_unread == 0 && check_unread == 0 && (id != "CAT:-1" || !show_special)) {
 						Effect.Fade(node[0].rowNode, {duration : 0.3,
 							queue: { position: 'end', scope: 'FFADE-' + id, limit: 1 }});
 					} else {
