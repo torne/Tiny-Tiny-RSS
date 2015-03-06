@@ -512,6 +512,8 @@ function init() {
 					setCookie("ttrss_ci_height", 0);
 
 					switchPanelMode(_widescreen_mode);
+				} else {
+					alert(__("Widescreen is not available in combined mode."));
 				}
 		};
 		hotkey_actions["help_dialog"] = function() {
@@ -711,6 +713,8 @@ function quickMenuGo(opid) {
 				setCookie("ttrss_ci_height", 0);
 
 				switchPanelMode(_widescreen_mode);
+			} else {
+				alert(__("Widescreen is not available in combined mode."));
 			}
 			break;
 		case "qmcHKhelp":
