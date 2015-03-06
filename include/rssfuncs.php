@@ -1393,6 +1393,24 @@
 		return $error;
 	} */
 
+	function cleanup_counters_cache($debug) {
+		$result = db_query("DELETE FROM ttrss_counters_cache
+			WHERE feed_id > 0 AND
+			(SELECT COUNT(id) FROM ttrss_feeds WHERE
+				id = feed_id AND
+				ttrss_counters_cache.owner_uid = ttrss_feeds.owner_uid) = 0");
+		$frows = db_affected_rows($result);
+
+		$result = db_query("DELETE FROM ttrss_cat_counters_cache
+			WHERE feed_id > 0 AND
+			(SELECT COUNT(id) FROM ttrss_feed_categories WHERE
+				id = feed_id AND
+				ttrss_cat_counters_cache.owner_uid = ttrss_feed_categories.owner_uid) = 0");
+		$crows = db_affected_rows($result);
+
+		_debug("Removed $frows (feeds) $crows (cats) orphaned counter cache entries.");
+	}
+
 	function housekeeping_common($debug) {
 		expire_cached_files($debug);
 		expire_lock_files($debug);
@@ -1402,6 +1420,7 @@
 		_debug("Feedbrowser updated, $count feeds processed.");
 
 		purge_orphans( true);
+		cleanup_counters_cache($debug);
 		$rc = cleanup_tags( 14, 50000);
 
 		_debug("Cleaned $rc cached tags.");

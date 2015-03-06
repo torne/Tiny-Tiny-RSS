@@ -139,6 +139,7 @@
 			$result = db_query("SELECT SUM(value) AS sv
 				FROM ttrss_counters_cache, ttrss_feeds
 				WHERE id = feed_id AND $cat_qpart AND
+				ttrss_counters_cache.owner_uid = $owner_uid AND
 				ttrss_feeds.owner_uid = '$owner_uid'");
 
 			$unread = (int) db_fetch_result($result, 0, "sv");
