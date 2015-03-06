@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-05 23:48+0300\n"
+"POT-Creation-Date: 2015-03-06 15:52+0300\n"
 "PO-Revision-Date: 2012-02-14 08:32+0000\n"
 "Last-Translator: Hao Wu\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/tt-rss/language/zh_CN/)\n"
@@ -174,7 +174,7 @@ msgstr "SQL 脱出测试失败，请检查您的数据库和 PHP 设置。"
 #: js/prefs.js:1776
 #: js/prefs.js:1794
 #: js/tt-rss.js:55
-#: js/tt-rss.js:521
+#: js/tt-rss.js:523
 #: js/viewfeed.js:741
 #: js/viewfeed.js:1316
 #: plugins/import_export/import_export.js:17
@@ -187,7 +187,7 @@ msgstr "SQL 脱出测试失败，请检查您的数据库和 PHP 设置。"
 #: js/prefs.js:1551
 #: js/prefs.js:1567
 #: js/prefs.js:1587
-#: js/tt-rss.js:538
+#: js/tt-rss.js:540
 #: js/viewfeed.js:859
 msgid "Loading, please wait..."
 msgstr "读取中，请稍候……"
@@ -736,7 +736,7 @@ msgstr "最新的"
 
 #: include/functions2.php:104
 #: js/tt-rss.js:467
-#: js/tt-rss.js:649
+#: js/tt-rss.js:651
 msgid "Tag cloud"
 msgstr "标签云"
 
@@ -2913,7 +2913,7 @@ msgid "Subscription reset."
 msgstr "订阅信息源"
 
 #: js/functions.js:1239
-#: js/tt-rss.js:684
+#: js/tt-rss.js:686
 #, perl-format
 msgid "Unsubscribe from %s?"
 msgstr "从 %s 取消订阅？"
@@ -3184,7 +3184,7 @@ msgid "Please enable mail plugin first."
 msgstr "请先选几个信息源吧。"
 
 #: js/tt-rss.js:432
-#: js/tt-rss.js:665
+#: js/tt-rss.js:667
 #: js/functions.js:1571
 msgid "You can't edit this kind of feed."
 msgstr "您无法编辑这种类型的信息源。"
@@ -3194,25 +3194,30 @@ msgstr "您无法编辑这种类型的信息源。"
 msgid "Please enable embed_original plugin first."
 msgstr "请先选几个信息源吧。"
 
-#: js/tt-rss.js:673
+#: js/tt-rss.js:516
+#: js/tt-rss.js:717
+msgid "Widescreen is not available in combined mode."
+msgstr ""
+
+#: js/tt-rss.js:675
 msgid "You can't unsubscribe from the category."
 msgstr "您不能取消订阅一个类别。"
 
-#: js/tt-rss.js:678
-#: js/tt-rss.js:832
+#: js/tt-rss.js:680
+#: js/tt-rss.js:836
 msgid "Please select some feed first."
 msgstr "请先选几个信息源吧。"
 
-#: js/tt-rss.js:827
+#: js/tt-rss.js:831
 msgid "You can't rescore this kind of feed."
 msgstr "无法重置本类信息源的评分。"
 
-#: js/tt-rss.js:837
+#: js/tt-rss.js:841
 #, perl-format
 msgid "Rescore articles in %s?"
 msgstr "重置 %s 中文章的评分？"
 
-#: js/tt-rss.js:840
+#: js/tt-rss.js:844
 #, fuzzy
 msgid "Rescoring articles..."
 msgstr "为文章重新评分"
@@ -3695,7 +3700,7 @@ msgstr "生成一个新的 URL"
 msgid "Label Editor"
 msgstr "编辑预定义标签"
 
-#: js/tt-rss.js:652
+#: js/tt-rss.js:654
 msgid "Select item(s) by tags"
 msgstr "通过自定义标签选择"
 

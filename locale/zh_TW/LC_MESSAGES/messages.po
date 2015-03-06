@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-05 23:48+0300\n"
+"POT-Creation-Date: 2015-03-06 15:52+0300\n"
 "PO-Revision-Date: 2014-02-17 23:12+0800\n"
 "Last-Translator: Yuan Chiu <me@yuaner.tw>\n"
 "Language-Team: Yuan Chiu <me@yuaner.tw>\n"
@@ -172,7 +172,7 @@ msgstr "SQL 脫出測試失敗，請檢查您的資料庫和 PHP 設定。"
 #: js/prefs.js:1776
 #: js/prefs.js:1794
 #: js/tt-rss.js:55
-#: js/tt-rss.js:521
+#: js/tt-rss.js:523
 #: js/viewfeed.js:741
 #: js/viewfeed.js:1316
 #: plugins/import_export/import_export.js:17
@@ -185,7 +185,7 @@ msgstr "SQL 脫出測試失敗，請檢查您的資料庫和 PHP 設定。"
 #: js/prefs.js:1551
 #: js/prefs.js:1567
 #: js/prefs.js:1587
-#: js/tt-rss.js:538
+#: js/tt-rss.js:540
 #: js/viewfeed.js:859
 msgid "Loading, please wait..."
 msgstr "載入中，請稍候……"
@@ -713,7 +713,7 @@ msgstr ""
 
 #: include/functions2.php:104
 #: js/tt-rss.js:467
-#: js/tt-rss.js:649
+#: js/tt-rss.js:651
 msgid "Tag cloud"
 msgstr "標籤雲"
 
@@ -2846,7 +2846,7 @@ msgid "Subscription reset."
 msgstr "訂閱摘要"
 
 #: js/functions.js:1239
-#: js/tt-rss.js:684
+#: js/tt-rss.js:686
 #, perl-format
 msgid "Unsubscribe from %s?"
 msgstr "從 %s 取消訂閱？"
@@ -3111,7 +3111,7 @@ msgid "Please enable mail plugin first."
 msgstr "請先選几個摘要吧。"
 
 #: js/tt-rss.js:432
-#: js/tt-rss.js:665
+#: js/tt-rss.js:667
 #: js/functions.js:1571
 msgid "You can't edit this kind of feed."
 msgstr "您無法編輯這種類型的摘要。"
@@ -3121,25 +3121,30 @@ msgstr "您無法編輯這種類型的摘要。"
 msgid "Please enable embed_original plugin first."
 msgstr "請先選几個摘要吧。"
 
-#: js/tt-rss.js:673
+#: js/tt-rss.js:516
+#: js/tt-rss.js:717
+msgid "Widescreen is not available in combined mode."
+msgstr ""
+
+#: js/tt-rss.js:675
 msgid "You can't unsubscribe from the category."
 msgstr "您不能取消訂閱一個類別。"
 
-#: js/tt-rss.js:678
-#: js/tt-rss.js:832
+#: js/tt-rss.js:680
+#: js/tt-rss.js:836
 msgid "Please select some feed first."
 msgstr "請先選幾個摘要吧。"
 
-#: js/tt-rss.js:827
+#: js/tt-rss.js:831
 msgid "You can't rescore this kind of feed."
 msgstr "無法重置此分類的摘要的評分。"
 
-#: js/tt-rss.js:837
+#: js/tt-rss.js:841
 #, perl-format
 msgid "Rescore articles in %s?"
 msgstr "重置 %s 中文章的評分？"
 
-#: js/tt-rss.js:840
+#: js/tt-rss.js:844
 #, fuzzy
 msgid "Rescoring articles..."
 msgstr "為文章重新評分"
@@ -3615,7 +3620,7 @@ msgstr "產生一個新的 URL"
 msgid "Label Editor"
 msgstr "編輯預定義標籤"
 
-#: js/tt-rss.js:652
+#: js/tt-rss.js:654
 msgid "Select item(s) by tags"
 msgstr "透過自訂標籤選擇"
 

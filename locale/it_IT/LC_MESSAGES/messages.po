@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tiny Tiny RSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-05 23:48+0300\n"
+"POT-Creation-Date: 2015-03-06 15:52+0300\n"
 "PO-Revision-Date: 2015-03-04 08:31+0000\n"
 "Last-Translator: dedioste <dedioste@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -175,7 +175,7 @@ msgstr "Test di sanitizzazione dell&apos;SQL fallito; controllare il database e 
 #: js/prefs.js:1776
 #: js/prefs.js:1794
 #: js/tt-rss.js:55
-#: js/tt-rss.js:521
+#: js/tt-rss.js:523
 #: js/viewfeed.js:741
 #: js/viewfeed.js:1316
 #: plugins/import_export/import_export.js:17
@@ -188,7 +188,7 @@ msgstr "Test di sanitizzazione dell&apos;SQL fallito; controllare il database e 
 #: js/prefs.js:1551
 #: js/prefs.js:1567
 #: js/prefs.js:1587
-#: js/tt-rss.js:538
+#: js/tt-rss.js:540
 #: js/viewfeed.js:859
 msgid "Loading, please wait..."
 msgstr "Caricamento, attendere prego..."
@@ -737,7 +737,7 @@ msgstr "Recenti"
 
 #: include/functions2.php:104
 #: js/tt-rss.js:467
-#: js/tt-rss.js:649
+#: js/tt-rss.js:651
 msgid "Tag cloud"
 msgstr "Nuvola etichette"
 
@@ -2924,7 +2924,7 @@ msgid "Subscription reset."
 msgstr "Sottoscrivi il notiziario..."
 
 #: js/functions.js:1239
-#: js/tt-rss.js:684
+#: js/tt-rss.js:686
 #, perl-format
 msgid "Unsubscribe from %s?"
 msgstr "Annullare la sottoscrizione a «%s»?"
@@ -3195,7 +3195,7 @@ msgid "Please enable mail plugin first."
 msgstr "Per favore, prima abilita il plugin email."
 
 #: js/tt-rss.js:432
-#: js/tt-rss.js:665
+#: js/tt-rss.js:667
 #: js/functions.js:1571
 msgid "You can't edit this kind of feed."
 msgstr "Impossibile modificare questo tipo di notiziario."
@@ -3205,25 +3205,30 @@ msgstr "Impossibile modificare questo tipo di notiziario."
 msgid "Please enable embed_original plugin first."
 msgstr "Per favore, prima abilita il plugin embed_original"
 
-#: js/tt-rss.js:673
+#: js/tt-rss.js:516
+#: js/tt-rss.js:717
+msgid "Widescreen is not available in combined mode."
+msgstr ""
+
+#: js/tt-rss.js:675
 msgid "You can't unsubscribe from the category."
 msgstr "Impossibile annullare la sottoscrizione alla categoria."
 
-#: js/tt-rss.js:678
-#: js/tt-rss.js:832
+#: js/tt-rss.js:680
+#: js/tt-rss.js:836
 msgid "Please select some feed first."
 msgstr "Selezionare prima qualche notiziario."
 
-#: js/tt-rss.js:827
+#: js/tt-rss.js:831
 msgid "You can't rescore this kind of feed."
 msgstr "Impossibile cambiare il punteggio a questo tipo di notiziari."
 
-#: js/tt-rss.js:837
+#: js/tt-rss.js:841
 #, perl-format
 msgid "Rescore articles in %s?"
 msgstr "Cambiare il punteggio degli articoli in %s ?"
 
-#: js/tt-rss.js:840
+#: js/tt-rss.js:844
 #, fuzzy
 msgid "Rescoring articles..."
 msgstr "Cambio punteggio degli articoli"
@@ -3714,7 +3719,7 @@ msgstr "URL generati puliti"
 msgid "Label Editor"
 msgstr "Editor etichette"
 
-#: js/tt-rss.js:652
+#: js/tt-rss.js:654
 msgid "Select item(s) by tags"
 msgstr "Seleziona articoli per tag"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-05 23:48+0300\n"
+"POT-Creation-Date: 2015-03-06 15:52+0300\n"
 "PO-Revision-Date: 2013-07-16 23:45+0400\n"
 "Last-Translator: cyberbat <cyberbat83@gmail.com>\n"
 "Language-Team: Russian <>\n"
@@ -175,7 +175,7 @@ msgstr "неудавшийся тест экранирования SQL, пров
 #: js/prefs.js:1776
 #: js/prefs.js:1794
 #: js/tt-rss.js:55
-#: js/tt-rss.js:521
+#: js/tt-rss.js:523
 #: js/viewfeed.js:741
 #: js/viewfeed.js:1316
 #: plugins/import_export/import_export.js:17
@@ -188,7 +188,7 @@ msgstr "неудавшийся тест экранирования SQL, пров
 #: js/prefs.js:1551
 #: js/prefs.js:1567
 #: js/prefs.js:1587
-#: js/tt-rss.js:538
+#: js/tt-rss.js:540
 #: js/viewfeed.js:859
 msgid "Loading, please wait..."
 msgstr "Идет загрузка..."
@@ -754,7 +754,7 @@ msgstr "Свежие"
 
 #: include/functions2.php:104
 #: js/tt-rss.js:467
-#: js/tt-rss.js:649
+#: js/tt-rss.js:651
 msgid "Tag cloud"
 msgstr "Облако тегов"
 
@@ -3052,7 +3052,7 @@ msgid "Subscription reset."
 msgstr "Подписка перезагружена."
 
 #: js/functions.js:1239
-#: js/tt-rss.js:684
+#: js/tt-rss.js:686
 #, perl-format
 msgid "Unsubscribe from %s?"
 msgstr "Отписаться от %s?"
@@ -3324,7 +3324,7 @@ msgid "Please enable mail plugin first."
 msgstr "Пожалуйста, сначала включите плагин mail."
 
 #: js/tt-rss.js:432
-#: js/tt-rss.js:665
+#: js/tt-rss.js:667
 #: js/functions.js:1571
 msgid "You can't edit this kind of feed."
 msgstr "Вы не можете редактировать этот канал."
@@ -3334,25 +3334,30 @@ msgstr "Вы не можете редактировать этот канал."
 msgid "Please enable embed_original plugin first."
 msgstr "Пожалуйста, сначала включит плагин embed_original."
 
-#: js/tt-rss.js:673
+#: js/tt-rss.js:516
+#: js/tt-rss.js:717
+msgid "Widescreen is not available in combined mode."
+msgstr ""
+
+#: js/tt-rss.js:675
 msgid "You can't unsubscribe from the category."
 msgstr "Нельзя отписаться от категории."
 
-#: js/tt-rss.js:678
-#: js/tt-rss.js:832
+#: js/tt-rss.js:680
+#: js/tt-rss.js:836
 msgid "Please select some feed first."
 msgstr "Пожалуйста выберите какой-нибудь канал."
 
-#: js/tt-rss.js:827
+#: js/tt-rss.js:831
 msgid "You can't rescore this kind of feed."
 msgstr "Вы не можете снова оценить этот канал."
 
-#: js/tt-rss.js:837
+#: js/tt-rss.js:841
 #, perl-format
 msgid "Rescore articles in %s?"
 msgstr "Установить оценку статьям в %s?"
 
-#: js/tt-rss.js:840
+#: js/tt-rss.js:844
 msgid "Rescoring articles..."
 msgstr "Переоценка статей..."
 
@@ -3871,7 +3876,7 @@ msgstr "Созданные URL очищены."
 msgid "Label Editor"
 msgstr "Редактор Меток"
 
-#: js/tt-rss.js:652
+#: js/tt-rss.js:654
 #, fuzzy
 msgid "Select item(s) by tags"
 msgstr "Выбрать элемент(ы) по тегам"

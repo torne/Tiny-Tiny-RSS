@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tt-rss unstable\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-05 23:48+0300\n"
+"POT-Creation-Date: 2015-03-06 15:52+0300\n"
 "PO-Revision-Date: 2014-11-04 12:05+0900\n"
 "Last-Translator: YoungMin Park <tfympark1@gmail.com>\n"
 "Language-Team: YoungMin Park <tfympark1@gmail.com>\n"
@@ -170,7 +170,7 @@ msgstr "SQL escaping 테스트에 실패했습니다. 데이터베이스 및 PHP
 #: js/prefs.js:1776
 #: js/prefs.js:1794
 #: js/tt-rss.js:55
-#: js/tt-rss.js:521
+#: js/tt-rss.js:523
 #: js/viewfeed.js:741
 #: js/viewfeed.js:1316
 #: plugins/import_export/import_export.js:17
@@ -183,7 +183,7 @@ msgstr "SQL escaping 테스트에 실패했습니다. 데이터베이스 및 PHP
 #: js/prefs.js:1551
 #: js/prefs.js:1567
 #: js/prefs.js:1587
-#: js/tt-rss.js:538
+#: js/tt-rss.js:540
 #: js/viewfeed.js:859
 msgid "Loading, please wait..."
 msgstr "로딩중입니다. 잠깐의 여유를 갖고 하늘을 바라보아요 ^^"
@@ -702,7 +702,7 @@ msgstr "새 글"
 
 #: include/functions2.php:104
 #: js/tt-rss.js:467
-#: js/tt-rss.js:649
+#: js/tt-rss.js:651
 msgid "Tag cloud"
 msgstr "태그 클라우드"
 
@@ -2804,7 +2804,7 @@ msgid "Subscription reset."
 msgstr "구독이 초기화되었습니다."
 
 #: js/functions.js:1239
-#: js/tt-rss.js:684
+#: js/tt-rss.js:686
 #, perl-format
 msgid "Unsubscribe from %s?"
 msgstr "%s를 구독 해제 할까요?"
@@ -3056,7 +3056,7 @@ msgid "Please enable mail plugin first."
 msgstr "먼저 메일 플러그인을 켜세요."
 
 #: js/tt-rss.js:432
-#: js/tt-rss.js:665
+#: js/tt-rss.js:667
 #: js/functions.js:1571
 msgid "You can't edit this kind of feed."
 msgstr "이 형식의 피드는 편집할 수 없습니다."
@@ -3065,25 +3065,30 @@ msgstr "이 형식의 피드는 편집할 수 없습니다."
 msgid "Please enable embed_original plugin first."
 msgstr "먼저 embed_original 플러그인을 켜세요."
 
-#: js/tt-rss.js:673
+#: js/tt-rss.js:516
+#: js/tt-rss.js:717
+msgid "Widescreen is not available in combined mode."
+msgstr ""
+
+#: js/tt-rss.js:675
 msgid "You can't unsubscribe from the category."
 msgstr "카테고리에서는 구독 해제 할 수 없습니다."
 
-#: js/tt-rss.js:678
-#: js/tt-rss.js:832
+#: js/tt-rss.js:680
+#: js/tt-rss.js:836
 msgid "Please select some feed first."
 msgstr "피드를 먼저 선택하세요."
 
-#: js/tt-rss.js:827
+#: js/tt-rss.js:831
 msgid "You can't rescore this kind of feed."
 msgstr "이 형식의 피드는 점수를 새로 매길 수 없습니다."
 
-#: js/tt-rss.js:837
+#: js/tt-rss.js:841
 #, perl-format
 msgid "Rescore articles in %s?"
 msgstr "%s의 글의 점수를 다시 매길까요?"
 
-#: js/tt-rss.js:840
+#: js/tt-rss.js:844
 msgid "Rescoring articles..."
 msgstr "글 점수 다시 매기는중..."
 
@@ -3542,7 +3547,7 @@ msgstr "생성된 URL이 지워졌습니다."
 msgid "Label Editor"
 msgstr "라벨 편집기"
 
-#: js/tt-rss.js:652
+#: js/tt-rss.js:654
 #, fuzzy
 msgid "Select item(s) by tags"
 msgstr "태그별 선택..."
