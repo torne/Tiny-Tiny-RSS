@@ -67,6 +67,7 @@
 		$tr = array(
 					"auto"  => "Detect automatically",
 					"ar_SA" => "العربيّة (Arabic)",
+					"bg_BG" => "Bulgarian",
 					"da_DA" => "Dansk",
 					"ca_CA" => "Català",
 					"cs_CZ" => "Česky",
