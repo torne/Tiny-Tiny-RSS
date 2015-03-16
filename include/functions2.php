@@ -665,10 +665,6 @@
 
 			$order_by = "score DESC, date_entered DESC, updated DESC";
 
-			if ($view_mode == "unread_first") {
-				$order_by = "unread DESC, $order_by";
-			}
-
 			if ($override_order) {
 				$order_by = $override_order;
 			}
