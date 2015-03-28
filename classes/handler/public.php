@@ -101,7 +101,7 @@ class Handler_Public extends Handler {
 
 				$tpl->setVariable('ARTICLE_ID',
 					htmlspecialchars($orig_guid ? $line['link'] :
-							$this->url_to_tag_uri($line['id'], $line['date_entered'])), true);
+							$this->make_article_tag_uri($line['id'], $line['date_entered'])), true);
 				$tpl->setVariable('ARTICLE_LINK', htmlspecialchars($line['link']), true);
 				$tpl->setVariable('ARTICLE_TITLE', htmlspecialchars($line['title']), true);
 				$tpl->setVariable('ARTICLE_EXCERPT', $line["content_preview"], true);
@@ -1032,7 +1032,7 @@ class Handler_Public extends Handler {
 		}
 	}
 
-	private function url_to_tag_uri($id, $timestamp) {
+	private function make_article_tag_uri($id, $timestamp) {
 
 		$timestamp = date("Y-m-d", strtotime($timestamp));
 
