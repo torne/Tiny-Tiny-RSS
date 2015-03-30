@@ -2452,4 +2452,14 @@
 
 		return false;
 	}
+
+	function error_json($code) {
+		require_once "errors.php";
+
+		@$message = $ERRORS[$code];
+
+		return json_encode(array("error" =>
+			array("code" => $code, "message" => $message)));
+
+	}
 ?>

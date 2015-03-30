@@ -384,7 +384,7 @@ class Instances extends Plugin implements IHandler {
 
 			print json_encode(array("feeds" => $feeds));
 		} else {
-			print json_encode(array("error" => array("code" => 6)));
+			print error_json(6);
 		}
 	}
 

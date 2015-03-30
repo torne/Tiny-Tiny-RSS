@@ -63,7 +63,7 @@
 	if ($_SESSION["uid"]) {
 		if (!validate_session()) {
 			header("Content-Type: text/json");
-			print json_encode(array("error" => array("code" => 6)));
+			print error_json(6);
 			return;
 		}
 		load_user_plugins( $_SESSION["uid"]);
@@ -104,13 +104,6 @@
 		5 => __("Power User"),
 		10 => __("Administrator"));
 
-	#$error = sanity_check();
-
-	#if ($error['code'] != 0 && $op != "logout") {
-	#	print json_encode(array("error" => $error));
-	#	return;
-	#}
-
 	$op = str_replace("-", "_", $op);
 
 	$override = PluginHost::getInstance()->lookup_handler($op, $method);
@@ -137,18 +130,18 @@
 					return;
 				} else {
 					header("Content-Type: text/json");
-					print json_encode(array("error" => array("code" => 6)));
+					print error_json(6);
 					return;
 				}
 			} else {
 				header("Content-Type: text/json");
-				print json_encode(array("error" => array("code" => 6)));
+				print error_json(6);
 				return;
 			}
 		}
 	}
 
 	header("Content-Type: text/json");
-	print json_encode(array("error" => array("code" => 7)));
+	print error_json(13);
 
 ?>

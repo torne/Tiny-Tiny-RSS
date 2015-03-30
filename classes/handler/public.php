@@ -706,7 +706,7 @@ class Handler_Public extends Handler {
 
 	function index() {
 		header("Content-Type: text/plain");
-		print json_encode(array("error" => array("code" => 7)));
+		print error_json(13);
 	}
 
 	function forgotpass() {
