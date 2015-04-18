@@ -102,9 +102,6 @@ create index ttrss_feeds_owner_uid_index on ttrss_feeds(owner_uid);
 create index ttrss_feeds_cat_id_idx on ttrss_feeds(cat_id);
 
 insert into ttrss_feeds (owner_uid, title, feed_url) values
-	(1, 'Tiny Tiny RSS: New Releases', 'http://tt-rss.org/releases.rss');
-
-insert into ttrss_feeds (owner_uid, title, feed_url) values
 	(1, 'Tiny Tiny RSS: Forum', 'http://tt-rss.org/forum/rss.php');
 
 create table ttrss_archived_feeds (id integer not null primary key,
