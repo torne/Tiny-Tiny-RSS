@@ -142,8 +142,13 @@ class FeedParser {
 				$link = $xpath->query("//atom:feed/atom:link[not(@rel)]")->item(0);
 
 				if (!$link)
+					$link = $xpath->query("//atom:feed/atom:link[@rel='alternate']")->item(0);
+
+				if (!$link)
 					$link = $xpath->query("//atom03:feed/atom03:link[not(@rel)]")->item(0);
 
+				if (!$link)
+					$link = $xpath->query("//atom03:feed/atom03:link[@rel='alternate']")->item(0);
 
 				if ($link && $link->hasAttributes()) {
 					$this->link = $link->getAttribute("href");
