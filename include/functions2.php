@@ -1940,28 +1940,37 @@
 
 					foreach ($entries as $entry) {
 
-						if (preg_match("/image/", $entry["type"]) ||
-								preg_match("/\.(jpg|png|gif|bmp)/i", $entry["filename"])) {
+					foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_RENDER_ENCLOSURE) as $plugin)
+						$retval = $plugin->hook_render_enclosure($entry, $hide_images);
 
-								if (!$hide_images) {
-									$encsize = '';
-									if ($entry['height'] > 0)
-										$encsize .= ' height="' . intval($entry['width']) . '"';
-									if ($entry['width'] > 0)
-										$encsize .= ' width="' . intval($entry['height']) . '"';
-									$rv .= "<p><img
-									alt=\"".htmlspecialchars($entry["filename"])."\"
-									src=\"" .htmlspecialchars($entry["url"]) . "\"
-									" . $encsize . " /></p>";
-								} else {
-									$rv .= "<p><a target=\"_blank\"
-									href=\"".htmlspecialchars($entry["url"])."\"
-									>" .htmlspecialchars($entry["url"]) . "</a></p>";
-								}
 
-								if ($entry['title']) {
-									$rv.= "<div class=\"enclosure_title\">${entry['title']}</div>";
-								}
+						if ($retval) {
+							$rv .= $retval;
+						} else {
+
+							if (preg_match("/image/", $entry["type"]) ||
+									preg_match("/\.(jpg|png|gif|bmp)/i", $entry["filename"])) {
+
+									if (!$hide_images) {
+										$encsize = '';
+										if ($entry['height'] > 0)
+											$encsize .= ' height="' . intval($entry['width']) . '"';
+										if ($entry['width'] > 0)
+											$encsize .= ' width="' . intval($entry['height']) . '"';
+										$rv .= "<p><img
+										alt=\"".htmlspecialchars($entry["filename"])."\"
+										src=\"" .htmlspecialchars($entry["url"]) . "\"
+										" . $encsize . " /></p>";
+									} else {
+										$rv .= "<p><a target=\"_blank\"
+										href=\"".htmlspecialchars($entry["url"])."\"
+										>" .htmlspecialchars($entry["url"]) . "</a></p>";
+									}
+
+									if ($entry['title']) {
+										$rv.= "<div class=\"enclosure_title\">${entry['title']}</div>";
+									}
+							}
 						}
 					}
 				}
