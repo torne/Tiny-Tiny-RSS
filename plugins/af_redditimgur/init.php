@@ -92,7 +92,7 @@ class Af_RedditImgur extends Plugin {
 
 							// links to imgur pages
 							$matches = array();
-							if (preg_match("/^https?:\/\/imgur.com\/([^\.\/]+$)/", $entry->getAttribute("href"), $matches)) {
+							if (preg_match("/^https?:\/\/(m\.)?imgur.com\/([^\.\/]+$)/", $entry->getAttribute("href"), $matches)) {
 
 								$token = $matches[1];
 
