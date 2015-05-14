@@ -28,7 +28,57 @@ class Af_RedditImgur extends Plugin {
 
 					foreach ($entries as $entry) {
 						if ($entry->hasAttribute("href")) {
-							if (preg_match("/\.(jpg|jpeg|gif|png)$/i", $entry->getAttribute("href"))) {
+							                                                        
+							if (preg_match("/\.(gifv)$/i", $entry->getAttribute("href"))) {
+
+                                                                $gifv_meta = fetch_file_contents($entry->getAttribute("href"),
+                                                                        false, false, false, false, 10);
+
+                                                                if ($gifv_meta) {
+                                                                        $adoc = new DOMDocument();
+                                                                        @$adoc->loadHTML($gifv_meta);
+
+                                                                        if ($adoc) {
+                                                                                $axpath = new DOMXPath($adoc);
+                                                                                $aentries = $axpath->query('(//meta)');
+
+                                                                                $width = false;
+                                                                                $height = false;
+
+                                                                                foreach ($aentries as $aentry) {
+                                                                                        if (strpos($aentry->getAttribute("property"), "og:image:width") !== FALSE) {
+                                                                                                $width = $aentry->getAttribute("content");
+                                                                                        }
+                                                                                        if (strpos($aentry->getAttribute("property"), "og:image:height") !== FALSE) {
+                                                                                                $height = $aentry->getAttribute("content");
+                                                                                        }
+                                                                                }
+                                                                        }
+                                                                }
+
+                                                       		if ($width && $height) {
+                                                                
+                                                                        $iframe = $doc->createElement('iframe');
+                                                                        $iframe->setAttribute("src", str_replace("http:", "", $entry->getAttribute("href")));
+                                                                        $iframe->setAttribute("frameborder", "0");
+                                                                        $iframe->setAttribute("width", $width);
+                                                                        $iframe->setAttribute("height", $height);
+
+                                                                        $br = $doc->createElement('br');
+                                                                        $entry->parentNode->insertBefore($iframe, $entry);
+                                                                        $entry->parentNode->insertBefore($br, $entry);
+
+                                                                        // add empty img tag to disable display of attachment
+                                                                        $img = $doc->createElement('img');
+                                                                        $img->setAttribute("src", "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D");
+                                                                        $img->setAttribute("width", "0");
+                                                                        $img->setAttribute("height", "0");
+                                                                        $entry->parentNode->insertBefore($img, $entry);
+                                                                        $found = true;
+                                                                }
+                                                        }
+
+							if (preg_match("/\.(jpg|jpeg|gif|png)(\?[0-9])?$/i", $entry->getAttribute("href"))) {
 
 							 	$img = $doc->createElement('img');
 								$img->setAttribute("src", $entry->getAttribute("href"));
@@ -42,7 +92,7 @@ class Af_RedditImgur extends Plugin {
 
 							// links to imgur pages
 							$matches = array();
-							if (preg_match("/^https?:\/\/imgur.com\/([^\.\/]+$)/", $entry->getAttribute("href"), $matches)) {
+							if (preg_match("/^https?:\/\/(m\.)?imgur.com\/([^\.\/]+$)/", $entry->getAttribute("href"), $matches)) {
 
 								$token = $matches[1];
 
