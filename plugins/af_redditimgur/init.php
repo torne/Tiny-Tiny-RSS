@@ -94,7 +94,7 @@ class Af_RedditImgur extends Plugin {
 							$matches = array();
 							if (preg_match("/^https?:\/\/(m\.)?imgur.com\/([^\.\/]+$)/", $entry->getAttribute("href"), $matches)) {
 
-								$token = $matches[1];
+								$token = $matches[2];
 
 								$album_content = fetch_file_contents($entry->getAttribute("href"),
 									false, false, false, false, 10);
