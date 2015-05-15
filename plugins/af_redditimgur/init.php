@@ -31,52 +31,21 @@ class Af_RedditImgur extends Plugin {
 
 							if (preg_match("/\.(gifv)$/i", $entry->getAttribute("href"))) {
 
-								$gifv_meta = fetch_file_contents($entry->getAttribute("href"),
-									false, false, false, false, 10);
+								$video = $doc->createElement('video');
+								$video->setAttribute("autoplay", "1");
+								$video->setAttribute("loop", "1");
 
-								if ($gifv_meta) {
-									$adoc = new DOMDocument();
-									@$adoc->loadHTML($gifv_meta);
+								$source = $doc->createElement('source');
+								$source->setAttribute("src", str_replace(".gifv", ".mp4", $entry->getAttribute("href")));
+								$source->setAttribute("type", "video/mp4");
 
-									if ($adoc) {
-										$axpath = new DOMXPath($adoc);
-										$aentries = $axpath->query('(//meta)');
+								$video->appendChild($source);
 
-										$width = false;
-										$height = false;
+								$br = $doc->createElement('br');
+								$entry->parentNode->insertBefore($video, $entry);
+								$entry->parentNode->insertBefore($br, $entry);
 
-										foreach ($aentries as $aentry) {
-											if (strpos($aentry->getAttribute("property"), "og:image:width") !== FALSE) {
-												$width = $aentry->getAttribute("content");
-											}
-
-											if (strpos($aentry->getAttribute("property"), "og:image:height") !== FALSE) {
-												$height = $aentry->getAttribute("content");
-											}
-										}
-									}
-								}
-
-								if ($width && $height) {
-
-									$iframe = $doc->createElement('iframe');
-									$iframe->setAttribute("src", str_replace("http:", "", $entry->getAttribute("href")));
-									$iframe->setAttribute("frameborder", "0");
-									$iframe->setAttribute("width", $width + 64);
-									$iframe->setAttribute("height", $height + 64);
-
-									$br = $doc->createElement('br');
-									$entry->parentNode->insertBefore($iframe, $entry);
-									$entry->parentNode->insertBefore($br, $entry);
-
-									// add empty img tag to disable display of attachment
-									$img = $doc->createElement('img');
-									$img->setAttribute("src", "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D");
-									$img->setAttribute("width", "0");
-									$img->setAttribute("height", "0");
-									$entry->parentNode->insertBefore($img, $entry);
-									$found = true;
-								}
+								$found = true;
 							}
 
 							if (preg_match("/\.(jpg|jpeg|gif|png)(\?[0-9])?$/i", $entry->getAttribute("href"))) {
