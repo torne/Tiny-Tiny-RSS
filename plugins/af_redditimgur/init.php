@@ -45,6 +45,12 @@ class Af_RedditImgur extends Plugin {
 								$entry->parentNode->insertBefore($video, $entry);
 								$entry->parentNode->insertBefore($br, $entry);
 
+								$img = $doc->createElement('img');
+								$img->setAttribute("src",
+									"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D");
+
+								$entry->parentNode->insertBefore($img, $entry);
+
 								$found = true;
 							}
 
@@ -109,18 +115,24 @@ class Af_RedditImgur extends Plugin {
 									if ($adoc) {
 										$axpath = new DOMXPath($adoc);
 										$aentries = $axpath->query("//meta[@property='og:image']");
+										$urls = array();
 
 										foreach ($aentries as $aentry) {
-											$img = $doc->createElement('img');
-											$img->setAttribute("src", $aentry->getAttribute("content"));
-											$entry->parentNode->insertBefore($doc->createElement('br'), $entry);
 
-											$br = $doc->createElement('br');
+											if (!in_array($aentry->getAttribute("content"), $urls)) {
+												$img = $doc->createElement('img');
+												$img->setAttribute("src", $aentry->getAttribute("content"));
+												$entry->parentNode->insertBefore($doc->createElement('br'), $entry);
 
-											$entry->parentNode->insertBefore($img, $entry);
-											$entry->parentNode->insertBefore($br, $entry);
+												$br = $doc->createElement('br');
 
-											$found = true;
+												$entry->parentNode->insertBefore($img, $entry);
+												$entry->parentNode->insertBefore($br, $entry);
+
+												array_push($urls, $aentry->getAttribute("content"));
+
+												$found = true;
+											}
 										}
 									}
 								}
