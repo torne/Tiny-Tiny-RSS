@@ -1,6 +1,8 @@
 <?php
 	function make_feed_browser($search, $limit, $mode = 1) {
 
+		if (defined('_DISABLE_FEED_BROWSER') && _DISABLE_FEED_BROWSER) return;
+
 		$owner_uid = $_SESSION["uid"];
 		$rv = '';
 

@@ -379,6 +379,8 @@ class RPC extends Handler_Protected {
 	}
 
 	function updateFeedBrowser() {
+		if (defined('_DISABLE_FEED_BROWSER') && _DISABLE_FEED_BROWSER) return;
+
 		$search = $this->dbh->escape_string($_REQUEST["search"]);
 		$limit = $this->dbh->escape_string($_REQUEST["limit"]);
 		$mode = (int) $this->dbh->escape_string($_REQUEST["mode"]);
