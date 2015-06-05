@@ -2444,9 +2444,19 @@
 		return LABEL_BASE_INDEX - 1 + abs($feed);
 	}
 
-	function theme_valid($file) {
-		if ($file == "default.css" || $file == "night.css") return true; // needed for array_filter
-		$file = "themes/" . basename($file);
+	function get_theme_path($theme) {
+		$check = "themes/$theme";
+		if (file_exists($check)) return $check;
+
+		$check = "themes.local/$theme";
+		if (file_exists($check)) return $check;
+	}
+
+	function theme_valid($theme) {
+		if ($theme == "default.css" || $theme == "night.css") return true; // needed for array_filter
+		$file = "themes/" . basename($theme);
+
+		if (!file_exists($file)) $file = "themes.local/" . basename($theme);
 
 		if (file_exists($file) && is_readable($file)) {
 			$fh = fopen($file, "r");

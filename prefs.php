@@ -42,7 +42,7 @@
 	<?php if ($_SESSION["uid"]) {
 		$theme = get_pref( "USER_CSS_THEME", $_SESSION["uid"], false);
 		if ($theme && theme_valid("$theme")) {
-			echo stylesheet_tag("themes/$theme");
+			echo stylesheet_tag(get_theme_path($theme));
 		} else {
 			echo stylesheet_tag("themes/default.css");
 		}
