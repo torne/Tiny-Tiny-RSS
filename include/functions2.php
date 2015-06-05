@@ -2471,4 +2471,12 @@
 			array("code" => $code, "message" => $message)));
 
 	}
+
+	function abs_to_rel_path($dir) {
+		$tmp = str_replace(dirname(__DIR__), "", $dir);
+
+		if (strlen($tmp) > 0 && substr($tmp, 0, 1) == "/") $tmp = substr($tmp, 1);
+
+		return $tmp;
+	}
 ?>

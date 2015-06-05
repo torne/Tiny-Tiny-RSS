@@ -129,7 +129,15 @@ class PluginHost {
 		}
 	}
 	function load_all($kind, $owner_uid = false) {
-		$plugins = array_map("basename", glob("plugins/*"));
+		$plugins = array_map("basename", array_filter(glob("plugins/*"), "is_dir"));
+
+		if (is_dir("plugins.local")) {
+			$plugins = array_merge($plugins, array_map("basename",
+				array_filter(glob("plugins.local/*"), "is_dir")));
+		}
+
+		asort($plugins);
+
 		$this->load(join(",", $plugins), $kind, $owner_uid);
 	}
 
@@ -142,9 +150,15 @@ class PluginHost {
 			$class = trim($class);
 			$class_file = strtolower(basename($class));
 
-			if (!is_dir(dirname(__FILE__)."/../plugins/$class_file")) continue;
+			if (!is_dir(__DIR__."/../plugins/$class_file") &&
+					!is_dir(__DIR__."/../plugins.local/$class_file")) continue;
 
-			$file = dirname(__FILE__)."/../plugins/$class_file/init.php";
+			// try system plugin directory first
+			$file = __DIR__ . "/../plugins/$class_file/init.php";
+
+			if (!file_exists($file)) {
+				$file = __DIR__ . "/../plugins.local/$class_file/init.php";
+			}
 
 			if (!isset($this->plugins[$class])) {
 				if (file_exists($file)) require_once $file;
