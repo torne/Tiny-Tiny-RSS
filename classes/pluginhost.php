@@ -129,12 +129,10 @@ class PluginHost {
 		}
 	}
 	function load_all($kind, $owner_uid = false) {
-		$plugins = array_map("basename", array_filter(glob("plugins/*"), "is_dir"));
 
-		if (is_dir("plugins.local")) {
-			$plugins = array_merge($plugins, array_map("basename",
-				array_filter(glob("plugins.local/*"), "is_dir")));
-		}
+		$plugins = array_merge(glob("plugins/*"), glob("plugins.local/*"));
+		$plugins = array_filter($plugins, "is_dir");
+		$plugins = array_map("basename", $plugins);
 
 		asort($plugins);
 
