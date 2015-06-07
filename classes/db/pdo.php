@@ -88,6 +88,7 @@ class Db_PDO implements IDb {
 			$this->query("set client_encoding = 'UTF-8'");
 			$this->query("set datestyle = 'ISO, european'");
 			$this->query("set TIME ZONE 0");
+            return;
 		case "mysql":
 			$this->query("SET time_zone = '+0:0'");
 			return;

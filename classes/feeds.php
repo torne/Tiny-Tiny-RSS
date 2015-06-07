@@ -3,7 +3,9 @@ require_once "colors.php";
 
 class Feeds extends Handler_Protected {
 
-	function csrf_ignore($method) {
+    private $params;
+
+    function csrf_ignore($method) {
 		$csrf_ignored = array("index", "feedbrowser", "quickaddfeed", "search");
 
 		return array_search($method, $csrf_ignored) !== false;

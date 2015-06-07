@@ -767,7 +767,7 @@ function parse_runtime_info(data) {
 		}
 
 		if (k == "daemon_is_running" && v != 1) {
-			notify_error("<span onclick=\"javascript:explainError(1)\">Update daemon is not running.</span>", true);
+			notify_error("<span onclick=\"explainError(1)\">Update daemon is not running.</span>", true);
 			return;
 		}
 
@@ -782,7 +782,7 @@ function parse_runtime_info(data) {
 		}
 
 		if (k == "daemon_stamp_ok" && v != 1) {
-			notify_error("<span onclick=\"javascript:explainError(3)\">Update daemon is not updating feeds.</span>", true);
+			notify_error("<span onclick=\"explainError(3)\">Update daemon is not updating feeds.</span>", true);
 			return;
 		}
 

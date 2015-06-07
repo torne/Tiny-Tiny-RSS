@@ -127,21 +127,6 @@ class Pref_Prefs extends Handler_Protected {
 		}
 	}
 
-	function getHelp() {
-
-		$pref_name = $this->dbh->escape_string($_REQUEST["pn"]);
-
-		$result = $this->dbh->query("SELECT help_text FROM ttrss_prefs
-			WHERE pref_name = '$pref_name'");
-
-		if ($this->dbh->num_rows($result) > 0) {
-			$help_text = $this->dbh->fetch_result($result, 0, "help_text");
-			print $help_text;
-		} else {
-			printf(__("Unknown option: %s"), $pref_name);
-		}
-	}
-
 	function changeemail() {
 
 		$email = $this->dbh->escape_string($_POST["email"]);

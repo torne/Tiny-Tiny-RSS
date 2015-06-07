@@ -1,8 +1,9 @@
 <?php
 class Dlg extends Handler_Protected {
 	private $param;
+    private $params;
 
-	function before($method) {
+    function before($method) {
 		if (parent::before($method)) {
 			header("Content-Type: text/html"); # required for iframe
 
