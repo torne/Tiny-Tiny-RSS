@@ -1739,6 +1739,12 @@
 	 * @return string Fixed URL.
 	 */
 	function fix_url($url) {
+
+		// support schema-less urls
+		if (strpos($url, '//') === 0) {
+			$url = 'https:' . $url;
+		}
+
 		if (strpos($url, '://') === false) {
 			$url = 'http://' . $url;
 		} else if (substr($url, 0, 5) == 'feed:') {
