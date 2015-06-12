@@ -422,10 +422,12 @@ function init() {
 				quickAddFeed();
 		};
 		hotkey_actions["feed_debug_update"] = function() {
-				window.open("backend.php?op=feeds&method=view&feed=" + getActiveFeedId() +
-					"&view_mode=adaptive&order_by=default&update=&m=ForceUpdate&cat=" +
-					activeFeedIsCat() + "&DevForceUpdate=1&debug=1&xdebug=1&csrf_token=" +
-					getInitParam("csrf_token"));
+			if (!activeFeedIsCat() && parseInt(getActiveFeedId()) > 0) {
+				window.open("backend.php?op=feeds&method=update_debugger&feed_id=" + getActiveFeedId() +
+				"&csrf_token=" + getInitParam("csrf_token"));
+			} else {
+				alert("You can't debug this kind of feed.");
+			}
 		};
 		hotkey_actions["feed_edit"] = function() {
 				if (activeFeedIsCat())
