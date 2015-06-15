@@ -687,6 +687,7 @@
 					"tags" => $entry_tags,
 					"author" => $entry_author,
 					"force_catchup" => false, // ugly hack for the time being
+					"score_modifier" => 0, // no previous value, plugin should recalculate score modifier based on content if needed
 					"language" => $entry_language, // read only
 					"feed" => array("id" => $feed,
 						"fetch_url" => $fetch_url,
@@ -743,6 +744,7 @@
 				$entry_content = $article["content"]; // escaped below
 				$entry_force_catchup = $article["force_catchup"];
 				$article_labels = $article["labels"];
+				$entry_score_modifier = (int) $article["score_modifier"];
 
 				if ($debug_enabled) {
 					_debug("article labels:", $debug_enabled);
@@ -853,9 +855,9 @@
 						continue;
 					}
 
-					$score = calculate_article_score($article_filters);
+					$score = calculate_article_score($article_filters) + $entry_score_modifier;
 
-					_debug("initial score: $score", $debug_enabled);
+					_debug("initial score: $score [including plugin modifier: $entry_score_modifier]", $debug_enabled);
 
 					$query = "SELECT ref_id, int_id FROM ttrss_user_entries WHERE
 							ref_id = '$ref_id' AND owner_uid = '$owner_uid'
