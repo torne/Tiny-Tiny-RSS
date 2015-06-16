@@ -736,6 +736,13 @@
 
 				_debug("plugin data: $entry_plugin_data", $debug_enabled);
 
+				// Workaround: 4-byte unicode requires utf8mb4 in MySQL. See https://tt-rss.org/forum/viewtopic.php?f=1&t=3377&p=20077#p20077
+				if (DB_TYPE == "mysql") {
+					foreach ($article as $k => $v) {
+						$article[$k] = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $v);
+					}
+				}
+
 				$entry_tags = $article["tags"];
 				$entry_guid = db_escape_string($entry_guid);
 				$entry_title = db_escape_string($article["title"]);
