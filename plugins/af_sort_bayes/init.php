@@ -179,7 +179,7 @@ class Af_Sort_Bayes extends Plugin {
 					$prob_neutral = $result[$id_neutral];
 
 					if ($prob_good > 0.90 && $prob_good > $prob_neutral) {
-						//$dst_category = $id_good; // should we autofile as good or not? idk
+						$dst_category = $id_good; // should we autofile as good or not? idk
 						$article["score_modifier"] += $this->score_modifier;
 					}
 				}
