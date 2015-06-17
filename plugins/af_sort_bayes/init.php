@@ -16,6 +16,7 @@ class Af_Sort_Bayes extends Plugin {
 
 	function init($host) {
 		require_once __DIR__ . "/lib/class.naivebayesian.php";
+		require_once __DIR__ . "/lib/class.naivebayesian_ngram.php";
 		require_once __DIR__ . "/lib/class.naivebayesianstorage.php";
 
 		$this->host = $host;
@@ -36,7 +37,7 @@ class Af_Sort_Bayes extends Plugin {
 		$category = $train_up ? "GOOD" : "NEUTRAL";
 
 		$nbs = new NaiveBayesianStorage($_SESSION["uid"]);
-		$nb = new NaiveBayesian($nbs);
+		$nb = new NaiveBayesianNgram($nbs);
 
 		$result = $this->dbh->query("SELECT score, guid, title, content FROM ttrss_entries, ttrss_user_entries WHERE ref_id = id AND id = " .
 			$article_id . " AND owner_uid = " . $_SESSION["uid"]);
@@ -202,7 +203,7 @@ class Af_Sort_Bayes extends Plugin {
 		$owner_uid = $article["owner_uid"];
 
 		$nbs = new NaiveBayesianStorage($owner_uid);
-		$nb = new NaiveBayesian($nbs);
+		$nb = new NaiveBayesianNgram($nbs);
 
 		$categories = $nbs->getCategories();
 
@@ -227,7 +228,7 @@ class Af_Sort_Bayes extends Plugin {
 
 			$bayes_content = mb_strtolower($article["title"] . " " . strip_tags($article["content"]));
 
-			if ($count_neutral >= 3000 && $count_good >= 1000) {
+			if ($count_neutral >= 20000 && $count_good >= 10000) {
 				// enable automatic categorization
 
 				$result = $nb->categorize($bayes_content);
@@ -261,7 +262,7 @@ class Af_Sort_Bayes extends Plugin {
 		$this->dbh->query("COMMIT");
 
 		$nbs = new NaiveBayesianStorage($_SESSION["uid"]);
-		$nb = new NaiveBayesian($nbs);
+		$nb = new NaiveBayesianNgram($nbs);
 		$nb->updateProbabilities();
 	}
 
