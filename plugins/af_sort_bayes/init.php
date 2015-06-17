@@ -170,7 +170,7 @@ class Af_Sort_Bayes extends Plugin {
 			$this->dbh->query("CREATE TABLE IF NOT EXISTS ${prefix}_categories (
 				id SERIAL NOT NULL PRIMARY KEY,
 				category varchar(100) NOT NULL DEFAULT '',
-				probability DOUBLE NOT NULL DEFAULT '0',
+				probability DOUBLE PRECISION NOT NULL DEFAULT '0',
 				owner_uid INTEGER NOT NULL REFERENCES ttrss_users(id) ON DELETE CASCADE,
 				word_count BIGINT NOT NULL DEFAULT '0')");
 
