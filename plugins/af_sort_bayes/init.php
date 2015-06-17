@@ -170,10 +170,13 @@ class Af_Sort_Bayes extends Plugin {
 
 		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Bayesian classifier (af_sort_bayes)')."\">";
 
-		$result = $this->dbh->query("SELECT category, probability, word_count FROM {$this->sql_prefix}_categories WHERE owner_uid = " . $_SESSION["uid"]);
+		$result = $this->dbh->query("SELECT category, probability, word_count,
+			(SELECT COUNT(id) FROM {$this->sql_prefix}_references WHERE
+				category_id = {$this->sql_prefix}_categories.id) as doc_count
+ 			FROM {$this->sql_prefix}_categories WHERE owner_uid = " . $_SESSION["uid"]);
 
 		print "<table>";
-		print "<tr><th>Category</th><th>Probability</th><th>Word count</th></tr>";
+		print "<tr><th>Category</th><th>Probability</th><th>Word count</th><th>Article count</th></tr>";
 
 		while ($line = $this->dbh->fetch_assoc($result)) {
 			print "<tr>";
