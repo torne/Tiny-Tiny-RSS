@@ -222,6 +222,67 @@
 
 	} // function update_daemon_common
 
+	// this is used when subscribing
+	function set_basic_feed_info($feed) {
+
+		$feed = db_escape_string($feed);
+
+		$result = db_query("SELECT feed_url,auth_pass,auth_pass_encrypted
+					FROM ttrss_feeds WHERE id = '$feed'");
+
+		$auth_pass_encrypted = sql_bool_to_bool(db_fetch_result($result,
+			0, "auth_pass_encrypted"));
+
+		$auth_login = db_fetch_result($result, 0, "auth_login");
+		$auth_pass = db_fetch_result($result, 0, "auth_pass");
+
+		if ($auth_pass_encrypted) {
+			require_once "crypt.php";
+			$auth_pass = decrypt_string($auth_pass);
+		}
+
+		$fetch_url = db_fetch_result($result, 0, "feed_url");
+
+		$feed_data = fetch_file_contents($fetch_url, false,
+			$auth_login, $auth_pass, false,
+			FEED_FETCH_TIMEOUT_TIMEOUT,
+			0);
+
+		global $fetch_curl_used;
+
+		if (!$fetch_curl_used) {
+			$tmp = @gzdecode($feed_data);
+
+			if ($tmp) $feed_data = $tmp;
+		}
+
+		$feed_data = trim($feed_data);
+
+		$rss = new FeedParser($feed_data);
+		$rss->init();
+
+		if (!$rss->error()) {
+
+			$result = db_query("SELECT title, site_url FROM ttrss_feeds WHERE id = '$feed'");
+
+			$registered_title = db_fetch_result($result, 0, "title");
+			$orig_site_url = db_fetch_result($result, 0, "site_url");
+
+			$site_url = db_escape_string(mb_substr(rewrite_relative_url($fetch_url, $rss->get_link()), 0, 245));
+			$feed_title = db_escape_string(mb_substr($rss->get_title(), 0, 199));
+
+			if ($feed_title && (!$registered_title || $registered_title == "[Unknown]")) {
+				db_query("UPDATE ttrss_feeds SET
+					title = '$feed_title' WHERE id = '$feed'");
+			}
+
+			if ($site_url && $orig_site_url != $site_url) {
+				db_query("UPDATE ttrss_feeds SET
+							site_url = '$site_url' WHERE id = '$feed'");
+			}
+		}
+	}
+
 	// ignore_daemon is not used
 	function update_rss_feed($feed, $ignore_daemon = false, $no_cache = false, $rss = false) {
 

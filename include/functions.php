@@ -1743,7 +1743,7 @@
 			$feed_id = db_fetch_result($result, 0, "id");
 
 			if ($feed_id) {
-				update_rss_feed($feed_id, true);
+				set_basic_feed_info($feed_id);
 			}
 
 			return array("code" => 1);
