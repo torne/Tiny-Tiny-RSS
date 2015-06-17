@@ -588,9 +588,16 @@
 
 			_debug("processing articles...", $debug_enabled);
 
+			$tstart = time();
+
 			foreach ($items as $item) {
 				if ($_REQUEST['xdebug'] == 3) {
 					print_r($item);
+				}
+
+				if (ini_get("max_execution_time") > 0 && time() - $tstart >= ini_get("max_execution_time") * 0.7) {
+					_debug("looks like there's too many articles to process at once, breaking out", $debug_enabled);
+					break;
 				}
 
 				$entry_guid = $item->get_id();
