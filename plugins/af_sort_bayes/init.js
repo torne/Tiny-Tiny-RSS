@@ -2,12 +2,13 @@ function bayesTrain(id, train_up) {
 	try {
 
 		var query = "backend.php?op=pluginhandler&plugin=af_sort_bayes&method=trainArticle&article_id=" + param_escape(id) +
-			"&train_up=" + train_up;
+			"&train_up=" + param_escape(train_up);
 
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) {
 				notify(transport.responseText);
+				updateScore(id);
 			} });
 
 	} catch (e) {

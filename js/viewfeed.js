@@ -2293,6 +2293,34 @@ function setSelectionScore() {
 	}
 }
 
+function updateScore(id) {
+	try {
+		var pic = $$("#RROW-" + id + " .hlScorePic")[0];
+
+		if (pic) {
+
+			var query = "op=article&method=getScore&id=" + param_escape(id);
+
+			new Ajax.Request("backend.php", {
+				parameters: query,
+				onComplete: function(transport) {
+					console.log(transport.responseText);
+
+					var reply = JSON.parse(transport.responseText);
+
+					if (reply) {
+						pic.src = pic.src.replace(/score_.*?\.png/, reply["score_pic"]);
+						pic.setAttribute("score", reply["score"]);
+						pic.setAttribute("title", reply["score"]);
+					}
+				} });
+		}
+
+	} catch (e) {
+		exception_error("updateScore", e);
+	}
+}
+
 function changeScore(id, pic) {
 	try {
 		var score = pic.getAttribute("score");
@@ -2312,6 +2340,7 @@ function changeScore(id, pic) {
 					if (reply) {
 						pic.src = pic.src.replace(/score_.*?\.png/, reply["score_pic"]);
 						pic.setAttribute("score", new_score);
+						pic.setAttribute("title", new_score);
 					}
 				} });
 		}

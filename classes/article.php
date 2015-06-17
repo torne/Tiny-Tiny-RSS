@@ -215,6 +215,18 @@ class Article extends Handler_Protected {
 			score = '$score' WHERE ref_id IN ($ids) AND owner_uid = " . $_SESSION["uid"]);
 
 		print json_encode(array("id" => $ids,
+			"score" => (int)$score,
+			"score_pic" => get_score_pic($score)));
+	}
+
+	function getScore() {
+		$id = $this->dbh->escape_string($_REQUEST['id']);
+
+		$result = $this->dbh->query("SELECT score FROM ttrss_user_entries WHERE ref_id = $id AND owner_uid = " . $_SESSION["uid"]);
+		$score = $this->dbh->fetch_result($result, 0, "score");
+
+		print json_encode(array("id" => $id,
+			"score" => (int)$score,
 			"score_pic" => get_score_pic($score)));
 	}
 

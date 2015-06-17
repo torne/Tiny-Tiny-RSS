@@ -79,14 +79,14 @@ class Af_Sort_Bayes extends Plugin {
 				switch ($current_category) {
 					case "UGLY":
 						$dst_category = "BAD";
-						$score = -$this->score_modifier;
+						$score = $this->score_modifier;
 						break;
 					case "BAD":
 						$dst_category = "BAD";
 						break;
 					case "GOOD":
 						$dst_category = "UGLY";
-						$score = -$this->score_modifier;
+						$score = 0;
 						break;
 				}
 			}
