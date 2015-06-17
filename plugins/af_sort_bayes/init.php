@@ -154,8 +154,7 @@ class Af_Sort_Bayes extends Plugin {
 				category_id INTEGER NOT NULL,
 				FOREIGN KEY (category_id) REFERENCES ${prefix}_categories(id) ON DELETE CASCADE,
 				owner_uid INTEGER NOT NULL,
-				FOREIGN KEY (owner_uid) REFERENCES ttrss_users(id) ON DELETE CASCADE,
-				content text NOT NULL) ENGINE=InnoDB");
+				FOREIGN KEY (owner_uid) REFERENCES ttrss_users(id) ON DELETE CASCADE) ENGINE=InnoDB");
 
 			$this->dbh->query("CREATE TABLE IF NOT EXISTS ${prefix}_wordfreqs (
 				word varchar(100) NOT NULL DEFAULT '',
@@ -178,8 +177,7 @@ class Af_Sort_Bayes extends Plugin {
 				id SERIAL NOT NULL PRIMARY KEY,
 				document_id VARCHAR(255) NOT NULL,
 				category_id INTEGER NOT NULL REFERENCES ${prefix}_categories(id) ON DELETE CASCADE,
-				owner_uid INTEGER NOT NULL REFERENCES ttrss_users(id) ON DELETE CASCADE,
-				content text NOT NULL)");
+				owner_uid INTEGER NOT NULL REFERENCES ttrss_users(id) ON DELETE CASCADE)");
 
 			$this->dbh->query("CREATE TABLE IF NOT EXISTS ${prefix}_wordfreqs (
 				word varchar(100) NOT NULL DEFAULT '',
