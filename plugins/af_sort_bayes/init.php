@@ -266,6 +266,10 @@ class Af_Sort_Bayes extends Plugin {
 		$nbs = new NaiveBayesianStorage($owner_uid);
 		$nb = new NaiveBayesian($nbs);
 
+		$ref = $nbs->getReference($article["guid"], false);
+
+		if (isset($ref["category_id"])) return $article; // already categorized
+
 		$categories = $nbs->getCategories();
 
 		if (count($categories) > 0) {

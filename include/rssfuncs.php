@@ -396,24 +396,6 @@
 
 				_debug("fetch done.", $debug_enabled);
 
-				/* if ($feed_data) {
-					$error = verify_feed_xml($feed_data);
-
-					if ($error) {
-						_debug("error verifying XML, code: " . $error->code, $debug_enabled);
-
-						if ($error->code == 26) {
-							_debug("got error 26, trying to decode entities...", $debug_enabled);
-
-							$feed_data = html_entity_decode($feed_data, ENT_COMPAT, 'UTF-8');
-
-							$error = verify_feed_xml($feed_data);
-
-							if ($error) $feed_data = '';
-						}
-					}
-				} */
-
 				// cache vanilla feed data for re-use
 				if ($feed_data && !$auth_pass && !$auth_login && is_writable(CACHE_DIR . "/simplepie")) {
 					$new_rss_hash = sha1($feed_data);
@@ -487,13 +469,11 @@
 				$favicon_interval_qpart = "favicon_last_checked < DATE_SUB(NOW(), INTERVAL 12 HOUR)";
 			}
 
-			$result = db_query("SELECT title,site_url,owner_uid,favicon_avg_color,
+			$result = db_query("SELECT owner_uid,favicon_avg_color,
 				(favicon_last_checked IS NULL OR $favicon_interval_qpart) AS
 						favicon_needs_check
 				FROM ttrss_feeds WHERE id = '$feed'");
 
-			$registered_title = db_fetch_result($result, 0, "title");
-			$orig_site_url = db_fetch_result($result, 0, "site_url");
 			$favicon_needs_check = sql_bool_to_bool(db_fetch_result($result, 0,
 				"favicon_needs_check"));
 			$favicon_avg_color = db_fetch_result($result, 0, "favicon_avg_color");
@@ -540,27 +520,9 @@
 					WHERE id = '$feed'");
 			}
 
-			if (!$registered_title || $registered_title == "[Unknown]") {
-
-				$feed_title = db_escape_string(mb_substr($rss->get_title(), 0, 199));
-
-				if ($feed_title) {
-					_debug("registering title: $feed_title", $debug_enabled);
-
-					db_query("UPDATE ttrss_feeds SET
-						title = '$feed_title' WHERE id = '$feed'");
-				}
-			}
-
-			if ($site_url && $orig_site_url != $site_url) {
-				db_query("UPDATE ttrss_feeds SET
-					site_url = '$site_url' WHERE id = '$feed'");
-			}
-
 			_debug("loading filters & labels...", $debug_enabled);
 
 			$filters = load_filters($feed, $owner_uid);
-			$labels = get_all_labels($owner_uid);
 
 			_debug("" . count($filters) . " filters loaded.", $debug_enabled);
 
