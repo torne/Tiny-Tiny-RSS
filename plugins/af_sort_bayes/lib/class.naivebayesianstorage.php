@@ -61,17 +61,27 @@
 		 */
 		function getCategories() {
 			$categories = array();
-			$rs = $this->con->query('SELECT * FROM ttrss_plugin_af_sort_bayes_categories');
+			$rs = $this->con->query('SELECT * FROM ttrss_plugin_af_sort_bayes_categories WHERE owner_uid = ' . $this->owner_uid);
 
-			while ($this->con->fetch_assoc($rs)) {
-				$categories[$rs['category_id']] = array('probability' => $rs['probability'],
-					'word_count'  => $rs['word_count']
+			while ($line = $this->con->fetch_assoc($rs)) {
+				$categories[$line['id']] = array('probability' => $line['probability'],
+					'category' => $line['category'],
+					'word_count' => $line['word_count']
 				);
-
-				
 			}
 
 			return $categories;
+		}
+
+		function getCategoryByName($category) {
+			$rs = $this->con->query("SELECT id FROM ttrss_plugin_af_sort_bayes_categories WHERE category = '" .
+				$this->con->escape_string($category) . "' AND owner_uid = " . $this->owner_uid);
+
+			if ($this->con->num_rows($rs) != 0) {
+				return $this->con->fetch_result($rs, 0, "id");
+			}
+
+			return false;
 		}
 
 		/** see if the word is an already learnt word.
@@ -79,7 +89,8 @@
 		 @param string word
 		 */
 		function wordExists($word) {
-			$rs = $this->con->query("SELECT * FROM ttrss_plugin_af_sort_bayes_wordfreqs WHERE word='" . $this->con->escape_string($word) . "'");
+			$rs = $this->con->query("SELECT * FROM ttrss_plugin_af_sort_bayes_wordfreqs WHERE word='" . $this->con->escape_string($word) . "' AND
+				owner_uid = " . $this->owner_uid);
 
 			return $this->con->num_rows($rs) != 0;
 		}
@@ -92,13 +103,13 @@
 		function getWord($word, $category_id) {
 			$details = array();
 
-			$rs = $this->con->query("SELECT * FROM ttrss_plugin_af_sort_bayes_wordfreqs WHERE word='" . $this->con->escape_string($word) . "' AND category_id='" . $this->con->escape_string($category_id) . "'");
+			$rs = $this->con->query("SELECT * FROM ttrss_plugin_af_sort_bayes_wordfreqs WHERE word='" .
+				$this->con->escape_string($word) . "' AND category_id=" . (int)$category_id);
 
 			if ($this->con->num_rows($rs) == 0 ) {
 				$details['count'] = 0;
-			}
-			else {
-				$details['count'] = $rs['count'];
+			} else {
+				$details['count'] = $this->con->fetch_result($rs, 0, "count");
 			}
 
 			return $details;
@@ -116,10 +127,14 @@
 			$oldword = $this->getWord($word, $category_id);
 
 			if (0 == $oldword['count']) {
-				return $this->con->execute("INSERT INTO ttrss_plugin_af_sort_bayes_wordfreqs (word, category_id, count) VALUES ('" . $this->con->escape_string($word) . "', '" . $this->con->escape_string($category_id) . "', '" . $this->con->escape_string((int) $count) . "')");
+				return $this->con->query("INSERT INTO ttrss_plugin_af_sort_bayes_wordfreqs (word, category_id, count, owner_uid)
+					VALUES ('" . $this->con->escape_string($word) . "', '" .
+					(int)$category_id . "', '" .
+					(int)$count . "', '".
+					$this->owner_uid . "')");
 			}
 			else {
-				return $this->con->execute("UPDATE ttrss_plugin_af_sort_bayes_wordfreqs SET count = count + " . (int) $count . " WHERE category_id = '" . $this->con->escape_string($category_id) . "' AND word = '" . $this->con->escape_string($word) . "'");
+				return $this->con->query("UPDATE ttrss_plugin_af_sort_bayes_wordfreqs SET count = count + " . (int) $count . " WHERE category_id = '" . $this->con->escape_string($category_id) . "' AND word = '" . $this->con->escape_string($word) . "'");
 			}
 		}
 
@@ -134,10 +149,14 @@
 			$oldword = $this->getWord($word, $category_id);
 
 			if (0 != $oldword['count'] && 0 >= ($oldword['count'] - $count)) {
-				return $this->con->execute("DELETE FROM ttrss_plugin_af_sort_bayes_wordfreqs WHERE word='" . $this->con->escape_string($word) . "' AND category_id='" . $this->con->escape_string($category_id) . "'");
+				return $this->con->query("DELETE FROM ttrss_plugin_af_sort_bayes_wordfreqs WHERE word='" .
+					$this->con->escape_string($word) . "' AND category_id='" .
+					$this->con->escape_string($category_id) . "'");
 			}
 			else {
-				return $this->con->execute("UPDATE ttrss_plugin_af_sort_bayes_wordfreqs SET count = count - " . (int) $count . " WHERE category_id = '" . $this->con->escape_string($category_id) . "' AND word = '" . $this->con->escape_string($word) . "'");
+				return $this->con->query("UPDATE ttrss_plugin_af_sort_bayes_wordfreqs SET count = count - " .
+					(int) $count . " WHERE category_id = '" . $this->con->escape_string($category_id) . "'
+					AND word = '" . $this->con->escape_string($word) . "'");
 			}
 		}
 
@@ -148,26 +167,23 @@
 		 */
 		function updateProbabilities() {
 			// first update the word count of each category
-			$rs = $this->con->query("SELECT category_id, SUM(count) AS total FROM ttrss_plugin_af_sort_bayes_wordfreqs WHERE 1 GROUP BY category_id");
-			$total_words = 0;
+			$rs = $this->con->query("SELECT SUM(count) AS total FROM ttrss_plugin_af_sort_bayes_wordfreqs WHERE owner_uid = ".$this->owner_uid);
 
-			while ($this->con->fetch_assoc($rs)) {
-				$total_words += $rs['total'];
-				
-			}
-
-			$rs->moveStart();
+			$total_words = $this->con->fetch_result($rs, 0, "total");
 
 			if ($total_words == 0) {
-				$this->con->execute("UPDATE ttrss_plugin_af_sort_bayes_categories SET word_count=0, probability=0 WHERE 1");
-
+				$this->con->query("UPDATE ttrss_plugin_af_sort_bayes_categories SET word_count=0, probability=0 WHERE owner_uid = " . $this->owner_uid);
 				return true;
 			}
 
-			while ($this->con->fetch_assoc($rs)) {
-				$proba = $rs['total'] / $total_words;
-				$this->con->execute("UPDATE ttrss_plugin_af_sort_bayes_categories SET word_count=" . (int) $rs['total'] . ", probability=" . $proba . " WHERE category_id = '" . $rs['category_id'] . "'");
-				
+			$rs = $this->con->query("SELECT tc.id AS category_id, SUM(count) AS total FROM ttrss_plugin_af_sort_bayes_categories AS tc
+				LEFT JOIN ttrss_plugin_af_sort_bayes_wordfreqs AS tw ON (tc.id = tw.category_id) WHERE tc.owner_uid = ".$this->owner_uid." GROUP BY tc.id");
+
+			while ($line = $this->con->fetch_assoc($rs)) {
+
+				$proba = (int)$line['total'] / $total_words;
+				$this->con->query("UPDATE ttrss_plugin_af_sort_bayes_categories SET word_count=" . (int) $line['total'] .
+					", probability=" . $proba . " WHERE id = '" . $line['category_id'] . "'");
 			}
 
 			return true;
@@ -181,8 +197,10 @@
 		 @param  string content of the reference
 		 */
 		function saveReference($doc_id, $category_id, $content) {
-
-			return $this->con->execute("INSERT INTO ttrss_plugin_af_sort_bayes_references (id, category_id, content) VALUES ('" . $this->con->escape_string($doc_id) . "', '" . $this->con->escape_string($category_id) . "', '" . $this->con->escape_string($content) . "')");
+			return $this->con->query("INSERT INTO ttrss_plugin_af_sort_bayes_references (document_id, category_id, owner_uid) VALUES
+				('" . $this->con->escape_string($doc_id) . "', '" .
+					(int)$category_id . "', " .
+					(int)$this->owner_uid . ")");
 		}
 
 		/** get a reference from the database.
@@ -190,17 +208,29 @@
 		 @return array  reference( category_id => ...., content => ....)
 		 @param  string id
 		 */
-		function getReference($doc_id) {
-			$ref = array();
-			$rs = $this->con->query("SELECT * FROM ttrss_plugin_af_sort_bayes_references WHERE id='" . $this->con->escape_string($doc_id) . "'");
+		function getReference($doc_id, $include_content = true)
+		{
 
-			if ($this->con->num_rows($rs) == 0 ) {
+			$ref = array();
+			$rs = $this->con->query("SELECT * FROM ttrss_plugin_af_sort_bayes_references WHERE document_id='" .
+				$this->con->escape_string($doc_id) . "' AND owner_uid = " . $this->owner_uid);
+
+			if ($this->con->num_rows($rs) == 0) {
 				return $ref;
 			}
 
-			$ref['category_id'] = $rs['category_id'];
-			$ref['content'] = $rs['content'];
-			$ref['id'] = $rs['id'];
+			$ref['category_id'] = $this->con->fetch_result($rs, 0, 'category_id');
+			$ref['id'] = $this->con->fetch_result($rs, 0, 'id');
+			$ref['document_id'] = $this->con->fetch_result($rs, 0, 'document_id');
+
+			if ($include_content) {
+				$rs = $this->con->query("SELECT content, title FROM ttrss_entries WHERE guid = '" .
+					$this->con->escape_string($ref['document_id']) . "'");
+
+				if ($this->con->num_rows($rs) != 0) {
+					$ref['content'] = mb_strtolower($this->con->fetch_result($rs, 0, 'title') . ' ' . strip_tags($this->con->fetch_result($rs, 0, 'content')));
+				}
+			}
 
 			return $ref;
 		}
@@ -212,7 +242,7 @@
 		 */
 		function removeReference($doc_id) {
 
-			return $this->con->execute("DELETE FROM ttrss_plugin_af_sort_bayes_references WHERE id='" . $this->con->escape_string($doc_id) . "'");
+			return $this->con->query("DELETE FROM ttrss_plugin_af_sort_bayes_references WHERE document_id='" . $this->con->escape_string($doc_id) . "' AND owner_uid = " . $this->owner_uid);
 		}
 
 	}

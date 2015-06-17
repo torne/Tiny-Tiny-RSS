@@ -85,6 +85,7 @@
 				reset($tokens);
 
 				while (list($token, $count) = each($tokens)) {
+
 					if ($this->nbs->wordExists($token)) {
 						$word = $this->nbs->getWord($token, $category);
 
@@ -120,8 +121,10 @@
 		function train($doc_id, $category_id, $content) {
 			$ret = false;
 
+
 			// if this doc_id already trained, no trained
-			if (!$this->nbs->getReference($doc_id)) {
+			if (!$this->nbs->getReference($doc_id, false)) {
+
 				$tokens = $this->_getTokens($content);
 
 				while (list($token, $count) = each($tokens)) {
@@ -149,15 +152,21 @@
 		 */
 		function untrain($doc_id) {
 			$ref = $this->nbs->getReference($doc_id);
-			$tokens = $this->_getTokens($ref['content']);
 
-			while (list($token, $count) = each($tokens)) {
-				$this->nbs->removeWord($token, $count, $ref['category_id']);
+			if (isset($ref['content'])) {
+
+				$tokens = $this->_getTokens($ref['content']);
+
+				while (list($token, $count) = each($tokens)) {
+					$this->nbs->removeWord($token, $count, $ref['category_id']);
+				}
+
+				$this->nbs->removeReference($doc_id);
+
+				return true;
+			} else {
+				return false;
 			}
-
-			$this->nbs->removeReference($doc_id);
-
-			return true;
 		}
 
 		/** rescale the results between 0 and 1.
@@ -226,18 +235,18 @@
 		function _getTokens($string) {
 			$rawtokens = array();
 			$tokens = array();
-			$string = $this->_cleanString($string);
+			//$string = $this->_cleanString($string);
 
 			if (count(0 >= $this->ignore_list)) {
 				$this->ignore_list = $this->getIgnoreList();
 			}
 
-			$rawtokens = split("[^-_A-Za-z0-9]+", $string);
+			$rawtokens = preg_split("/[\(\),:\.;\t\r\n ]/", $string, -1, PREG_SPLIT_NO_EMPTY);
 
 			// remove some tokens
 			while (list(, $token) = each($rawtokens)) {
 				$token = trim($token);
-				if (!(('' == $token) || (strlen($token) < $this->min_token_length) || (strlen($token) > $this->max_token_length) || (preg_match('/^[0-9]+$/', $token)) || (in_array($token, $this->ignore_list)))) {
+				if (!(('' == $token) || (mb_strpos($token, "&") !== FALSE) || (mb_strlen($token) < $this->min_token_length) || (mb_strlen($token) > $this->max_token_length) || (preg_match('/^[0-9]+$/', $token)) || (in_array($token, $this->ignore_list)))) {
 					$tokens[$token]++;
 				}
 			}

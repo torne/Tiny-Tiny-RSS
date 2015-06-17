@@ -5,6 +5,7 @@ class Af_Sort_Bayes extends Plugin {
 	private $host;
 	private $filters = array();
 	private $dbh;
+	private $score_modifier = 50;
 
 	function about() {
 		return array(1.0,
@@ -31,8 +32,39 @@ class Af_Sort_Bayes extends Plugin {
 		$article_id = (int) $_REQUEST["article_id"];
 		$train_up = sql_bool_to_bool($_REQUEST["train_up"]);
 
-		print "FIXME: $article_id :: $train_up";
+		$category = $train_up ? "GOOD" : "NEUTRAL";
 
+		$nbs = new NaiveBayesianStorage($_SESSION["uid"]);
+		$nb = new NaiveBayesian($nbs);
+
+		$result = $this->dbh->query("SELECT score, guid, title, content FROM ttrss_entries, ttrss_user_entries WHERE ref_id = id AND id = " .
+			$article_id . " AND owner_uid = " . $_SESSION["uid"]);
+
+		if ($this->dbh->num_rows($result) != 0) {
+			$guid = $this->dbh->fetch_result($result, 0, "guid");
+			$title = $this->dbh->fetch_result($result, 0, "title");
+			$content = mb_strtolower($title . " " . strip_tags($this->dbh->fetch_result($result, 0, "content")));
+			$score = $this->dbh->fetch_result($result, 0, "score");
+
+			$this->dbh->query("BEGIN");
+
+			if ($nb->untrain($guid, $content)) {
+				if ($score >= $this->score_modifier) $score -= $this->score_modifier;
+			}
+
+			$nb->train($guid, $nbs->getCategoryByName($category), $content);
+
+			if ($category == "GOOD") $score += $this->score_modifier;
+
+			$this->dbh->query("UPDATE ttrss_user_entries SET score = '$score' WHERE ref_id = $article_id AND owner_uid = " . $_SESSION["uid"]);
+
+			$nb->updateProbabilities();
+
+			$this->dbh->query("COMMIT");
+
+		}
+
+		print "$article_id :: $category";
 	}
 
 	function get_js() {
@@ -54,9 +86,11 @@ class Af_Sort_Bayes extends Plugin {
 	function init_database() {
 		$prefix = "ttrss_plugin_af_sort_bayes";
 
-		/*$this->dbh->query("DROP TABLE IF EXISTS ${prefix}_references", false);
-		$this->dbh->query("DROP TABLE IF EXISTS ${prefix}_categories", false);
-		$this->dbh->query("DROP TABLE IF EXISTS ${prefix}_wordfreqs", false);*/
+		// TODO there probably should be a way for plugins to determine their schema version to upgrade tables
+
+		/*$this->dbh->query("DROP TABLE IF EXISTS ${prefix}_wordfreqs", false);
+		$this->dbh->query("DROP TABLE IF EXISTS ${prefix}_references", false);
+		$this->dbh->query("DROP TABLE IF EXISTS ${prefix}_categories", false);*/
 
 		$this->dbh->query("BEGIN");
 
@@ -69,9 +103,9 @@ class Af_Sort_Bayes extends Plugin {
   			owner_uid INTEGER NOT NULL REFERENCES ttrss_users(id) ON DELETE CASCADE,
   			word_count BIGINT NOT NULL DEFAULT '0')");
 
-		$this->dbh->query("CREATE TABLE IF NOT EXISTS ${prefix}_documents (
+		$this->dbh->query("CREATE TABLE IF NOT EXISTS ${prefix}_references (
 			id SERIAL NOT NULL PRIMARY KEY,
-			document varchar(250) NOT NULL DEFAULT '',
+			document_id VARCHAR(255) NOT NULL,
   			category_id INTEGER NOT NULL REFERENCES ${prefix}_categories(id) ON DELETE CASCADE,
   			owner_uid INTEGER NOT NULL REFERENCES ttrss_users(id) ON DELETE CASCADE,
   			content text NOT NULL)");
@@ -81,6 +115,17 @@ class Af_Sort_Bayes extends Plugin {
   			category_id INTEGER NOT NULL REFERENCES ${prefix}_categories(id) ON DELETE CASCADE,
   			owner_uid INTEGER NOT NULL REFERENCES ttrss_users(id) ON DELETE CASCADE,
   			count BIGINT NOT NULL DEFAULT '0')");
+
+		$owner_uid = @$_SESSION["uid"];
+
+		if ($owner_uid) {
+			$result = $this->dbh->query("SELECT id FROM ${prefix}_categories WHERE owner_uid = $owner_uid LIMIT 1");
+
+			if ($this->dbh->num_rows($result) == 0) {
+				$this->dbh->query("INSERT INTO ${prefix}_categories (category, owner_uid) VALUES ('GOOD', $owner_uid)");
+				$this->dbh->query("INSERT INTO ${prefix}_categories (category, owner_uid) VALUES ('NEUTRAL', $owner_uid)");
+			}
+		}
 
 		$this->dbh->query("COMMIT");
 	}
@@ -98,6 +143,52 @@ class Af_Sort_Bayes extends Plugin {
 	function hook_article_filter($article) {
 		$owner_uid = $article["owner_uid"];
 
+		$nbs = new NaiveBayesianStorage($owner_uid);
+		$nb = new NaiveBayesian($nbs);
+
+		$categories = $nbs->getCategories();
+
+		if (count($categories) > 0) {
+
+			$count_neutral = 0;
+			$count_good = 0;
+			$id_good = 0;
+			$id_neutral = 0;
+
+			foreach ($categories as $id => $cat) {
+				if ($cat["category"] == "GOOD") {
+					$id_good = $id;
+					$count_good += $cat["word_count"];
+				} else if ($cat["category"] == "NEUTRAL") {
+					$id_neutral = $id;
+					$count_neutral += $cat["word_count"];
+				}
+			}
+
+			$dst_category = $id_neutral;
+
+			$bayes_content = mb_strtolower($article["title"] . " " . strip_tags($article["content"]));
+
+			if ($count_neutral >= 3000 && $count_good >= 1000) {
+				// enable automatic categorization
+
+				$result = $nb->categorize($bayes_content);
+
+				if (count($result) == 2) {
+					$prob_good = $result[$id_good];
+					$prob_neutral = $result[$id_neutral];
+
+					if ($prob_good > 0.90 && $prob_good > $prob_neutral) {
+						//$dst_category = $id_good; // should we autofile as good or not? idk
+						$article["score_modifier"] += $this->score_modifier;
+					}
+				}
+			}
+
+			$nb->train($article["guid_hashed"], $dst_category, $bayes_content);
+
+			$nb->updateProbabilities();
+		}
 
 		return $article;
 

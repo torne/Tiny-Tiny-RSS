@@ -680,6 +680,7 @@
 
 				$article = array("owner_uid" => $owner_uid, // read only
 					"guid" => $entry_guid, // read only
+					"guid_hashed" => $entry_guid_hashed, // read only
 					"title" => $entry_title,
 					"content" => $entry_content,
 					"link" => $entry_link,
@@ -967,6 +968,10 @@
 							author = '$entry_author',
 							lang = '$entry_language'
 						WHERE id = '$ref_id'");
+
+					// update aux data
+					db_query("UPDATE ttrss_user_entries
+							SET score = '$score' WHERE ref_id = '$ref_id'");
 
 					if ($mark_unread_on_update) {
 						db_query("UPDATE ttrss_user_entries
