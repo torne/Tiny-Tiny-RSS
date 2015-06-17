@@ -96,25 +96,55 @@ class Af_Sort_Bayes extends Plugin {
 
 		// PG only for the time being
 
-		$this->dbh->query("CREATE TABLE IF NOT EXISTS ${prefix}_categories (
-			id SERIAL NOT NULL PRIMARY KEY,
-			category varchar(100) NOT NULL DEFAULT '',
-  			probability DOUBLE PRECISION NOT NULL DEFAULT '0',
-  			owner_uid INTEGER NOT NULL REFERENCES ttrss_users(id) ON DELETE CASCADE,
-  			word_count BIGINT NOT NULL DEFAULT '0')");
+		if (DB_TYPE == "mysql") {
 
-		$this->dbh->query("CREATE TABLE IF NOT EXISTS ${prefix}_references (
-			id SERIAL NOT NULL PRIMARY KEY,
-			document_id VARCHAR(255) NOT NULL,
-  			category_id INTEGER NOT NULL REFERENCES ${prefix}_categories(id) ON DELETE CASCADE,
-  			owner_uid INTEGER NOT NULL REFERENCES ttrss_users(id) ON DELETE CASCADE,
-  			content text NOT NULL)");
+			$this->dbh->query("CREATE TABLE IF NOT EXISTS ${prefix}_categories (
+				id INTEGER NOT NULL PRIMARY KEY auto_increment,
+				category varchar(100) NOT NULL DEFAULT '',
+				probability DOUBLE NOT NULL DEFAULT '0',
+				owner_uid INTEGER NOT NULL,
+				FOREIGN KEY (owner_uid) REFERENCES ttrss_users(id) ON DELETE CASCADE,
+				word_count BIGINT NOT NULL DEFAULT '0') ENGINE=InnoDB");
 
-		$this->dbh->query("CREATE TABLE IF NOT EXISTS ${prefix}_wordfreqs (
-			word varchar(100) NOT NULL DEFAULT '',
-  			category_id INTEGER NOT NULL REFERENCES ${prefix}_categories(id) ON DELETE CASCADE,
-  			owner_uid INTEGER NOT NULL REFERENCES ttrss_users(id) ON DELETE CASCADE,
-  			count BIGINT NOT NULL DEFAULT '0')");
+			$this->dbh->query("CREATE TABLE IF NOT EXISTS ${prefix}_references (
+				id INTEGER NOT NULL PRIMARY KEY auto_increment,
+				document_id VARCHAR(255) NOT NULL,
+				category_id INTEGER NOT NULL,
+				FOREIGN KEY (category_id) REFERENCES ${prefix}_categories(id) ON DELETE CASCADE,
+				owner_uid INTEGER NOT NULL,
+				FOREIGN KEY (owner_uid) REFERENCES ttrss_users(id) ON DELETE CASCADE,
+				content text NOT NULL) ENGINE=InnoDB");
+
+			$this->dbh->query("CREATE TABLE IF NOT EXISTS ${prefix}_wordfreqs (
+				word varchar(100) NOT NULL DEFAULT '',
+				category_id INTEGER NOT NULL,
+				FOREIGN KEY (category_id) REFERENCES ${prefix}_categories(id) ON DELETE CASCADE,
+				owner_uid INTEGER NOT NULL,
+				FOREIGN KEY (owner_uid) REFERENCES ttrss_users(id) ON DELETE CASCADE,
+				count BIGINT NOT NULL DEFAULT '0') ENGINE=InnoDB");
+
+
+		} else {
+			$this->dbh->query("CREATE TABLE IF NOT EXISTS ${prefix}_categories (
+				id SERIAL NOT NULL PRIMARY KEY,
+				category varchar(100) NOT NULL DEFAULT '',
+				probability DOUBLE NOT NULL DEFAULT '0',
+				owner_uid INTEGER NOT NULL REFERENCES ttrss_users(id) ON DELETE CASCADE,
+				word_count BIGINT NOT NULL DEFAULT '0')");
+
+			$this->dbh->query("CREATE TABLE IF NOT EXISTS ${prefix}_references (
+				id SERIAL NOT NULL PRIMARY KEY,
+				document_id VARCHAR(255) NOT NULL,
+				category_id INTEGER NOT NULL REFERENCES ${prefix}_categories(id) ON DELETE CASCADE,
+				owner_uid INTEGER NOT NULL REFERENCES ttrss_users(id) ON DELETE CASCADE,
+				content text NOT NULL)");
+
+			$this->dbh->query("CREATE TABLE IF NOT EXISTS ${prefix}_wordfreqs (
+				word varchar(100) NOT NULL DEFAULT '',
+				category_id INTEGER NOT NULL REFERENCES ${prefix}_categories(id) ON DELETE CASCADE,
+				owner_uid INTEGER NOT NULL REFERENCES ttrss_users(id) ON DELETE CASCADE,
+				count BIGINT NOT NULL DEFAULT '0')");
+		}
 
 		$owner_uid = @$_SESSION["uid"];
 
