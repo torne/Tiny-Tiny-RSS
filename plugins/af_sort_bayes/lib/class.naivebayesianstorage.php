@@ -84,6 +84,17 @@
 			return false;
 		}
 
+		function getCategoryById($category_id) {
+			$rs = $this->con->query("SELECT category FROM ttrss_plugin_af_sort_bayes_categories WHERE id = '" .
+				(int)$category_id . "' AND owner_uid = " . $this->owner_uid);
+
+			if ($this->con->num_rows($rs) != 0) {
+				return $this->con->fetch_result($rs, 0, "category");
+			}
+
+			return false;
+		}
+
 		/** see if the word is an already learnt word.
 		 @return bool
 		 @param string word

@@ -34,7 +34,8 @@ class Af_Sort_Bayes extends Plugin {
 		$article_id = (int) $_REQUEST["article_id"];
 		$train_up = sql_bool_to_bool($_REQUEST["train_up"]);
 
-		$category = $train_up ? "GOOD" : "NEUTRAL";
+		//$category = $train_up ? "GOOD" : "UGLY";
+		$dst_category = "UGLY";
 
 		$nbs = new NaiveBayesianStorage($_SESSION["uid"]);
 		$nb = new NaiveBayesianNgram($nbs);
@@ -50,13 +51,48 @@ class Af_Sort_Bayes extends Plugin {
 
 			$this->dbh->query("BEGIN");
 
-			if ($nb->untrain($guid, $content)) {
-				if ($score >= $this->score_modifier) $score -= $this->score_modifier;
+			$ref = $nbs->getReference($guid, false);
+
+			if (isset($ref['category_id'])) {
+				$current_category = $nbs->getCategoryById($ref['category_id']);
+			} else {
+				$current_category = "UGLY";
 			}
 
-			$nb->train($guid, $nbs->getCategoryByName($category), $content);
+			// set score to fixed value for now
 
-			if ($category == "GOOD") $score += $this->score_modifier;
+			if ($train_up) {
+				switch ($current_category) {
+					case "UGLY":
+						$dst_category = "GOOD";
+						$score = $this->score_modifier;
+						break;
+					case "BAD":
+						$dst_category = "UGLY";
+						$score = 0;
+						break;
+					case "GOOD":
+						$dst_category = "GOOD";
+						break;
+				}
+			} else {
+				switch ($current_category) {
+					case "UGLY":
+						$dst_category = "BAD";
+						$score = -$this->score_modifier;
+						break;
+					case "BAD":
+						$dst_category = "BAD";
+						break;
+					case "GOOD":
+						$dst_category = "UGLY";
+						$score = -$this->score_modifier;
+						break;
+				}
+			}
+
+			$nb->untrain($guid, $content);
+			$nb->train($guid, $nbs->getCategoryByName($dst_category), $content);
 
 			$this->dbh->query("UPDATE ttrss_user_entries SET score = '$score' WHERE ref_id = $article_id AND owner_uid = " . $_SESSION["uid"]);
 
@@ -66,7 +102,7 @@ class Af_Sort_Bayes extends Plugin {
 
 		}
 
-		print "$article_id :: $category";
+		print "$article_id :: $dst_category :: $score";
 	}
 
 	function get_js() {
@@ -159,7 +195,8 @@ class Af_Sort_Bayes extends Plugin {
 
 			if ($this->dbh->num_rows($result) == 0) {
 				$this->dbh->query("INSERT INTO ${prefix}_categories (category, owner_uid) VALUES ('GOOD', $owner_uid)");
-				$this->dbh->query("INSERT INTO ${prefix}_categories (category, owner_uid) VALUES ('NEUTRAL', $owner_uid)");
+				$this->dbh->query("INSERT INTO ${prefix}_categories (category, owner_uid) VALUES ('BAD', $owner_uid)");
+				$this->dbh->query("INSERT INTO ${prefix}_categories (category, owner_uid) VALUES ('UGLY', $owner_uid)");
 			}
 		}
 
@@ -210,36 +247,41 @@ class Af_Sort_Bayes extends Plugin {
 		if (count($categories) > 0) {
 
 			$count_neutral = 0;
-			$count_good = 0;
+
 			$id_good = 0;
-			$id_neutral = 0;
+			$id_ugly = 0;
+			$id_bad = 0;
 
 			foreach ($categories as $id => $cat) {
 				if ($cat["category"] == "GOOD") {
 					$id_good = $id;
-					$count_good += $cat["word_count"];
-				} else if ($cat["category"] == "NEUTRAL") {
-					$id_neutral = $id;
+				} else if ($cat["category"] == "UGLY") {
+					$id_ugly = $id;
 					$count_neutral += $cat["word_count"];
+				} else if ($cat["category"] == "BAD") {
+					$id_bad = $id;
 				}
 			}
 
-			$dst_category = $id_neutral;
+			$dst_category = $id_ugly;
 
 			$bayes_content = mb_strtolower($article["title"] . " " . strip_tags($article["content"]));
 
-			if ($count_neutral >= 20000 && $count_good >= 10000) {
+			if ($count_neutral >= 5000) {
 				// enable automatic categorization
 
 				$result = $nb->categorize($bayes_content);
 
-				if (count($result) == 2) {
+				if (count($result) == 3) {
 					$prob_good = $result[$id_good];
-					$prob_neutral = $result[$id_neutral];
+					$prob_bad = $result[$id_bad];
 
-					if ($prob_good > 0.90 && $prob_good > $prob_neutral) {
+					if ($prob_good > 0.90) {
 						$dst_category = $id_good; // should we autofile as good or not? idk
 						$article["score_modifier"] += $this->score_modifier;
+					} else if ($prob_bad > 0.90) {
+						$dst_category = $id_bad; // should we autofile as good or not? idk
+						$article["score_modifier"] -= $this->score_modifier;
 					}
 				}
 			}
