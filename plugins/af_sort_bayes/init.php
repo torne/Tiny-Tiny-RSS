@@ -38,7 +38,7 @@ class Af_Sort_Bayes extends Plugin {
 		$dst_category = "UGLY";
 
 		$nbs = new NaiveBayesianStorage($_SESSION["uid"]);
-		$nb = new NaiveBayesianNgram($nbs);
+		$nb = new NaiveBayesian($nbs);
 
 		$result = $this->dbh->query("SELECT score, guid, title, content FROM ttrss_entries, ttrss_user_entries WHERE ref_id = id AND id = " .
 			$article_id . " AND owner_uid = " . $_SESSION["uid"]);
@@ -240,7 +240,7 @@ class Af_Sort_Bayes extends Plugin {
 		$owner_uid = $article["owner_uid"];
 
 		$nbs = new NaiveBayesianStorage($owner_uid);
-		$nb = new NaiveBayesianNgram($nbs);
+		$nb = new NaiveBayesian($nbs);
 
 		$categories = $nbs->getCategories();
 
@@ -267,23 +267,27 @@ class Af_Sort_Bayes extends Plugin {
 
 			$bayes_content = mb_strtolower($article["title"] . " " . strip_tags($article["content"]));
 
-			if ($count_neutral >= 5000) {
+			if ($count_neutral >= 10000) {
 				// enable automatic categorization
 
 				$result = $nb->categorize($bayes_content);
+
+				print_r($result);
 
 				if (count($result) == 3) {
 					$prob_good = $result[$id_good];
 					$prob_bad = $result[$id_bad];
 
 					if ($prob_good > 0.90) {
-						$dst_category = $id_good; // should we autofile as good or not? idk
+						$dst_category = $id_good;
 						$article["score_modifier"] += $this->score_modifier;
 					} else if ($prob_bad > 0.90) {
-						$dst_category = $id_bad; // should we autofile as good or not? idk
+						$dst_category = $id_bad;
 						$article["score_modifier"] -= $this->score_modifier;
 					}
 				}
+
+				_debug("bayes, dst category: $dst_category");
 			}
 
 			$nb->train($article["guid_hashed"], $dst_category, $bayes_content);
@@ -304,7 +308,7 @@ class Af_Sort_Bayes extends Plugin {
 		$this->dbh->query("COMMIT");
 
 		$nbs = new NaiveBayesianStorage($_SESSION["uid"]);
-		$nb = new NaiveBayesianNgram($nbs);
+		$nb = new NaiveBayesian($nbs);
 		$nb->updateProbabilities();
 	}
 
