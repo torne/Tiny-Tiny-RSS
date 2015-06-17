@@ -7,6 +7,7 @@ class Af_Sort_Bayes extends Plugin {
 	private $dbh;
 	private $score_modifier = 50;
 	private $sql_prefix = "ttrss_plugin_af_sort_bayes";
+	private $auto_categorize_threshold = 10000;
 
 	function about() {
 		return array(1.0,
@@ -209,6 +210,8 @@ class Af_Sort_Bayes extends Plugin {
 
 		print "<h3>" . __("Statistics") . "</h3>";
 
+		print "<p>".T_sprintf("Required UGLY word count for automatic matching: %d", $this->auto_categorize_threshold)."</p>";
+
 		print "<table>";
 		print "<tr><th>Category</th><th>Probability</th><th>Words</th><th>Articles</th></tr>";
 
@@ -288,7 +291,7 @@ class Af_Sort_Bayes extends Plugin {
 
 			$bayes_content = mb_strtolower($article["title"] . " " . strip_tags($article["content"]));
 
-			if ($count_neutral >= 10000) {
+			if ($count_neutral >= $this->auto_categorize_threshold) {
 				// enable automatic categorization
 
 				$result = $nb->categorize($bayes_content);
