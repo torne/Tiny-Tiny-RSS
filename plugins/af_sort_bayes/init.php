@@ -270,7 +270,7 @@ class Af_Sort_Bayes extends Plugin {
 
 				$result = $nb->categorize($bayes_content);
 
-				print_r($result);
+				//print_r($result);
 
 				if (count($result) == 3) {
 					$prob_good = $result[$id_good];
