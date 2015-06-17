@@ -6,6 +6,7 @@ class Af_Sort_Bayes extends Plugin {
 	private $filters = array();
 	private $dbh;
 	private $score_modifier = 50;
+	private $sql_prefix = "ttrss_plugin_af_sort_bayes";
 
 	function about() {
 		return array(1.0,
@@ -71,6 +72,10 @@ class Af_Sort_Bayes extends Plugin {
 		return file_get_contents(__DIR__ . "/init.js");
 	}
 
+	function get_prefs_js() {
+		return file_get_contents(__DIR__ . "/init.js");
+	}
+
 	function hook_article_button($line) {
 		return "<img src=\"plugins/af_sort_bayes/thumb_up.png\"
 			style=\"cursor : pointer\" style=\"cursor : pointer\"
@@ -84,7 +89,7 @@ class Af_Sort_Bayes extends Plugin {
 	}
 
 	function init_database() {
-		$prefix = "ttrss_plugin_af_sort_bayes";
+		$prefix = $this->sql_prefix;
 
 		// TODO there probably should be a way for plugins to determine their schema version to upgrade tables
 
@@ -163,7 +168,27 @@ class Af_Sort_Bayes extends Plugin {
 	function hook_prefs_tab($args) {
 		if ($args != "prefPrefs") return;
 
-		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('af_sort_bayes')."\">";
+		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Bayesian classifier (af_sort_bayes)')."\">";
+
+		$result = $this->dbh->query("SELECT category, probability, word_count FROM {$this->sql_prefix}_categories WHERE owner_uid = " . $_SESSION["uid"]);
+
+		print "<table>";
+		print "<tr><th>Category</th><th>Probability</th><th>Word count</th></tr>";
+
+		while ($line = $this->dbh->fetch_assoc($result)) {
+			print "<tr>";
+			foreach ($line as $k => $v) {
+				if ($k == "probability") $v = sprintf("%.3f", $v);
+
+				print "<td>$v</td>";
+			}
+			print "</tr>";
+		}
+
+		print "</table>";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return bayesClearDatabase()\">".
+			__('Clear database')."</button> ";
 
 		//
 
@@ -222,6 +247,19 @@ class Af_Sort_Bayes extends Plugin {
 
 		return $article;
 
+	}
+
+	function clearDatabase() {
+		$prefix = $this->sql_prefix;
+
+		$this->dbh->query("BEGIN");
+		$this->dbh->query("DELETE FROM ${prefix}_references WHERE owner_uid = " . $_SESSION["uid"]);
+		$this->dbh->query("DELETE FROM ${prefix}_wordfreqs WHERE owner_uid = " . $_SESSION["uid"]);
+		$this->dbh->query("COMMIT");
+
+		$nbs = new NaiveBayesianStorage($_SESSION["uid"]);
+		$nb = new NaiveBayesian($nbs);
+		$nb->updateProbabilities();
 	}
 
 	function api_version() {
