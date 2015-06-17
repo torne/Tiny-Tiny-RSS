@@ -80,7 +80,11 @@
 				$scores[$category] = $data['probability'];
 				// small probability for a word not in the category
 				// maybe putting 1.0 as a 'no effect' word can also be good
-				$small_proba = 1.0 / ($data['word_count'] * 2);
+
+				if ($data['word_count'] > 0)
+					$small_proba = 1.0 / ($data['word_count'] * 2);
+				else
+					$small_proba = 0;
 
 				reset($tokens);
 
