@@ -26,6 +26,7 @@ function bayesClearDatabase() {
 				parameters: query,
 				onComplete: function (transport) {
 					notify(transport.responseText);
+					bayesUpdateUI();
 				}
 			});
 		}
@@ -35,3 +36,19 @@ function bayesClearDatabase() {
 	}
 }
 
+function bayesUpdateUI() {
+	try {
+
+		var query = "backend.php?op=pluginhandler&plugin=af_sort_bayes&method=renderPrefsUI";
+
+		new Ajax.Request("backend.php", {
+			parameters: query,
+			onComplete: function (transport) {
+				dijit.byId("af_sort_bayes_prefs").attr("content", transport.responseText);
+			}
+		});
+
+	} catch (e) {
+		exception_error("showTrgmRelated", e);
+	}
+}

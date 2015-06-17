@@ -201,18 +201,16 @@ class Af_Sort_Bayes extends Plugin {
 		$this->dbh->query("COMMIT");
 	}
 
-	function hook_prefs_tab($args) {
-		if ($args != "prefPrefs") return;
-
-		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Bayesian classifier (af_sort_bayes)')."\">";
-
+	function renderPrefsUI() {
 		$result = $this->dbh->query("SELECT category, probability, word_count,
 			(SELECT COUNT(id) FROM {$this->sql_prefix}_references WHERE
 				category_id = {$this->sql_prefix}_categories.id) as doc_count
  			FROM {$this->sql_prefix}_categories WHERE owner_uid = " . $_SESSION["uid"]);
 
+		print "<h3>" . __("Statistics") . "</h3>";
+
 		print "<table>";
-		print "<tr><th>Category</th><th>Probability</th><th>Word count</th><th>Article count</th></tr>";
+		print "<tr><th>Category</th><th>Probability</th><th>Words</th><th>Articles</th></tr>";
 
 		while ($line = $this->dbh->fetch_assoc($result)) {
 			print "<tr>";
@@ -226,10 +224,35 @@ class Af_Sort_Bayes extends Plugin {
 
 		print "</table>";
 
+		print "<h3>" . __("Last matched articles") . "</h3>";
+
+		$result = $this->dbh->query("SELECT te.title, category, tf.title AS feed_title
+			FROM ttrss_entries AS te, ttrss_user_entries AS tu, ttrss_feeds AS tf, {$this->sql_prefix}_references AS tr, {$this->sql_prefix}_categories AS tc
+			WHERE tf.id = tu.feed_id AND tu.ref_id = te.id AND tc.id = tr.category_id AND tr.document_id = te.guid ORDER BY te.id DESC LIMIT 20");
+
+		print "<ul class=\"browseFeedList\" style=\"border-width : 1px\">";
+
+		while ($line = $this->dbh->fetch_assoc($result)) {
+			print "<li>" . $line["category"] . ": " . $line["title"] . " (" . $line["feed_title"] . ")</li>";
+		}
+
+		print "</ul>";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return bayesUpdateUI()\">".
+			__('Refresh')."</button> ";
+
 		print "<button dojoType=\"dijit.form.Button\" onclick=\"return bayesClearDatabase()\">".
 			__('Clear database')."</button> ";
 
 		//
+	}
+
+	function hook_prefs_tab($args) {
+		if ($args != "prefPrefs") return;
+
+		print "<div id=\"af_sort_bayes_prefs\" dojoType=\"dijit.layout.AccordionPane\" title=\"".__('Bayesian classifier (af_sort_bayes)')."\">";
+
+		$this->renderPrefsUI();
 
 		print "</div>";
 	}
