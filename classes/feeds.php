@@ -687,7 +687,7 @@ class Feeds extends Handler_Protected {
 
 					$reply['content'] .= "</div>";
 
-					$reply['content'] .= "<div class=\"cdmFooter\">";
+					$reply['content'] .= "<div class=\"cdmFooter\" onclick=\"cdmFooterClick(event)\">";
 
 					foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_ARTICLE_LEFT_BUTTON) as $p) {
 						$reply['content'] .= $p->hook_article_left_button($line);

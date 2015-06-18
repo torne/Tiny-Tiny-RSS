@@ -2447,3 +2447,7 @@ function updateFloatingTitle(unread_only) {
 		exception_error("updateFloatingTitle", e);
 	}
 }
+
+function cdmFooterClick(event) {
+	event.stopPropagation();
+}
