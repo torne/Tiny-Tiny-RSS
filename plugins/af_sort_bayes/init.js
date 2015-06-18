@@ -6,6 +6,8 @@ function bayesTrain(id, train_up, event) {
 		var query = "backend.php?op=pluginhandler&plugin=af_sort_bayes&method=trainArticle&article_id=" + param_escape(id) +
 			"&train_up=" + param_escape(train_up);
 
+		notify_progress("Loading, please wait...");
+
 		new Ajax.Request("backend.php", {
 			parameters: query,
 			onComplete: function(transport) {
