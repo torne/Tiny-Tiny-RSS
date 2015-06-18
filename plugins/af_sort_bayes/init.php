@@ -263,12 +263,17 @@ class Af_Sort_Bayes extends Plugin {
 	function hook_article_filter($article) {
 		$owner_uid = $article["owner_uid"];
 
+		// guid already includes owner_uid so we don't need to include it
+		$result = $this->dbh->query("SELECT id FROM {$this->sql_prefix}_references WHERE
+			document_id = '" . $this->dbh->escape_string($article['guid_hashed']) . "'");
+
+		if (db_num_rows($result) != 0) {
+			_debug("bayes: article already categorized");
+			return $article;
+		}
+
 		$nbs = new NaiveBayesianStorage($owner_uid);
 		$nb = new NaiveBayesianNgram($nbs, 3);
-
-		$ref = $nbs->getReference($article["guid"], false);
-
-		if (isset($ref["category_id"])) return $article; // already categorized
 
 		$categories = $nbs->getCategories();
 
