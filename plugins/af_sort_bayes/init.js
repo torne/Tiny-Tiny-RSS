@@ -57,3 +57,25 @@ function bayesUpdateUI() {
 		exception_error("showTrgmRelated", e);
 	}
 }
+
+function bayesShow(id) {
+	try {
+		if (dijit.byId("bayesShowDlg"))
+			dijit.byId("bayesShowDlg").destroyRecursive();
+
+		var query = "backend.php?op=pluginhandler&plugin=af_sort_bayes&method=showArticleStats&article_id=" + param_escape(id);
+
+		dialog = new dijit.Dialog({
+			id: "bayesShowDlg",
+			title: __("Classifier information"),
+			style: "width: 600px",
+			href: query});
+
+		dialog.show();
+
+	} catch (e) {
+		exception_error("shareArticle", e);
+	}
+}
+
+

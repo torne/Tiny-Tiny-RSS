@@ -122,7 +122,11 @@ class Af_Sort_Bayes extends Plugin {
 		"<img src=\"plugins/af_sort_bayes/thumb_down.png\"
 			style=\"cursor : pointer\" style=\"cursor : pointer\"
 			onclick=\"bayesTrain(".$line["id"].", false, event)\"
-			class='tagsPic' title='".__('-1')."'>";
+			class='tagsPic' title='".__('-1')."'>" .
+		"<img src=\"plugins/af_sort_bayes/chart_bar.png\"
+			style=\"cursor : pointer\" style=\"cursor : pointer\"
+			onclick=\"bayesShow(".$line["id"].")\"
+			class='tagsPic' title='".__('Show classifier info')."'>";
 
 	}
 
@@ -343,6 +347,60 @@ class Af_Sort_Bayes extends Plugin {
 		$nbs = new NaiveBayesianStorage($_SESSION["uid"]);
 		$nb = new NaiveBayesian($nbs);
 		$nb->updateProbabilities();
+	}
+
+	function showArticleStats() {
+		$article_id = (int) $_REQUEST["article_id"];
+
+		$result = $this->dbh->query("SELECT score, guid, title, content FROM ttrss_entries, ttrss_user_entries WHERE ref_id = id AND id = " .
+			$article_id . " AND owner_uid = " . $_SESSION["uid"]);
+
+		if ($this->dbh->num_rows($result) != 0) {
+			$guid = $this->dbh->fetch_result($result, 0, "guid");
+			$title = $this->dbh->fetch_result($result, 0, "title");
+			$content = mb_strtolower($title . " " . strip_tags($this->dbh->fetch_result($result, 0, "content")));
+
+			print "<h2>" . $title . "</h2>";
+
+			$nbs = new NaiveBayesianStorage($_SESSION["uid"]);
+			$nb = new NaiveBayesian($nbs);
+
+			$categories = $nbs->getCategories();
+
+			$ref = $nbs->getReference($guid, false);
+
+			$current_cat = isset($ref["category_id"]) ? $categories[$ref["category_id"]]["category"] : "N/A";
+
+			print "<p>" . T_sprintf("Currently stored as: %s", $current_cat) . "</p>";
+
+			$result = $nb->categorize($content);
+
+			print "<h3>" . __("Classifier result") . "</h3>";
+
+			print "<table>";
+			print "<tr><th>Category</th><th>Probability</th></tr>";
+
+			foreach ($result as $k => $v) {
+				print "<tr>";
+				print "<td>" . $categories[$k]["category"] . "</td>";
+				print "<td>" . $v . "</td>";
+
+				print "</tr>";
+			}
+
+			print "</table>";
+
+		} else {
+			print_error("Article not found");
+		}
+
+		print "<div align='center'>";
+
+		print "<button dojoType=\"dijit.form.Button\" onclick=\"return dijit.byId('bayesShowDlg').hide()\">".
+			__('Close this window')."</button>";
+
+		print "</div>";
+
 	}
 
 	function api_version() {
