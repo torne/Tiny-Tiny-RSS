@@ -315,10 +315,10 @@ class Af_Sort_Bayes extends Plugin {
 					$prob_good = $result[$id_good];
 					$prob_bad = $result[$id_bad];
 
-					if ($prob_good > 0.90) {
+					if (!is_nan($prob_good) && $prob_good > 0.90) {
 						$dst_category = $id_good;
 						$article["score_modifier"] += $this->score_modifier;
-					} else if ($prob_bad > 0.90) {
+					} else if (!is_nan($prob_bad) && $prob_bad > 0.90) {
 						$dst_category = $id_bad;
 						$article["score_modifier"] -= $this->score_modifier;
 					}
