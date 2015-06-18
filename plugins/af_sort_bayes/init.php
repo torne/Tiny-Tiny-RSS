@@ -8,6 +8,7 @@ class Af_Sort_Bayes extends Plugin {
 	private $score_modifier = 50;
 	private $sql_prefix = "ttrss_plugin_af_sort_bayes";
 	private $auto_categorize_threshold = 10000;
+	private $max_document_length = 3000; // classifier can't rescale output for very long strings apparently
 
 	function about() {
 		return array(1.0,
@@ -47,7 +48,7 @@ class Af_Sort_Bayes extends Plugin {
 		if ($this->dbh->num_rows($result) != 0) {
 			$guid = $this->dbh->fetch_result($result, 0, "guid");
 			$title = $this->dbh->fetch_result($result, 0, "title");
-			$content = mb_strtolower($title . " " . strip_tags($this->dbh->fetch_result($result, 0, "content")));
+			$content = mb_substr(mb_strtolower($title . " " . strip_tags($this->dbh->fetch_result($result, 0, "content"))), 0, $this->max_document_length);
 			$score = $this->dbh->fetch_result($result, 0, "score");
 
 			$this->dbh->query("BEGIN");
@@ -302,7 +303,7 @@ class Af_Sort_Bayes extends Plugin {
 
 			$dst_category = $id_ugly;
 
-			$bayes_content = mb_strtolower($article["title"] . " " . strip_tags($article["content"]));
+			$bayes_content = mb_substr(mb_strtolower($article["title"] . " " . strip_tags($article["content"])), 0, $this->max_document_length);
 
 			if ($count_neutral >= $this->auto_categorize_threshold) {
 				// enable automatic categorization
@@ -358,7 +359,8 @@ class Af_Sort_Bayes extends Plugin {
 		if ($this->dbh->num_rows($result) != 0) {
 			$guid = $this->dbh->fetch_result($result, 0, "guid");
 			$title = $this->dbh->fetch_result($result, 0, "title");
-			$content = mb_strtolower($title . " " . strip_tags($this->dbh->fetch_result($result, 0, "content")));
+
+			$content = mb_substr(mb_strtolower($title . " " . strip_tags($this->dbh->fetch_result($result, 0, "content"))), 0, $this->max_document_length);
 
 			print "<h2>" . $title . "</h2>";
 

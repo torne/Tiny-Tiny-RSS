@@ -47,6 +47,7 @@
 	class NaiveBayesianStorage {
 		var $con = null;
 		var $owner_uid = null;
+		var $max_document_length = 3000; // classifier can't rescale output for very long strings apparently
 
 		function NaiveBayesianStorage($owner_uid) {
 			$this->con = Db::get();
@@ -239,7 +240,8 @@
 					$this->con->escape_string($ref['document_id']) . "'");
 
 				if ($this->con->num_rows($rs) != 0) {
-					$ref['content'] = mb_strtolower($this->con->fetch_result($rs, 0, 'title') . ' ' . strip_tags($this->con->fetch_result($rs, 0, 'content')));
+					$ref['content'] = mb_substr(mb_strtolower($this->con->fetch_result($rs, 0, 'title') . ' ' . strip_tags($this->con->fetch_result($rs, 0, 'content'))), 0,
+					$this->max_document_length);
 				}
 			}
 
