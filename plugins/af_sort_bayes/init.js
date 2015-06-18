@@ -1,5 +1,7 @@
-function bayesTrain(id, train_up) {
+function bayesTrain(id, train_up, event) {
 	try {
+
+		event.stopPropagation();
 
 		var query = "backend.php?op=pluginhandler&plugin=af_sort_bayes&method=trainArticle&article_id=" + param_escape(id) +
 			"&train_up=" + param_escape(train_up);

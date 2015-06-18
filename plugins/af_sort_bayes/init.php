@@ -117,11 +117,11 @@ class Af_Sort_Bayes extends Plugin {
 	function hook_article_button($line) {
 		return "<img src=\"plugins/af_sort_bayes/thumb_up.png\"
 			style=\"cursor : pointer\" style=\"cursor : pointer\"
-			onclick=\"bayesTrain(".$line["id"].", true)\"
+			onclick=\"bayesTrain(".$line["id"].", true, event)\"
 			class='tagsPic' title='".__('+1')."'>" .
 		"<img src=\"plugins/af_sort_bayes/thumb_down.png\"
 			style=\"cursor : pointer\" style=\"cursor : pointer\"
-			onclick=\"bayesTrain(".$line["id"].", false)\"
+			onclick=\"bayesTrain(".$line["id"].", false, event)\"
 			class='tagsPic' title='".__('-1')."'>";
 
 	}
