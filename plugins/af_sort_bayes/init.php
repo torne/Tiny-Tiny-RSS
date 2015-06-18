@@ -267,6 +267,11 @@ class Af_Sort_Bayes extends Plugin {
 		$result = $this->dbh->query("SELECT id FROM {$this->sql_prefix}_references WHERE
 			document_id = '" . $this->dbh->escape_string($article['guid_hashed']) . "'");
 
+		if (db_num_rows($result) != 0) {
+			_debug("bayes: article already categorized");
+			return $article;
+		}
+
 		$nbs = new NaiveBayesianStorage($owner_uid);
 		$nb = new NaiveBayesian($nbs);
 
