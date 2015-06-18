@@ -39,7 +39,7 @@ class Af_Sort_Bayes extends Plugin {
 		$dst_category = "UGLY";
 
 		$nbs = new NaiveBayesianStorage($_SESSION["uid"]);
-		$nb = new NaiveBayesian($nbs);
+		$nb = new NaiveBayesianNgram($nbs, 3);
 
 		$result = $this->dbh->query("SELECT score, guid, title, content FROM ttrss_entries, ttrss_user_entries WHERE ref_id = id AND id = " .
 			$article_id . " AND owner_uid = " . $_SESSION["uid"]);
@@ -264,7 +264,7 @@ class Af_Sort_Bayes extends Plugin {
 		$owner_uid = $article["owner_uid"];
 
 		$nbs = new NaiveBayesianStorage($owner_uid);
-		$nb = new NaiveBayesian($nbs);
+		$nb = new NaiveBayesianNgram($nbs, 3);
 
 		$ref = $nbs->getReference($article["guid"], false);
 
@@ -336,7 +336,7 @@ class Af_Sort_Bayes extends Plugin {
 		$this->dbh->query("COMMIT");
 
 		$nbs = new NaiveBayesianStorage($_SESSION["uid"]);
-		$nb = new NaiveBayesian($nbs);
+		$nb = new NaiveBayesianNgram($nbs, 3);
 		$nb->updateProbabilities();
 	}
 
