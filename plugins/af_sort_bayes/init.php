@@ -17,7 +17,7 @@ class Af_Sort_Bayes extends Plugin {
 
 	function init($host) {
 		require_once __DIR__ . "/lib/class.naivebayesian.php";
-		require_once __DIR__ . "/lib/class.naivebayesian_ngram.php";
+		//require_once __DIR__ . "/lib/class.naivebayesian_ngram.php";
 		require_once __DIR__ . "/lib/class.naivebayesianstorage.php";
 
 		$this->host = $host;
@@ -39,7 +39,7 @@ class Af_Sort_Bayes extends Plugin {
 		$dst_category = "UGLY";
 
 		$nbs = new NaiveBayesianStorage($_SESSION["uid"]);
-		$nb = new NaiveBayesianNgram($nbs, 3);
+		$nb = new NaiveBayesian($nbs);
 
 		$result = $this->dbh->query("SELECT score, guid, title, content FROM ttrss_entries, ttrss_user_entries WHERE ref_id = id AND id = " .
 			$article_id . " AND owner_uid = " . $_SESSION["uid"]);
@@ -267,13 +267,8 @@ class Af_Sort_Bayes extends Plugin {
 		$result = $this->dbh->query("SELECT id FROM {$this->sql_prefix}_references WHERE
 			document_id = '" . $this->dbh->escape_string($article['guid_hashed']) . "'");
 
-		if (db_num_rows($result) != 0) {
-			_debug("bayes: article already categorized");
-			return $article;
-		}
-
 		$nbs = new NaiveBayesianStorage($owner_uid);
-		$nb = new NaiveBayesianNgram($nbs, 3);
+		$nb = new NaiveBayesian($nbs);
 
 		$categories = $nbs->getCategories();
 
@@ -341,7 +336,7 @@ class Af_Sort_Bayes extends Plugin {
 		$this->dbh->query("COMMIT");
 
 		$nbs = new NaiveBayesianStorage($_SESSION["uid"]);
-		$nb = new NaiveBayesianNgram($nbs, 3);
+		$nb = new NaiveBayesian($nbs);
 		$nb->updateProbabilities();
 	}
 
