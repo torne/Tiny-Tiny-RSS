@@ -443,13 +443,6 @@
 			$rss->init();
 		}
 
-		if (DETECT_ARTICLE_LANGUAGE) {
-			require_once "lib/languagedetect/LanguageDetect.php";
-
-			$lang = new Text_LanguageDetect();
-			$lang->setNameMode(2);
-		}
-
 //		print_r($rss);
 
 		$feed = db_escape_string($feed);
@@ -645,21 +638,6 @@
 					print "\n";
 				}
 
-				$entry_language = "";
-
-				if (DETECT_ARTICLE_LANGUAGE) {
-					$entry_language = $lang->detect($entry_title . " " . $entry_content, 1);
-
-					if (count($entry_language) > 0) {
-						$possible = array_keys($entry_language);
-						$entry_language = $possible[0];
-
-						_debug("detected language: $entry_language", $debug_enabled);
-					} else {
-						$entry_language = "";
-					}
-				}
-
 				$entry_comments = $item->get_comments_url();
 				$entry_author = $item->get_author();
 
@@ -695,17 +673,19 @@
 
 				_debug("done collecting data.", $debug_enabled);
 
-				$result = db_query("SELECT id, content_hash FROM ttrss_entries
+				$result = db_query("SELECT id, content_hash, lang FROM ttrss_entries
 					WHERE guid = '".db_escape_string($entry_guid)."' OR guid = '$entry_guid_hashed'");
 
 				if (db_num_rows($result) != 0) {
 					$base_entry_id = db_fetch_result($result, 0, "id");
 					$entry_stored_hash = db_fetch_result($result, 0, "content_hash");
 					$article_labels = get_article_labels($base_entry_id, $owner_uid);
+					$entry_language = db_fetch_result($result, 0, "lang");
 				} else {
 					$base_entry_id = false;
 					$entry_stored_hash = "";
 					$article_labels = array();
+					$entry_language = "";
 				}
 
 				$article = array("owner_uid" => $owner_uid, // read only
@@ -719,7 +699,7 @@
 					"author" => $entry_author,
 					"force_catchup" => false, // ugly hack for the time being
 					"score_modifier" => 0, // no previous value, plugin should recalculate score modifier based on content if needed
-					"language" => $entry_language, // read only
+					"language" => $entry_language,
 					"feed" => array("id" => $feed,
 						"fetch_url" => $fetch_url,
 						"site_url" => $site_url)
@@ -783,6 +763,7 @@
 				$entry_force_catchup = $article["force_catchup"];
 				$article_labels = $article["labels"];
 				$entry_score_modifier = (int) $article["score_modifier"];
+				$entry_language = db_escape_string($article["language"]);
 
 				if ($debug_enabled) {
 					_debug("article labels:", $debug_enabled);

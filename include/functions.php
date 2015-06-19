@@ -99,8 +99,6 @@
 	require_once "lib/accept-to-gettext.php";
 	require_once "lib/gettext/gettext.inc";
 
-	require_once "lib/languagedetect/LanguageDetect.php";
-
 	function startup_gettext() {
 
 		# Get locale from Accept-Language header
