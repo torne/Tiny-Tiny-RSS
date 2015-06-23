@@ -65,7 +65,6 @@ class Af_Psql_Trgm extends Plugin {
 				ttrss_entries.id = ref_id AND
 				ttrss_user_entries.owner_uid = $owner_uid AND
 				ttrss_entries.id != $id AND
-				score >= 0 AND
 				date_entered >= NOW() - INTERVAL '2 weeks'
 			ORDER BY
 				sm DESC, date_entered DESC
@@ -79,7 +78,8 @@ class Af_Psql_Trgm extends Plugin {
 				smart_date_time(strtotime($line["updated"]))
 				. "</div>";
 
-			print "<img src='images/score_high.png' title='".sprintf("%.2f", $line['sm'])."'
+			$sm = sprintf("%.2f", $line['sm']);
+			print "<img src='images/score_high.png' title='$sm'
 				style='vertical-align : middle'>";
 
 			$article_link = htmlspecialchars($line["link"]);
@@ -88,6 +88,8 @@ class Af_Psql_Trgm extends Plugin {
 
 			print " (<a href=\"#\" onclick=\"viewfeed(".$line["feed_id"].")\">".
 				htmlspecialchars($line["feed_title"])."</a>)";
+
+			print " <span class='insensitive'>($sm)</span>";
 
 			print "</li>";
 		}
@@ -253,19 +255,37 @@ class Af_Psql_Trgm extends Plugin {
 		$min_title_length = (int) $this->host->get($this, "min_length");
 		if (mb_strlen($article["title"]) < $min_title_length) return $article;
 
+
 		$owner_uid = $article["owner_uid"];
 		$feed_id = $article["feed"]["id"];
-
 		$title_escaped = db_escape_string($article["title"]);
+
+		// trgm does not return similarity=1 for completely equal strings
+
+		$result = db_query("SELECT COUNT(id) AS nequal
+		  FROM ttrss_entries, ttrss_user_entries WHERE ref_id = id AND
+		  date_entered >= NOW() - interval '1 day' AND
+		  title = '$title_escaped' AND
+		  feed_id != '$feed_id' AND
+		  owner_uid = $owner_uid");
+
+		$nequal = db_fetch_result($result, 0, "nequal");
+		_debug("af_psql_trgm: num equals: $nequal");
+
+		if ($nequal != 0) {
+			$article["force_catchup"] = true;
+			return $article;
+		}
 
 		$result = db_query("SELECT MAX(SIMILARITY(title, '$title_escaped')) AS ms
 		  FROM ttrss_entries, ttrss_user_entries WHERE ref_id = id AND
 		  date_entered >= NOW() - interval '1 day' AND
+		  feed_id != '$feed_id' AND
 		  owner_uid = $owner_uid");
 
 		$similarity_result = db_fetch_result($result, 0, "ms");
 
-		//_debug("similarity result: $similarity_result");
+		_debug("af_psql_trgm: similarity result: $similarity_result");
 
 		if ($similarity_result >= $similarity) {
 			$article["force_catchup"] = true;
