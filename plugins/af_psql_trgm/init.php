@@ -12,6 +12,7 @@ class Af_Psql_Trgm extends Plugin {
 	function save() {
 		$similarity = (float) db_escape_string($_POST["similarity"]);
 		$min_title_length = (int) db_escape_string($_POST["min_title_length"]);
+		$enable_globally = checkbox_to_sql_bool($_POST["enable_globally"]) == "true";
 
 		if ($similarity < 0) $similarity = 0;
 		if ($similarity > 1) $similarity = 1;
@@ -22,8 +23,9 @@ class Af_Psql_Trgm extends Plugin {
 
 		$this->host->set($this, "similarity", $similarity);
 		$this->host->set($this, "min_title_length", $min_title_length);
+		$this->host->set($this, "enable_globally", $enable_globally);
 
-		echo T_sprintf("Data saved (%s)", $similarity);
+		echo T_sprintf("Data saved (%s, %d)", $similarity, $enable_globally);
 	}
 
 	function init($host) {
@@ -127,9 +129,12 @@ class Af_Psql_Trgm extends Plugin {
 
 		$similarity = $this->host->get($this, "similarity");
 		$min_title_length = $this->host->get($this, "min_title_length");
+		$enable_globally = $this->host->get($this, "enable_globally");
 
 		if (!$similarity) $similarity = '0.75';
 		if (!$min_title_length) $min_title_length = '32';
+
+		$enable_globally_checked = $enable_globally ? "checked" : "";
 
 		print "<form dojoType=\"dijit.form.Form\">";
 
@@ -170,6 +175,10 @@ class Af_Psql_Trgm extends Plugin {
 			<input dojoType=\"dijit.form.ValidationTextBox\"
 			placeholder=\"32\"
 			required=\"1\" name=\"min_title_length\" value=\"$min_title_length\"></td></tr>";
+		print "<tr><td width=\"40%\">".__("Enable for all feeds:")."</td>";
+		print "<td>
+			<input dojoType=\"dijit.form.CheckBox\"
+			$enable_globally_checked name=\"enable_globally\"></td></tr>";
 
 		print "</table>";
 
@@ -245,9 +254,13 @@ class Af_Psql_Trgm extends Plugin {
 		$result = db_query("select 'similarity'::regproc");
 		if (db_num_rows($result) == 0) return $article;
 
-		$enabled_feeds = $this->host->get($this, "enabled_feeds");
-		$key = array_search($article["feed"]["id"], $enabled_feeds);
-		if ($key === FALSE) return $article;
+		$enable_globally = $this->host->get($this, "enable_globally");
+
+		if (!$enable_globally) {
+			$enabled_feeds = $this->host->get($this, "enabled_feeds");
+			$key = array_search($article["feed"]["id"], $enabled_feeds);
+			if ($key === FALSE) return $article;
+		}
 
 		$similarity = (float) $this->host->get($this, "similarity");
 		if ($similarity < 0.01) return $article;
