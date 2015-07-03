@@ -376,7 +376,7 @@ class Feeds extends Handler_Protected {
 #				$content_link = "<a href=\"javascript:viewContentUrl('".$line["link"]."');\">" .
 #					$line["title"] . "</a>";
 
-				$updated_fmt = make_local_datetime($line["updated"], false);
+				$updated_fmt = make_local_datetime($line["updated"], false, false, false, true);
 				$date_entered_fmt = T_sprintf("Imported at %s",
 					make_local_datetime($line["date_entered"], false));
 

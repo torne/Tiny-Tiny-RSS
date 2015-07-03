@@ -912,7 +912,7 @@
 	}
 
 	function make_local_datetime($timestamp, $long, $owner_uid = false,
-					$no_smart_dt = false) {
+					$no_smart_dt = false, $eta_min = false) {
 
 		if (!$owner_uid) $owner_uid = $_SESSION['uid'];
 		if (!$timestamp) $timestamp = '1970-01-01 0:00';
@@ -946,7 +946,7 @@
 
 		if (!$no_smart_dt) {
 			return smart_date_time($user_timestamp,
-				$tz_offset, $owner_uid);
+				$tz_offset, $owner_uid, $eta_min);
 		} else {
 			if ($long)
 				$format = get_pref('LONG_DATE_FORMAT', $owner_uid);
@@ -957,10 +957,10 @@
 		}
 	}
 
-	function smart_date_time($timestamp, $tz_offset = 0, $owner_uid = false) {
+	function smart_date_time($timestamp, $tz_offset = 0, $owner_uid = false, $eta_min = false) {
 		if (!$owner_uid) $owner_uid = $_SESSION['uid'];
 
-		if (date("Y.m.d.G", $timestamp) == date("Y.m.d.G", time() + $tz_offset)) {
+		if ($eta_min && date("Y.m.d.G", $timestamp) == date("Y.m.d.G", time() + $tz_offset)) {
 			return T_sprintf("%d min", date("i", time() + $tz_offset - $timestamp));
 		} else if (date("Y.m.d", $timestamp) == date("Y.m.d", time() + $tz_offset)) {
 			return date("G:i", $timestamp);
