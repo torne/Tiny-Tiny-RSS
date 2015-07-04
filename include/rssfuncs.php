@@ -291,6 +291,17 @@
 		_debug_suppress(!$debug_enabled);
 		_debug("start", $debug_enabled);
 
+		$result = db_query("SELECT title FROM ttrss_feeds
+			WHERE id = '$feed'");
+		$title = db_fetch_result($result, 0, "title");
+
+		// feed was batch-subscribed or something, we need to get basic info
+		// this is not optimal currently as it fetches stuff separately TODO: optimize
+		if ($title == "[Unknown]") {
+			_debug("setting basic feed info for $feed...");
+			set_basic_feed_info($feed);
+		}
+
 		$result = db_query("SELECT id,update_interval,auth_login,
 			feed_url,auth_pass,cache_images,
 			mark_unread_on_update, owner_uid,
