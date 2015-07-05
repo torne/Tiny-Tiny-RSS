@@ -84,9 +84,8 @@ class Af_RedditImgur extends Plugin {
 								$found = true;
 							}
 
-							if (preg_match("/\.(jpg|jpeg|gif|png)(\?[0-9])?$/i", $entry->getAttribute("href"))) {
-
-							 	$img = $doc->createElement('img');
+							if (preg_match("/\.(jpg|jpeg|gif|png)(\?[0-9][0-9]*)?$/i", $entry->getAttribute("href"))) {
+								$img = $doc->createElement('img');
 								$img->setAttribute("src", $entry->getAttribute("href"));
 
 								$br = $doc->createElement('br');
