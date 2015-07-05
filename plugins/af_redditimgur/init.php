@@ -29,9 +29,36 @@ class Af_RedditImgur extends Plugin {
 					foreach ($entries as $entry) {
 						if ($entry->hasAttribute("href")) {
 
+							$matches = array();
+
+							if (preg_match("/https?:\/\/gfycat.com\/([a-z]+)$/i", $entry->getAttribute("href"), $matches)) {
+
+								$tmp = fetch_file_contents($entry->getAttribute("href"));
+
+								if ($tmp) {
+									$tmpdoc = new DOMDocument();
+									@$tmpdoc->loadHTML($tmp);
+
+									if ($tmpdoc) {
+										$tmpxpath = new DOMXPath($tmpdoc);
+										$source_meta = $tmpxpath->query("//meta[@property='og:video']")->item(0);
+
+										if ($source_meta) {
+											$source_stream = $source_meta->getAttribute("content");
+
+											if ($source_stream) {
+												$this->handle_as_video($doc, $entry, $source_stream);
+												$found = 1;
+											}
+										}
+									}
+								}
+
+							}
+
 							if (preg_match("/\.(gifv)$/i", $entry->getAttribute("href"))) {
 
-								$video = $doc->createElement('video');
+								/*$video = $doc->createElement('video');
 								$video->setAttribute("autoplay", "1");
 								$video->setAttribute("loop", "1");
 
@@ -49,7 +76,10 @@ class Af_RedditImgur extends Plugin {
 								$img->setAttribute("src",
 									"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D");
 
-								$entry->parentNode->insertBefore($img, $entry);
+								$entry->parentNode->insertBefore($img, $entry);*/
+
+								$source_stream = str_replace(".gifv", ".mp4", $entry->getAttribute("href"));
+								$this->handle_as_video($doc, $entry, $source_stream);
 
 								$found = true;
 							}
@@ -162,5 +192,27 @@ class Af_RedditImgur extends Plugin {
 		return 2;
 	}
 
+	private function handle_as_video($doc, $entry, $source_stream) {
+
+		$video = $doc->createElement('video');
+		$video->setAttribute("autoplay", "1");
+		$video->setAttribute("loop", "1");
+
+		$source = $doc->createElement('source');
+		$source->setAttribute("src", $source_stream);
+		$source->setAttribute("type", "video/mp4");
+
+		$video->appendChild($source);
+
+		$br = $doc->createElement('br');
+		$entry->parentNode->insertBefore($video, $entry);
+		$entry->parentNode->insertBefore($br, $entry);
+
+		$img = $doc->createElement('img');
+		$img->setAttribute("src",
+			"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D");
+
+		$entry->parentNode->insertBefore($img, $entry);
+	}
 }
 ?>
