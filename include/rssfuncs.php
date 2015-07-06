@@ -761,7 +761,11 @@
 				// Workaround: 4-byte unicode requires utf8mb4 in MySQL. See https://tt-rss.org/forum/viewtopic.php?f=1&t=3377&p=20077#p20077
 				if (DB_TYPE == "mysql") {
 					foreach ($article as $k => $v) {
-						$article[$k] = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $v);
+
+						// i guess we'll have to take the risk of 4byte unicode labels & tags here
+						if (!is_array($article[$k])) {
+							$article[$k] = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $v);
+						}
 					}
 				}
 

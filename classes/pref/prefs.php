@@ -65,26 +65,26 @@ class Pref_Prefs extends Handler_Protected {
 		$con_pw = $_POST["confirm_password"];
 
 		if ($old_pw == "") {
-			print "ERROR: ".__("Old password cannot be blank.");
+			print "ERROR: ".format_error("Old password cannot be blank.");
 			return;
 		}
 
 		if ($new_pw == "") {
-			print "ERROR: ".__("New password cannot be blank.");
+			print "ERROR: ".format_error("New password cannot be blank.");
 			return;
 		}
 
 		if ($new_pw != $con_pw) {
-			print "ERROR: ".__("Entered passwords do not match.");
+			print "ERROR: ".format_error("Entered passwords do not match.");
 			return;
 		}
 
 		$authenticator = PluginHost::getInstance()->get_plugin($_SESSION["auth_module"]);
 
 		if (method_exists($authenticator, "change_password")) {
-			print $authenticator->change_password($_SESSION["uid"], $old_pw, $new_pw);
+			print format_notice($authenticator->change_password($_SESSION["uid"], $old_pw, $new_pw));
 		} else {
-			print "ERROR: ".__("Function not supported by authentication module.");
+			print "ERROR: ".format_error("Function not supported by authentication module.");
 		}
 	}
 
@@ -244,6 +244,8 @@ class Pref_Prefs extends Handler_Protected {
 
 			print "<h2>" . __("Password") . "</h2>";
 
+			print "<div style='display : none' id='pwd_change_infobox'></div>";
+
 			$result = $this->dbh->query("SELECT id FROM ttrss_users
 				WHERE id = ".$_SESSION["uid"]." AND pwd_hash
 				= 'SHA1:5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8'");
@@ -264,12 +266,20 @@ class Pref_Prefs extends Handler_Protected {
 					onComplete: function(transport) {
 						notify('');
 						if (transport.responseText.indexOf('ERROR: ') == 0) {
-							notify_error(transport.responseText.replace('ERROR: ', ''));
+
+							$('pwd_change_infobox').innerHTML =
+								transport.responseText.replace('ERROR: ', '');
+
 						} else {
-							notify_info(transport.responseText);
+							$('pwd_change_infobox').innerHTML =
+								transport.responseText.replace('ERROR: ', '');
+
 							var warn = $('default_pass_warning');
 							if (warn) Element.hide(warn);
 						}
+
+						new Effect.Appear('pwd_change_infobox');
+
 				}});
 				this.reset();
 			}
