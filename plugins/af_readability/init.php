@@ -104,6 +104,26 @@ class Af_Readability extends Plugin {
 			$r = new Readability($tmp, $article["link"]);
 
 			if ($r->init()) {
+
+				$tmpxpath = new DOMXPath($r->dom);
+
+				$entries = $tmpxpath->query('(//a[@href]|//img[@src])');
+
+				foreach ($entries as $entry) {
+					if ($entry->hasAttribute("href")) {
+						$entry->setAttribute("href",
+							rewrite_relative_url($entry->getAttribute("href"), $article["link"]));
+
+					}
+
+					if ($entry->hasAttribute("src")) {
+						$entry->setAttribute("src",
+							rewrite_relative_url($entry->getAttribute("src"), $article["link"]));
+
+					}
+
+				}
+
 				$article["content"] = $r->articleContent->innerHTML;
 			}
 		}

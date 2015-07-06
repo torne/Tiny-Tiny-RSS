@@ -266,8 +266,28 @@ class Af_RedditImgur extends Plugin {
 								$r = new Readability($tmp, $content_link->getAttribute("href"));
 
 								if ($r->init()) {
-									$article["content"] = $r->articleContent->innerHTML . "<hr/>" . $article["content"];
+									//$article["content"] = $r->articleContent->innerHTML . "<hr/>" . $article["content"];
 
+									$tmpxpath = new DOMXPath($r->dom);
+
+									$entries = $tmpxpath->query('(//a[@href]|//img[@src])');
+
+									foreach ($entries as $entry) {
+										if ($entry->hasAttribute("href")) {
+											$entry->setAttribute("href",
+												rewrite_relative_url($entry->getAttribute("href"), $content_link));
+
+										}
+
+										if ($entry->hasAttribute("src")) {
+											$entry->setAttribute("src",
+												rewrite_relative_url($entry->getAttribute("src"), $content_link));
+
+										}
+
+									}
+
+									$article["content"] = $r->articleContent->innerHTML . "<hr/>" . $article["content"];
 								}
 							}
 
