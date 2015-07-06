@@ -1483,9 +1483,9 @@
 
 		$tag = preg_replace('/[\'\"\+\>\<]/', "", $tag);
 
-//		$tag = str_replace('"', "", $tag);
-//		$tag = str_replace("+", " ", $tag);
-		$tag = str_replace("technorati tag: ", "", $tag);
+		if (DB_TYPE == "mysql") {
+			$tag = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $tag);
+		}
 
 		return $tag;
 	}
