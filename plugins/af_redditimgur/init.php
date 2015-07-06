@@ -12,6 +12,61 @@ class Af_RedditImgur extends Plugin {
 		$this->host = $host;
 
 		$host->add_hook($host::HOOK_ARTICLE_FILTER, $this);
+		$host->add_hook($host::HOOK_PREFS_TAB, $this);
+	}
+
+	function hook_prefs_tab($args) {
+		if ($args != "prefFeeds") return;
+
+		print "<div id=\"af_redditimgur_prefs\" dojoType=\"dijit.layout.AccordionPane\" title=\"".__('af_redditimgur settings')."\">";
+
+		$enable_readability = $this->host->get($this, "enable_readability");
+		$enable_readability_checked = $enable_readability ? "checked" : "";
+
+		print "<form dojoType=\"dijit.form.Form\">";
+
+		print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
+			evt.preventDefault();
+			if (this.validate()) {
+				console.log(dojo.objectToQuery(this.getValues()));
+				new Ajax.Request('backend.php', {
+					parameters: dojo.objectToQuery(this.getValues()),
+					onComplete: function(transport) {
+						notify_info(transport.responseText);
+					}
+				});
+				//this.reset();
+			}
+			</script>";
+
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pluginhandler\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"save\">";
+		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"plugin\" value=\"af_redditimgur\">";
+
+		print "<h3>" . __("Global settings") . "</h3>";
+
+		print_notice("Uses Readability (full-text-rss) implementation by <a target='_blank' href='https://bitbucket.org/fivefilters/'>FiveFilters.org</a>");
+		print "<p/>";
+
+		print "<input dojoType=\"dijit.form.CheckBox\" id=\"enable_readability\"
+			$enable_readability_checked name=\"enable_readability\">&nbsp;";
+
+		print "<label for=\"enable_readability\">" . __("Extract missing content using Readability") . "</label>";
+
+		print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".
+			__("Save")."</button>";
+
+		print "</form>";
+
+		print "</div>";
+	}
+
+	function save() {
+		$enable_readability = checkbox_to_sql_bool($_POST["enable_readability"]) == "true";
+
+		$this->host->set($this, "enable_readability", $enable_readability);
+
+		echo __("Configuration saved");
 	}
 
 	function hook_article_filter($article) {
@@ -197,6 +252,27 @@ class Af_RedditImgur extends Plugin {
 								$entry->parentNode->parentNode->removeChild($entry->parentNode);
 							}
 						}
+					}
+
+					if (!$found && $this->host->get($this, "enable_readability") && mb_strlen(strip_tags($article["content"])) <= 150) {
+						require_once(__DIR__ . "/classes/Readability.php");
+
+						$content_link = $xpath->query("(//a[contains(., '[link]')])")->item(0);
+
+						if ($content_link) {
+							$tmp = fetch_file_contents($content_link->getAttribute("href"));
+
+							if ($tmp) {
+								$r = new Readability($tmp, $content_link->getAttribute("href"));
+
+								if ($r->init()) {
+									$article["content"] = $r->articleContent->innerHTML . "<hr/>" . $article["content"];
+
+								}
+							}
+
+						}
+
 					}
 
 					$node = $doc->getElementsByTagName('body')->item(0);
