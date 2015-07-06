@@ -4,7 +4,7 @@ class Af_RedditImgur extends Plugin {
 
 	function about() {
 		return array(1.0,
-			"Inline image links in Reddit RSS feeds",
+			"Inline images (and other content) in Reddit RSS feeds",
 			"fox");
 	}
 
