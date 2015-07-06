@@ -195,6 +195,7 @@ class Af_RedditImgur extends Plugin {
 
 		$video = $doc->createElement('video');
 		$video->setAttribute("autoplay", "1");
+		$video->setAttribute("controls", "1");
 		$video->setAttribute("loop", "1");
 
 		$source = $doc->createElement('source');
