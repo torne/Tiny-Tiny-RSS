@@ -84,9 +84,8 @@ class Af_RedditImgur extends Plugin {
 								$found = true;
 							}
 
-							if (preg_match("/\.(jpg|jpeg|gif|png)(\?[0-9])?$/i", $entry->getAttribute("href"))) {
-
-							 	$img = $doc->createElement('img');
+							if (preg_match("/\.(jpg|jpeg|gif|png)(\?[0-9][0-9]*)?$/i", $entry->getAttribute("href"))) {
+								$img = $doc->createElement('img');
 								$img->setAttribute("src", $entry->getAttribute("href"));
 
 								$br = $doc->createElement('br');
@@ -133,7 +132,7 @@ class Af_RedditImgur extends Plugin {
 							}
 
 							// linked albums, ffs
-							if (preg_match("/^https?:\/\/imgur.com\/(a|album)\/[^\.]+$/", $entry->getAttribute("href"), $matches)) {
+							if (preg_match("/^https?:\/\/imgur.com\/(a|album|gallery)\/[^\.]+$/", $entry->getAttribute("href"), $matches)) {
 
 								$album_content = fetch_file_contents($entry->getAttribute("href"),
 									false, false, false, false, 10);
