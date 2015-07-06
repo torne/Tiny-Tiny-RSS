@@ -84,6 +84,29 @@ class Af_RedditImgur extends Plugin {
 								$found = true;
 							}
 
+							$matches = array();
+							if (preg_match("/\/\/www\.youtube\.com\/v\/([\w-]+)/", $entry->getAttribute("href"), $matches) ||
+								preg_match("/\/\/www\.youtube\.com\/watch?v=([\w-]+)/", $entry->getAttribute("href"), $matches) ||
+								preg_match("/\/\/youtu.be\/([\w-]+)/", $entry->getAttribute("href"), $matches)) {
+
+								$vid_id = $matches[1];
+
+								$iframe = $doc->createElement("iframe");
+								$iframe->setAttribute("class", "youtube-player");
+								$iframe->setAttribute("type", "text/html");
+								$iframe->setAttribute("width", "640");
+								$iframe->setAttribute("height", "385");
+								$iframe->setAttribute("src", "https://www.youtube.com/embed/$vid_id");
+								$iframe->setAttribute("allowfullscreen", "1");
+								$iframe->setAttribute("frameborder", "0");
+
+								$br = $doc->createElement('br');
+								$entry->parentNode->insertBefore($iframe, $entry);
+								$entry->parentNode->insertBefore($br, $entry);
+
+								$found = true;
+							}
+
 							if (preg_match("/\.(jpg|jpeg|gif|png)(\?[0-9][0-9]*)?$/i", $entry->getAttribute("href"))) {
 								$img = $doc->createElement('img');
 								$img->setAttribute("src", $entry->getAttribute("href"));
