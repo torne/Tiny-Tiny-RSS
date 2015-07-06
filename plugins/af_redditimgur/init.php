@@ -259,7 +259,8 @@ class Af_RedditImgur extends Plugin {
 
 						$content_link = $xpath->query("(//a[contains(., '[link]')])")->item(0);
 
-						if ($content_link) {
+						if ($content_link && strpos($content_link->getAttribute("href"), "reddit.com") === FALSE) {
+
 							$tmp = fetch_file_contents($content_link->getAttribute("href"));
 
 							if ($tmp) {
