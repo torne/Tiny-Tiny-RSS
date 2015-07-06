@@ -112,13 +112,13 @@ class Af_Readability extends Plugin {
 				foreach ($entries as $entry) {
 					if ($entry->hasAttribute("href")) {
 						$entry->setAttribute("href",
-							rewrite_relative_url($entry->getAttribute("href"), $article["link"]));
+							rewrite_relative_url($article["link"], $entry->getAttribute("href")));
 
 					}
 
 					if ($entry->hasAttribute("src")) {
 						$entry->setAttribute("src",
-							rewrite_relative_url($entry->getAttribute("src"), $article["link"]));
+							rewrite_relative_url($article["link"], $entry->getAttribute("src")));
 
 					}
 

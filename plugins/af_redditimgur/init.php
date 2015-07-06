@@ -275,13 +275,13 @@ class Af_RedditImgur extends Plugin {
 									foreach ($entries as $entry) {
 										if ($entry->hasAttribute("href")) {
 											$entry->setAttribute("href",
-												rewrite_relative_url($entry->getAttribute("href"), $content_link));
+												rewrite_relative_url($content_link, $entry->getAttribute("href")));
 
 										}
 
 										if ($entry->hasAttribute("src")) {
 											$entry->setAttribute("src",
-												rewrite_relative_url($entry->getAttribute("src"), $content_link));
+												rewrite_relative_url($content_link, $entry->getAttribute("src")));
 
 										}
 
