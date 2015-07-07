@@ -32,9 +32,7 @@ dojo.addOnLoad(function() {
 						var content = row.select(".cdmContentInner")[0];
 
 						if (content) {
-							var wrapperHeight = Math.round(window.innerHeight * 0.8) + 'px';
-
-							content.innerHTML = "<div class='contentSizeWrapper' style='height : "+wrapperHeight+"'>" +
+							content.innerHTML = "<div class='contentSizeWrapper'>" +
 								content.innerHTML + "</div><button class='expandPrompt' onclick='return expandSizeWrapper(\""+row.id+"\")' "+
 								"href='#'>" + __("Click to expand article") + "</button>";
 
