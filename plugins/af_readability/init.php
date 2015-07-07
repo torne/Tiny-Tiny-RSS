@@ -101,6 +101,19 @@ class Af_Readability extends Plugin {
 		$tmp = fetch_file_contents($article["link"]);
 
 		if ($tmp) {
+			$tmpdoc = new DOMDocument("1.0", "UTF-8");
+			$tmpdoc->loadHTML($tmp);
+
+			if ($tmpdoc->encoding != 'UTF-8') {
+				$tmpxpath = new DOMXPath($tmpdoc);
+
+				foreach ($tmpxpath->query("//meta") as $elem) {
+					$elem->parentNode->removeChild($elem);
+				}
+
+				$tmp = $tmpdoc->saveHTML();
+			}
+
 			$r = new Readability($tmp, $article["link"]);
 
 			if ($r->init()) {
