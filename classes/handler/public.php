@@ -2,7 +2,7 @@
 class Handler_Public extends Handler {
 
 	private function generate_syndicated_feed($owner_uid, $feed, $is_cat,
-		$limit, $offset, $search, $search_mode,
+		$limit, $offset, $search,
 		$view_mode = false, $format = 'atom', $order = false, $orig_guid = false, $start_ts = false) {
 
 		require_once "lib/MiniTemplator.class.php";
@@ -37,10 +37,8 @@ class Handler_Public extends Handler {
 			break;
 		}
 
-		//function queryFeedHeadlines($feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false, $override_strategy = false, $override_vfeed = false, $start_ts = false) {
-
 		$qfh_ret = queryFeedHeadlines($feed,
-			1, $view_mode, $is_cat, $search, $search_mode,
+			1, $view_mode, $is_cat, $search, false,
 			$date_sort_field, $offset, $owner_uid,
 			false, 0, true, true, false, false, $start_ts);
 
@@ -61,7 +59,7 @@ class Handler_Public extends Handler {
 		}
 
 		$qfh_ret = queryFeedHeadlines($feed,
-			$limit, $view_mode, $is_cat, $search, $search_mode,
+			$limit, $view_mode, $is_cat, $search, false,
 			$date_sort_field, $offset, $owner_uid,
 			false, 0, true, true, false, false, $start_ts);
 
@@ -374,7 +372,6 @@ class Handler_Public extends Handler {
 		$offset = (int)$this->dbh->escape_string($_REQUEST["offset"]);
 
 		$search = $this->dbh->escape_string($_REQUEST["q"]);
-		$search_mode = $this->dbh->escape_string($_REQUEST["smode"]);
 		$view_mode = $this->dbh->escape_string($_REQUEST["view-mode"]);
 		$order = $this->dbh->escape_string($_REQUEST["order"]);
 		$start_ts = $this->dbh->escape_string($_REQUEST["ts"]);
@@ -400,7 +397,7 @@ class Handler_Public extends Handler {
 
 		if ($owner_id) {
 			$this->generate_syndicated_feed($owner_id, $feed, $is_cat, $limit,
-				$offset, $search, $search_mode, $view_mode, $format, $order, $orig_guid, $start_ts);
+				$offset, $search, $view_mode, $format, $order, $orig_guid, $start_ts);
 		} else {
 			header('HTTP/1.1 403 Forbidden');
 		}
