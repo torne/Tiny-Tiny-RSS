@@ -114,8 +114,8 @@ class Af_RedditImgur extends Plugin {
 				}
 
 				$matches = array();
-				if (preg_match("/\/\/www\.youtube\.com\/v\/([\w-]+)/", $entry->getAttribute("href"), $matches) ||
-					preg_match("/\/\/www\.youtube\.com\/watch\?v=([\w-]+)/", $entry->getAttribute("href"), $matches) ||
+				if (preg_match("/\.youtube\.com\/v\/([\w-]+)/", $entry->getAttribute("href"), $matches) ||
+					preg_match("/\.youtube\.com\/watch\?v=([\w-]+)/", $entry->getAttribute("href"), $matches) ||
 					preg_match("/\/\/youtu.be\/([\w-]+)/", $entry->getAttribute("href"), $matches)) {
 
 					$vid_id = $matches[1];
