@@ -96,7 +96,7 @@ class Af_Readability extends Plugin {
 		$key = array_search($article["feed"]["id"], $enabled_feeds);
 		if ($key === FALSE) return $article;
 
-		if (!class_exists("Readability")) require_once(__DIR__ . "/classes/Readability.php");
+		if (!class_exists("Readability")) require_once(dirname(dirname(__DIR__)). "/lib/readability/Readability.php");
 
 		if (function_exists("curl_init")) {
 			$ch = curl_init($article["link"]);

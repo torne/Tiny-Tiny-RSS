@@ -243,7 +243,7 @@ class Af_RedditImgur extends Plugin {
 			if (function_exists("curl_init") && !$found && $this->host->get($this, "enable_readability") &&
 				mb_strlen(strip_tags($article["content"])) <= 150) {
 
-				if (!class_exists("Readability")) require_once(__DIR__ . "/classes/Readability.php");
+				if (!class_exists("Readability")) require_once(dirname(dirname(__DIR__)). "/lib/readability/Readability.php");
 
 				$content_link = $xpath->query("(//a[contains(., '[link]')])")->item(0);
 
