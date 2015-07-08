@@ -240,50 +240,69 @@ class Af_RedditImgur extends Plugin {
 
 			$found = $this->inline_stuff($article, $doc, $xpath);
 
-			if (!$found && $this->host->get($this, "enable_readability") && mb_strlen(strip_tags($article["content"])) <= 150) {
+			if (function_exists("curl_init") && !$found && $this->host->get($this, "enable_readability") &&
+				mb_strlen(strip_tags($article["content"])) <= 150) {
+
 				if (!class_exists("Readability")) require_once(__DIR__ . "/classes/Readability.php");
 
 				$content_link = $xpath->query("(//a[contains(., '[link]')])")->item(0);
 
 				if ($content_link && strpos($content_link->getAttribute("href"), "reddit.com") === FALSE) {
 
-					$tmp = fetch_file_contents($content_link->getAttribute("href"));
+					/* link may lead to a huge video file or whatever, we need to check content type before trying to
+					parse it which p much requires curl */
 
-					if ($tmp) {
-						$r = new Readability($tmp, $content_link->getAttribute("href"));
+					$ch = curl_init($content_link->getAttribute("href"));
+					curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+					curl_setopt($ch, CURLOPT_HEADER, true);
+					curl_setopt($ch, CURLOPT_NOBODY, true);
+					curl_setopt($ch, CURLOPT_FOLLOWLOCATION,
+						!ini_get("safe_mode") && !ini_get("open_basedir"));
+					curl_setopt($ch, CURLOPT_USERAGENT, SELF_USER_AGENT);
 
-						if ($r->init()) {
-							//$article["content"] = $r->articleContent->innerHTML . "<hr/>" . $article["content"];
+					@$result = curl_exec($ch);
+					$content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
 
-							$tmpxpath = new DOMXPath($r->dom);
+					if ($content_type && strpos($content_type, "text/html") !== FALSE) {
 
-							$entries = $tmpxpath->query('(//a[@href]|//img[@src])');
+						$tmp = fetch_file_contents($content_link->getAttribute("href"));
 
-							foreach ($entries as $entry) {
-								if ($entry->hasAttribute("href")) {
-									$entry->setAttribute("href",
-										rewrite_relative_url($content_link->getAttribute("href"), $entry->getAttribute("href")));
+						if ($tmp) {
+							$r = new Readability($tmp, $content_link->getAttribute("href"));
+
+							if ($r->init()) {
+								//$article["content"] = $r->articleContent->innerHTML . "<hr/>" . $article["content"];
+
+								$tmpxpath = new DOMXPath($r->dom);
+
+								$entries = $tmpxpath->query('(//a[@href]|//img[@src])');
+
+								foreach ($entries as $entry) {
+									if ($entry->hasAttribute("href")) {
+										$entry->setAttribute("href",
+											rewrite_relative_url($content_link->getAttribute("href"), $entry->getAttribute("href")));
+
+									}
+
+									if ($entry->hasAttribute("src")) {
+										$entry->setAttribute("src",
+											rewrite_relative_url($content_link->getAttribute("href"), $entry->getAttribute("src")));
+
+									}
 
 								}
 
-								if ($entry->hasAttribute("src")) {
-									$entry->setAttribute("src",
-										rewrite_relative_url($content_link->getAttribute("href"), $entry->getAttribute("src")));
+								$article["content"] = $r->articleContent->innerHTML . "<hr/>" . $article["content"];
 
-								}
+								$doc = new DOMDocument();
+								@$doc->loadHTML($article["content"]);
+								$xpath = new DOMXPath($doc);
 
+								$found = $this->inline_stuff($article, $doc, $xpath);
 							}
-
-							$article["content"] = $r->articleContent->innerHTML . "<hr/>" . $article["content"];
-
-							$doc = new DOMDocument();
-							@$doc->loadHTML($article["content"]);
-							$xpath = new DOMXPath($doc);
-
-							$found = $this->inline_stuff($article, $doc, $xpath);
 						}
 					}
-
 				}
 
 			}
