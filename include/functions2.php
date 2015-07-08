@@ -425,6 +425,7 @@
 		return $rv;
 	}
 
+	// $search_mode is obsolete/unused
 	function queryFeedHeadlines($feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false, $override_strategy = false, $override_vfeed = false, $start_ts = false) {
 
 		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
@@ -532,33 +533,11 @@
 
 			$vfeed_query_part = "";
 
-			// override query strategy and enable feed display when searching globally
-			if ($search && $search_mode == "all_feeds") {
-				$query_strategy_part = "true";
-				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
 			/* tags */
-			} else if (!is_numeric($feed)) {
+			if (!is_numeric($feed)) {
 				$query_strategy_part = "true";
 				$vfeed_query_part = "(SELECT title FROM ttrss_feeds WHERE
 					id = feed_id) as feed_title,";
-			} else if ($search && $search_mode == "this_cat") {
-				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
-
-				if ($feed > 0) {
-					if ($include_children) {
-						$subcats = getChildCategories($feed, $owner_uid);
-						array_push($subcats, $feed);
-						$cats_qpart = join(",", $subcats);
-					} else {
-						$cats_qpart = $feed;
-					}
-
-					$query_strategy_part = "ttrss_feeds.cat_id IN ($cats_qpart)";
-
-				} else {
-					$query_strategy_part = "ttrss_feeds.cat_id IS NULL";
-				}
-
 			} else if ($feed > 0) {
 
 				if ($cat_view) {
@@ -628,10 +607,6 @@
 
 				if (!$override_order) $override_order = "last_read DESC";
 
-/*			} else if ($feed == -7) { // shared
-				$query_strategy_part = "uuid != ''";
-				$vfeed_query_part = "ttrss_feeds.title AS feed_title,";
-				$allow_archived = true; */
 			} else if ($feed == -3) { // fresh virtual feed
 				$query_strategy_part = "unread = true AND score >= 0";
 
@@ -702,19 +677,13 @@
 
 			$content_query_part = "content, ";
 
+			if ($limit_query_part) {
+				$offset_query_part = "OFFSET $offset";
+			} else {
+				$offset_query_part = "";
+			}
 
 			if (is_numeric($feed)) {
-
-				if ($feed >= 0) {
-					$feed_kind = "Feeds";
-				} else {
-					$feed_kind = "Labels";
-				}
-
-				if ($limit_query_part) {
-					$offset_query_part = "OFFSET $offset";
-				}
-
 				// proper override_order applied above
 				if ($vfeed_query_part && !$ignore_vfeed_group && get_pref('VFEED_GROUP_BY_FEED', $owner_uid)) {
 					if (!$override_order) {
@@ -733,8 +702,7 @@
 						LEFT JOIN ttrss_feeds ON (feed_id = ttrss_feeds.id)";
 				}
 
-				if ($vfeed_query_part)
-					$vfeed_query_part .= "favicon_avg_color,";
+				if ($vfeed_query_part) $vfeed_query_part .= "favicon_avg_color,";
 
 				if ($start_ts) {
 					$start_ts_formatted = date("Y/m/d H:i:s", strtotime($start_ts));
@@ -785,73 +753,45 @@
 			} else {
 				// browsing by tag
 
-				$select_qpart = "SELECT DISTINCT " .
-								"date_entered," .
-								"guid," .
-								"note," .
-								"ttrss_entries.id as id," .
-								"title," .
-								"updated," .
-								"unread," .
-								"feed_id," .
-								"orig_feed_id," .
-								"marked," .
-								"num_comments, " .
-								"comments, " .
-								"tag_cache," .
-								"label_cache," .
-								"link," .
-								"lang," .
-								"uuid," .
-								"last_read," .
-								"(SELECT hide_images FROM ttrss_feeds WHERE id = feed_id) AS hide_images," .
-								"last_marked, last_published, " .
-								$since_id_part .
-								$vfeed_query_part .
-								$content_query_part .
-								"score ";
+				$query = "SELECT DISTINCT
+							date_entered,
+							guid,
+							note,
+							ttrss_entries.id as id,
+							title,
+							updated,
+							unread,
+							feed_id,
+							orig_feed_id,
+							marked,
+							num_comments,
+							comments,
+							tag_cache,
+							label_cache,
+							link,
+							lang,
+							uuid,
+							last_read,
+							(SELECT hide_images FROM ttrss_feeds WHERE id = feed_id) AS hide_images,
+							last_marked, last_published,
+							$since_id_part
+							$vfeed_query_part
+							$content_query_part
+							author, score
+						FROM ttrss_entries, ttrss_user_entries, ttrss_tags
+						WHERE
+							ref_id = ttrss_entries.id AND
+							ttrss_user_entries.owner_uid = $owner_uid AND
+							post_int_id = int_id AND
+							tag_name = '$feed' AND
+							$view_query_part
+							$search_query_part
+							$query_strategy_part ORDER BY $order_by
+							$limit_query_part $offset_query_part";
 
-				$feed_kind = "Tags";
-				$all_tags = explode(",", $feed);
-				if ($search_mode == 'any') {
-					$tag_sql = "tag_name in (" . implode(", ", array_map("db_quote", $all_tags)) . ")";
-					$from_qpart = " FROM ttrss_entries,ttrss_user_entries,ttrss_tags ";
-					$where_qpart = " WHERE " .
-								   "ref_id = ttrss_entries.id AND " .
-								   "ttrss_user_entries.owner_uid = $owner_uid AND " .
-								   "post_int_id = int_id AND $tag_sql AND " .
-								   $view_query_part .
-								   $search_query_part .
-								   $query_strategy_part . " ORDER BY $order_by " .
-								   $limit_query_part;
+				if ($_REQUEST["debug"]) print $query;
 
-				} else {
-					$i = 1;
-					$sub_selects = array();
-					$sub_ands = array();
-					foreach ($all_tags as $term) {
-						array_push($sub_selects, "(SELECT post_int_id from ttrss_tags WHERE tag_name = " . db_quote($term) . " AND owner_uid = $owner_uid) as A$i");
-						$i++;
-					}
-					if ($i > 2) {
-						$x = 1;
-						$y = 2;
-						do {
-							array_push($sub_ands, "A$x.post_int_id = A$y.post_int_id");
-							$x++;
-							$y++;
-						} while ($y < $i);
-					}
-					array_push($sub_ands, "A1.post_int_id = ttrss_user_entries.int_id and ttrss_user_entries.owner_uid = $owner_uid");
-					array_push($sub_ands, "ttrss_user_entries.ref_id = ttrss_entries.id");
-					$from_qpart = " FROM " . implode(", ", $sub_selects) . ", ttrss_user_entries, ttrss_entries";
-					$where_qpart = " WHERE " . implode(" AND ", $sub_ands);
-				}
-				//				error_log("TAG SQL: " . $tag_sql);
-				// $tag_sql = "tag_name = '$feed'";   DEFAULT way
-
-				//				error_log("[". $select_qpart . "][" . $from_qpart . "][" .$where_qpart . "]");
-				$result = db_query($select_qpart . $from_qpart . $where_qpart);
+				$result = db_query($query);
 			}
 
 			return array($result, $feed_title, $feed_site_url, $last_error, $last_updated, $search_words);

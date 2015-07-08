@@ -1,4 +1,4 @@
-var _shorten_expanded_threshold = 900; //px, longer than css height so that we would only clip articles significantly longer than limit
+var _shorten_expanded_threshold = 1.5; //window heights
 
 function expandSizeWrapper(id) {
 	try {
@@ -28,7 +28,7 @@ dojo.addOnLoad(function() {
 
 			window.setTimeout(function() {
 				if (row) {
-					if (row.offsetHeight >= _shorten_expanded_threshold) {
+					if (row.offsetHeight >= _shorten_expanded_threshold * window.innerHeight) {
 						var content = row.select(".cdmContentInner")[0];
 
 						if (content) {

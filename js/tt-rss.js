@@ -652,9 +652,6 @@ function quickMenuGo(opid) {
 		case "qmcTagCloud":
 			displayDlg(__("Tag cloud"), "printTagCloud");
 			break;
-		case "qmcTagSelect":
-			displayDlg(__("Select item(s) by tags"), "printTagSelect");
-			break;
 		case "qmcSearch":
 			search();
 			break;

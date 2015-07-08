@@ -222,11 +222,10 @@ class API extends Handler {
 			/* do not rely on params below */
 
 			$search = $this->dbh->escape_string($_REQUEST["search"]);
-			$search_mode = $this->dbh->escape_string($_REQUEST["search_mode"]);
 
 			$headlines = $this->api_get_headlines($feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $override_order,
-				$include_attachments, $since_id, $search, $search_mode,
+				$include_attachments, $since_id, $search,
 				$include_nested, $sanitize_content, $force_update, $excerpt_length);
 
 			$this->wrap(self::STATUS_OK, $headlines);
@@ -636,8 +635,7 @@ class API extends Handler {
 	static function api_get_headlines($feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $order,
 				$include_attachments, $since_id,
-				$search = "", $search_mode = "",
-				$include_nested = false, $sanitize_content = true, $force_update = false, $excerpt_length = 100) {
+				$search = "", $include_nested = false, $sanitize_content = true, $force_update = false, $excerpt_length = 100) {
 
 			if ($force_update && $feed_id > 0 && is_numeric($feed_id)) {
 				// Update the feed if required with some basic flood control
@@ -661,7 +659,7 @@ class API extends Handler {
 			}
 
 			$qfh_ret = queryFeedHeadlines($feed_id, $limit,
-				$view_mode, $is_cat, $search, $search_mode,
+				$view_mode, $is_cat, $search, false,
 				$order, $offset, 0, false, $since_id, $include_nested);
 
 			$result = $qfh_ret[0];

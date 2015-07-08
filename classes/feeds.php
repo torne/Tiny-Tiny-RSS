@@ -13,7 +13,7 @@ class Feeds extends Handler_Protected {
 
 	private function format_headline_subtoolbar($feed_site_url, $feed_title,
 			$feed_id, $is_cat, $search,
-			$search_mode, $view_mode, $error, $feed_last_updated) {
+			$view_mode, $error, $feed_last_updated) {
 
 		$catchup_sel_link = "catchupSelection()";
 
@@ -34,7 +34,7 @@ class Feeds extends Handler_Protected {
 		if ($is_cat) $cat_q = "&is_cat=$is_cat";
 
 		if ($search) {
-			$search_q = "&q=$search&smode=$search_mode";
+			$search_q = "&q=$search";
 		} else {
 			$search_q = "";
 		}
@@ -207,21 +207,12 @@ class Feeds extends Handler_Protected {
 			$disable_cache = true;
 		}
 
-		@$search_mode = $this->dbh->escape_string($_REQUEST["search_mode"]);
-
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H0", $timing_info);
 
-//		error_log("format_headlines_list: [" . $feed . "] method [" . $method . "]");
-		if($search_mode == '' && $method != '' ){
-		    $search_mode = $method;
-		}
-//		error_log("search_mode: " . $search_mode);
 
 		if (!$cat_view && is_numeric($feed) && $feed < PLUGIN_FEED_BASE_INDEX && $feed > LABEL_BASE_INDEX) {
 			$handler = PluginHost::getInstance()->get_feed_handler(
 				PluginHost::feed_to_pfeed_id($feed));
-
-		//	function queryFeedHeadlines($feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false) {
 
 			if ($handler) {
 				$options = array(
@@ -229,7 +220,6 @@ class Feeds extends Handler_Protected {
 					"view_mode" => $view_mode,
 					"cat_view" => $cat_view,
 					"search" => $search,
-					"search_mode" => $search_mode,
 					"override_order" => $override_order,
 					"offset" => $offset,
 					"owner_uid" => $_SESSION["uid"],
@@ -243,7 +233,7 @@ class Feeds extends Handler_Protected {
 
 		} else {
 			$qfh_ret = queryFeedHeadlines($feed, $limit, $view_mode, $cat_view,
-				$search, $search_mode, $override_order, $offset, 0,
+				$search, false, $override_order, $offset, 0,
 				false, 0, $include_children);
 		}
 
@@ -263,7 +253,7 @@ class Feeds extends Handler_Protected {
 
 		$reply['toolbar'] = $this->format_headline_subtoolbar($feed_site_url,
 			$feed_title,
-			$feed, $cat_view, $search, $search_mode, $view_mode,
+			$feed, $cat_view, $search, $view_mode,
 			$last_error, $last_updated);
 
 		$headlines_count = $this->dbh->num_rows($result);
@@ -1118,36 +1108,7 @@ class Feeds extends Handler_Protected {
 			style=\"font-size : 16px; width : 20em;\"
 			required=\"1\" name=\"query\" type=\"search\" value=''>";
 
-		print "<hr/>".__('Limit search to:')." ";
-
-		print "<select name=\"search_mode\" dojoType=\"dijit.form.Select\">
-			<option value=\"all_feeds\">".__('All feeds')."</option>";
-
-		$feed_title = getFeedTitle($active_feed_id);
-
-		if (!$is_cat) {
-			$feed_cat_title = getFeedCatTitle($active_feed_id);
-		} else {
-			$feed_cat_title = getCategoryTitle($active_feed_id);
-		}
-
-		if ($active_feed_id && !$is_cat) {
-			print "<option selected=\"1\" value=\"this_feed\">$feed_title</option>";
-		} else {
-			print "<option disabled=\"1\" value=\"false\">".__('This feed')."</option>";
-		}
-
-		if ($is_cat) {
-		  	$cat_preselected = "selected=\"1\"";
-		}
-
-		if (get_pref('ENABLE_FEED_CATS') && ($active_feed_id > 0 || $is_cat)) {
-			print "<option $cat_preselected value=\"this_cat\">$feed_cat_title</option>";
-		} else {
-			//print "<option disabled>".__('This category')."</option>";
-		}
-
-		print "</select>";
+		print "<hr/><span style='float : right'>".T_sprintf('in %s', getFeedTitle($active_feed_id, $is_cat))."</span>";
 
 		print "</div>";
 
