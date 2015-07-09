@@ -1792,7 +1792,7 @@
 	}
 
 	function is_html($content) {
-		return preg_match("/<html|DOCTYPE html/i", substr($content, 0, 20)) !== 0;
+		return preg_match("/<html|DOCTYPE html/i", substr($content, 0, 100)) !== 0;
 	}
 
 	function url_is_html($url, $login = false, $pass = false) {
