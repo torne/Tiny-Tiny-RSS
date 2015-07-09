@@ -247,7 +247,9 @@ class Af_RedditImgur extends Plugin {
 
 				$content_link = $xpath->query("(//a[contains(., '[link]')])")->item(0);
 
-				if ($content_link && strpos($content_link->getAttribute("href"), "reddit.com") === FALSE) {
+				if ($content_link &&
+					strpos($content_link->getAttribute("href"), "twitter.com") === FALSE &&
+					strpos($content_link->getAttribute("href"), "reddit.com") === FALSE) {
 
 					/* link may lead to a huge video file or whatever, we need to check content type before trying to
 					parse it which p much requires curl */
