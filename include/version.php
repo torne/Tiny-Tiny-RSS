@@ -1,5 +1,5 @@
 <?php
-	define('VERSION_STATIC', '1.15.3');
+	define('VERSION_STATIC', '15.7');
 
 	function get_version() {
 		date_default_timezone_set('UTC');
@@ -13,7 +13,7 @@
 			define("GIT_VERSION_HEAD", $suffix);
 			define("GIT_VERSION_TIMESTAMP", $timestamp);
 
-			return VERSION_STATIC . ".$suffix";
+			return VERSION_STATIC . " ($suffix)";
 		} else {
 			return VERSION_STATIC;
 		}
