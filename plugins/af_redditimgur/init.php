@@ -272,7 +272,6 @@ class Af_RedditImgur extends Plugin {
 							$r = new Readability($tmp, $content_link->getAttribute("href"));
 
 							if ($r->init()) {
-								//$article["content"] = $r->articleContent->innerHTML . "<hr/>" . $article["content"];
 
 								$tmpxpath = new DOMXPath($r->dom);
 
@@ -295,11 +294,13 @@ class Af_RedditImgur extends Plugin {
 
 								$article["content"] = $r->articleContent->innerHTML . "<hr/>" . $article["content"];
 
-								$doc = new DOMDocument();
-								@$doc->loadHTML($article["content"]);
-								$xpath = new DOMXPath($doc);
+								// prob not a very good idea (breaks wikipedia pages, etc) -
+								// inliner currently is not really fit for any random web content
 
-								$found = $this->inline_stuff($article, $doc, $xpath);
+								//$doc = new DOMDocument();
+								//@$doc->loadHTML($article["content"]);
+								//$xpath = new DOMXPath($doc);
+								//$found = $this->inline_stuff($article, $doc, $xpath);
 							}
 						}
 					}
