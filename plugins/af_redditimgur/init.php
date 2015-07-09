@@ -115,6 +115,7 @@ class Af_RedditImgur extends Plugin {
 
 				$matches = array();
 				if (preg_match("/\.youtube\.com\/v\/([\w-]+)/", $entry->getAttribute("href"), $matches) ||
+					preg_match("/\.youtube\.com\/.*?[\&\?]v=([\w-]+)/", $entry->getAttribute("href"), $matches) ||
 					preg_match("/\.youtube\.com\/watch\?v=([\w-]+)/", $entry->getAttribute("href"), $matches) ||
 					preg_match("/\/\/youtu.be\/([\w-]+)/", $entry->getAttribute("href"), $matches)) {
 
@@ -249,6 +250,7 @@ class Af_RedditImgur extends Plugin {
 
 				if ($content_link &&
 					strpos($content_link->getAttribute("href"), "twitter.com") === FALSE &&
+					strpos($content_link->getAttribute("href"), "youtube.com") === FALSE &&
 					strpos($content_link->getAttribute("href"), "reddit.com") === FALSE) {
 
 					/* link may lead to a huge video file or whatever, we need to check content type before trying to
