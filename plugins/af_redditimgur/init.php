@@ -159,44 +159,10 @@ class Af_RedditImgur extends Plugin {
 					$found = true;
 				}
 
-				// links to imgur pages
-				$matches = array();
-				if (preg_match("/^https?:\/\/(m\.)?imgur.com\/([^\.\/]+$)/", $entry->getAttribute("href"), $matches)) {
+				// linked albums & pages
 
-					$token = $matches[2];
-
-					$album_content = fetch_file_contents($entry->getAttribute("href"),
-						false, false, false, false, 10);
-
-					if ($album_content && $token) {
-						$adoc = new DOMDocument();
-						@$adoc->loadHTML($album_content);
-
-						if ($adoc) {
-							$axpath = new DOMXPath($adoc);
-							$aentries = $axpath->query('(//img[@src])');
-
-							foreach ($aentries as $aentry) {
-								if (preg_match("/\/\/i.imgur.com\/$token\./", $aentry->getAttribute("src"))) {
-									$img = $doc->createElement('img');
-									$img->setAttribute("src", $aentry->getAttribute("src"));
-
-									$br = $doc->createElement('br');
-
-									$entry->parentNode->insertBefore($img, $entry);
-									$entry->parentNode->insertBefore($br, $entry);
-
-									$found = true;
-
-									break;
-								}
-							}
-						}
-					}
-				}
-
-				// linked albums, ffs
-				if (preg_match("/^https?:\/\/imgur.com\/(a|album|gallery)\/[^\.]+$/", $entry->getAttribute("href"), $matches)) {
+				if (preg_match("/^https?:\/\/(m\.)?imgur.com\/([^\.\/]+$)/", $entry->getAttribute("href"), $matches) ||
+					preg_match("/^https?:\/\/imgur.com\/(a|album|gallery)\/[^\.]+$/", $entry->getAttribute("href"), $matches)) {
 
 					$album_content = fetch_file_contents($entry->getAttribute("href"),
 						false, false, false, false, 10);
