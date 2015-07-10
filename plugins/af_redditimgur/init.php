@@ -80,6 +80,10 @@ class Af_RedditImgur extends Plugin {
 
 				$matches = array();
 
+				if (preg_match("/\.gfycat.com\/([a-z]+)?(\.[a-z]+)$/i", $entry->getAttribute("href"), $matches)) {
+					$entry->setAttribute("href", "http://www.gfycat.com/".$matches[1]);
+				}
+
 				if (preg_match("/https?:\/\/(www\.)?gfycat.com\/([a-z]+)$/i", $entry->getAttribute("href"), $matches)) {
 
 					$tmp = fetch_file_contents($entry->getAttribute("href"));
@@ -110,6 +114,12 @@ class Af_RedditImgur extends Plugin {
 						}
 					}
 
+				}
+
+				// imgur .gif -> .gifv
+				if (preg_match("/i\.imgur\.com\/(.*?)\.gif$/i", $entry->getAttribute("href"))) {
+					$entry->setAttribute("href",
+						str_replace(".gif", ".gifv", $entry->getAttribute("href")));
 				}
 
 				if (preg_match("/\.(gifv)$/i", $entry->getAttribute("href"))) {
