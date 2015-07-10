@@ -80,7 +80,7 @@ class Af_RedditImgur extends Plugin {
 
 				$matches = array();
 
-				if (preg_match("/https?:\/\/gfycat.com\/([a-z]+)$/i", $entry->getAttribute("href"), $matches)) {
+				if (preg_match("/https?:\/\/(www\.)?gfycat.com\/([a-z]+)$/i", $entry->getAttribute("href"), $matches)) {
 
 					$tmp = fetch_file_contents($entry->getAttribute("href"));
 
@@ -90,13 +90,20 @@ class Af_RedditImgur extends Plugin {
 
 						if ($tmpdoc) {
 							$tmpxpath = new DOMXPath($tmpdoc);
+
 							$source_meta = $tmpxpath->query("//meta[@property='og:video']")->item(0);
+							$poster_meta = $tmpxpath->query("//meta[@property='og:image' and contains(@content,'thumbs.gfycat.com')]")->item(0);
 
 							if ($source_meta) {
 								$source_stream = $source_meta->getAttribute("content");
+								$poster_url = false;
 
 								if ($source_stream) {
-									$this->handle_as_video($doc, $entry, $source_stream);
+
+									if ($poster_meta)
+										$poster_url = $poster_meta->getAttribute("content");
+
+									$this->handle_as_video($doc, $entry, $source_stream, $poster_url);
 									$found = 1;
 								}
 							}
@@ -108,7 +115,11 @@ class Af_RedditImgur extends Plugin {
 				if (preg_match("/\.(gifv)$/i", $entry->getAttribute("href"))) {
 
 					$source_stream = str_replace(".gifv", ".mp4", $entry->getAttribute("href"));
-					$this->handle_as_video($doc, $entry, $source_stream);
+
+					if (strpos($source_stream, "i.imgur.com") !== FALSE)
+						$poster_url = str_replace(".mp4", "h.jpg", $source_stream);
+
+					$this->handle_as_video($doc, $entry, $source_stream, $poster_url);
 
 					$found = true;
 				}
@@ -326,12 +337,14 @@ class Af_RedditImgur extends Plugin {
 		return 2;
 	}
 
-	private function handle_as_video($doc, $entry, $source_stream) {
+	private function handle_as_video($doc, $entry, $source_stream, $poster_url = false) {
 
 		$video = $doc->createElement('video');
 		$video->setAttribute("autoplay", "1");
 		$video->setAttribute("controls", "1");
 		$video->setAttribute("loop", "1");
+
+		if ($poster_url) $video->setAttribute("poster", $poster_url);
 
 		$source = $doc->createElement('source');
 		$source->setAttribute("src", $source_stream);
