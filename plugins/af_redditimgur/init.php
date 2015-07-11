@@ -190,7 +190,7 @@ class Af_RedditImgur extends Plugin {
 
 								if (!in_array($aentry->getAttribute("content"), $urls)) {
 									$img = $doc->createElement('img');
-									$img->setAttribute("src", $aentry->getAttribute("content"));
+									$img->setAttribute("src", str_replace("?fb", "", $aentry->getAttribute("content")));
 									$entry->parentNode->insertBefore($doc->createElement('br'), $entry);
 
 									$br = $doc->createElement('br');
