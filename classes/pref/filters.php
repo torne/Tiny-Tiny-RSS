@@ -83,9 +83,22 @@ class Pref_Filters extends Handler_Protected {
 			}
 		}
 
-		$qfh_ret = queryFeedHeadlines(-4, 30, "", false, false, false,
-			"date_entered DESC", 0, $_SESSION["uid"], $filter);
+		//function queryFeedHeadlines($feed, $limit, $view_mode, $cat_view, $search, $search_mode,
+		// $override_order = false, $offset = 0, $owner_uid = 0, $filter = false,
 
+		/*$qfh_ret = queryFeedHeadlines(-4, 30, "", false, false, false,
+			"date_entered DESC", 0, $_SESSION["uid"], $filter);*/
+
+		$params = array(
+			"feed" => -4,
+			"limit" => 30,
+			"view_mode" => "",
+			"cat_view" => false,
+			"override_order" => "date_entered DESC",
+			"filter" => $filter
+		);
+
+		$qfh_ret = queryFeedHeadlines($params);
 		$result = $qfh_ret[0];
 
 		$found = 0;

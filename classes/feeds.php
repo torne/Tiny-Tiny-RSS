@@ -148,7 +148,7 @@ class Feeds extends Handler_Protected {
 
 	private function format_headlines_list($feed, $method, $view_mode, $limit, $cat_view,
 					$next_unread_feed, $offset, $vgr_last_feed = false,
-					$override_order = false, $include_children = false) {
+					$override_order = false, $include_children = false, $check_top_id = false) {
 
 		$disable_cache = false;
 
@@ -232,9 +232,28 @@ class Feeds extends Handler_Protected {
 			}
 
 		} else {
-			$qfh_ret = queryFeedHeadlines($feed, $limit, $view_mode, $cat_view,
+			/*$qfh_ret = queryFeedHeadlines($feed, $limit, $view_mode, $cat_view,
 				$search, false, $override_order, $offset, 0,
-				false, 0, $include_children);
+				false, 0, $include_children, $topid);*/
+
+			//function queryFeedHeadlines($feed, $limit,
+			// $view_mode, $cat_view, $search, $search_mode,
+			// $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false,
+			// $ignore_vfeed_group = false, $override_strategy = false, $override_vfeed = false, $start_ts = false, $check_top_id = false) {
+
+			$params = array(
+				"feed" => $feed,
+				"limit" => $limit,
+				"view_mode" => $view_mode,
+				"cat_view" => $cat_view,
+				"search" => $search,
+				"override_order" => $override_order,
+				"offset" => $offset,
+				"include_children" => $include_children,
+				"check_top_id" => $check_top_id
+			);
+
+			$qfh_ret = queryFeedHeadlines($params);
 		}
 
 		$vfeed_group_enabled = get_pref("VFEED_GROUP_BY_FEED") && $feed != -6;
@@ -810,6 +829,7 @@ class Feeds extends Handler_Protected {
 		@$offset = $this->dbh->escape_string($_REQUEST["skip"]);
 		@$vgroup_last_feed = $this->dbh->escape_string($_REQUEST["vgrlf"]);
 		$order_by = $this->dbh->escape_string($_REQUEST["order_by"]);
+		$check_top_id = $this->dbh->escape_string($_REQUEST["topid"]);
 
 		if (is_numeric($feed)) $feed = (int) $feed;
 
@@ -889,7 +909,7 @@ class Feeds extends Handler_Protected {
 
 		$ret = $this->format_headlines_list($feed, $method,
 			$view_mode, $limit, $cat_view, $next_unread_feed, $offset,
-			$vgroup_last_feed, $override_order, true);
+			$vgroup_last_feed, $override_order, true, $check_top_id);
 
 		//$topmost_article_ids = $ret[0];
 		$headlines_count = $ret[1];

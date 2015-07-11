@@ -99,6 +99,10 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req, can_w
 			query = query + "&m=" + param_escape(method);
 		}
 
+		if (current_top_article_id && offset > 0) {
+			query = query + "&topid=" + param_escape(current_top_article_id);
+		}
+
 		if (!background) {
 			if (_search_query) {
 				force_nocache = true;

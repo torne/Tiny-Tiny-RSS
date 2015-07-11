@@ -426,9 +426,25 @@
 	}
 
 	// $search_mode is obsolete/unused
-	function queryFeedHeadlines($feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false, $override_strategy = false, $override_vfeed = false, $start_ts = false) {
+	//function queryFeedHeadlines($feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false, $override_strategy = false, $override_vfeed = false, $start_ts = false, $check_top_id = false) {
+	function queryFeedHeadlines($params) {
 
-		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
+		$feed = $params["feed"];
+		$limit = isset($params["limit"]) ? $params["limit"] : 30;
+		$view_mode = $params["view_mode"];
+		$cat_view = isset($params["cat_view"]) ? $params["cat_view"] : false;
+		$search = isset($params["search"]) ? $params["search"] : false;
+		$override_order = isset($params["override_order"]) ? $params["override_order"] : false;
+		$offset = isset($params["offset"]) ? $params["offset"] : 0;
+		$owner_uid = isset($params["owner_uid"]) ? $params["owner_uid"] : $_SESSION["uid"];
+		$filter = isset($params["filter"]) ? $params["filter"] : 0;
+		$since_id = isset($params["since_id"]) ? $params["since_id"] : 0;
+		$include_children = isset($params["include_children"]) ? $params["include_children"] : false;
+		$ignore_vfeed_group = isset($params["ignore_vfeed_group"]) ? $params["ignore_vfeed_group"] : false;
+		$override_strategy = isset($params["override_strategy"]) ? $params["override_strategy"] : false;
+		$override_vfeed = isset($params["override_vfeed"]) ? $params["override_vfeed"] : false;
+		$start_ts = isset($params["start_ts"]) ? $params["start_ts"] : false;
+		$check_top_id = isset($params["check_top_id"]) ? $params["check_top_id"] : false;
 
 		$ext_tables_part = "";
 		$search_words = array();
@@ -709,6 +725,45 @@
 					$start_ts_query_part = "date_entered >= '$start_ts_formatted' AND";
 				} else {
 					$start_ts_query_part = "";
+				}
+
+
+				// if previous topmost article id changed that means our current pagination is no longer valid
+				if ($check_top_id) {
+					$query = "SELECT DISTINCT
+							date_entered,
+							guid,
+							ttrss_entries.id,
+							ttrss_entries.title,
+							updated,
+							score
+						FROM
+							$from_qpart
+						WHERE
+						$feed_check_qpart
+						ttrss_user_entries.ref_id = ttrss_entries.id AND
+						ttrss_user_entries.owner_uid = '$owner_uid' AND
+						$search_query_part
+						$start_ts_query_part
+						$filter_query_part
+						$view_query_part
+						$since_id_part
+						$query_strategy_part ORDER BY $order_by LIMIT 1";
+
+					if ($_REQUEST["debug"]) {
+						print $query;
+					}
+
+					$result = db_query($query);
+					if ($result) {
+						$current_top_id = db_fetch_result($result, 0, "id");
+
+						if ($current_top_id != $check_top_id) {
+							// top changed, bail out
+
+							return array(false, $feed_title, $feed_site_url, $last_error, $last_updated, $search_words);
+						}
+					}
 				}
 
 				$query = "SELECT DISTINCT

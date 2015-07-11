@@ -13,6 +13,7 @@ var catchup_timeout_id = false;
 var cids_requested = [];
 var loaded_article_ids = [];
 var _last_headlines_update = 0;
+var current_top_article_id = false;
 
 var has_storage = 'sessionStorage' in window && window['sessionStorage'] !== null;
 
@@ -83,6 +84,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 			if (infscroll_req == false) {
 				loaded_article_ids = [];
+				current_top_article_id = false;
 
 				dijit.byId("headlines-frame").attr('content',
 					reply['headlines']['content']);
@@ -101,6 +103,10 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 						loaded_article_ids.push(row.id);
 					}
 				});
+
+				if (loaded_article_ids.size() > 0) {
+					current_top_article_id = parseInt(loaded_article_ids[0].replace("RROW-", ""));
+				}
 
 				var hsp = $("headlines-spacer");
 				if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
