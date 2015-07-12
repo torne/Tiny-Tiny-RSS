@@ -1483,7 +1483,7 @@
 
 		$tag = mb_strtolower($tag, 'utf-8');
 
-		$tag = preg_replace('/[\'\"\+\>\<]/', "", $tag);
+		$tag = preg_replace('/[,\'\"\+\>\<]/', "", $tag);
 
 		if (DB_TYPE == "mysql") {
 			$tag = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $tag);
