@@ -175,6 +175,11 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 							new Effect.Appear(child, { duration : 0.5 });
 					});
 
+					if (_infscroll_disable) {
+						hsp.innerHTML = "<a href='#' onclick='openNextUnreadFeed()'>" +
+						__("Click to open next unread feed.") + "</a>";
+					}
+
 				} else {
 					console.log("no new headlines received");
 
