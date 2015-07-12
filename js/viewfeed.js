@@ -13,6 +13,7 @@ var catchup_timeout_id = false;
 var cids_requested = [];
 var loaded_article_ids = [];
 var _last_headlines_update = 0;
+var current_first_id = 0;
 
 var has_storage = 'sessionStorage' in window && window['sessionStorage'] !== null;
 
@@ -77,6 +78,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 				_infscroll_disable = 0;
 			}
 
+			current_first_id = reply['headlines']['first_id'];
 			var counters = reply['counters'];
 			var articles = reply['articles'];
 			//var runtime_info = reply['runtime-info'];
@@ -183,13 +185,13 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 				} else {
 					console.log("no new headlines received");
 
-					var top_id_changed = reply['headlines']['top_id_changed'];
-					console.log("top id changed:" + top_id_changed);
+					var first_id_changed = reply['headlines']['first_id_changed'];
+					console.log("first id changed:" + first_id_changed);
 
 					var hsp = $("headlines-spacer");
 
 					if (hsp) {
-						if (top_id_changed) {
+						if (first_id_changed) {
 							hsp.innerHTML = "<a href='#' onclick='viewCurrentFeed()'>" +
 							__("New articles found, reload feed to continue.") + "</a>";
 						} else {

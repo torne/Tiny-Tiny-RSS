@@ -148,7 +148,7 @@ class Feeds extends Handler_Protected {
 
 	private function format_headlines_list($feed, $method, $view_mode, $limit, $cat_view,
 					$next_unread_feed, $offset, $vgr_last_feed = false,
-					$override_order = false, $include_children = false, $check_top_id = false) {
+					$override_order = false, $include_children = false, $check_first_id = false) {
 
 		$disable_cache = false;
 
@@ -250,7 +250,7 @@ class Feeds extends Handler_Protected {
 				"override_order" => $override_order,
 				"offset" => $offset,
 				"include_children" => $include_children,
-				"check_top_id" => $check_top_id
+				"check_first_id" => $check_first_id
 			);
 
 			$qfh_ret = queryFeedHeadlines($params);
@@ -267,6 +267,7 @@ class Feeds extends Handler_Protected {
 		$last_updated = strpos($qfh_ret[4], '1970-') === FALSE ?
 			make_local_datetime($qfh_ret[4], false) : __("Never");
 		$highlight_words = $qfh_ret[5];
+		$reply['first_id'] = $qfh_ret[6];
 
 		$vgroup_last_feed = $vgr_last_feed;
 
@@ -801,7 +802,7 @@ class Feeds extends Handler_Protected {
 			}
 		} else if (is_numeric($result) && $result == -1) {
 			$reply['content'] = '';
-			$reply['top_id_changed'] = true;
+			$reply['first_id_changed'] = true;
 		}
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H2", $timing_info);
@@ -832,7 +833,7 @@ class Feeds extends Handler_Protected {
 		@$offset = $this->dbh->escape_string($_REQUEST["skip"]);
 		@$vgroup_last_feed = $this->dbh->escape_string($_REQUEST["vgrlf"]);
 		$order_by = $this->dbh->escape_string($_REQUEST["order_by"]);
-		$check_top_id = $this->dbh->escape_string($_REQUEST["topid"]);
+		$check_first_id = $this->dbh->escape_string($_REQUEST["fid"]);
 
 		if (is_numeric($feed)) $feed = (int) $feed;
 
@@ -905,7 +906,7 @@ class Feeds extends Handler_Protected {
 
 		$ret = $this->format_headlines_list($feed, $method,
 			$view_mode, $limit, $cat_view, $next_unread_feed, $offset,
-			$vgroup_last_feed, $override_order, true, $check_top_id);
+			$vgroup_last_feed, $override_order, true, $check_first_id);
 
 		//$topmost_article_ids = $ret[0];
 		$headlines_count = $ret[1];

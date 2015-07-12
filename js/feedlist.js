@@ -100,10 +100,8 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req, can_w
 		}
 
 		if (offset > 0) {
-			var firstRow = $$('div[id*="RROW-"]').first();
-
-			if (firstRow) {
-				query = query + "&topid=" + param_escape(parseInt(firstRow.id.replace("RROW-", "")));
+			if (current_first_id) {
+				query = query + "&fid=" + param_escape(current_first_id);
 			}
 		}
 

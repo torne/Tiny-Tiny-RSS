@@ -205,7 +205,7 @@ class API extends Handler {
 			$force_update = sql_bool_to_bool($_REQUEST["force_update"]);
 			$has_sandbox = sql_bool_to_bool($_REQUEST["has_sandbox"]);
 			$excerpt_length = (int)$this->dbh->escape_string($_REQUEST["excerpt_length"]);
-			$check_top_id = (int)$this->dbh->escape_string($_REQUEST["check_top_id"]);
+			$check_first_id = (int)$this->dbh->escape_string($_REQUEST["check_first_id"]);
 			$include_header = sql_bool_to_bool($_REQUEST["include_header"]);
 
 			$_SESSION['hasSandbox'] = $has_sandbox;
@@ -230,7 +230,7 @@ class API extends Handler {
 			list($headlines, $headlines_header) = $this->api_get_headlines($feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $override_order,
 				$include_attachments, $since_id, $search,
-				$include_nested, $sanitize_content, $force_update, $excerpt_length, $check_top_id);
+				$include_nested, $sanitize_content, $force_update, $excerpt_length, $check_first_id);
 
 			if ($include_header) {
 				$this->wrap(self::STATUS_OK, array($headlines_header, $headlines));
@@ -644,7 +644,7 @@ class API extends Handler {
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $order,
 				$include_attachments, $since_id,
 				$search = "", $include_nested = false, $sanitize_content = true,
-				$force_update = false, $excerpt_length = 100, $check_top_id = false) {
+				$force_update = false, $excerpt_length = 100, $check_first_id = false) {
 
 			if ($force_update && $feed_id > 0 && is_numeric($feed_id)) {
 				// Update the feed if required with some basic flood control
@@ -686,18 +686,20 @@ class API extends Handler {
 				"offset" => $offset,
 				"since_id" => $since_id,
 				"include_children" => $include_nested,
-				"check_top_id" => $check_top_id
+				"check_first_id" => $check_first_id
 			);
 
 			$qfh_ret = queryFeedHeadlines($params);
 
 			$result = $qfh_ret[0];
 			$feed_title = $qfh_ret[1];
+			$first_id = $qfh_ret[6];
 
 			$headlines = array();
 
 			$headlines_header = array(
 				'id' => $feed_id,
+				'first_id' => $first_id,
 				'is_cat' => $is_cat);
 
 			if (!is_numeric($result)) {
@@ -789,7 +791,7 @@ class API extends Handler {
 					array_push($headlines, $headline_row);
 				}
 			} else if (is_numeric($result) && $result == -1) {
-				$headlines_header['top_id_changed'] = true;
+				$headlines_header['first_id_changed'] = true;
 			}
 
 			return array($headlines, $headlines_header);

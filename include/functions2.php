@@ -444,7 +444,7 @@
 		$override_strategy = isset($params["override_strategy"]) ? $params["override_strategy"] : false;
 		$override_vfeed = isset($params["override_vfeed"]) ? $params["override_vfeed"] : false;
 		$start_ts = isset($params["start_ts"]) ? $params["start_ts"] : false;
-		$check_top_id = isset($params["check_top_id"]) ? $params["check_top_id"] : false;
+		$check_first_id = isset($params["check_first_id"]) ? $params["check_first_id"] : false;
 
 		$ext_tables_part = "";
 		$query_strategy_part = "";
@@ -729,28 +729,26 @@
 					$start_ts_query_part = "";
 				}
 
-
+				$first_id = false;
 				// if previous topmost article id changed that means our current pagination is no longer valid
-				if ($check_top_id) {
-					$query = "SELECT DISTINCT
-							date_entered,
-							guid,
-							ttrss_entries.id,
-							ttrss_entries.title,
-							updated,
-							score
-						FROM
-							$from_qpart
-						WHERE
-						$feed_check_qpart
-						ttrss_user_entries.ref_id = ttrss_entries.id AND
-						ttrss_user_entries.owner_uid = '$owner_uid' AND
-						$search_query_part
-						$start_ts_query_part
-						$filter_query_part
-						$view_query_part
-						$since_id_part
-						$query_strategy_part ORDER BY $order_by LIMIT 1";
+				$query = "SELECT DISTINCT
+						date_entered,
+						guid,
+						ttrss_entries.id,
+						ttrss_entries.title,
+						updated,
+						score
+					FROM
+						$from_qpart
+					WHERE
+					$feed_check_qpart
+					ttrss_user_entries.ref_id = ttrss_entries.id AND
+					ttrss_user_entries.owner_uid = '$owner_uid' AND
+					$search_query_part
+					$start_ts_query_part
+					$filter_query_part
+					$since_id_part
+					$query_strategy_part ORDER BY $order_by LIMIT 1";
 
 					if ($_REQUEST["debug"]) {
 						print $query;
@@ -758,15 +756,12 @@
 
 					$result = db_query($query);
 					if ($result) {
-						$current_top_id = db_fetch_result($result, 0, "id");
+						$first_id = (int) db_fetch_result($result, 0, "id");
 
-						if ($current_top_id != $check_top_id) {
-							// top changed, bail out
-
-							return array(-1, $feed_title, $feed_site_url, $last_error, $last_updated, $search_words);
+						if ($offset > 0 && $check_first_id && $first_id != $check_first_id) {
+							return array(-1, $feed_title, $feed_site_url, $last_error, $last_updated, $search_words, $first_id);
 						}
 					}
-				}
 
 				$query = "SELECT DISTINCT
 						date_entered,
@@ -851,7 +846,7 @@
 				$result = db_query($query);
 			}
 
-			return array($result, $feed_title, $feed_site_url, $last_error, $last_updated, $search_words);
+			return array($result, $feed_title, $feed_site_url, $last_error, $last_updated, $search_words, $first_id);
 
 	}
 
