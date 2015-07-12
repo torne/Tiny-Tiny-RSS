@@ -738,7 +738,11 @@
 						ttrss_entries.id,
 						ttrss_entries.title,
 						updated,
-						score
+						score,
+						marked,
+						published,
+						last_marked,
+						last_published
 					FROM
 						$from_qpart
 					WHERE
