@@ -184,6 +184,8 @@ class API extends Handler {
 		$feed_id = $this->dbh->escape_string($_REQUEST["feed_id"]);
 		if ($feed_id != "") {
 
+			if (is_numeric($feed_id)) $feed_id = (int) $feed_id;
+
 			$limit = (int)$this->dbh->escape_string($_REQUEST["limit"]);
 
 			if (!$limit || $limit >= 200) $limit = 200;
