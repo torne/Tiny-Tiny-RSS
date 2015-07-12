@@ -447,6 +447,8 @@
 		$check_top_id = isset($params["check_top_id"]) ? $params["check_top_id"] : false;
 
 		$ext_tables_part = "";
+		$query_strategy_part = "";
+
 		$search_words = array();
 
 			if ($search) {
@@ -1194,7 +1196,7 @@
 				$_SESSION["hasMp3"])) {
 
 				$entry .= "<audio preload=\"none\" controls>
-					<source type=\"$ctype\" src=\"$url\"></source>
+					<source type=\"$ctype\" src=\"$url\"/>
 					</audio>";
 
 			} else {
@@ -1619,6 +1621,7 @@
 			return __("no tags");
 		} else {
 			$maxtags = min(5, count($tags));
+			$tags_str = "";
 
 			for ($i = 0; $i < $maxtags; $i++) {
 				$tags_str .= "<a class=\"tag\" href=\"#\" onclick=\"viewfeed('".$tags[$i]."')\">" . $tags[$i] . "</a>, ";
