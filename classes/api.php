@@ -681,47 +681,48 @@ class API extends Handler {
 
 			$qfh_ret = queryFeedHeadlines($params);
 
-		$result = $qfh_ret[0];
+			$result = $qfh_ret[0];
 			$feed_title = $qfh_ret[1];
 
 			$headlines = array();
 
-			while ($line = db_fetch_assoc($result)) {
-				$line["content_preview"] = truncate_string(strip_tags($line["content"]), $excerpt_length);
-				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
-					$line = $p->hook_query_headlines($line, $excerpt_length, true);
-				}
+			if (is_resource($result)) {
+				while ($line = db_fetch_assoc($result)) {
+					$line["content_preview"] = truncate_string(strip_tags($line["content"]), $excerpt_length);
+					foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
+						$line = $p->hook_query_headlines($line, $excerpt_length, true);
+					}
 
-				$is_updated = ($line["last_read"] == "" &&
-					($line["unread"] != "t" && $line["unread"] != "1"));
+					$is_updated = ($line["last_read"] == "" &&
+						($line["unread"] != "t" && $line["unread"] != "1"));
 
-				$tags = explode(",", $line["tag_cache"]);
+					$tags = explode(",", $line["tag_cache"]);
 
-				$label_cache = $line["label_cache"];
-				$labels = false;
-
-				if ($label_cache) {
-					$label_cache = json_decode($label_cache, true);
+					$label_cache = $line["label_cache"];
+					$labels = false;
 
 					if ($label_cache) {
-						if ($label_cache["no-labels"] == 1)
-							$labels = array();
-						else
-							$labels = $label_cache;
+						$label_cache = json_decode($label_cache, true);
+
+						if ($label_cache) {
+							if ($label_cache["no-labels"] == 1)
+								$labels = array();
+							else
+								$labels = $label_cache;
+						}
 					}
-				}
 
-				if (!is_array($labels)) $labels = get_article_labels($line["id"]);
+					if (!is_array($labels)) $labels = get_article_labels($line["id"]);
 
-				//if (!$tags) $tags = get_article_tags($line["id"]);
-				//if (!$labels) $labels = get_article_labels($line["id"]);
+					//if (!$tags) $tags = get_article_tags($line["id"]);
+					//if (!$labels) $labels = get_article_labels($line["id"]);
 
-				$headline_row = array(
+					$headline_row = array(
 						"id" => (int)$line["id"],
 						"unread" => sql_bool_to_bool($line["unread"]),
 						"marked" => sql_bool_to_bool($line["marked"]),
 						"published" => sql_bool_to_bool($line["published"]),
-						"updated" => (int) strtotime($line["updated"]),
+						"updated" => (int)strtotime($line["updated"]),
 						"is_updated" => $is_updated,
 						"title" => $line["title"],
 						"link" => $line["link"],
@@ -729,49 +730,50 @@ class API extends Handler {
 						"tags" => $tags,
 					);
 
-				if ($include_attachments)
-					$headline_row['attachments'] = get_article_enclosures(
-						$line['id']);
+					if ($include_attachments)
+						$headline_row['attachments'] = get_article_enclosures(
+							$line['id']);
 
-				if ($show_excerpt)
-					$headline_row["excerpt"] = $line["content_preview"];
+					if ($show_excerpt)
+						$headline_row["excerpt"] = $line["content_preview"];
 
-				if ($show_content) {
+					if ($show_content) {
 
-					if ($sanitize_content) {
-						$headline_row["content"] = sanitize(
-							$line["content"],
-							sql_bool_to_bool($line['hide_images']),
-							false, $line["site_url"], false, $line["id"]);
-					} else {
-						$headline_row["content"] = $line["content"];
+						if ($sanitize_content) {
+							$headline_row["content"] = sanitize(
+								$line["content"],
+								sql_bool_to_bool($line['hide_images']),
+								false, $line["site_url"], false, $line["id"]);
+						} else {
+							$headline_row["content"] = $line["content"];
+						}
 					}
+
+					// unify label output to ease parsing
+					if ($labels["no-labels"] == 1) $labels = array();
+
+					$headline_row["labels"] = $labels;
+
+					$headline_row["feed_title"] = $line["feed_title"] ? $line["feed_title"] :
+						$feed_title;
+
+					$headline_row["comments_count"] = (int)$line["num_comments"];
+					$headline_row["comments_link"] = $line["comments"];
+
+					$headline_row["always_display_attachments"] = sql_bool_to_bool($line["always_display_enclosures"]);
+
+					$headline_row["author"] = $line["author"];
+
+					$headline_row["score"] = (int)$line["score"];
+					$headline_row["note"] = $line["note"];
+					$headline_row["lang"] = $line["lang"];
+
+					foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_RENDER_ARTICLE_API) as $p) {
+						$headline_row = $p->hook_render_article_api(array("headline" => $headline_row));
+					}
+
+					array_push($headlines, $headline_row);
 				}
-
-				// unify label output to ease parsing
-				if ($labels["no-labels"] == 1) $labels = array();
-
-				$headline_row["labels"] = $labels;
-
-				$headline_row["feed_title"] = $line["feed_title"] ? $line["feed_title"] :
-					$feed_title;
-
-				$headline_row["comments_count"] = (int)$line["num_comments"];
-				$headline_row["comments_link"] = $line["comments"];
-
-				$headline_row["always_display_attachments"] = sql_bool_to_bool($line["always_display_enclosures"]);
-
-				$headline_row["author"] = $line["author"];
-
-				$headline_row["score"] = (int)$line["score"];
-				$headline_row["note"] = $line["note"];
-				$headline_row["lang"] = $line["lang"];
-
-				foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_RENDER_ARTICLE_API) as $p) {
-					$headline_row = $p->hook_render_article_api(array("headline" => $headline_row));
-				}
-
-				array_push($headlines, $headline_row);
 			}
 
 			return $headlines;

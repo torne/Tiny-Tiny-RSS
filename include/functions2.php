@@ -761,7 +761,7 @@
 						if ($current_top_id != $check_top_id) {
 							// top changed, bail out
 
-							return array(false, $feed_title, $feed_site_url, $last_error, $last_updated, $search_words);
+							return array(-1, $feed_title, $feed_site_url, $last_error, $last_updated, $search_words);
 						}
 					}
 				}

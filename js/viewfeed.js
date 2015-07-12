@@ -184,10 +184,22 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 				} else {
 					console.log("no new headlines received");
 
+					var top_id_changed = reply['headlines']['top_id_changed'];
+					console.log("top id changed:" + top_id_changed);
+
 					var hsp = $("headlines-spacer");
 
-					if (hsp) hsp.innerHTML = "<a href='#' onclick='openNextUnreadFeed()'>" +
-						__("Click to open next unread feed.") + "</a>";
+					if (hsp) {
+						if (top_id_changed) {
+							hsp.innerHTML = "<a href='#' onclick='viewCurrentFeed()'>" +
+							__("New articles found, reload feed to continue.") + "</a>";
+						} else {
+							hsp.innerHTML = "<a href='#' onclick='openNextUnreadFeed()'>" +
+							__("Click to open next unread feed.") + "</a>";
+						}
+
+					}
+
 				}
 			}
 
@@ -1325,13 +1337,14 @@ function headlines_scroll_handler(e) {
 				return;
 
 			}
-		} else {
-			if (hsp)
+		/*} else {
+			if (hsp) {
 				if (_infscroll_disable)
 					hsp.innerHTML = "<a href='#' onclick='openNextUnreadFeed()'>" +
 						__("Click to open next unread feed.") + "</a>";
 				else
 					hsp.innerHTML = "";
+			}*/
 		}
 
 		if (isCdmMode()) {

@@ -295,7 +295,7 @@ class Feeds extends Handler_Protected {
 			}
 		}
 
-		if ($this->dbh->num_rows($result) > 0) {
+		if (is_resource($result) && $this->dbh->num_rows($result) > 0) {
 
 			$lnum = $offset;
 
@@ -753,7 +753,7 @@ class Feeds extends Handler_Protected {
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("PE", $timing_info);
 
-		} else {
+		} else if (is_resource($result)) {
 			$message = "";
 
 			switch ($view_mode) {
@@ -799,6 +799,9 @@ class Feeds extends Handler_Protected {
 				}
 				$reply['content'] .= "</span></p></div>";
 			}
+		} else if (is_numeric($result) && $result == -1) {
+			$reply['content'] = '';
+			$reply['top_id_changed'] = true;
 		}
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("H2", $timing_info);
@@ -884,13 +887,6 @@ class Feeds extends Handler_Protected {
 
 		$reply['headlines'] = array();
 
-		if (!$next_unread_feed)
-			$reply['headlines']['id'] = $feed;
-		else
-			$reply['headlines']['id'] = $next_unread_feed;
-
-		$reply['headlines']['is_cat'] = (bool) $cat_view;
-
 		$override_order = false;
 
 		switch ($order_by) {
@@ -917,8 +913,17 @@ class Feeds extends Handler_Protected {
 		$disable_cache = $ret[3];
 		$vgroup_last_feed = $ret[4];
 
-		$reply['headlines']['content'] =& $ret[5]['content'];
-		$reply['headlines']['toolbar'] =& $ret[5]['toolbar'];
+		//$reply['headlines']['content'] =& $ret[5]['content'];
+		//$reply['headlines']['toolbar'] =& $ret[5]['toolbar'];
+
+		$reply['headlines'] =& $ret[5];
+
+		if (!$next_unread_feed)
+			$reply['headlines']['id'] = $feed;
+		else
+			$reply['headlines']['id'] = $next_unread_feed;
+
+		$reply['headlines']['is_cat'] = (bool) $cat_view;
 
 		if ($_REQUEST["debug"]) $timing_info = print_checkpoint("05", $timing_info);
 
