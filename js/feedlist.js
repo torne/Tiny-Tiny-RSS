@@ -99,8 +99,12 @@ function viewfeed(feed, method, is_cat, offset, background, infscroll_req, can_w
 			query = query + "&m=" + param_escape(method);
 		}
 
-		if (current_top_article_id && offset > 0) {
-			query = query + "&topid=" + param_escape(current_top_article_id);
+		if (offset > 0) {
+			var firstRow = $$('div[id*="RROW-"]').first();
+
+			if (firstRow) {
+				query = query + "&topid=" + param_escape(parseInt(firstRow.id.replace("RROW-", "")));
+			}
 		}
 
 		if (!background) {
