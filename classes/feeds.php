@@ -295,7 +295,7 @@ class Feeds extends Handler_Protected {
 			}
 		}
 
-		if (is_resource($result) && $this->dbh->num_rows($result) > 0) {
+		if (!is_numeric($result) && $this->dbh->num_rows($result) > 0) {
 
 			$lnum = $offset;
 
@@ -753,7 +753,7 @@ class Feeds extends Handler_Protected {
 
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("PE", $timing_info);
 
-		} else if (is_resource($result)) {
+		} else if (!is_numeric($result)) {
 			$message = "";
 
 			switch ($view_mode) {

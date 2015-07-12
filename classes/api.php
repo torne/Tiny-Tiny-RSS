@@ -700,7 +700,7 @@ class API extends Handler {
 				'id' => $feed_id,
 				'is_cat' => $is_cat);
 
-			if (is_resource($result)) {
+			if (!is_numeric($result)) {
 				while ($line = db_fetch_assoc($result)) {
 					$line["content_preview"] = truncate_string(strip_tags($line["content"]), $excerpt_length);
 					foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
