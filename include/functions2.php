@@ -732,6 +732,7 @@
 				$first_id = false;
 				// if previous topmost article id changed that means our current pagination is no longer valid
 				$query = "SELECT DISTINCT
+						ttrss_feeds.title,
 						date_entered,
 						guid,
 						ttrss_entries.id,
