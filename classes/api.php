@@ -2,7 +2,7 @@
 
 class API extends Handler {
 
-	const API_LEVEL  = 11;
+	const API_LEVEL  = 12;
 
 	const STATUS_OK  = 0;
 	const STATUS_ERR = 1;
