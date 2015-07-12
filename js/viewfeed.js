@@ -86,24 +86,9 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 			if (infscroll_req == false) {
 				loaded_article_ids = [];
 
-				/*dijit.byId("headlines-frame").attr('content',
-					reply['headlines']['content']);*/
-
-				//dijit.byId("headlines-toolbar").attr('content',
-				//	reply['headlines']['toolbar']);
-
 				dojo.html.set($("headlines-toolbar"),
 						reply['headlines']['toolbar'],
 						{parseContent: true});
-
-				/*$$("#headlines-frame > div[id*=RROW]").each(function(row) {
-					if (loaded_article_ids.indexOf(row.id) != -1) {
-						row.parentNode.removeChild(row);
-					} else {
-						loaded_article_ids.push(row.id);
-					}
-				});*/
-
 
 				dijit.byId("headlines-frame").attr("content", "");
 
@@ -143,29 +128,11 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					var c = dijit.byId("headlines-frame");
 					var ids = getSelectedArticleIds2();
-					//var new_elems = [];
-
-					//$("headlines-tmp").innerHTML = reply['headlines']['content'];
 
 					var hsp = $("headlines-spacer");
 
 					if (hsp)
 						c.domNode.removeChild(hsp);
-
-					/*$$("#headlines-tmp > div").each(function(row) {
-						if (row.className == 'cdmFeedTitle') {
-							row.style.display = 'none';
-							c.domNode.appendChild(row);
-							new_elems.push(row);
-						} else if (loaded_article_ids.indexOf(row.id) == -1) {
-							row.style.display = 'none';
-							c.domNode.appendChild(row);
-							new_elems.push(row);
-							loaded_article_ids.push(row.id);
-						} else {
-							row.parentNode.removeChild(row);
-						}
-					});*/
 
 					reply['headlines']['content'].each(function(row) {
 						if (loaded_article_ids.indexOf(row.id) == -1 || row.kind == 'feed_title') {
@@ -182,10 +149,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 
 					if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
-
-//					if (getInitParam("cdm_auto_catchup") == 1) {
-						c.domNode.appendChild(hsp);
-//					}
+					c.domNode.appendChild(hsp);
 
 					console.log("added " + reply['headlines']['content'].size() + " headlines");
 
@@ -198,13 +162,6 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 					}
 
 					initHeadlinesMenu();
-
-					/*new_elems.each(function(child) {
-						dojo.parser.parse(child);
-
-						if (!Element.visible(child))
-							new Effect.Appear(child, { duration : 0.5 });
-					});*/
 
 					if (_infscroll_disable) {
 						hsp.innerHTML = "<a href='#' onclick='openNextUnreadFeed()'>" +
@@ -378,18 +335,6 @@ function article_callback2(transport, id) {
 		var unread_in_buffer = $$("#headlines-frame > div[id*=RROW][class*=Unread]").length
 		request_counters(unread_in_buffer == 0);
 
-		//headlines_scroll_handler($("headlines-frame"));
-
-/*		try {
-			if (!_infscroll_disable &&
-					$$("#headlines-frame > div[id*=RROW]").last().hasClassName("Selected")) {
-
-				loadMoreHeadlines();
-			}
-		} catch (e) {
-			console.warn(e);
-		} */
-
 		notify("");
 	} catch (e) {
 		exception_error("article_callback2", e, transport);
@@ -455,19 +400,6 @@ function view(id, activefeed, noexpand) {
 			// if we don't need to request any relative ids, we might as well skip
 			// the server roundtrip altogether
 			if (cids_to_request.length == 0) {
-
-/*				try {
-					if (!_infscroll_disable &&
-						$$("#headlines-frame > div[id*=RROW]").last().hasClassName("Selected")) {
-
-							loadMoreHeadlines();
-					}
-				} catch (e) {
-					console.warn(e);
-				} */
-
-				//headlines_scroll_handler($("headlines-frame"));
-
 				return;
 			}
 		}
@@ -1244,7 +1176,7 @@ function editArticleTags(id) {
 					}});
 				}
 			},
-			href: query,
+			href: query
 		});
 
 		var tmph = dojo.connect(dialog, 'onLoad', function() {
@@ -2137,12 +2069,12 @@ function headlinesMenuCommon(menu, base_id) {
 
 			menu.addChild(new dijit.PopupMenuItem({
 				label: __("Assign label"),
-				popup: labelAddMenu,
+				popup: labelAddMenu
 			}));
 
 			menu.addChild(new dijit.PopupMenuItem({
 				label: __("Remove label"),
-				popup: labelDelMenu,
+				popup: labelDelMenu
 			}));
 
 		}
@@ -2172,7 +2104,7 @@ function initHeadlinesMenu() {
 
 		var menu = new dijit.Menu({
 			id: "headlinesMenu",
-			targetNodeIds: ids,
+			targetNodeIds: ids
 		});
 
 		var tmph = dojo.connect(menu, '_openMyself', function (event) {
@@ -2207,7 +2139,7 @@ function initHeadlinesMenu() {
 
 			var menu = new dijit.Menu({
 				id: "headlinesFeedTitleMenu",
-				targetNodeIds: ids,
+				targetNodeIds: ids
 			});
 
 			var tmph = dojo.connect(menu, '_openMyself', function (event) {
