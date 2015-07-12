@@ -729,7 +729,7 @@
 					$start_ts_query_part = "";
 				}
 
-				$first_id = false;
+				$first_id = 0;
 				// if previous topmost article id changed that means our current pagination is no longer valid
 				$query = "SELECT DISTINCT
 						ttrss_feeds.title,
@@ -760,10 +760,10 @@
 					}
 
 					$result = db_query($query);
-					if ($result) {
+					if ($result && db_num_rows($result) > 0) {
 						$first_id = (int) db_fetch_result($result, 0, "id");
 
-						if ($offset > 0 && $check_first_id && $first_id != $check_first_id) {
+						if ($offset > 0 && $first_id && $check_first_id && $first_id != $check_first_id) {
 							return array(-1, $feed_title, $feed_site_url, $last_error, $last_updated, $search_words, $first_id);
 						}
 					}
