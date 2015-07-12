@@ -730,6 +730,11 @@
 				}
 
 				$first_id = 0;
+				$first_id_query_strategy_part = $query_strategy_part;
+
+				if ($feed == -3)
+					$first_id_query_strategy_part = "true";
+
 				// if previous topmost article id changed that means our current pagination is no longer valid
 				$query = "SELECT DISTINCT
 						ttrss_feeds.title,
@@ -753,7 +758,7 @@
 					$start_ts_query_part
 					$filter_query_part
 					$since_id_part
-					$query_strategy_part ORDER BY $order_by LIMIT 1";
+					$first_id_query_strategy_part ORDER BY $order_by LIMIT 1";
 
 					if ($_REQUEST["debug"]) {
 						print $query;
