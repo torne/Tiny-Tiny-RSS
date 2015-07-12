@@ -693,7 +693,10 @@ class API extends Handler {
 			$feed_title = $qfh_ret[1];
 
 			$headlines = array();
-			$headlines_header = array();
+
+			$headlines_header = array(
+				'id' => $feed_id,
+				'is_cat' => $is_cat);
 
 			if (is_resource($result)) {
 				while ($line = db_fetch_assoc($result)) {
