@@ -203,6 +203,8 @@ class API extends Handler {
 			$force_update = sql_bool_to_bool($_REQUEST["force_update"]);
 			$has_sandbox = sql_bool_to_bool($_REQUEST["has_sandbox"]);
 			$excerpt_length = (int)$this->dbh->escape_string($_REQUEST["excerpt_length"]);
+			$check_top_id = (int)$this->dbh->escape_string($_REQUEST["check_top_id"]);
+			$include_header = sql_bool_to_bool($_REQUEST["include_header"]);
 
 			$_SESSION['hasSandbox'] = $has_sandbox;
 
@@ -223,12 +225,16 @@ class API extends Handler {
 
 			$search = $this->dbh->escape_string($_REQUEST["search"]);
 
-			$headlines = $this->api_get_headlines($feed_id, $limit, $offset,
+			list($headlines, $headlines_header) = $this->api_get_headlines($feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $override_order,
 				$include_attachments, $since_id, $search,
-				$include_nested, $sanitize_content, $force_update, $excerpt_length);
+				$include_nested, $sanitize_content, $force_update, $excerpt_length, $check_top_id);
 
-			$this->wrap(self::STATUS_OK, $headlines);
+			if ($include_header) {
+				$this->wrap(self::STATUS_OK, array($headlines_header, $headlines));
+			} else {
+				$this->wrap(self::STATUS_OK, $headlines);
+			}
 		} else {
 			$this->wrap(self::STATUS_ERR, array("error" => 'INCORRECT_USAGE'));
 		}
@@ -635,7 +641,8 @@ class API extends Handler {
 	static function api_get_headlines($feed_id, $limit, $offset,
 				$filter, $is_cat, $show_excerpt, $show_content, $view_mode, $order,
 				$include_attachments, $since_id,
-				$search = "", $include_nested = false, $sanitize_content = true, $force_update = false, $excerpt_length = 100) {
+				$search = "", $include_nested = false, $sanitize_content = true,
+				$force_update = false, $excerpt_length = 100, $check_top_id = false) {
 
 			if ($force_update && $feed_id > 0 && is_numeric($feed_id)) {
 				// Update the feed if required with some basic flood control
@@ -677,6 +684,7 @@ class API extends Handler {
 				"offset" => $offset,
 				"since_id" => $since_id,
 				"include_children" => $include_nested,
+				"check_top_id" => $check_top_id
 			);
 
 			$qfh_ret = queryFeedHeadlines($params);
@@ -685,6 +693,7 @@ class API extends Handler {
 			$feed_title = $qfh_ret[1];
 
 			$headlines = array();
+			$headlines_header = array();
 
 			if (is_resource($result)) {
 				while ($line = db_fetch_assoc($result)) {
@@ -774,9 +783,11 @@ class API extends Handler {
 
 					array_push($headlines, $headline_row);
 				}
+			} else if (is_numeric($result) && $result == -1) {
+				$headlines_header['top_id_changed'] = true;
 			}
 
-			return $headlines;
+			return array($headlines, $headlines_header);
 	}
 
 	function unsubscribeFeed() {
