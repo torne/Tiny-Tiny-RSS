@@ -960,9 +960,10 @@ class Feeds extends Handler_Protected {
 		$reply['headlines']['is_cat'] = false;
 
 		$reply['headlines']['toolbar'] = '';
-		$reply['headlines']['content'] = "<div class='whiteBox'>".__('No feed selected.');
 
-		$reply['headlines']['content'] .= "<p><span class=\"insensitive\">";
+		$headline_row = "<div class='whiteBox'>".__('No feed selected.');
+
+		$headline_row .= "<p><span class=\"insensitive\">";
 
 		$result = $this->dbh->query("SELECT ".SUBSTRING_FOR_DATE."(MAX(last_updated), 1, 19) AS last_updated FROM ttrss_feeds
 			WHERE owner_uid = " . $_SESSION['uid']);
@@ -970,7 +971,7 @@ class Feeds extends Handler_Protected {
 		$last_updated = $this->dbh->fetch_result($result, 0, "last_updated");
 		$last_updated = make_local_datetime($last_updated, false);
 
-		$reply['headlines']['content'] .= sprintf(__("Feeds last updated at %s"), $last_updated);
+		$headline_row .= sprintf(__("Feeds last updated at %s"), $last_updated);
 
 		$result = $this->dbh->query("SELECT COUNT(id) AS num_errors
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
@@ -978,11 +979,13 @@ class Feeds extends Handler_Protected {
 		$num_errors = $this->dbh->fetch_result($result, 0, "num_errors");
 
 		if ($num_errors > 0) {
-			$reply['headlines']['content'] .= "<br/>";
-			$reply['headlines']['content'] .= "<a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
+			$headline_row .= "<br/>";
+			$headline_row .= "<a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
 				__('Some feeds have update errors (click for details)')."</a>";
 		}
-		$reply['headlines']['content'] .= "</span></p>";
+		$headline_row .= "</span></p>";
+
+		$reply['headlines']['content'] = array(array("kind" => "status_message", "html" => $headline_row));
 
 		$reply['headlines-info'] = array("count" => 0,
 			"vgroup_last_feed" => '',
