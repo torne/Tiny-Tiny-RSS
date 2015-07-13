@@ -296,7 +296,7 @@ class Feeds extends Handler_Protected {
 			}
 		}
 
-		$reply['content'] = array();
+		$reply['content'] = '';
 
 		if (!is_numeric($result) && $this->dbh->num_rows($result) > 0) {
 
@@ -310,7 +310,6 @@ class Feeds extends Handler_Protected {
 			$expand_cdm = get_pref('CDM_EXPANDED');
 
 			while ($line = $this->dbh->fetch_assoc($result)) {
-				$headline_row = '';
 
 				$line["content_preview"] =  "&mdash; " . truncate_string(strip_tags($line["content"]), 250);
 
@@ -466,65 +465,65 @@ class Feeds extends Handler_Protected {
 					$mouseover_attrs = "onmouseover='postMouseIn(event, $id)'
 						onmouseout='postMouseOut($id)'";
 
-					$headline_row .= "<div class='hl $class' orig-feed-id='$feed_id' id='RROW-$id' $mouseover_attrs>";
+					$reply['content'] .= "<div class='hl $class' orig-feed-id='$feed_id' id='RROW-$id' $mouseover_attrs>";
 
-					$headline_row .= "<div class='hlLeft'>";
+					$reply['content'] .= "<div class='hlLeft'>";
 
-					$headline_row .= "<input dojoType=\"dijit.form.CheckBox\"
+					$reply['content'] .= "<input dojoType=\"dijit.form.CheckBox\"
 							type=\"checkbox\" onclick=\"toggleSelectRow2(this)\"
 							class='rchk'>";
 
-					$headline_row .= "$marked_pic";
-					$headline_row .= "$published_pic";
+					$reply['content'] .= "$marked_pic";
+					$reply['content'] .= "$published_pic";
 
-					$headline_row .= "</div>";
+					$reply['content'] .= "</div>";
 
-					$headline_row .= "<div onclick='return hlClicked(event, $id)'
+					$reply['content'] .= "<div onclick='return hlClicked(event, $id)'
 						class=\"hlTitle\"><span class='hlContent $hlc_suffix'>";
-					$headline_row .= "<a id=\"RTITLE-$id\" class=\"title $hlc_suffix\"
+					$reply['content'] .= "<a id=\"RTITLE-$id\" class=\"title $hlc_suffix\"
 						href=\"" . htmlspecialchars($line["link"]) . "\"
 						onclick=\"\">" .
 						truncate_string($line["title"], 200);
 
 					if (get_pref('SHOW_CONTENT_PREVIEW')) {
-							$headline_row .= "<span class=\"contentPreview\">" . $line["content_preview"] . "</span>";
+							$reply['content'] .= "<span class=\"contentPreview\">" . $line["content_preview"] . "</span>";
 					}
 
-					$headline_row .= "</a></span>";
+					$reply['content'] .= "</a></span>";
 
-					$headline_row .= $labels_str;
+					$reply['content'] .= $labels_str;
 
-					$headline_row .= "</div>";
+					$reply['content'] .= "</div>";
 
 					if (!$vfeed_group_enabled) {
 						if (@$line["feed_title"]) {
 							$rgba = @$rgba_cache[$feed_id];
 
-							$headline_row .= "<span class=\"hlFeed\"><a style=\"background : rgba($rgba, 0.3)\" href=\"#\" onclick=\"viewfeed($feed_id)\">".
+							$reply['content'] .= "<span class=\"hlFeed\"><a style=\"background : rgba($rgba, 0.3)\" href=\"#\" onclick=\"viewfeed($feed_id)\">".
 								truncate_string($line["feed_title"],30)."</a></span>";
 						}
 					}
 
 
-					$headline_row .= "<span class=\"hlUpdated\">";
+					$reply['content'] .= "<span class=\"hlUpdated\">";
 
-					$headline_row .= "<div title='$date_entered_fmt'>$updated_fmt</div>
+					$reply['content'] .= "<div title='$date_entered_fmt'>$updated_fmt</div>
 						</span>";
 
-					$headline_row .= "<div class=\"hlRight\">";
+					$reply['content'] .= "<div class=\"hlRight\">";
 
-					$headline_row .= $score_pic;
+					$reply['content'] .= $score_pic;
 
 					if ($line["feed_title"] && !$vfeed_group_enabled) {
 
-						$headline_row .= "<span onclick=\"viewfeed($feed_id)\"
+						$reply['content'] .= "<span onclick=\"viewfeed($feed_id)\"
 							style=\"cursor : pointer\"
 							title=\"".htmlspecialchars($line['feed_title'])."\">
 							$feed_icon_img</span>";
 					}
 
-					$headline_row .= "</div>";
-					$headline_row .= "</div>";
+					$reply['content'] .= "</div>";
+					$reply['content'] .= "</div>";
 
 				} else {
 
@@ -572,20 +571,20 @@ class Feeds extends Handler_Protected {
 
 					$expanded_class = $expand_cdm ? "expanded" : "expandable";
 
-					$headline_row .= "<div class=\"cdm $hlc_suffix $expanded_class $class\"
+					$reply['content'] .= "<div class=\"cdm $hlc_suffix $expanded_class $class\"
 						id=\"RROW-$id\" orig-feed-id='$feed_id' $mouseover_attrs>";
 
-					$headline_row .= "<div class=\"cdmHeader\">";
-					$headline_row .= "<div style=\"vertical-align : middle\">";
+					$reply['content'] .= "<div class=\"cdmHeader\">";
+					$reply['content'] .= "<div style=\"vertical-align : middle\">";
 
-					$headline_row .= "<input dojoType=\"dijit.form.CheckBox\"
+					$reply['content'] .= "<input dojoType=\"dijit.form.CheckBox\"
 							type=\"checkbox\" onclick=\"toggleSelectRow2(this, false, true)\"
 							class='rchk'>";
 
-					$headline_row .= "$marked_pic";
-					$headline_row .= "$published_pic";
+					$reply['content'] .= "$marked_pic";
+					$reply['content'] .= "$published_pic";
 
-					$headline_row .= "</div>";
+					$reply['content'] .= "</div>";
 
 					if ($highlight_words && count($highlight_words > 0)) {
 						foreach ($highlight_words as $word) {
@@ -594,7 +593,7 @@ class Feeds extends Handler_Protected {
 						}
 					}
 
-					$headline_row .= "<span id=\"RTITLE-$id\"
+					$reply['content'] .= "<span id=\"RTITLE-$id\"
 						onclick=\"return cdmClicked(event, $id);\"
 						class=\"titleWrap $hlc_suffix\">
 						<a class=\"title $hlc_suffix\"
@@ -604,9 +603,9 @@ class Feeds extends Handler_Protected {
 						$line["title"] .
 						"</a> <span class=\"author\">$entry_author</span>";
 
-					$headline_row .= $labels_str;
+					$reply['content'] .= $labels_str;
 
-					$headline_row .= "<span class='collapseBtn' style='display : none'>
+					$reply['content'] .= "<span class='collapseBtn' style='display : none'>
 						<img src=\"images/collapse.png\" onclick=\"cdmCollapseArticle(event, $id)\"
 						title=\"".__("Collapse article")."\"/></span>";
 
@@ -615,15 +614,15 @@ class Feeds extends Handler_Protected {
 					else
 						$excerpt_hidden = "style=\"display : none\"";
 
-					$headline_row .= "<span $excerpt_hidden id=\"CEXC-$id\" class=\"cdmExcerpt\">" . $content_preview . "</span>";
+					$reply['content'] .= "<span $excerpt_hidden id=\"CEXC-$id\" class=\"cdmExcerpt\">" . $content_preview . "</span>";
 
-					$headline_row .= "</span>";
+					$reply['content'] .= "</span>";
 
 					if (!$vfeed_group_enabled) {
 						if (@$line["feed_title"]) {
 							$rgba = @$rgba_cache[$feed_id];
 
-							$headline_row .= "<div class=\"hlFeed\">
+							$reply['content'] .= "<div class=\"hlFeed\">
 								<a href=\"#\" style=\"background-color: rgba($rgba,0.3)\"
 								onclick=\"viewfeed($feed_id)\">".
 								truncate_string($line["feed_title"],30)."</a>
@@ -631,34 +630,34 @@ class Feeds extends Handler_Protected {
 						}
 					}
 
-					$headline_row .= "<span class='updated' title='$date_entered_fmt'>
+					$reply['content'] .= "<span class='updated' title='$date_entered_fmt'>
 						$updated_fmt</span>";
 
-					$headline_row .= "<div class='scoreWrap' style=\"vertical-align : middle\">";
-					$headline_row .= "$score_pic";
+					$reply['content'] .= "<div class='scoreWrap' style=\"vertical-align : middle\">";
+					$reply['content'] .= "$score_pic";
 
 					if (!get_pref("VFEED_GROUP_BY_FEED") && $line["feed_title"]) {
-						$headline_row .= "<span style=\"cursor : pointer\"
+						$reply['content'] .= "<span style=\"cursor : pointer\"
 							title=\"".htmlspecialchars($line["feed_title"])."\"
 							onclick=\"viewfeed($feed_id)\">$feed_icon_img</span>";
 					}
-					$headline_row .= "</div>";
+					$reply['content'] .= "</div>";
 
-					$headline_row .= "</div>";
+					$reply['content'] .= "</div>";
 
-					$headline_row .= "<div class=\"cdmContent\" $content_hidden
+					$reply['content'] .= "<div class=\"cdmContent\" $content_hidden
 						onclick=\"return cdmClicked(event, $id);\"
 						id=\"CICD-$id\">";
 
-					$headline_row .= "<div id=\"POSTNOTE-$id\">";
+					$reply['content'] .= "<div id=\"POSTNOTE-$id\">";
 					if ($line['note']) {
-						$headline_row .= format_article_note($id, $line['note']);
+						$reply['content'] .= format_article_note($id, $line['note']);
 					}
-					$headline_row .= "</div>";
+					$reply['content'] .= "</div>";
 
 					if (!$line['lang']) $line['lang'] = 'en';
 
-					$headline_row .= "<div class=\"cdmContentInner\" lang=\"".$line['lang']."\">";
+					$reply['content'] .= "<div class=\"cdmContentInner\" lang=\"".$line['lang']."\">";
 
 			if ($line["orig_feed_id"]) {
 
@@ -667,54 +666,54 @@ class Feeds extends Handler_Protected {
 
 						if ($this->dbh->num_rows($tmp_result) != 0) {
 
-							$headline_row .= "<div clear='both'>";
-							$headline_row .= __("Originally from:");
+							$reply['content'] .= "<div clear='both'>";
+							$reply['content'] .= __("Originally from:");
 
-							$headline_row .= "&nbsp;";
+							$reply['content'] .= "&nbsp;";
 
 							$tmp_line = $this->dbh->fetch_assoc($tmp_result);
 
-							$headline_row .= "<a target='_blank'
+							$reply['content'] .= "<a target='_blank'
 								href=' " . htmlspecialchars($tmp_line['site_url']) . "'>" .
 								$tmp_line['title'] . "</a>";
 
-							$headline_row .= "&nbsp;";
+							$reply['content'] .= "&nbsp;";
 
-							$headline_row .= "<a target='_blank' href='" . htmlspecialchars($tmp_line['feed_url']) . "'>";
-							$headline_row .= "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_unset.png'></a>";
+							$reply['content'] .= "<a target='_blank' href='" . htmlspecialchars($tmp_line['feed_url']) . "'>";
+							$reply['content'] .= "<img title='".__('Feed URL')."'class='tinyFeedIcon' src='images/pub_unset.png'></a>";
 
-							$headline_row .= "</div>";
+							$reply['content'] .= "</div>";
 						}
 					}
 
-					$headline_row .= "<span id=\"CWRAP-$id\">";
+					$reply['content'] .= "<span id=\"CWRAP-$id\">";
 
 //					if (!$expand_cdm) {
-						$headline_row .= "<span id=\"CENCW-$id\" style=\"display : none\">";
-						$headline_row .= htmlspecialchars($line["content"]);
-						$headline_row .= "</span.";
+						$reply['content'] .= "<span id=\"CENCW-$id\" style=\"display : none\">";
+						$reply['content'] .= htmlspecialchars($line["content"]);
+						$reply['content'] .= "</span.";
 
 //					} else {
-//						$headline_row .= $line["content"];
+//						$reply['content'] .= $line["content"];
 //					}
 
-					$headline_row .= "</span>";
+					$reply['content'] .= "</span>";
 
 					$always_display_enclosures = sql_bool_to_bool($line["always_display_enclosures"]);
 
-					$headline_row .= format_article_enclosures($id, $always_display_enclosures, $line["content"], sql_bool_to_bool($line["hide_images"]));
+					$reply['content'] .= format_article_enclosures($id, $always_display_enclosures, $line["content"], sql_bool_to_bool($line["hide_images"]));
 
-					$headline_row .= "</div>";
+					$reply['content'] .= "</div>";
 
-					$headline_row .= "<div class=\"cdmFooter\" onclick=\"cdmFooterClick(event)\">";
+					$reply['content'] .= "<div class=\"cdmFooter\" onclick=\"cdmFooterClick(event)\">";
 
 					foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_ARTICLE_LEFT_BUTTON) as $p) {
-						$headline_row .= $p->hook_article_left_button($line);
+						$reply['content'] .= $p->hook_article_left_button($line);
 					}
 
 					$tags_str = format_tags_string($tags, $id);
 
-					$headline_row .= "<img src='images/tag.png' alt='Tags' title='Tags'>
+					$reply['content'] .= "<img src='images/tag.png' alt='Tags' title='Tags'>
 						<span id=\"ATSTR-$id\">$tags_str</span>
 						<a title=\"".__('Edit tags for this article')."\"
 						href=\"#\" onclick=\"editArticleTags($id)\">(+)</a>";
@@ -738,27 +737,25 @@ class Feeds extends Handler_Protected {
 						}
 					}
 
-					if ($entry_comments) $headline_row .= "&nbsp;($entry_comments)";
+					if ($entry_comments) $reply['content'] .= "&nbsp;($entry_comments)";
 
-					$headline_row .= "<div style=\"float : right\">";
+					$reply['content'] .= "<div style=\"float : right\">";
 
-//					$headline_row .= "$marked_pic";
-//					$headline_row .= "$published_pic";
+//					$reply['content'] .= "$marked_pic";
+//					$reply['content'] .= "$published_pic";
 
 					foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_ARTICLE_BUTTON) as $p) {
-						$headline_row .= $p->hook_article_button($line);
+						$reply['content'] .= $p->hook_article_button($line);
 					}
 
-					$headline_row .= "</div>";
-					$headline_row .= "</div>";
+					$reply['content'] .= "</div>";
+					$reply['content'] .= "</div>";
 
-					$headline_row .= "</div>";
+					$reply['content'] .= "</div>";
 
-					$headline_row .= "</div>";
+					$reply['content'] .= "</div>";
 
 				}
-
-				array_push($reply['content'], array("id" => (int)$line['id'], 'html' => $headline_row));
 
 				++$lnum;
 			}
@@ -787,9 +784,9 @@ class Feeds extends Handler_Protected {
 			}
 
 			if (!$offset && $message) {
-				$headline_row = "<div class='whiteBox'>$message";
+				$reply['content'] = "<div class='whiteBox'>$message";
 
-				$headline_row .= "<p><span class=\"insensitive\">";
+				$reply['content'] .= "<p><span class=\"insensitive\">";
 
 				$result = $this->dbh->query("SELECT ".SUBSTRING_FOR_DATE."(MAX(last_updated), 1, 19) AS last_updated FROM ttrss_feeds
 					WHERE owner_uid = " . $_SESSION['uid']);
@@ -797,7 +794,7 @@ class Feeds extends Handler_Protected {
 				$last_updated = $this->dbh->fetch_result($result, 0, "last_updated");
 				$last_updated = make_local_datetime($last_updated, false);
 
-				$headline_row .= sprintf(__("Feeds last updated at %s"), $last_updated);
+				$reply['content'] .= sprintf(__("Feeds last updated at %s"), $last_updated);
 
 				$result = $this->dbh->query("SELECT COUNT(id) AS num_errors
 					FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
@@ -805,14 +802,12 @@ class Feeds extends Handler_Protected {
 				$num_errors = $this->dbh->fetch_result($result, 0, "num_errors");
 
 				if ($num_errors > 0) {
-					$headline_row .= "<br/>";
-					$headline_row .= "<a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
+					$reply['content'] .= "<br/>";
+					$reply['content'] .= "<a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
 						__('Some feeds have update errors (click for details)')."</a>";
 				}
-				$headline_row .= "</span></p></div>";
+				$reply['content'] .= "</span></p></div>";
 
-				//array_push($reply['content'], array("id" => 0, "kind" => "status_message", "html" => $headline_row));
-				array_push($reply['content'], array("id" => 0, 'kind' => 'status_message', 'html' => $headline_row));
 			}
 		} else if (is_numeric($result) && $result == -1) {
 			$reply['first_id_changed'] = true;
@@ -961,9 +956,9 @@ class Feeds extends Handler_Protected {
 
 		$reply['headlines']['toolbar'] = '';
 
-		$headline_row = "<div class='whiteBox'>".__('No feed selected.');
+		$reply['headlines']['content'] = "<div class='whiteBox'>".__('No feed selected.');
 
-		$headline_row .= "<p><span class=\"insensitive\">";
+		$reply['headlines']['content'] .= "<p><span class=\"insensitive\">";
 
 		$result = $this->dbh->query("SELECT ".SUBSTRING_FOR_DATE."(MAX(last_updated), 1, 19) AS last_updated FROM ttrss_feeds
 			WHERE owner_uid = " . $_SESSION['uid']);
@@ -971,7 +966,7 @@ class Feeds extends Handler_Protected {
 		$last_updated = $this->dbh->fetch_result($result, 0, "last_updated");
 		$last_updated = make_local_datetime($last_updated, false);
 
-		$headline_row .= sprintf(__("Feeds last updated at %s"), $last_updated);
+		$reply['headlines']['content'] .= sprintf(__("Feeds last updated at %s"), $last_updated);
 
 		$result = $this->dbh->query("SELECT COUNT(id) AS num_errors
 			FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
@@ -979,13 +974,11 @@ class Feeds extends Handler_Protected {
 		$num_errors = $this->dbh->fetch_result($result, 0, "num_errors");
 
 		if ($num_errors > 0) {
-			$headline_row .= "<br/>";
-			$headline_row .= "<a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
+			$reply['headlines']['content'] .= "<br/>";
+			$reply['headlines']['content'] .= "<a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
 				__('Some feeds have update errors (click for details)')."</a>";
 		}
-		$headline_row .= "</span></p>";
-
-		$reply['headlines']['content'] = array(array("kind" => "status_message", "html" => $headline_row));
+		$reply['headlines']['content'] .= "</span></p>";
 
 		$reply['headlines-info'] = array("count" => 0,
 			"vgroup_last_feed" => '',

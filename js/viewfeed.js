@@ -90,20 +90,13 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 						reply['headlines']['toolbar'],
 						{parseContent: true});
 
-				dijit.byId("headlines-frame").attr("content", "");
+				dojo.html.set($("headlines-frame"),
+					reply['headlines']['content'],
+					{parseContent: true});
 
-				var tmp = new Element("div");
-
-				reply['headlines']['content'].each(function(row) {
-					if (loaded_article_ids.indexOf(row.id) == -1) {
-						loaded_article_ids.push(row.id);
-					}
-
-					tmp.innerHTML += row.html;
+				$$("#headlines-frame div[id*='RROW']").each(function(row) {
+					loaded_article_ids.push(row.id);
 				});
-
-				dojo.parser.parse(tmp);
-				dijit.byId("headlines-frame").attr("content", tmp.innerHTML);
 
 				var hsp = $("headlines-spacer");
 				if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
@@ -135,26 +128,24 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 						c.domNode.removeChild(hsp);
 
 					var tmp = new Element("div");
-
-					reply['headlines']['content'].each(function(row) {
-						if (loaded_article_ids.indexOf(row.id) == -1 || row.kind == 'feed_title') {
-							loaded_article_ids.push(row.id);
-
-							tmp.innerHTML += row.html;
-
-						}
-					});
-
+					tmp.innerHTML = reply['headlines']['content'];
 					dojo.parser.parse(tmp);
 
 					while (tmp.hasChildNodes()) {
-						dijit.byId("headlines-frame").domNode.appendChild(tmp.removeChild(tmp.firstChild));
+						var row = tmp.removeChild(tmp.firstChild);
+
+						if (loaded_article_ids.indexOf(row.id) == -1 || row.hasClassName("cdmFeedTitle")) {
+							dijit.byId("headlines-frame").domNode.appendChild(row);
+							Element.hide(row);
+							new Effect.Appear(row, {duration:0.5});
+							loaded_article_ids.push(row.id);
+						}
 					}
 
 					if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
 					c.domNode.appendChild(hsp);
 
-					if (reply['headlines']['content'].size() == 0) _infscroll_disable = true;
+					if (headlines_count < 30) _infscroll_disable = true;
 
 					console.log("restore selected ids: " + ids);
 
