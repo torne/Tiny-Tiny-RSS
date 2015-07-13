@@ -123,7 +123,7 @@ class Af_Readability extends Plugin {
 			if (!$tmpdoc->loadHTML($tmp))
 				return $article;
 
-			if ($tmpdoc->encoding != 'UTF-8') {
+			if (strtolower($tmpdoc->encoding) != 'utf-8') {
 				$tmpxpath = new DOMXPath($tmpdoc);
 
 				foreach ($tmpxpath->query("//meta") as $elem) {
