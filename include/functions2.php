@@ -425,8 +425,6 @@
 		return $rv;
 	}
 
-	// $search_mode is obsolete/unused
-	//function queryFeedHeadlines($feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false, $override_strategy = false, $override_vfeed = false, $start_ts = false, $check_top_id = false) {
 	function queryFeedHeadlines($params) {
 
 		$feed = $params["feed"];
@@ -437,7 +435,6 @@
 		$override_order = isset($params["override_order"]) ? $params["override_order"] : false;
 		$offset = isset($params["offset"]) ? $params["offset"] : 0;
 		$owner_uid = isset($params["owner_uid"]) ? $params["owner_uid"] : $_SESSION["uid"];
-		$filter = isset($params["filter"]) ? $params["filter"] : 0;
 		$since_id = isset($params["since_id"]) ? $params["since_id"] : 0;
 		$include_children = isset($params["include_children"]) ? $params["include_children"] : false;
 		$ignore_vfeed_group = isset($params["ignore_vfeed_group"]) ? $params["ignore_vfeed_group"] : false;
@@ -464,43 +461,6 @@
 				$search_query_part .= " AND ";
 			} else {
 				$search_query_part = "";
-			}
-
-			if ($filter) {
-
-				if (DB_TYPE == "pgsql") {
-					$query_strategy_part .= " AND updated > NOW() - INTERVAL '14 days' ";
-				} else {
-					$query_strategy_part .= " AND updated > DATE_SUB(NOW(), INTERVAL 14 DAY) ";
-				}
-
-				$override_order = "updated DESC";
-
-				$filter_query_part = filter_to_sql($filter, $owner_uid);
-
-				// Try to check if SQL regexp implementation chokes on a valid regexp
-
-
-				$result = db_query("SELECT true AS true_val
-                                        FROM ttrss_entries
-                                        JOIN ttrss_user_entries ON ttrss_entries.id = ttrss_user_entries.ref_id
-                                        JOIN ttrss_feeds ON ttrss_feeds.id = ttrss_user_entries.feed_id
-					WHERE $filter_query_part LIMIT 1", false);
-
-				if ($result) {
-					$test = db_fetch_result($result, 0, "true_val");
-
-					if (!$test) {
-						$filter_query_part = "false AND";
-					} else {
-						$filter_query_part .= " AND";
-					}
-				} else {
-					$filter_query_part = "false AND";
-				}
-
-			} else {
-				$filter_query_part = "";
 			}
 
 			if ($since_id) {
@@ -756,7 +716,6 @@
 					ttrss_user_entries.owner_uid = '$owner_uid' AND
 					$search_query_part
 					$start_ts_query_part
-					$filter_query_part
 					$since_id_part
 					$first_id_query_strategy_part ORDER BY $order_by LIMIT 1";
 
@@ -802,7 +761,6 @@
 					ttrss_user_entries.owner_uid = '$owner_uid' AND
 					$search_query_part
 					$start_ts_query_part
-					$filter_query_part
 					$view_query_part
 					$since_id_part
 					$query_strategy_part ORDER BY $order_by
