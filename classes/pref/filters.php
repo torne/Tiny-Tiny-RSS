@@ -78,12 +78,12 @@ class Pref_Filters extends Handler_Protected {
 					unset($rule["feed_id"]);
 				}
 
-				if (isset($rule["feed_id"])) {
+				if (isset($rule["feed_id"]) && $rule['feed_id'] > 0) {
 					array_push($scope_qparts, "feed_id = " . $rule["feed_id"]);
 				}
 
 				if (isset($rule["cat_id"])) {
-					array_push($scope_qparts, "cat_id = " . $rule["feed_id"]);
+					array_push($scope_qparts, "cat_id = " . $rule["cat_id"]);
 				}
 
 				array_push($filter["rules"], $rule);
@@ -108,6 +108,8 @@ class Pref_Filters extends Handler_Protected {
 
 		$glue = $filter['match_any_rule'] ? " AND " :  "OR ";
 		$scope_qpart = join($glue, $scope_qparts);
+
+		if (!$scope_qpart) $scope_qpart = "true";
 
 		while ($found < $limit && $offset < $limit * 10 && time() - $started < ini_get("max_execution_time") * 0.7) {
 
