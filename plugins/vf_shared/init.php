@@ -35,7 +35,7 @@ class VF_Shared extends Plugin {
 	//function queryFeedHeadlines($feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false, $override_strategy = false, $override_vfeed = false) {
 
 	function get_headlines($feed_id, $options) {
-		$qfh_ret = queryFeedHeadlines(-4,
+		/*$qfh_ret = queryFeedHeadlines(-4,
 			$options['limit'],
 			$this->get_unread(-1) > 0 ? "adaptive" : "all_articles",
 			false,
@@ -49,8 +49,23 @@ class VF_Shared extends Plugin {
 			$options['include_children'],
 			false,
 			"uuid != ''",
-			"ttrss_feeds.title AS feed_title,");
+			"ttrss_feeds.title AS feed_title,"); */
 
+		$params = array(
+			"feed" => -4,
+			"limit" => $options["limit"],
+			"view_mode" => $this->get_unread(-1) > 0 ? "adaptive" : "all_articles",
+			"search" => $options['search'],
+			"override_order" => $options['override_order'],
+			"offset" => $options["offset"],
+			"filter" => $options["filter"],
+			"since_id" => $options["since_id"],
+			"include_children" => $options["include_children"],
+			"override_strategy" => "uuid != ''",
+			"override_vfeed" => "ttrss_feeds.title AS feed_title,"
+		);
+
+		$qfh_ret = queryFeedHeadlines($params);
 		$qfh_ret[1] = __("Shared articles");
 
 		return $qfh_ret;

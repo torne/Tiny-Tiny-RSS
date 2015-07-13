@@ -114,6 +114,7 @@ class Pref_Filters extends Handler_Protected {
 			$result = db_query("SELECT ttrss_entries.id,
 					ttrss_entries.title,
 					ttrss_feeds.id AS feed_id,
+					ttrss_feeds.title AS feed_title,
 					ttrss_feed_categories.id AS cat_id,
 					content,
 					link,
@@ -152,7 +153,7 @@ class Pref_Filters extends Handler_Protected {
 						checked=\"1\" disabled=\"1\" type=\"checkbox\"></td>";
 					print "<td>";
 
-					foreach ($filter['rules'] as $rule) {
+					/*foreach ($filter['rules'] as $rule) {
 						$reg_exp = $rule['reg_exp'];
 						$reg_exp = str_replace('/', '\/', $rule["reg_exp"]);
 
@@ -161,7 +162,7 @@ class Pref_Filters extends Handler_Protected {
 
 						$content_preview = preg_replace("/($reg_exp)/i",
 							"<span class=\"highlight\">$1</span>", $content_preview);
-					}
+					}*/
 
 					print $line["title"];
 					print "&nbsp;(";

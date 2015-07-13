@@ -426,11 +426,29 @@
 	}
 
 	// $search_mode is obsolete/unused
-	function queryFeedHeadlines($feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false, $override_strategy = false, $override_vfeed = false, $start_ts = false) {
+	//function queryFeedHeadlines($feed, $limit, $view_mode, $cat_view, $search, $search_mode, $override_order = false, $offset = 0, $owner_uid = 0, $filter = false, $since_id = 0, $include_children = false, $ignore_vfeed_group = false, $override_strategy = false, $override_vfeed = false, $start_ts = false, $check_top_id = false) {
+	function queryFeedHeadlines($params) {
 
-		if (!$owner_uid) $owner_uid = $_SESSION["uid"];
+		$feed = $params["feed"];
+		$limit = isset($params["limit"]) ? $params["limit"] : 30;
+		$view_mode = $params["view_mode"];
+		$cat_view = isset($params["cat_view"]) ? $params["cat_view"] : false;
+		$search = isset($params["search"]) ? $params["search"] : false;
+		$override_order = isset($params["override_order"]) ? $params["override_order"] : false;
+		$offset = isset($params["offset"]) ? $params["offset"] : 0;
+		$owner_uid = isset($params["owner_uid"]) ? $params["owner_uid"] : $_SESSION["uid"];
+		$filter = isset($params["filter"]) ? $params["filter"] : 0;
+		$since_id = isset($params["since_id"]) ? $params["since_id"] : 0;
+		$include_children = isset($params["include_children"]) ? $params["include_children"] : false;
+		$ignore_vfeed_group = isset($params["ignore_vfeed_group"]) ? $params["ignore_vfeed_group"] : false;
+		$override_strategy = isset($params["override_strategy"]) ? $params["override_strategy"] : false;
+		$override_vfeed = isset($params["override_vfeed"]) ? $params["override_vfeed"] : false;
+		$start_ts = isset($params["start_ts"]) ? $params["start_ts"] : false;
+		$check_first_id = isset($params["check_first_id"]) ? $params["check_first_id"] : false;
 
 		$ext_tables_part = "";
+		$query_strategy_part = "";
+
 		$search_words = array();
 
 			if ($search) {
@@ -711,6 +729,50 @@
 					$start_ts_query_part = "";
 				}
 
+				$first_id = 0;
+				$first_id_query_strategy_part = $query_strategy_part;
+
+				if ($feed == -3)
+					$first_id_query_strategy_part = "true";
+
+				// if previous topmost article id changed that means our current pagination is no longer valid
+				$query = "SELECT DISTINCT
+						ttrss_feeds.title,
+						date_entered,
+						guid,
+						ttrss_entries.id,
+						ttrss_entries.title,
+						updated,
+						score,
+						marked,
+						published,
+						last_marked,
+						last_published
+					FROM
+						$from_qpart
+					WHERE
+					$feed_check_qpart
+					ttrss_user_entries.ref_id = ttrss_entries.id AND
+					ttrss_user_entries.owner_uid = '$owner_uid' AND
+					$search_query_part
+					$start_ts_query_part
+					$filter_query_part
+					$since_id_part
+					$first_id_query_strategy_part ORDER BY $order_by LIMIT 1";
+
+					if ($_REQUEST["debug"]) {
+						print $query;
+					}
+
+					$result = db_query($query);
+					if ($result && db_num_rows($result) > 0) {
+						$first_id = (int) db_fetch_result($result, 0, "id");
+
+						if ($offset > 0 && $first_id && $check_first_id && $first_id != $check_first_id) {
+							return array(-1, $feed_title, $feed_site_url, $last_error, $last_updated, $search_words, $first_id);
+						}
+					}
+
 				$query = "SELECT DISTINCT
 						date_entered,
 						guid,
@@ -794,7 +856,7 @@
 				$result = db_query($query);
 			}
 
-			return array($result, $feed_title, $feed_site_url, $last_error, $last_updated, $search_words);
+			return array($result, $feed_title, $feed_site_url, $last_error, $last_updated, $search_words, $first_id);
 
 	}
 
@@ -1139,7 +1201,7 @@
 				$_SESSION["hasMp3"])) {
 
 				$entry .= "<audio preload=\"none\" controls>
-					<source type=\"$ctype\" src=\"$url\"></source>
+					<source type=\"$ctype\" src=\"$url\"/>
 					</audio>";
 
 			} else {
@@ -1421,7 +1483,7 @@
 
 		$tag = mb_strtolower($tag, 'utf-8');
 
-		$tag = preg_replace('/[\'\"\+\>\<]/', "", $tag);
+		$tag = preg_replace('/[,\'\"\+\>\<]/', "", $tag);
 
 		if (DB_TYPE == "mysql") {
 			$tag = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $tag);
@@ -1564,6 +1626,7 @@
 			return __("no tags");
 		} else {
 			$maxtags = min(5, count($tags));
+			$tags_str = "";
 
 			for ($i = 0; $i < $maxtags; $i++) {
 				$tags_str .= "<a class=\"tag\" href=\"#\" onclick=\"viewfeed('".$tags[$i]."')\">" . $tags[$i] . "</a>, ";

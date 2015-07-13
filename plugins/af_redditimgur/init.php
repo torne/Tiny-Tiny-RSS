@@ -80,6 +80,10 @@ class Af_RedditImgur extends Plugin {
 
 				$matches = array();
 
+				if (preg_match("/\.gfycat.com\/([a-z]+)?(\.[a-z]+)$/i", $entry->getAttribute("href"), $matches)) {
+					$entry->setAttribute("href", "http://www.gfycat.com/".$matches[1]);
+				}
+
 				if (preg_match("/https?:\/\/(www\.)?gfycat.com\/([a-z]+)$/i", $entry->getAttribute("href"), $matches)) {
 
 					$tmp = fetch_file_contents($entry->getAttribute("href"));
@@ -110,6 +114,12 @@ class Af_RedditImgur extends Plugin {
 						}
 					}
 
+				}
+
+				// imgur .gif -> .gifv
+				if (preg_match("/i\.imgur\.com\/(.*?)\.gif$/i", $entry->getAttribute("href"))) {
+					$entry->setAttribute("href",
+						str_replace(".gif", ".gifv", $entry->getAttribute("href")));
 				}
 
 				if (preg_match("/\.(gifv)$/i", $entry->getAttribute("href"))) {
@@ -159,44 +169,10 @@ class Af_RedditImgur extends Plugin {
 					$found = true;
 				}
 
-				// links to imgur pages
-				$matches = array();
-				if (preg_match("/^https?:\/\/(m\.)?imgur.com\/([^\.\/]+$)/", $entry->getAttribute("href"), $matches)) {
+				// linked albums & pages
 
-					$token = $matches[2];
-
-					$album_content = fetch_file_contents($entry->getAttribute("href"),
-						false, false, false, false, 10);
-
-					if ($album_content && $token) {
-						$adoc = new DOMDocument();
-						@$adoc->loadHTML($album_content);
-
-						if ($adoc) {
-							$axpath = new DOMXPath($adoc);
-							$aentries = $axpath->query('(//img[@src])');
-
-							foreach ($aentries as $aentry) {
-								if (preg_match("/\/\/i.imgur.com\/$token\./", $aentry->getAttribute("src"))) {
-									$img = $doc->createElement('img');
-									$img->setAttribute("src", $aentry->getAttribute("src"));
-
-									$br = $doc->createElement('br');
-
-									$entry->parentNode->insertBefore($img, $entry);
-									$entry->parentNode->insertBefore($br, $entry);
-
-									$found = true;
-
-									break;
-								}
-							}
-						}
-					}
-				}
-
-				// linked albums, ffs
-				if (preg_match("/^https?:\/\/imgur.com\/(a|album|gallery)\/[^\.]+$/", $entry->getAttribute("href"), $matches)) {
+				if (preg_match("/^https?:\/\/(m\.)?imgur.com\/([^\.\/]+$)/", $entry->getAttribute("href"), $matches) ||
+					preg_match("/^https?:\/\/imgur.com\/(a|album|gallery)\/[^\.]+$/", $entry->getAttribute("href"), $matches)) {
 
 					$album_content = fetch_file_contents($entry->getAttribute("href"),
 						false, false, false, false, 10);
@@ -214,7 +190,7 @@ class Af_RedditImgur extends Plugin {
 
 								if (!in_array($aentry->getAttribute("content"), $urls)) {
 									$img = $doc->createElement('img');
-									$img->setAttribute("src", $aentry->getAttribute("content"));
+									$img->setAttribute("src", str_replace("?fb", "", $aentry->getAttribute("content")));
 									$entry->parentNode->insertBefore($doc->createElement('br'), $entry);
 
 									$br = $doc->createElement('br');

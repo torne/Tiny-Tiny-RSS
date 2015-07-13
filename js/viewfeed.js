@@ -13,6 +13,7 @@ var catchup_timeout_id = false;
 var cids_requested = [];
 var loaded_article_ids = [];
 var _last_headlines_update = 0;
+var current_first_id = 0;
 
 var has_storage = 'sessionStorage' in window && window['sessionStorage'] !== null;
 
@@ -77,6 +78,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 				_infscroll_disable = 0;
 			}
 
+			current_first_id = reply['headlines']['first_id'];
 			var counters = reply['counters'];
 			var articles = reply['articles'];
 			//var runtime_info = reply['runtime-info'];
@@ -84,22 +86,23 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 			if (infscroll_req == false) {
 				loaded_article_ids = [];
 
-				dijit.byId("headlines-frame").attr('content',
-					reply['headlines']['content']);
-
-				//dijit.byId("headlines-toolbar").attr('content',
-				//	reply['headlines']['toolbar']);
-
 				dojo.html.set($("headlines-toolbar"),
 						reply['headlines']['toolbar'],
 						{parseContent: true});
 
-				$$("#headlines-frame > div[id*=RROW]").each(function(row) {
-					if (loaded_article_ids.indexOf(row.id) != -1) {
-						row.parentNode.removeChild(row);
-					} else {
+				dijit.byId("headlines-frame").attr("content", "");
+
+				reply['headlines']['content'].each(function(row) {
+					if (loaded_article_ids.indexOf(row.id) == -1) {
 						loaded_article_ids.push(row.id);
 					}
+
+					var tmp = new Element("div");
+					tmp.innerHTML = row.html;
+
+					dojo.parser.parse(tmp.firstChild);
+					dijit.byId("headlines-frame").domNode.appendChild(tmp.firstChild);
+
 				});
 
 				var hsp = $("headlines-spacer");
@@ -125,40 +128,32 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					var c = dijit.byId("headlines-frame");
 					var ids = getSelectedArticleIds2();
-					var new_elems = [];
-
-					$("headlines-tmp").innerHTML = reply['headlines']['content'];
 
 					var hsp = $("headlines-spacer");
 
 					if (hsp)
 						c.domNode.removeChild(hsp);
 
-					$$("#headlines-tmp > div").each(function(row) {
-						if (row.className == 'cdmFeedTitle') {
-							row.style.display = 'none';
-							c.domNode.appendChild(row);
-							new_elems.push(row);
-						} else if (loaded_article_ids.indexOf(row.id) == -1) {
-							row.style.display = 'none';
-							c.domNode.appendChild(row);
-							new_elems.push(row);
+					reply['headlines']['content'].each(function(row) {
+						if (loaded_article_ids.indexOf(row.id) == -1 || row.kind == 'feed_title') {
 							loaded_article_ids.push(row.id);
-						} else {
-							row.parentNode.removeChild(row);
+
+							var tmp = new Element("div");
+							tmp.innerHTML = row.html;
+
+							dojo.parser.parse(tmp.firstChild);
+							dijit.byId("headlines-frame").domNode.appendChild(tmp.firstChild);
+
 						}
 					});
 
+
 					if (!hsp) hsp = new Element("DIV", {"id": "headlines-spacer"});
+					c.domNode.appendChild(hsp);
 
-//					if (getInitParam("cdm_auto_catchup") == 1) {
-						c.domNode.appendChild(hsp);
-//					}
+					console.log("added " + reply['headlines']['content'].size() + " headlines");
 
-					console.log("added " + new_elems.size() + " headlines");
-
-					if (new_elems.size() == 0)
-						_infscroll_disable = true;
+					if (reply['headlines']['content'].size() == 0) _infscroll_disable = true;
 
 					console.log("restore selected ids: " + ids);
 
@@ -168,20 +163,30 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 
 					initHeadlinesMenu();
 
-					new_elems.each(function(child) {
-						dojo.parser.parse(child);
-
-						if (!Element.visible(child))
-							new Effect.Appear(child, { duration : 0.5 });
-					});
+					if (_infscroll_disable) {
+						hsp.innerHTML = "<a href='#' onclick='openNextUnreadFeed()'>" +
+						__("Click to open next unread feed.") + "</a>";
+					}
 
 				} else {
 					console.log("no new headlines received");
 
+					var first_id_changed = reply['headlines']['first_id_changed'];
+					console.log("first id changed:" + first_id_changed);
+
 					var hsp = $("headlines-spacer");
 
-					if (hsp) hsp.innerHTML = "<a href='#' onclick='openNextUnreadFeed()'>" +
-						__("Click to open next unread feed.") + "</a>";
+					if (hsp) {
+						if (first_id_changed) {
+							hsp.innerHTML = "<a href='#' onclick='viewCurrentFeed()'>" +
+							__("New articles found, reload feed to continue.") + "</a>";
+						} else {
+							hsp.innerHTML = "<a href='#' onclick='openNextUnreadFeed()'>" +
+							__("Click to open next unread feed.") + "</a>";
+						}
+
+					}
+
 				}
 			}
 
@@ -330,18 +335,6 @@ function article_callback2(transport, id) {
 		var unread_in_buffer = $$("#headlines-frame > div[id*=RROW][class*=Unread]").length
 		request_counters(unread_in_buffer == 0);
 
-		//headlines_scroll_handler($("headlines-frame"));
-
-/*		try {
-			if (!_infscroll_disable &&
-					$$("#headlines-frame > div[id*=RROW]").last().hasClassName("Selected")) {
-
-				loadMoreHeadlines();
-			}
-		} catch (e) {
-			console.warn(e);
-		} */
-
 		notify("");
 	} catch (e) {
 		exception_error("article_callback2", e, transport);
@@ -407,19 +400,6 @@ function view(id, activefeed, noexpand) {
 			// if we don't need to request any relative ids, we might as well skip
 			// the server roundtrip altogether
 			if (cids_to_request.length == 0) {
-
-/*				try {
-					if (!_infscroll_disable &&
-						$$("#headlines-frame > div[id*=RROW]").last().hasClassName("Selected")) {
-
-							loadMoreHeadlines();
-					}
-				} catch (e) {
-					console.warn(e);
-				} */
-
-				//headlines_scroll_handler($("headlines-frame"));
-
 				return;
 			}
 		}
@@ -1196,7 +1176,7 @@ function editArticleTags(id) {
 					}});
 				}
 			},
-			href: query,
+			href: query
 		});
 
 		var tmph = dojo.connect(dialog, 'onLoad', function() {
@@ -1319,13 +1299,14 @@ function headlines_scroll_handler(e) {
 				return;
 
 			}
-		} else {
-			if (hsp)
+		/*} else {
+			if (hsp) {
 				if (_infscroll_disable)
 					hsp.innerHTML = "<a href='#' onclick='openNextUnreadFeed()'>" +
 						__("Click to open next unread feed.") + "</a>";
 				else
 					hsp.innerHTML = "";
+			}*/
 		}
 
 		if (isCdmMode()) {
@@ -2088,12 +2069,12 @@ function headlinesMenuCommon(menu, base_id) {
 
 			menu.addChild(new dijit.PopupMenuItem({
 				label: __("Assign label"),
-				popup: labelAddMenu,
+				popup: labelAddMenu
 			}));
 
 			menu.addChild(new dijit.PopupMenuItem({
 				label: __("Remove label"),
-				popup: labelDelMenu,
+				popup: labelDelMenu
 			}));
 
 		}
@@ -2123,7 +2104,7 @@ function initHeadlinesMenu() {
 
 		var menu = new dijit.Menu({
 			id: "headlinesMenu",
-			targetNodeIds: ids,
+			targetNodeIds: ids
 		});
 
 		var tmph = dojo.connect(menu, '_openMyself', function (event) {
@@ -2158,7 +2139,7 @@ function initHeadlinesMenu() {
 
 			var menu = new dijit.Menu({
 				id: "headlinesFeedTitleMenu",
-				targetNodeIds: ids,
+				targetNodeIds: ids
 			});
 
 			var tmph = dojo.connect(menu, '_openMyself', function (event) {
