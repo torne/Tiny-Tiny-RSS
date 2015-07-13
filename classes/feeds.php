@@ -451,13 +451,12 @@ class Feeds extends Handler_Protected {
 
 							$vf_catchup_link = "<a class='catchup' onclick='catchupFeedInGroup($feed_id);' href='#'>".__('mark feed as read')."</a>";
 
-							$feed_title_row = "<div id='FTITLE-$feed_id' class='cdmFeedTitle'>".
+							$reply['content'] .= "<div id='FTITLE-$feed_id' class='cdmFeedTitle'>".
 								"<div style='float : right'>$feed_icon_img</div>".
 								"<a class='title' href=\"#\" onclick=\"viewfeed($feed_id)\">".
 								$line["feed_title"]."</a>
 								$vf_catchup_link</div>";
 
-							array_push($reply['content'], array('id' => 0, 'kind' => 'feed_title', 'html' => $feed_title_row));
 
 						}
 					}
@@ -557,12 +556,11 @@ class Feeds extends Handler_Protected {
 								//$feed_icon_img = "<img class=\"tinyFeedIcon\" src=\"images/blank_icon.gif\" alt=\"\">";
 							}
 
-							$feed_title_row = "<div id='FTITLE-$feed_id' class='cdmFeedTitle'>".
+							$reply['content'] .= "<div id='FTITLE-$feed_id' class='cdmFeedTitle'>".
 								"<div style=\"float : right\">$feed_icon_img</div>".
 								"<a href=\"#\" class='title' onclick=\"viewfeed($feed_id)\">".
 								$line["feed_title"]."</a> $vf_catchup_link</div>";
 
-							array_push($reply['content'], array('id' => 0, 'kind' => 'feed_title', 'html' => $feed_title_row));
 						}
 					}
 
