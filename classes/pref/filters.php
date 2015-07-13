@@ -54,6 +54,7 @@ class Pref_Filters extends Handler_Protected {
 			checkbox_to_sql_bool($this->dbh->escape_string($_REQUEST["inverse"])));
 
 		$filter["rules"] = array();
+		$filter["actions"] = array("dummy-action");
 
 		$result = $this->dbh->query("SELECT id,name FROM ttrss_filter_types");
 
@@ -61,6 +62,8 @@ class Pref_Filters extends Handler_Protected {
 		while ($line = $this->dbh->fetch_assoc($result)) {
 			$filter_types[$line["id"]] = $line["name"];
 		}
+
+		$scope_qparts = array();
 
 		$rctr = 0;
 		foreach ($_REQUEST["rule"] AS $r) {
@@ -75,6 +78,14 @@ class Pref_Filters extends Handler_Protected {
 					unset($rule["feed_id"]);
 				}
 
+				if (isset($rule["feed_id"])) {
+					array_push($scope_qparts, "feed_id = " . $rule["feed_id"]);
+				}
+
+				if (isset($rule["cat_id"])) {
+					array_push($scope_qparts, "cat_id = " . $rule["feed_id"]);
+				}
+
 				array_push($filter["rules"], $rule);
 
 				++$rctr;
@@ -83,59 +94,94 @@ class Pref_Filters extends Handler_Protected {
 			}
 		}
 
-		$qfh_ret = queryFeedHeadlines(-4, 30, "", false, false, false,
-			"date_entered DESC", 0, $_SESSION["uid"], $filter);
-
-		$result = $qfh_ret[0];
-
 		$found = 0;
+		$offset = 0;
+		$limit = 30;
+		$started = time();
 
 		print __("Articles matching this filter:");
+
+		require_once "include/rssfuncs.php";
 
 		print "<div class=\"filterTestHolder\">";
 		print "<table width=\"100%\" cellspacing=\"0\" id=\"prefErrorFeedList\">";
 
-		while ($line = $this->dbh->fetch_assoc($result)) {
-			$line["content_preview"] = truncate_string(strip_tags($line["content"]), 100, '...');
+		$glue = $filter['match_any_rule'] ? " AND " :  "OR ";
+		$scope_qpart = join($glue, $scope_qparts);
 
-			foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
-					$line = $p->hook_query_headlines($line, 100);
+		while ($found < $limit && $offset < $limit * 10 && time() - $started < ini_get("max_execution_time") * 0.7) {
+
+			$result = db_query("SELECT ttrss_entries.id,
+					ttrss_entries.title,
+					ttrss_feeds.id AS feed_id,
+					ttrss_feed_categories.id AS cat_id,
+					content,
+					link,
+					author,
+					tag_cache
+				FROM
+					ttrss_entries, ttrss_user_entries
+						LEFT JOIN ttrss_feeds ON (feed_id = ttrss_feeds.id)
+						LEFT JOIN ttrss_feed_categories ON (ttrss_feeds.cat_id = ttrss_feed_categories.id)
+				WHERE
+					ref_id = ttrss_entries.id AND
+					($scope_qpart) AND
+					ttrss_user_entries.owner_uid = " . $_SESSION["uid"] . "
+				ORDER BY date_entered DESC LIMIT $limit OFFSET $offset");
+
+			while ($line = db_fetch_assoc($result)) {
+
+				$rc = get_article_filters(array($filter), $line['title'], $line['content'], $line['link'],
+					false, $line['author'], explode(",", $line['tag_cache']));
+
+				if (count($rc) > 0) {
+
+					$line["content_preview"] = truncate_string(strip_tags($line["content"]), 100, '...');
+
+					foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_QUERY_HEADLINES) as $p) {
+						$line = $p->hook_query_headlines($line, 100);
+					}
+
+					$content_preview = $line["content_preview"];
+
+					if ($line["feed_title"]) $feed_title = $line["feed_title"];
+
+					print "<tr>";
+
+					print "<td width='5%' align='center'><input dojoType=\"dijit.form.CheckBox\"
+						checked=\"1\" disabled=\"1\" type=\"checkbox\"></td>";
+					print "<td>";
+
+					foreach ($filter['rules'] as $rule) {
+						$reg_exp = $rule['reg_exp'];
+						$reg_exp = str_replace('/', '\/', $rule["reg_exp"]);
+
+						$line["title"] = preg_replace("/($reg_exp)/i",
+							"<span class=\"highlight\">$1</span>", $line["title"]);
+
+						$content_preview = preg_replace("/($reg_exp)/i",
+							"<span class=\"highlight\">$1</span>", $content_preview);
+					}
+
+					print $line["title"];
+					print "&nbsp;(";
+					print "<b>" . $feed_title . "</b>";
+					print "):&nbsp;";
+					print "<span class=\"insensitive\">" . $content_preview . "</span>";
+					print " " . mb_substr($line["date_entered"], 0, 16);
+
+					print "</td></tr>";
+
+					$found++;
 				}
+			}
 
-			$content_preview = $line["content_preview"];
-
-			if ($line["feed_title"])
-				$feed_title = $line["feed_title"];
-
-			print "<tr>";
-
-			print "<td width='5%' align='center'><input
-				dojoType=\"dijit.form.CheckBox\" checked=\"1\"
-				disabled=\"1\" type=\"checkbox\"></td>";
-			print "<td>";
-
-			print $line["title"];
-			print "&nbsp;(";
-			print "<b>" . $feed_title . "</b>";
-			print "):&nbsp;";
-			print "<span class=\"insensitive\">" . $content_preview . "</span>";
-			print " " . mb_substr($line["date_entered"], 0, 16);
-
-			print "</td></tr>";
-
-			$found++;
+			$offset += $limit;
 		}
 
 		if ($found == 0) {
 			print "<tr><td align='center'>" .
 				__("No recent articles matching this filter have been found.");
-
-			print "</td></tr><tr><td class='insensitive' align='center'>";
-
-			print __("Complex expressions might not give results while testing due to issues with database server regexp implementation.");
-
-			print "</td></tr>";
-
 		}
 
 		print "</table></div>";
