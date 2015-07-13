@@ -46,7 +46,7 @@ function headlines_callback2(transport, offset, background, infscroll_req) {
 				return;
 			}
 
-			if (feed_id != getActiveFeedId() || is_cat != activeFeedIsCat())
+			if (feed_id != -7 && (feed_id != getActiveFeedId() || is_cat != activeFeedIsCat()))
 				return;
 
 			/* dijit.getEnclosingWidget(

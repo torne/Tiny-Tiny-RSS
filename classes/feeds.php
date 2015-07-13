@@ -991,7 +991,7 @@ class Feeds extends Handler_Protected {
 	private function generate_error_feed($error) {
 		$reply = array();
 
-		$reply['headlines']['id'] = -6;
+		$reply['headlines']['id'] = -7;
 		$reply['headlines']['is_cat'] = false;
 
 		$reply['headlines']['toolbar'] = '';
