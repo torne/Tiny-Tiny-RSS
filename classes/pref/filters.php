@@ -145,7 +145,7 @@ class Pref_Filters extends Handler_Protected {
 
 					$content_preview = $line["content_preview"];
 
-					if ($line["feed_title"]) $feed_title = $line["feed_title"];
+					if ($line["feed_title"]) $feed_title = "(" . $line["feed_title"] . ")";
 
 					print "<tr>";
 
@@ -165,10 +165,8 @@ class Pref_Filters extends Handler_Protected {
 					}*/
 
 					print $line["title"];
-					print "&nbsp;(";
-					print "<b>" . $feed_title . "</b>";
-					print "):&nbsp;";
-					print "<span class=\"insensitive\">" . $content_preview . "</span>";
+					print "<div class='small' style='float : right'>" . $feed_title . "</div>";
+					print "<div class=\"insensitive\">" . $content_preview . "</div>";
 					print " " . mb_substr($line["date_entered"], 0, 16);
 
 					print "</td></tr>";
