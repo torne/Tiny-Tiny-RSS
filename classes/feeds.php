@@ -296,6 +296,8 @@ class Feeds extends Handler_Protected {
 			}
 		}
 
+		$reply['content'] = array();
+
 		if (!is_numeric($result) && $this->dbh->num_rows($result) > 0) {
 
 			$lnum = $offset;
@@ -306,8 +308,6 @@ class Feeds extends Handler_Protected {
 			if ($_REQUEST["debug"]) $timing_info = print_checkpoint("PS", $timing_info);
 
 			$expand_cdm = get_pref('CDM_EXPANDED');
-
-			$reply['content'] = array();
 
 			while ($line = $this->dbh->fetch_assoc($result)) {
 				$headline_row = '';
@@ -787,9 +787,9 @@ class Feeds extends Handler_Protected {
 			}
 
 			if (!$offset && $message) {
-				$reply['content'] .= "<div class='whiteBox'>$message";
+				$headline_row = "<div class='whiteBox'>$message";
 
-				$reply['content'] .= "<p><span class=\"insensitive\">";
+				$headline_row .= "<p><span class=\"insensitive\">";
 
 				$result = $this->dbh->query("SELECT ".SUBSTRING_FOR_DATE."(MAX(last_updated), 1, 19) AS last_updated FROM ttrss_feeds
 					WHERE owner_uid = " . $_SESSION['uid']);
@@ -797,7 +797,7 @@ class Feeds extends Handler_Protected {
 				$last_updated = $this->dbh->fetch_result($result, 0, "last_updated");
 				$last_updated = make_local_datetime($last_updated, false);
 
-				$reply['content'] .= sprintf(__("Feeds last updated at %s"), $last_updated);
+				$headline_row .= sprintf(__("Feeds last updated at %s"), $last_updated);
 
 				$result = $this->dbh->query("SELECT COUNT(id) AS num_errors
 					FROM ttrss_feeds WHERE last_error != '' AND owner_uid = ".$_SESSION["uid"]);
@@ -805,14 +805,16 @@ class Feeds extends Handler_Protected {
 				$num_errors = $this->dbh->fetch_result($result, 0, "num_errors");
 
 				if ($num_errors > 0) {
-					$reply['content'] .= "<br/>";
-					$reply['content'] .= "<a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
+					$headline_row .= "<br/>";
+					$headline_row .= "<a class=\"insensitive\" href=\"#\" onclick=\"showFeedsWithErrors()\">".
 						__('Some feeds have update errors (click for details)')."</a>";
 				}
-				$reply['content'] .= "</span></p></div>";
+				$headline_row .= "</span></p></div>";
+
+				//array_push($reply['content'], array("id" => 0, "kind" => "status_message", "html" => $headline_row));
+				array_push($reply['content'], array("id" => 0, 'kind' => 'status_message', 'html' => $headline_row));
 			}
 		} else if (is_numeric($result) && $result == -1) {
-			$reply['content'] = '';
 			$reply['first_id_changed'] = true;
 		}
 
