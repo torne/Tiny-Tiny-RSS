@@ -1384,12 +1384,16 @@ function catchupBatchedArticles() {
 					reply = JSON.parse(transport.responseText);
 					var batch = reply.ids;
 
+					_infscroll_tmp_disable = 1;
+
 					batch.each(function(id) {
 						console.log(id);
 						var elem = $("RROW-" + id);
 						if (elem) elem.removeClassName("Unread");
 						catchup_id_batch.remove(id);
 					});
+
+					_infscroll_tmp_disable = 0;
 
 					updateFloatingTitle(true);
 

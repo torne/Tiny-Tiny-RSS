@@ -1,5 +1,7 @@
 var _infscroll_disable = 0;
 var _infscroll_request_sent = 0;
+var _infscroll_tmp_disable = 0;
+
 var _search_query = false;
 var _viewfeed_last = 0;
 var _viewfeed_timeout = false;
@@ -13,7 +15,9 @@ function viewCategory(cat) {
 
 function loadMoreHeadlines() {
 	try {
-		console.log("loadMoreHeadlines");
+		console.log("loadMoreHeadlines: " + _infscroll_tmp_disable);
+
+		if (_infscroll_tmp_disable) return;
 
 		var offset = 0;
 
