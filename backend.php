@@ -81,21 +81,21 @@
 	$update_intervals = array(
 		0   => __("Default interval"),
 		-1  => __("Disable updates"),
-		15  => __("Each 15 minutes"),
-		30  => __("Each 30 minutes"),
+		15  => __("15 minutes"),
+		30  => __("30 minutes"),
 		60  => __("Hourly"),
-		240 => __("Each 4 hours"),
-		720 => __("Each 12 hours"),
+		240 => __("4 hours"),
+		720 => __("12 hours"),
 		1440 => __("Daily"),
 		10080 => __("Weekly"));
 
 	$update_intervals_nodefault = array(
 		-1  => __("Disable updates"),
-		15  => __("Each 15 minutes"),
-		30  => __("Each 30 minutes"),
+		15  => __("15 minutes"),
+		30  => __("30 minutes"),
 		60  => __("Hourly"),
-		240 => __("Each 4 hours"),
-		720 => __("Each 12 hours"),
+		240 => __("4 hours"),
+		720 => __("12 hours"),
 		1440 => __("Daily"),
 		10080 => __("Weekly"));
 
