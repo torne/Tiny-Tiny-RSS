@@ -270,7 +270,7 @@ class Af_Psql_Trgm extends Plugin {
 
 
 		$owner_uid = $article["owner_uid"];
-		$feed_id = $article["feed"]["id"];
+		$entry_guid = $article["guid_hashed"];
 		$title_escaped = db_escape_string($article["title"]);
 
 		// trgm does not return similarity=1 for completely equal strings
@@ -279,7 +279,7 @@ class Af_Psql_Trgm extends Plugin {
 		  FROM ttrss_entries, ttrss_user_entries WHERE ref_id = id AND
 		  date_entered >= NOW() - interval '1 day' AND
 		  title = '$title_escaped' AND
-		  feed_id != '$feed_id' AND
+		  guid != '$entry_guid' AND
 		  owner_uid = $owner_uid");
 
 		$nequal = db_fetch_result($result, 0, "nequal");
@@ -293,7 +293,7 @@ class Af_Psql_Trgm extends Plugin {
 		$result = db_query("SELECT MAX(SIMILARITY(title, '$title_escaped')) AS ms
 		  FROM ttrss_entries, ttrss_user_entries WHERE ref_id = id AND
 		  date_entered >= NOW() - interval '1 day' AND
-		  feed_id != '$feed_id' AND
+		  guid != '$entry_guid' AND
 		  owner_uid = $owner_uid");
 
 		$similarity_result = db_fetch_result($result, 0, "ms");
