@@ -188,9 +188,11 @@ class Af_RedditImgur extends Plugin {
 
 							foreach ($aentries as $aentry) {
 
-								if (!in_array($aentry->getAttribute("content"), $urls)) {
+								$url = str_replace("?fb", "", $aentry->getAttribute("content"));
+
+								if (!in_array($url, $urls)) {
 									$img = $doc->createElement('img');
-									$img->setAttribute("src", str_replace("?fb", "", $aentry->getAttribute("content")));
+									$img->setAttribute("src", $url);
 									$entry->parentNode->insertBefore($doc->createElement('br'), $entry);
 
 									$br = $doc->createElement('br');
@@ -198,7 +200,7 @@ class Af_RedditImgur extends Plugin {
 									$entry->parentNode->insertBefore($img, $entry);
 									$entry->parentNode->insertBefore($br, $entry);
 
-									array_push($urls, $aentry->getAttribute("content"));
+									array_push($urls, $url);
 
 									$found = true;
 								}
