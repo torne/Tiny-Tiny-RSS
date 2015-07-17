@@ -960,7 +960,7 @@
 	function smart_date_time($timestamp, $tz_offset = 0, $owner_uid = false, $eta_min = false) {
 		if (!$owner_uid) $owner_uid = $_SESSION['uid'];
 
-		if ($eta_min && date("Y.m.d.G", $timestamp) == date("Y.m.d.G", time() + $tz_offset)) {
+		if ($eta_min && time() + $tz_offset - $timestamp < 3600) {
 			return T_sprintf("%d min", date("i", time() + $tz_offset - $timestamp));
 		} else if (date("Y.m.d", $timestamp) == date("Y.m.d", time() + $tz_offset)) {
 			return date("G:i", $timestamp);
