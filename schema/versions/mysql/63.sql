@@ -4,7 +4,7 @@ create table ttrss_settings_profiles(id integer primary key auto_increment,
 	title varchar(250) not null,
 	owner_uid integer not null,
 	index (owner_uid),
-	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
+	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) ENGINE=InnoDB;
 
 alter table ttrss_user_prefs add column profile integer;
 update ttrss_user_prefs set profile = NULL;

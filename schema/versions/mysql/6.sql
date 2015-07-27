@@ -10,7 +10,7 @@ create table ttrss_sessions (id varchar(250) not null primary key,
 	expire integer not null,
 	ip_address varchar(15) not null default '',
 	index (id),
-	index (expire)) TYPE=InnoDB;
+	index (expire)) ENGINE=InnoDB;
 
 delete from ttrss_prefs where pref_name = 'ENABLE_SPLASH';
 

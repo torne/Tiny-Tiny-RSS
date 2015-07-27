@@ -1,6 +1,10 @@
 <?php
+	set_include_path(dirname(__FILE__) ."/include" . PATH_SEPARATOR .
+		get_include_path());
 
-	$ERRORS[0] = __("Unknown error");
+	require_once "functions.php";
+
+	$ERRORS[0] = "";
 
 	$ERRORS[1] = __("This program requires XmlHttpRequest " .
 			"to function properly. Your browser doesn't seem to support it.");
@@ -8,11 +12,11 @@
 	$ERRORS[2] = __("This program requires cookies " .
 			"to function properly. Your browser doesn't seem to support them.");
 
-	$ERRORS[3] = __("Backend sanity check failed");
+	$ERRORS[3] = __("Backend sanity check failed.");
 
 	$ERRORS[4] = __("Frontend sanity check failed.");
 
-	$ERRORS[5] = __("Incorrect database schema version. &lt;a href='update.php'&gt;Please update&lt;/a&gt;.");
+	$ERRORS[5] = __("Incorrect database schema version. &lt;a href='db-updater.php'&gt;Please update&lt;/a&gt;.");
 
 	$ERRORS[6] = __("Request not authorized.");
 
@@ -24,10 +28,27 @@
 
 	$ERRORS[9] = __("Configuration check failed");
 
-	$ERRORS[10] = __("Your version of MySQL is not currently supported. Please see 
-		official site for more information.");
+	$ERRORS[10] = __("Your version of MySQL is not currently supported. Please see official site for more information.");
 
 	$ERRORS[11] = "[This error is not returned by server]";
 
 	$ERRORS[12] = __("SQL escaping test failed, check your database and PHP configuration");
+
+	$ERRORS[13] = __("Method not found");
+
+	$ERRORS[14] = __("Plugin not found");
+
+	if ($_REQUEST['mode'] == 'js') {
+		header("Content-Type: text/javascript; charset=UTF-8");
+
+		print "var ERRORS = [];\n";
+
+		foreach ($ERRORS as $id => $error) {
+
+			$error = preg_replace("/\n/", "", $error);
+			$error = preg_replace("/\"/", "\\\"", $error);
+
+			print "ERRORS[$id] = \"$error\";\n";
+		}
+	}
 ?>

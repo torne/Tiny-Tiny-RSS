@@ -8,7 +8,7 @@ create table ttrss_archived_feeds (id integer not null primary key,
 	feed_url text not null, 
 	site_url varchar(250) not null default '',
 	index(owner_uid),
-	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) TYPE=InnoDB;
+	foreign key (owner_uid) references ttrss_users(id) ON DELETE CASCADE) ENGINE=InnoDB;
 
 alter table ttrss_user_entries add column orig_feed_id integer;
 update ttrss_user_entries set orig_feed_id = NULL;

@@ -1,0 +1,399 @@
+div.cdmHeader img, div.cdmHeader input, div.cdmFooter img {
+	vertical-align : middle;
+}
+
+div.cdmHeader {
+	display : table;
+}
+
+div.cdmHeader > * {
+	display : table-cell;
+	padding : 5px;
+}
+
+div.cdmHeader > div {
+	white-space : nowrap;
+}
+
+div.cdmHeader > span {
+	width : 100%;
+}
+
+div.cdmHeader span.updated {
+	color : #555;
+	font-weight : normal;
+	font-size : 11px;
+	white-space : nowrap;
+	vertical-align : middle;
+}
+
+div.cdmHeader input {
+	margin-right : 5px;
+}
+
+div.cdmHeader div.updPic {
+	width : 25px;
+	display : inline-block;
+	text-align : center;
+}
+
+div.cdmHeader div.updPic img {
+	vertical-align : middle;
+}
+
+div.cdmHeader img, div.cdmFooter img {
+	margin : 0px 4px;
+}
+
+div.cdmHeader input {
+	margin-left : 4px;
+	margin-right : 4px;
+}
+
+div.cdmContentInner {
+	margin : 10px;
+	line-height : 1.5;
+	font-size : 15px;
+}
+
+div.cdmContentInner img,
+div.cdmContentInner video {
+	border-width : 0px;
+	max-width : 98%;
+	height : auto;
+}
+
+div.cdmContentInner h1 {
+	font-size : 16px;
+}
+
+div.cdmContentInner h2,
+div.cdmContentInner h3,
+div.cdmContentInner h4 {
+	font-size : 15px;
+}
+
+div.cdmFooter {
+	padding : 5px;
+	font-weight : normal;
+	color : #555;
+	clear : both;
+}
+
+div.cdm {
+	margin-right : 4px;
+}
+
+div.cdm.expanded {
+	margin-top : 4px;
+	margin-bottom : 4px;
+}
+
+div.cdm.expanded div.cdmFooter {
+	border-style : solid;
+	border-width : 0px 0px 1px 0px;
+	border-color : #ddd;
+}
+
+div.cdm.expandable {
+	background-color : #f0f0f0;
+	border-width : 0px 0px 1px 0px;
+	border-color : #ddd;
+	border-style : solid;
+}
+
+div.cdm.expandable > hr {
+	display : none;
+}
+
+div.cdm.expanded > hr {
+	margin-top : 0px;
+	margin-bottom : 0px;
+}
+
+div.cdm.expandable.Unread {
+	background : white;
+}
+
+div.cdm.expandable.Selected {
+	background : #f9fbff;
+}
+
+div.cdm.expandable.active {
+	background : white ! important;
+}
+
+div.cdm.expandable div.cdmHeader span.titleWrap {
+	white-space : nowrap;
+	text-overflow : ellipsis;
+	overflow : hidden;
+	max-width : 500px;
+}
+
+div.cdm.expandable.active div.cdmHeader span.titleWrap {
+	white-space : normal;
+}
+
+div.cdm.expandable div.cdmHeader a.title {
+	font-weight : 600;
+	color : #555;
+	font-size : 14px;
+	-webkit-transition : color 0.2s;
+	transition : color 0.2s;
+	text-rendering: optimizelegibility;
+	font-family : "Segoe WP Semibold", "Segoe UI Semibold", 
+		"Segoe UI Web Semibold", "Segoe UI", Ubuntu, "DejaVu Sans", "Helvetica Neue",
+		Helvetica, Arial, sans-serif;
+}
+
+div.cdm.expandable.Unread div.cdmHeader a.title {
+	color : black;
+}
+
+div.cdm.expandable.active div.cdmHeader a.title {
+	color : #4684ff;
+	font-size : 16px;
+	font-weight : 600;
+	text-rendering: optimizelegibility;
+	font-family : "Segoe WP Semibold", "Segoe UI Semibold", 
+		"Segoe UI Web Semibold", "Segoe UI", Ubuntu, "DejaVu Sans", "Helvetica Neue",
+		Helvetica, Arial, sans-serif;
+}
+
+div.cdm.expanded div.cdmHeader {
+	background : transparent ! important;
+}
+
+div.cdm.expanded div.cdmHeader a.title {
+	font-size : 16px;
+	color : #999;
+	font-weight : 600;
+	-webkit-transition : color 0.2s;
+	transition : color 0.2s;
+	text-rendering: optimizelegibility;
+	font-family : "Segoe WP Semibold", "Segoe UI Semibold", 
+		"Segoe UI Web Semibold", "Segoe UI", Ubuntu, "DejaVu Sans", "Helvetica Neue",
+		Helvetica, Arial, sans-serif;
+}
+
+div.cdm.expanded.active {
+	background : white;
+}
+
+div.cdm.expanded.active div.cdmHeader a.title {
+	color : #4684ff;
+}
+
+div.cdm.expanded.Unread div.cdmHeader a.title {
+	color : black;
+}
+
+div.cdm.expanded div.cdmContent {
+	color : #555;
+}
+
+div.cdm.expanded.Unread div.cdmContent {
+	color : black;
+}
+
+div.cdm.active div.cdmContent {
+	color : black;
+}
+
+span.cdmExcerpt {
+	font-size : 11px;
+	color : #999;
+	font-weight : normal;
+	cursor : pointer;
+}
+
+div.cdmContent div.postEnclosures {
+	margin-top : 1em;
+	color : #555;
+}
+
+div.cdmFeedTitle {
+	border-color : #4684ff;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	padding : 5px 3px 5px 5px;
+}
+
+div.cdmFeedTitle a.title {
+	color : #555;
+	font-weight : bold;
+}
+
+div.cdmFeedTitle a {
+	color : #555;
+}
+
+div.cdmFeedTitle a:hover {
+	color : #4684ff;
+}
+
+div.cdmHeader span.hlFeed {
+	float : right;
+	font-weight : normal;
+	font-style : italic;
+}
+
+div.cdmHeader div.hlFeed, div.cdmHeader div.hlFeed a {
+	vertical-align : middle;
+	color : #555;
+	font-weight : normal;
+	font-style : italic;
+	font-size : 11px;
+}
+
+div.cdm .hlFeed a {
+	border-radius : 4px;
+	display : inline-block;
+	padding : 1px 4px 1px 4px;
+}
+
+div.cdmContentInner p {
+	max-width : 650px;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
+}
+
+div.cdmContentInner iframe {
+	min-width : 50%;
+	max-width : 98%;
+}
+
+div.cdmHeader span.author {
+	color : #555;
+	font-size : 11px;
+	font-weight : normal;
+}
+
+
+div#floatingTitle {
+	position : absolute;
+	z-index : 5;
+	top : 0px;
+	right : 0px;
+	left : 0px;
+	border-color : #ddd;
+	border-width : 0px 0px 1px 0px;
+	border-style : solid;
+	background : white;
+	color : #555;
+	box-shadow : 0px 1px 1px -1px rgba(0,0,0,0.1);
+}
+
+div#floatingTitle > * {
+	display : table-cell;
+	white-space : nowrap;
+	vertical-align : middle;
+	padding : 9px 5px;
+}
+
+div#floatingTitle img {
+	margin-right : 4px;
+	margin-left : 4px;
+}
+
+div#floatingTitle span.author {
+	color : #555;
+	font-size : 11px;
+	font-weight : normal;
+}
+
+div#floatingTitle a.title {
+	font-size : 16px;
+	color : #999;
+	-webkit-transition : color 0.2s;
+	transition : color 0.2s;
+	font-weight : 600;
+	text-rendering: optimizelegibility;
+	font-family : "Segoe WP Semibold", "Segoe UI Semibold", 
+		"Segoe UI Web Semibold", "Segoe UI", Ubuntu, "DejaVu Sans", "Helvetica Neue",
+		Helvetica, Arial, sans-serif;
+}
+
+div#floatingTitle.Unread a.title {
+	color : black;
+}
+
+div#floatingTitle img.anchor {
+	margin-left : 0px;
+}
+
+div#floatingTitle div.hlFeed {
+	padding-right : 10px;
+	color : #555;
+	font-weight : normal;
+	font-style : italic;
+	font-size : 11px;
+	white-space : nowrap;
+}
+
+div#floatingTitle div.hlFeed a {
+	border-radius : 4px;
+	display : inline-block;
+	padding : 1px 4px 1px 4px;
+}
+
+div#floatingTitle span.updated {
+	padding-right : 10px;
+	white-space : nowrap;
+	color : #555;
+	font-size : 11px;
+}
+
+div#floatingTitle div.hlFeed a {
+	color : #555;
+}
+
+div#floatingTitle span.titleWrap {
+	width : 100%;
+	white-space : normal;
+}
+
+div#floatingTitle .dijit,
+div#floatingTitle img.hlScorePic { 
+	display : none;
+}
+
+.cdm.high .cdmHeader a.title.high, .cdm.high .cdmHeader .cdmExcerpt,
+.cdm.high .cdmHeader span.author {
+	color : #00aa00;
+}
+
+.cdm.Unread.high .cdmHeader a.title.high, .cdm.Unread.high .cdmHeader .cdmExcerpt,
+.cdm.Unread.high .cdmHeader span.author {
+	color : #00dd00;
+}
+
+.cdm .cdmHeader a.title.low, .cdm.low .cdmHeader .cdmExcerpt,
+.cdm.Unread .cdmHeader a.title.low, .cdm.Unread.low .cdmHeader .cdmExcerpt,
+.cdm.low .cdmHeader span.author {
+	color : #909090;
+	text-decoration : line-through;
+}
+
+div.cdmFeedTitle > * {
+	display : table-cell;
+	vertical-align : middle;
+}
+
+div.cdmFeedTitle a.title {
+	width : 100%;
+}
+
+div.cdmFeedTitle a.catchup {
+	text-align : right;
+	color : #555;
+	padding-right : 10px;
+	font-size : 11px;
+	white-space : nowrap;
+}
+
+div.cdmFeedTitle a.catchup:hover {
+	color : #4684ff;
+}
+
