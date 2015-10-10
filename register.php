@@ -4,28 +4,66 @@
 	// 1) templates/register_notice.txt - displayed above the registration form
 	// 2) register_expire_do.php - contains user expiration queries when necessary
 
-	error_reporting(E_ERROR | E_WARNING | E_PARSE);
+	set_include_path(dirname(__FILE__) ."/include" . PATH_SEPARATOR .
+		get_include_path());
+
+	require_once 'classes/ttrssmailer.php';
+	require_once "autoload.php";
+	require_once "functions.php";
+	require_once "sessions.php";
+	require_once "sanity_check.php";
+	require_once "config.php";
+	require_once "db.php";
+
+	startup_gettext();
 
 	$action = $_REQUEST["action"];
 
-	require_once "sessions.php";
-	
-	require_once "sanity_check.php";
-	require_once "functions.php";
-	require_once "config.php";
-	require_once "db.php";
-	
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+	if (!init_plugins()) return;
 
-	init_connection($link);	
+	if ($_REQUEST["format"] == "feed") {
+		header("Content-Type: text/xml");
+
+		print '<?xml version="1.0" encoding="utf-8"?>';
+		print "<feed xmlns=\"http://www.w3.org/2005/Atom\">
+			<id>".htmlspecialchars(SELF_URL_PATH . "/register.php")."</id>
+			<title>Tiny Tiny RSS registration slots</title>
+			<link rel=\"self\" href=\"".htmlspecialchars(SELF_URL_PATH . "/register.php?format=feed")."\"/>
+			<link rel=\"alternate\" href=\"".htmlspecialchars(SELF_URL_PATH)."\"/>";
+
+		if (ENABLE_REGISTRATION) {
+			$result = db_query( "SELECT COUNT(*) AS cu FROM ttrss_users");
+			$num_users = db_fetch_result($result, 0, "cu");
+
+			$num_users = REG_MAX_USERS - $num_users;
+			if ($num_users < 0) $num_users = 0;
+			$reg_suffix = "enabled";
+		} else {
+			$num_users = 0;
+			$reg_suffix = "disabled";
+		}
+
+		print "<entry>
+			<id>".htmlspecialchars(SELF_URL_PATH)."/register.php?$num_users"."</id>
+			<link rel=\"alternate\" href=\"".htmlspecialchars(SELF_URL_PATH . "/register.php")."\"/>";
+
+		print "<title>$num_users slots are currently available, registration $reg_suffix</title>";
+		print "<summary>$num_users slots are currently available, registration $reg_suffix</summary>";
+
+		print "</entry>";
+
+		print "</feed>";
+
+		return;
+	}
 
 	/* Remove users which didn't login after receiving their registration information */
 
 	if (DB_TYPE == "pgsql") {
-		db_query($link, "DELETE FROM ttrss_users WHERE last_login IS NULL 
+		db_query( "DELETE FROM ttrss_users WHERE last_login IS NULL
 				AND created < NOW() - INTERVAL '1 day' AND access_level = 0");
 	} else {
-		db_query($link, "DELETE FROM ttrss_users WHERE last_login IS NULL 
+		db_query( "DELETE FROM ttrss_users WHERE last_login IS NULL
 				AND created < DATE_SUB(NOW(), INTERVAL 1 DAY) AND access_level = 0");
 	}
 
@@ -36,11 +74,11 @@
 	if ($action == "check") {
 		header("Content-Type: application/xml");
 
-		$login = trim(db_escape_string($_REQUEST['login']));
+		$login = trim(db_escape_string( $_REQUEST['login']));
 
-		$result = db_query($link, "SELECT id FROM ttrss_users WHERE
+		$result = db_query( "SELECT id FROM ttrss_users WHERE
 			LOWER(login) = LOWER('$login')");
-	
+
 		$is_registered = db_num_rows($result) > 0;
 
 		print "<result>";
@@ -57,10 +95,11 @@
 <head>
 <title>Create new account</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="utility.css">
-<script type="text/javascript" src="functions.js"></script>
-<script type="text/javascript" src="lib/prototype.js"></script>
-<script type="text/javascript" src="lib/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls"></script>
+<?php echo stylesheet_tag("css/utility.css") ?>
+<?php echo stylesheet_tag("css/dijit.css") ?>
+<?php echo javascript_tag("js/functions.js") ?>
+<?php echo javascript_tag("lib/prototype.js") ?>
+<?php echo javascript_tag("lib/scriptaculous/scriptaculous.js?load=effects,controls") ?>
 </head>
 
 <script type="text/javascript">
@@ -77,11 +116,11 @@
 				return false;
 			}
 
-			var query = "register.php?action=check&login=" + 
+			var query = "register.php?action=check&login=" +
 					param_escape(login);
 
 			new Ajax.Request(query, {
-				onComplete: function(transport) { 
+				onComplete: function(transport) {
 
 					try {
 
@@ -96,7 +135,7 @@
 						} else {
 							new Effect.Highlight(f.login, {startcolor : '#ff0000'});
 							f.sub_btn.disabled = true;
-						}					
+						}
 					} catch (e) {
 						exception_error("checkUsername_callback", e);
 					}
@@ -143,15 +182,18 @@
 
 <body>
 
-<div class="floatingLogo"><img src="images/ttrss_logo.png"></div>
+<div class="floatingLogo"><img src="images/logo_small.png"></div>
 
 <h1><?php echo __("Create new account") ?></h1>
+
+<div class="content">
 
 <?php
 		if (!ENABLE_REGISTRATION) {
 			print_error(__("New user registrations are administratively disabled."));
 
-			print "<p><form method=\"GET\" action=\"logout.php\">
+			print "<p><form method=\"GET\" action=\"backend.php\">
+				<input type=\"hidden\" name=\"op\" value=\"logout\">
 				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 				</form>";
 			return;
@@ -159,7 +201,7 @@
 ?>
 
 <?php if (REG_MAX_USERS > 0) {
-		$result = db_query($link, "SELECT COUNT(*) AS cu FROM ttrss_users");
+		$result = db_query( "SELECT COUNT(*) AS cu FROM ttrss_users");
 		$num_users = db_fetch_result($result, 0, "cu");
 } ?>
 
@@ -172,85 +214,86 @@
 	} ?>
 
 	<?php if (!$action) { ?>
-	
-	<p><?php echo __('Your temporary password will be sent to the specified email. Accounts, which were not logged in once, are erased automatically 24 hours after temporary password is sent.') ?></p> 
-	
+
+	<p><?php echo __('Your temporary password will be sent to the specified email. Accounts, which were not logged in once, are erased automatically 24 hours after temporary password is sent.') ?></p>
+
 	<form action="register.php" method="POST" name="register_form">
 	<input type="hidden" name="action" value="do_register">
 	<table>
 	<tr>
 	<td><?php echo __('Desired login:') ?></td><td>
-		<input name="login">
+		<input name="login" required>
 	</td><td>
 		<input type="submit" value="<?php echo __('Check availability') ?>" onclick='return checkUsername()'>
 	</td></tr>
-	<td><?php echo __('Email:') ?></td><td>
-		<input name="email">
+	<tr><td><?php echo __('Email:') ?></td><td>
+		<input name="email" type="email" required>
 	</td></tr>
-	<td><?php echo __('How much is two plus two:') ?></td><td>
-		<input name="turing_test"></td></tr>
+	<tr><td><?php echo __('How much is two plus two:') ?></td><td>
+		<input name="turing_test" required></td></tr>
 	<tr><td colspan="2" align="right">
 	<input type="submit" name="sub_btn" value="<?php echo __('Submit registration') ?>"
-			disabled="true" onclick='return validateRegForm()'>
+			disabled="disabled" onclick='return validateRegForm()'>
 	</td></tr>
 	</table>
 	</form>
 
-	<?php print "<p><form method=\"GET\" action=\"tt-rss.php\">
+	<?php print "<p><form method=\"GET\" action=\"index.php\">
 				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 				</form>"; ?>
 
 	<?php } else if ($action == "do_register") { ?>
-	
+
 	<?php
-		$login = mb_strtolower(trim(db_escape_string($_REQUEST["login"])));
-		$email = trim(db_escape_string($_REQUEST["email"]));
-		$test = trim(db_escape_string($_REQUEST["turing_test"]));
-	
+		$login = mb_strtolower(trim(db_escape_string( $_REQUEST["login"])));
+		$email = trim(db_escape_string( $_REQUEST["email"]));
+		$test = trim(db_escape_string( $_REQUEST["turing_test"]));
+
 		if (!$login || !$email || !$test) {
 			print_error(__("Your registration information is incomplete."));
-			print "<p><form method=\"GET\" action=\"tt-rss.php\">
+			print "<p><form method=\"GET\" action=\"index.php\">
 				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 				</form>";
 			return;
 		}
-	
+
 		if ($test == "four" || $test == "4") {
-	
-			$result = db_query($link, "SELECT id FROM ttrss_users WHERE
+
+			$result = db_query( "SELECT id FROM ttrss_users WHERE
 				login = '$login'");
-		
+
 			$is_registered = db_num_rows($result) > 0;
-		
+
 			if ($is_registered) {
 				print_error(__('Sorry, this username is already taken.'));
-				print "<p><form method=\"GET\" action=\"tt-rss.php\">
+				print "<p><form method=\"GET\" action=\"index.php\">
 				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 				</form>";
 			} else {
-	
+
 				$password = make_password();
-	
-				$pwd_hash = encrypt_password($password, $login);
-	
-				db_query($link, "INSERT INTO ttrss_users 
-					(login,pwd_hash,access_level,last_login, email, created)
-					VALUES ('$login', '$pwd_hash', 0, null, '$email', NOW())");
-	
-				$result = db_query($link, "SELECT id FROM ttrss_users WHERE 
+
+				$salt = substr(bin2hex(get_random_bytes(125)), 0, 250);
+				$pwd_hash = encrypt_password($password, $salt, true);
+
+				db_query( "INSERT INTO ttrss_users
+					(login,pwd_hash,access_level,last_login, email, created, salt)
+					VALUES ('$login', '$pwd_hash', 0, null, '$email', NOW(), '$salt')");
+
+				$result = db_query( "SELECT id FROM ttrss_users WHERE
 					login = '$login' AND pwd_hash = '$pwd_hash'");
-		
+
 				if (db_num_rows($result) != 1) {
 					print_error(__('Registration failed.'));
-					print "<p><form method=\"GET\" action=\"tt-rss.php\">
+					print "<p><form method=\"GET\" action=\"index.php\">
 					<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 					</form>";
 				} else {
-	
+
 					$new_uid = db_fetch_result($result, 0, "id");
-		
-					initialize_user($link, $new_uid);
-	
+
+					initialize_user( $new_uid);
+
 					$reg_text = "Hi!\n".
 						"\n".
 						"You are receiving this message, because you (or somebody else) have opened\n".
@@ -265,82 +308,45 @@
 						"it will be deleted in 24 hours.\n".
 						"\n".
 						"If that wasn't you, just ignore this message. Thanks.";
-			
-					$mail = new PHPMailer();
-			
-					$mail->PluginDir = "lib/phpmailer/";
-					$mail->SetLanguage("en", "lib/phpmailer/language/");
-			
-					$mail->CharSet = "UTF-8";
-			
-					$mail->From = DIGEST_FROM_ADDRESS;
-					$mail->FromName = DIGEST_FROM_NAME;
-					$mail->AddAddress($email);
-			
-					if (DIGEST_SMTP_HOST) {
-						$mail->Host = DIGEST_SMTP_HOST;
-						$mail->Mailer = "smtp";
-						$mail->Username = DIGEST_SMTP_LOGIN;
-						$mail->Password = DIGEST_SMTP_PASSWORD;
-					}
-			
-			//		$mail->IsHTML(true);
-					$mail->Subject = "Registration information for Tiny Tiny RSS";
-					$mail->Body = $reg_text;
-			//		$mail->AltBody = $digest_text;
-			
-					$rc = $mail->Send();
-			
+
+					$mail = new ttrssMailer();
+					$mail->IsHTML(false);
+					$rc = $mail->quickMail($email, "", "Registration information for Tiny Tiny RSS", $reg_text, false);
+
 					if (!$rc) print_error($mail->ErrorInfo);
-		
+
+					unset($reg_text);
+					unset($mail);
+					unset($rc);
 					$reg_text = "Hi!\n".
 						"\n".
 						"New user had registered at your Tiny Tiny RSS installation.\n".
 						"\n".
 						"Login: $login\n".
 						"Email: $email\n";
-			
-					$mail = new PHPMailer();
-			
-					$mail->PluginDir = "lib/phpmailer/";
-					$mail->SetLanguage("en", "lib/phpmailer/language/");
-			
-					$mail->CharSet = "UTF-8";
-			
-					$mail->From = DIGEST_FROM_ADDRESS;
-					$mail->FromName = DIGEST_FROM_NAME;
-					$mail->AddAddress(REG_NOTIFY_ADDRESS);
-			
-					if (DIGEST_SMTP_HOST) {
-						$mail->Host = DIGEST_SMTP_HOST;
-						$mail->Mailer = "smtp";
-						$mail->Username = DIGEST_SMTP_LOGIN;
-						$mail->Password = DIGEST_SMTP_PASSWORD;
-					}
-			
-			//		$mail->IsHTML(true);
-					$mail->Subject = "Registration notice for Tiny Tiny RSS";
-					$mail->Body = $reg_text;
-			//		$mail->AltBody = $digest_text;
-			
-					$rc = $mail->Send();
-	
+
+
+					$mail = new ttrssMailer();
+					$mail->IsHTML(false);
+					$rc = $mail->quickMail(REG_NOTIFY_ADDRESS, "", "Registration notice for Tiny Tiny RSS", $reg_text, false);
+					if (!$rc) print_error($mail->ErrorInfo);
+
 					print_notice(__("Account created successfully."));
-	
-					print "<p><form method=\"GET\" action=\"tt-rss.php\">
+
+					print "<p><form method=\"GET\" action=\"index.php\">
 					<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 					</form>";
-	
+
 				}
-	
+
 			}
-	
+
 			} else {
 				print_error('Plese check the form again, you have failed the robot test.');
-				print "<p><form method=\"GET\" action=\"tt-rss.php\">
+				print "<p><form method=\"GET\" action=\"index.php\">
 				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 				</form>";
-	
+
 			}
 		}
 	?>
@@ -349,11 +355,13 @@
 
 	<?php print_notice(__('New user registrations are currently closed.')) ?>
 
-	<?php print "<p><form method=\"GET\" action=\"tt-rss.php\">
+	<?php print "<p><form method=\"GET\" action=\"index.php\">
 				<input type=\"submit\" value=\"".__("Return to Tiny Tiny RSS")."\">
 				</form>"; ?>
 
 <?php } ?>
+
+	</div>
 
 </body>
 </html>

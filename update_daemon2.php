@@ -1,61 +1,69 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
-	// This is an experimental multiprocess update daemon.
-	// Some configurable variable may be found below.
-
-	// define('DEFAULT_ERROR_LEVEL', E_ALL);
-	define('DEFAULT_ERROR_LEVEL', E_ERROR | E_WARNING | E_PARSE);
+	set_include_path(dirname(__FILE__) ."/include" . PATH_SEPARATOR .
+		get_include_path());
 
 	declare(ticks = 1);
+	chdir(dirname(__FILE__));
 
-	define('MAGPIE_CACHE_DIR', '/var/tmp/magpie-ttrss-cache-daemon');
-	define('SIMPLEPIE_CACHE_DIR',	'/var/tmp/simplepie-ttrss-cache-daemon');
 	define('DISABLE_SESSIONS', true);
 
 	require_once "version.php";
+	require_once "autoload.php";
+	require_once "functions.php";
+	require_once "config.php";
+	require_once "rssfuncs.php";
 
-	if (strpos(VERSION, ".99") !== false || getenv('DAEMON_XDEBUG')) {
-		define('DAEMON_EXTENDED_DEBUG', true);
-	}
-
-	define('PURGE_INTERVAL', 3600); // seconds
+	// defaults
+	define_default('PURGE_INTERVAL', 3600); // seconds
+	define_default('MAX_CHILD_RUNTIME', 1800); // seconds
+	define_default('MAX_JOBS', 2);
+	define_default('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL); // seconds
 
 	require_once "sanity_check.php";
-	require_once "config.php";
-
-	define('MAX_JOBS', 2);
-
-	define('SPAWN_INTERVAL', DAEMON_SLEEP_INTERVAL);
+	require_once "db.php";
+	require_once "db-prefs.php";
 
 	if (!function_exists('pcntl_fork')) {
 		die("error: This script requires PHP compiled with PCNTL module.\n");
 	}
 
-	if (!ENABLE_UPDATE_DAEMON) {
-		die("error: Please enable option ENABLE_UPDATE_DAEMON in config.php\n");
-	}
-	
-	require_once "db.php";
-	require_once "db-prefs.php";
-	require_once "functions.php";
-	require_once "lib/magpierss/rss_fetch.inc";
+	$options = getopt("");
 
-	error_reporting(DEFAULT_ERROR_LEVEL);
+	if (!is_array($options)) {
+		die("error: getopt() failed. ".
+			"Most probably you are using PHP CGI to run this script ".
+			"instead of required PHP CLI. Check tt-rss wiki page on updating feeds for ".
+			"additional information.\n");
+	}
+
+
+	$master_handlers_installed = false;
 
 	$children = array();
+	$ctimes = array();
 
 	$last_checkpoint = -1;
 
 	function reap_children() {
 		global $children;
+		global $ctimes;
 
 		$tmp = array();
 
 		foreach ($children as $pid) {
 			if (pcntl_waitpid($pid, $status, WNOHANG) != $pid) {
-				array_push($tmp, $pid);
+
+				if (file_is_locked("update_daemon-$pid.lock")) {
+					array_push($tmp, $pid);
+				} else {
+					_debug("[reap_children] child $pid seems active but lockfile is unlocked.");
+					unset($ctimes[$pid]);
+
+				}
 			} else {
-				_debug("[SIGCHLD] child $pid reaped.");
+				_debug("[reap_children] child $pid reaped.");
+				unset($ctimes[$pid]);
 			}
 		}
 
@@ -64,8 +72,17 @@
 		return count($tmp);
 	}
 
-	function sigalrm_handler() {
-		die("[SIGALRM] hang in feed update?\n");
+	function check_ctimes() {
+		global $ctimes;
+
+		foreach (array_keys($ctimes) as $pid) {
+			$started = $ctimes[$pid];
+
+			if (time() - $started > MAX_CHILD_RUNTIME) {
+				_debug("[MASTER] child process $pid seems to be stuck, aborting...");
+				posix_kill($pid, SIGKILL);
+			}
+		}
 	}
 
 	function sigchld_handler($signal) {
@@ -76,125 +93,151 @@
 		pcntl_waitpid(-1, $status, WNOHANG);
 	}
 
-	function sigint_handler() {
-		unlink(LOCK_DIRECTORY . "/update_daemon.lock");
-		die("[SIGINT] removing lockfile and exiting.\n");
+	function shutdown($caller_pid) {
+		if ($caller_pid == posix_getpid()) {
+			if (file_exists(LOCK_DIRECTORY . "/update_daemon.lock")) {
+				_debug("removing lockfile (master)...");
+				unlink(LOCK_DIRECTORY . "/update_daemon.lock");
+			}
+		}
 	}
 
-	pcntl_signal(SIGALRM, 'sigalrm_handler');
+	function task_shutdown() {
+		$pid = posix_getpid();
+
+		if (file_exists(LOCK_DIRECTORY . "/update_daemon-$pid.lock")) {
+			_debug("removing lockfile ($pid)...");
+			unlink(LOCK_DIRECTORY . "/update_daemon-$pid.lock");
+		}
+	}
+
+	function sigint_handler() {
+		_debug("[MASTER] SIG_INT received.\n");
+		shutdown(posix_getpid());
+		die;
+	}
+
+	function task_sigint_handler() {
+		_debug("[TASK] SIG_INT received.\n");
+		task_shutdown();
+		die;
+	}
+
 	pcntl_signal(SIGCHLD, 'sigchld_handler');
+
+	$longopts = array("log:",
+			"tasks:",
+			"interval:",
+			"quiet",
+			"help");
+
+	$options = getopt("", $longopts);
+
+	if (isset($options["help"]) ) {
+		print "Tiny Tiny RSS update daemon.\n\n";
+		print "Options:\n";
+		print "  --log FILE           - log messages to FILE\n";
+		print "  --tasks N            - amount of update tasks to spawn\n";
+		print "                         default: " . MAX_JOBS . "\n";
+		print "  --interval N         - task spawn interval\n";
+		print "                         default: " . SPAWN_INTERVAL . " seconds.\n";
+		print "  --quiet              - don't output messages to stdout\n";
+		return;
+	}
+
+	define('QUIET', isset($options['quiet']));
+
+	if (isset($options["tasks"])) {
+		_debug("Set to spawn " . $options["tasks"] . " children.");
+		$max_jobs = $options["tasks"];
+	} else {
+		$max_jobs = MAX_JOBS;
+	}
+
+	if (isset($options["interval"])) {
+		_debug("Spawn interval: " . $options["interval"] . " seconds.");
+		$spawn_interval = $options["interval"];
+	} else {
+		$spawn_interval = SPAWN_INTERVAL;
+	}
+
+	if (isset($options["log"])) {
+		_debug("Logging to " . $options["log"]);
+		define('LOGFILE', $options["log"]);
+	}
 
 	if (file_is_locked("update_daemon.lock")) {
 		die("error: Can't create lockfile. ".
 			"Maybe another daemon is already running.\n");
 	}
 
-	if (!pcntl_fork()) {
-		pcntl_signal(SIGINT, 'sigint_handler');
+	// Try to lock a file in order to avoid concurrent update.
+	$lock_handle = make_lockfile("update_daemon.lock");
 
-		// Try to lock a file in order to avoid concurrent update.
-		$lock_handle = make_lockfile("update_daemon.lock");
-
-		if (!$lock_handle) {
-			die("error: Can't create lockfile. ".
-				"Maybe another daemon is already running.\n");
-		}
-
-		while (true) { sleep(100); }
+	if (!$lock_handle) {
+		die("error: Can't create lockfile. ".
+			"Maybe another daemon is already running.\n");
 	}
 
-	// Testing database connection.
-	// It is unnecessary to start the fork loop if database is not ok.
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+	$schema_version = get_schema_version();
 
-	if (!$link) {
-		if (DB_TYPE == "mysql") {
-			print mysql_error();
-		}
-		// PG seems to display its own errors just fine by default.		
-		return;
+	if ($schema_version != SCHEMA_VERSION) {
+		die("Schema version is wrong, please upgrade the database.\n");
 	}
 
-	db_close($link);
+	// Protip: children close shared database handle when terminating, it's a bad idea to
+	// do database stuff on main process from now on.
 
 	while (true) {
 
 		// Since sleep is interupted by SIGCHLD, we need another way to
-		// respect the SPAWN_INTERVAL
-		$next_spawn = $last_checkpoint + SPAWN_INTERVAL - time();
+		// respect the spawn interval
+		$next_spawn = $last_checkpoint + $spawn_interval - time();
 
-		if ($next_spawn % 10 == 0) {
+		if ($next_spawn % 60 == 0) {
 			$running_jobs = count($children);
 			_debug("[MASTER] active jobs: $running_jobs, next spawn at $next_spawn sec.");
 		}
 
-		if ($last_checkpoint + SPAWN_INTERVAL < time()) {
-
+		if ($last_checkpoint + $spawn_interval < time()) {
+			check_ctimes();
 			reap_children();
 
-			for ($j = count($children); $j < MAX_JOBS; $j++) {
+			for ($j = count($children); $j < $max_jobs; $j++) {
 				$pid = pcntl_fork();
 				if ($pid == -1) {
 					die("fork failed!\n");
 				} else if ($pid) {
+
+					if (!$master_handlers_installed) {
+						_debug("[MASTER] installing shutdown handlers");
+						pcntl_signal(SIGINT, 'sigint_handler');
+						pcntl_signal(SIGTERM, 'sigint_handler');
+						register_shutdown_function('shutdown', posix_getpid());
+						$master_handlers_installed = true;
+					}
+
 					_debug("[MASTER] spawned client $j [PID:$pid]...");
 					array_push($children, $pid);
+					$ctimes[$pid] = time();
 				} else {
 					pcntl_signal(SIGCHLD, SIG_IGN);
-					pcntl_signal(SIGINT, SIG_DFL);
+					pcntl_signal(SIGINT, 'task_sigint_handler');
 
-					// ****** Updating RSS code *******
-					// Only run in fork process.
+					register_shutdown_function('task_shutdown');
 
-					$start_timestamp = time();
+					$quiet = (isset($options["quiet"])) ? "--quiet" : "";
+					$log = function_exists("flock") && isset($options['log']) ? '--log '.$options['log'] : '';
 
-					$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+					$my_pid = posix_getpid();
 
-					if (!$link) {
-						if (DB_TYPE == "mysql") {
-							print mysql_error();
-						}
-						// PG seems to display its own errors just fine by default.		
-						return;
-					}
+					passthru(PHP_EXECUTABLE . " update.php --daemon-loop $quiet $log --task $j --pidlock $my_pid");
 
-					init_connection($link);
-
-					// We disable stamp file, since it is of no use in a multiprocess update.
-					// not really, tho for the time being -fox
-					if (!make_stampfile('update_daemon.stamp')) {
-						print "warning: unable to create stampfile";
-					}	
-
-					// FIXME : $last_purge is of no use in a multiprocess update.
-					// FIXME : We ALWAYS purge old posts.
-					//_debug("Purging old posts (random 30 feeds)...");
-					//global_purge_old_posts($link, true, 30);
-
-					// Call to the feed batch update function 
-					// or regenerate feedbrowser cache
-
-					if (rand(0,100) > 50) {
-						update_daemon_common($link);
-					} else {
-						$count = update_feedbrowser_cache($link);
-						_debug("Finished, $count feeds processed.");
-					}
-
-					_debug("Elapsed time: " . (time() - $start_timestamp) . " second(s)");
- 
-					db_close($link);
-
-					// We are in a fork.
-					// We wait a little before exiting to avoid to be faster than our parent process.
 					sleep(1);
+
 					// We exit in order to avoid fork bombing.
 					exit(0);
 				}
-
-				// We wait a little time before the next fork, in order to let the first fork
-				// mark the feeds it update :
-				sleep(1);
 			}
 			$last_checkpoint = time();
 		}

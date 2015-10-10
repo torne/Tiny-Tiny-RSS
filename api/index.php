@@ -2,400 +2,73 @@
 	error_reporting(E_ERROR | E_PARSE);
 
 	require_once "../config.php";
-	
-	require_once "../db.php";
-	require_once "../db-prefs.php";
-	require_once "../functions.php";
 
-	$link = db_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+	set_include_path(dirname(__FILE__) . PATH_SEPARATOR .
+		dirname(dirname(__FILE__)) . PATH_SEPARATOR .
+		dirname(dirname(__FILE__)) . "/include" . PATH_SEPARATOR .
+  		get_include_path());
 
-	$session_expire = SESSION_EXPIRE_TIME; //seconds
-	$session_name = (!defined('TTRSS_SESSION_NAME')) ? "ttrss_sid_api" : TTRSS_SESSION_NAME . "_api";
+	chdir("..");
 
-	session_name($session_name);
+	define('TTRSS_SESSION_NAME', 'ttrss_api_sid');
+	define('NO_SESSION_AUTOSTART', true);
+
+	require_once "autoload.php";
+	require_once "db.php";
+	require_once "db-prefs.php";
+	require_once "functions.php";
+	require_once "sessions.php";
+
+	ini_set("session.gc_maxlifetime", 86400);
+
+	define('AUTH_DISABLE_OTP', true);
+
+	if (defined('ENABLE_GZIP_OUTPUT') && ENABLE_GZIP_OUTPUT &&
+			function_exists("ob_gzhandler")) {
+
+		ob_start("ob_gzhandler");
+	} else {
+		ob_start();
+	}
+
+	$input = file_get_contents("php://input");
+
+	if (defined('_API_DEBUG_HTTP_ENABLED') && _API_DEBUG_HTTP_ENABLED) {
+		// Override $_REQUEST with JSON-encoded data if available
+		// fallback on HTTP parameters
+		if ($input) {
+			$input = json_decode($input, true);
+			if ($input) $_REQUEST = $input;
+		}
+	} else {
+		// Accept JSON only
+		$input = json_decode($input, true);
+		$_REQUEST = $input;
+	}
 
 	if ($_REQUEST["sid"]) {
 		session_id($_REQUEST["sid"]);
+		@session_start();
+	} else if (defined('_API_DEBUG_HTTP_ENABLED')) {
+		@session_start();
 	}
 
-	session_start();
+	if (!init_plugins()) return;
 
-	if (!$link) {
-		if (DB_TYPE == "mysql") {
-			print mysql_error();
+	$method = strtolower($_REQUEST["op"]);
+
+	$handler = new API($_REQUEST);
+
+	if ($handler->before($method)) {
+		if ($method && method_exists($handler, $method)) {
+			$handler->$method();
+		} else if (method_exists($handler, 'index')) {
+			$handler->index($method);
 		}
-		// PG seems to display its own errors just fine by default.		
-		return;
+		$handler->after();
 	}
 
-	init_connection($link);
+	header("Api-Content-Length: " . ob_get_length());
 
-	$op = db_escape_string($_REQUEST["op"]);
-
-//	header("Content-Type: application/json");
-
-	if (!$_SESSION["uid"] && $op != "login" && $op != "isLoggedIn") {
-		print json_encode(array("error" => 'NOT_LOGGED_IN'));
-		return;
-	}
-
-	if ($_SESSION["uid"] && $op != "logout" && !get_pref($link, 'ENABLE_API_ACCESS')) {
-		print json_encode(array("error" => 'API_DISABLED'));
-		return;
-	} 
-
-	switch ($op) {
-		case "getVersion":
-			$rv = array("version" => VERSION);
-			print json_encode($rv);
-		break;
-		case "login":
-			$login = db_escape_string($_REQUEST["user"]);
-			$password = db_escape_string($_REQUEST["password"]);
-
-			$result = db_query($link, "SELECT id FROM ttrss_users WHERE login = '$login'");
-
-			if (db_num_rows($result) != 0) {
-				$uid = db_fetch_result($result, 0, "id");
-			} else {
-				$uid = 0;
-			}
-
-			if (get_pref($link, "ENABLE_API_ACCESS", $uid)) {
-				if (authenticate_user($link, $login, $password)) {
-					print json_encode(array("session_id" => session_id()));
-				} else {
-					print json_encode(array("error" => "LOGIN_ERROR"));
-				}
-			} else {
-				print json_encode(array("error" => "API_DISABLED"));
-			}
-
-			break;
-		case "logout":
-			logout_user();
-			print json_encode(array("status" => "OK"));
-			break;
-		case "isLoggedIn":
-			print json_encode(array("status" => $_SESSION["uid"] != ''));
-			break;
-		case "getUnread":
-			$feed_id = db_escape_string($_REQUEST["feed_id"]);
-			$is_cat = db_escape_string($_REQUEST["is_cat"]);
-
-			if ($feed_id) {
-				print json_encode(array("unread" => getFeedUnread($link, $feed_id, $is_cat)));
-			} else {
-				print json_encode(array("unread" => getGlobalUnread($link)));
-			}
-			break;
-		case "getCounters":
-
-			/* TODO */
-
-			break;
-		case "getFeeds":
-			$cat_id = db_escape_string($_REQUEST["cat_id"]);
-			$unread_only = (bool)db_escape_string($_REQUEST["unread_only"]);
-			$limit = (int) db_escape_string($_REQUEST["limit"]);
-			$offset = (int) db_escape_string($_REQUEST["offset"]);
-
-			if ($limit) {
-				$limit_qpart = "LIMIT $limit OFFSET $offset";
-			} else {
-				$limit_qpart = "";
-			}
-
-			if (!$cat_id) {
-				$result = db_query($link, "SELECT 
-					id, feed_url, cat_id, title, ".
-						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
-						FROM ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"] . 
-						"ORDER BY cat_id, title " . $limit_qpart);
-			} else {
-				$result = db_query($link, "SELECT 
-					id, feed_url, cat_id, title, ".
-						SUBSTRING_FOR_DATE."(last_updated,1,19) AS last_updated
-						FROM ttrss_feeds WHERE 
-						cat_id = '$cat_id' AND owner_uid = " . $_SESSION["uid"] . 
-						"ORDER BY cat_id, title " . $limit_qpart);
-			}
-
-			$feeds = array();
-
-			while ($line = db_fetch_assoc($result)) {
-
-				$unread = getFeedUnread($link, $line["id"]);
-
-				$icon_path = "../" . ICONS_DIR . "/" . $line["id"] . ".ico";
-				$has_icon = file_exists($icon_path) && filesize($icon_path) > 0;
-
-				if ($unread || !$unread_only) {
-
-					$row = array(
-							"feed_url" => $line["feed_url"],
-							"title" => $line["title"],
-							"id" => (int)$line["id"],
-							"unread" => (int)$unread,
-							"has_icon" => $has_icon,
-							"cat_id" => (int)$line["cat_id"],
-							"last_updated" => strtotime($line["last_updated"])
-						);
-	
-					array_push($feeds, $row);
-				}
-			}
-
-			/* Labels */
-
-			if (!$cat_id || $cat_id == -2) {
-				$counters = getLabelCounters($link, true);
-
-				foreach (array_keys($counters) as $id) {
-
-					$unread = $counters[$id]["counter"];
-	
-					if ($unread || !$unread_only) {
-	
-						$row = array(
-								"id" => $id,
-								"title" => $counters[$id]["description"],
-								"unread" => $counters[$id]["counter"],
-								"cat_id" => -2,
-							);
-	
-						array_push($feeds, $row);
-					}
-				}
-			}
-
-			/* Virtual feeds */
-
-			if (!$cat_id || $cat_id == -1) {
-				foreach (array(-1, -2, -3, -4, 0) as $i) {
-					$unread = getFeedUnread($link, $i);
-
-					if ($unread || !$unread_only) {
-						$title = getFeedTitle($link, $i);
-
-						$row = array(
-								"id" => $i,
-								"title" => $title,
-								"unread" => $unread,
-								"cat_id" => -1,
-							);
-						array_push($feeds, $row);
-					}
-
-				}
-			}
-
-			print json_encode($feeds);
-
-			break;
-		case "getCategories":
-			$unread_only = (bool)db_escape_string($_REQUEST["unread_only"]);
-
-			$result = db_query($link, "SELECT 
-					id, title FROM ttrss_feed_categories 
-				WHERE owner_uid = " . 
-				$_SESSION["uid"]);
-
-			$cats = array();
-
-			while ($line = db_fetch_assoc($result)) {
-				$unread = getFeedUnread($link, $line["id"], true);
-
-				if ($unread || !$unread_only) {
-					array_push($cats, array("id" => $line["id"],
-						"title" => $line["title"], 
-						"unread" => $unread));
-				}
-			}
-
-			print json_encode($cats);
-			break;
-		case "getHeadlines":
-			$feed_id = db_escape_string($_REQUEST["feed_id"]);
-			$limit = (int)db_escape_string($_REQUEST["limit"]);
-			$offset = (int)db_escape_string($_REQUEST["skip"]);
-			$filter = db_escape_string($_REQUEST["filter"]);
-			$is_cat = (bool)db_escape_string($_REQUEST["is_cat"]);
-			$show_excerpt = (bool)db_escape_string($_REQUEST["show_excerpt"]);
-			$show_content = (bool)db_escape_string($_REQUEST["show_content"]);
-			/* all_articles, unread, adaptive, marked, updated */
-			$view_mode = db_escape_string($_REQUEST["view_mode"]);
-
-			/* do not rely on params below */
-
-			$search = db_escape_string($_REQUEST["search"]);
-			$search_mode = db_escape_string($_REQUEST["search_mode"]);
-			$match_on = db_escape_string($_REQUEST["match_on"]);
-			
-			$qfh_ret = queryFeedHeadlines($link, $feed_id, $limit, 
-				$view_mode, $is_cat, $search, $search_mode, $match_on,
-				false, $offset);
-
-			$result = $qfh_ret[0];
-			$feed_title = $qfh_ret[1];
-
-			$headlines = array();
-
-			while ($line = db_fetch_assoc($result)) {
-				$is_updated = ($line["last_read"] == "" && 
-					($line["unread"] != "t" && $line["unread"] != "1"));
-
-				$headline_row = array(
-						"id" => (int)$line["id"],
-						"unread" => sql_bool_to_bool($line["unread"]),
-						"marked" => sql_bool_to_bool($line["marked"]),
-						"updated" => strtotime($line["updated"]),
-						"is_updated" => $is_updated,
-						"title" => $line["title"],
-						"link" => $line["link"],
-						"feed_id" => $line["feed_id"],
-					);
-
-				if ($show_excerpt) {
-					$excerpt = truncate_string(strip_tags($line["content_preview"]), 100);
-					$headline_row["excerpt"] = $excerpt;
-				}
-
-				if ($show_content) {
-					$headline_row["content"] = $line["content_preview"];
-				}
-
-				array_push($headlines, $headline_row);
-			}
-
-			print json_encode($headlines);
-
-			break;
-		case "updateArticle":
-			$article_ids = split(",", db_escape_string($_REQUEST["article_ids"]));
-			$mode = (int) db_escape_string($_REQUEST["mode"]);
-			$field_raw = (int)db_escape_string($_REQUEST["field"]);
-
-			$field = "";
-			$set_to = "";
-
-			switch ($field_raw) {
-				case 0:
-					$field = "marked";
-					break;
-				case 1:
-					$field = "published";
-					break;
-				case 2:
-					$field = "unread";
-					break;
-			};
-
-			switch ($mode) {
-				case 1:
-					$set_to = "true";
-					break;
-				case 0:
-					$set_to = "false";
-					break;
-				case 2:
-					$set_to = "NOT $field";
-					break;
-			}
-
-			if ($field && $set_to && count($article_ids) > 0) {
-
-				$article_ids = join(", ", $article_ids);
-
-				if ($field == "unread") {
-					$result = db_query($link, "UPDATE ttrss_user_entries SET $field = $set_to,
-						last_read = NOW()
-						WHERE ref_id IN ($article_ids) AND owner_uid = " . $_SESSION["uid"]);
-				} else {
-					$result = db_query($link, "UPDATE ttrss_user_entries SET $field = $set_to
-						WHERE ref_id IN ($article_ids) AND owner_uid = " . $_SESSION["uid"]);
-				}
-			}
-
-			break;
-
-		case "getArticle":
-
-			$article_id = (int)db_escape_string($_REQUEST["article_id"]);
-
-			$query = "SELECT title,link,content,feed_id,comments,int_id,
-				marked,unread,published,
-				".SUBSTRING_FOR_DATE."(updated,1,16) as updated,
-				author
-				FROM ttrss_entries,ttrss_user_entries
-				WHERE	id = '$article_id' AND ref_id = id AND owner_uid = " . 
-					$_SESSION["uid"] ;
-
-			$result = db_query($link, $query);
-
-			$article = array();
-			
-			if (db_num_rows($result) != 0) {
-				$line = db_fetch_assoc($result);
-	
-				$article = array(
-					"title" => $line["title"],
-					"link" => $line["link"],
-					"labels" => get_article_labels($link, $article_id),
-					"unread" => sql_bool_to_bool($line["unread"]),
-					"marked" => sql_bool_to_bool($line["marked"]),
-					"published" => sql_bool_to_bool($line["published"]),
-					"comments" => $line["comments"],
-					"author" => $line["author"],
-					"updated" => strtotime($line["updated"]),
-					"content" => $line["content"],
-					"feed_id" => $line["feed_id"],			
-				);
-			}
-
-			print json_encode($article);
-
-			break;
-		case "getConfig":
-			$config = array(
-				"icons_dir" => ICONS_DIR,
-				"icons_url" => ICONS_URL);
-
-			if (ENABLE_UPDATE_DAEMON) {
-				$config["daemon_is_running"] = file_is_locked("update_daemon.lock");
-			}
-
-			$result = db_query($link, "SELECT COUNT(*) AS cf FROM
-				ttrss_feeds WHERE owner_uid = " . $_SESSION["uid"]);
-
-			$num_feeds = db_fetch_result($result, 0, "cf");
-
-			$config["num_feeds"] = (int)$num_feeds;
-	
-			print json_encode($config);
-
-			break;
-
-		case "updateFeed":
-			$feed_id = db_escape_string($_REQUEST["feed_id"]);
-
-			update_rss_feed($link, $feed_id, true);
-
-			print json_encode(array("status" => "OK"));
-
-			break;
-
-		case "getPref":
-			$pref_name = db_escape_string($_REQUEST["pref_name"]);
-			print json_encode(array("value" => get_pref($link, $pref_name)));
-			break;
-
-		default:
-			print json_encode(array("error" => 'UNKNOWN_METHOD'));
-			break;
-
-	}
-
-	db_close($link);
-	
+	ob_end_flush();
 ?>
